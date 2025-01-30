@@ -16,36 +16,36 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 
-<# if (this.reqSchema != null && this.reqSchema != "Bytes") { #>
-use super::<#=NamingSupport.ToSnakeCase(this.reqSchema)#>::<#=this.reqSchema#>;
+<# if (this.reqSchema is CodeName) { #>
+use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
-<# if (this.respSchema != null && this.respSchema != "Bytes") { #>
-use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>;
+<# if (this.respSchema is CodeName) { #>
+use super::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-<# if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { #>
+<# if (this.reqSchema is RawTypeName || this.respSchema is RawTypeName) { #>
 use super::super::common_types::bytes::Bytes;
 <# } #>
 use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
-use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
+use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 
-pub type <#=this.capitalizedCommandName#>Request = CommandRequest<<#=this.RequestType()#>>;
-pub type <#=this.capitalizedCommandName#>Response = CommandResponse<<#=this.ResponseType()#>>;
-pub type <#=this.capitalizedCommandName#>RequestBuilderError = CommandRequestBuilderError;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#> = CommandRequest<<#=this.RequestType()#>>;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> = CommandResponse<<#=this.ResponseType()#>>;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder", "error")#> = CommandRequestBuilderError;
 
 #[derive(Default)]
-/// Builder for [`<#=this.capitalizedCommandName#>Request`]
-pub struct <#=this.capitalizedCommandName#>RequestBuilder {
+/// Builder for [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>`]
+pub struct <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder")#> {
     inner_builder: CommandRequestBuilder<<#=this.RequestType()#>>,
 <# if (this.doesCommandTargetExecutor) { #>
     set_executor_id: bool,
 <# } #>
 }
 
-impl <#=this.capitalizedCommandName#>RequestBuilder {
+impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder")#> {
     /// Custom user data to set on the request
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
@@ -74,49 +74,49 @@ impl <#=this.capitalizedCommandName#>RequestBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: <#=this.reqSchema#>,
+        payload: <#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>,
     ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
 
 <# } #>
-    /// Builds a new `<#=this.capitalizedCommandName#>Request`
+    /// Builds a new `<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>`
     ///
     /// # Errors
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)]    // The panic is not possible
-    pub fn build(&mut self) -> Result<<#=this.capitalizedCommandName#>Request, <#=this.capitalizedCommandName#>RequestBuilderError> {
+    pub fn build(&mut self) -> Result<<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>, <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder", "error")#>> {
 <# if (this.doesCommandTargetExecutor) { #>
         if !self.set_executor_id {
-            return Err(<#=this.capitalizedCommandName#>RequestBuilderError::UninitializedField(
+            return Err(<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder", "error")#>::UninitializedField(
                 "executor_id",
             ));
         }
 
 <# } #>
 <# if (this.reqSchema == null) { #>
-        self.inner_builder.payload(<#=this.serializerEmptyType#> {}).unwrap();
+        self.inner_builder.payload(<#=this.serializerEmptyType.GetAllocator(TargetLanguage.Rust)#>).unwrap();
 
 <# } #>
         self.inner_builder.build()
     }
 }
 
-/// Command Invoker for `<#=this.capitalizedCommandName#>`
-pub struct <#=this.capitalizedCommandName#>CommandInvoker<C>(
+/// Command Invoker for `<#=this.commandName.AsGiven#>`
+pub struct <#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "invoker")#><C>(
     CommandInvoker<<#=this.RequestType()#>, <#=this.ResponseType()#>, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-impl<C> <#=this.capitalizedCommandName#>CommandInvoker<C>
+impl<C> <#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "invoker")#><C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`<#=this.capitalizedCommandName#>CommandInvoker`]
+    /// Creates a new [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "invoker")#>`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
@@ -135,11 +135,11 @@ where
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "<#=this.commandName#>".to_string());
+        topic_token_map.insert("commandName".to_string(), "<#=this.commandName.AsGiven#>".to_string());
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
-            .command_name("<#=this.commandName#>")
+            .command_name("<#=this.commandName.AsGiven#>")
             .topic_token_map(topic_token_map)
             .build()
             .expect("DTDL schema generated invalid arguments");
@@ -150,18 +150,18 @@ where
         )
     }
 
-    /// Invokes the [`<#=this.capitalizedCommandName#>Request`]
+    /// Invokes the [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
     pub async fn invoke(
         &self,
-        request: <#=this.capitalizedCommandName#>Request,
-    ) -> Result<<#=this.capitalizedCommandName#>Response, AIOProtocolError> {
+        request: <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>,
+    ) -> Result<<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>, AIOProtocolError> {
         self.0.invoke(request).await
     }
 
-    /// Shutdown the [`<#=this.capitalizedCommandName#>CommandInvoker`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "invoker")#>`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -171,7 +171,7 @@ where
     }
 }
 <#+
-    private string RequestType() => this.reqSchema ?? this.serializerEmptyType;
+    private string RequestType() => this.reqSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
-    private string ResponseType() => this.respSchema ?? this.serializerEmptyType;
+    private string ResponseType() => this.respSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 #>

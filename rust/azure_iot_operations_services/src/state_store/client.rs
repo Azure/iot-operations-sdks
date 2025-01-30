@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 //! Client for State Store operations.
+//!
+//! To use this client, the `state_store` feature must be enabled.
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 

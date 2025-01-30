@@ -1,2 +1,4 @@
-dtmi_codegen_communicationTest_jsonModel__1/
+akri/
+jsonmodel/
+rawmodel/
 *.exe

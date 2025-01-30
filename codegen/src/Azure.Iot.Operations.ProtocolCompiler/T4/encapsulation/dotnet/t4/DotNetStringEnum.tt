@@ -3,7 +3,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace#>
+namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
@@ -15,14 +15,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } #>
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#>")]
-    public enum <#=this.enumType.SchemaName#>
+    public enum <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.CSharp)#>
     {
 <# int index = 0; foreach (var enumValue in this.enumType.EnumValues) { #>
         [EnumMember(Value = @"<#=enumValue.StringValue#>")]
-        <#=Capitalize(enumValue.Name)#> = <#=enumValue.IntValue ?? index#>,
+        <#=enumValue.Name.GetTypeName(TargetLanguage.CSharp)#> = <#=enumValue.IntValue ?? index#>,
 <# ++index; } #>
     }
 }
-<#+
-    public static string Capitalize(string inString) => char.ToUpperInvariant(inString[0]) + inString.Substring(1);
-#>

@@ -12,9 +12,9 @@
     {
         private static readonly Dictionary<string, LanguageInfo> LanguageInfos = new()
         {
-            { "csharp", new LanguageInfo($"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
-            { "go", new LanguageInfo($"akri", string.Empty) },
-            { "rust", new LanguageInfo($"target{Path.DirectorySeparatorChar}akri", "src") },
+            { "csharp", new LanguageInfo(TargetLanguage.CSharp, $"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
+            { "go", new LanguageInfo(TargetLanguage.Go, $"akri", string.Empty) },
+            { "rust", new LanguageInfo(TargetLanguage.Rust, $"target{Path.DirectorySeparatorChar}akri", "src") },
         };
 
         public static readonly string[] SupportedLanguages = LanguageInfos.Keys.ToArray();
@@ -101,9 +101,9 @@
                     Path.Combine(options.OutDir.FullName, options.WorkingDir);
                 DirectoryInfo workingDir = new(workingPathResolved);
 
-                string serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
+                CodeName serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
 
-                string genNamespace = NameFormatter.DtmiToNamespace(contextualizedInterface.InterfaceId);
+                CodeName genNamespace = new(contextualizedInterface.InterfaceId);
                 string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
 
                 HashSet<string> sourceFilePaths = new();
@@ -111,7 +111,7 @@
 
                 foreach (string schemaFileName in schemaFiles)
                 {
-                    TypesGenerator.GenerateType(options.Lang, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
+                    TypesGenerator.GenerateType(options.Lang, LanguageInfos[options.Lang].Language, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
                 EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, options.OutDir, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, !options.NoProj, sourceFilePaths, distinctSchemaKinds);
@@ -125,7 +125,7 @@
             return 0;
         }
 
-        private record LanguageInfo(string DefaultWorkingPath, string GenSubdir);
+        private record LanguageInfo(TargetLanguage Language, string DefaultWorkingPath, string GenSubdir);
 
         private static void WarnOnSuspiciousOption(string optionName, string? pathName)
         {

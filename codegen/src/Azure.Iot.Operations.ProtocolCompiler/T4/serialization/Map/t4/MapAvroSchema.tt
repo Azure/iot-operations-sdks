@@ -3,6 +3,6 @@
 <# this.PushIndent(new string(' ', this.indent)); #>
 "type": "map",
 "values": {
-<#=AvroSchemaSupport.GetTypeAndAddenda(this.valueSchema, this.dtmiToSchemaName, 2, nullable: false, nestNamedType: false)#>
+<#=AvroSchemaSupport.GetTypeAndAddenda(this.valueSchema, 2, nullable: false, nestNamedType: false)#>
 },
 "default": {}<# this.PopIndent(); #>

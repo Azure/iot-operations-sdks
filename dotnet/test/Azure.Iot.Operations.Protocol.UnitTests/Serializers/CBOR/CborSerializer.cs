@@ -10,6 +10,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
     using System.Threading.Tasks;
     using Dahomey.Cbor;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
 #pragma warning disable VSTHRD002 // Synchronously waiting on tasks or awaiters may cause deadlocks. Use await or JoinableTaskFactory.Run instead.
 
@@ -30,13 +31,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(byte[]), new BytesCborConverter());
         }
 
-        public string ContentType => "application/cbor";
+        public const string ContentType = "application/cbor";
 
-        public int CharacterDataFormatIndicator => 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
+            if (contentType != null && contentType != ContentType)
+            {
+                throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                {
+                    Kind = AkriMqttErrorKind.HeaderInvalid,
+                    HeaderName = "Content Type",
+                    HeaderValue = contentType,
+                    InApplication = false,
+                    IsShallow = false,
+                    IsRemote = false,
+                };
+            }
+
             try
             {
                 if (payload == null)
@@ -61,14 +75,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyCbor))
                 {
-                    return null;
+                    return new(null, null, 0);
                 }
 
                 using (var stream = new MemoryStream())
@@ -80,7 +94,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return buffer;
+                    return new(buffer, ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)

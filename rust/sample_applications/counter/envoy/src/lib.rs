@@ -3,7 +3,6 @@
 #![allow(missing_docs)]
 #![allow(unused_imports)]
 #![allow(dead_code)]
-#![allow(non_snake_case)]
 #![allow(clippy::result_large_err)]
 pub mod common_types;
-pub mod dtmi_com_example_Counter__1;
+pub mod counter;

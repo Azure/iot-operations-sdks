@@ -4,17 +4,17 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public partial class GoStringEnum : ITemplateTransform
     {
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly EnumType enumType;
 
-        public GoStringEnum(string genNamespace, EnumType enumType)
+        public GoStringEnum(CodeName genNamespace, EnumType enumType)
         {
             this.genNamespace = genNamespace;
             this.enumType = enumType;
         }
 
-        public string FileName { get => $"{NamingSupport.ToSnakeCase(this.enumType.SchemaName)}.go"; }
+        public string FileName { get => $"{this.enumType.SchemaName.GetFileName(TargetLanguage.Go)}.go"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Go); }
     }
 }

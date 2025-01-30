@@ -9,6 +9,7 @@ namespace TestEnvoys
     using Google.Protobuf;
     using Google.Protobuf.WellKnownTypes;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
     public class ProtobufSerializer<T1, T2> : IPayloadSerializer
         where T1 : IMessage<T1>, new()
@@ -23,13 +24,26 @@ namespace TestEnvoys
             messageParserT2 = new MessageParser<T2>(() => new T2());
         }
 
-        public string ContentType => "application/protobuf";
+        public const string ContentType = "application/protobuf";
 
-        public int CharacterDataFormatIndicator => 0;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
+            if (contentType != null && contentType != ContentType)
+            {
+                throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                {
+                    Kind = AkriMqttErrorKind.HeaderInvalid,
+                    HeaderName = "Content Type",
+                    HeaderValue = contentType,
+                    InApplication = false,
+                    IsShallow = false,
+                    IsRemote = false,
+                };
+            }
+
             try
             {
                 if (typeof(T) == typeof(T1))
@@ -51,26 +65,26 @@ namespace TestEnvoys
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(Empty))
                 {
-                    return null;
+                    return new(null, ContentType, PayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T1))
                 {
-                    return (payload as IMessage<T1>).ToByteArray();
+                    return new((payload as IMessage<T1>).ToByteArray(), ContentType, PayloadFormatIndicator);
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return (payload as IMessage<T2>).ToByteArray();
+                    return new((payload as IMessage<T2>).ToByteArray(), ContentType, PayloadFormatIndicator);
                 }
                 else
                 {
-                    return Array.Empty<byte>();
+                    return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)
