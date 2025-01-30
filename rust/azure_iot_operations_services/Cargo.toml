@@ -60,3 +60,6 @@ required-features = ["state_store"]
 [[example]]
 name = "schema_registry_client"
 required-features = ["schema_registry"]
+
+[package.metadata.docs.rs]
+all-features = true

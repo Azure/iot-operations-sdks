@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, marker::PhantomData, str::FromStr};
+use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
@@ -10,6 +10,7 @@ use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
+    application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
@@ -17,8 +18,10 @@ use crate::{
         topic_processor::TopicPattern,
         user_properties::UserProperty,
     },
-    telemetry::cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-    telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
+    telemetry::{
+        cloud_event::{CloudEventFields, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
+        DEFAULT_TELEMETRY_PROTOCOL_VERSION,
+    },
     ProtocolVersion,
 };
 
@@ -158,6 +161,7 @@ pub struct TelemetryReceiverOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
 /// #     .hostname("mqtt://localhost")
@@ -167,10 +171,11 @@ pub struct TelemetryReceiverOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut telemetry_receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// let mut telemetry_receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
 /// ```
 pub struct TelemetryReceiver<T, C>
@@ -185,6 +190,7 @@ where
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
+    _application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
@@ -209,6 +215,7 @@ where
     /// Creates a new [`TelemetryReceiver`].
     ///
     /// # Arguments
+    /// * `application_context` - [`ApplicationContext`] that the telemetry receiver is part of.
     /// * `client` - [`ManagedClient`] to use for telemetry communication.
     /// * `receiver_options` - [`TelemetryReceiverOptions`] to configure the telemetry receiver.
     ///
@@ -223,6 +230,7 @@ where
     ///   and contains invalid key(s) and/or token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
+        application_context: ApplicationContext,
         client: C,
         receiver_options: TelemetryReceiverOptions,
     ) -> Result<Self, AIOProtocolError> {
@@ -259,6 +267,7 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
+            _application_hlc: application_context.application_hlc,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
         })
@@ -627,6 +636,7 @@ mod tests {
 
     use super::*;
     use crate::{
+        application::ApplicationContextOptionsBuilder,
         common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
     };
@@ -662,8 +672,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
-            .unwrap();
+        TelemetryReceiver::<MockPayload, _>::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            receiver_options,
+        )
+        .unwrap();
     }
 
     #[test]
@@ -676,8 +690,12 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetryReceiver::<MockPayload, _>::new(session.create_managed_client(), receiver_options)
-            .unwrap();
+        TelemetryReceiver::<MockPayload, _>::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            receiver_options,
+        )
+        .unwrap();
     }
 
     #[test_case(""; "new_empty_topic_pattern")]
@@ -689,8 +707,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let result: Result<TelemetryReceiver<MockPayload, _>, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options);
+        let result: Result<TelemetryReceiver<MockPayload, _>, _> = TelemetryReceiver::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            receiver_options,
+        );
         match result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
@@ -719,8 +740,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> =
-            TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> = TelemetryReceiver::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            session.create_managed_client(),
+            receiver_options,
+        )
+        .unwrap();
         assert!(telemetry_receiver.shutdown().await.is_ok());
     }
 }

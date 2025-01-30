@@ -3,7 +3,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace#>
+namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using System;
     using System.Collections.Generic;
@@ -14,10 +14,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     using Azure.Iot.Operations.Protocol.Models;
     using <#=this.projectName#>;
 
-    public static partial class <#=this.serviceName#>
+    public static partial class <#=this.serviceName.GetTypeName(TargetLanguage.CSharp)#>
     {
         /// <summary>
-        /// Specializes a <c>CommandExecutor</c> class for Command '<#=this.commandName#>'.
+        /// Specializes a <c>CommandExecutor</c> class for Command '<#=this.commandName.AsGiven#>'.
         /// </summary>
 <# if (this.isIdempotent) { #>
 <# if (this.ttl != null) { #>
@@ -28,7 +28,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
 <# } else if (this.ttl != null) { #>
         [CommandBehavior(idempotent = false, cacheTtl: "<#=this.ttl#>")]
 <# } #>
-        public class <#=this.capitalizedCommandName#>CommandExecutor : CommandExecutor<#=this.TypeParams()#>
+        public class <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> : CommandExecutor<#=this.TypeParams()#>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 
@@ -49,19 +49,19 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="<#=this.capitalizedCommandName#>CommandExecutor"/> class.
+            /// Initializes a new instance of the <see cref="<#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>"/> class.
             /// </summary>
-            internal <#=this.capitalizedCommandName#>CommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "<#=this.commandName#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
+            internal <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(IMqttPubSubClient mqttClient)
+                : base(mqttClient, "<#=this.commandName.AsGiven#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
-                base.TopicTokenMap["commandName"] = "<#=this.commandName#>";
+                base.TopicTokenMap["commandName"] = "<#=this.commandName.AsGiven#>";
             }
         }
     }
 }
 <#+
-    private string TypeParams() => $"<{this.reqSchema ?? this.serializerEmptyType}, {this.respSchema ?? this.serializerEmptyType}>";
+    private string TypeParams() => $"<{this.reqSchema?.GetTypeName(TargetLanguage.CSharp) ?? serializerEmptyType.GetTypeName(TargetLanguage.CSharp)}, {this.respSchema?.GetTypeName(TargetLanguage.CSharp) ?? serializerEmptyType.GetTypeName(TargetLanguage.CSharp)}>";
 #>

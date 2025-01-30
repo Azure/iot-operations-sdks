@@ -6,7 +6,7 @@
 
     public class DotNetTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
+        public void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
         {
             ITemplateTransform templateTransform = schemaType switch
             {

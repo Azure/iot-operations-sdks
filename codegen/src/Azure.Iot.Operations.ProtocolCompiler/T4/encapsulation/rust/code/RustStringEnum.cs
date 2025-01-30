@@ -4,17 +4,17 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public partial class RustStringEnum : ITemplateTransform
     {
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly EnumType enumType;
 
-        public RustStringEnum(string genNamespace, EnumType enumType)
+        public RustStringEnum(CodeName genNamespace, EnumType enumType)
         {
             this.genNamespace = genNamespace;
             this.enumType = enumType;
         }
 
-        public string FileName { get => $"{NamingSupport.ToSnakeCase(this.enumType.SchemaName)}.rs"; }
+        public string FileName { get => $"{this.enumType.SchemaName.GetFileName(TargetLanguage.Rust)}.rs"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Rust); }
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
+use std::sync::Arc;
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
@@ -12,7 +13,9 @@ use tokio::time::{timeout, Instant};
 use tokio_util::sync::CancellationToken;
 
 use super::StatusCode;
+use crate::application::ApplicationHybridLogicalClock;
 use crate::{
+    application::ApplicationContext,
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
         hybrid_logical_clock::HybridLogicalClock,
@@ -237,6 +240,7 @@ pub struct CommandExecutorOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, CommandExecutorOptionsBuilder, CommandResponse, CommandResponseBuilder, CommandRequest};
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
 /// #     .hostname("localhost")
@@ -246,12 +250,14 @@ pub struct CommandExecutorOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let executor_options = CommandExecutorOptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut command_executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(mqtt_session.create_managed_client(), executor_options).unwrap();
+/// let mut command_executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// // command_executor.start().await.unwrap();
 /// // let request = command_executor.recv().await.unwrap();
 /// // let response = CommandResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
@@ -276,6 +282,7 @@ where
     cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     executor_state: CommandExecutorState,
     // Information to manage state
@@ -301,8 +308,9 @@ where
     /// Create a new [`CommandExecutor`].
     ///
     /// # Arguments
-    /// * `client` - The MQTT client to use for communication
-    /// * `executor_options` - Configuration options
+    /// * `application_context` - [`ApplicationContext`] that the command executor is part of.
+    /// * `client` - The MQTT client to use for communication.
+    /// * `executor_options` - Configuration options.
     ///
     /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
     ///
@@ -315,6 +323,7 @@ where
     /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
+        application_context: ApplicationContext,
         client: C,
         executor_options: CommandExecutorOptions,
     ) -> Result<Self, AIOProtocolError> {
@@ -375,6 +384,7 @@ where
             cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
+            application_hlc: application_context.application_hlc,
             executor_state: CommandExecutorState::New,
             executor_cancellation_token: CancellationToken::new(),
         })
@@ -1119,6 +1129,7 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
+    use crate::application::ApplicationContextOptionsBuilder;
     use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
     // TODO: This should return a mock ManagedClient instead.
@@ -1155,8 +1166,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _> =
-            CommandExecutor::new(managed_client, executor_options).unwrap();
+        let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            executor_options,
+        )
+        .unwrap();
 
         assert_eq!(
             command_executor.request_topic_pattern.as_subscribe_topic(),
@@ -1182,8 +1197,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _> =
-            CommandExecutor::new(managed_client, executor_options).unwrap();
+        let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            executor_options,
+        )
+        .unwrap();
 
         assert_eq!(
             command_executor.request_topic_pattern.as_subscribe_topic(),
@@ -1209,7 +1228,13 @@ mod tests {
             .unwrap();
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(managed_client, executor_options);
+            CommandExecutor::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                executor_options,
+            );
 
         match executor {
             Err(e) => {
@@ -1243,7 +1268,13 @@ mod tests {
             .unwrap();
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(managed_client, executor_options);
+            CommandExecutor::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                executor_options,
+            );
 
         match executor {
             Err(e) => {
@@ -1280,7 +1311,13 @@ mod tests {
             .unwrap();
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(managed_client, executor_options);
+            CommandExecutor::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                executor_options,
+            );
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1312,8 +1349,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor =
-            CommandExecutor::<MockPayload, MockPayload, _>::new(managed_client, executor_options);
+        let command_executor = CommandExecutor::<MockPayload, MockPayload, _>::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            executor_options,
+        );
         assert!(command_executor.is_ok());
     }
 
@@ -1333,7 +1373,11 @@ mod tests {
         let command_executor: Result<
             CommandExecutor<MockPayload, MockPayload, _>,
             AIOProtocolError,
-        > = CommandExecutor::new(managed_client, executor_options);
+        > = CommandExecutor::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            executor_options,
+        );
 
         match command_executor {
             Err(e) => {
@@ -1360,7 +1404,14 @@ mod tests {
             .build()
             .unwrap();
         let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
-            CommandExecutor::new(session.create_managed_client(), executor_options).unwrap();
+            CommandExecutor::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                session.create_managed_client(),
+                executor_options,
+            )
+            .unwrap();
         assert!(command_executor.shutdown().await.is_ok());
     }
 

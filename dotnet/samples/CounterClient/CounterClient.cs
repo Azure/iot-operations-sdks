@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt.Session;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Microsoft.Extensions.Logging;
 

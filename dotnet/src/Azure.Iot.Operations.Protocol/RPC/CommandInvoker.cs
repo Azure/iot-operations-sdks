@@ -328,7 +328,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     CommandResponseMetadata responseMetadata;
                     try
                     {
-                        response = serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array);
+                        response = serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
                         responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
                     }
                     catch (Exception ex)
@@ -354,7 +354,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.CompletedTask;
         }
 
-        private bool TryValidateResponseHeaders(
+        private static bool TryValidateResponseHeaders(
             MqttApplicationMessage responseMsg,
             MqttUserProperty? statusProperty,
             string correlationId,
@@ -363,15 +363,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             out string? headerName,
             out string? headerValue)
         {
-            if (responseMsg.ContentType != null && responseMsg.ContentType != this.serializer.ContentType)
-            {
-                errorKind = AkriMqttErrorKind.HeaderInvalid;
-                message = $"Content type {responseMsg.ContentType} is not supported by this implementation; only {this.serializer.ContentType} is accepted.";
-                headerName = "Content Type";
-                headerValue = responseMsg.ContentType;
-                return false;
-            }
-
             if (!Guid.TryParse(correlationId, out _))
             {
                 errorKind = AkriMqttErrorKind.HeaderInvalid;
@@ -524,12 +515,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                byte[]? payload = serializer.ToBytes(request);
-                if (payload != null)
+                SerializedPayloadContext payloadContext = serializer.ToBytes(request);
+                if (payloadContext.SerializedPayload != null)
                 {
-                    requestMessage.PayloadSegment = payload;
-                    requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator;
-                    requestMessage.ContentType = serializer.ContentType;
+                    requestMessage.PayloadSegment = payloadContext.SerializedPayload;
+                    requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
+                    requestMessage.ContentType = payloadContext.ContentType;
                 }
 
                 try

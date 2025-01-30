@@ -2,19 +2,22 @@
 // Licensed under the MIT License.
 
 //! Client for Schema Registry operations.
+//!
+//! To use this client, the `schema_registry` feature must be enabled.
 
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
 use derive_builder::Builder;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
-use super::schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
-    GetCommandInvoker, GetRequestPayloadBuilder, Object_Get_RequestBuilder,
-    Object_Put_RequestBuilder, PutCommandInvoker, PutRequestPayloadBuilder,
+use super::schemaregistry_gen::schema_registry::client::{
+    GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
+    PutRequestPayloadBuilder, PutRequestSchemaBuilder,
 };
 use super::{Format, Schema, SchemaType};
 use super::{SchemaRegistryError, SchemaRegistryErrorKind};
@@ -89,14 +92,22 @@ where
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
-    pub fn new(client: &C) -> Self {
+    pub fn new(application_context: ApplicationContext, client: &C) -> Self {
         let options = CommandOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
 
         Self {
-            get_command_invoker: Arc::new(GetCommandInvoker::new(client.clone(), &options)),
-            put_command_invoker: Arc::new(PutCommandInvoker::new(client.clone(), &options)),
+            get_command_invoker: Arc::new(GetCommandInvoker::new(
+                application_context.clone(),
+                client.clone(),
+                &options,
+            )),
+            put_command_invoker: Arc::new(PutCommandInvoker::new(
+                application_context,
+                client.clone(),
+                &options,
+            )),
         }
     }
 
@@ -124,7 +135,7 @@ where
     ) -> Result<Option<Schema>, SchemaRegistryError> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
-                Object_Get_RequestBuilder::default()
+                GetRequestSchemaBuilder::default()
                     .name(Some(get_request.id))
                     .version(Some(get_request.version))
                     .build()
@@ -181,7 +192,7 @@ where
     ) -> Result<Schema, SchemaRegistryError> {
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
-                Object_Put_RequestBuilder::default()
+                PutRequestSchemaBuilder::default()
                     .format(Some(put_request.format))
                     .schema_content(Some(put_request.content))
                     .version(Some(put_request.version))
@@ -249,7 +260,9 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
+    use azure_iot_operations_protocol::application::ApplicationContextOptionsBuilder;
 
+    use super::*;
     use crate::schema_registry::{
         client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
         Client, Format, GetRequestBuilder, PutRequestBuilder, SchemaRegistryError,
@@ -332,7 +345,10 @@ mod tests {
     #[tokio::test]
     async fn test_get_timeout_invalid() {
         let session = create_session();
-        let client = Client::new(&session.create_managed_client());
+        let client = Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            &session.create_managed_client(),
+        );
 
         let get_result = client
             .get(
@@ -368,7 +384,10 @@ mod tests {
     #[tokio::test]
     async fn test_put_timeout_invalid() {
         let session = create_session();
-        let client = Client::new(&session.create_managed_client());
+        let client = Client::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            &session.create_managed_client(),
+        );
 
         let put_result = client
             .put(
