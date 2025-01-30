@@ -9,6 +9,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 
 const AVRO_CLIENT_ID: &str = "AvroRustClient";
 const JSON_CLIENT_ID: &str = "JsonRustClient";
@@ -77,13 +80,20 @@ async fn main() {
 }
 
 async fn avro_telemetry_loop(client: SessionManagedClient) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let receiver_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
     let mut telemetry_receiver: avro_comm::avro_model::client::TelemetryReceiver<_> =
-        avro_comm::avro_model::client::TelemetryReceiver::new(client, &receiver_options);
+        avro_comm::avro_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
 
     println!("Starting receive loop");
     println!();
@@ -126,13 +136,20 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn json_telemetry_loop(client: SessionManagedClient) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let receiver_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
     let mut telemetry_receiver: json_comm::json_model::client::TelemetryReceiver<_> =
-        json_comm::json_model::client::TelemetryReceiver::new(client, &receiver_options);
+        json_comm::json_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
 
     println!("Starting receive loop");
     println!();
@@ -178,13 +195,20 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn raw_telemetry_loop(client: SessionManagedClient) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let receiver_options =
         raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
     let mut telemetry_receiver: raw_comm::raw_model::client::TelemetryReceiver<_> =
-        raw_comm::raw_model::client::TelemetryReceiver::new(client, &receiver_options);
+        raw_comm::raw_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
 
     println!("Starting receive loop");
     println!();

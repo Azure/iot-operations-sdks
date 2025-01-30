@@ -8,6 +8,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use iso8601_duration;
 use raw_comm::common_types::bytes::Bytes;
 
@@ -107,13 +110,20 @@ async fn avro_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let sender_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
     let telemetry_sender: avro_comm::avro_model::service::TelemetrySender<_> =
-        avro_comm::avro_model::service::TelemetrySender::new(client, &sender_options);
+        avro_comm::avro_model::service::TelemetrySender::new(
+            application_context,
+            client,
+            &sender_options,
+        );
 
     println!("Starting send loop");
     println!();
@@ -150,13 +160,20 @@ async fn json_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let sender_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
     let telemetry_sender: json_comm::json_model::service::TelemetrySender<_> =
-        json_comm::json_model::service::TelemetrySender::new(client, &sender_options);
+        json_comm::json_model::service::TelemetrySender::new(
+            application_context,
+            client,
+            &sender_options,
+        );
 
     println!("Starting send loop");
     println!();
@@ -200,12 +217,19 @@ async fn raw_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let sender_options = raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
         .build()
         .unwrap();
 
     let telemetry_sender: raw_comm::raw_model::service::TelemetrySender<_> =
-        raw_comm::raw_model::service::TelemetrySender::new(client, &sender_options);
+        raw_comm::raw_model::service::TelemetrySender::new(
+            application_context,
+            client,
+            &sender_options,
+        );
 
     println!("Starting send loop");
     println!();
