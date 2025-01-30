@@ -1179,16 +1179,16 @@ where
         {
             Ok(publish_completion_token) => {
                 // Wait and handle puback
-                match publish_completion_token.await {
-                    Ok(()) => {}
-                    Err(e) => {
-                        log::error!(
-                            "[{}][pkid: {}] Puback error: {e}",
-                            response_arguments.command_name,
-                            pkid
-                        );
-                    }
-                }
+                // match publish_completion_token.await {
+                //     Ok(()) => {}
+                //     Err(e) => {
+                //         log::error!(
+                //             "[{}][pkid: {}] Puback error: {e}",
+                //             response_arguments.command_name,
+                //             pkid
+                //         );
+                //     }
+                // }
             }
             Err(e) => {
                 log::error!(
