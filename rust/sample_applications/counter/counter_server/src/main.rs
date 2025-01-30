@@ -12,10 +12,10 @@ use azure_iot_operations_protocol::application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
 };
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
-use envoy::dtmi_com_example_Counter__1::service::{
+use envoy::counter::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
-    TelemetryCollectionBuilder, TelemetryCollectionMessageBuilder, TelemetryCollectionSender,
+    TelemetryCollectionBuilder, TelemetryMessageBuilder, TelemetrySender,
 };
 
 #[tokio::main(flavor = "current_thread")]
@@ -101,7 +101,7 @@ async fn increment_counter_and_publish(
         IncrementCommandExecutor::new(application_context.clone(), client.clone(), &options);
 
     // Create sender
-    let counter_sender = TelemetryCollectionSender::new(
+    let counter_sender = TelemetrySender::new(
         application_context,
         client,
         &TelemetryOptionsBuilder::default().build().unwrap(),
@@ -132,7 +132,7 @@ async fn increment_counter_and_publish(
         request.complete(response).unwrap();
 
         // Create telemetry message using the new counter value
-        let telemetry_message = TelemetryCollectionMessageBuilder::default()
+        let telemetry_message = TelemetryMessageBuilder::default()
             .payload(
                 TelemetryCollectionBuilder::default()
                     .counter_value(Some(updated_counter))

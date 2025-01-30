@@ -136,14 +136,14 @@ namespace Azure.Iot.Operations.Services.LeasedLock {
 }
 namespace Azure.Iot.Operations.Services.SchemaRegistry {
     public interface ISchemaRegistryClient {
-        Task<Object_Ms_Adr_SchemaRegistry_Schema__1> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = null, CancellationToken cancellationToken = default);
-        Task<Object_Ms_Adr_SchemaRegistry_Schema__1> PutAsync(string schemaContent, Enum_Ms_Adr_SchemaRegistry_Format__1 schemaFormat, Enum_Ms_Adr_SchemaRegistry_SchemaType__1 schemaType = MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+        Task<Schema> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+        Task<Schema> PutAsync(string schemaContent, Format schemaFormat, SchemaType schemaType = MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
     }
     public class SchemaRegistryClient : ISchemaRegistryClient, IAsyncDisposable {
         public SchemaRegistryClient(IMqttPubSubClient pubSubClient);
         public ValueTask DisposeAsync();
-        public Task<Object_Ms_Adr_SchemaRegistry_Schema__1> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = null, CancellationToken cancellationToken = default);
-        public Task<Object_Ms_Adr_SchemaRegistry_Schema__1> PutAsync(string schemaContent, Enum_Ms_Adr_SchemaRegistry_Format__1 schemaFormat, Enum_Ms_Adr_SchemaRegistry_SchemaType__1 schemaType = MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+        public Task<Schema> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+        public Task<Schema> PutAsync(string schemaContent, Format schemaFormat, SchemaType schemaType = MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
     }
     public class EmptyJson {
         public EmptyJson();
@@ -157,21 +157,21 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry {
         public SerializedPayloadContext ToBytes<T>(T? payload) where T : class;
     }
 }
-namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1 {
+namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry {
     public class GetCommandRequest {
         public GetCommandRequest();
         [JsonPropertyName("getSchemaRequest")]
         [JsonIgnore]
-        public Object_Get_Request GetSchemaRequest { get; set; }
+        public GetRequestSchema GetSchemaRequest { get; set; }
     }
     public class GetCommandResponse {
         public GetCommandResponse();
         [JsonPropertyName("schema")]
         [JsonIgnore]
-        public Object_Ms_Adr_SchemaRegistry_Schema__1 Schema { get; set; }
+        public Schema Schema { get; set; }
     }
-    public class Object_Get_Request {
-        public Object_Get_Request();
+    public class GetRequestSchema {
+        public GetRequestSchema();
         [JsonPropertyName("name")]
         [JsonIgnore]
         public string? Name { get; set; }
@@ -179,8 +179,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         [JsonIgnore]
         public string? Version { get; set; }
     }
-    public class Object_Ms_Adr_SchemaRegistry_Schema__1 {
-        public Object_Ms_Adr_SchemaRegistry_Schema__1();
+    public class Schema {
+        public Schema();
         [JsonPropertyName("description")]
         [JsonIgnore]
         public string? Description { get; set; }
@@ -189,7 +189,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         public string? DisplayName { get; set; }
         [JsonPropertyName("format")]
         [JsonIgnore]
-        public Enum_Ms_Adr_SchemaRegistry_Format__1? Format { get; set; }
+        public Format? Format { get; set; }
         [JsonPropertyName("hash")]
         [JsonIgnore]
         public string? Hash { get; set; }
@@ -204,7 +204,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         public string? SchemaContent { get; set; }
         [JsonPropertyName("schemaType")]
         [JsonIgnore]
-        public Enum_Ms_Adr_SchemaRegistry_SchemaType__1? SchemaType { get; set; }
+        public SchemaType? SchemaType { get; set; }
         [JsonPropertyName("tags")]
         [JsonIgnore]
         public Dictionary<string, string>? Tags { get; set; }
@@ -212,8 +212,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         [JsonIgnore]
         public string? Version { get; set; }
     }
-    public class Object_Put_Request {
-        public Object_Put_Request();
+    public class PutRequestSchema {
+        public PutRequestSchema();
         [JsonPropertyName("description")]
         [JsonIgnore]
         public string? Description { get; set; }
@@ -222,13 +222,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         public string? DisplayName { get; set; }
         [JsonPropertyName("format")]
         [JsonIgnore]
-        public Enum_Ms_Adr_SchemaRegistry_Format__1? Format { get; set; }
+        public Format? Format { get; set; }
         [JsonPropertyName("schemaContent")]
         [JsonIgnore]
         public string? SchemaContent { get; set; }
         [JsonPropertyName("schemaType")]
         [JsonIgnore]
-        public Enum_Ms_Adr_SchemaRegistry_SchemaType__1? SchemaType { get; set; }
+        public SchemaType? SchemaType { get; set; }
         [JsonPropertyName("tags")]
         [JsonIgnore]
         public Dictionary<string, string>? Tags { get; set; }
@@ -240,13 +240,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         public PutCommandRequest();
         [JsonPropertyName("putSchemaRequest")]
         [JsonIgnore]
-        public Object_Put_Request PutSchemaRequest { get; set; }
+        public PutRequestSchema PutSchemaRequest { get; set; }
     }
     public class PutCommandResponse {
         public PutCommandResponse();
         [JsonPropertyName("schema")]
         [JsonIgnore]
-        public Object_Ms_Adr_SchemaRegistry_Schema__1 Schema { get; set; }
+        public Schema Schema { get; set; }
     }
     public static class SchemaRegistry {
         public abstract class Client : IAsyncDisposable {
@@ -281,14 +281,14 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistr
         }
     }
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    public enum Enum_Ms_Adr_SchemaRegistry_Format__1 {
+    public enum Format {
         [EnumMember]
         Delta1 = 0,
         [EnumMember]
         JsonSchemaDraft07 = 1,
     }
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    public enum Enum_Ms_Adr_SchemaRegistry_SchemaType__1 {
+    public enum SchemaType {
         [EnumMember]
         MessageSchema = 0,
     }
@@ -421,7 +421,7 @@ namespace Azure.Iot.Operations.Services.StateStore {
         public StateStoreOperationException(string message);
     }
 }
-namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1 {
+namespace Azure.Iot.Operations.Services.StateStore.StateStore {
     public static class StateStore {
         public abstract class Client : IAsyncDisposable {
             public Client(IMqttPubSubClient mqttClient);

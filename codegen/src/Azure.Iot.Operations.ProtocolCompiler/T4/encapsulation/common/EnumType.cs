@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         public override SchemaKind Kind { get => EnumValues.FirstOrDefault()?.StringValue != null ? SchemaKind.EnumString : SchemaKind.EnumInt; }
 
-        public EnumType(string schemaName, string? description, string[] names, int[]? intValues = null, string[]? stringValues = null)
+        public EnumType(CodeName schemaName, string? description, CodeName[] names, int[]? intValues = null, string[]? stringValues = null)
         {
             SchemaName = schemaName;
             Description = description;
@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public string SchemaName { get; }
+        public CodeName SchemaName { get; }
 
         public string? Description { get; }
 
@@ -28,14 +28,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EnumValue
         {
-            public EnumValue(string name, int? intValue = null, string? stringValue = null)
+            public EnumValue(CodeName name, int? intValue = null, string? stringValue = null)
             {
                 Name = name;
                 IntValue = intValue;
                 StringValue = stringValue;
             }
 
-            public string Name { get; }
+            public CodeName Name { get; }
 
             public int? IntValue { get; }
 

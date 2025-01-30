@@ -9,7 +9,7 @@ namespace TestModel.dtmi_test_TestModel__1
     using System.Text.Json.Serialization;
     using TestModel;
 
-    public class Object_Test_Request
+    public class TestRequestSchema
     {
         /// <summary>
         /// The 'request' Field.

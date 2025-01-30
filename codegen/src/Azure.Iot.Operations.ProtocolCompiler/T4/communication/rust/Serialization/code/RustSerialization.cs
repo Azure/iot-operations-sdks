@@ -70,9 +70,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Json, new List<string> { "serde_json::from_slice(payload)" } },
         };
 
-        private readonly string genNamespace;
-        private readonly string schemaModuleName;
-        private readonly string schemaClassName;
+        private readonly CodeName genNamespace;
+        private readonly CodeName schemaClassName;
         private readonly string schemaText;
         private readonly string? serdeLib;
         private readonly List<string> stdHeaders;
@@ -83,10 +82,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly List<string> serializeCode;
         private readonly List<string> deserializeCode;
 
-        public RustSerialization(string genNamespace, string genFormat, string schemaClassName, string? workingPath)
+        public RustSerialization(CodeName genNamespace, string genFormat, CodeName schemaClassName, string? workingPath)
         {
             this.genNamespace = genNamespace;
-            this.schemaModuleName = NamingSupport.ToSnakeCase(schemaClassName);
             this.schemaClassName = schemaClassName;
             this.schemaText = string.Empty;
 
@@ -101,7 +99,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             if (workingPath != null)
             {
-                string? schemaFile = Directory.GetFiles(Path.Combine(workingPath, this.genNamespace), $"{schemaClassName}.*").FirstOrDefault();
+                string? schemaFile = Directory.GetFiles(Path.Combine(workingPath, this.genNamespace.GetFolderName(TargetLanguage.Independent)), $"{schemaClassName.GetFileName(TargetLanguage.Independent)}.*").FirstOrDefault();
                 if (schemaFile != null)
                 {
                     this.schemaText = File.ReadAllText(schemaFile).Trim();
@@ -109,8 +107,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public string FileName { get => NamingSupport.ToSnakeCase($"{this.schemaClassName}Serialization.rs"); }
+        public string FileName { get => $"{this.schemaClassName.GetFileName(TargetLanguage.Rust, "serialization")}.rs"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Rust); }
     }
 }

@@ -1,13 +1,13 @@
 ﻿
 namespace Azure.Iot.Operations.Services.SchemaRegistry.Host;
 
-using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using System.Security.Cryptography;
 using System.Text;
-using SchemaInfo = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
+using SchemaInfo = SchemaRegistry.Schema;
 
 
 internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator) 

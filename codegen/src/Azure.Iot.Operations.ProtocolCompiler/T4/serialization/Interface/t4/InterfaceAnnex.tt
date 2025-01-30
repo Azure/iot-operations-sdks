@@ -1,9 +1,9 @@
 <#@ template language="C#" linePragmas="false" #>
 {
   "<#=InterfaceAnnex.ProjectName#>": "<#=this.projectName#>",
-  "<#=InterfaceAnnex.Namespace#>": "<#=this.genNamespace#>",
+  "<#=InterfaceAnnex.Namespace#>": "<#=this.genNamespace.GetTypeName(TargetLanguage.Independent)#>",
   "<#=InterfaceAnnex.ModelId#>": "<#=this.modelId#>",
-  "<#=InterfaceAnnex.ServiceName#>": "<#=this.serviceName#>",
+  "<#=InterfaceAnnex.ServiceName#>": "<#=this.serviceName.GetTypeName(TargetLanguage.Independent)#>",
   "<#=InterfaceAnnex.PayloadFormat#>": "<#=this.serializationFormat#>",
   "<#=InterfaceAnnex.TelemSeparate#>": <#=this.separateTelemetries ? "true" : "false"#>,
 <# if (this.telemTopicPattern != null) { #>
@@ -24,7 +24,7 @@
 <# if (telemNameSchema.Item1 != null) { #>
       "<#=InterfaceAnnex.TelemName#>": "<#=telemNameSchema.Item1#>",
 <# } #>
-      "<#=InterfaceAnnex.TelemSchema#>": "<#=telemNameSchema.Item2#>"
+      "<#=InterfaceAnnex.TelemSchema#>": "<#=telemNameSchema.Item2.GetTypeName(TargetLanguage.Independent)#>"
     }<#=this.IsLastTelem(telemNameSchema) ? "" : ","#>
 <# } #>
   ],
@@ -32,8 +32,12 @@
 <# foreach (var cmdNameReqRespIdemStale in this.cmdNameReqRespIdemStales) { #>
     {
       "<#=InterfaceAnnex.CommandName#>": "<#=cmdNameReqRespIdemStale.Item1#>",
-      "<#=InterfaceAnnex.CmdRequestSchema#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item2)#>,
-      "<#=InterfaceAnnex.CmdResponseSchema#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item3)#>,
+<# if (cmdNameReqRespIdemStale.Item2 != null) { #>
+      "<#=InterfaceAnnex.CmdRequestSchema#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item2.GetTypeName(TargetLanguage.Independent))#>,
+<# } #>
+<# if (cmdNameReqRespIdemStale.Item3 != null) { #>
+      "<#=InterfaceAnnex.CmdResponseSchema#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item3.GetTypeName(TargetLanguage.Independent))#>,
+<# } #>
       "<#=InterfaceAnnex.CmdIsIdempotent#>": <#=cmdNameReqRespIdemStale.Item4 ? "true" : "false"#>,
       "<#=InterfaceAnnex.CmdCacheability#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item5)#>
     }<#=this.IsLastCmd(cmdNameReqRespIdemStale) ? "" : ","#>
@@ -43,7 +47,7 @@
 <#+
     private string GetSchema(string schema) => schema != null ? $"\"{schema}\"" : "null";
 
-    private bool IsLastTelem((string, string) telemNameSchema) => telemNameSchema.Item1 == this.telemNameSchemas.Last().Item1;
+    private bool IsLastTelem((string, ITypeName) telemNameSchema) => telemNameSchema.Item1 == this.telemNameSchemas.Last().Item1;
 
-    private bool IsLastCmd((string, string, string, bool, string) cmdNameReqRespIdemStale) => cmdNameReqRespIdemStale.Item1 == this.cmdNameReqRespIdemStales.Last().Item1;
+    private bool IsLastCmd((string, ITypeName, ITypeName, bool, string) cmdNameReqRespIdemStale) => cmdNameReqRespIdemStale.Item1 == this.cmdNameReqRespIdemStales.Last().Item1;
 #>

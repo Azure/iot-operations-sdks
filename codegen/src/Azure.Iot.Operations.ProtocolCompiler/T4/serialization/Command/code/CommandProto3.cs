@@ -5,15 +5,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class CommandProto3 : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string schema;
+        private readonly CodeName genNamespace;
+        private readonly ITypeName schema;
         private readonly string paramName;
         private readonly DTSchemaInfo paramSchema;
         private readonly bool isNullable;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly HashSet<string> importNames;
 
-        public CommandProto3(string projectName, string genNamespace, string schema, string paramName, DTSchemaInfo paramSchema, bool isNullable, DtmiToSchemaName dtmiToSchemaName)
+        public CommandProto3(string projectName, CodeName genNamespace, ITypeName schema, string paramName, DTSchemaInfo paramSchema, bool isNullable)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -21,12 +20,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.paramName = paramName;
             this.paramSchema = paramSchema;
             this.isNullable = isNullable;
-            this.dtmiToSchemaName = dtmiToSchemaName;
             this.importNames = new HashSet<string>();
         }
 
-        public string FileName { get => $"{this.schema}.proto"; }
+        public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.proto"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFileName(TargetLanguage.Independent); }
     }
 }

@@ -365,7 +365,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     commandExecutor.OnCommandReceived = async (extReq, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
-                        Object_Test_Response responsePayload = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
+                        TestResponseSchema responsePayload = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
 
                         CommandResponseMetadata responseMetadata = new();
                         foreach (KeyValuePair<string, string?> kvp in testCaseExecutor.ResponseMetadata)
@@ -373,7 +373,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                             responseMetadata.UserData[kvp.Key] = kvp.Value ?? extReq.RequestMetadata.UserData[kvp.Key];
                         }
 
-                        return new ExtendedResponse<Object_Test_Response>()
+                        return new ExtendedResponse<TestResponseSchema>()
                         {
                             Response = responsePayload,
                             ResponseMetadata = responseMetadata,
@@ -385,8 +385,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     commandExecutor.OnCommandReceived = async (extReq, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
-                        Object_Test_Response responsePayload = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
-                        return ExtendedResponse<Object_Test_Response>.CreateFromResponse(responsePayload);
+                        TestResponseSchema responsePayload = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
+                        return ExtendedResponse<TestResponseSchema>.CreateFromResponse(responsePayload);
                     };
                 }
 
@@ -460,7 +460,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 byte[]? payload =
                     actionReceiveRequest.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveRequest.Payload) :
-                    payloadSerializer.ToBytes(new Object_Test_Request { TestCaseIndex = testCaseIndex, Request = actionReceiveRequest.Payload }).SerializedPayload;
+                    payloadSerializer.ToBytes(new TestRequestSchema { TestCaseIndex = testCaseIndex, Request = actionReceiveRequest.Payload }).SerializedPayload;
                 requestAppMsgBuilder.WithPayload(payload);
             }
 
@@ -579,7 +579,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(new Object_Test_Response { TestCaseIndex = testCaseIndex, Response = payload }).SerializedPayload, appMsg.PayloadSegment.Array);
+                Assert.Equal(payloadSerializer.ToBytes(new TestResponseSchema { TestCaseIndex = testCaseIndex, Response = payload }).SerializedPayload, appMsg.PayloadSegment.Array);
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)
@@ -620,7 +620,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private static async Task<Object_Test_Response> ProcessRequest(ExtendedRequest<Object_Test_Request> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)
+        private static async Task<TestResponseSchema> ProcessRequest(ExtendedRequest<TestRequestSchema> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)
         {
             foreach (TestCaseSync testCaseSync in testCaseExecutor.Sync)
             {
@@ -651,7 +651,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     index = await requestResponseSequencer[extReq.Request.Request].Increment().ConfigureAwait(false) % responses.Length;
                 }
 
-                return new Object_Test_Response { TestCaseIndex = extReq.Request.TestCaseIndex, Response = responses[index] };
+                return new TestResponseSchema { TestCaseIndex = extReq.Request.TestCaseIndex, Response = responses[index] };
             }
             else
             {

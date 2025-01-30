@@ -1,5 +1,5 @@
 ﻿using Azure.Iot.Operations.Services.Assets;
-using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
+using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Schema;
 
 namespace Azure.Iot.Operations.Connector
 {

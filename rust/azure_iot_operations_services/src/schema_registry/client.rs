@@ -15,9 +15,9 @@ use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
 use derive_builder::Builder;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
-use super::schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
-    GetCommandInvoker, GetRequestPayloadBuilder, Object_Get_RequestBuilder,
-    Object_Put_RequestBuilder, PutCommandInvoker, PutRequestPayloadBuilder,
+use super::schemaregistry_gen::schema_registry::client::{
+    GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
+    PutRequestPayloadBuilder, PutRequestSchemaBuilder,
 };
 use super::{Format, Schema, SchemaType};
 use super::{SchemaRegistryError, SchemaRegistryErrorKind};
@@ -135,7 +135,7 @@ where
     ) -> Result<Option<Schema>, SchemaRegistryError> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
-                Object_Get_RequestBuilder::default()
+                GetRequestSchemaBuilder::default()
                     .name(Some(get_request.id))
                     .version(Some(get_request.version))
                     .build()
@@ -192,7 +192,7 @@ where
     ) -> Result<Schema, SchemaRegistryError> {
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
-                Object_Put_RequestBuilder::default()
+                PutRequestSchemaBuilder::default()
                     .format(Some(put_request.format))
                     .schema_content(Some(put_request.content))
                     .version(Some(put_request.version))
