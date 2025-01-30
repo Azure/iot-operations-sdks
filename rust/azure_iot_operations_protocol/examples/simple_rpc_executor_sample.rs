@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 
-use async_std::task::sleep;
 use env_logger::Builder;
 use thiserror::Error;
 

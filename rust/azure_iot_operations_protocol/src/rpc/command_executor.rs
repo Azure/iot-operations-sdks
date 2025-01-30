@@ -217,32 +217,52 @@ struct CommandExecutorCacheKey {
 }
 
 /// Command Executor Cache Entry struct
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Debug)]
 struct CommandExecutorCacheEntry {
     serialized_payload: SerializedPayload,
     properties: PublishProperties,
     expiration_time: Instant,
 }
 
-#[derive(PartialEq)]
+/// Command Executor Cache Entry Status enum
+///
+/// Used to determine the status of a cache entry.
+///
+/// Note: It is not possible for a cache entry to be in progress due to the nature of the underlying
+/// session. If a command request is received, the session will drop duplicates while the original
+/// request is being processed.
+#[derive(PartialEq, Debug)]
 enum CommandExecutorCacheEntryStatus {
+    /// The cache entry is cached and has not expired
     Cached(CommandExecutorCacheEntry),
+    /// The cache entry is expired
     Expired,
+    /// The cache entry is not found
     NotFound,
 }
 
+/// The Command Executor Cache struct
+///
+/// Used to cache command responses and determine if a command request is a duplicate.
 #[derive(Clone)]
 struct CommandExecutorCache {
     cache: Arc<Mutex<HashMap<CommandExecutorCacheKey, CommandExecutorCacheEntry>>>,
 }
 
 impl CommandExecutorCache {
+    /// Create a new [`CommandExecutorCache`] instance.
     fn new() -> Self {
         CommandExecutorCache {
             cache: Arc::new(Mutex::new(HashMap::new())),
         }
     }
 
+    /// Get a cache entry from the cache.
+    ///
+    /// # Arguments
+    /// `key` - The cache key to get the cache entry for.
+    ///
+    /// Returns the [`CommandExecutorCacheEntryStatus`] of the cache entry.
     fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
         let cache = self.cache.lock().unwrap();
         if let Some(entry) = cache.get(key) {
@@ -254,6 +274,11 @@ impl CommandExecutorCache {
         CommandExecutorCacheEntryStatus::NotFound
     }
 
+    /// Set a cache entry in the cache. Also removes expired cache entries.
+    ///
+    /// # Arguments
+    /// `key` - The cache key to set the cache entry for.
+    /// `entry` - The cache entry to set.
     fn set(&self, key: CommandExecutorCacheKey, entry: CommandExecutorCacheEntry) {
         let mut cache = self.cache.lock().unwrap();
         cache.retain(|_, entry| !entry.expiration_time.elapsed().is_zero());
@@ -694,6 +719,7 @@ where
                 };
 
                 'process_request: {
+                    // If the cache key was not created it means the correlation data was invalid
                     let Some(cache_key) = &response_arguments.cached_key else {
                         break 'process_request;
                     };
@@ -720,6 +746,7 @@ where
                     // Check cache
                     response_arguments.cached_entry_status = self.cache.get(cache_key);
 
+                    // If the cache entry is not found, continue processing the request
                     if response_arguments.cached_entry_status
                         != CommandExecutorCacheEntryStatus::NotFound
                     {
@@ -901,9 +928,14 @@ where
                     }
                 }
 
+                // If the command has expired, we do not respond to the invoker.
                 match response_arguments.cached_entry_status {
                     CommandExecutorCacheEntryStatus::Expired => {
-                        log::debug!("duplicate request"); // FIN: Make this log better
+                        log::debug!(
+                            "[{}][pkid: {}] Duplicate request has expired",
+                            self.command_name,
+                            m.pkid
+                        );
                         continue;
                     }
                     _ => {
@@ -961,10 +993,18 @@ where
         let mut user_properties: Vec<(String, String)> = Vec::new();
         let mut serialized_payload = SerializedPayload::default();
         let mut publish_properties = PublishProperties::default();
+        let cache_not_found =
+            response_arguments.cached_entry_status == CommandExecutorCacheEntryStatus::NotFound;
 
         if let CommandExecutorCacheEntryStatus::Cached(entry) =
             response_arguments.cached_entry_status
         {
+            // The command has already been processed, we can respond with the cached response
+            log::debug!(
+                "[{}][pkid: {}] Duplicate request, responding with cached response",
+                response_arguments.command_name,
+                pkid
+            );
             publish_properties = entry.properties;
             serialized_payload = entry.serialized_payload;
         } else {
@@ -1121,13 +1161,20 @@ where
             publish_properties.message_expiry_interval = Some(message_expiry_interval);
 
             // Store cache
-            if let Some(cached_key) = response_arguments.cached_key {
-                let cache_entry = CommandExecutorCacheEntry {
-                    properties: publish_properties.clone(),
-                    serialized_payload: serialized_payload.clone(),
-                    expiration_time: command_expiration_time,
-                };
-                cache.set(cached_key, cache_entry);
+            if cache_not_found {
+                if let Some(cached_key) = response_arguments.cached_key {
+                    let cache_entry = CommandExecutorCacheEntry {
+                        properties: publish_properties.clone(),
+                        serialized_payload: serialized_payload.clone(),
+                        expiration_time: command_expiration_time,
+                    };
+                    log::info!(
+                        "[{}][pkid: {}] Caching response",
+                        response_arguments.command_name,
+                        pkid
+                    );
+                    cache.set(cached_key, cache_entry);
+                }
             }
         } else {
             // Happens when the command expiration time was not able to be calculated.
@@ -1227,8 +1274,6 @@ async fn handle_ack(
     executor_cancellation_token: CancellationToken,
     pkid: u16,
 ) {
-    log::info!("ACKING IN 10 SECONDS");
-    tokio::time::sleep(Duration::from_secs(10)).await;
     tokio::select! {
         () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
         ack_res = ack_token.ack() => {
@@ -1539,7 +1584,6 @@ mod tests {
     }
 
     // CommandResponse tests
-
     #[test]
     fn test_response_serialization_error() {
         let mut mock_response_payload = MockPayload::new();
@@ -1592,6 +1636,80 @@ mod tests {
             }
         }
     }
+
+    #[tokio::test]
+    async fn test_cache_not_found() {
+        let cache = CommandExecutorCache::new();
+        let key = CommandExecutorCacheKey {
+            topic: Bytes::from("test_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::NotFound);
+    }
+
+    #[tokio::test]
+    async fn test_cache_found() {
+        let cache = CommandExecutorCache::new();
+        let key = CommandExecutorCacheKey {
+            topic: Bytes::from("test_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry.clone());
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Cached(entry));
+    }
+
+    #[tokio::test]
+    async fn test_cache_expired() {
+        let cache = CommandExecutorCache::new();
+        let key = CommandExecutorCacheKey {
+            topic: Bytes::from("test_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() - Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry);
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Expired);
+
+        // Set a new entry and check if the expired entry is deleted
+        let new_entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("new_test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        // The cache should never see another entry with the same key, this is for testing purposes only.
+        cache.set(key.clone(), new_entry.clone());
+
+        let new_status = cache.get(&key);
+        assert_eq!(
+            new_status,
+            CommandExecutorCacheEntryStatus::Cached(new_entry)
+        );
+    }
+
+    // ...existing code...
 }
 
 // Test cases for subscribe
