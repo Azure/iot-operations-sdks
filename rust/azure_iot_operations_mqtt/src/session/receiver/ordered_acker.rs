@@ -354,7 +354,6 @@ mod tests {
             }
             _ => panic!("Unexpected call"),
         }
-
     }
 
     #[tokio::test]
