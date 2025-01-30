@@ -645,7 +645,6 @@ where
                                 log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
                                 // try to shutdown telemetry receiver, but not indefinitely
                                 if shutdown_attempt_count < 3 {
-                                    shutdown_attempt_count += 1;
                                     shutdown_notifier.notify_one();
                                 }
                             }
