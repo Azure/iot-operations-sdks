@@ -1247,7 +1247,7 @@ async fn handle_ack(
     pkid: u16,
 ) {
     log::info!("ACKING IN 10 SECONDS");
-    tokio::time::sleep(Duration::from_secs(10));
+    tokio::time::sleep(Duration::from_secs(10)).await;
     tokio::select! {
         () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
         ack_res = ack_token.ack() => {
