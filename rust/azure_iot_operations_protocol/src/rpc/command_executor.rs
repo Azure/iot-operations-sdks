@@ -207,29 +207,33 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     }
 }
 
+/// Command Executor Cache Key struct
+///
+/// Used to uniquely identify a command request
 #[derive(Eq, Hash, PartialEq, Clone)]
 struct CommandExecutorCacheKey {
     topic: Bytes,
     correlation_data: Bytes,
 }
 
-#[derive(Clone)]
+/// Command Executor Cache Entry struct
+#[derive(Clone, PartialEq)]
 struct CommandExecutorCacheEntry {
     serialized_payload: SerializedPayload,
     properties: PublishProperties,
     expiration_time: Instant,
 }
 
+#[derive(PartialEq)]
 enum CommandExecutorCacheEntryStatus {
     Cached(CommandExecutorCacheEntry),
-    InProgress,
     Expired,
     NotFound,
 }
 
 #[derive(Clone)]
 struct CommandExecutorCache {
-    cache: Arc<Mutex<HashMap<CommandExecutorCacheKey, Option<CommandExecutorCacheEntry>>>>,
+    cache: Arc<Mutex<HashMap<CommandExecutorCacheKey, CommandExecutorCacheEntry>>>,
 }
 
 impl CommandExecutorCache {
@@ -240,35 +244,19 @@ impl CommandExecutorCache {
     }
 
     fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
-        match self.cache.lock().unwrap().get(key) {
-            Some(entry_res) => {
-                if let Some(entry) = entry_res {
-                    if entry.expiration_time.elapsed().is_zero() {
-                        CommandExecutorCacheEntryStatus::Expired
-                    } else {
-                        CommandExecutorCacheEntryStatus::Cached(entry.clone())
-                    }
-                } else {
-                    CommandExecutorCacheEntryStatus::InProgress
-                }
+        let cache = self.cache.lock().unwrap();
+        if let Some(entry) = cache.get(key) {
+            if entry.expiration_time.elapsed().is_zero() {
+                return CommandExecutorCacheEntryStatus::Cached(entry.clone());
             }
-            None => CommandExecutorCacheEntryStatus::NotFound,
+            return CommandExecutorCacheEntryStatus::Expired;
         }
+        CommandExecutorCacheEntryStatus::NotFound
     }
 
-    fn set(&self, key: CommandExecutorCacheKey, entry: Option<CommandExecutorCacheEntry>) {
-        // PR: Iterate through the cache and remove expired entries
-
+    fn set(&self, key: CommandExecutorCacheKey, entry: CommandExecutorCacheEntry) {
         let mut cache = self.cache.lock().unwrap();
-
-        cache.retain(|_, entry| {
-            if let Some(entry) = entry {
-                !entry.expiration_time.elapsed().is_zero()
-            } else {
-                true
-            }
-        });
-
+        cache.retain(|_, entry| !entry.expiration_time.elapsed().is_zero());
         cache.insert(key, entry);
     }
 }
@@ -732,16 +720,10 @@ where
                     // Check cache
                     response_arguments.cached_entry_status = self.cache.get(cache_key);
 
-                    match response_arguments.cached_entry_status {
-                        CommandExecutorCacheEntryStatus::Cached(_)
-                        | CommandExecutorCacheEntryStatus::InProgress
-                        | CommandExecutorCacheEntryStatus::Expired => {
-                            break 'process_request;
-                        }
-                        CommandExecutorCacheEntryStatus::NotFound => {
-                            // Create entry in cache
-                            self.cache.set(cache_key.clone(), None);
-                        }
+                    if response_arguments.cached_entry_status
+                        != CommandExecutorCacheEntryStatus::NotFound
+                    {
+                        break 'process_request;
                     }
 
                     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
@@ -920,8 +902,7 @@ where
                 }
 
                 match response_arguments.cached_entry_status {
-                    CommandExecutorCacheEntryStatus::InProgress
-                    | CommandExecutorCacheEntryStatus::Expired => {
+                    CommandExecutorCacheEntryStatus::Expired => {
                         log::debug!("duplicate request"); // FIN: Make this log better
                         continue;
                     }
@@ -1146,7 +1127,7 @@ where
                     serialized_payload: serialized_payload.clone(),
                     expiration_time: command_expiration_time,
                 };
-                cache.set(cached_key, Some(cache_entry));
+                cache.set(cached_key, cache_entry);
             }
         } else {
             // Happens when the command expiration time was not able to be calculated.
@@ -1179,16 +1160,16 @@ where
         {
             Ok(publish_completion_token) => {
                 // Wait and handle puback
-                // match publish_completion_token.await {
-                //     Ok(()) => {}
-                //     Err(e) => {
-                //         log::error!(
-                //             "[{}][pkid: {}] Puback error: {e}",
-                //             response_arguments.command_name,
-                //             pkid
-                //         );
-                //     }
-                // }
+                match publish_completion_token.await {
+                    Ok(()) => {}
+                    Err(e) => {
+                        log::error!(
+                            "[{}][pkid: {}] Puback error: {e}",
+                            response_arguments.command_name,
+                            pkid
+                        );
+                    }
+                }
             }
             Err(e) => {
                 log::error!(

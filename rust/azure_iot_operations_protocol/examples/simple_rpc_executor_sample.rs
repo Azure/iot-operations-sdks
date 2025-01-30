@@ -86,7 +86,6 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                     .unwrap()
                     .build()
                     .unwrap();
-                sleep(Duration::from_secs(60)).await;
                 request.complete(response).unwrap();
             }
             Err(err) => {
