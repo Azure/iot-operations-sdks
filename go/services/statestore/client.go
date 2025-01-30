@@ -117,10 +117,7 @@ func New[K, V Bytes](
 	)
 	ctx := context.Background()
 	if err != nil {
-		c.log.Warn(
-			ctx,
-			err,
-		)
+		c.log.Warn(ctx, err)
 		c.listeners.Close()
 		return nil, err
 	}
@@ -237,25 +234,32 @@ func parseOK(data []byte) (bool, error) {
 	}
 }
 
-func (c *Client[K, V]) logK(ctx context.Context, key K) {
+func (c *Client[K, V]) logK(ctx context.Context, operation string, key K, attrs ...slog.Attr) {
 	if c.log.Enabled(ctx, slog.LevelDebug) {
-		c.log.Debug(
-			ctx,
-			"key",
+		all := append([]slog.Attr{
 			slog.String("key", string(key)),
-		)
+		}, attrs...)
+		c.log.Debug(ctx, operation, all...)
 	}
 }
 
-func (c *Client[K, V]) logKV(ctx context.Context, key K, value V) {
+func (c *Client[K, V]) logKV(ctx context.Context, operation string, key K, value V, attrs ...slog.Attr) {
 	if c.log.Enabled(ctx, slog.LevelDebug) {
-		c.log.Debug(
-			ctx,
-			"kv pair",
+		all := append([]slog.Attr{
 			slog.String("key", string(key)),
 			slog.String("value", string(value)),
-		)
+		}, attrs...)
+		c.log.Debug(ctx, operation, all...)
 	}
+}
+
+func (c *Client[K, V]) validateKey(ctx context.Context, key K) error {
+    if len(key) == 0 {
+		errArg := ArgumentError{Name: "key"}
+        c.log.Error(ctx, errArg)
+        return errArg
+    }
+    return nil
 }
 
 // Apply resolves the provided list of options.

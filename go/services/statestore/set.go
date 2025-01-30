@@ -36,10 +36,8 @@ func (c *Client[K, V]) Set(
 	val V,
 	opt ...SetOption,
 ) (*Response[bool], error) {
-	if len(key) == 0 {
-		errArg := ArgumentError{Name: "key"}
-		c.log.Error(ctx, errArg)
-		return nil, errArg
+	if err := c.validateKey(ctx, key); err != nil {
+		return nil, err
 	}
 
 	var opts SetOptions
@@ -58,12 +56,11 @@ func (c *Client[K, V]) Set(
 		)
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
-		c.log.Debug(ctx, "expiry", slog.Duration("expiry", opts.Expiry))
 		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
 	}
 
 	req := resp.OpKV("SET", key, val, rest...)
-	c.logK(ctx, key)
+	c.logK(ctx, "SET", key, slog.Duration("expiry", opts.Expiry))
 	return invoke(ctx, c.invoker, parseOK, &opts, req, c.log)
 }
 

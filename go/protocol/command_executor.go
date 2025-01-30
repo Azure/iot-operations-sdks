@@ -183,11 +183,6 @@ func NewCommandExecutor[Req, Res any](
 
 // Start listening to the MQTT request topic.
 func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
-	ce.listener.log.Info(
-		ctx,
-		"subscribing to MQTT request topic",
-		slog.String("topic", ce.listener.topic.Filter()),
-	)
 	err := ce.listener.listen(ctx)
 	return err
 }
@@ -195,16 +190,8 @@ func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
 // Close the command executor to free its resources.
 func (ce *CommandExecutor[Req, Res]) Close() {
 	ctx := context.Background()
-	ce.listener.log.Info(
-		ctx,
-		"unsubscribing from MQTT request topic",
-		slog.String("topic", ce.listener.topic.Filter()),
-	)
 	ce.listener.close()
-	ce.listener.log.Info(
-		ctx,
-		"command executor shutdown complete",
-	)
+	ce.listener.log.Info(ctx, "command executor shutdown complete")
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
@@ -219,10 +206,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	)
 
 	if err := ignoreRequest(pub); err != nil {
-		ce.listener.log.Warn(
-			ctx,
-			err,
-		)
+		ce.listener.log.Warn(ctx, err)
 		return err
 	}
 
@@ -232,10 +216,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 			Kind:       errors.HeaderMissing,
 			HeaderName: constants.MessageExpiry,
 		}
-		ce.listener.log.Error(
-			ctx,
-			errNoExpiry,
-		)
+		ce.listener.log.Error(ctx, errNoExpiry)
 		return errNoExpiry
 	}
 
@@ -264,19 +245,13 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 
 		res, err := ce.handle(handlerCtx, req)
 		if err != nil {
-			ce.listener.log.Warn(
-				ctx,
-				err,
-			)
+			ce.listener.log.Warn(ctx, err)
 			return nil, err
 		}
 
 		rpub, err := ce.build(pub, res, nil)
 		if err != nil {
-			ce.listener.log.Error(
-				ctx,
-				err,
-			)
+			ce.listener.log.Error(ctx, err)
 			return nil, err
 		}
 
@@ -286,10 +261,7 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer func() {
-		pub.Ack()
-		ce.logRequestAck(ctx, pub)
-	}()
+	defer ce.logPubAck(ctx, pub)
 
 	if rpub == nil {
 		return nil
@@ -318,10 +290,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 
 	// If the error is a no-return error, don't send it.
 	if no, e := errutil.IsNoReturn(err); no {
-		ce.listener.log.Warn(
-			ctx,
-			e.Error(),
-		)
+		ce.listener.log.Warn(ctx, e)
 		return e
 	}
 
@@ -445,10 +414,11 @@ func ignoreRequest(pub *mqtt.Message) error {
 }
 
 // Log that the request was acked.
-func (ce *CommandExecutor[Req, Res]) logRequestAck(
+func (ce *CommandExecutor[Req, Res]) logPubAck(
 	ctx context.Context,
 	pub *mqtt.Message,
 ) {
+	pub.Ack()
 	ce.listener.log.Debug(
 		ctx,
 		"request acked",

@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"net/url"
 	"time"
@@ -145,9 +144,7 @@ func (ts *TelemetrySender[T]) Send(
 	pub.Retain = opts.Retain
 
 	ts.log.Debug(ctx, "sending telemetry",
-		slog.String("topic", pub.Topic),
-		slog.String("payload", fmt.Sprintf("%v", msg.Payload)),
-		slog.Any("metadata", msg.Metadata))
+		slog.String("topic", pub.Topic))
 
 	shallow = false
 	return ts.publisher.publish(ctx, pub)

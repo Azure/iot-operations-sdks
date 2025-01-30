@@ -168,17 +168,6 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.CloudEvent = cloudEventFromMessage(pub)
 
-	for key, value := range msg.Metadata {
-		if len(key) > 2 && key[:2] == "__" && !isReservedProperty(key) {
-			tr.listener.log.Warn(
-				ctx,
-				"user property starts with reserved prefix",
-				slog.String("property", key),
-				slog.String("value", value),
-			)
-		}
-	}
-
 	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
 	}

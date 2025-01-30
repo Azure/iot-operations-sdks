@@ -32,17 +32,15 @@ func (c *Client[K, V]) VDel(
 	val V,
 	opt ...VDelOption,
 ) (*Response[int], error) {
-	if len(key) == 0 {
-		errArg := ArgumentError{Name: "key"}
-		c.log.Error(ctx, errArg)
-		return nil, errArg
+	if err := c.validateKey(ctx, key); err != nil {
+		return nil, err
 	}
 
 	var opts VDelOptions
 	opts.Apply(opt)
 
 	req := resp.OpKV("VDEL", key, val)
-	c.logKV(ctx, key, val)
+	c.logKV(ctx, "VDEL", key, val)
 
 	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.log)
 }

@@ -29,16 +29,14 @@ func (c *Client[K, V]) Get(
 	key K,
 	opt ...GetOption,
 ) (*Response[V], error) {
-	if len(key) == 0 {
-		errArg := ArgumentError{Name: "key"}
-		c.log.Error(ctx, errArg)
-		return nil, errArg
+	if err := c.validateKey(ctx, key); err != nil {
+		return nil, err
 	}
 
 	var opts GetOptions
 	opts.Apply(opt)
 
-	c.logK(ctx, key)
+	c.logK(ctx, "GET", key)
 	req := resp.OpK("GET", key)
 	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req, c.log)
 }
