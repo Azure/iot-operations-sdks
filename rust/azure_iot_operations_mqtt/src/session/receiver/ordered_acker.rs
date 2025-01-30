@@ -329,6 +329,32 @@ mod tests {
         assert!(jh3.is_finished());
         assert!(jh2.is_finished());
         assert_eq!(mock_client_controller.ack_count(), 3);
+
+        // Validate order
+        let calls = mock_client_controller.call_sequence();
+        assert_eq!(calls.len(), 3);
+
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish.pkid, 1);
+            }
+            _ => panic!("Unexpected call"),
+        }
+
+        match &calls[1] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish.pkid, 2);
+            }
+            _ => panic!("Unexpected call"),
+        }
+
+        match &calls[2] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish.pkid, 3);
+            }
+            _ => panic!("Unexpected call"),
+        }
+
     }
 
     #[tokio::test]

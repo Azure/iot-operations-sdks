@@ -391,9 +391,6 @@ mod tests {
     // Some of the structs need to use tokio::task::spawn on cleanup, and will panic or have other strange
     // behavior if there is no tokio runtime.
 
-    // NOTE: These tests don't (currently) cover ordered acking, or the resolution of ack tokens.
-    // See the tests in managed_client::ordered_acker, and managed_client::plenary_ack for those tests.
-
     // TODO: duplicate publish tests
 
     #[test_case(QoS::AtMostOnce; "QoS 0")]
@@ -1393,7 +1390,7 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn ack_token_single_dispatch(qos: QoS) {
+    async fn ack_token_ordered_ack_single_receiver(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
@@ -1429,7 +1426,7 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn ack_token_multi_dispatch(qos: QoS) {
+    async fn ack_token_ordered_ack_multi_receiver(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
@@ -1480,7 +1477,212 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn ack_token_drop_before_ack_single_dispatch(qos: QoS) {
+    async fn ack_token_unordered_ack_single_receiver(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create unfiltered receivers
+        let mut unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch three publishes
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish1 = create_publish_qos(&topic_name, "payload 1", 1, qos);
+        let publish2 = create_publish_qos(&topic_name, "payload 2", 2, qos);
+        let publish3 = create_publish_qos(&topic_name, "payload 3", 3, qos);
+        let publish4 = create_publish_qos(&topic_name, "payload 4", 4, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish1).unwrap(), 1);
+        assert_eq!(dispatcher.dispatch_publish(&publish2).unwrap(), 1);
+        assert_eq!(dispatcher.dispatch_publish(&publish3).unwrap(), 1);
+        assert_eq!(dispatcher.dispatch_publish(&publish4).unwrap(), 1);
+
+        // Receive the publishes
+        let (r_publish1, ack_token1) = unfiltered_rx.try_recv().unwrap();
+        let (r_publish2, ack_token2) = unfiltered_rx.try_recv().unwrap();
+        let (r_publish3, ack_token3) = unfiltered_rx.try_recv().unwrap();
+        let (r_publish4, ack_token4) = unfiltered_rx.try_recv().unwrap();
+
+        // No acks yet
+        assert!(mock_controller.ack_count() == 0);
+
+        // Acking the third publish does not result in the ack triggering on the client
+        let jh3 = tokio::task::spawn(ack_token3.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 0);
+        assert!(!jh3.is_finished());
+
+        // Acking the fourth publish does not result in the ack triggering on the client
+        let jh4 = tokio::task::spawn(ack_token4.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 0);
+        assert!(!jh4.is_finished());
+
+        // Acking the first publish, will result in a single ack on the client (for the first publish)
+        let jh1 = tokio::task::spawn(ack_token1.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 1);
+        assert!(jh1.is_finished());
+
+        // Acking the second publish, will result in 3 acks on the client (for second/third/fourth publishes)
+        let jh2 = tokio::task::spawn(ack_token2.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 4);
+        assert!(jh2.is_finished());
+        assert!(jh3.is_finished());
+        assert!(jh4.is_finished());
+
+        // The publishes were acked on the client in the order they were received
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 4);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, r_publish1);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        match &calls[1] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, r_publish2);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        match &calls[2] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, r_publish3);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        match &calls[3] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, r_publish4);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_token_unordered_ack_multi_receiver(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+        let manager = dispatcher.get_receiver_manager();
+
+        // Create unfiltered receivers
+        let mut unfiltered_rx1 = manager.lock().unwrap().create_unfiltered_receiver();
+        let mut unfiltered_rx2 = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch three publishes
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish1 = create_publish_qos(&topic_name, "payload 1", 1, qos);
+        let publish2 = create_publish_qos(&topic_name, "payload 2", 2, qos);
+        let publish3 = create_publish_qos(&topic_name, "payload 3", 3, qos);
+        let publish4 = create_publish_qos(&topic_name, "payload 4", 4, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish1).unwrap(), 2);
+        assert_eq!(dispatcher.dispatch_publish(&publish2).unwrap(), 2);
+        assert_eq!(dispatcher.dispatch_publish(&publish3).unwrap(), 2);
+        assert_eq!(dispatcher.dispatch_publish(&publish4).unwrap(), 2);
+
+        // Receive the publishes
+        let (_r1_publish1, r1_ack_token1) = unfiltered_rx1.try_recv().unwrap();
+        let (_r1_publish2, r1_ack_token2) = unfiltered_rx1.try_recv().unwrap();
+        let (_r1_publish3, r1_ack_token3) = unfiltered_rx1.try_recv().unwrap();
+        let (_r1_publish4, r1_ack_token4) = unfiltered_rx1.try_recv().unwrap();
+        let (_r2_publish1, r2_ack_token1) = unfiltered_rx2.try_recv().unwrap();
+        let (_r2_publish2, r2_ack_token2) = unfiltered_rx2.try_recv().unwrap();
+        let (_r2_publish3, r2_ack_token3) = unfiltered_rx2.try_recv().unwrap();
+        let (_r2_publish4, r2_ack_token4) = unfiltered_rx2.try_recv().unwrap();
+
+        // No acks yet
+        assert!(mock_controller.ack_count() == 0);
+
+        // Acking the third publish with both receivers does not result in the ack triggering on the client
+        let jh3_r1 = tokio::task::spawn(r1_ack_token3.unwrap().ack());
+        let jh3_r2 = tokio::task::spawn(r2_ack_token3.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 0);
+        assert!(!jh3_r1.is_finished());
+        assert!(!jh3_r2.is_finished());
+
+        // Acking the fourth publish with the first receiver does not result in the ack triggering on the client
+        let jh4_r1 = tokio::task::spawn(r1_ack_token4.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 0);
+        assert!(!jh4_r1.is_finished());
+
+        // Acking the first publish with the first receiver does not result in the ack triggering on the client
+        let jh1_r1 = tokio::task::spawn(r1_ack_token1.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 0);
+        assert!(!jh1_r1.is_finished());
+
+        // Acking the first publish with the second receiver now results in the first ack triggering on the client
+        // and both ack token tasks returning
+        let jh1_r2 = tokio::task::spawn(r2_ack_token1.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 1);
+        assert!(jh1_r2.is_finished());
+        assert!(jh1_r1.is_finished());
+
+        // Acking the second publish with the first receiver does not result in the ack triggering on the client
+        let jh2_r1 = tokio::task::spawn(r1_ack_token2.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 1);
+        assert!(!jh2_r1.is_finished());
+
+        // Acking the fourth publish on the second receiver does not result in the ack triggering on the client
+        let jh4_r2 = tokio::task::spawn(r2_ack_token4.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 1);
+        assert!(!jh4_r2.is_finished());
+
+        // Acking the second publish with the second receiver now results in all three remaining acks to trigger
+        // on the client, and all ack token tasks returning
+        let jh2_r2 = tokio::task::spawn(r2_ack_token2.unwrap().ack());
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert!(mock_controller.ack_count() == 4);
+        assert!(jh2_r2.is_finished());
+        assert!(jh2_r1.is_finished());
+        assert!(jh3_r1.is_finished());
+        assert!(jh3_r2.is_finished());
+        assert!(jh4_r1.is_finished());
+        assert!(jh4_r2.is_finished());
+
+        // The publishes were acked on the client in the order they were received
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 4);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish1);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        match &calls[1] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish2);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        match &calls[2] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish3);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+        match &calls[3] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish4);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+    }
+
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn ack_token_drop_before_ack_single_receiver(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
@@ -1517,7 +1719,7 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn ack_token_drop_before_ack_multi_dispatch(qos: QoS) {
+    async fn ack_token_drop_before_ack_multi_receiver(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
@@ -1563,7 +1765,7 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn receiver_drop_before_ack_single_dispatch(qos: QoS) {
+    async fn receiver_drop_before_ack_single_receiver(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
@@ -1599,7 +1801,7 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn receiver_drop_before_ack_multi_dispatch(qos: QoS) {
+    async fn receiver_drop_before_ack_multi_receiver(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
