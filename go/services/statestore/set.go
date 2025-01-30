@@ -49,11 +49,7 @@ func (c *Client[K, V]) Set(
 	}
 	switch {
 	case opts.Expiry < 0:
-		c.log.Warn(
-			ctx,
-			"negative expiry",
-			slog.Duration("expiry", opts.Expiry),
-		)
+		c.log.Warn(ctx, "negative expiry", slog.Duration("expiry", opts.Expiry))
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
 		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))

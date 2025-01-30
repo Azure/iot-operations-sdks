@@ -112,10 +112,7 @@ func (l *listener[T]) close() {
 			slog.String("topic", l.filter()),
 		)
 	}
-	l.log.Info(
-		ctx,
-		"command invoker shutdown complete",
-	)
+	l.log.Info(ctx, "command invoker shutdown complete")
 	l.done()
 }
 

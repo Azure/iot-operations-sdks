@@ -355,10 +355,7 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	case ret := <-rchan:
 		return ret.res, ret.err
 	case <-ctx.Done():
-		ce.listener.log.Warn(
-			ctx,
-			"command handler timed out",
-		)
+		ce.listener.log.Warn(ctx, "command handler timed out")
 		return nil, errutil.Context(ctx, commandExecutorErrStr)
 	}
 }
@@ -376,10 +373,7 @@ func (ce *CommandExecutor[Req, Res]) build(
 	}
 	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
 	if err != nil {
-		ce.listener.log.Error(
-			ctx,
-			err,
-		)
+		ce.listener.log.Error(ctx, err)
 		return nil, err
 	}
 
