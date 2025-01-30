@@ -32,6 +32,17 @@ impl std::future::Future for CompletionToken {
         self: std::pin::Pin<&mut Self>,
         cx: &mut std::task::Context<'_>,
     ) -> std::task::Poll<Self::Output> {
+        // NOTE: Need to use `unsafe` here because we need to poll the inner future, but can't get
+        // a mutable reference to it, as it's in a box (at least, not without unsafe code).
+        // It is safe for us to use the `unsafe` code for the following reasons:
+        //
+        // 1. This CompletionToken struct is the only reference to the boxed future that it holds
+        // internally, so mutability among multiple references is not a concern. Nowhere is this
+        // struct used in a way that the inner future can be accessed from multiple threads,
+        // and so we are safe from race conditions.
+        //
+        // 2. We do not move the memory - the future stays right where it is, all we do is poll it,
+        // so there is no risk of a null pointer error / segfault.
         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
         inner.poll(cx)
     }

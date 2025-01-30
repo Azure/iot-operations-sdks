@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Mqtt.Session;
 using MQTTnet.Packets;
@@ -74,7 +74,7 @@ public class MemMonEnvoyTests
         Assert.Empty(memmonClient.ReceivedMemoryStatsTelemetry);
         Assert.Empty(memmonClient.ReceivedWorkingSetTelemetry);
 
-        await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { MemoryStats = new Object_MemoryStats { ManagedMemory = 3, WorkingSet = 4 } }, new OutgoingTelemetryMetadata());
+        await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { MemoryStats = new MemoryStatsSchema { ManagedMemory = 3, WorkingSet = 4 } }, new OutgoingTelemetryMetadata());
         await memMonService.SendTelemetryAsync(new WorkingSetTelemetry() { WorkingSet = 1 }, new OutgoingTelemetryMetadata());
         await memMonService.SendTelemetryAsync(new ManagedMemoryTelemetry() { ManagedMemory = 2 }, new OutgoingTelemetryMetadata());
 
@@ -114,7 +114,7 @@ public class MemMonEnvoyTests
         var MemoryStatsUserDataValue = Guid.NewGuid().ToString();
         var MemoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
         MemoryStatsTelemetryMetadata.UserData.Add(MemoryStatsUserDataKey, MemoryStatsUserDataValue);
-        await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { MemoryStats = new Object_MemoryStats { ManagedMemory = 3, WorkingSet = 4 } }, MemoryStatsTelemetryMetadata);
+        await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { MemoryStats = new MemoryStatsSchema { ManagedMemory = 3, WorkingSet = 4 } }, MemoryStatsTelemetryMetadata);
 
         var WorkingSetCorrelationId = Guid.NewGuid();
         var WorkingSetUserDataKey = Guid.NewGuid().ToString();
@@ -215,18 +215,18 @@ public class MemMonEnvoyTests
         await memmonClient.StartAsync();
         await memMonService.StartAsync();
 
-        var resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
+        var resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = GetRuntimeStatsRequestSchema.full }, commandTimeout: TimeSpan.FromSeconds(30));
 
         Assert.NotNull(resp);
 
         var startResp = await memmonClient.StartTelemetryAsync(executorId, new StartTelemetryRequestPayload() { Interval = 4 });
 
-        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
+        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = GetRuntimeStatsRequestSchema.full }, commandTimeout: TimeSpan.FromSeconds(30));
         Assert.Equal("4", resp.DiagnosticResults["interval"]);
         Assert.Equal("True", resp.DiagnosticResults["enabled"]);
 
         await memmonClient.StopTelemetryAsync(executorId);
-        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = Enum_GetRuntimeStats_Request.full }, commandTimeout: TimeSpan.FromSeconds(30));
+        resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = GetRuntimeStatsRequestSchema.full }, commandTimeout: TimeSpan.FromSeconds(30));
         Assert.Equal("False", resp.DiagnosticResults["enabled"]);
     }
 

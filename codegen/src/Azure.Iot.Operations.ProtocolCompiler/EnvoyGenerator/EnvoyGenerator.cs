@@ -9,10 +9,10 @@
 
     internal class EnvoyGenerator
     {
-        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, string genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool generateProject, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool generateProject, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
             string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(outDir.FullName, sdkPath);
-            using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace, annexFileName)).ReadToEnd()))
+            using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace.GetFolderName(TargetLanguage.Independent), annexFileName)).ReadToEnd()))
             {
                 foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, sourceFilePaths, distinctSchemaKinds, genRoot, generateProject))
                 {

@@ -8,8 +8,6 @@
 
     public class JsonSchemaStandardizer : ISchemaStandardizer
     {
-        private const string JsonSchemaFileSuffix = ".schema.json";
-
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
         public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath)
@@ -19,7 +17,7 @@
 
             using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))
             {
-                string schemaName = schemaDoc.RootElement.GetProperty("title").GetString()!;
+                CodeName schemaName = new CodeName(schemaDoc.RootElement.GetProperty("title").GetString()!);
                 string? description = schemaDoc.RootElement.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
 
                 switch (schemaDoc.RootElement.GetProperty("type").GetString())
@@ -29,20 +27,20 @@
                         schemaTypes.Add(new ObjectType(
                             schemaName,
                             description,
-                            schemaDoc.RootElement.GetProperty("properties").EnumerateObject().ToDictionary(p => p.Name, p => GetObjectTypeFieldInfo(p.Name, p.Value, requiredFields, schemaFilePath))));
+                            schemaDoc.RootElement.GetProperty("properties").EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(p.Name, p.Value, requiredFields, schemaFilePath))));
                         break;
                     case "integer":
                         schemaTypes.Add(new EnumType(
                             schemaName,
                             description,
-                            names: schemaDoc.RootElement.GetProperty("x-enumNames").EnumerateArray().Select(e => e.GetString()!).ToArray(),
+                            names: schemaDoc.RootElement.GetProperty("x-enumNames").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray(),
                             intValues: schemaDoc.RootElement.GetProperty("enum").EnumerateArray().Select(e => e.GetInt32()).ToArray()));
                         break;
                     case "string":
                         schemaTypes.Add(new EnumType(
                             schemaName,
                             description,
-                            names: schemaDoc.RootElement.GetProperty("x-enumNames").EnumerateArray().Select(e => e.GetString()!).ToArray(),
+                            names: schemaDoc.RootElement.GetProperty("x-enumNames").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray(),
                             stringValues: schemaDoc.RootElement.GetProperty("enum").EnumerateArray().Select(e => e.GetString()!).ToArray()));
                         break;
                 }
@@ -65,7 +63,8 @@
             if (schemaElt.TryGetProperty("$ref", out JsonElement refElt))
             {
                 string refFilePath = Path.Combine(Path.GetDirectoryName(schemaFilePath)!, refElt.GetString()!);
-                return new ReferenceType(refElt.GetString()!.Replace(JsonSchemaFileSuffix, string.Empty), isNullable: IsNullable(refFilePath));
+                GetTitleAndType(refFilePath, out string title, out string type);
+                return new ReferenceType(new CodeName(title), isNullable: type == "object");
             }
             switch (schemaElt.GetProperty("type").GetString())
             {
@@ -127,12 +126,25 @@
             }
         }
 
-        private bool IsNullable(string refFilePath)
+        private void GetTitleAndType(string refFilePath, out string title, out string type)
         {
             StreamReader refReader = File.OpenText(refFilePath);
             using (JsonDocument refDoc = JsonDocument.Parse(refReader.ReadToEnd()))
             {
-                return refDoc.RootElement.GetProperty("type").GetString() == "object";
+                JsonElement rootElt = refDoc.RootElement;
+                if (!rootElt.TryGetProperty("title", out JsonElement titleElt))
+                {
+                    throw new Exception($"JSON schema {refFilePath} missing title");
+                }
+                else if (!rootElt.TryGetProperty("type", out JsonElement typeElt))
+                {
+                    throw new Exception($"JSON schema {refFilePath} missing type");
+                }
+                else
+                {
+                    title = titleElt.GetString()!;
+                    type = typeElt.GetString()!;
+                }
             }
         }
     }

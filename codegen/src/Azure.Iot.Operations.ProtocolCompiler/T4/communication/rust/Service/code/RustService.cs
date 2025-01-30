@@ -5,15 +5,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public partial class RustService : ITemplateTransform
     {
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string modelId;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
-        private readonly List<(string, string?, string?)> cmdNameReqResps;
-        private readonly List<string> telemSchemas;
+        private readonly List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps;
+        private readonly List<ITypeName> telemSchemas;
         private readonly bool doesCommandTargetExecutor;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
@@ -23,15 +23,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly List<string> modules;
 
         public RustService(
-            string genNamespace,
+            CodeName genNamespace,
             string modelId,
-            string serviceName,
+            CodeName serviceName,
             string? commandTopic,
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
-            List<(string, string?, string?)> cmdNameReqResps,
-            List<(string?, string)> telemNameSchemas,
+            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps,
+            List<(CodeName, ITypeName)> telemNameSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
@@ -53,11 +53,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.doesTelemetryTargetService = doesTelemetryTargetService;
             this.generateClient = generateClient;
             this.generateServer = generateServer;
-            this.sourceFileRegex = new($"[\\/\\\\]{genNamespace}[\\/\\\\][A-Za-z0-9_\\.]+\\.rs");
+            this.sourceFileRegex = new($"[\\/\\\\]{genNamespace.GetFolderName(TargetLanguage.Rust)}[\\/\\\\][A-Za-z0-9_\\.]+\\.rs");
             this.modules = sourceFilePaths.Where(p => this.sourceFileRegex.IsMatch(p)).Select(p => Path.GetFileNameWithoutExtension(p)).Order().ToList();
         }
 
-        public string FileName { get => $"{this.genNamespace}.rs"; }
+        public string FileName { get => $"{this.genNamespace.GetFolderName(TargetLanguage.Rust)}.rs"; }
 
         public string FolderPath { get => string.Empty; }
     }

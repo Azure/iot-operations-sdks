@@ -388,7 +388,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (actionReceiveResponse.Payload != null)
             {
-                byte[]? payload = actionReceiveResponse.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveResponse.Payload) : payloadSerializer.ToBytes(actionReceiveResponse.Payload);
+                byte[]? payload = actionReceiveResponse.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveResponse.Payload) : payloadSerializer.ToBytes(actionReceiveResponse.Payload).SerializedPayload;
                 responseAppMsgBuilder.WithPayload(payload);
             }
 
@@ -509,7 +509,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(payload), appMsg.PayloadSegment.Array);
+                Assert.Equal(payloadSerializer.ToBytes(payload).SerializedPayload, appMsg.PayloadSegment.Array);
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)

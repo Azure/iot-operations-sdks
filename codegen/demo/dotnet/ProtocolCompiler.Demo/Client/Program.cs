@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Mqtt.Session;
@@ -16,28 +17,29 @@ namespace Client
         private enum CommFormat
         {
             Avro,
-            Json
+            Json,
+            Raw
         }
 
         const string avroClientId = "AvroDotnetClient";
         const string jsonClientId = "JsonDotnetClient";
+        const string rawClientId = "RawDotnetClient";
 
         static async Task Main(string[] args)
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: Client {AVRO|JSON} seconds_to_run");
+                Console.WriteLine("Usage: Client {AVRO|JSON|RAW} seconds_to_run");
                 return;
             }
 
-            CommFormat format = args[0].ToLowerInvariant() switch
+            (CommFormat format, string clientId) = args[0].ToLowerInvariant() switch
             {
-                "avro" => CommFormat.Avro,
-                "json" => CommFormat.Json,
-                _ => throw new ArgumentException("format must be AVRO or JSON", nameof(args))
+                "avro" => (CommFormat.Avro, avroClientId),
+                "json" => (CommFormat.Json, jsonClientId),
+                "raw" => (CommFormat.Raw, rawClientId),
+                _ => throw new ArgumentException("format must be AVRO or JSON or RAW", nameof(args))
             };
-
-            string clientId = format == CommFormat.Avro ? avroClientId : jsonClientId;
 
             TimeSpan runDuration = TimeSpan.FromSeconds(int.Parse(args[1], CultureInfo.InvariantCulture));
 
@@ -50,13 +52,17 @@ namespace Client
             Console.WriteLine("Starting receive loop");
             Console.WriteLine();
 
-            if (format == CommFormat.Avro)
+            switch (format)
             {
-                await ReceiveAvro(mqttSessionClient, runDuration);
-            }
-            else
-            {
-                await ReceiveJson(mqttSessionClient, runDuration);
+                case CommFormat.Avro:
+                    await ReceiveAvro(mqttSessionClient, runDuration);
+                    break;
+                case CommFormat.Json:
+                    await ReceiveJson(mqttSessionClient, runDuration);
+                    break;
+                case CommFormat.Raw:
+                    await ReceiveRaw(mqttSessionClient, runDuration);
+                    break;
             }
 
             Console.WriteLine("Stopping receive loop");
@@ -64,7 +70,7 @@ namespace Client
 
         private static async Task ReceiveAvro(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            AvroComm.dtmi_codegen_communicationTest_avroModel__1.AvroModel.TelemetryCollectionReceiver telemetryCollectionReceiver = new(mqttSessionClient);
+            AvroComm.AvroModel.AvroModel.TelemetryReceiver telemetryCollectionReceiver = new(mqttSessionClient);
 
             telemetryCollectionReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
@@ -99,7 +105,7 @@ namespace Client
 
         private static async Task ReceiveJson(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            JsonComm.dtmi_codegen_communicationTest_jsonModel__1.JsonModel.TelemetryCollectionReceiver telemetryCollectionReceiver = new(mqttSessionClient);
+            JsonComm.JsonModel.JsonModel.TelemetryReceiver telemetryCollectionReceiver = new(mqttSessionClient);
 
             telemetryCollectionReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
@@ -118,6 +124,32 @@ namespace Client
                 if (telemetry.Proximity != null)
                 {
                     Console.WriteLine($"  Proximity: {telemetry.Proximity}");
+                }
+
+                Console.WriteLine();
+
+                return Task.CompletedTask;
+            };
+
+            await telemetryCollectionReceiver.StartAsync();
+
+            await Task.Delay(runDuration);
+
+            await telemetryCollectionReceiver.StopAsync();
+        }
+
+        private static async Task ReceiveRaw(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
+        {
+            RawComm.RawModel.RawModel.TelemetryReceiver telemetryCollectionReceiver = new(mqttSessionClient);
+
+            telemetryCollectionReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
+            {
+                Console.WriteLine($"Received telemetry from {sender}....");
+
+                if (telemetry != null)
+                {
+                    string data = Encoding.UTF8.GetString(telemetry);
+                    Console.WriteLine($"  Data: \"{data}\"");
                 }
 
                 Console.WriteLine();
