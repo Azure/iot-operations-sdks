@@ -79,6 +79,7 @@ where
     pub topic_tokens: HashMap<String, String>,
     // Internal fields
     response_tx: oneshot::Sender<Result<CommandResponse<TResp>, String>>,
+    publish_completion_rx: oneshot::Receiver<()>,
 }
 
 impl<TReq, TResp> CommandRequest<TReq, TResp>
@@ -91,19 +92,13 @@ where
     /// # Arguments
     /// * `response` - The [`CommandResponse`] to send.
     ///
-    /// Returns Ok(()) on success, otherwise returns the [`CommandResponse`] response.
-    ///
     /// # Errors
-    /// Returns the [`CommandResponse`] if the response is no longer expected because of a
-    /// timeout or dropped executor.
-    pub fn complete(self, response: CommandResponse<TResp>) -> Result<(), CommandResponse<TResp>> {
-        match self.response_tx.send(Ok(response)) {
-            Ok(()) => Ok(()),
-            Err(e) => match e {
-                Ok(resp) => Err(resp),
-                Err(_) => unreachable!(), // The response channel is sending a command response, receiving an error message on failure is impossible
-            },
-        }
+    /// Returns a `String` if the response is no longer expected because of a timeout or dropped
+    /// executor.
+    ///
+    /// Returns a `String` if the response publish completion fails.
+    pub async fn complete(self, response: CommandResponse<TResp>) -> Result<(), String> {
+        self.send_response(Ok(response)).await
     }
 
     /// Consumes the command request and completes it with an error message.
@@ -111,18 +106,28 @@ where
     /// # Arguments
     /// * `error` - The error message to send.
     ///
-    /// Returns Ok(()) on success, otherwise returns the error message.
-    ///
     /// # Errors
-    /// Returns the error message if the response channel is no longer expected because of a
-    /// timeout or dropped executor.
-    pub fn error(self, error: String) -> Result<(), String> {
-        match self.response_tx.send(Err(error)) {
-            Ok(()) => Ok(()),
-            Err(e) => match e {
-                Ok(_) => unreachable!(), // The response channel is sending an error message, receiving a response on failure is impossible
-                Err(e_msg) => Err(e_msg),
-            },
+    /// Returns a `String` if the response is no longer expected because of a timeout or dropped
+    /// executor.
+    ///
+    /// Returns a `String` if the response publish completion fails.
+    pub async fn error(self, error: String) -> Result<(), String> {
+        self.send_response(Err(error)).await
+    }
+
+    async fn send_response(
+        self,
+        response: Result<CommandResponse<TResp>, String>,
+    ) -> Result<(), String> {
+        match self.response_tx.send(response) {
+            Ok(()) => {
+                // Await the publish completion
+                match self.publish_completion_rx.await {
+                    Ok(()) => Ok(()),
+                    Err(_) => Err("Publish completion error".to_string()),
+                }
+            }
+            Err(_) => Err("Response no longer expected".to_string()),
         }
     }
 
@@ -777,6 +782,7 @@ where
                     };
 
                     let (response_tx, response_rx) = oneshot::channel();
+                    let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
 
                     let command_request = CommandRequest {
                         payload,
@@ -787,6 +793,7 @@ where
                         invoker_id,
                         topic_tokens,
                         response_tx,
+                        publish_completion_rx,
                     };
 
                     // Check the command has not expired, if it has, we do not respond to the invoker.
@@ -805,6 +812,7 @@ where
                                         pkid,
                                         response_arguments,
                                         Some(response_rx),
+                                        Some(publish_completion_tx),
                                     ) => {
                                         // Finished processing command
                                         handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -836,6 +844,7 @@ where
                                 client_clone,
                                 pkid,
                                 response_arguments,
+                                None,
                                 None,
                             ) => {
                                 // Finished processing command
@@ -869,6 +878,7 @@ where
         pkid: u16,
         mut response_arguments: ResponseArguments,
         response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
+        completion_tx: Option<oneshot::Sender<()>>,
     ) {
         let mut user_properties: Vec<(String, String)> = Vec::new();
         let mut serialized_payload = SerializedPayload::default();
@@ -1048,6 +1058,11 @@ where
                             pkid
                         );
                     }
+                }
+                // Notify completion of publish
+                if let Some(completion_tx) = completion_tx {
+                    // Error is ignored, as the receiver may have been dropped
+                    let _ = completion_tx.send(());
                 }
             }
             Err(e) => {
