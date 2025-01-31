@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/counter"
 	"github.com/lmittmann/tint"
 )
 
@@ -31,7 +31,7 @@ func main() {
 	counterServerID := os.Getenv("COUNTER_SERVER_ID")
 	slog.Info("initialized MQTT client", "counter_server_id", counterServerID)
 
-	client := must(dtmi_com_example_Counter__1.NewCounterClient(
+	client := must(counter.NewCounterClient(
 		app,
 		mqttClient,
 		handleTelemetry,
@@ -51,7 +51,7 @@ func main() {
 	}
 }
 
-func handleTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[dtmi_com_example_Counter__1.TelemetryCollection]) error {
+func handleTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[counter.TelemetryCollection]) error {
 	atomic.AddInt64(&telemetryCount, 1)
 	p := msg.Payload
 	if p.CounterValue != nil {
@@ -61,12 +61,12 @@ func handleTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[dtmi_co
 	return nil
 }
 
-func runCounterCommands(ctx context.Context, client *dtmi_com_example_Counter__1.CounterClient, serverID string) {
+func runCounterCommands(ctx context.Context, client *counter.CounterClient, serverID string) {
 	resp := must(client.ReadCounter(ctx, serverID))
 	slog.Info("read counter", "value", resp.Payload.CounterResponse)
 
 	for i := 0; i < 15; i++ {
-		respIncr := must(client.Increment(ctx, serverID, dtmi_com_example_Counter__1.IncrementRequestPayload{
+		respIncr := must(client.Increment(ctx, serverID, counter.IncrementRequestPayload{
 			IncrementValue: 1,
 		}))
 		slog.Info("increment", "value", respIncr.Payload.CounterResponse)

@@ -5,16 +5,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         private readonly string commandName;
         private readonly string capitalizedCommandName;
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string serializerSubNamespace;
         private readonly string serializerClassName;
         private readonly string reqSchema;
         private readonly string respSchema;
 
-        public PythonCommandInvoker(string commandName, string genNamespace, string serializerSubNamespace, string serializerClassName, string? reqSchema, string? respSchema)
+        public PythonCommandInvoker(CodeName commandName, CodeName genNamespace, string serializerSubNamespace, string serializerClassName, string? reqSchema, string? respSchema)
         {
-            this.commandName = commandName;
-            this.capitalizedCommandName = char.ToUpperInvariant(commandName[0]) + commandName.Substring(1);
+            this.commandName = commandName.AsGiven;
+            this.capitalizedCommandName = char.ToUpperInvariant(commandName.AsGiven[0]) + commandName.AsGiven.Substring(1);
             this.genNamespace = genNamespace;
             this.serializerSubNamespace = serializerSubNamespace;
             this.serializerClassName = string.Format(serializerClassName, string.Empty);
@@ -24,6 +24,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public string FileName { get => $"{this.capitalizedCommandName}CommandInvoker_g.py"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Python); }
     }
 }

@@ -7,44 +7,45 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    TelemetryMessage, TelemetryReceiver, TelemetryReceiverOptionsBuilder,
+    TelemetryMessage as TelemetryMessageBase, TelemetryReceiver as TelemetryReceiverBase,
+    TelemetryReceiverOptionsBuilder as TelemetryReceiverOptionsBaseBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 
-<# if (this.schemaClassName != "Bytes") { #>
-use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
+<# if (this.schemaType is CodeName) { #>
+use super::<#=this.schemaType.GetFileName(TargetLanguage.Rust)#>::<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 use super::MODEL_ID;
 <# if (this.useSharedSubscription) { #>
 use super::TELEMETRY_SERVICE_GROUP_ID;
 <# } #>
 use super::TELEMETRY_TOPIC_PATTERN;
-<# if (this.schemaClassName == "Bytes") { #>
+<# if (this.schemaType is RawTypeName) { #>
 use super::super::common_types::bytes::Bytes;
 <# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 
-pub type <#=this.componentName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
+pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = TelemetryMessageBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
 
-/// Telemetry Receiver for `<#=this.componentName#>`
-pub struct <#=this.componentName#>Receiver<C>(
-    TelemetryReceiver<<#=this.schemaClassName#>, C>,
+/// Telemetry Receiver for `<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>`
+pub struct <#=this.componentName.GetTypeName(TargetLanguage.Rust)#><C>(
+    TelemetryReceiverBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-impl<C> <#=this.componentName#>Receiver<C>
+impl<C> <#=this.componentName.GetTypeName(TargetLanguage.Rust)#><C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`<#=this.componentName#>Receiver`]
+    /// Creates a new [`<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
-        let mut receiver_options_builder = TelemetryReceiverOptionsBuilder::default();
+        let mut receiver_options_builder = TelemetryReceiverOptionsBaseBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -57,8 +58,8 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-<# if (this.telemetryName != null) { #>
-        topic_token_map.insert("telemetryName".to_string(), "<#=this.telemetryName#>".to_string());
+<# if (!this.telemetryName.IsEmpty) { #>
+        topic_token_map.insert("telemetryName".to_string(), "<#=this.telemetryName.AsGiven#>".to_string());
 <# } #>
 
         let receiver_options = receiver_options_builder
@@ -72,12 +73,12 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetryReceiver::new(application_context, client, receiver_options)
+            TelemetryReceiverBase::new(application_context, client, receiver_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
 
-    /// Shut down the [`<#=this.componentName#>Receiver`]
+    /// Shut down the [`<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure in graceful shutdown
@@ -85,13 +86,13 @@ where
         self.0.shutdown().await
     }
 
-    /// Receive the next [`<#=this.componentName#>Message`]
+    /// Receive the next [`<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a message
     pub async fn recv(
         &mut self,
-    ) -> Option<Result<(<#=this.componentName#>Message, Option<AckToken>), AIOProtocolError>> {
+    ) -> Option<Result<(<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>, Option<AckToken>), AIOProtocolError>> {
         self.0.recv().await
     }
 }

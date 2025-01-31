@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Models;
 using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry

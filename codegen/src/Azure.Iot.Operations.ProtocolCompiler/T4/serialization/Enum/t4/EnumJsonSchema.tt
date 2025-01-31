@@ -2,8 +2,8 @@
 <#@ import namespace="DTDLParser.Models" #>
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "<#=this.objBareId#>:_JSON<#=this.versionSuffix#>",
-  "title": "<#=this.schema#>",
+  "$id": "<#=this.schemaId#>",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
   "type": "<#=this.valueSchema#>",
 <# if (this.description != null) { #>
   "description": "<#=this.description#>",

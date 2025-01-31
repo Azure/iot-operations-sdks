@@ -2,7 +2,7 @@
 <#@ import namespace="DTDLParser.Models" #>
 <# this.PushIndent(new string(' ', this.indent)); #>
 <# if (this.schema != null) { #>
-"name": "<#=this.schema#>",
+"name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# } #>
 "type": "enum",
 "symbols": [ <#= string.Join(", ", this.names.Select(n => $"\"{n}\"")) #> ]<# this.PopIndent(); #>
