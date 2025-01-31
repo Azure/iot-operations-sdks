@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
 
 namespace SampleClient;
 
@@ -11,20 +11,30 @@ internal class MemMonClient(MqttSessionClient mqttClient, ILogger<MemMonClient> 
 {
     public override Task ReceiveTelemetry(string senderId, WorkingSetTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation("Rcv WorkingSet Telemetry {v}", telemetry.workingSet);
+        logger.LogInformation("Rcv WorkingSet Telemetry {v}", telemetry.WorkingSet);
         return Task.CompletedTask;
     }
 
     public override Task ReceiveTelemetry(string senderId, ManagedMemoryTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation("Rcv ManagedMemory Telemetry {v}", telemetry.managedMemory);
+        logger.LogInformation("Rcv ManagedMemory Telemetry {v}", telemetry.ManagedMemory);
         return Task.CompletedTask;
     }
 
     public override Task ReceiveTelemetry(string senderId, MemoryStatsTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        logger.LogInformation("Rcv MemStats Telemetry {v1} {v2}", telemetry.memoryStats.workingSet, telemetry.memoryStats.managedMemory);
-        logger.LogInformation("Cloud Events Metadata {v1} {v2}", metadata.CloudEvent?.Id, metadata.CloudEvent?.Time);
+        logger.LogInformation("Rcv MemStats Telemetry {v1} {v2}", telemetry.MemoryStats.WorkingSet, telemetry.MemoryStats.ManagedMemory);
+
+        try
+        {
+            CloudEvent cloudEvent = metadata.GetCloudEvent();
+            logger.LogInformation("Cloud Events Metadata {v1} {v2}", cloudEvent?.Id, cloudEvent?.Time);
+        }
+        catch (Exception)
+        {
+            // it wasn't a cloud event, ignore this error
+        }
+
         return Task.CompletedTask;
     }
 }

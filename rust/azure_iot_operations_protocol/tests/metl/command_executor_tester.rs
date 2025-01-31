@@ -10,6 +10,9 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -209,7 +212,7 @@ where
         }
 
         loop {
-            if let Ok(request) = executor.recv().await {
+            if let Some(Ok(request)) = executor.recv().await {
                 *execution_count.lock().unwrap() += 1;
 
                 for test_case_sync in &test_case_executor.sync {
@@ -266,7 +269,7 @@ where
                 }
 
                 let response = CommandResponseBuilder::default()
-                    .payload(&response_payload)
+                    .payload(response_payload)
                     .unwrap()
                     .custom_user_data(metadata)
                     .build()
@@ -293,30 +296,13 @@ where
             executor_options_builder.topic_namespace(topic_namespace);
         }
 
-        let mut topic_token_map = if let Some(custom_token_map) = tce.custom_token_map.as_ref() {
-            custom_token_map
-                .clone()
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect()
-        } else {
-            HashMap::new()
-        };
-
-        if let Some(model_id) = tce.model_id.as_ref() {
-            topic_token_map.insert("modelId".to_string(), model_id.to_string());
-        }
-
-        if let Some(executor_id) = tce.executor_id.as_ref() {
-            topic_token_map.insert("executorId".to_string(), executor_id.to_string());
+        if let Some(topic_token_map) = tce.topic_token_map.as_ref() {
+            executor_options_builder.topic_token_map(topic_token_map.clone());
         }
 
         if let Some(command_name) = tce.command_name.as_ref() {
-            topic_token_map.insert("commandName".to_string(), command_name.to_string());
             executor_options_builder.command_name(command_name);
         }
-
-        executor_options_builder.topic_token_map(topic_token_map);
 
         executor_options_builder.is_idempotent(tce.idempotent);
 
@@ -340,7 +326,11 @@ where
 
         let executor_options = options_result.unwrap();
 
-        match CommandExecutor::new(managed_client, executor_options) {
+        match CommandExecutor::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            executor_options,
+        ) {
             Ok(mut executor) => {
                 if let Some(catch) = catch {
                     // CommandExecutor has no start method, so if an exception is expected, recv may be needed to trigger it.
@@ -349,13 +339,13 @@ where
                         time::timeout(TEST_TIMEOUT, mqtt_hub.await_operation())
                     );
                     match recv_result {
-                        Ok(Ok(_)) => {
+                        Ok(Some(Ok(_))) => {
                             panic!(
                                 "Expected {} error when constructing CommandExecutor but no error returned",
                                 catch.error_kind
                             );
                         }
-                        Ok(Err(error)) => {
+                        Ok(Some(Err(error))) => {
                             aio_protocol_error_checker::check_error(catch, &error);
                         }
                         _ => {
@@ -473,6 +463,7 @@ where
                         }
                         .serialize()
                         .unwrap()
+                        .payload
                         .as_slice(),
                     )
                 }
@@ -645,6 +636,7 @@ where
                     }
                     .serialize()
                     .unwrap()
+                    .payload
                     .as_slice(),
                 );
                 assert_eq!(payload, published_message.payload, "payload");

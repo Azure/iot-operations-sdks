@@ -21,9 +21,9 @@
             { "rust", new RustTypeGenerator() },
         };
 
-        public static void GenerateType(string language, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, string genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateType(string langName, TargetLanguage lang, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
-            string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace);
+            string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace.GetFolderName(TargetLanguage.Independent));
             string schemaFilePath = Path.Combine(schemaFileFolder, schemaFileName);
             string schemaIncludeFolder = Path.Combine(workingDir.FullName, ResourceNames.IncludeFolder);
 
@@ -32,24 +32,11 @@
                 Directory.CreateDirectory(genRoot);
             }
 
-            if (schemaFileName.EndsWith(".avsc") && language == "csharp")
+            if (schemaFileName.EndsWith(".proto"))
             {
                 try
                 {
-                    Process.Start("avrogen", $"-s {schemaFilePath} {Directory.GetParent(genRoot)!.FullName}");
-                }
-                catch (Win32Exception)
-                {
-                    Console.WriteLine("avrogen tool not found; install via command:");
-                    Console.WriteLine("  dotnet tool install --global Apache.Avro.Tools");
-                    Environment.Exit(1);
-                }
-            }
-            else if (schemaFileName.EndsWith(".proto"))
-            {
-                try
-                {
-                    Process.Start("protoc", $"--{language}_out={Path.Combine(genRoot, genNamespace)} --proto_path={schemaFileFolder} --proto_path={schemaIncludeFolder} {schemaFileName}");
+                    Process.Start("protoc", $"--{langName}_out={Path.Combine(genRoot, genNamespace.GetFolderName(lang))} --proto_path={schemaFileFolder} --proto_path={schemaIncludeFolder} {schemaFileName}");
                 }
                 catch (Win32Exception)
                 {
@@ -59,13 +46,13 @@
             }
             else if (SchemaStandardizers.Any(ss => schemaFileName.EndsWith(ss.Key)))
             {
-                ITypeGenerator typeGenerator = TypeGenerators[language];
+                ITypeGenerator typeGenerator = TypeGenerators[langName];
                 ISchemaStandardizer schemaStandardizer = SchemaStandardizers.First(ss => schemaFileName.EndsWith(ss.Key)).Value;
 
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
                 {
                     distinctSchemaKinds.Add(schemaType.Kind);
-                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, genRoot, sourceFilePaths);
+                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, schemaStandardizer.SerializationFormat, genRoot, sourceFilePaths);
                 }
             }
             else

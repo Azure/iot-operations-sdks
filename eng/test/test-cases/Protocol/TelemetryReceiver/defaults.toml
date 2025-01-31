@@ -1,7 +1,5 @@
 [prologue.receiver]
-telemetry-name = "test"
 telemetry-topic = "mock/test"
-model-id = "dtmi:test:MyModel;1"
 
 [actions.receive-telemetry]
 topic = "mock/test"

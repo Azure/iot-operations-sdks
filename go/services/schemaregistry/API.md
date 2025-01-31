@@ -8,7 +8,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
 
 - [Constants](<#constants>)
 - [type Client](<#Client>)
-  - [func New\(client protocol.MqttClient, opt ...ClientOption\) \(\*Client, error\)](<#New>)
+  - [func New\(app \*protocol.Application, client protocol.MqttClient, opt ...ClientOption\) \(\*Client, error\)](<#New>)
   - [func \(c \*Client\) Close\(\)](<#Client.Close>)
   - [func \(c \*Client\) Get\(ctx context.Context, name string, opt ...GetOption\) \(\*Schema, error\)](<#Client.Get>)
   - [func \(c \*Client\) Put\(ctx context.Context, content string, format Format, opt ...PutOption\) \(\*Schema, error\)](<#Client.Put>)
@@ -38,8 +38,8 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
 
 ```go
 const (
-    Delta1            = dtmi_ms_adr_SchemaRegistry__1.Delta1
-    JSONSchemaDraft07 = dtmi_ms_adr_SchemaRegistry__1.JsonSchemaDraft07
+    Delta1            = schemaregistry.Delta1
+    JSONSchemaDraft07 = schemaregistry.JsonSchemaDraft07
 )
 ```
 
@@ -47,7 +47,7 @@ const (
 
 ```go
 const (
-    MessageSchema = dtmi_ms_adr_SchemaRegistry__1.MessageSchema
+    MessageSchema = schemaregistry.MessageSchema
 )
 ```
 
@@ -63,16 +63,16 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L30>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L30-L34>)
 
 ```go
-func New(client protocol.MqttClient, opt ...ClientOption) (*Client, error)
+func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOption) (*Client, error)
 ```
 
 New creates a new schema registry client.
 
 <a name="Client.Close"></a>
-### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L51>)
+### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L56>)
 
 ```go
 func (c *Client) Close()
@@ -99,7 +99,7 @@ func (c *Client) Put(ctx context.Context, content string, format Format, opt ...
 Put adds or updates a schema in the schema registry.
 
 <a name="Client.Start"></a>
-### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L46>)
+### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L51>)
 
 ```go
 func (c *Client) Start(ctx context.Context) error
@@ -139,7 +139,7 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L56-L59>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L61-L64>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -153,7 +153,7 @@ Apply resolves the provided list of options.
 Format represents the encoding used to store the schema. It specifies how the schema content should be interpreted.
 
 ```go
-type Format = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1
+type Format = schemaregistry.Format
 ```
 
 <a name="GetOption"></a>
@@ -228,7 +228,7 @@ Apply resolves the provided list of options.
 Schema represents the stored schema payload.
 
 ```go
-type Schema = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1
+type Schema = schemaregistry.Schema
 ```
 
 <a name="SchemaType"></a>
@@ -237,7 +237,7 @@ type Schema = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema_
 SchemaType represents the type of the schema.
 
 ```go
-type SchemaType = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_SchemaType__1
+type SchemaType = schemaregistry.SchemaType
 ```
 
 <a name="WithSchemaType"></a>

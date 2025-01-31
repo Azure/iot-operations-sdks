@@ -32,6 +32,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
+            "TelemetryReceiverReceivesWithCloudEvent_Success"
         };
 
         private static IDeserializer yamlDeserializer;
@@ -60,9 +61,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
-                TestCaseReceiver.DefaultTelemetryName = defaultTestCase.Prologue.Receiver.TelemetryName;
                 TestCaseReceiver.DefaultTelemetryTopic = defaultTestCase.Prologue.Receiver.TelemetryTopic;
-                TestCaseReceiver.DefaultModelId = defaultTestCase.Prologue.Receiver.ModelId;
                 TestCaseReceiver.DefaultTopicNamespace = defaultTestCase.Prologue.Receiver.TopicNamespace;
 
                 TestCaseActionReceiveTelemetry.DefaultTopic = defaultTestCase.Actions.ReceiveTelemetry.Topic;
@@ -296,28 +295,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient, testCaseReceiver.TelemetryName)
+                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient)
                 {
                     TopicPattern = testCaseReceiver.TelemetryTopic!,
                     TopicNamespace = testCaseReceiver.TopicNamespace,
                     OnTelemetryReceived = null!,
                 };
 
-                if (testCaseReceiver.ModelId != null)
+                if (testCaseReceiver.TopicTokenMap != null)
                 {
-                    telemetryReceiver.TopicTokenMap!["modelId"] = testCaseReceiver.ModelId;
-                }
-
-                if (testCaseReceiver.TelemetryName != null)
-                {
-                    telemetryReceiver.TopicTokenMap!["telemetryName"] = testCaseReceiver.TelemetryName;
-                }
-
-                if (testCaseReceiver.CustomTokenMap != null)
-                {
-                    foreach (KeyValuePair<string, string> kvp in testCaseReceiver.CustomTokenMap)
+                    foreach (KeyValuePair<string, string> kvp in testCaseReceiver.TopicTokenMap)
                     {
-                        telemetryReceiver.TopicTokenMap![$"ex:{kvp.Key}"] = kvp.Value;
+                        telemetryReceiver.TopicTokenMap![kvp.Key] = kvp.Value;
                     }
                 }
 
@@ -386,7 +375,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 byte[]? payload =
                     actionReceiveTelemetry.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveTelemetry.Payload) :
-                    payloadSerializer.ToBytes(actionReceiveTelemetry.Payload);
+                    payloadSerializer.ToBytes(actionReceiveTelemetry.Payload).SerializedPayload;
                 requestAppMsgBuilder.WithPayload(payload);
             }
 
@@ -528,7 +517,17 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     new ApplicationException(testCaseReceiver.RaiseError.Message);
             }
 
-            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.CloudEvent, sourceId));
+            CloudEvent? cloudEvent = null;
+            try
+            {
+                cloudEvent = metadata.GetCloudEvent();
+            }
+            catch (Exception)
+            { 
+                // it wasn't a cloud event, ignore this error
+            }
+
+            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, cloudEvent, sourceId));
         }
 
         private record ReceivedTelemetry

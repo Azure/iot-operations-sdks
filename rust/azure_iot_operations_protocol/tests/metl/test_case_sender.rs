@@ -22,10 +22,6 @@ pub struct TestCaseSender<T: DefaultsType + Default> {
     #[serde(default = "get_default_telemetry_topic::<T>")]
     pub telemetry_topic: Option<String>,
 
-    #[serde(rename = "model-id")]
-    #[serde(default = "get_default_model_id::<T>")]
-    pub model_id: Option<String>,
-
     #[serde(rename = "data-schema")]
     #[serde(default = "get_default_data_schema::<T>")]
     pub data_schema: Option<String>,
@@ -34,8 +30,8 @@ pub struct TestCaseSender<T: DefaultsType + Default> {
     #[serde(default = "get_default_topic_namespace::<T>")]
     pub topic_namespace: Option<String>,
 
-    #[serde(rename = "custom-token-map")]
-    pub custom_token_map: Option<HashMap<String, String>>,
+    #[serde(rename = "topic-token-map")]
+    pub topic_token_map: Option<HashMap<String, String>>,
 }
 
 pub fn get_default_telemetry_name<T: DefaultsType + Default>() -> Option<String> {
@@ -58,20 +54,6 @@ pub fn get_default_telemetry_topic<T: DefaultsType + Default>() -> Option<String
             if let Some(default_sender) = default_prologue.sender.as_ref() {
                 if let Some(default_telemetry_topic) = default_sender.telemetry_topic.as_ref() {
                     return Some(default_telemetry_topic.to_string());
-                }
-            }
-        }
-    }
-
-    None
-}
-
-pub fn get_default_model_id<T: DefaultsType + Default>() -> Option<String> {
-    if let Some(default_test_case) = T::get_defaults() {
-        if let Some(default_prologue) = default_test_case.prologue.as_ref() {
-            if let Some(default_sender) = default_prologue.sender.as_ref() {
-                if let Some(default_model_id) = default_sender.model_id.as_ref() {
-                    return Some(default_model_id.to_string());
                 }
             }
         }

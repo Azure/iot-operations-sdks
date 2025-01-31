@@ -61,6 +61,7 @@ const telemetrySenderErrStr = "telemetry send"
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
+	app *Application,
 	client MqttClient,
 	encoding Encoding[T],
 	topicPattern string,
@@ -92,6 +93,7 @@ func NewTelemetrySender[T any](
 		log: log.Wrap(opts.Logger),
 	}
 	ts.publisher = &publisher[T]{
+		app:      app,
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
@@ -138,7 +140,7 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 
-	if err := cloudEventToMessage(pub, opts.CloudEvent, ts.dataSchema); err != nil {
+	if err := opts.CloudEvent.toMessage(pub, ts.dataSchema); err != nil {
 		return err
 	}
 	pub.Retain = opts.Retain

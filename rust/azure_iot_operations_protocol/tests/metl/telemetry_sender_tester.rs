@@ -8,6 +8,9 @@ use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -177,30 +180,9 @@ where
             sender_options_builder.topic_namespace(topic_namespace);
         }
 
-        let mut topic_token_map = if let Some(custom_token_map) = tcs.custom_token_map.as_ref() {
-            custom_token_map
-                .clone()
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect()
-        } else {
-            HashMap::new()
-        };
-
-        if let Some(model_id) = tcs.model_id.as_ref() {
-            topic_token_map.insert("modelId".to_string(), model_id.to_string());
+        if let Some(topic_token_map) = tcs.topic_token_map.as_ref() {
+            sender_options_builder.topic_token_map(topic_token_map.clone());
         }
-
-        if let Some(telemetry_name) = tcs.telemetry_name.as_ref() {
-            topic_token_map.insert("telemetryName".to_string(), telemetry_name.to_string());
-        }
-
-        topic_token_map.insert(
-            "senderClientId".to_string(),
-            managed_client.client_id().to_string(),
-        );
-
-        sender_options_builder.topic_token_map(topic_token_map);
 
         let options_result = sender_options_builder.build();
         if let Err(error) = options_result {
@@ -218,7 +200,11 @@ where
 
         let sender_options = options_result.unwrap();
 
-        match TelemetrySender::new(managed_client, sender_options) {
+        match TelemetrySender::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            sender_options,
+        ) {
             Ok(sender) => {
                 if let Some(catch) = catch {
                     // TelemetrySender has no start method, so if an exception is expected, send may be needed to trigger it.
@@ -237,7 +223,7 @@ where
 
                     if let Some(telemetry_value) = default_send_telemetry.telemetry_value.clone() {
                         telemetry_message_builder
-                            .payload(&TestPayload {
+                            .payload(TestPayload {
                                 payload: Some(telemetry_value.clone()),
                                 test_case_index: Some(test_case_index),
                             })
@@ -308,7 +294,7 @@ where
 
             if let Some(telemetry_value) = telemetry_value {
                 telemetry_message_builder
-                    .payload(&TestPayload {
+                    .payload(TestPayload {
                         payload: Some(telemetry_value.clone()),
                         test_case_index: Some(test_case_index),
                     })
@@ -453,6 +439,7 @@ where
                     }
                     .serialize()
                     .unwrap()
+                    .payload
                     .as_slice(),
                 );
                 assert_eq!(payload, published_message.payload, "payload");

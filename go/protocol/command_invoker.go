@@ -84,6 +84,7 @@ const commandInvokerErrStr = "command invocation"
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
@@ -157,21 +158,28 @@ func NewCommandInvoker[Req, Res any](
 		return nil, err
 	}
 
+	logger := opts.Logger
+	if logger == nil {
+		logger = app.log
+	}
+
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
+		app:      app,
 		client:   client,
 		encoding: requestEncoding,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
+		app:            app,
 		client:         client,
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
+		log:            log.Wrap(logger),
 		handler:        ci,
 	}
 

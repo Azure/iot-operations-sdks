@@ -26,7 +26,8 @@ func TestTelemetry(t *testing.T) {
 
 	results := make(chan *protocol.TelemetryMessage[*protocol.Data])
 
-	receiver, err := protocol.NewTelemetryReceiver(server, enc, topic,
+	receiver, err := protocol.NewTelemetryReceiver(
+		app, server, enc, topic,
 		func(
 			_ context.Context,
 			tm *protocol.TelemetryMessage[*protocol.Data],
@@ -38,7 +39,8 @@ func TestTelemetry(t *testing.T) {
 	require.NoError(t, err)
 	defer receiver.Close()
 
-	sender, err := protocol.NewTelemetrySender(client, enc, topic,
+	sender, err := protocol.NewTelemetrySender(
+		app, client, enc, topic,
 		protocol.WithTopicTokens{"token": "test"},
 	)
 	require.NoError(t, err)
@@ -55,7 +57,10 @@ func TestTelemetry(t *testing.T) {
 	res := <-results
 	require.Equal(t, client.ID(), res.ClientID)
 	require.Equal(t, value, res.Payload)
-	require.Equal(t, "https://contoso.com", res.Source.String())
-	require.Equal(t, "prefix/test/suffix", res.Subject)
-	require.Equal(t, value.ContentType, res.DataContentType)
+
+	cloudEvent, err := protocol.CloudEventFromTelemetry(res)
+	require.NoError(t, err)
+	require.Equal(t, "https://contoso.com", cloudEvent.Source.String())
+	require.Equal(t, "prefix/test/suffix", cloudEvent.Subject)
+	require.Equal(t, value.ContentType, cloudEvent.DataContentType)
 }

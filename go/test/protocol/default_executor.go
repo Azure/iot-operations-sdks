@@ -5,11 +5,9 @@ package protocol
 type DefaultExecutor struct {
 	CommandName          *string             `toml:"command-name"`
 	RequestTopic         *string             `toml:"request-topic"`
-	ModelID              *string             `toml:"model-id"`
 	ExecutorID           *string             `toml:"executor-id"`
 	TopicNamespace       *string             `toml:"topic-namespace"`
 	Idempotent           bool                `toml:"idempotent"`
-	CacheTTL             TestCaseDuration    `toml:"cache-ttl"`
 	ExecutionTimeout     TestCaseDuration    `toml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `toml:"request-responses-map"`
 	ExecutionConcurrency *uint               `toml:"execution-concurrency"`
@@ -33,15 +31,6 @@ func (executor *DefaultExecutor) GetRequestTopic() *string {
 	return &requestTopic
 }
 
-func (executor *DefaultExecutor) GetModelID() *string {
-	if executor.ModelID == nil {
-		return nil
-	}
-
-	modelID := *executor.ModelID
-	return &modelID
-}
-
 func (executor *DefaultExecutor) GetExecutorID() *string {
 	if executor.ExecutorID == nil {
 		return nil
@@ -62,10 +51,6 @@ func (executor *DefaultExecutor) GetTopicNamespace() *string {
 
 func (executor *DefaultExecutor) GetIdempotent() bool {
 	return executor.Idempotent
-}
-
-func (executor *DefaultExecutor) GetCacheTTL() TestCaseDuration {
-	return executor.CacheTTL
 }
 
 func (executor *DefaultExecutor) GetExecutionTimeout() TestCaseDuration {

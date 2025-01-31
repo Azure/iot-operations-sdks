@@ -10,8 +10,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, true)}>",
                 MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, true)}>",
-                ObjectType objectType => objectType.SchemaName,
-                EnumType enumType => enumType.SchemaName,
+                ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.Rust),
+                EnumType enumType => enumType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 BooleanType _ => "bool",
                 DoubleType _ => "f64",
                 FloatType _ => "f32",
@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 StringType _ => "String",
                 BytesType _ => "Bytes",
                 DecimalType _ => "Decimal",
-                ReferenceType referenceType => referenceType.SchemaName,
+                ReferenceType referenceType => referenceType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
 

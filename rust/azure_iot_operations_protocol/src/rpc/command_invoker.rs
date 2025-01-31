@@ -10,25 +10,29 @@ use iso8601_duration;
 use tokio::{
     sync::{
         broadcast::{error::RecvError, Sender},
-        Mutex,
+        Mutex, Notify,
     },
     task, time,
 };
-use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use super::StatusCode;
+use crate::application::ApplicationHybridLogicalClock;
 use crate::{
+    application::ApplicationContext,
     common::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
-        payload_serialize::PayloadSerialize,
+        payload_serialize::{
+            DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+        },
         topic_processor::{contains_invalid_char, TopicPattern},
         user_properties::{validate_user_properties, UserProperty},
     },
-    parse_supported_protocol_major_versions, ProtocolVersion, AIO_PROTOCOL_VERSION,
-    DEFAULT_AIO_PROTOCOL_VERSION,
+    parse_supported_protocol_major_versions,
+    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    ProtocolVersion,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -43,7 +47,7 @@ where
 {
     /// Payload of the command request.
     #[builder(setter(custom))]
-    payload: Vec<u8>,
+    serialized_payload: SerializedPayload,
     /// Strongly link `CommandRequest` with type `TReq`
     #[builder(private)]
     request_payload_type: PhantomData<TReq>,
@@ -63,12 +67,38 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
     /// # Errors
-    /// Returns a [`PayloadSerialize::Error`] if serialization of the payload fails
-    pub fn payload(&mut self, payload: &TReq) -> Result<&mut Self, TReq::Error> {
-        let serialized_payload = payload.serialize()?;
-        self.payload = Some(serialized_payload);
-        self.request_payload_type = Some(PhantomData);
-        Ok(self)
+    /// [`AIOProtocolError`] of kind [`PayloadInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid) if serialization of the payload fails
+    ///
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if the content type is not valid utf-8
+    pub fn payload(&mut self, payload: TReq) -> Result<&mut Self, AIOProtocolError> {
+        match payload.serialize() {
+            Err(e) => Err(AIOProtocolError::new_payload_invalid_error(
+                true,
+                false,
+                Some(e.into()),
+                None,
+                Some("Payload serialization error".to_string()),
+                None,
+            )),
+            Ok(serialized_payload) => {
+                // Validate content type of command request is valid UTF-8
+                if is_invalid_utf8(&serialized_payload.content_type) {
+                    return Err(AIOProtocolError::new_configuration_invalid_error(
+                        None,
+                        "content_type",
+                        Value::String(serialized_payload.content_type.to_string()),
+                        Some(format!(
+                            "Content type '{}' of command request is not valid UTF-8",
+                            serialized_payload.content_type
+                        )),
+                        None,
+                    ));
+                }
+                self.serialized_payload = Some(serialized_payload);
+                self.request_payload_type = Some(PhantomData);
+                Ok(self)
+            }
+        }
     }
 
     /// Validate the command request.
@@ -105,7 +135,11 @@ where
 {
     /// Payload of the command response. Must implement [`PayloadSerialize`].
     pub payload: TResp,
-    /// User data that will be set as custom MQTT User Properties on the Response message.
+    /// Content Type of the command response.
+    pub content_type: Option<String>,
+    /// Format Indicator of the command response.
+    pub format_indicator: FormatIndicator,
+    /// Custom user data set as custom MQTT User Properties on the Response message.
     pub custom_user_data: Vec<(String, String)>,
     /// Timestamp of the command response.
     pub timestamp: Option<HybridLogicalClock>,
@@ -115,11 +149,11 @@ where
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
 pub struct CommandInvokerOptions {
-    /// Topic pattern for the command request
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the command request.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
-    /// Topic pattern for the command response
-    /// Must align with [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+    /// Topic pattern for the command response.
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     #[builder(default = "None")]
     response_topic_pattern: Option<String>,
     /// Command name
@@ -146,16 +180,7 @@ pub struct CommandInvokerOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
-/// # use azure_iot_operations_protocol::common::payload_serialize::{PayloadSerialize, FormatIndicator};
-/// # #[derive(Clone, Debug)]
-/// # pub struct SamplePayload { }
-/// # impl PayloadSerialize for SamplePayload {
-/// #   type Error = String;
-/// #   fn content_type() -> &'static str { "application/json" }
-/// #   fn format_indicator() -> FormatIndicator { FormatIndicator::Utf8EncodedCharacterData }
-/// #   fn serialize(&self) -> Result<Vec<u8>, String> { Ok(Vec::new()) }
-/// #   fn deserialize(payload: &[u8]) -> Result<Self, String> { Ok(SamplePayload {}) }
-/// # }
+/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
 /// #     .hostname("mqtt://localhost")
@@ -165,6 +190,7 @@ pub struct CommandInvokerOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 /// let invoker_options = CommandInvokerOptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
@@ -174,17 +200,16 @@ pub struct CommandInvokerOptions {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let command_invoker: CommandInvoker<SamplePayload, SamplePayload, _> = CommandInvoker::new(mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let command_invoker: CommandInvoker<Vec<u8>, Vec<u8>, _> = CommandInvoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = CommandRequestBuilder::default()
-///   .payload(&SamplePayload {}).unwrap()
+///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
 /// let result = command_invoker.invoke(request);
-/// //let response: CommandResponse<SamplePayload> = result.await.unwrap();
+/// //let response: CommandResponse<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```
-#[allow(unused)] // TODO: remove once drop is implemented
 pub struct CommandInvoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize + 'static,
@@ -199,11 +224,21 @@ where
     response_topic_pattern: TopicPattern,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
+    #[allow(dead_code)] // TODO: Remove when used
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
-    is_subscribed_mutex: Arc<Mutex<bool>>,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
-    recv_cancellation_token: CancellationToken,
-    response_tx: Sender<Publish>,
+    shutdown_notifier: Arc<Notify>,
+    response_tx: Sender<Option<Publish>>,
+}
+
+/// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
+enum CommandInvokerState {
+    New,
+    Subscribed,
+    ShutdownInitiated,
+    ShutdownSuccessful,
 }
 
 /// Implementation of Command Invoker.
@@ -217,12 +252,13 @@ where
     /// Creates a new [`CommandInvoker`].
     ///
     /// # Arguments
-    /// * `client` - The MQTT client to use for communication
-    /// * `invoker_options` - Configuration options
+    /// * `application_context` - [`ApplicationContext`] that the command invoker is part of.
+    /// * `client` - The MQTT client to use for communication.
+    /// * `invoker_options` - Configuration options.
     ///
     /// Returns Ok([`CommandInvoker`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
-    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid)
+    /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if:
     /// - [`command_name`](CommandInvokerOptions::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](CommandInvokerOptions::request_topic_pattern) is empty or whitespace
     /// - [`response_topic_pattern`](CommandInvokerOptions::response_topic_pattern) is Some and empty or whitespace
@@ -236,37 +272,11 @@ where
     ///     [`response_topic_suffix`](CommandInvokerOptions::response_topic_suffix),
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](CommandInvokerOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
-    /// - Content types of the request or response are not valid utf-8
     pub fn new(
+        application_context: ApplicationContext,
         client: C,
         invoker_options: CommandInvokerOptions,
     ) -> Result<Self, AIOProtocolError> {
-        // Validate content type of request is valid utf-8
-        if is_invalid_utf8(TReq::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TReq::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of request type is not valid UTF-8",
-                    TReq::content_type()
-                )),
-                Some(invoker_options.command_name),
-            ));
-        }
-        // Validate content type of response is valid utf-8
-        if is_invalid_utf8(TResp::content_type()) {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "content_type",
-                Value::String(TResp::content_type().to_string()),
-                Some(format!(
-                    "Content type '{}' of response type is not valid UTF-8",
-                    TResp::content_type()
-                )),
-                Some(invoker_options.command_name),
-            ));
-        }
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
             || contains_invalid_char(&invoker_options.command_name)
@@ -311,8 +321,8 @@ where
             &invoker_options.topic_token_map,
         )?;
 
-        // Create mutex to track subscription state
-        let is_subscribed_mutex = Arc::new(Mutex::new(false));
+        // Create mutex to track invoker state
+        let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
@@ -333,19 +343,19 @@ where
         // Create the channel to send responses on
         let response_tx = Sender::new(5);
 
-        // Create the cancellation token for the receiver loop
-        let recv_cancellation_token = CancellationToken::new();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
         // Start the receive response loop
         task::spawn({
             let response_tx_clone = response_tx.clone();
-            let recv_cancellation_token_clone = recv_cancellation_token.clone();
+            let shutdown_notifier_clone = shutdown_notifier.clone();
             let command_name_clone = invoker_options.command_name.clone();
             async move {
                 Self::receive_response_loop(
                     mqtt_receiver,
                     response_tx_clone,
-                    recv_cancellation_token_clone,
+                    shutdown_notifier_clone,
                     command_name_clone,
                 )
                 .await;
@@ -359,8 +369,9 @@ where
             response_topic_pattern,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            is_subscribed_mutex,
-            recv_cancellation_token,
+            application_hlc: application_context.application_hlc,
+            invoker_state_mutex,
+            shutdown_notifier,
             response_tx,
         })
     }
@@ -373,10 +384,9 @@ where
     /// # Errors
     ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - `executor_id` is Some and invalid
+    /// - any [`topic_tokens`](CommandRequest::topic_tokens) are invalid
     ///
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](AIOProtocolErrorKind::PayloadInvalid) if
-    /// - [`request_payload`][CommandRequest::payload]'s content type isn't valid utf-8
     /// - [`response_payload`][CommandResponse::payload] deserialization fails
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::NoContent`] but the payload isn't empty
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::BadRequest`] and there is no [`UserProperty::InvalidPropertyName`] or [`UserProperty::InvalidPropertyValue`] specified
@@ -394,7 +404,7 @@ where
     /// [`AIOProtocolError`] of kind [`Cancellation`](AIOProtocolErrorKind::Cancellation) if the [`CommandInvoker`] has been dropped
     ///
     /// [`AIOProtocolError`] of kind [`HeaderInvalid`](AIOProtocolErrorKind::HeaderInvalid) if
-    /// - The response's `content_type` doesn't match the `content_type` of [`TResp`](PayloadSerialize)
+    /// - The response's `content_type` isn't supported
     /// - The response has a [`UserProperty::Timestamp`] that is malformed
     /// - The response has a [`UserProperty::Status`] that can't be parsed as an integer
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::BadRequest`] and a [`UserProperty::InvalidPropertyValue`] is specified
@@ -502,28 +512,14 @@ where
             }
         };
 
-        // Get request topic. Validates executor_id
+        // Get request topic. Validates dynamic topic tokens
         let request_topic = self
             .request_topic_pattern
             .as_publish_topic(&request.topic_tokens)?;
-        // Get response topic. Validates executor_id
+        // Get response topic. Validates dynamic topic tokens
         let response_topic = self
             .response_topic_pattern
             .as_publish_topic(&request.topic_tokens)?;
-        // Get and validate content_type
-        let content_type = TReq::content_type();
-        if is_invalid_utf8(content_type) {
-            return Err(AIOProtocolError::new_payload_invalid_error(
-                true,
-                false,
-                None,
-                None,
-                Some(format!(
-                    "The payload's content type '{content_type}' isn't valid utf-8"
-                )),
-                Some(self.command_name.clone()),
-            ));
-        }
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -540,29 +536,45 @@ where
         ));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            AIO_PROTOCOL_VERSION.to_string(),
+            RPC_PROTOCOL_VERSION.to_string(),
         ));
 
         // Create MQTT Properties
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data.clone()),
             response_topic: Some(response_topic),
-            payload_format_indicator: Some(TReq::format_indicator() as u8),
-            content_type: Some(TReq::content_type().to_string()),
+            payload_format_indicator: Some(request.serialized_payload.format_indicator as u8),
+            content_type: Some(request.serialized_payload.content_type.to_string()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,
             topic_alias: None,
             subscription_identifiers: Vec::new(),
         };
 
-        // Subscribe to the response topic if we're not already subscribed
+        // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
-            let mut is_subscribed = self.is_subscribed_mutex.lock().await;
-            if !*is_subscribed {
-                self.subscribe_to_response_filter().await?;
-                *is_subscribed = true;
+            let mut invoker_state = self.invoker_state_mutex.lock().await;
+            match *invoker_state {
+                CommandInvokerState::New => {
+                    self.subscribe_to_response_filter().await?;
+                    *invoker_state = CommandInvokerState::Subscribed;
+                }
+                CommandInvokerState::Subscribed => { /* No-op, already subscribed */ }
+                CommandInvokerState::ShutdownInitiated
+                | CommandInvokerState::ShutdownSuccessful => {
+                    return Err(AIOProtocolError::new_cancellation_error(
+                        false,
+                        None,
+                        None,
+                        Some(
+                            "Command Invoker has been shutdown and can no longer invoke commands"
+                                .to_string(),
+                        ),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
-            // Allow other concurrent invoke commands to acquire the is_subscribed lock
+            // Allow other concurrent invoke commands to acquire the invoker_state lock
         }
 
         // Create receiver for response
@@ -575,7 +587,7 @@ where
                 request_topic,
                 QoS::AtLeastOnce,
                 false,
-                request.payload,
+                request.serialized_payload.payload,
                 publish_properties,
             )
             .await;
@@ -609,85 +621,84 @@ where
         // Wait for a response where the correlation id matches
         loop {
             // wait for incoming pub
-            tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
-                  () = self.recv_cancellation_token.cancelled() => {
-                    log::error!("Command Invoker has been shutdown and will no longer receive a response");
+            match response_rx.recv().await {
+                Ok(rsp_pub) => {
+                    if let Some(rsp_pub) = rsp_pub {
+                        // check correlation id for match, otherwise loop again
+                        if let Some(ref rsp_properties) = rsp_pub.properties {
+                            if let Some(ref response_correlation_data) =
+                                rsp_properties.correlation_data
+                            {
+                                if *response_correlation_data == correlation_data {
+                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                    // This is the response for this request, validate and parse it and send it back to the application
+                                    return validate_and_parse_response(
+                                        self.command_name.clone(),
+                                        &rsp_pub.payload,
+                                        rsp_properties.clone(),
+                                    );
+                                }
+                            }
+                        }
+                    } else {
+                        log::error!("Command Invoker has been shutdown and will no longer receive a response");
+                        return Err(AIOProtocolError::new_cancellation_error(
+                            false,
+                            None,
+                            None,
+                            Some(
+                                "Command Invoker has been shutdown and will no longer receive a response"
+                                    .to_string(),
+                            ),
+                            Some(self.command_name.clone()),
+                        ));
+                    }
+
+                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
+                }
+                Err(RecvError::Lagged(e)) => {
+                    log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
+                    // Keep waiting for response even though it may have gotten overwritten.
+                    continue;
+                }
+                Err(RecvError::Closed) => {
+                    log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
                     return Err(AIOProtocolError::new_cancellation_error(
-                          false,
-                          None,
-                          None,
-                          Some(
-                              "Command Invoker has been shutdown and will no longer receive a response"
-                                  .to_string(),
-                          ),
-                          Some(self.command_name.clone()),
-                      ));
-                  },
-                  resp = response_rx.recv() => {
-                      match resp {
-                          Ok(rsp_pub) => {
-                              // check correlation id for match, otherwise loop again
-                              if let Some(ref rsp_properties) = rsp_pub.properties {
-                                  if let Some(ref response_correlation_data) = rsp_properties.correlation_data
-                                  {
-                                      if *response_correlation_data == correlation_data {
-                                          // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                          // This is the response for this request, validate and parse it and send it back to the application
-                                          return validate_and_parse_response(
-                                              self.command_name.clone(),
-                                              &rsp_pub.payload,
-                                              rsp_properties.clone(),
-                                          );
-                                      }
-                                  }
-                              }
-                              // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                          }
-                          Err(RecvError::Lagged(e)) => {
-                              log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
-                              // Keep waiting for response even though it may have gotten overwritten.
-                              continue;
-                          }
-                          Err(RecvError::Closed) => {
-                              log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
-                              return Err(AIOProtocolError::new_cancellation_error(
-                                  false,
-                                  None,
-                                  None,
-                                  Some(
-                                      "MQTT Receiver has been cleaned up and will no longer send a response"
-                                          .to_string(),
-                                  ),
-                                  Some(self.command_name.clone()),
-                              ));
-                          }
-                      }
-                  }
+                        false,
+                        None,
+                        None,
+                        Some(
+                            "MQTT Receiver has been cleaned up and will no longer send a response"
+                                .to_string(),
+                        ),
+                        Some(self.command_name.clone()),
+                    ));
+                }
             }
         }
     }
 
     async fn receive_response_loop(
         mut mqtt_receiver: C::PubReceiver,
-        response_tx: Sender<Publish>,
-        recv_cancellation_token: CancellationToken,
+        response_tx: Sender<Option<Publish>>,
+        shutdown_notifier: Arc<Notify>,
         command_name: String,
     ) {
         loop {
             tokio::select! {
-                  // on drop, this cancellation token will be called so this loop can exit
-                  () = recv_cancellation_token.cancelled() => {
-                    log::info!("[{command_name}] Receive response loop cancelled");
-                    break;
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
+                    mqtt_receiver.close();
+                    log::info!("[{command_name}] MQTT Receiver closed");
                   },
                   recv_result = mqtt_receiver.recv() => {
                     if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
-                        match response_tx.send(m.clone()) {
+                        match response_tx.send(Some(m)) {
                             Ok(_) => { },
                             Err(e) => {
-                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}, {:?}", m.topic);
+                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
                             }
                         }
                         // Manually ack
@@ -699,9 +710,10 @@ where
                                 }
                             }
                         }
-
                     } else {
-                        log::error!("[{command_name}] MqttReceiver closed");
+                        // if this fails, it's just because there are no more pending commands, which is fine
+                        _ = response_tx.send(None);
+                        log::info!("[{command_name}] No more command responses will be received.");
                         break;
                     }
                 }
@@ -709,9 +721,8 @@ where
         }
     }
 
-    // TODO: Finish implementing shutdown logic
-    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and cancels the
-    /// receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and closes the
+    /// MQTT receiver to stop receiving messages.
     ///
     /// Note: If this method is called, the [`CommandInvoker`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
@@ -720,45 +731,54 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
-        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to close the MQTT Receiver
+        self.shutdown_notifier.notify_one();
 
-        // If we didn't call subscribe, we shouldn't unsubscribe
-        if *self.is_subscribed_mutex.lock().await {
-            let unsubscribe_result = self
-                .mqtt_client
-                .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
-                .await;
+        let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
+        match *invoker_state_mutex_guard {
+            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+                /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+            }
+            CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+                // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+                *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+                let unsubscribe_result = self
+                    .mqtt_client
+                    .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                    .await;
 
-            match unsubscribe_result {
-                Ok(unsub_completion_token) => {
-                    match unsub_completion_token.await {
-                        Ok(()) => { /* Success */ }
-                        Err(e) => {
-                            log::error!("[{}] Unsuback error: {e}", self.command_name);
-                            return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command invoker unsuback".to_string()),
-                                Box::new(e),
-                                Some(self.command_name.clone()),
-                            ));
+                match unsubscribe_result {
+                    Ok(unsub_completion_token) => {
+                        match unsub_completion_token.await {
+                            Ok(()) => { /* Success */ }
+                            Err(e) => {
+                                log::error!("[{}] Unsuback error: {e}", self.command_name);
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on command invoker unsuback".to_string()),
+                                    Box::new(e),
+                                    Some(self.command_name.clone()),
+                                ));
+                            }
                         }
                     }
-                }
-                Err(e) => {
-                    log::error!(
-                        "[{}] Client error while unsubscribing: {e}",
-                        self.command_name
-                    );
-                    return Err(AIOProtocolError::new_mqtt_error(
-                        Some("Client error on command invoker unsubscribe".to_string()),
-                        Box::new(e),
-                        Some(self.command_name.clone()),
-                    ));
+                    Err(e) => {
+                        log::error!(
+                            "[{}] Client error while unsubscribing: {e}",
+                            self.command_name
+                        );
+                        return Err(AIOProtocolError::new_mqtt_error(
+                            Some("Client error on command invoker unsubscribe".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        ));
+                    }
                 }
             }
         }
 
         log::info!("[{}] Shutdown", self.command_name);
+        // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+        *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
         Ok(())
     }
 }
@@ -768,25 +788,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     response_payload: &Bytes,
     response_properties: PublishProperties,
 ) -> Result<CommandResponse<TResp>, AIOProtocolError> {
-    // validate headers
-    // content type matches serializer content type. Content type being None isn't an error
-    if let Some(content_type) = response_properties.content_type {
-        if content_type != TResp::content_type() {
-            return Err(AIOProtocolError::new_header_invalid_error(
-                "Content Type",
-                &content_type,
-                false,
-                None,
-                Some(format!(
-                    "Content type '{}' is not supported by this implementation; only '{}' is accepted.",
-                    content_type,
-                    TResp::content_type()
-                )),
-                Some(command_name)
-            ));
-        }
-    }
-
     // Create a default response error so we can update details as we parse
     let mut response_error = AIOProtocolError {
         kind: AIOProtocolErrorKind::UnknownError, // should be overwritten
@@ -815,7 +816,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_value: Option<String> = None;
 
     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut response_protocol_version = DEFAULT_AIO_PROTOCOL_VERSION; // assume default version if none is provided
+    let mut response_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()
@@ -1029,22 +1030,50 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     }
 
     // response payload deserialization
-    let deserialized_response_payload = match TResp::deserialize(response_payload) {
-        Ok(payload) => payload,
+    let format_indicator = match response_properties.payload_format_indicator.try_into() {
+        Ok(format_indicator) => format_indicator,
         Err(e) => {
-            return Err(AIOProtocolError::new_payload_invalid_error(
-                false,
-                false,
-                Some(e.into()),
-                None,
-                None,
-                Some(command_name),
-            ));
+            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.");
+            // Use default format indicator
+            FormatIndicator::default()
         }
+    };
+    let deserialized_response_payload = match TResp::deserialize(
+        response_payload,
+        &response_properties.content_type,
+        &format_indicator,
+    ) {
+        Ok(payload) => payload,
+        Err(e) => match e {
+            DeserializationError::InvalidPayload(deserialization_e) => {
+                return Err(AIOProtocolError::new_payload_invalid_error(
+                    false,
+                    false,
+                    Some(deserialization_e.into()),
+                    None,
+                    None,
+                    Some(command_name),
+                ));
+            }
+            DeserializationError::UnsupportedContentType(message) => {
+                return Err(AIOProtocolError::new_header_invalid_error(
+                    "Content Type",
+                    &response_properties
+                        .content_type
+                        .unwrap_or("None".to_string()),
+                    false,
+                    None,
+                    Some(message),
+                    Some(command_name),
+                ));
+            }
+        },
     };
 
     Ok(CommandResponse {
         payload: deserialized_response_payload,
+        content_type: response_properties.content_type,
+        format_indicator,
         custom_user_data: response_custom_user_data,
         timestamp,
     })
@@ -1057,7 +1086,47 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    fn drop(&mut self) {}
+    fn drop(&mut self) {
+        // drop can't be async, but we can spawn a task to unsubscribe
+        tokio::spawn({
+            let invoker_state_mutex = self.invoker_state_mutex.clone();
+            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let mqtt_client = self.mqtt_client.clone();
+            async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
+        });
+
+        // Notify the receiver loop to close the MQTT receiver
+        self.shutdown_notifier.notify_one();
+        log::info!("[{}] Invoker has been dropped", self.command_name);
+    }
+}
+
+async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
+    mqtt_client: C,
+    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    unsubscribe_filter: String,
+) {
+    let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
+    match *invoker_state_mutex_guard {
+        CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
+        }
+        CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+            // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
+            *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+                Ok(_) => {
+                    log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
+                }
+                Err(e) => {
+                    log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
+                }
+            }
+        }
+    }
+
+    // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
+    *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
 }
 
 #[cfg(test)]
@@ -1068,35 +1137,11 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
+    use crate::application::ApplicationContextOptionsBuilder;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{
-            FormatIndicator, MockPayload, CONTENT_TYPE_MTX, DESERIALIZE_MTX, FORMAT_INDICATOR_MTX,
-        },
+        payload_serialize::{FormatIndicator, MockPayload, DESERIALIZE_MTX},
     };
-
-    // Payload that has an invalid content type for testing
-    struct InvalidContentTypePayload {}
-    impl Clone for InvalidContentTypePayload {
-        fn clone(&self) -> Self {
-            unimplemented!()
-        }
-    }
-    impl PayloadSerialize for InvalidContentTypePayload {
-        type Error = String;
-        fn content_type() -> &'static str {
-            "application/json\u{0000}"
-        }
-        fn format_indicator() -> FormatIndicator {
-            unimplemented!()
-        }
-        fn serialize(&self) -> Result<Vec<u8>, String> {
-            unimplemented!()
-        }
-        fn deserialize(_payload: &[u8]) -> Result<Self, String> {
-            unimplemented!()
-        }
-    }
 
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
@@ -1123,14 +1168,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1140,8 +1177,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "clients/test_client/test/test_command_name/+/request"
@@ -1150,14 +1191,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_new_override_defaults() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1171,93 +1204,17 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
         // prefix and suffix should be ignored if response_topic_pattern is provided
         assert_eq!(
             command_invoker.response_topic_pattern.as_subscribe_topic(),
             "test_namespace/test/test_command_name/+/response"
         );
-    }
-
-    #[test]
-    fn test_invalid_request_content_type() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{executorId}/request")
-            .command_name("test_command_name")
-            .build()
-            .unwrap();
-
-        let command_invoker: Result<
-            CommandInvoker<InvalidContentTypePayload, MockPayload, _>,
-            AIOProtocolError,
-        > = CommandInvoker::new(managed_client, invoker_options);
-        match command_invoker {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("content_type".to_string()));
-                assert!(
-                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-                );
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
-    }
-
-    #[test]
-    fn test_invalid_response_content_type() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{executorId}/request")
-            .command_name("test_command_name")
-            .build()
-            .unwrap();
-
-        let command_invoker: Result<
-            CommandInvoker<MockPayload, InvalidContentTypePayload, _>,
-            AIOProtocolError,
-        > = CommandInvoker::new(managed_client, invoker_options);
-        match command_invoker {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("content_type".to_string()));
-                assert!(
-                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
-                );
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
     }
 
     #[test_case("command_name", ""; "new_empty_command_name")]
@@ -1272,14 +1229,6 @@ mod tests {
     #[test_case("response_topic_suffix", " "; "new_whitespace_response_topic_suffix")]
     #[tokio::test]
     async fn test_new_empty_args(property_name: &str, property_value: &str) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1329,7 +1278,13 @@ mod tests {
             .unwrap();
 
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(managed_client, invoker_options);
+            CommandInvoker::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                invoker_options,
+            );
         match command_invoker {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
@@ -1356,14 +1311,6 @@ mod tests {
         response_topic_suffix: Option<String>,
         expected_response_topic_subscribe_pattern: &str,
     ) {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
 
@@ -1379,7 +1326,13 @@ mod tests {
             .unwrap();
 
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(managed_client, invoker_options);
+            CommandInvoker::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                invoker_options,
+            );
         assert!(command_invoker.is_ok());
         assert_eq!(
             command_invoker
@@ -1393,14 +1346,6 @@ mod tests {
     // If response pattern suffix is not specified, the default is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let command_name = "test_command_name";
@@ -1413,7 +1358,13 @@ mod tests {
             .build()
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(managed_client, invoker_options);
+            CommandInvoker::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                invoker_options,
+            );
         assert!(command_invoker.is_ok());
         assert_eq!(
             command_invoker
@@ -1430,16 +1381,6 @@ mod tests {
     async fn test_invoke_timeout_parameter() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json")
-            .once();
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1449,21 +1390,24 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
-
-        // Mock context to track format_indicator calls
-        let mock_payload_format_indicator_ctx = MockPayload::format_indicator_context();
-        mock_payload_format_indicator_ctx
-            .expect()
-            .returning(|| FormatIndicator::UnspecifiedBytes)
-            .once();
 
         // TODO: Check for
         //      sub sent (suback received)?
@@ -1475,7 +1419,7 @@ mod tests {
         // Deserialize should be called on the incoming response payload
         mock_payload_deserialize_ctx
             .expect()
-            .returning(|_| {
+            .returning(|_, _, _| {
                 let mut mock_response_payload = MockPayload::default();
                 // The deserialized payload should be cloned to return to the application
                 mock_response_payload
@@ -1487,14 +1431,14 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut is_subscribed = command_invoker.is_subscribed_mutex.lock().await;
-        *is_subscribed = true;
-        drop(is_subscribed);
+        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
+        *invoker_state = CommandInvokerState::Subscribed;
+        drop(invoker_state);
 
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(5))
                     .build()
@@ -1507,16 +1451,6 @@ mod tests {
     // Tests failure: Invocation times out (valid timeout value specified on invoke) and a `Timeout` error is returned
     #[tokio::test]
     async fn test_invoke_times_out() {
-        // Get mutexes for checking static PayloadSerialize calls
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1526,22 +1460,24 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
-
-        // Mock context to track format_indicator calls
-        let mock_payload_format_indicator_ctx = MockPayload::format_indicator_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_format_indicator_ctx
-            .expect()
-            .returning(|| FormatIndicator::UnspecifiedBytes)
-            .once();
 
         // TODO: Check for
         //      sub sent (suback received)
@@ -1551,7 +1487,7 @@ mod tests {
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1577,14 +1513,6 @@ mod tests {
     async fn test_invoke_deserialize_error() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        let _format_indicator_mutex = FORMAT_INDICATOR_MTX.lock();
-
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
 
         let session = create_session();
         let managed_client = session.create_managed_client();
@@ -1595,22 +1523,24 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
 
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
-
-        // Mock context to track format_indicator calls
-        let mock_payload_format_indicator_ctx = MockPayload::format_indicator_context();
-        // content_type should be called on the outgoing request payload
-        mock_payload_format_indicator_ctx
-            .expect()
-            .returning(|| FormatIndicator::UnspecifiedBytes)
-            .once();
 
         // TODO: Check for
         //      sub sent (suback received)?
@@ -1622,18 +1552,22 @@ mod tests {
         // Deserialize should be called on the incoming response payload
         mock_payload_deserialize_ctx
             .expect()
-            .returning(|_| Err("dummy error".to_string()))
+            .returning(|_, _, _| {
+                Err(DeserializationError::InvalidPayload(
+                    "dummy error".to_string(),
+                ))
+            })
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut is_subscribed = command_invoker.is_subscribed_mutex.lock().await;
-        *is_subscribed = true;
-        drop(is_subscribed);
+        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
+        *invoker_state = CommandInvokerState::Subscribed;
+        drop(invoker_state);
 
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
                     .build()
@@ -1655,14 +1589,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_invoke_executor_id_invalid_value() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1672,18 +1598,28 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::from([(
@@ -1710,14 +1646,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_invoke_missing_token() {
-        // Get mutex lock for content type
-        let _content_type_mutex = CONTENT_TYPE_MTX.lock();
-        // Mock context to track content_type calls
-        let mock_payload_content_type_ctx = MockPayload::content_type_context();
-        let _mock_payload_content_type = mock_payload_content_type_ctx
-            .expect()
-            .returning(|| "application/json");
-
         let session = create_session();
         let managed_client = session.create_managed_client();
         let invoker_options = CommandInvokerOptionsBuilder::default()
@@ -1727,18 +1655,28 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> =
-            CommandInvoker::new(managed_client, invoker_options).unwrap();
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let response = command_invoker
             .invoke(
                 CommandRequestBuilder::default()
-                    .payload(&mock_request_payload)
+                    .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
                     .topic_tokens(HashMap::new())
@@ -1770,8 +1708,49 @@ mod tests {
             .times(1);
 
         let mut binding = CommandRequestBuilder::default();
-        let req_builder = binding.payload(&mock_request_payload);
-        assert!(req_builder.is_err());
+        let req_builder = binding.payload(mock_request_payload);
+        match req_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
+    }
+
+    #[test]
+    fn test_request_serialization_bad_content_type_error() {
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json\u{0000}".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let mut binding = CommandRequestBuilder::default();
+        let req_builder = binding.payload(mock_request_payload);
+        match req_builder {
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+                assert!(!e.in_application);
+                assert!(e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.http_status_code, None);
+                assert_eq!(e.property_name, Some("content_type".to_string()));
+                assert!(
+                    e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
+                );
+            }
+            Ok(_) => {
+                panic!("Expected error");
+            }
+        }
     }
 
     /// Tests failure: Timeout specified as 0 (invalid value) on invoke and an `ArgumentInvalid` error is returned
@@ -1784,11 +1763,17 @@ mod tests {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload
             .expect_serialize()
-            .returning(|| Ok(String::new().into()))
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
             .times(1);
 
         let request_builder_result = CommandRequestBuilder::default()
-            .payload(&mock_request_payload)
+            .payload(mock_request_payload)
             .unwrap()
             .timeout(timeout)
             .build();
@@ -1830,7 +1815,7 @@ mod tests {
 //     publish received on the correct topic, gets sent to pending command requests
 //     publish received on a different topic, message ignored
 //     publish received on the correct topic, no pending commands. Message ignored
-//     receive cancellation token is called and the loop exits
+//     shutdown notifier is notified and the MQTT receiver is closed
 //     mqtt_receiver sends a lagged error
 //     mqtt_receiver sends a closed error
 // Tests failure:
@@ -1838,7 +1823,6 @@ mod tests {
 //
 // validation
 // Tests success:
-//     content type matches TReq content type
 //     content type isn't present
 //     format indicator not present, 0, or (1 and TResp format indicator is 1)
 //     valid timestamp present and is returned on the CommandResponse
@@ -1850,7 +1834,7 @@ mod tests {
 //     test matrix for different statuses and fields present for an error response - see possible return values from invoke for full list
 //     response payload deserializes successfully
 // Tests failure:
-//     content type doesn't match TResp content type. 'HeaderInvalid' error returned
+//     content type isn't supported. 'HeaderInvalid' error returned
 //     format indicator is 1 and TResp format indicator is 0. 'HeaderInvalid' error returned
 //     timestamp cannot be parsed (more or less than 3 sections, invalid section values for each of the three sections)
 //     status can't be parsed as a number

@@ -18,9 +18,12 @@
             "type": "string",
             "kind": "drive"
         },
-        "executor-id": {
-            "description": "Identifier of the asset that is targeted to execute a Command.",
-            "type": "string",
+        "topic-token-map": {
+            "description": "A map from topic tokens to replacement values.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
             "kind": "drive"
         },
         "timeout": {

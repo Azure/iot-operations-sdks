@@ -35,7 +35,6 @@ type (
 	// CommandExecutorOptions are the resolved command executor options.
 	CommandExecutorOptions struct {
 		Idempotent bool
-		CacheTTL   time.Duration
 
 		Concurrency uint
 		Timeout     time.Duration
@@ -69,10 +68,6 @@ type (
 	// WithIdempotent marks the command as idempotent.
 	WithIdempotent bool
 
-	// WithCacheTTL indicates how long results of this command will live in the
-	// cache. This is only valid for idempotent commands.
-	WithCacheTTL time.Duration
-
 	// RespondOption represent a single per-response option.
 	RespondOption interface{ respond(*RespondOptions) }
 
@@ -86,6 +81,7 @@ const commandExecutorErrStr = "command execution"
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
@@ -97,24 +93,6 @@ func NewCommandExecutor[Req, Res any](
 
 	var opts CommandExecutorOptions
 	opts.Apply(opt)
-
-	if !opts.Idempotent && opts.CacheTTL != 0 {
-		return nil, &errors.Error{
-			Message:       "CacheTTL must be zero for non-idempotent commands",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "CacheTTL",
-			PropertyValue: opts.CacheTTL,
-		}
-	}
-
-	if opts.CacheTTL < 0 {
-		return nil, &errors.Error{
-			Message:       "CacheTTL must not have a negative value",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "CacheTTL",
-			PropertyValue: opts.CacheTTL,
-		}
-	}
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -153,26 +131,29 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
+	logger := opts.Logger
+	if logger == nil {
+		logger = app.log
+	}
+
 	ce = &CommandExecutor[Req, Res]{
 		handler: handler,
 		timeout: to,
-		cache: caching.New(
-			wallclock.Instance,
-			opts.CacheTTL,
-			requestTopicPattern,
-		),
+		cache:   caching.New(wallclock.Instance),
 	}
 	ce.listener = &listener[Req]{
+		app:            app,
 		client:         client,
 		encoding:       requestEncoding,
 		topic:          reqTF,
 		shareName:      opts.ShareName,
 		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
+		log:            log.Wrap(logger),
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{
+		app:      app,
 		client:   client,
 		encoding: responseEncoding,
 	}
@@ -223,14 +204,6 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	rpub, err := ce.cache.Exec(pub, func() (*mqtt.Message, error) {
 		req := &CommandRequest[Req]{Message: *msg}
 		var err error
-
-		if msg.ClientID == "" {
-			return nil, &errors.Error{
-				Message:    "source client ID missing",
-				Kind:       errors.HeaderMissing,
-				HeaderName: constants.SourceID,
-			}
-		}
 
 		req.Payload, err = ce.listener.payload(msg)
 		if err != nil {
@@ -478,12 +451,6 @@ func (o WithIdempotent) commandExecutor(opt *CommandExecutorOptions) {
 }
 
 func (WithIdempotent) option() {}
-
-func (o WithCacheTTL) commandExecutor(opt *CommandExecutorOptions) {
-	opt.CacheTTL = time.Duration(o)
-}
-
-func (WithCacheTTL) option() {}
 
 // Apply resolves the provided list of options.
 func (o *RespondOptions) Apply(

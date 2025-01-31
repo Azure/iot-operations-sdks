@@ -6,33 +6,25 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public partial class ObjectJsonSchema : ITemplateTransform
     {
-        private readonly string genNamespace;
-        private readonly string objBareId;
-        private readonly string versionSuffix;
+        private readonly CodeName genNamespace;
+        private readonly string schemaId;
         private readonly string description;
-        private readonly string schema;
+        private readonly CodeName schema;
         private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly bool setIndex;
 
-        public ObjectJsonSchema(string genNamespace, string objectId, string description, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, DtmiToSchemaName dtmiToSchemaName, bool setIndex)
+        public ObjectJsonSchema(CodeName genNamespace, string schemaId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, bool setIndex)
         {
-            int semiIndex = objectId.IndexOf(';');
-            int bareIdLength = semiIndex >= 0 ? semiIndex : objectId.Length;
-
-            this.objBareId = objectId.Substring(0, bareIdLength);
-            this.versionSuffix = objectId.Substring(bareIdLength);
-
             this.genNamespace = genNamespace;
+            this.schemaId = schemaId;
             this.description = description;
             this.schema = schema;
             this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
-            this.dtmiToSchemaName = dtmiToSchemaName;
             this.setIndex = setIndex;
         }
 
-        public string FileName { get => $"{this.schema}.schema.json"; }
+        public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.schema.json"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
     }
 }
