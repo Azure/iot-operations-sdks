@@ -192,6 +192,8 @@ where
             // In this case, if we have that same PKID in the queue, we know that the duplicate
             // is for the same publish we are still waiting to ack, because the PKID would not
             // be available for re-use by the broker until that publish was acked.
+            // As per MQTTv5 spec 4.3.2-5, we only must treat duplicates as new application
+            // messages if we have not yet acked.
             // Thus, we can safely discard the duplicate without dispatching.
             // In fact, this is necessary for the correct acking of publishes that were
             // previously dispatched to the receivers.
