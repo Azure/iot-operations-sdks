@@ -272,23 +272,8 @@ where
                             }
                         }
                         Err(e) => {
-                            // TODO: This should be an error log. Change this once there is a better path for
-                            // unfiltered messages to be acked.
-                            log::warn!("Error dispatching PUB. Will auto-ack. Reason: {e:?}");
-
-                            // Ack the message in a task to avoid blocking the MQTT event loop.
-                            // TODO: is this code path still necessary? Need to have more testing to be sure.
-                            tokio::spawn({
-                                let acker = self.client.clone();
-                                async move {
-                                    match acker.ack(&publish).await {
-                                        Ok(_) => log::debug!("Auto-ack successful"),
-                                        Err(e) => log::error!(
-                                            "Auto-ack failed. Publish may be redelivered. Reason: {e:?}"
-                                        ),
-                                    };
-                                }
-                            });
+                            // NOTE: The auto-ack occurs in the dispatcher
+                            log::error!("Error dispatching PUB. Will be auto-acked (if not QoS 0). Reason: {e:?}");
                         }
                     }
                 }

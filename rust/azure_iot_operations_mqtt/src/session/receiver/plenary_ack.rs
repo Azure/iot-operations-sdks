@@ -51,6 +51,11 @@ struct PlenaryState {
 // however, this is fine because the other components of this module use it safely,
 // and the `PlenaryState` is not exposed outside of this module.
 impl PlenaryState {
+    /// Indicate the number of members
+    fn members(&mut self) -> usize {
+        self.members
+    }
+
     /// Increment the number of members
     fn add_member(&mut self) {
         self.members += 1;
@@ -189,6 +194,23 @@ impl PlenaryAck {
         // trigger. This is our bulwark against that problem - the plenary operation cannot
         // trigger until the plenary has commenced, i.e. "we are done making members"
         self.state.lock().unwrap().commence();
+
+        // If there are no members, the plenary operation can trigger immediately, as the
+        // plenary_op_f will not run until awaited, and if there are no members, there is nobody
+        // to await it.
+        if self.state.lock().unwrap().members() == 0 {
+            tokio::task::spawn({
+                let plenary_op_f = self.plenary_op_f.clone();
+                async move {
+                    match plenary_op_f.await {
+                        Ok(_) => {}
+                        Err(e) => {
+                            log::error!("0 member plenary ack reported failure: {:?}", e);
+                        }
+                    }
+                }
+            });
+        }
     }
 }
 
@@ -234,6 +256,29 @@ mod test {
     fn create_completion_token() -> CompletionToken {
         let f = async { Ok(()) };
         CompletionToken(Box::new(f.boxed()))
+    }
+
+    #[tokio::test]
+    async fn zero_member_commence() {
+        let mock_ack_triggered = Arc::new(Mutex::new(false));
+        let (mock_ack_ct, _) = create_completion_token_and_trigger();
+
+        let mock_ack_f = {
+            let mock_ack_triggered = mock_ack_triggered.clone();
+            async move {
+                *mock_ack_triggered.lock().unwrap() = true;
+                Ok(mock_ack_ct)
+            }
+        };
+
+        let plenary_ack = PlenaryAck::new(mock_ack_f);
+
+        // Commence without creating any members
+        plenary_ack.commence();
+
+        // The mock ack was triggered
+        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        assert!(*mock_ack_triggered.lock().unwrap());
     }
 
     #[tokio::test]
