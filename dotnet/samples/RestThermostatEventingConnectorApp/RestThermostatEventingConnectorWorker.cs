@@ -65,6 +65,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
 
+                _assetSemaphore.Wait(cancellationToken); 
                 try
                 {
                     foreach (string assetName in _sampleableAssets.Keys)
