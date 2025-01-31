@@ -23,7 +23,7 @@ use crate::session::receiver::{
 use crate::topic::{TopicFilter, TopicName, TopicParseError};
 
 /// Token that can be used to acknowledge a received MQTT publish.
-#[derive(Debug)] // TODO: necessary to have debug?
+#[derive(Debug)]
 pub struct AckToken(PlenaryAckMember);
 
 impl AckToken {
@@ -391,8 +391,6 @@ mod tests {
     // Some of the structs need to use tokio::task::spawn on cleanup, and will panic or have other strange
     // behavior if there is no tokio runtime.
 
-    // TODO: duplicate publish tests
-
     #[test_case(QoS::AtMostOnce; "QoS 0")]
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
@@ -722,10 +720,85 @@ mod tests {
         assert_eq!(filtered_rx8.try_recv().unwrap_err(), TryRecvError::Empty);
     }
 
-    // #[tokio::test]
-    // async fn dispatch_duplicate_pkid() {
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn dispatch_duplicate_pkid_error(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
 
-    // }
+        // Create an unfiltered receiver
+        let manager = dispatcher.get_receiver_manager();
+        let mut unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch a publish with a PKID
+        let topic_name = TopicName::from_str("sport/tennis/player1").unwrap();
+        let publish1 = create_publish_qos(&topic_name, "publish 1", 1, qos);
+        assert_eq!(dispatcher.dispatch_publish(&publish1).unwrap(), 1);
+
+        // Publish is received, but do not ack yet
+        let (r_publish1, ack_token1) = unfiltered_rx.try_recv().unwrap();
+        assert_eq!(r_publish1, publish1);
+
+        // Dispatch a publish with the same PKID and get an error
+        let publish2 = create_publish_qos(&topic_name, "publish 2", 1, qos);
+        assert!(matches!(
+            dispatcher.dispatch_publish(&publish2).unwrap_err(),
+            DispatchError::InvalidPublishPkid(_)
+        ));
+
+        // No acks on the mock client have occurred
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        // Complete the ack token for the first publish
+        ack_token1.unwrap().ack().await.unwrap();
+
+        // The first publish is acked
+        assert_eq!(mock_controller.ack_count(), 1);
+
+        // Dispatching the second publish again can now succeed
+        assert_eq!(dispatcher.dispatch_publish(&publish2).unwrap(), 1);
+
+        // Second publish can now be received
+        let (r_publish2, ack_token2) = unfiltered_rx.try_recv().unwrap();
+        assert_eq!(r_publish2, publish2);
+
+        // And it can be acked
+        ack_token2.unwrap().ack().await.unwrap();
+
+        // Resulting in a second ack
+        assert_eq!(mock_controller.ack_count(), 2);
+    }
+
+    #[test_case(QoS::AtMostOnce; "QoS 0")]
+    #[test_case(QoS::AtLeastOnce; "QoS 1")]
+    #[test_case(QoS::ExactlyOnce; "QoS 2")]
+    #[tokio::test]
+    async fn dispatch_invalid_topic_name_error(qos: QoS) {
+        let client = MockClient::new();
+        let mock_controller = client.mock_controller();
+        let mut dispatcher = IncomingPublishDispatcher::new(client);
+
+        // Create an unfiltered receiver
+        let manager = dispatcher.get_receiver_manager();
+        let unfiltered_rx = manager.lock().unwrap().create_unfiltered_receiver();
+
+        // Dispatch a publish with an invalid topic name
+        let invalid_topic_name = "";
+        assert!(!TopicName::is_valid_topic_name(invalid_topic_name));
+        let publish = Publish::new(invalid_topic_name, qos, "some payload", None);
+        assert!(matches!(
+            dispatcher.dispatch_publish(&publish).unwrap_err(),
+            DispatchError::InvalidPublishTopic(_)
+        ));
+
+        // No acks occurred
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 0);
+
+        drop(unfiltered_rx);
+    }
 
     #[tokio::test]
     async fn create_and_drop_receivers() {
@@ -1461,7 +1534,7 @@ mod tests {
 
         drop(unfiltered_rx);
     }
-    
+
     #[tokio::test]
     async fn dispatch_never_ack_on_qos0() {
         let client = MockClient::new();
