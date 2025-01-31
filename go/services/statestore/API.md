@@ -98,7 +98,7 @@ type Client[K, V Bytes] struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L87-L90>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L87-L91>)
 
 ```go
 func New[K, V Bytes](app *protocol.Application, client MqttClient, opt ...ClientOption) (*Client[K, V], error)
@@ -107,7 +107,7 @@ func New[K, V Bytes](app *protocol.Application, client MqttClient, opt ...Client
 New creates a new state store client. It takes the key and value types as parameters to avoid unnecessary casting; both may be string, \[\]byte, or equivalent types.
 
 <a name="Client[K, V].Close"></a>
-### func \(\*Client\[K, V\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L163>)
+### func \(\*Client\[K, V\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L166>)
 
 ```go
 func (c *Client[K, V]) Close()
@@ -134,7 +134,7 @@ func (c *Client[K, V]) Get(ctx context.Context, key K, opt ...GetOption) (*Respo
 Get the value and version of the given key. If the key is not present, it returns a fully zero response struct; if the key is present but empty, it returns an empty value and the stored version.
 
 <a name="Client[K, V].ID"></a>
-### func \(\*Client\[K, V\]\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L172>)
+### func \(\*Client\[K, V\]\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L175>)
 
 ```go
 func (c *Client[K, V]) ID() string
@@ -179,7 +179,7 @@ func (c *Client[K, V]) Set(ctx context.Context, key K, val V, opt ...SetOption) 
 Set the value of the given key. If the key is successfully set, it returns true and the new or updated version; if the key is not set due to the specified condition, it returns false and the stored version.
 
 <a name="Client[K, V].Start"></a>
-### func \(\*Client\[K, V\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L154>)
+### func \(\*Client\[K, V\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L157>)
 
 ```go
 func (c *Client[K, V]) Start(ctx context.Context) error
@@ -230,7 +230,7 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L277-L280>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/client.go#L280-L283>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
