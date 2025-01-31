@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
+namespace Azure.Iot.Operations.Services.StateStore.StateStore
 {
     using System;
     using System.Collections.Generic;

@@ -11,19 +11,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         private static readonly Dictionary<string, SerializerValues> formatSerializers = new()
         {
-            { PayloadFormat.Avro, new SerializerValues("AVRO", "AvroSerializer{0}", "EmptyAvro") },
-            { PayloadFormat.Cbor, new SerializerValues("CBOR", "CborSerializer", "EmptyCbor") },
-            { PayloadFormat.Json, new SerializerValues("JSON", "Utf8JsonSerializer", "EmptyJson") },
-            { PayloadFormat.Proto2, new SerializerValues("protobuf", "ProtobufSerializer{0}", "Google.Protobuf.WellKnownTypes.Empty") },
-            { PayloadFormat.Proto3, new SerializerValues("protobuf", "ProtobufSerializer{0}", "Google.Protobuf.WellKnownTypes.Empty") },
-            { PayloadFormat.Raw, new SerializerValues("raw", "PassthroughSerializer", "") },
+            { PayloadFormat.Avro, new SerializerValues("AVRO", "AvroSerializer{0}", EmptyTypeName.AvroInstance) },
+            { PayloadFormat.Cbor, new SerializerValues("CBOR", "CborSerializer", EmptyTypeName.CborInstance) },
+            { PayloadFormat.Json, new SerializerValues("JSON", "Utf8JsonSerializer", EmptyTypeName.JsonInstance) },
+            { PayloadFormat.Proto2, new SerializerValues("protobuf", "ProtobufSerializer{0}", EmptyTypeName.ProtoInstance) },
+            { PayloadFormat.Proto3, new SerializerValues("protobuf", "ProtobufSerializer{0}", EmptyTypeName.ProtoInstance) },
+            { PayloadFormat.Raw, new SerializerValues("raw", "PassthroughSerializer", EmptyTypeName.RawInstance) },
         };
 
         public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds, string genRoot, bool generateProject)
         {
             string modelId = annexDocument.RootElement.GetProperty(AnnexFileProperties.ModelId).GetString()!;
-            string genNamespace = annexDocument.RootElement.GetProperty(AnnexFileProperties.Namespace).GetString()!;
-            string serviceName = annexDocument.RootElement.GetProperty(AnnexFileProperties.ServiceName).GetString()!;
+            CodeName genNamespace = new CodeName(annexDocument.RootElement.GetProperty(AnnexFileProperties.Namespace).GetString()!);
+            CodeName serviceName = new CodeName(annexDocument.RootElement.GetProperty(AnnexFileProperties.ServiceName).GetString()!);
             string genFormat = annexDocument.RootElement.GetProperty(AnnexFileProperties.PayloadFormat).GetString()!;
             bool separateTelemetries = annexDocument.RootElement.GetProperty(AnnexFileProperties.TelemSeparate).GetBoolean();
 
@@ -35,10 +35,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? version = modelId.IndexOf(";") > 0 ? modelId.Substring(modelId.IndexOf(";") + 1) : null;
             string? normalizedVersionSuffix = version?.Replace(".", "_");
 
-            List<(string, string?, string?)> cmdNameReqResps = new();
-            List<(string?, string)> telemNameSchemas = new();
+            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps = new();
+            List<(CodeName, ITypeName)> telemNameSchemas = new();
 
-            List<string> schemaTypes = new();
+            List<CodeName> schemaTypes = new();
 
             if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemetryList, out JsonElement telemsElt) && telemsElt.GetArrayLength() > 0)
             {
@@ -88,85 +88,86 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, JsonElement telemElt, List<(string?, string)> telemNameSchemas, string? workingPath, List<string> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
+        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, JsonElement telemElt, List<(CodeName, ITypeName)> telemNameSchemas, string? workingPath, List<CodeName> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
-            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
+            EmptyTypeName serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
-            string? telemetryName = telemElt.TryGetProperty(AnnexFileProperties.TelemName, out JsonElement nameElt) ? nameElt.GetString() : null;
-            string schemaClass = telemElt.GetProperty(AnnexFileProperties.TelemSchema).GetString()!;
+            CodeName telemetryName = new CodeName(telemElt.TryGetProperty(AnnexFileProperties.TelemName, out JsonElement nameElt) ? nameElt.GetString() ?? string.Empty : string.Empty);
+            string schemaRep = telemElt.GetProperty(AnnexFileProperties.TelemSchema).GetString()!;
+            ITypeName schemaType = schemaRep != string.Empty ? new CodeName(schemaRep) : RawTypeName.Instance;
 
             switch (language)
             {
                 case "csharp":
                     if (generateServer)
                     {
-                        yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                        yield return new DotNetTelemetrySender(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaType);
                     }
 
                     if (generateClient)
                     {
-                        yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaClass);
+                        yield return new DotNetTelemetryReceiver(telemetryName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, schemaType);
                     }
 
-                    if (genFormat == PayloadFormat.Avro && schemaClass != string.Empty)
+                    if (genFormat == PayloadFormat.Avro && schemaType is CodeName dotnetSchema)
                     {
-                        yield return new DotNetSerialization(projectName, genNamespace, schemaClass, workingPath);
+                        yield return new DotNetSerialization(projectName, genNamespace, dotnetSchema, workingPath);
                     }
 
                     break;
                 case "go":
                     if (generateServer)
                     {
-                        yield return new GoTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
+                        yield return new GoTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, schemaType);
                     }
 
                     if (generateClient)
                     {
-                        yield return new GoTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, schemaClass);
+                        yield return new GoTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, schemaType);
                     }
 
                     break;
                 case "java":
                     if (generateServer)
                     {
-                        yield return new JavaTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                        yield return new JavaTelemetrySender(telemetryName.AsGiven, genNamespace, serializerSubNamespace, serializerClassName, schemaType.GetTypeName(TargetLanguage.Java));
                     }
 
                     if (generateClient)
                     {
-                        yield return new JavaTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                        yield return new JavaTelemetryReceiver(telemetryName.AsGiven, genNamespace, serializerSubNamespace, serializerClassName, schemaType.GetTypeName(TargetLanguage.Java));
                     }
 
                     break;
                 case "python":
                     if (generateServer)
                     {
-                        yield return new PythonTelemetrySender(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                        yield return new PythonTelemetrySender(telemetryName.AsGiven, genNamespace, serializerSubNamespace, serializerClassName, schemaType.GetTypeName(TargetLanguage.Python));
                     }
 
                     if (generateClient)
                     {
-                        yield return new PythonTelemetryReceiver(telemetryName, genNamespace, serializerSubNamespace, serializerClassName, schemaClass);
+                        yield return new PythonTelemetryReceiver(telemetryName.AsGiven, genNamespace, serializerSubNamespace, serializerClassName, schemaType.GetTypeName(TargetLanguage.Python));
                     }
 
                     break;
                 case "rust":
                     if (generateServer)
                     {
-                        yield return new RustTelemetrySender(telemetryName, genNamespace, schemaClass);
+                        yield return new RustTelemetrySender(telemetryName, genNamespace, schemaType);
                     }
 
                     if (generateClient)
                     {
-                        yield return new RustTelemetryReceiver(telemetryName, genNamespace, schemaClass, useSharedSubscription);
+                        yield return new RustTelemetryReceiver(telemetryName, genNamespace, schemaType, useSharedSubscription);
                     }
 
-                    if (schemaClass != string.Empty)
+                    if (schemaType is CodeName rustSchema)
                     {
-                        schemaTypes.Add(schemaClass);
-                        yield return new RustSerialization(genNamespace, genFormat, schemaClass, workingPath);
+                        schemaTypes.Add(rustSchema);
+                        yield return new RustSerialization(genNamespace, genFormat, rustSchema, workingPath);
                     }
 
                     break;
@@ -176,19 +177,28 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            telemNameSchemas.Add((telemetryName, schemaClass));
+            telemNameSchemas.Add((telemetryName, schemaType));
         }
 
-        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(string, string?, string?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<string> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
+        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<CodeName> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
-            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
+            EmptyTypeName serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
-            string commandName = cmdElt.GetProperty(AnnexFileProperties.CommandName).GetString()!;
-            string? reqSchemaClass = cmdElt.GetProperty(AnnexFileProperties.CmdRequestSchema).GetString();
-            string? respSchemaClass = cmdElt.GetProperty(AnnexFileProperties.CmdResponseSchema).GetString();
+            CodeName commandName = new CodeName(cmdElt.GetProperty(AnnexFileProperties.CommandName).GetString()!);
+
+            string? reqSchemaRep = cmdElt.TryGetProperty(AnnexFileProperties.CmdRequestSchema, out JsonElement reqSchemaElt) ? reqSchemaElt.GetString() : null;
+            ITypeName? reqSchemaType = reqSchemaRep == null ? null :
+                reqSchemaRep == string.Empty ? RawTypeName.Instance :
+                new CodeName(reqSchemaRep);
+
+            string? respSchemaRep = cmdElt.TryGetProperty(AnnexFileProperties.CmdResponseSchema, out JsonElement respSchemaElt) ? respSchemaElt.GetString() : null;
+            ITypeName? respSchemaType = respSchemaRep == null ? null :
+                respSchemaRep == string.Empty ? RawTypeName.Instance :
+                new CodeName(respSchemaRep);
+
             bool isIdempotent = cmdElt.GetProperty(AnnexFileProperties.CmdIsIdempotent).GetBoolean();
             string? cacheability = cmdElt.GetProperty(AnnexFileProperties.Cacheability).GetString();
 
@@ -197,24 +207,24 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case "csharp":
                     if (generateClient)
                     {
-                        yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass);
+                        yield return new DotNetCommandInvoker(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaType, respSchemaType);
                     }
 
                     if (generateServer)
                     {
-                        yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                        yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaType, respSchemaType, isIdempotent, cacheability);
                     }
 
                     if (genFormat == PayloadFormat.Avro)
                     {
-                        if (reqSchemaClass != null && reqSchemaClass != string.Empty)
+                        if (reqSchemaType is CodeName dotnetReqSchema)
                         {
-                            yield return new DotNetSerialization(projectName, genNamespace, reqSchemaClass, workingPath);
+                            yield return new DotNetSerialization(projectName, genNamespace, dotnetReqSchema, workingPath);
                         }
 
-                        if (respSchemaClass != null && respSchemaClass != string.Empty)
+                        if (respSchemaType is CodeName dotnetRespSchema)
                         {
-                            yield return new DotNetSerialization(projectName, genNamespace, respSchemaClass, workingPath);
+                            yield return new DotNetSerialization(projectName, genNamespace, dotnetRespSchema, workingPath);
                         }
                     }
 
@@ -222,72 +232,72 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case "go":
                     if (generateClient)
                     {
-                        yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
+                        yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaType, respSchemaType, doesCommandTargetExecutor);
                     }
 
                     if (generateServer)
                     {
-                        yield return new GoCommandExecutor(commandName, genNamespace, serializerSubNamespace, reqSchemaClass, respSchemaClass, isIdempotent, cacheability);
+                        yield return new GoCommandExecutor(commandName, genNamespace, serializerSubNamespace, reqSchemaType, respSchemaType, isIdempotent, cacheability);
                     }
 
                     break;
                 case "java":
                     if (generateClient)
                     {
-                        yield return new JavaCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                        yield return new JavaCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaType?.GetTypeName(TargetLanguage.Java), respSchemaType?.GetTypeName(TargetLanguage.Java));
                     }
 
                     if (generateServer)
                     {
-                        yield return new JavaCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                        yield return new JavaCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaType?.GetTypeName(TargetLanguage.Java), respSchemaType?.GetTypeName(TargetLanguage.Java));
                     }
 
                     break;
                 case "python":
                     if (generateClient)
                     {
-                        yield return new PythonCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                        yield return new PythonCommandInvoker(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaType?.GetTypeName(TargetLanguage.Python), respSchemaType?.GetTypeName(TargetLanguage.Python));
                     }
 
                     if (generateServer)
                     {
-                        yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass);
+                        yield return new PythonCommandExecutor(commandName, genNamespace, serializerSubNamespace, serializerClassName, reqSchemaType?.GetTypeName(TargetLanguage.Python), respSchemaType?.GetTypeName(TargetLanguage.Python));
                     }
 
                     break;
                 case "rust":
                     if (generateClient)
                     {
-                        yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, doesCommandTargetExecutor);
+                        yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, doesCommandTargetExecutor);
                     }
 
                     if (generateServer)
                     {
-                        yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaClass, respSchemaClass, isIdempotent, cacheability, useSharedSubscription);
+                        yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, isIdempotent, cacheability, useSharedSubscription);
                     }
 
-                    if (reqSchemaClass != null && reqSchemaClass != string.Empty)
+                    if (reqSchemaType is CodeName rustReqSchema)
                     {
-                        schemaTypes.Add(reqSchemaClass);
-                        yield return new RustSerialization(genNamespace, genFormat, reqSchemaClass, workingPath);
+                        schemaTypes.Add(rustReqSchema);
+                        yield return new RustSerialization(genNamespace, genFormat, rustReqSchema, workingPath);
                     }
 
-                    if (respSchemaClass != null && respSchemaClass != string.Empty)
+                    if (respSchemaType is CodeName rustRespSchema)
                     {
-                        schemaTypes.Add(respSchemaClass);
-                        yield return new RustSerialization(genNamespace, genFormat, respSchemaClass, workingPath);
+                        schemaTypes.Add(rustRespSchema);
+                        yield return new RustSerialization(genNamespace, genFormat, rustRespSchema, workingPath);
                     }
 
                     break;
                 case "c":
                     if (generateClient)
                     {
-                        yield return new CCommandInvoker(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
+                        yield return new CCommandInvoker(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaType?.GetTypeName(TargetLanguage.Independent), respSchemaType?.GetTypeName(TargetLanguage.Independent), normalizedVersionSuffix);
                     }
 
                     if (generateServer)
                     {
-                        yield return new CCommandExecutor(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaClass, respSchemaClass, normalizedVersionSuffix);
+                        yield return new CCommandExecutor(modelId, commandName, commandTopic!, genNamespace, serviceName, serializerSubNamespace, serializerClassName, reqSchemaType?.GetTypeName(TargetLanguage.Independent), respSchemaType?.GetTypeName(TargetLanguage.Independent), normalizedVersionSuffix);
                     }
 
                     break;
@@ -295,16 +305,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            cmdNameReqResps.Add((commandName, reqSchemaClass, respSchemaClass));
+            cmdNameReqResps.Add((commandName, reqSchemaType, respSchemaType));
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, string genNamespace, string modelId, string serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<(string, string?, string?)> cmdNameReqResps, List<(string?, string)> telemNameSchemas, HashSet<string> sourceFilePaths, bool syncApi, bool generateClient, bool generateServer, bool separateTelemetries)
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps, List<(CodeName, ITypeName)> telemNameSchemas, HashSet<string> sourceFilePaths, bool syncApi, bool generateClient, bool generateServer, bool separateTelemetries)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
             bool doesTelemetryTargetService = DoesTopicReferToService(telemetryTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
-            string serializerEmptyType = formatSerializers[genFormat].EmptyType;
+            EmptyTypeName serializerEmptyType = formatSerializers[genFormat].EmptyType;
 
             switch (language)
             {
@@ -330,7 +340,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, string genNamespace, string genFormat, string? sdkPath, HashSet<string> sourceFilePaths, List<string> schemaTypes, HashSet<SchemaKind> distinctSchemaKinds, string genRoot, bool generateProject)
+        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? sdkPath, HashSet<string> sourceFilePaths, List<CodeName> schemaTypes, HashSet<SchemaKind> distinctSchemaKinds, string genRoot, bool generateProject)
         {
             switch (language)
             {
@@ -406,7 +416,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private readonly struct SerializerValues
         {
-            public SerializerValues(string subNamespace, string className, string emptyType)
+            public SerializerValues(string subNamespace, string className, EmptyTypeName emptyType)
             {
                 SubNamespace = subNamespace;
                 ClassName = className;
@@ -415,7 +425,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             public readonly string SubNamespace;
             public readonly string ClassName;
-            public readonly string EmptyType;
+            public readonly EmptyTypeName EmptyType;
         }
     }
 }

@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
-                if ((args.ApplicationMessage.ContentType != null && args.ApplicationMessage.ContentType != this.serializer.ContentType) || OnTelemetryReceived == null)
+                if (OnTelemetryReceived == null)
                 {
                     await GetDispatcher()(null, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     return;
@@ -108,7 +108,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 try
                 {
-                    T serializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array);
+                    T serializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
 
                     IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
 

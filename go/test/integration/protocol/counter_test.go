@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	counter "github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/dtmi_com_example_Counter__1"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/counter"
 	"github.com/stretchr/testify/require"
 )
 

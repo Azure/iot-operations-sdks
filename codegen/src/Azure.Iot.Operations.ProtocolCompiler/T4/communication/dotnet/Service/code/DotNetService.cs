@@ -4,17 +4,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class DotNetService : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string serviceName;
+        private readonly CodeName genNamespace;
+        private readonly CodeName serviceName;
         private readonly string serializerSubNamespace;
-        private readonly string serializerEmptyType;
-        private readonly string allocateEmpty;
+        private readonly EmptyTypeName serializerEmptyType;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
-        private readonly List<(string, string?, string?)> cmdNameReqResps;
-        private readonly List<(string?, string)> telemNameSchemas;
+        private readonly List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps;
+        private readonly List<(CodeName, ITypeName)> telemNameSchemas;
         private readonly bool doesCommandTargetExecutor;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
@@ -24,16 +23,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public DotNetService(
             string projectName,
-            string genNamespace,
-            string serviceName,
+            CodeName genNamespace,
+            CodeName serviceName,
             string serializerSubNamespace,
-            string serializerEmptyType,
+            EmptyTypeName serializerEmptyType,
             string? commandTopic,
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
-            List<(string, string?, string?)> cmdNameReqResps,
-            List<(string?, string)> telemNameSchemas,
+            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps,
+            List<(CodeName, ITypeName)> telemNameSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
@@ -45,8 +44,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.genNamespace = genNamespace;
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
-            this.serializerEmptyType = serializerEmptyType == "" ? "byte[]" : serializerEmptyType;
-            this.allocateEmpty = serializerEmptyType == "" ? "Array.Empty<byte>()" : $"new {serializerEmptyType}()";
+            this.serializerEmptyType = serializerEmptyType;
             this.commandTopic = commandTopic;
             this.telemetryTopic = telemetryTopic;
             this.cmdServiceGroupId = cmdServiceGroupId;
@@ -61,8 +59,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.generateServer = generateServer;
         }
 
-        public string FileName { get => $"{this.serviceName}.g.cs"; }
+        public string FileName { get => $"{this.serviceName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.CSharp); }
     }
 }

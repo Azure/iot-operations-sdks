@@ -32,33 +32,33 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void JsonUsesFormatIndicatorAsOne()
         {
-            Assert.Equal(1, ser.CharacterDataFormatIndicator);
+            Assert.Equal(Models.MqttPayloadFormatIndicator.CharacterData, Utf8JsonSerializer.PayloadFormatIndicator);
         }
 
         [Fact]
         public void DeserializeEmtpyAndNull()
         {
-            byte[]? nullBytes = ser.ToBytes(new EmptyJson());
+            byte[]? nullBytes = ser.ToBytes(new EmptyJson()).SerializedPayload;
             Assert.Null(nullBytes);
-            EmptyJson? empty = ser.FromBytes<EmptyJson>(nullBytes);
+            EmptyJson? empty = ser.FromBytes<EmptyJson>(nullBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
 
-            EmptyJson? empty2 = ser.FromBytes<EmptyJson>(Array.Empty<byte>());
+            EmptyJson? empty2 = ser.FromBytes<EmptyJson>(Array.Empty<byte>(), null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty2);
         }
 
         [Fact]
         public void DeserializeNullToNonEmptyThrows()
         {
-            Assert.Throws<AkriMqttException>(() => { ser.FromBytes<MyJsonType>(null); });
+            Assert.Throws<AkriMqttException>(() => { ser.FromBytes<MyJsonType>(null, null, Models.MqttPayloadFormatIndicator.Unspecified); });
         }
 
         [Fact]
         public void PrimitiveTypesRoundTripWithDefaultValues()
         {
             MyJsonType myType = new();
-            var bytes = ser.ToBytes(myType);
-            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes);
+            var bytes = ser.ToBytes(myType).SerializedPayload;
+            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
@@ -81,8 +81,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                 MyByteArrayProperty = SomeByteArray,
                 MyDecimalProperty = new DecimalString("55.5"),
             };
-            var bytes = ser.ToBytes(myType);
-            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes);
+            var bytes = ser.ToBytes(myType).SerializedPayload;
+            MyJsonType fromBytes = ser.FromBytes<MyJsonType>(bytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(13, fromBytes.MyIntProperty);
             Assert.Equal("my string", fromBytes.MyStringProperty);
             Assert.Equal(new DateTime(2001,02,03), fromBytes.MyDateTimeProperty);
@@ -107,7 +107,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                         }
                         """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
-            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes);
+            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);
@@ -125,7 +125,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                         }
                         """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
-            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes);
+            var fromBytes = ser.FromBytes<MyJsonType>(jsonBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
             Assert.Equal(default, fromBytes.MyDateTimeProperty);

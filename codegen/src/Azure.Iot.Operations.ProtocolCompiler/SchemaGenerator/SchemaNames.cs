@@ -2,12 +2,12 @@
 {
     public static class SchemaNames
     {
-        public const string AggregateTelemSchema = "TelemetryCollection";
+        public static CodeName AggregateTelemSchema = new CodeName(string.Empty, "telemetry", "collection");
 
-        public static string GetTelemSchema(string telemName) => $"{NameFormatter.Capitalize(telemName)}Telemetry";
+        public static CodeName GetTelemSchema(string telemName) => new CodeName(telemName, "telemetry");
 
-        public static string GetCmdReqSchema(string cmdName) => $"{NameFormatter.Capitalize(cmdName)}RequestPayload";
+        public static CodeName GetCmdReqSchema(string cmdName) => new CodeName(cmdName, "request", "payload");
 
-        public static string GetCmdRespSchema(string cmdName) => $"{NameFormatter.Capitalize(cmdName)}ResponsePayload";
+        public static CodeName GetCmdRespSchema(string cmdName) => new CodeName(cmdName, "response", "payload");
     }
 }

@@ -11,7 +11,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy/dtmi_akri_samples_oven__1"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy/oven"
 	"github.com/lmittmann/tint"
 )
 
@@ -26,12 +26,12 @@ func main() {
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
-	client := must(dtmi_akri_samples_oven__1.NewOvenClient(
+	client := must(oven.NewOvenClient(
 		app,
 		mqttClient,
 		func(
 			_ context.Context,
-			msg *protocol.TelemetryMessage[dtmi_akri_samples_oven__1.TelemetryCollection],
+			msg *protocol.TelemetryMessage[oven.TelemetryCollection],
 		) error {
 			p := msg.Payload
 			if p.ExternalTemperature != nil && p.InternalTemperature != nil {
