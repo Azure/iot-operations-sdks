@@ -24,8 +24,10 @@ well-documented default that the user can use or follow.
 The SDKs will re-introduce a default topic prefix. This prefix will have a value
 of `clients/` followed by the client ID (manually constructed, since we cannot
 assume a token of that value) to match the prefix [recommended by DSS][2]. This
-prefix will be added iff the caller provides no other response topic options. We
-will publically document this prefix for security configuration purposes.
+prefix will be added iff the caller provides no other response topic options; it
+is intended to provide a default behavior for the response topic as a whole,
+rather than for the prefix specifically. We will publically document this
+pattern for security configuration purposes.
 
 ## Open Questions
 
