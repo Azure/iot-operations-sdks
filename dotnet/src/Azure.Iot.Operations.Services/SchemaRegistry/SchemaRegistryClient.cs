@@ -4,10 +4,10 @@
 namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
-using SchemaInfo = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
-using SchemaFormat = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;
-using SchemaType = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_SchemaType__1;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
+using SchemaInfo = SchemaRegistry.Schema;
+using SchemaFormat = SchemaRegistry.Format;
+using SchemaType = SchemaRegistry.SchemaType;
 
 public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
 {

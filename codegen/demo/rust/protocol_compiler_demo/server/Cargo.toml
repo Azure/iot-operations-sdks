@@ -13,5 +13,6 @@ azure_iot_operations_mqtt = { path = "../../../../../rust/azure_iot_operations_m
 azure_iot_operations_protocol = { path = "../../../../../rust/azure_iot_operations_protocol" }
 iso8601-duration = { version = "0.2", features = ["serde", "chrono"] }
 json_comm = { path = "../json_comm" }
+raw_comm = { path = "../raw_comm" }
 tokio = { version = "1.36", features = ["full"] }
 tokio-util = "0.7.11"

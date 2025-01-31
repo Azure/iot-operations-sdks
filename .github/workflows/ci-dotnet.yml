@@ -84,6 +84,9 @@ jobs:
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
+    - name: Build SchemaRegistry Host
+      run: dotnet build eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj
+ 
     - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
       

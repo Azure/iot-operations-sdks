@@ -5,12 +5,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class DotNetObject : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly ObjectType objectType;
         private readonly SerializationFormat serFormat;
         private readonly bool needsNullCheck;
 
-        public DotNetObject(string projectName, string genNamespace, ObjectType objectType, SerializationFormat serFormat)
+        public DotNetObject(string projectName, CodeName genNamespace, ObjectType objectType, SerializationFormat serFormat)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -19,8 +19,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.needsNullCheck = objectType.FieldInfos.Any(fi => fi.Value.IsRequired && DotNetSchemaSupport.IsNullable(fi.Value.SchemaType));
         }
 
-        public string FileName { get => $"{this.objectType.SchemaName}.g.cs"; }
+        public string FileName { get => $"{this.objectType.SchemaName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.CSharp); }
     }
 }

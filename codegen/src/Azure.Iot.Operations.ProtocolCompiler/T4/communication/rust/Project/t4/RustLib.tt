@@ -4,7 +4,6 @@
 #![allow(missing_docs)]
 #![allow(unused_imports)]
 #![allow(dead_code)]
-#![allow(non_snake_case)]
 #![allow(clippy::result_large_err)]
 <# foreach (string module in this.modules) { #>
 pub mod <#=module#>;

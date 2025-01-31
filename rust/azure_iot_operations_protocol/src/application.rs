@@ -53,7 +53,7 @@ impl ApplicationHybridLogicalClock {
 #[derive(Builder)]
 pub struct ApplicationContextOptions {
     /// The maximum clock drift allowed for the [`ApplicationHybridLogicalClock`].
-    #[builder(default = DEFAULT_MAX_CLOCK_DRIFT)]
+    #[builder(default = "DEFAULT_MAX_CLOCK_DRIFT")]
     pub max_clock_drift: u64,
 }
 

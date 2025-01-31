@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/iso"
-	"github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy/dtmi_akri_samples_oven__1"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy/oven"
 	"github.com/lmittmann/tint"
 )
 
@@ -27,7 +27,7 @@ func main() {
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
-	server := must(dtmi_akri_samples_oven__1.NewOvenService(app, mqttClient))
+	server := must(oven.NewOvenService(app, mqttClient))
 	defer server.Close()
 
 	check(mqttClient.Start())
@@ -47,15 +47,15 @@ func main() {
 	for {
 		externalTemperature := 100 - float64(counter)
 		internalTemperature := 200 + float64(counter)
-		server.SendTelemetryCollection(ctx, dtmi_akri_samples_oven__1.TelemetryCollection{
+		server.SendTelemetry(ctx, oven.TelemetryCollection{
 			ExternalTemperature: &externalTemperature,
 			InternalTemperature: &internalTemperature,
 		}, protocol.WithCloudEvent(ce))
 
 		if counter%2 == 0 {
 			duration := iso.Duration(time.Since(time.Time(started)))
-			server.SendTelemetryCollection(ctx, dtmi_akri_samples_oven__1.TelemetryCollection{
-				OperationSummary: &dtmi_akri_samples_oven__1.Object_OperationSummary{
+			server.SendTelemetry(ctx, oven.TelemetryCollection{
+				OperationSummary: &oven.OperationSummarySchema{
 					NumberOfCakes: &counter,
 					StartingTime:  &started,
 					TotalDuration: &duration,

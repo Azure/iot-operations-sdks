@@ -10,31 +10,34 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEvent, TelemetryMessage, TelemetryMessageBuilder, TelemetryMessageBuilderError,
-    TelemetrySender, TelemetrySenderOptionsBuilder,
+    CloudEvent, TelemetryMessage as TelemetryMessageBase,
+    TelemetryMessageBuilder as TelemetryMessageBuilderBase,
+    TelemetryMessageBuilderError as TelemetryMessageBuilderBaseError,
+    TelemetrySender as TelemetrySenderBase,
+    TelemetrySenderOptionsBuilder as TelemetrySenderOptionsBaseBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 
-<# if (this.schemaClassName != "Bytes") { #>
-use super::<#=NamingSupport.ToSnakeCase(this.schemaClassName)#>::<#=this.schemaClassName#>;
+<# if (this.schemaType is CodeName) { #>
+use super::<#=this.schemaType.GetFileName(TargetLanguage.Rust)#>::<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-<# if (this.schemaClassName == "Bytes") { #>
+<# if (this.schemaType is RawTypeName) { #>
 use super::super::common_types::bytes::Bytes;
 <# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 
-pub type <#=this.componentName#>Message = TelemetryMessage<<#=this.schemaClassName#>>;
-pub type <#=this.componentName#>MessageBuilderError = TelemetryMessageBuilderError;
+pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = TelemetryMessageBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
+pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>BuilderError = TelemetryMessageBuilderBaseError;
 
-/// Builder for [`<#=this.componentName#>Message`]
+/// Builder for [`<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>`]
 #[derive(Default)]
-pub struct <#=this.componentName#>MessageBuilder {
-    inner_builder: TelemetryMessageBuilder<<#=this.schemaClassName#>>,
+pub struct <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>Builder {
+    inner_builder: TelemetryMessageBuilderBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>,
 }
 
-impl <#=this.componentName#>MessageBuilder {
+impl <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>Builder {
     /// Quality of Service of the telemetry message. Can only be `AtMostOnce` or `AtLeastOnce`.
     pub fn qos(&mut self, qos: QoS) -> &mut Self {
         self.inner_builder.qos(qos);
@@ -65,38 +68,38 @@ impl <#=this.componentName#>MessageBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: <#=this.schemaClassName#>,
+        payload: <#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>,
     ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
 
-    /// Builds a new `<#=this.componentName#>Message`
+    /// Builds a new `<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>`
     ///
     /// # Errors
     /// If a required field has not been initialized
-    pub fn build(&mut self) -> Result<<#=this.componentName#>Message, <#=this.componentName#>MessageBuilderError> {
+    pub fn build(&mut self) -> Result<<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>, <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>BuilderError> {
         self.inner_builder.build()
     }
 }
 
-/// Telemetry Sender for `<#=this.componentName#>`
-pub struct <#=this.componentName#>Sender<C>(
-    TelemetrySender<<#=this.schemaClassName#>, C>,
+/// Telemetry Sender for `<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>`
+pub struct <#=this.componentName.GetTypeName(TargetLanguage.Rust)#><C>(
+    TelemetrySenderBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>, C>,
 )
 where
     C: ManagedClient + Send + Sync + 'static;
 
-impl<C> <#=this.componentName#>Sender<C>
+impl<C> <#=this.componentName.GetTypeName(TargetLanguage.Rust)#><C>
 where
     C: ManagedClient + Send + Sync + 'static,
 {
-    /// Creates a new [`<#=this.componentName#>Sender`]
+    /// Creates a new [`<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
-        let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
+        let mut sender_options_builder = TelemetrySenderOptionsBaseBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -111,8 +114,8 @@ where
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("senderId".to_string(), client.client_id().to_string());
 
-<# if (this.telemetryName != null) { #>
-        topic_token_map.insert("telemetryName".to_string(), "<#=this.telemetryName#>".to_string());
+<# if (!this.telemetryName.IsEmpty) { #>
+        topic_token_map.insert("telemetryName".to_string(), "<#=this.telemetryName.AsGiven#>".to_string());
 <# } #>
 
         let sender_options = sender_options_builder
@@ -122,16 +125,16 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetrySender::new(application_context, client, sender_options)
+            TelemetrySenderBase::new(application_context, client, sender_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
 
-    /// Sends a [`<#=this.componentName#>Message`]
+    /// Sends a [`<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>`]
     ///
     /// # Error
     /// [`AIOProtocolError`] if there is a failure sending the message
-    pub async fn send(&self, message: <#=this.componentName#>Message) -> Result<(), AIOProtocolError> {
+    pub async fn send(&self, message: <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>) -> Result<(), AIOProtocolError> {
         self.0.send(message).await
     }
 }
