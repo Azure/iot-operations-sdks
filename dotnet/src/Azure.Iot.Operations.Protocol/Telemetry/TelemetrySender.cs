@@ -152,7 +152,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         IsRemote = false,
                     };
                 }
-                Debug.WriteLine($"Telemetry sent successfully to the topic '{telemTopic}'");
+                Trace.TraceInformation($"Telemetry sent successfully to the topic '{telemTopic}'");
             }
             catch (SerializationException ex)
             {

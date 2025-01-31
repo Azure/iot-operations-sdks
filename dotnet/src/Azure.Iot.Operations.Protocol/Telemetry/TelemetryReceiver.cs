@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            Debug.WriteLine($"Telemetry received from {args.ApplicationMessage.Topic}");
+            Trace.TraceInformation($"Telemetry received from {args.ApplicationMessage.Topic}");
             string telemTopicFilter = GetTelemetryTopic();
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, telemTopicFilter))

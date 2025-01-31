@@ -560,7 +560,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             CorrelationId = requestGuid,
                         };
                     }
-                    Debug.WriteLine($"Invoked command '{this.commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
+                    Trace.TraceInformation($"Invoked command '{this.commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {

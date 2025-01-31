@@ -305,7 +305,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     cancellationToken: cancellationToken).WithMetadata();
 
             Trace.TraceInformation($"Key notification receiver started for key {key}.");
-            Debug.WriteLine($"Response from Observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
+            Trace.TraceInformation($"Response from Observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -336,7 +336,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     cancellationToken: cancellationToken).WithMetadata();
 
             Trace.TraceInformation($"Key notification receiver stopped for key {key}.");
-            Debug.WriteLine($"Response from Un-observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
+            Trace.TraceInformation($"Response from Un-observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
