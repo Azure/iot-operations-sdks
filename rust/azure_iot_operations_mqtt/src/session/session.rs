@@ -114,16 +114,6 @@ where
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    // TODO: Suppressing this clippy lint is a temporary solution to a much bigger problem.
-    // Currently the pub dispatcher is locked by a Mutex, which is not supposed to be held
-    // across an await point. Ideally we would just use an async-aware Mutex here (e.g. the
-    // tokio Mutex), but that would break some other internal APIs by forcing them to be
-    // async where we don't want them to be. The correct solution is to eliminate the
-    // Mutex altogether but that is a much larger refactoring task. In the meantime,
-    // just suppress the lint - this technically creates a race condition around a case
-    // where the dispatcher is being used to dispatch and to register simultaneously, but
-    // this is unlikely, and worst case one message gets lost. Fix ASAP though.
-    #[allow(clippy::await_holding_lock)]
     pub async fn run(&mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: This is a temporary solution to prevent re-use of the session.
