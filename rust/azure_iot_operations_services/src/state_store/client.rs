@@ -19,11 +19,10 @@ use derive_builder::Builder;
 use tokio::{
     sync::{
         mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
-        Mutex,
+        Mutex, Notify,
     },
     task,
 };
-use tokio_util::sync::CancellationToken;
 
 use crate::state_store::{
     self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
@@ -84,7 +83,7 @@ where
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
         ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
-    recv_cancellation_token: CancellationToken,
+    shutdown_notifier: Arc<Notify>,
 }
 
 impl<C> Client<C>
@@ -141,8 +140,8 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        // Create the cancellation token for the receiver loop
-        let recv_cancellation_token = CancellationToken::new();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
         // Create a hashmap of keys being observed and channels to send their notifications to
         let observed_keys = Arc::new(Mutex::new(HashMap::new()));
@@ -152,11 +151,11 @@ where
             let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
                 TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
                     .map_err(StateStoreErrorKind::from)?;
-            let recv_cancellation_token_clone = recv_cancellation_token.clone();
+            let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
             async move {
                 Self::receive_key_notification_loop(
-                    recv_cancellation_token_clone,
+                    shutdown_notifier_clone,
                     notification_receiver,
                     observed_keys_clone,
                 )
@@ -167,11 +166,10 @@ where
         Ok(Self {
             command_invoker,
             observed_keys,
-            recv_cancellation_token,
+            shutdown_notifier,
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver
     /// and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
@@ -182,8 +180,8 @@ where
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), StateStoreError> {
-        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to shutdown the telemetry receiver
+        self.shutdown_notifier.notify_one();
 
         self.command_invoker
             .shutdown()
@@ -580,19 +578,32 @@ where
     }
 
     async fn receive_key_notification_loop(
-        recv_cancellation_token: CancellationToken,
+        shutdown_notifier: Arc<Notify>,
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
     ) {
+        let mut shutdown_attempt_count = 0;
         loop {
             tokio::select! {
-                  // on shutdown, this cancellation token will be called so this
-                  // loop can exit and the telemetry receiver can be cleaned up
-                  () = recv_cancellation_token.cancelled() => {
-                    break;
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
+                    match telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("Telemetry Receiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down Telemetry Receiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if shutdown_attempt_count < 3 {
+                                shutdown_attempt_count += 1;
+                                shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
                   },
                   msg = telemetry_receiver.recv() => {
                     if let Some(m) = msg {
@@ -633,19 +644,23 @@ where
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving key notifications: {e}");
-                                break;
+                                log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
+                                // try to shutdown telemetry receiver, but not indefinitely
+                                if shutdown_attempt_count < 3 {
+                                    shutdown_notifier.notify_one();
+                                }
                             }
                         }
                     } else {
-                        log::error!("Telemetry Receiver closed, no more Key Notifications can be received");
+                        log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
+                        let mut observed_keys_mutex_guard = observed_keys.lock().await;
+                        // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
+                        observed_keys_mutex_guard.drain();
                         break;
                     }
                 }
             }
         }
-        let result = telemetry_receiver.shutdown().await;
-        log::info!("Receive key notification loop cancelled: {result:?}");
     }
 }
 
@@ -655,7 +670,8 @@ where
     C::PubReceiver: Send + Sync,
 {
     fn drop(&mut self) {
-        self.recv_cancellation_token.cancel();
+        self.shutdown_notifier.notify_one();
+        log::info!("State Store Client has been dropped.");
     }
 }
 
