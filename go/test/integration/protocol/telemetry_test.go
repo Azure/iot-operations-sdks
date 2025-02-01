@@ -24,13 +24,13 @@ func TestTelemetry(t *testing.T) {
 		ContentType: "custom/type",
 	}
 
-	results := make(chan *protocol.TelemetryMessage[*protocol.Data])
+	results := make(chan *protocol.TelemetryMessage[protocol.Data])
 
 	receiver, err := protocol.NewTelemetryReceiver(
 		app, server, enc, topic,
 		func(
 			_ context.Context,
-			tm *protocol.TelemetryMessage[*protocol.Data],
+			tm *protocol.TelemetryMessage[protocol.Data],
 		) error {
 			results <- tm
 			return nil
