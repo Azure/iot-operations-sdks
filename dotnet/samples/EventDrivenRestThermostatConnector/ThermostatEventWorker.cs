@@ -24,6 +24,7 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetNotSampleable(object? sender, AssetUnavailabileEventArgs args)
         {
+            _logger.LogInformation("TODO notification unsampleable");
             _assetSemaphore.Wait();
             try
             {
@@ -40,6 +41,7 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetSampleable(object? sender, AssetAvailabileEventArgs args)
         {
+            _logger.LogInformation("TODO notification sampleable");
             _assetSemaphore.Wait();
             try
             {
@@ -56,6 +58,7 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Starting event thread");
             while (!cancellationToken.IsCancellationRequested)
             {
                 await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
