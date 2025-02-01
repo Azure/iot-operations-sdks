@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
 
@@ -12,19 +11,22 @@ namespace Azure.Iot.Operations.Connector
         private SemaphoreSlim _assetSemaphore = new(1);
         Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
         private EventDrivenTelemetryConnectorWorker _connector;
-        private ILogger<EventDrivenTelemetryConnectorWorker> _logger;
+        private ILogger<ThermostatEventWorker> _logger;
 
-        public ThermostatEventWorker(ILogger<EventDrivenTelemetryConnectorWorker> logger, EventDrivenTelemetryConnectorWorker connectorWorker)
+        public ThermostatEventWorker(ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger,
+            ILogger<ThermostatEventWorker> logger,
+            IMqttClient mqttClient,
+            IDatasetSamplerFactory datasetSamplerFactory,
+            IAssetMonitor assetMonitor)
         {
             _logger = logger;
-            _connector = connectorWorker;
+            _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
             _connector.OnAssetSampleable += OnAssetSampleable;
             _connector.OnAssetNotSampleable += OnAssetNotSampleable;
         }
 
         public void OnAssetNotSampleable(object? sender, AssetUnavailabileEventArgs args)
         {
-            _logger.LogInformation("TODO notification unsampleable");
             _assetSemaphore.Wait();
             try
             {
@@ -41,7 +43,6 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetSampleable(object? sender, AssetAvailabileEventArgs args)
         {
-            _logger.LogInformation("TODO notification sampleable");
             _assetSemaphore.Wait();
             try
             {
@@ -57,6 +58,13 @@ namespace Azure.Iot.Operations.Connector
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        {
+            await Task.WhenAny(
+                _connector.StartAsync(cancellationToken), 
+                EventLoopAsync(cancellationToken));
+        }
+
+        private async Task EventLoopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Starting event thread");
             while (!cancellationToken.IsCancellationRequested)
