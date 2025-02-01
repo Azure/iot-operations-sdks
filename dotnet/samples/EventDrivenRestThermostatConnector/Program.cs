@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
+using Microsoft.Extensions.DependencyInjection;
 using RestThermostatConnector;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -11,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
         services.AddSingleton<EventDrivenTelemetryConnectorWorker>();
-        services.AddSingleton<ThermostatEventWorker>((serviceProvider) => new(serviceProvider.GetRequiredService<EventDrivenTelemetryConnectorWorker>()));
+        services.AddSingleton<ThermostatEventWorker>();
     })
     .Build();
 

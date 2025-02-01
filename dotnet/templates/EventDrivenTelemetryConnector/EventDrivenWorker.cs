@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
     public class EventDrivenWorker : BackgroundService
     {
+        private SemaphoreSlim _assetSemaphore = new(1);
+        Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
         private EventDrivenTelemetryConnectorWorker _connector;
         private ILogger<EventDrivenTelemetryConnectorWorker> _logger;
 
@@ -20,27 +24,39 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetNotSampleable(object? sender, AssetUnavailabileEventArgs args)
         {
-            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-        }
-
-        public async void OnAssetSampleable(object? sender, AssetAvailabileEventArgs args)
-        {
-            _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
-
-            if (args.Asset.Datasets != null)
+            _assetSemaphore.Wait();
+            try
             {
-                foreach (Dataset dataset in args.Asset.Datasets)
-                { 
-                    // Once a asset is available to be sampled, use the connector to sample its datasets from this thread or other threads
-                    await _connector.SampleDatasetAsync(args.AssetName, args.Asset, dataset.Name);
+                if (_sampleableAssets.Remove(args.AssetName, out Asset? asset))
+                {
+                    _logger.LogInformation("Asset with name {0} is no longer sampleable", asset.DisplayName);
                 }
+            }
+            finally
+            {
+                _assetSemaphore.Release();
             }
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public void OnAssetSampleable(object? sender, AssetAvailabileEventArgs args)
         {
-            // Implement your logic here
-            await Task.Delay(Timeout.Infinite, stoppingToken);
+            _assetSemaphore.Wait();
+            try
+            {
+                if (_sampleableAssets.TryAdd(args.AssetName, args.Asset))
+                {
+                    _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
+                }
+            }
+            finally
+            {
+                _assetSemaphore.Release();
+            }
+        }
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

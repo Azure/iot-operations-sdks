@@ -12,9 +12,11 @@ namespace Azure.Iot.Operations.Connector
         private SemaphoreSlim _assetSemaphore = new(1);
         Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
         private EventDrivenTelemetryConnectorWorker _connector;
+        private ILogger<EventDrivenTelemetryConnectorWorker> _logger;
 
-        public ThermostatEventWorker(EventDrivenTelemetryConnectorWorker connectorWorker)
+        public ThermostatEventWorker(ILogger<EventDrivenTelemetryConnectorWorker> logger, EventDrivenTelemetryConnectorWorker connectorWorker)
         {
+            _logger = logger;
             _connector = connectorWorker;
             _connector.OnAssetSampleable += OnAssetSampleable;
             _connector.OnAssetNotSampleable += OnAssetNotSampleable;
@@ -27,7 +29,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 if (_sampleableAssets.Remove(args.AssetName, out Asset? asset))
                 {
-                    //_logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
+                    _logger.LogInformation("Asset with name {0} is no longer sampleable", asset.DisplayName);
                 }
             }
             finally
@@ -43,7 +45,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 if (_sampleableAssets.TryAdd(args.AssetName, args.Asset))
                 {
-                    //_logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
+                    _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
                 }
             }
             finally
@@ -78,16 +80,16 @@ namespace Azure.Iot.Operations.Connector
                             catch (AssetDatasetUnavailableException e)
                             {
                                 // This may happen if you try to sample a dataset when its asset was just deleted
-                                //_logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because it is no longer sampleable", dataset.Name, assetName);
+                                _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because it is no longer sampleable", dataset.Name, assetName);
                             }
                             catch (ConnectorSamplingException e)
                             {
                                 // This may happen if the asset (an HTTP server in this sample's case) failed to respond to a request or otherwise could not be reached.
-                                //_logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because the asset could not be reached", dataset.Name, assetName);
+                                _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because the asset could not be reached", dataset.Name, assetName);
                             }
                             catch (ConnectorException e)
                             {
-                                //_logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1}", dataset.Name, assetName);
+                                _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1}", dataset.Name, assetName);
                             }
                         }
                     }
