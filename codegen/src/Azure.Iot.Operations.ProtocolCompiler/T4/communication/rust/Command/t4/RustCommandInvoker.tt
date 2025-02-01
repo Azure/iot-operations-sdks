@@ -7,6 +7,9 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+<# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
+use azure_iot_operations_protocol::common::payload_serialize::CustomPayload;
+<# } #>
 <# if (this.reqSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>

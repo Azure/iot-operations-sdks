@@ -17,10 +17,12 @@ import (
 
 	"server/jsonmodel"
 	"server/rawmodel"
+	"server/custommodel"
 )
 
 const jsonServerId = "JsonGoServer"
 const rawServerId = "RawGoServer"
+const customServerId = "CustomGoServer"
 
 func main() {
 	ctx := context.Background()
@@ -30,7 +32,7 @@ func main() {
 	}
 
 	if len(os.Args) < 3 {
-		fmt.Printf("Usage: %s {JSON|RAW} iterations [interval_in_seconds]", os.Args[0]);
+		fmt.Printf("Usage: %s {JSON|RAW|CUSTOM} iterations [interval_in_seconds]", os.Args[0]);
 		return;
 	}
 
@@ -52,8 +54,10 @@ func main() {
 			sendJson(ctx, app, iterations, interval_in_seconds)
 		case "raw":
 			sendRaw(ctx, app, iterations, interval_in_seconds)
+		case "custom":
+			sendCustom(ctx, app, iterations, interval_in_seconds)
 		default:
-			fmt.Printf("format must be JSON or RAW")
+			fmt.Printf("format must be JSON or RAW or CUSTOM")
 			return
 	}
 
@@ -145,6 +149,34 @@ func sendRaw(ctx context.Context, app *protocol.Application, iterations int, int
 
 		fmt.Printf("  Sending iteration %d\n", i)
 		err = server.Send(ctx, telemetry)
+		if err != nil {
+			panic(err)
+		}
+
+		time.Sleep(time.Duration(interval_in_seconds) * time.Second)
+	}
+}
+
+func sendCustom(ctx context.Context, app *protocol.Application, iterations int, interval_in_seconds int) {
+	mqttClient := getMqttClient(customServerId)
+
+	server, err := custommodel.NewCustomModelService(app, mqttClient)
+	if err != nil {
+		panic(err)
+	}
+
+	defer server.Close()
+
+	err = server.Start(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	for i := 0; i < iterations; i++ {
+		telemetry := []byte(fmt.Sprintf("Sample data %d", i))
+
+		fmt.Printf("  Sending iteration %d\n", i)
+		err = server.Send(ctx, protocol.Data{telemetry, "text/csv", 1})
 		if err != nil {
 			panic(err)
 		}

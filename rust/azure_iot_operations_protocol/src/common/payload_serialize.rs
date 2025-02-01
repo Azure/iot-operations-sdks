@@ -29,7 +29,7 @@ impl TryFrom<Option<u8>> for FormatIndicator {
 }
 
 /// Struct that specifies the content type, format indicator, and payload for a serialized payload.
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Builder, Clone, Debug, Default, PartialEq)]
 pub struct SerializedPayload {
     /// The content type of the payload
     pub content_type: String,
@@ -112,11 +112,12 @@ pub enum DeserializationError<T: Debug + Into<Box<dyn std::error::Error + Sync +
 
 // Provided convenience implementations
 
-/// A provided convenience struct for bypassing serialization and deserialization,
-/// but having dynamic content type and format indicator.
-pub type BypassPayload = SerializedPayload;
+/// A provided convenience struct for data that is externally serialized via custom code.
+pub type CustomPayload = SerializedPayload;
+/// A buildder for [`CustomPayload`].
+pub type CustomPayloadBuilder = SerializedPayloadBuilder;
 
-impl PayloadSerialize for BypassPayload {
+impl PayloadSerialize for CustomPayload {
     type Error = String;
     fn serialize(self) -> Result<SerializedPayload, String> {
         Ok(SerializedPayload {
@@ -132,7 +133,7 @@ impl PayloadSerialize for BypassPayload {
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         let ct: String = content_type.clone().unwrap_or_default();
-        Ok(BypassPayload {
+        Ok(CustomPayload {
             content_type: ct,
             format_indicator: format_indicator.clone(),
             payload: payload.to_vec(),
