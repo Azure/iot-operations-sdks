@@ -11,8 +11,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddHostedService<EventDrivenTelemetryConnectorWorker>();
-        services.AddHostedService<ThermostatEventWorker>((serviceProvider) => new(null, serviceProvider.GetService<EventDrivenTelemetryConnectorWorker>()!));
+        services.AddSingleton<EventDrivenTelemetryConnectorWorker>();
+        services.AddSingleton<ThermostatEventWorker>();
     })
     .Build();
 

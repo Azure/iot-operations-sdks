@@ -12,9 +12,9 @@ namespace Azure.Iot.Operations.Connector
         private SemaphoreSlim _assetSemaphore = new(1);
         Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
         private EventDrivenTelemetryConnectorWorker _connector;
-        private ILogger<ThermostatEventWorker>? _logger;
+        private ILogger<EventDrivenTelemetryConnectorWorker> _logger;
 
-        public ThermostatEventWorker(ILogger<ThermostatEventWorker>? logger, EventDrivenTelemetryConnectorWorker connectorWorker)
+        public ThermostatEventWorker(ILogger<EventDrivenTelemetryConnectorWorker> logger, EventDrivenTelemetryConnectorWorker connectorWorker)
         {
             _logger = logger;
             _connector = connectorWorker;
