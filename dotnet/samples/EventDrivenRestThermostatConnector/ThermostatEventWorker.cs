@@ -7,14 +7,14 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class RestThermostatEventingConnectorWorker : BackgroundService, IDisposable
+    public class ThermostatEventWorker : BackgroundService, IDisposable
     {
         private SemaphoreSlim _assetSemaphore = new(1);
         Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
         private EventDrivenTelemetryConnectorWorker _connector;
-        private ILogger<EventDrivenTelemetryConnectorWorker> _logger;
+        private ILogger<ThermostatEventWorker> _logger;
 
-        public RestThermostatEventingConnectorWorker(ILogger<EventDrivenTelemetryConnectorWorker> logger, EventDrivenTelemetryConnectorWorker connectorWorker)
+        public ThermostatEventWorker(ILogger<ThermostatEventWorker> logger, EventDrivenTelemetryConnectorWorker connectorWorker)
         {
             _logger = logger;
             _connector = connectorWorker;
