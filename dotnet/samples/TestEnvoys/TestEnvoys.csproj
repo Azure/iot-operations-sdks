@@ -7,8 +7,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Apache.Avro" Version="1.11.3" />
-    <PackageReference Include="Google.Protobuf" Version="3.26.1" />
+    <PackageReference Include="Apache.Avro" Version="1.12.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.29.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.Api.CommonProtos" Version="2.15.0" />

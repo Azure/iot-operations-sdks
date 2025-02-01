@@ -7,7 +7,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(DatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddHostedService<ConnectorWorker>();
+        services.AddHostedService<EventDrivenWorker>();
     })
     .Build();
 

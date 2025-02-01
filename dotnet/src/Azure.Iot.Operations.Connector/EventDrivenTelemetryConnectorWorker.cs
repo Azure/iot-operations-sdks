@@ -16,18 +16,22 @@ namespace Azure.Iot.Operations.Connector
     /// Base class for a worker that samples datasets from assets and publishes the data to an MQTT broker. This worker allows implementations
     /// to choose when to sample each dataset and notifies the implementation when an asset is/is not available to be sampled.
     /// </summary>
-    public abstract class EventingTelemetryConnectorWorker : BackgroundService
+    public class EventDrivenTelemetryConnectorWorker : BackgroundService
     {
-        protected readonly ILogger<EventingTelemetryConnectorWorker> _logger;
+        protected readonly ILogger<EventDrivenTelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private IAssetMonitor _assetMonitor;
 
+        public EventHandler<AssetAvailabileEventArgs>? OnAssetSampleable;
+
+        public EventHandler<AssetUnavailabileEventArgs>? OnAssetNotSampleable;
+
         // Mapping of asset name to the mapping of dataset name to its sampler and sampling interval
         private ConcurrentDictionary<string, ConcurrentDictionary<string, IDatasetSampler>> _assetsDatasetSamplers = new();
 
-        public EventingTelemetryConnectorWorker(
-            ILogger<EventingTelemetryConnectorWorker> logger,
+        public EventDrivenTelemetryConnectorWorker(
+            ILogger<EventDrivenTelemetryConnectorWorker> logger,
             IMqttClient mqttClient, 
             IDatasetSamplerFactory datasetSamplerFactory,
             IAssetMonitor assetMonitor)
@@ -227,7 +231,7 @@ namespace Azure.Iot.Operations.Connector
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isRestarting)
             {
-                _ = OnAssetNotSampleableAsync(assetName, cancellationToken);
+                OnAssetNotSampleable?.Invoke(this, new AssetUnavailabileEventArgs(assetName));
             }
         }
 
@@ -281,12 +285,8 @@ namespace Azure.Iot.Operations.Connector
             }
 
             // Don't block on this callback returning since users may start sampling from within this thread.
-            _ = OnAssetSampleableAsync(assetName, asset, cancellationToken);
+            OnAssetSampleable?.Invoke(this, new AssetAvailabileEventArgs(assetName, asset));
         }
-
-        public abstract Task OnAssetSampleableAsync(string assetName, Asset asset, CancellationToken cancellationToken);
-
-        public abstract Task OnAssetNotSampleableAsync(string assetName, CancellationToken cancellationToken);
 
         /// <summary>
         /// Sample the provided dataset on the provided asset and publish the sampled data to the MQTT broker as MQTT telemetry.
