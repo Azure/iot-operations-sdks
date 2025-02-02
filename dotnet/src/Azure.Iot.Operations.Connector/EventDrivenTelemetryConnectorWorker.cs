@@ -1,10 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
@@ -16,7 +18,7 @@ namespace Azure.Iot.Operations.Connector
     /// Base class for a worker that samples datasets from assets and publishes the data to an MQTT broker. This worker allows implementations
     /// to choose when to sample each dataset and notifies the implementation when an asset is/is not available to be sampled.
     /// </summary>
-    public class EventDrivenTelemetryConnectorWorker : BackgroundService
+    public class EventDrivenTelemetryConnectorWorker : ConnectorBackgroundService
     {
         protected readonly ILogger<EventDrivenTelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
@@ -39,6 +41,11 @@ namespace Azure.Iot.Operations.Connector
             _mqttClient = mqttClient;
             _datasetSamplerFactory = datasetSamplerFactory;
             _assetMonitor = assetMonitor;
+        }
+
+        public override Task RunConnectorAsync(CancellationToken cancellationToken = default)
+        {
+            return ExecuteAsync(cancellationToken);
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)

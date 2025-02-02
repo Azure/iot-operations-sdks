@@ -6,15 +6,15 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class RestThermostatEventingConnectorWorker : BackgroundService, IDisposable
+    public class EventDrivenRestThermostatConnectorWorker : BackgroundService, IDisposable
     {
         private SemaphoreSlim _assetSemaphore = new(1);
         Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
 
-        private readonly ILogger<RestThermostatEventingConnectorWorker> _logger;
+        private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
         private readonly EventDrivenTelemetryConnectorWorker _connector;
 
-        public RestThermostatEventingConnectorWorker(ILogger<RestThermostatEventingConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
@@ -55,7 +55,7 @@ namespace Azure.Iot.Operations.Connector
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             await Task.WhenAny(
-                _connector.StartAsync(cancellationToken),
+                _connector.RunConnectorAsync(cancellationToken),
                 ExecuteEventsAsync(cancellationToken));
         }
 
