@@ -6,34 +6,41 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class ConnectorWorker : EventingTelemetryConnectorWorker
+    public class ConnectorWorker : BackgroundService
     {
-        public ConnectorWorker(ILogger<EventingTelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor) : base(logger, mqttClient, datasetSamplerFactory, assetMonitor)
+        private readonly ILogger<ConnectorWorker> _logger;
+        private readonly EventDrivenTelemetryConnectorWorker _connector;
+
+        public ConnectorWorker(ILogger<ConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
+            _logger = logger;
+            _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
         }
 
-        public override Task OnAssetNotSampleableAsync(string assetName, CancellationToken cancellationToken)
+        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
         {
             // This callback notifies your app when an asset and its datasets can be sampled
-            _logger.LogInformation("Asset with name {0} is no longer sampleable", assetName);
+            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
             throw new NotImplementedException();
         }
 
-        public override Task OnAssetSampleableAsync(string assetName, Asset asset, CancellationToken cancellationToken)
+        public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
             // This callback notifies your app when an asset and its datasets can no longer be sampled
-            _logger.LogInformation("Asset with name {0} is now sampleable", assetName);
+            _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
             throw new NotImplementedException();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // Run the base class's loop in another thread so that this thread can act independently
-            _ = base.ExecuteAsync(cancellationToken);
+            await Task.WhenAny(
+                _connector.StartAsync(cancellationToken),
+                ExecuteEventsAsync(cancellationToken));
+        }
 
-            // Call into the base class to sample an asset's dataset. Once called, the base class will
-            // sample the asset (if available), and then publish the retrieved data as telemetry to the MQTT broker.
-            //base.SampleDatasetAsync(...)
+        private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

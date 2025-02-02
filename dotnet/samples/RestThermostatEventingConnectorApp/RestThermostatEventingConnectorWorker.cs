@@ -6,60 +6,60 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class RestThermostatEventingConnectorWorker : EventingTelemetryConnectorWorker, IDisposable
+    public class RestThermostatEventingConnectorWorker : BackgroundService, IDisposable
     {
         private SemaphoreSlim _assetSemaphore = new(1);
         Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
 
-        public RestThermostatEventingConnectorWorker(ILogger<EventingTelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor) : base(logger, mqttClient, datasetSamplerFactory, assetMonitor)
+        private readonly ILogger<RestThermostatEventingConnectorWorker> _logger;
+        private readonly EventDrivenTelemetryConnectorWorker _connector;
+
+        public RestThermostatEventingConnectorWorker(ILogger<RestThermostatEventingConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
+            _logger = logger;
+            _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
         }
 
-        public override Task OnAssetNotSampleableAsync(string assetName, CancellationToken cancellationToken)
+        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
         {
-            _assetSemaphore.Wait(cancellationToken);
+            _assetSemaphore.Wait();
             try
             {
-                if (_sampleableAssets.Remove(assetName, out Asset? asset))
+                if (_sampleableAssets.Remove(args.AssetName, out Asset? asset))
                 {
-                    _logger.LogInformation("Asset with name {0} is no longer sampleable", asset.DisplayName);
+                    _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
                 }
             }
             finally
             { 
                 _assetSemaphore.Release();
             }
-
-            return Task.CompletedTask;
         }
 
-        public override Task OnAssetSampleableAsync(string assetName, Asset asset, CancellationToken cancellationToken)
+        public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
-            _assetSemaphore.Wait(cancellationToken);
+            _assetSemaphore.Wait();
             try
             {
-                if (_sampleableAssets.TryAdd(assetName, asset))
+                if (_sampleableAssets.TryAdd(args.AssetName, args.Asset))
                 {
-                    _logger.LogInformation("Asset with name {0} is now sampleable", asset.DisplayName);
+                    _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
                 }
             }
             finally
             {
                 _assetSemaphore.Release();
             }
-
-            return Task.CompletedTask;
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // Run the base class's loop in another thread so that this thread can act independently
-            _ = base.ExecuteAsync(cancellationToken);
-            await RunEventingLoopAsync(cancellationToken);
+            await Task.WhenAny(
+                _connector.StartAsync(cancellationToken),
+                ExecuteEventsAsync(cancellationToken));
         }
 
-        // This method simulates an unrelated thread that occasionally samples the available datasets.
-        private async Task RunEventingLoopAsync(CancellationToken cancellationToken)
+        private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -79,7 +79,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                await base.SampleDatasetAsync(assetName, sampleableAsset, dataset.Name);
+                                await _connector.SampleDatasetAsync(assetName, sampleableAsset, dataset.Name);
                             }
                             catch (AssetDatasetUnavailableException e)
                             {
