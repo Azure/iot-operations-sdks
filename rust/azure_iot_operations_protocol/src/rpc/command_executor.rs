@@ -93,10 +93,9 @@ where
     /// * `response` - The [`CommandResponse`] to send.
     ///
     /// # Errors
-    /// Returns a `String` if the response is no longer expected because of a timeout or dropped
-    /// executor.
-    ///
-    /// Returns a `String` if the response publish completion fails.
+    /// Returns a `String` describing the error if
+    /// - The response is no longer expected because of a timeout or dropped executor.
+    /// - The response publish completion fails.
     pub async fn complete(self, response: CommandResponse<TResp>) -> Result<(), String> {
         self.send_response(Ok(response)).await
     }
