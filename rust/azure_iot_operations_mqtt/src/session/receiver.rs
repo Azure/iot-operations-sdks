@@ -927,7 +927,7 @@ mod tests {
             .unwrap()
             .create_filtered_receiver(&topic_filter6); // Type 3
 
-        // There are three entires for the exact topic name, two for the single level wildcard, and one for the multi-level wildcard
+        // There are three entries for the exact topic name, two for the single level wildcard, and one for the multi-level wildcard
         assert_eq!(manager.lock().unwrap().filtered_txs.len(), 3);
         assert_eq!(
             manager
