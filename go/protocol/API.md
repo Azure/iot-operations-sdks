@@ -391,7 +391,7 @@ func NewCommandInvoker[Req, Res any](app *Application, client MqttClient, reques
 NewCommandInvoker creates a new command invoker.
 
 <a name="CommandInvoker[Req, Res].Close"></a>
-### func \(\*CommandInvoker\[Req, Res\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L318>)
+### func \(\*CommandInvoker\[Req, Res\]\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L335>)
 
 ```go
 func (ci *CommandInvoker[Req, Res]) Close()
@@ -400,7 +400,7 @@ func (ci *CommandInvoker[Req, Res]) Close()
 Close the command invoker to free its resources.
 
 <a name="CommandInvoker[Req, Res].Invoke"></a>
-### func \(\*CommandInvoker\[Req, Res\]\) [Invoke](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L203-L207>)
+### func \(\*CommandInvoker\[Req, Res\]\) [Invoke](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L199-L203>)
 
 ```go
 func (ci *CommandInvoker[Req, Res]) Invoke(ctx context.Context, req Req, opt ...InvokeOption) (res *CommandResponse[Res], err error)
@@ -409,7 +409,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(ctx context.Context, req Req, opt ...
 Invoke calls the command. This call will block until the command returns; any desired parallelism between invocations should be handled by the caller using normal Go constructs.
 
 <a name="CommandInvoker[Req, Res].Start"></a>
-### func \(\*CommandInvoker\[Req, Res\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L313>)
+### func \(\*CommandInvoker\[Req, Res\]\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L330>)
 
 ```go
 func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error
@@ -446,7 +446,7 @@ type CommandInvokerOptions struct {
 ```
 
 <a name="CommandInvokerOptions.Apply"></a>
-### func \(\*CommandInvokerOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L357-L360>)
+### func \(\*CommandInvokerOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L379-L382>)
 
 ```go
 func (o *CommandInvokerOptions) Apply(opts []CommandInvokerOption, rest ...CommandInvokerOption)
@@ -455,7 +455,7 @@ func (o *CommandInvokerOptions) Apply(opts []CommandInvokerOption, rest ...Comma
 Apply resolves the provided list of options.
 
 <a name="CommandInvokerOptions.ApplyOptions"></a>
-### func \(\*CommandInvokerOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L367>)
+### func \(\*CommandInvokerOptions\) [ApplyOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L389>)
 
 ```go
 func (o *CommandInvokerOptions) ApplyOptions(opts []Option, rest ...Option)
@@ -611,7 +611,7 @@ type InvokeOptions struct {
 ```
 
 <a name="InvokeOptions.Apply"></a>
-### func \(\*InvokeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L400-L403>)
+### func \(\*InvokeOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/command_invoker.go#L422-L425>)
 
 ```go
 func (o *InvokeOptions) Apply(opts []InvokeOption, rest ...InvokeOption)
