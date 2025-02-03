@@ -9,9 +9,9 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::{
+use azure_iot_operations_protocol::{application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
-};
+}, telemetry::telemetry_receiver};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -22,6 +22,7 @@ use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
 use bytes::Bytes;
 use tokio::sync::mpsc;
 use tokio::time;
+use url::Url;
 use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
@@ -196,22 +197,22 @@ where
                 Ok((telemetry, ack_token)) => {
                     *telemetry_count.lock().unwrap() += 1;
 
-                    let mut metadata = HashMap::new();
-                    for (key, value) in telemetry.custom_user_data {
-                        metadata.insert(key, value);
-                    }
-
-                    let cloud_event = match telemetry.cloud_event {
-                        Some(cloud_event) => Some(TestCaseCloudEvent {
+                    let cloud_event = match telemetry_receiver::CloudEvent::from_telemetry(&telemetry) {
+                        Ok(cloud_event) => Some(TestCaseCloudEvent {
                             source: Some(cloud_event.source),
                             event_type: Some(cloud_event.event_type),
                             spec_version: Some(cloud_event.spec_version),
                             data_content_type: cloud_event.data_content_type,
                             subject: cloud_event.subject,
-                            data_schema: cloud_event.data_schema,
+                            data_schema: cloud_event.data_schema.map(|uri: url::Url| Url::to_string(&uri)),
                         }),
-                        None => None,
+                        Err(_) => None,
                     };
+
+                    let mut metadata = HashMap::new();
+                    for (key, value) in telemetry.custom_user_data {
+                        metadata.insert(key, value);
+                    }
 
                     telemetry_tx
                         .send(ReceivedTelemetry {
