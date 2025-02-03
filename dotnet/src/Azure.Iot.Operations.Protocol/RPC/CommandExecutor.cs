@@ -250,6 +250,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = false;
                                 invalidPropertyName = nameof(ExecutionTimeout);
                                 invalidPropertyValue = XmlConvert.ToString(ExecutionTimeout);
+                                Trace.TraceWarning($"Command '{this.commandName}' execution timed out after {cancellationTimeout.TotalSeconds} seconds.");
                                 break;
                             case InvocationException iex:
                                 statusCode = CommandStatusCode.UnprocessableContent;
@@ -257,6 +258,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = true;
                                 invalidPropertyName = iex.InvalidPropertyName;
                                 invalidPropertyValue = iex.InvalidPropertyValue;
+                                Trace.TraceWarning($"Command '{this.commandName}' execution failed due to an invocation error: {iex}.");
                                 break;
                             case AkriMqttException amex:
                                 statusCode = CommandStatusCode.InternalServerError;
@@ -264,6 +266,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = true;
                                 invalidPropertyName = amex?.HeaderName ?? amex?.PropertyName;
                                 invalidPropertyValue = amex?.HeaderValue ?? amex?.PropertyValue?.ToString();
+                                Trace.TraceWarning($"Command '{this.commandName}' execution failed due to Akri Mqtt error: {amex}.");
                                 break;
                             default:
                                 statusCode = CommandStatusCode.InternalServerError;
@@ -271,6 +274,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = true;
                                 invalidPropertyName = null;
                                 invalidPropertyValue = null;
+                                Trace.TraceWarning($"Command '{this.commandName}' execution failed due to error: {ex}.");
                                 break;
                         }
 
@@ -320,6 +324,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
 
                 isRunning = true;
+                Trace.TraceInformation($"Command executor for '{commandName}' started.");
             }
         }
 
@@ -338,6 +343,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 isRunning = false;
                 hasSubscribed = false;
             }
+            Trace.TraceInformation($"Command executor for '{commandName}' stopped.");
         }
 
         private async Task SubscribeAsync(IReadOnlyDictionary<string, string>? transientTopicTokenMap, CancellationToken cancellationToken = default)
