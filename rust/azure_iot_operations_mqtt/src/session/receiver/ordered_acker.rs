@@ -36,6 +36,7 @@ pub struct OrderedAcker<A>
 where
     A: MqttAck,
 {
+    // The underlying MQTT acker that will be used to send PUBACKs
     acker: A,
     // The queue of PKIDs representing the order in which they should be acked
     pkid_ack_queue: Arc<Mutex<PkidAckQueue>>,
@@ -90,7 +91,7 @@ where
             // Determine if this publish is the correct next ack. If so, pop the data so that
             // the PKID can be re-used.
             // NOTE: This is done before the ack itself so that the lock does not need to be held
-            // through an await operation. Additionally, as soon as the ack
+            // through an await operation.
             let should_ack = {
                 let mut pkid_ack_queue = self.pkid_ack_queue.lock().unwrap();
                 let mut pending_acks = self.pending_acks.lock().unwrap();
@@ -104,11 +105,15 @@ where
                         false
                     }
                 } else {
+                    // NOTE: This should not happen when used correctly, as the PKID should always be
+                    // inserted into the PKID queue before being acked. However, the implementation
+                    // handles this by waiting until the next PKID is inserted into the queue.
+                    log::warn!("Attempted ordered ack for PKID {} but no PKIDs in queue", publish.pkid);
                     false
                 }
             };
 
-            // Ack the publish if is is this publishes turn to be acked
+            // Ack the publish if it is this publish's turn to be acked
             if should_ack {
                 let ct = self.acker.ack(publish).await?;
                 // NOTE: Only notify the waiters AFTER the ack is completed to ensure that no scheduling

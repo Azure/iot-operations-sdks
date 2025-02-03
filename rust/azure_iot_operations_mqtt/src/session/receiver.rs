@@ -27,7 +27,7 @@ use crate::topic::{TopicFilter, TopicName, TopicParseError};
 pub struct AckToken(PlenaryAckMember);
 
 impl AckToken {
-    /// Acknowledge the received Publish message adn return a [`CompletionToken`] for the completion
+    /// Acknowledge the received Publish message and return a [`CompletionToken`] for the completion
     /// of the acknowledgement process.
     ///
     /// # Errors
