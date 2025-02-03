@@ -1,5 +1,7 @@
 # Initializing a Kubernetes cluster and installing Azure IoT Operations
 
+The scripts support the general [Setups](/docs/setup.md) documentation.
+
 ## Supported environments
 
 The scripts have been tested in the following environments:
@@ -56,7 +58,7 @@ For the initial install, run the following:
 
 ```bash
 ./tools/deployment/initialize-cluster.sh
-./tools/deployment/deploy-aio.sh
+./tools/deployment/deploy-aio.sh nightly
 ```
 
 > [!CAUTION]
@@ -67,7 +69,7 @@ For the initial install, run the following:
 To update MQTT broker to the latest nightly, run the following:
 
 ```bash
-./tools/deployment/deploy-aio.sh
+./tools/deployment/deploy-aio.sh nightly
 ```
 
 ### Refresh local credentials
