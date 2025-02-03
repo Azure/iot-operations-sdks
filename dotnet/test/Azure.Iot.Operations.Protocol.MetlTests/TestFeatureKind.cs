@@ -7,9 +7,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     {
         Unobtanium = 0,
         AckOrdering = 1,
-        Reconnection = 2,
-        Caching = 3,
-        Dispatch = 4,
-        ExplicitDefault = 5,
+        TopicFiltering = 2,
+        Reconnection = 3,
+        Caching = 4,
+        Dispatch = 5,
+        ExplicitDefault = 6,
     }
 }

@@ -103,13 +103,11 @@ impl MqttDriver {
         properties: Option<UnsubscribeProperties>,
     ) -> CompletionToken {
         let (ack_tx, ack_rx) = oneshot::channel();
-        self.operation_tx
-            .send(MqttOperation::Unsubscribe {
-                _topic: topic.into(),
-                _properties: properties,
-                ack_tx,
-            })
-            .unwrap();
+        _ = self.operation_tx.send(MqttOperation::Unsubscribe {
+            _topic: topic.into(),
+            _properties: properties,
+            ack_tx,
+        });
 
         CompletionToken(Box::new(ack_rx.map_ok_or_else(
             |_: oneshot::error::RecvError| Err(NoticeError::Recv),
