@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class ConnectorWorker : BackgroundService
+    public class ConnectorWorker : BackgroundService, IDisposable
     {
         private readonly ILogger<ConnectorWorker> _logger;
         private readonly EventDrivenTelemetryConnectorWorker _connector;
@@ -44,6 +44,14 @@ namespace Azure.Iot.Operations.Connector
         private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _connector.OnAssetAvailable -= OnAssetSampleableAsync;
+            _connector.OnAssetUnavailable -= OnAssetNotSampleableAsync;
+            _connector.Dispose();
         }
     }
 }

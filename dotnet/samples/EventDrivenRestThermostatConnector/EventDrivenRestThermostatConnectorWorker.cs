@@ -109,7 +109,11 @@ namespace Azure.Iot.Operations.Connector
         }
 
         public override void Dispose()
-        { 
+        {
+            base.Dispose();
+            _connector.OnAssetAvailable -= OnAssetSampleableAsync;
+            _connector.OnAssetUnavailable -= OnAssetNotSampleableAsync;
+            _connector.Dispose();
             _assetSemaphore.Dispose();
         }
     }
