@@ -113,10 +113,10 @@ func (ts *TelemetrySender[T]) Send(
 	opt ...SendOption,
 ) (err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, ts.log, shallow) }()
-
 	var opts SendOptions
 	opts.Apply(opt)
+
+	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	timeout := opts.Timeout
 	if timeout == 0 {
