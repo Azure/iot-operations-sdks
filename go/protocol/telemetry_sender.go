@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
@@ -19,6 +20,7 @@ type (
 	TelemetrySender[T any] struct {
 		publisher  *publisher[T]
 		dataSchema *url.URL
+		log        log.Logger
 	}
 
 	// TelemetrySenderOption represents a single telemetry sender option.
@@ -65,10 +67,11 @@ func NewTelemetrySender[T any](
 	topicPattern string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts TelemetrySenderOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -87,12 +90,15 @@ func NewTelemetrySender[T any](
 		return nil, err
 	}
 
-	ts = &TelemetrySender[T]{}
+	ts = &TelemetrySender[T]{
+		log: logger,
+	}
 	ts.publisher = &publisher[T]{
 		app:      app,
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
+		log:      logger,
 	}
 
 	ts.dataSchema = opts.DataSchema
@@ -107,10 +113,10 @@ func (ts *TelemetrySender[T]) Send(
 	opt ...SendOption,
 ) (err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
-
 	var opts SendOptions
 	opts.Apply(opt)
+
+	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	timeout := opts.Timeout
 	if timeout == 0 {
@@ -139,6 +145,9 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 	pub.Retain = opts.Retain
+
+	ts.log.Debug(ctx, "sending telemetry",
+		slog.String("topic", pub.Topic))
 
 	shallow = false
 	return ts.publisher.publish(ctx, pub)
