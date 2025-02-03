@@ -6,7 +6,7 @@ metadata:
 spec:
   displayName: My REST Thermostat Asset
   description: A sample for an Asset modeling a device with REST endpoint
-  assetEndpointProfileRef: my-rest-thermostat-profile
+  assetEndpointProfileRef: azure-iot-operations/my-rest-thermostat-profile # <namespace>/<assetEndpointProfile.metadata.name>
   defaultDatasetsConfiguration: |-
    {
       "samplingInterval": 4000,
