@@ -24,7 +24,7 @@ type (
 // Wrap the slog logger.
 func Wrap(logger ...*slog.Logger) Logger {
 	for _, l := range logger {
-		if l == nil {
+		if l != nil {
 			return Logger{l}
 		}
 	}
