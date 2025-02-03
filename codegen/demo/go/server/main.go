@@ -4,132 +4,151 @@
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    "strconv"
-    "strings"
-    "time"
+	"context"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"time"
 
-    "github.com/Azure/iot-operations-sdks/go/mqtt"
-    "github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/iso"
 
-    "server/dtmi_codegen_communicationTest_jsonModel__1"
+	"server/jsonmodel"
+	"server/rawmodel"
 )
 
-const serverId = "JsonGoServer"
+const jsonServerId = "JsonGoServer"
+const rawServerId = "RawGoServer"
 
 func main() {
-    ctx := context.Background()
+	ctx := context.Background()
+	app, err := protocol.NewApplication()
+	if err != nil {
+		panic(err)
+	}
 
-    if len(os.Args) < 3 {
-        fmt.Printf("Usage: %s {JSON} iterations [interval_in_seconds]", os.Args[0]);
-        return;
-    }
+	if len(os.Args) < 3 {
+		fmt.Printf("Usage: %s {JSON|RAW} iterations [interval_in_seconds]", os.Args[0]);
+		return;
+	}
 
-    if !strings.EqualFold(os.Args[1], "json") {
-        fmt.Printf("format must be JSON");
-        return
-    }
+	iterations, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		panic(err)
+	}
 
-    iterations, err := strconv.Atoi(os.Args[2])
-    if err != nil {
-        panic(err)
-    }
+	interval_in_seconds := 1
+	if len(os.Args) > 3 {
+		interval_in_seconds, err = strconv.Atoi(os.Args[3])
+		if err != nil {
+			panic(err)
+		}
+	}
 
-    interval_in_seconds := 1
-    if len(os.Args) > 3 {
-        interval_in_seconds, err = strconv.Atoi(os.Args[3])
-        if err != nil {
-            panic(err)
-        }
-    }
+	switch strings.ToLower(os.Args[1]) {
+		case "json":
+			sendJson(ctx, app, iterations, interval_in_seconds)
+		case "raw":
+			sendRaw(ctx, app, iterations, interval_in_seconds)
+		default:
+			fmt.Printf("format must be JSON or RAW")
+			return
+	}
 
-    mqttClient := mqtt.NewSessionClient(
-        mqtt.TCPConnection("localhost", 1883),
-        mqtt.WithClientID(serverId),
-    )
-
-    server, err := dtmi_codegen_communicationTest_jsonModel__1.NewJsonModelService(mqttClient)
-    if err != nil {
-        panic(err)
-    }
-
-    defer server.Close()
-
-    fmt.Printf("Connecting to MQTT broker as %s ... ", serverId)
-    err = mqttClient.Start()
-    if err != nil {
-        panic(err)
-    }
-    fmt.Printf("Connected!\n")
-
-    fmt.Printf("Starting send loop\n\n")
-
-    err = server.Start(ctx)
-    if err != nil {
-        panic(err)
-    }
-
-    for i := 0; i < iterations; i++ {
-
-        course := "Math"
-        credit := iso.Duration(time.Duration(i + 2) * time.Hour + time.Duration(i + 1) * time.Minute + time.Duration(i) * time.Second)
-
-        var proximity dtmi_codegen_communicationTest_jsonModel__1.Enum_Proximity
-        if i % 3 == 0 {
-            proximity = dtmi_codegen_communicationTest_jsonModel__1.Far
-        } else {
-            proximity = dtmi_codegen_communicationTest_jsonModel__1.Near
-        }
-
-        telemetry := dtmi_codegen_communicationTest_jsonModel__1.TelemetryCollection{
-            Schedule: &dtmi_codegen_communicationTest_jsonModel__1.Object_Schedule{
-                Course: &course,
-                Credit: &credit,
-            },
-
-            Lengths: []float64{float64(i), float64(i + 1), float64(i + 2)},
-
-            Proximity: &proximity,
-        }
-
-        fmt.Printf("  Sending iteration %d\n", i)
-        err = server.SendTelemetryCollection(ctx, telemetry)
-        if err != nil {
-            panic(err)
-        }
-
-        time.Sleep(time.Duration(interval_in_seconds) * time.Second)
-    }
-
-    fmt.Printf("\nStopping send loop\n")
+	fmt.Printf("\nStopping send loop\n")
 }
 
-func handleTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[dtmi_codegen_communicationTest_jsonModel__1.TelemetryCollection]) error {
-    fmt.Printf("Received telemetry....\n")
+func getMqttClient(serverId string) *mqtt.SessionClient {
+	mqttClient := mqtt.NewSessionClient(
+		mqtt.TCPConnection("localhost", 1883),
+		mqtt.WithClientID(serverId),
+	)
 
-    p := msg.Payload
+	fmt.Printf("Connecting to MQTT broker as %s ... ", serverId)
+	err := mqttClient.Start()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Connected!\n")
 
-    if p.Schedule != nil {
-        fmt.Printf("  Schedule: \"%s\" => %s\n", *p.Schedule.Course, *p.Schedule.Credit)
-    }
+	fmt.Printf("Starting send loop\n\n")
 
-    if p.Lengths != nil {
-        fmt.Printf("  Lengths:")
-        for _, length := range p.Lengths {
-            fmt.Printf(" %f", length)
-        }
-        fmt.Printf("\n")
-    }
+	return mqttClient
+}
 
-    if p.Proximity != nil {
-        fmt.Printf("  Proximity: %s\n", *p.Proximity)
-    }
+func sendJson(ctx context.Context, app *protocol.Application, iterations int, interval_in_seconds int) {
+	mqttClient := getMqttClient(jsonServerId)
 
-    fmt.Printf("\n")
+	server, err := jsonmodel.NewJsonModelService(app, mqttClient)
+	if err != nil {
+		panic(err)
+	}
 
-    msg.Ack()
-    return nil
+	defer server.Close()
+
+	err = server.Start(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	for i := 0; i < iterations; i++ {
+		course := "Math"
+		credit := iso.Duration(time.Duration(i + 2) * time.Hour + time.Duration(i + 1) * time.Minute + time.Duration(i) * time.Second)
+
+		var proximity jsonmodel.ProximitySchema
+		if i % 3 == 0 {
+			proximity = jsonmodel.Far
+		} else {
+			proximity = jsonmodel.Near
+		}
+
+		telemetry := jsonmodel.TelemetryCollection{
+			Schedule: &jsonmodel.ScheduleSchema{
+				Course: &course,
+				Credit: &credit,
+			},
+
+			Lengths: []float64{float64(i), float64(i + 1), float64(i + 2)},
+
+			Proximity: &proximity,
+		}
+
+		fmt.Printf("  Sending iteration %d\n", i)
+		err = server.Send(ctx, telemetry)
+		if err != nil {
+			panic(err)
+		}
+
+		time.Sleep(time.Duration(interval_in_seconds) * time.Second)
+	}
+}
+
+func sendRaw(ctx context.Context, app *protocol.Application, iterations int, interval_in_seconds int) {
+	mqttClient := getMqttClient(rawServerId)
+
+	server, err := rawmodel.NewRawModelService(app, mqttClient)
+	if err != nil {
+		panic(err)
+	}
+
+	defer server.Close()
+
+	err = server.Start(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	for i := 0; i < iterations; i++ {
+		telemetry := []byte(fmt.Sprintf("Sample data %d", i))
+
+		fmt.Printf("  Sending iteration %d\n", i)
+		err = server.Send(ctx, telemetry)
+		if err != nil {
+			panic(err)
+		}
+
+		time.Sleep(time.Duration(interval_in_seconds) * time.Second)
+	}
 }

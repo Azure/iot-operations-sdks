@@ -2,16 +2,20 @@
 // Licensed under the MIT License.
 
 use std::env;
+use std::str;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use json_comm;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 
 const AVRO_CLIENT_ID: &str = "AvroRustClient";
 const JSON_CLIENT_ID: &str = "JsonRustClient";
+const RAW_CLIENT_ID: &str = "RawRustClient";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 
@@ -19,6 +23,7 @@ const PORT: u16 = 1883;
 enum CommFormat {
     Avro,
     Json,
+    Raw,
 }
 
 #[tokio::main(flavor = "current_thread")]
@@ -26,23 +31,18 @@ async fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 3 {
-        println!("Usage: {} {{AVRO|JSON}} seconds_to_run", args[0]);
+        println!("Usage: {} {{AVRO|JSON|RAW}} seconds_to_run", args[0]);
         return;
     }
 
-    let format = match args[1].to_lowercase().as_str() {
-        "avro" => CommFormat::Avro,
-        "json" => CommFormat::Json,
+    let (format, client_id) = match args[1].to_lowercase().as_str() {
+        "avro" => (CommFormat::Avro, AVRO_CLIENT_ID),
+        "json" => (CommFormat::Json, JSON_CLIENT_ID),
+        "raw" => (CommFormat::Raw, RAW_CLIENT_ID),
         _ => {
-            println!("format must be AVRO or JSON");
+            println!("format must be AVRO or JSON or RAW");
             return;
         }
-    };
-
-    let client_id = if format == CommFormat::Avro {
-        AVRO_CLIENT_ID
-    } else {
-        JSON_CLIENT_ID
     };
 
     let run_duration = Duration::from_secs(args[2].parse::<u64>().unwrap());
@@ -65,11 +65,12 @@ async fn main() {
     let mut session = Session::new(session_options).unwrap();
     println!("Connected!");
 
-    if format == CommFormat::Avro {
-        tokio::task::spawn(avro_telemetry_loop(session.create_managed_client()));
-    } else {
-        tokio::task::spawn(json_telemetry_loop(session.create_managed_client()));
-    }
+    let mqtt_client = session.create_managed_client();
+    match format {
+        CommFormat::Avro => tokio::task::spawn(avro_telemetry_loop(mqtt_client)),
+        CommFormat::Json => tokio::task::spawn(json_telemetry_loop(mqtt_client)),
+        CommFormat::Raw => tokio::task::spawn(raw_telemetry_loop(mqtt_client)),
+    };
 
     tokio::spawn(exit_timer(session.create_exit_handle(), run_duration));
 
@@ -79,13 +80,20 @@ async fn main() {
 }
 
 async fn avro_telemetry_loop(client: SessionManagedClient) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let receiver_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
-    let mut telemetry_receiver: avro_comm::dtmi_codegen_communicationTest_avroModel__1::client::TelemetryCollectionReceiver<_> =
-        avro_comm::dtmi_codegen_communicationTest_avroModel__1::client::TelemetryCollectionReceiver::new(client, &receiver_options);
+    let mut telemetry_receiver: avro_comm::avro_model::client::TelemetryReceiver<_> =
+        avro_comm::avro_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
 
     println!("Starting receive loop");
     println!();
@@ -128,13 +136,20 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn json_telemetry_loop(client: SessionManagedClient) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
     let receiver_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
             .build()
             .unwrap();
 
-    let mut telemetry_receiver: json_comm::dtmi_codegen_communicationTest_jsonModel__1::client::TelemetryCollectionReceiver<_> =
-        json_comm::dtmi_codegen_communicationTest_jsonModel__1::client::TelemetryCollectionReceiver::new(client, &receiver_options);
+    let mut telemetry_receiver: json_comm::json_model::client::TelemetryReceiver<_> =
+        json_comm::json_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
 
     println!("Starting receive loop");
     println!();
@@ -168,6 +183,44 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
                 if let Some(proximity) = message.payload.proximity {
                     println!("  Proximity: {proximity:?}");
                 }
+
+                println!();
+            }
+            Err(e) => {
+                println!("Error receiving telemetry message: {e:?}");
+                break;
+            }
+        }
+    }
+}
+
+async fn raw_telemetry_loop(client: SessionManagedClient) {
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
+    let receiver_options =
+        raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+            .build()
+            .unwrap();
+
+    let mut telemetry_receiver: raw_comm::raw_model::client::TelemetryReceiver<_> =
+        raw_comm::raw_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
+
+    println!("Starting receive loop");
+    println!();
+
+    while let Some(message) = telemetry_receiver.recv().await {
+        match message {
+            Ok((message, _)) => {
+                let sender_id = message.sender_id.unwrap();
+
+                let data = str::from_utf8(&message.payload).unwrap();
+                println!("Received telemetry from {sender_id}....");
+                println!("  Data: {data:?}");
 
                 println!();
             }

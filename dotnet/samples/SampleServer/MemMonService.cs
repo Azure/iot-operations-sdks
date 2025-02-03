@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
 
 namespace SampleServer;
 public class MemMonService : Memmon.Service
@@ -49,7 +49,7 @@ public class MemMonService : Memmon.Service
         SendTelemetryAsync(
             new MemoryStatsTelemetry
             {
-                MemoryStats = new Object_MemoryStats
+                MemoryStats = new MemoryStatsSchema
                 {
                     ManagedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
                     WorkingSet = Environment.WorkingSet

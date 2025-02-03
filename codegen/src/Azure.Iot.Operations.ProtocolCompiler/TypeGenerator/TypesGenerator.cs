@@ -21,9 +21,9 @@
             { "rust", new RustTypeGenerator() },
         };
 
-        public static void GenerateType(string language, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, string genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateType(string langName, TargetLanguage lang, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
-            string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace);
+            string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace.GetFolderName(TargetLanguage.Independent));
             string schemaFilePath = Path.Combine(schemaFileFolder, schemaFileName);
             string schemaIncludeFolder = Path.Combine(workingDir.FullName, ResourceNames.IncludeFolder);
 
@@ -36,7 +36,7 @@
             {
                 try
                 {
-                    Process.Start("protoc", $"--{language}_out={Path.Combine(genRoot, genNamespace)} --proto_path={schemaFileFolder} --proto_path={schemaIncludeFolder} {schemaFileName}");
+                    Process.Start("protoc", $"--{langName}_out={Path.Combine(genRoot, genNamespace.GetFolderName(lang))} --proto_path={schemaFileFolder} --proto_path={schemaIncludeFolder} {schemaFileName}");
                 }
                 catch (Win32Exception)
                 {
@@ -46,7 +46,7 @@
             }
             else if (SchemaStandardizers.Any(ss => schemaFileName.EndsWith(ss.Key)))
             {
-                ITypeGenerator typeGenerator = TypeGenerators[language];
+                ITypeGenerator typeGenerator = TypeGenerators[langName];
                 ISchemaStandardizer schemaStandardizer = SchemaStandardizers.First(ss => schemaFileName.EndsWith(ss.Key)).Value;
 
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))

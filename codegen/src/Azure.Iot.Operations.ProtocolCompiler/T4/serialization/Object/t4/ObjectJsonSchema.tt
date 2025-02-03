@@ -2,8 +2,8 @@
 <#@ import namespace="DTDLParser.Models" #>
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "<#=this.objBareId#>:_JSON<#=this.versionSuffix#>",
-  "title": "<#=this.schema#>",
+  "$id": "<#=this.schemaId#>",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# if (this.description != null) { #>
   "description": "<#=this.description#>",
 <# } #>
@@ -19,7 +19,7 @@
 <# if (this.setIndex && nameDescSchemaRequiredIndex.Item5 > 0) { #>
       "index": <#=nameDescSchemaRequiredIndex.Item5#>,
 <# } #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName)#>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3)#>
     }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
 <# } #>
   }

@@ -1,5 +1,5 @@
 ﻿using Azure.Iot.Operations.Services.Assets;
-using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using System;
 using System.Collections.Generic;
 using System.Linq;

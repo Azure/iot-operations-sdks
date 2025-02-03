@@ -18,37 +18,37 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use iso8601_duration;
 <# } #>
 
-<# if (this.reqSchema != null && this.reqSchema != "Bytes") { #>
-use super::<#=NamingSupport.ToSnakeCase(this.reqSchema)#>::<#=this.reqSchema#>;
+<# if (this.reqSchema is CodeName) { #>
+use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
-<# if (this.respSchema != null && this.respSchema != "Bytes") { #>
-use super::<#=NamingSupport.ToSnakeCase(this.respSchema)#>::<#=this.respSchema#>;
+<# if (this.respSchema is CodeName) { #>
+use super::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 <# if (this.useSharedSubscription) { #>
 use super::COMMAND_SERVICE_GROUP_ID;
 <# } #>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-<# if (this.reqSchema == "Bytes" || this.respSchema == "Bytes") { #>
+<# if (this.reqSchema is RawTypeName || this.respSchema is RawTypeName) { #>
 use super::super::common_types::bytes::Bytes;
 <# } #>
 use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
-use super::super::common_types::<#=NamingSupport.ToSnakeCase(this.serializerEmptyType)#>::<#=this.serializerEmptyType#>;
+use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 
-pub type <#=this.capitalizedCommandName#>Request =
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#> =
     CommandRequest<<#=this.RequestType()#>, <#=this.ResponseType()#>>;
-pub type <#=this.capitalizedCommandName#>Response = CommandResponse<<#=this.ResponseType()#>>;
-pub type <#=this.capitalizedCommandName#>ResponseBuilderError = CommandResponseBuilderError;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> = CommandResponse<<#=this.ResponseType()#>>;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder", "error")#> = CommandResponseBuilderError;
 
-/// Builder for [`<#=this.capitalizedCommandName#>Response`]
+/// Builder for [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>`]
 #[derive(Default)]
-pub struct <#=this.capitalizedCommandName#>ResponseBuilder {
+pub struct <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")#> {
     inner_builder: CommandResponseBuilder<<#=this.ResponseType()#>>,
 }
 
-impl <#=this.capitalizedCommandName#>ResponseBuilder {
+impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")#> {
     /// Custom user data to set on the response
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
@@ -62,41 +62,41 @@ impl <#=this.capitalizedCommandName#>ResponseBuilder {
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: <#=this.respSchema#>,
+        payload: <#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>,
     ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
 
 <# } #>
-    /// Builds a new `<#=this.capitalizedCommandName#>Response`
+    /// Builds a new `<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>`
     ///
     /// # Errors
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)]    // The panic is not possible
-    pub fn build(&mut self) -> Result<<#=this.capitalizedCommandName#>Response, <#=this.capitalizedCommandName#>ResponseBuilderError> {
+    pub fn build(&mut self) -> Result<<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>, <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder", "error")#>> {
 <# if (this.respSchema == null) { #>
-        self.inner_builder.payload(<#=this.serializerEmptyType#> {}).unwrap();
+        self.inner_builder.payload(<#=this.serializerEmptyType.GetAllocator(TargetLanguage.Rust)#>).unwrap();
 
 <# } #>
         self.inner_builder.build()
     }
 }
 
-/// Command Executor for `<#=this.capitalizedCommandName#>`
-pub struct <#=this.capitalizedCommandName#>CommandExecutor<C>(
+/// Command Executor for `<#=this.commandName.AsGiven#>`
+pub struct <#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "executor")#><C>(
     CommandExecutor<<#=this.RequestType()#>, <#=this.ResponseType()#>, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-impl<C> <#=this.capitalizedCommandName#>CommandExecutor<C>
+impl<C> <#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "executor")#><C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`<#=this.capitalizedCommandName#>CommandExecutor`]
+    /// Creates a new [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "executor")#>`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
@@ -115,11 +115,11 @@ where
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("executorId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "<#=this.commandName#>".to_string());
+        topic_token_map.insert("commandName".to_string(), "<#=this.commandName.AsGiven#>".to_string());
 
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
-            .command_name("<#=this.commandName#>")
+            .command_name("<#=this.commandName.AsGiven#>")
 <# if (this.ttl != null) { #>
             .cacheable_duration(
                 "<#=this.ttl#>"
@@ -143,15 +143,15 @@ where
         )
     }
 
-    /// Receive the next [`<#=this.capitalizedCommandName#>Request`] or [`None`] if there will be no more requests
+    /// Receive the next [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>`] or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Option<Result<<#=this.capitalizedCommandName#>Request, AIOProtocolError>> {
+    pub async fn recv(&mut self) -> Option<Result<<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>, AIOProtocolError>> {
         self.0.recv().await
     }
 
-    /// Shutdown the [`<#=this.capitalizedCommandName#>CommandExecutor`]. Unsubscribes from the request topic.
+    /// Shutdown the [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "executor")#>`]. Unsubscribes from the request topic.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -161,7 +161,7 @@ where
     }
 }
 <#+
-    private string RequestType() => this.reqSchema ?? this.serializerEmptyType;
+    private string RequestType() => this.reqSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
-    private string ResponseType() => this.respSchema ?? this.serializerEmptyType;
+    private string ResponseType() => this.respSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 #>

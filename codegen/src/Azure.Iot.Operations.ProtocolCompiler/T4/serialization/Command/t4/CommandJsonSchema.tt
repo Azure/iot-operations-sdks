@@ -1,8 +1,8 @@
 <#@ template language="C#" linePragmas="false" #>
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "<#=this.interfaceIdAsNamespace#>_command_<#=this.subType#>__<#=this.commandName#><#=this.normalizedVersionSuffix#>",
-  "title": "<#=this.schema#>",
+  "$id": "<#=this.schemaId#>",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
   "type": "object",
   "additionalProperties": false,
 <# if (!this.isNullable) { #>
@@ -14,7 +14,7 @@
 <# if (this.setIndex) { #>
       "index": 1,
 <# } #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.dtmiToSchemaName)#>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema)#>
     }
   }
 }

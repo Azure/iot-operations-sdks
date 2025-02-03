@@ -3,14 +3,14 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace#>
+namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using Avro;
 
-    public partial class <#=this.schemaClassName#>
+    public partial class <#=this.schemaClassName.GetTypeName(TargetLanguage.CSharp)#>
     {
         private const string RAW_SCHEMA = @"
-<#=this.schemaText.Replace("\"", "\"\"")#>
+<#=this.schemaText.Replace($"\"{this.projectName}.{this.genNamespace.AsGiven}\"", $"\"{this.projectName}.{this.genNamespace.GetTypeName(TargetLanguage.CSharp)}\"").Replace("\"", "\"\"")#>
 ";
 
         public override Schema Schema { get => Schema.Parse(RAW_SCHEMA); }

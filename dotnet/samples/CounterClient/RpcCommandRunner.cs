@@ -5,7 +5,7 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using MQTTnet.Client;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 
 namespace CounterClient;
 

@@ -8,7 +8,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1"
+	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/schemaregistry"
 )
 
 type (
@@ -35,14 +35,14 @@ func (c *Client) Get(
 		opts.Version = "1.0.0"
 	}
 
-	req := dtmi_ms_adr_SchemaRegistry__1.Object_Get_Request{
+	req := schemaregistry.GetRequestSchema{
 		Name:    &name,
 		Version: &opts.Version,
 	}
 
 	res, err := c.client.Get(
 		ctx,
-		dtmi_ms_adr_SchemaRegistry__1.GetRequestPayload{GetSchemaRequest: req},
+		schemaregistry.GetRequestPayload{GetSchemaRequest: req},
 		opts.invoke(),
 	)
 	if err != nil {

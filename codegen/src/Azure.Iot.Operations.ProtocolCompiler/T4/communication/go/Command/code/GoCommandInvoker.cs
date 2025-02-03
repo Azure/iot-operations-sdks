@@ -3,18 +3,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 {
     public partial class GoCommandInvoker : ITemplateTransform
     {
-        private readonly string commandName;
-        private readonly string capitalizedCommandName;
-        private readonly string genNamespace;
+        private readonly CodeName commandName;
+        private readonly CodeName genNamespace;
         private readonly string serializerSubNamespace;
-        private readonly string? reqSchema;
-        private readonly string? respSchema;
+        private readonly ITypeName? reqSchema;
+        private readonly ITypeName? respSchema;
         private readonly bool doesCommandTargetExecutor;
 
-        public GoCommandInvoker(string commandName, string genNamespace, string serializerSubNamespace, string? reqSchema, string? respSchema, bool doesCommandTargetExecutor)
+        public GoCommandInvoker(CodeName commandName, CodeName genNamespace, string serializerSubNamespace, ITypeName? reqSchema, ITypeName? respSchema, bool doesCommandTargetExecutor)
         {
             this.commandName = commandName;
-            this.capitalizedCommandName = char.ToUpperInvariant(commandName[0]) + commandName.Substring(1);
             this.genNamespace = genNamespace;
             this.serializerSubNamespace = serializerSubNamespace;
             this.reqSchema = reqSchema;
@@ -22,8 +20,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
         }
 
-        public string FileName { get => NamingSupport.ToSnakeCase($"{this.capitalizedCommandName}CommandInvoker.go"); }
+        public string FileName { get => $"{this.commandName.GetFileName(TargetLanguage.Go, "command", "invoker")}.go"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Go); }
     }
 }

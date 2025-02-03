@@ -6,11 +6,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class DotNetSerialization : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string schemaClassName;
+        private readonly CodeName genNamespace;
+        private readonly CodeName schemaClassName;
         private readonly string schemaText;
 
-        public DotNetSerialization(string projectName, string genNamespace, string schemaClassName, string? workingPath)
+        public DotNetSerialization(string projectName, CodeName genNamespace, CodeName schemaClassName, string? workingPath)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             if (workingPath != null)
             {
-                string? schemaFile = Directory.GetFiles(Path.Combine(workingPath, this.genNamespace), $"{schemaClassName}.*").FirstOrDefault();
+                string? schemaFile = Directory.GetFiles(Path.Combine(workingPath, this.genNamespace.GetFolderName(TargetLanguage.Independent)), $"{schemaClassName.GetFileName(TargetLanguage.Independent)}.*").FirstOrDefault();
                 if (schemaFile != null)
                 {
                     this.schemaText = File.ReadAllText(schemaFile).Trim();
@@ -27,8 +27,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public string FileName { get => $"{this.schemaClassName}Serialization.g.cs"; }
+        public string FileName { get => $"{this.schemaClassName.GetFileName(TargetLanguage.CSharp, "serialization")}.g.cs"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.CSharp); }
     }
 }

@@ -294,6 +294,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 _isSubscribedToNotifications = true;
+                Trace.TraceInformation($"Subscribed to notifications for key {key}");
             }
 
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyRequestPayload(key);
@@ -302,6 +303,9 @@ namespace Azure.Iot.Operations.Services.StateStore
                     requestPayload,
                     commandTimeout: requestTimeout, 
                     cancellationToken: cancellationToken).WithMetadata();
+
+            Trace.TraceInformation($"Key notification receiver started for key {key}.");
+            Trace.TraceInformation($"Response from Observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -330,6 +334,9 @@ namespace Azure.Iot.Operations.Services.StateStore
                     requestPayload,
                     commandTimeout: requestTimeout, 
                     cancellationToken: cancellationToken).WithMetadata();
+
+            Trace.TraceInformation($"Key notification receiver stopped for key {key}.");
+            Trace.TraceInformation($"Response from Un-observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -385,8 +392,8 @@ namespace Azure.Iot.Operations.Services.StateStore
                     await _mqttClient.DisposeAsync(disposing);
                 }
             }
-        
-            _disposed = true;
+
+            _disposed = true;   
         }
 
         private void LogWithoutLineBreaks(string message)
