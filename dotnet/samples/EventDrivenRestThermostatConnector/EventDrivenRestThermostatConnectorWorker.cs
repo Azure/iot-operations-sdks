@@ -8,8 +8,8 @@ namespace Azure.Iot.Operations.Connector
 {
     public class EventDrivenRestThermostatConnectorWorker : BackgroundService, IDisposable
     {
-        private SemaphoreSlim _assetSemaphore = new(1);
-        Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
+        private readonly SemaphoreSlim _assetSemaphore = new(1);
+        private readonly Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
 
         private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
         private readonly EventDrivenTelemetryConnectorWorker _connector;
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Connector
             _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
 
-        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
+        private void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
         {
             _assetSemaphore.Wait();
             try
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
+        private void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
             _assetSemaphore.Wait();
             try
