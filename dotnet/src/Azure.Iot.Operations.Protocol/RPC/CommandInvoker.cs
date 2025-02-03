@@ -118,8 +118,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             StringBuilder responseTopicPattern = new();
 
             // ADR 14 specifies that a default response topic prefix should be used if
-            // the user doesn't provide any prefix, suffix, or specify the response topic.
-            if (string.IsNullOrWhiteSpace(ResponseTopicSuffix) 
+            // the user doesn't provide any prefix, suffix, or specify the response topic
+            if (string.IsNullOrWhiteSpace(ResponseTopicPrefix) 
                 && string.IsNullOrWhiteSpace(ResponseTopicSuffix)
                 && GetResponseTopic == null)
             {
