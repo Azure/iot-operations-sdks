@@ -71,7 +71,7 @@ func NewTelemetrySender[T any](
 	opts.Apply(opt)
 	logger := log.Wrap(opts.Logger, app.log)
 
-	defer func() { err = errutil.Return(err, ts.log, true) }()
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
