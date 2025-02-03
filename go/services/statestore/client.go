@@ -9,6 +9,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -27,6 +28,7 @@ type (
 	Client[K, V Bytes] struct {
 		client    protocol.MqttClient
 		listeners protocol.Listeners
+		log       log.Logger
 		done      func()
 
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
@@ -96,6 +98,8 @@ func New[K, V Bytes](
 
 	var opts ClientOptions
 	opts.Apply(opt)
+	c.log = log.Wrap(opts.Logger)
+
 	c.manualAck = opts.ManualAck
 
 	tokens := protocol.WithTopicTokens{
@@ -113,7 +117,9 @@ func New[K, V Bytes](
 		protocol.WithResponseTopicSuffix("response"),
 		tokens,
 	)
+	ctx := context.Background()
 	if err != nil {
+		c.log.Warn(ctx, err)
 		c.listeners.Close()
 		return nil, err
 	}
@@ -129,12 +135,13 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
+		c.log.Warn(ctx, err)
 		c.listeners.Close()
 		return nil, err
 	}
 	c.listeners = append(c.listeners, c.invoker)
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(ctx)
 	done := client.RegisterConnectEventHandler(func(*mqtt.ConnectEvent) {
 		c.reconnect(ctx)
 	})
@@ -148,13 +155,20 @@ func New[K, V Bytes](
 
 // Start listening to all underlying MQTT topics.
 func (c *Client[K, V]) Start(ctx context.Context) error {
-	return c.listeners.Start(ctx)
+	err := c.listeners.Start(ctx)
+	if err != nil {
+		c.log.Warn(ctx, err)
+	}
+	return nil
 }
 
 // Close all underlying MQTT topics and free resources.
 func (c *Client[K, V]) Close() {
+	ctx := context.Background()
+	c.log.Info(ctx, "shutting down state store client")
 	c.done()
 	c.listeners.Close()
+	c.log.Info(ctx, "state store client shutdown complete")
 }
 
 // ID returns the ID of the underlying MQTT client.
@@ -169,14 +183,17 @@ func invoke[T any](
 	parse func([]byte) (T, error),
 	opts invokeOptions,
 	data []byte,
+	logger log.Logger,
 ) (*Response[T], error) {
 	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
+		logger.Error(ctx, err)
 		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
+		logger.Error(ctx, err)
 		return nil, err
 	}
 
@@ -212,6 +229,51 @@ func parseOK(data []byte) (bool, error) {
 	default:
 		return false, resp.PayloadError("wrong type %q", data[0])
 	}
+}
+
+func (c *Client[K, V]) logK(
+	ctx context.Context,
+	operation string,
+	key K,
+	attrs ...slog.Attr,
+) {
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		all := []slog.Attr{
+			slog.String("key", string(key)),
+		}
+		if len(attrs) > 0 {
+			all = append(all, attrs...)
+		}
+		c.log.Debug(ctx, operation, all...)
+	}
+}
+
+func (c *Client[K, V]) logKV(
+	ctx context.Context,
+	operation string,
+	key K,
+	value V,
+	attrs ...slog.Attr,
+) {
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		all := []slog.Attr{
+			slog.String("key", string(key)),
+			slog.String("value", string(value)),
+		}
+		if len(attrs) > 0 {
+			all = append(all, attrs...)
+		}
+		c.log.Debug(ctx, operation, all...)
+	}
+}
+
+func (c *Client[K, V]) validateKey(ctx context.Context, key K) error {
+	if len(key) == 0 {
+		errArg := ArgumentError{Name: "key"}
+		c.log.Error(ctx, errArg)
+		return errArg
+	}
+	return nil
 }
 
 // Apply resolves the provided list of options.
