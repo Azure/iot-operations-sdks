@@ -11,7 +11,7 @@ use std::string::FromUtf8Error;
 use std::sync::{Arc, Mutex};
 
 use thiserror::Error;
-use tokio::sync::mpsc::{error::SendError, unbounded_channel, UnboundedReceiver, UnboundedSender};
+use tokio::sync::mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender};
 
 use crate::control_packet::{Publish, QoS};
 use crate::error::AckError;
@@ -44,14 +44,13 @@ impl AckToken {
 pub type PublishTx = UnboundedSender<(Publish, Option<AckToken>)>;
 pub type PublishRx = UnboundedReceiver<(Publish, Option<AckToken>)>;
 
-// NOTE: These errors should almost never happen.
-// - Closed receivers can only occur due to race condition since receivers are checked before dispatch.
-// - Invalid publishes should not happen at all, since we shouldn't be receiving Publishes from the broker
-//   that are invalid.
+// NOTE: These errors should never happen in correct usage.
+// - Invalid publish topics should not happen, since we shouldn't be receiving Publishes from the
+// broker that are invalid.
+// - Invalid publish PKIDs should not happen, as PKIDs should not be re-used until the previous
+// PKID has been acked.
 #[derive(Error, Debug)]
 pub enum DispatchError {
-    #[error("receiver closed")]
-    ClosedReceiver(#[from] SendError<(Publish, Option<AckToken>)>),
     #[error("could not get topic from publish: {0}")]
     InvalidPublishTopic(#[from] InvalidPublish),
     #[error("packet ID for publish invalid: {0}")]
@@ -171,6 +170,9 @@ where
     /// will be sent to all unfiltered receivers.
     ///
     /// Returns the number of receivers that the [`Publish`] was dispatched to.
+    /// 
+    /// Note that once a publish is successfully dispatched (even to 0 receivers), the
+    /// [`IncomingPublishDispatcher`] has taken responsibility for acknowledging the publish.
     ///
     /// # Arguments
     /// * `publish` - The [`Publish`] to dispatch to receivers
@@ -232,16 +234,11 @@ where
         // Dispatch the publish to all relevant receivers
         let mut num_dispatches = 0;
         // First, dispatch to all filtered receivers that match the topic name
-        num_dispatches += self.dispatch_filtered(&topic_name, publish, &plenary_ack)?;
+        num_dispatches += self.dispatch_filtered(&topic_name, publish, &plenary_ack);
         // Then, if no filters matched, dispatch to all unfiltered receivers (if present)
         if num_dispatches == 0 {
-            num_dispatches += self.dispatch_unfiltered(publish, &plenary_ack)?;
+            num_dispatches += self.dispatch_unfiltered(publish, &plenary_ack);
         }
-
-        // TODO: What should happen in the error cases above?
-        // Because a message can be dispatched to multiple receivers, execution should probably not stop just
-        // because one send failed. But, this would mean we need to change the error reporting paradigm.
-        // Revisit this in the future and find a better way to handle this edge case.
 
         // Once all dispatches have been made, commence the plenary ack
         if let Some(plenary_ack) = plenary_ack {
@@ -257,7 +254,7 @@ where
         topic_name: &TopicName,
         publish: &Publish,
         plenary_ack: &Option<PlenaryAck>,
-    ) -> Result<usize, DispatchError> {
+    ) -> usize {
         let mut num_dispatches = 0;
         let mut closed = vec![]; // (topic filter, position in vector)
 
@@ -269,16 +266,15 @@ where
             .filter(|(topic_filter, _)| topic_filter.matches_topic_name(topic_name));
         for (topic_filter, v) in filtered {
             for (pos, tx) in v.iter().enumerate() {
+                // Send the publish to the receiver, along with an ack token
                 // If the receiver is closed, add it to the list of closed receivers to remove after iteration.
-                // NOTE: This must be done dynamically because the awaitable send allows for a channel to be closed
-                // sometime during the execution of this loop. You cannot simply use .prune() before the loop.
-                if tx.is_closed() {
-                    closed.push((topic_filter.clone(), pos));
-                    continue;
+                // NOTE: Removing closed receivers must be done dynamically because the awaitable send allows
+                // for a channel to be closed sometime during the execution of this loop. You cannot simply
+                // use .prune() before the loop.
+                match tx.send((publish.clone(), create_ack_token(plenary_ack))) {
+                    Ok(_) => num_dispatches += 1,
+                    Err(_) => closed.push((topic_filter.clone(), pos)),
                 }
-                // Otherwise, send the publish to the receiver, along with an ack token
-                tx.send((publish.clone(), create_ack_token(plenary_ack)))?;
-                num_dispatches += 1;
             }
         }
 
@@ -293,7 +289,7 @@ where
             }
         }
 
-        Ok(num_dispatches)
+        num_dispatches
     }
 
     /// Dispatch to unfiltered receivers
@@ -301,23 +297,21 @@ where
         &mut self,
         publish: &Publish,
         plenary_ack: &Option<PlenaryAck>,
-    ) -> Result<usize, DispatchError> {
+    ) -> usize {
         let mut num_dispatches = 0;
         let mut closed = vec![];
 
         let mut receiver_manager = self.receiver_manager.lock().unwrap();
 
         for (pos, tx) in receiver_manager.unfiltered_txs.iter().enumerate() {
+            // Send the publish to the receiver, along with an ack token
             // If the receiver is closed, add it to the list of closed receivers to remove after iteration.
-            // NOTE: This must be done dynamically because the awaitable send allows for a channel to be closed
-            // sometime during the execution of this loop.
-            if tx.is_closed() {
-                closed.push(pos);
-                continue;
+            // NOTE: Removing closed receivers must be done dynamically because the awaitable send allows
+            // for a channel to be closed sometime during the execution of this loop
+            match tx.send((publish.clone(), create_ack_token(plenary_ack))) {
+                Ok(_) => num_dispatches += 1,
+                Err(_) => closed.push(pos),
             }
-            // Otherwise, send the publish to the receiver, along with an ack token
-            tx.send((publish.clone(), create_ack_token(plenary_ack)))?;
-            num_dispatches += 1;
         }
 
         // Remove any closed receivers.
@@ -326,7 +320,7 @@ where
             receiver_manager.unfiltered_txs.remove(*pos);
         }
 
-        Ok(num_dispatches)
+        num_dispatches
     }
 }
 
@@ -1470,7 +1464,7 @@ mod tests {
     #[test_case(QoS::AtLeastOnce; "QoS 1")]
     #[test_case(QoS::ExactlyOnce; "QoS 2")]
     #[tokio::test]
-    async fn dispatch_auto_ack_when_not_sent(qos: QoS) {
+    async fn dispatch_auto_ack_when_zero_dispatches(qos: QoS) {
         let client = MockClient::new();
         let mock_controller = client.mock_controller();
         let mut dispatcher = IncomingPublishDispatcher::new(client);
@@ -1500,10 +1494,40 @@ mod tests {
         // Create a filtered receiver that does not match the publish topic name
         let topic_filter = TopicFilter::from_str("finance/bonds/banker1").unwrap();
         assert!(!topic_filter.matches_topic_name(&topic_name));
-        let _filtered_rx = manager
+        let filtered_rx = manager
             .lock()
             .unwrap()
             .create_filtered_receiver(&topic_filter);
+
+        // Dispatch publish again, and it is still sent to 0 receivers
+        assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 0);
+
+        // The publish was acked on the mock client
+        tokio::time::sleep(Duration::from_secs(1)).await;
+        assert_eq!(mock_controller.ack_count(), 1);
+        let calls = mock_controller.call_sequence();
+        assert_eq!(calls.len(), 1);
+        match &calls[0] {
+            MockClientCall::Ack(call) => {
+                assert_eq!(call.publish, publish);
+            }
+            _ => panic!("Expected AcknowledgePublish"),
+        }
+
+        // Reset the mock client (and drop the above receiver that went unused)
+        mock_controller.reset_mock();
+        assert_eq!(mock_controller.ack_count(), 0);
+        drop(filtered_rx);
+
+        // Create a filtered receiver that DOES match the publish topic name, and then drop it
+        // so that the channel wil be closed
+        let topic_filter = TopicFilter::from_str("sport/tennis/player1").unwrap();
+        assert!(topic_filter.matches_topic_name(&topic_name));
+        let filtered_rx = manager
+            .lock()
+            .unwrap()
+            .create_filtered_receiver(&topic_filter);
+        drop(filtered_rx);
 
         // Dispatch publish again, and it is still sent to 0 receivers
         assert_eq!(dispatcher.dispatch_publish(&publish).unwrap(), 0);
