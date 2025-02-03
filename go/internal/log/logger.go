@@ -22,8 +22,13 @@ type (
 )
 
 // Wrap the slog logger.
-func Wrap(logger *slog.Logger) Logger {
-	return Logger{logger}
+func Wrap(logger ...*slog.Logger) Logger {
+	for _, l := range logger {
+		if l == nil {
+			return Logger{l}
+		}
+	}
+	return Logger{}
 }
 
 // Log is designed to build logging wrappers; it should not be called directly.

@@ -131,11 +131,7 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
-	logger := opts.Logger
-	if logger == nil {
-		logger = app.log
-	}
-
+	logger := log.Wrap(opts.Logger, app.log)
 	ce = &CommandExecutor[Req, Res]{
 		handler: handler,
 		timeout: to,
@@ -149,7 +145,7 @@ func NewCommandExecutor[Req, Res any](
 		shareName:      opts.ShareName,
 		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
-		log:            log.Wrap(logger),
+		log:            logger,
 		handler:        ce,
 	}
 	ce.publisher = &publisher[Res]{

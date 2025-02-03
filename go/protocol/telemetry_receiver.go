@@ -117,10 +117,7 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
-	logger := opts.Logger
-	if logger == nil {
-		logger = app.log
-	}
+	logger := log.Wrap(opts.Logger, app.log)
 
 	tr = &TelemetryReceiver[T]{
 		handler:   handler,
@@ -134,7 +131,7 @@ func NewTelemetryReceiver[T any](
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
-		log:         log.Wrap(logger),
+		log:         logger,
 		handler:     tr,
 	}
 

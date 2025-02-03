@@ -158,10 +158,7 @@ func NewCommandInvoker[Req, Res any](
 		return nil, err
 	}
 
-	logger := opts.Logger
-	if logger == nil {
-		logger = app.log
-	}
+	logger := log.Wrap(opts.Logger, app.log)
 
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,
@@ -179,7 +176,7 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		log:            log.Wrap(logger),
+		log:            logger,
 		handler:        ci,
 	}
 
