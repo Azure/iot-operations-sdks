@@ -290,6 +290,7 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
+            _logger.LogInformation($"TODO invoking callback? it is {OnAssetAvailable != null} not null");
             // Don't block on this callback returning since users may start sampling from within this thread.
             OnAssetAvailable?.Invoke(this, new(assetName, asset));
         }
