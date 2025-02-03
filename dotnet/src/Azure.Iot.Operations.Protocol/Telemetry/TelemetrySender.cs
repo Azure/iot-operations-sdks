@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
@@ -152,9 +153,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         IsRemote = false,
                     };
                 }
+                Trace.TraceInformation($"Telemetry sent successfully to the topic '{telemTopic}'");
             }
             catch (SerializationException ex)
             {
+                Trace.TraceError($"The message payload cannot be serialized due to error: {ex}");
                 throw new AkriMqttException("The message payload cannot be serialized.", ex)
                 {
                     Kind = AkriMqttErrorKind.PayloadInvalid,
@@ -165,6 +168,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
             catch (Exception ex) when (ex is not AkriMqttException)
             {
+                Trace.TraceError($"Sending telemetry failed due to a MQTT communication error: {ex}");
                 throw new AkriMqttException($"Sending telemetry failed due to a MQTT communication error: {ex.Message}.", ex)
                 {
                     Kind = AkriMqttErrorKind.Timeout,
