@@ -73,6 +73,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
+            Trace.TraceInformation($"Telemetry received from {args.ApplicationMessage.Topic}");
             string telemTopicFilter = GetTelemetryTopic();
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, telemTopicFilter))
@@ -128,7 +129,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                             Trace.TraceError($"Exception thrown while executing telemetry received callback: {innerEx.Message}");
                         }
                     }
-
                     await GetDispatcher()(telemFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                 }
                 catch (Exception outerEx)
@@ -186,6 +186,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 MqttClientSubscribeResult subAck = await mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
                 subAck.ThrowIfNotSuccessSubAck(topicFilter.QualityOfServiceLevel);
                 isRunning = true;
+                Trace.TraceInformation($"Telemetry receiver subscribed for topic {telemTopicFilter}.");
             }
         }
 
@@ -203,6 +204,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 MqttClientUnsubscribeResult unsubAck = await mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
                 unsubAck.ThrowIfNotSuccessUnsubAck();
                 isRunning = false;
+                Trace.TraceInformation($"Telemetry receiver unsubscribed for topic {telemTopicFilter}.");
             }
         }
 

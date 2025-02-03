@@ -4,7 +4,7 @@ description:
   condition: >-
     CommandInvoker invokes command with command timeout of duration below one millisecond.
   expect: >-
-    Invocation throws 'invalid configuration' exception.
+    Invocation throws 'invalid argument' exception.
 
 requires:
 - explicit-default

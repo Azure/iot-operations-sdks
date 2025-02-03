@@ -24,22 +24,20 @@ prologue:
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerRequestTopicCommandNameWithoutReplacement_ThrowsException
+test-name: CommandInvokerInvalidResponseTopicPrefix_ThrowsException_Attenuated
 description:
   condition: >-
-    CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified.
+    CommandInvoker initialized with a response topic prefix that is invalid.
   expect: >-
-    CommandInvoker throws 'invalid argument' exception.
+    CommandInvoker throws 'invalid configuration' exception; error details unchecked.
 prologue:
   invokers:
-  - request-topic: "mock/{commandName}/test"
+  - response-topic-prefix: "prefix/{in/valid}"
   catch:
-    error-kind: invalid argument
+    error-kind: invalid configuration
     in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false
-    supplemental:
-      property-name: 'commandname'
 ```
 
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
@@ -140,6 +138,7 @@ The feature kind is an enumeration that includes the following enumerated values
 | --- | --- |
 | unobtanium | The component under test will do the impossible. Require this feature to always skip a test. |
 | ack-ordering | The component under test will order ACKs in accordance with MQTT protocol requirements. |
+| topic-filtering | The component under test will filter out received messages that lack an appropriate topic. |
 | reconnection | The component under test will automatically reconnect after a disconnection occurs. |
 | caching | The component under test will cache Command responses for deduplication and reuse. |
 | dispatch | The component under test will dispatch execution functions to a thread pool. |
@@ -985,7 +984,6 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
-    "datacontenttype": "application/json"
     "subject": "mock/test"
     "dataschema": "dtmi:test:MyModel:_contents:__test;1"
   packet-index: 0
@@ -1099,7 +1097,6 @@ epilogue:
       "source": "dtmi:test:myEventSource;1"
       "type": "test-type"
       "specversion": "1.0"
-      "datacontenttype": "application/json"
       "subject": "mock/test"
       "dataschema": "dtmi:test:MyModel:_contents:__test;1"
 ```
