@@ -3,7 +3,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace#>
+namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using System.Collections.Generic;
     using Azure.Iot.Operations.Protocol;
@@ -11,12 +11,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     using Azure.Iot.Operations.Protocol.Models;
     using <#=this.projectName#>;
 
-    public static partial class <#=this.serviceName#>
+    public static partial class <#=this.serviceName.GetTypeName(TargetLanguage.CSharp)#>
     {
         /// <summary>
-        /// Specializes the <c>TelemetrySender</c> class for type <c><#=this.schemaClassName#></c>.
+        /// Specializes the <c>TelemetrySender</c> class for type <c><#=this.schemaType.GetTypeName(TargetLanguage.CSharp)#></c>.
         /// </summary>
-        public class <#=this.componentName#>Sender : TelemetrySender<<#=this.schemaClassName#>>
+        public class <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#> : TelemetrySender<<#=this.schemaType.GetTypeName(TargetLanguage.CSharp)#>>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 
@@ -37,17 +37,17 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
             protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="<#=this.componentName#>Sender"/> class.
+            /// Initializes a new instance of the <see cref="<#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>"/> class.
             /// </summary>
-            public <#=this.componentName#>Sender(IMqttPubSubClient mqttClient)
-                : base(mqttClient, <#=this.telemetryName != null ? $"\"{this.telemetryName}\"" : "null"#>, new <#=this.serializerClassName#>())
+            public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(IMqttPubSubClient mqttClient)
+                : base(mqttClient, <#=this.telemetryName.IsEmpty ? "null" : $"\"{this.telemetryName.AsGiven}\""#>, new <#=this.serializerClassName#>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
                 base.TopicTokenMap["senderId"] = mqttClient.ClientId!;
-<# if (this.telemetryName != null) { #>
-                base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName#>";
+<# if (!this.telemetryName.IsEmpty) { #>
+                base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
 <# } #>
             }
         }

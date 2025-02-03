@@ -7,7 +7,7 @@
 
     public class RustTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
+        public void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
@@ -32,14 +32,14 @@
             sourceFilePaths.Add(outFilePath);
         }
 
-        private IReadOnlyCollection<string> GetReferencedSchemaNames(SchemaType schemaType)
+        private IReadOnlyCollection<CodeName> GetReferencedSchemaNames(SchemaType schemaType)
         {
-            HashSet<string> referencedSchemaNames = new();
+            HashSet<CodeName> referencedSchemaNames = new();
             AddReferencedSchemaNames(referencedSchemaNames, schemaType);
             return referencedSchemaNames;
         }
 
-        private void AddReferencedSchemaNames(HashSet<string> referencedSchemaNames, SchemaType schemaType)
+        private void AddReferencedSchemaNames(HashSet<CodeName> referencedSchemaNames, SchemaType schemaType)
         {
             switch (schemaType)
             {

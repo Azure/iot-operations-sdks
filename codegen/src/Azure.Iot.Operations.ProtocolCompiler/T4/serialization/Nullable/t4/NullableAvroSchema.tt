@@ -4,6 +4,6 @@
 "type": [
   "null",
   {
-<#=AvroSchemaSupport.GetTypeAndAddenda(this.schema, this.dtmiToSchemaName, 4, nullable: false, nestNamedType: false)#>
+<#=AvroSchemaSupport.GetTypeAndAddenda(this.schema, 4, nullable: false, nestNamedType: false)#>
   }
 ]<# this.PopIndent(); #>

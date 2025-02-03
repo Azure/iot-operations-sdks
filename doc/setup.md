@@ -4,7 +4,7 @@ The following instructions will get you started with setting up a development en
 
 ## Setup the platform
 
-We recommend three different platform paths for developing with Azure IoT Operations which utilize [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provide the most streamlined experience and can get the development environment up and running in a couple of minutes.
+We recommend four different platform paths for developing with Azure IoT Operations which utilize [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
 
 > [!NOTE]
 > For development, it's recommended to make the cluster locally available, either by deploying the cluster on the local machine, or using the the [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server) function that is used by Codespaces.
@@ -19,9 +19,30 @@ The Codespaces approach is the recommended option and it provides all the necess
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
 
-1. Open the codespace in VS Code Desktop - this is required to login to Azure in a later step:
+1. Open the codespace in VS Code Desktop (required to login to Azure):
 
-    > **Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**
+    > **F1 > Codespaces: Open in VS Code Desktop**
+
+### Local dev container *(Recommended)*
+
+1. Install [VS Code](https://code.visualstudio.com/)
+
+1. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+1. Open the *Azure IoT Operations SDKs* repository in a dev container:
+
+    > **F1 > Dev Containers: Clone Repository in Container Volume...**
+
+1. When prompted, enter the repository URL:
+
+    ```
+    https://github.com/azure/iot-operations-sdks
+    ```
+
+> [!TIP]
+> Alternatively, if you have already cloned the *Azure Iot Operations SDKS* repository, you may open this folder directly with VS Code:
+>
+> **F1 > Dev Containers: Open Folder in Container...**
 
 ### Linux
 

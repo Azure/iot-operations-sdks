@@ -45,6 +45,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string? Partition { get; }
 
         /// <summary>
+        /// The content type of a command received by a command executor if a content type was provided on the MQTT message.
+        /// </summary>
+        /// <remarks>
+        /// This field is only set by the command executor when deserializing a request. It cannot be used by a command invoker to change the content type of a command request.
+        /// </remarks>
+        public string? ContentType { get; internal set; }
+
+        /// <summary>
+        /// The payload format indicator of a command received by a command executor.
+        /// </summary>
+        /// <remarks>
+        /// This field is only set by the command executor when deserializing a request. It cannot be used by a command invoker to change the payload format indicator of a command request.
+        /// </remarks>
+        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
+
+        /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
         /// </summary>
         /// <remarks>

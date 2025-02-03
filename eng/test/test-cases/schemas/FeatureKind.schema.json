@@ -11,6 +11,10 @@
             "title": "The component under test will order ACKs in accordance with MQTT protocol requirements."
         },
         {
+            "const": "topic-filtering",
+            "title": "The component under test will filter out received messages that lack an appropriate topic."
+        },
+        {
             "const": "reconnection",
             "title": "The component under test will automatically reconnect after a disconnection occurs."
         },

@@ -12,9 +12,9 @@ use azure_iot_operations_protocol::application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
 };
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
-use envoy::dtmi_com_example_Counter__1::client::{
+use envoy::counter::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
-    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
+    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryReceiver,
 };
 
 use tokio::time::sleep;
@@ -73,7 +73,7 @@ async fn counter_telemetry_check(
     exit_handle: SessionExitHandle,
 ) {
     // Create receiver
-    let mut counter_value_receiver = TelemetryCollectionReceiver::new(
+    let mut counter_value_receiver = TelemetryReceiver::new(
         application_context,
         client,
         &TelemetryOptionsBuilder::default()
