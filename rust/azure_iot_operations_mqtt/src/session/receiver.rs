@@ -170,7 +170,7 @@ where
     /// will be sent to all unfiltered receivers.
     ///
     /// Returns the number of receivers that the [`Publish`] was dispatched to.
-    /// 
+    ///
     /// Note that once a publish is successfully dispatched (even to 0 receivers), the
     /// [`IncomingPublishDispatcher`] has taken responsibility for acknowledging the publish.
     ///
@@ -272,7 +272,7 @@ where
                 // for a channel to be closed sometime during the execution of this loop. You cannot simply
                 // use .prune() before the loop.
                 match tx.send((publish.clone(), create_ack_token(plenary_ack))) {
-                    Ok(_) => num_dispatches += 1,
+                    Ok(()) => num_dispatches += 1,
                     Err(_) => closed.push((topic_filter.clone(), pos)),
                 }
             }
@@ -309,7 +309,7 @@ where
             // NOTE: Removing closed receivers must be done dynamically because the awaitable send allows
             // for a channel to be closed sometime during the execution of this loop
             match tx.send((publish.clone(), create_ack_token(plenary_ack))) {
-                Ok(_) => num_dispatches += 1,
+                Ok(()) => num_dispatches += 1,
                 Err(_) => closed.push(pos),
             }
         }

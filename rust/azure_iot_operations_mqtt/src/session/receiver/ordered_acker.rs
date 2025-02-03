@@ -108,7 +108,10 @@ where
                     // NOTE: This should not happen when used correctly, as the PKID should always be
                     // inserted into the PKID queue before being acked. However, the implementation
                     // handles this by waiting until the next PKID is inserted into the queue.
-                    log::warn!("Attempted ordered ack for PKID {} but no PKIDs in queue", publish.pkid);
+                    log::warn!(
+                        "Attempted ordered ack for PKID {} but no PKIDs in queue",
+                        publish.pkid
+                    );
                     false
                 }
             };
