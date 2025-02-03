@@ -38,7 +38,9 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
+            _logger.LogInformation("TODO sample b4 sem"); 
             _assetSemaphore.Wait();
+            _logger.LogInformation("TODO sample after sem"); 
             try
             {
                 if (_sampleableAssets.TryAdd(args.AssetName, args.Asset))
@@ -54,6 +56,7 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("TODO execut asyn");
             await Task.WhenAny(
                 _connector.RunConnectorAsync(cancellationToken),
                 ExecuteEventsAsync(cancellationToken));
@@ -61,6 +64,7 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("TODO my stuff");
             while (!cancellationToken.IsCancellationRequested)
             {
                 await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
