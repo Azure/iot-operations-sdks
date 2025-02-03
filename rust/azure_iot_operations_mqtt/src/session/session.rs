@@ -245,25 +245,40 @@ where
 
                     // Dispatch the message to receivers
                     match self.incoming_pub_dispatcher.dispatch_publish(&publish) {
-                        Ok(num_dispatches) => {
-                            // TODO: Should these logs go in the dispatcher itself?
-                            log::debug!("Dispatched PUB to {num_dispatches} receivers");
-
+                        Ok(_) => {}
+                        Err(e) => {
+                            // If the dispatch fails, we must be responsible for acking.
+                            // However, failure here should never happen in valid MQTT scenarios.
                             match publish.qos {
-                                QoS::AtMostOnce => {
-                                    log::debug!("No ack required for QoS 0 PUB");
+                                QoS::AtLeastOnce | QoS::ExactlyOnce => {
+                                    log::error!("Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}", publish.pkid);
+                                    log::warn!(
+                                        "Auto-ack of PKID {} may not be correctly ordered",
+                                        publish.pkid
+                                    );
+                                    tokio::spawn({
+                                        let acker = self.client.clone();
+                                        async move {
+                                            match acker.ack(&publish).await {
+                                                Ok(ct) => {
+                                                    let _ = ct.await;
+                                                    log::debug!("Auto-ack for failed dispatch PKID {} successful", publish.pkid);
+                                                }
+                                                Err(e) => {
+                                                    log::error!("Auto-ack for failed dispatch PKID {} failed: {e:?}", publish.pkid);
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
-                                // QoS 1 or 2
-                                _ => {
-                                    log::debug!(
-                                        "Registered PUB. Waiting for {num_dispatches} acks"
+                                QoS::AtMostOnce => {
+                                    // No ack needed for QoS 0
+                                    log::error!(
+                                        "Could not dispatch PUB with PKID {}. Reason: {e:?}",
+                                        publish.pkid
                                     );
                                 }
                             }
-                        }
-                        Err(e) => {
-                            // NOTE: The auto-ack occurs in the dispatcher
-                            log::error!("Error dispatching PUB. Will be auto-acked (if not QoS 0). Reason: {e:?}");
                         }
                     }
                 }

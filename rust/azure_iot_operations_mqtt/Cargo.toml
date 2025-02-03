@@ -22,8 +22,7 @@ notify = "7"
 notify-debouncer-full = "0.4.0"
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
-#rumqttc = { version = "0.24.0-fork.3", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
-rumqttc = { git = "https://github.com/ryanwinterms/rumqtt.git", features = ["use-native-tls"], branch = "all_test"}
+rumqttc = { version = "0.24.0-fork.4", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
 thiserror.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true

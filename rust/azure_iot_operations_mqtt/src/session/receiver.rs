@@ -200,7 +200,10 @@ where
             // In fact, this is necessary for the correct acking of publishes that were
             // previously dispatched to the receivers.
 
-            log::debug!("Duplicate PUB received for PUB already owned. Discarding");
+            log::debug!(
+                "Duplicate PUB received for PUB already owned (PKID {}). Discarding",
+                publish.pkid
+            );
             return Ok(0);
         }
 
@@ -239,6 +242,11 @@ where
         if num_dispatches == 0 {
             num_dispatches += self.dispatch_unfiltered(publish, &plenary_ack);
         }
+
+        log::debug!(
+            "Dispatched PUB with PKID {} to {num_dispatches} receivers.",
+            publish.pkid
+        );
 
         // Once all dispatches have been made, commence the plenary ack
         if let Some(plenary_ack) = plenary_ack {
@@ -745,6 +753,7 @@ mod tests {
         ));
 
         // No acks on the mock client have occurred
+        tokio::time::sleep(Duration::from_secs(1)).await;
         assert_eq!(mock_controller.ack_count(), 0);
 
         // Complete the ack token for the first publish
@@ -927,7 +936,7 @@ mod tests {
             .unwrap()
             .create_filtered_receiver(&topic_filter6); // Type 3
 
-        // There are three entires for the exact topic name, two for the single level wildcard, and one for the multi-level wildcard
+        // There are three entries for the exact topic name, two for the single level wildcard, and one for the multi-level wildcard
         assert_eq!(manager.lock().unwrap().filtered_txs.len(), 3);
         assert_eq!(
             manager
@@ -965,7 +974,7 @@ mod tests {
         drop(filter_rx5); // Type 2
         drop(filter_rx6); // Type 3
 
-        // The entires are still the same after the drop
+        // The entries are still the same after the drop
         assert_eq!(manager.lock().unwrap().filtered_txs.len(), 3);
         assert_eq!(
             manager
@@ -1005,7 +1014,7 @@ mod tests {
             .unwrap()
             .create_filtered_receiver(&topic_filter7); // Type 4
 
-        // The entires now include the new filter, but all the dropped filters are removed.
+        // The entries now include the new filter, but all the dropped filters are removed.
         // When a vector of duplicate filters is empty, it is removed.
         // All remaining receiver entries are still open (implying the correct one was removed).
         assert_eq!(manager.lock().unwrap().filtered_txs.len(), 3);
@@ -1216,7 +1225,7 @@ mod tests {
             .unwrap()
             .create_filtered_receiver(&topic_filter6); // Type 3
 
-        // There are three entires for the multi-level wildcard, two for the single level wildcard, and one requiring exact match
+        // There are three entries for the multi-level wildcard, two for the single level wildcard, and one requiring exact match
         assert_eq!(manager.lock().unwrap().filtered_txs.len(), 3);
         assert_eq!(
             manager
@@ -1254,7 +1263,7 @@ mod tests {
         drop(filter_rx5); // Type 2
         drop(filter_rx6); // Type 3
 
-        // The entires are still the same after the drop
+        // The entries are still the same after the drop
         assert_eq!(manager.lock().unwrap().filtered_txs.len(), 3);
         assert_eq!(
             manager
