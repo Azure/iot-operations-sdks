@@ -15,6 +15,8 @@ namespace Azure.Iot.Operations.Connector
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
+            _connector.OnAssetAvailable += OnAssetSampleableAsync;
+            _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
 
         public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
@@ -33,6 +35,7 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            // This will allow the connector process to run in parallel with any application-layer logic
             await Task.WhenAny(
                 _connector.StartAsync(cancellationToken),
                 ExecuteEventsAsync(cancellationToken));

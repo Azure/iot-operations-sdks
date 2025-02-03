@@ -56,6 +56,7 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            // This will allow the connector process to run in parallel with any application-layer logic
             await Task.WhenAny(
                 _connector.RunConnectorAsync(cancellationToken),
                 ExecuteEventsAsync(cancellationToken));
