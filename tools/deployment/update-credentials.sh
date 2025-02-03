@@ -2,6 +2,8 @@
 
 set -o errexit # fail if any command fails
 
+echo # Updating credentials
+
 # setup some variables
 session_dir=$(dirname $(readlink -f $0))/../../.session
 mkdir -p $session_dir

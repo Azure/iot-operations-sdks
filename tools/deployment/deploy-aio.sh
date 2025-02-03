@@ -60,11 +60,11 @@ fi
 # create root & intermediate CA
 step certificate create --profile root-ca "my root ca" \
     $session_dir/root_ca.crt $session_dir/root_ca.key \
-    --no-password --insecure
+    --no-password --insecure --force
 step certificate create --profile intermediate-ca "my intermediate ca" \
     $session_dir/intermediate_ca.crt $session_dir/intermediate_ca.key \
     --ca $session_dir/root_ca.crt --ca-key $session_dir/root_ca.key \
-    --no-password --insecure
+    --no-password --insecure --force
 
 # create client trust bundle used to validate x509 client connections to the broker
 kubectl delete configmap client-ca-trust-bundle -n azure-iot-operations --ignore-not-found
