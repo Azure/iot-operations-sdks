@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.Connector
 {
     public class EventDrivenRestThermostatConnectorWorker : BackgroundService, IDisposable
     {
+        // This semaphore protects the _sampleableAssets dictionary from concurrent modification since one thread adds to it and another thread iterates over it.
         private readonly SemaphoreSlim _assetSemaphore = new(1);
         private readonly Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
 
@@ -68,6 +69,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
 
+                await _assetSemaphore.WaitAsync(cancellationToken);
                 try
                 {
                     foreach (string assetName in _sampleableAssets.Keys)
