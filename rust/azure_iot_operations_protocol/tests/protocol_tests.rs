@@ -33,13 +33,11 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandExecutorUserCodeRaisesContentError_RespondsError",
     "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
-    "CommandExecutorUserCodeSetsInvalidMetadata_RespondsError",
     "CommandExecutorRequest_TimeoutPropagated",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerWithCustomResponseTopic_Success",
-    "CommandInvokerWithInvalidMetadata_ThrowsException",
     "CommandInvokerWithSubMillisecTimeout_ThrowsException",
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
@@ -317,6 +315,7 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
+        && !requirements.contains(&TestFeatureKind::TopicFiltering)
         && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
 }
