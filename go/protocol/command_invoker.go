@@ -58,6 +58,8 @@ type (
 	WithResponseTopic func(string) string
 
 	// WithResponseTopicPrefix specifies a custom prefix for the response topic.
+	// If no response topic options are specified, this will default to a value
+	// of "clients/<MQTT client ID>".
 	WithResponseTopicPrefix string
 
 	// WithResponseTopicSuffix specifies a custom suffix for the response topic.
@@ -130,6 +132,14 @@ func NewCommandInvoker[Req, Res any](
 				return nil, err
 			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
+		}
+
+		// If no options were provided, apply a well-known prefix. This ensures
+		// that the response topic is different from the request topic and lets
+		// us document this pattern for auth configuration. Note that this does
+		// not use any topic tokens, since we cannot guarantee their existence.
+		if opts.ResponseTopicPrefix == "" && opts.ResponseTopicSuffix == "" {
+			responseTopic = "clients/" + client.ID() + "/" + requestTopicPattern
 		}
 	}
 
