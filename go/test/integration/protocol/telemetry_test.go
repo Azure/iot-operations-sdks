@@ -51,7 +51,7 @@ func TestTelemetry(t *testing.T) {
 	source, err := url.Parse("https://contoso.com")
 	require.NoError(t, err)
 
-	err = sender.Send(ctx, value, &protocol.CloudEvent{Source: source})
+	err = sender.Send(ctx, *value, &protocol.CloudEvent{Source: source})
 	require.NoError(t, err)
 
 	res := <-results
