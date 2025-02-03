@@ -76,10 +76,11 @@ func NewTelemetryReceiver[T any](
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
-	defer func() { err = errutil.Return(err, tr.listener.log, true) }()
-
 	var opts TelemetryReceiverOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, tr.listener.log, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -116,8 +117,6 @@ func NewTelemetryReceiver[T any](
 	if err != nil {
 		return nil, err
 	}
-
-	logger := log.Wrap(opts.Logger, app.log)
 
 	tr = &TelemetryReceiver[T]{
 		handler:   handler,

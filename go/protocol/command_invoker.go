@@ -91,10 +91,11 @@ func NewCommandInvoker[Req, Res any](
 	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, ci.listener.log, true) }()
-
 	var opts CommandInvokerOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, ci.listener.log, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -157,8 +158,6 @@ func NewCommandInvoker[Req, Res any](
 	if err != nil {
 		return nil, err
 	}
-
-	logger := log.Wrap(opts.Logger, app.log)
 
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,

@@ -89,10 +89,11 @@ func NewCommandExecutor[Req, Res any](
 	handler CommandHandler[Req, Res],
 	opt ...CommandExecutorOption,
 ) (ce *CommandExecutor[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, ce.listener.log, true) }()
-
 	var opts CommandExecutorOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, ce.listener.log, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -131,7 +132,6 @@ func NewCommandExecutor[Req, Res any](
 		return nil, err
 	}
 
-	logger := log.Wrap(opts.Logger, app.log)
 	ce = &CommandExecutor[Req, Res]{
 		handler: handler,
 		timeout: to,
