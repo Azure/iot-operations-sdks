@@ -95,7 +95,7 @@ func NewCommandInvoker[Req, Res any](
 	opts.Apply(opt)
 	logger := log.Wrap(opts.Logger, app.log)
 
-	defer func() { err = errutil.Return(err, ci.listener.log, true) }()
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
