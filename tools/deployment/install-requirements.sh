@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-echo # Installing prerequisities
+echo - Installing prerequisities
 
 # install k3d
 if [ ! $(which k3d) ]
