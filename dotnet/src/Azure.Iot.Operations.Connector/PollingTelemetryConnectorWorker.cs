@@ -14,6 +14,8 @@ namespace Azure.Iot.Operations.Connector
 
         public PollingTelemetryConnectorWorker(ILogger<EventDrivenTelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor) : base(logger, mqttClient, datasetSamplerFactory, assetMonitor)
         {
+            base.OnAssetAvailable += OnAssetSampleableAsync;
+            base.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
 
         public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
