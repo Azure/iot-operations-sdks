@@ -17,7 +17,7 @@ step certificate create client $session_dir/client.crt $session_dir/client.key \
     -f --not-after 8760h \
     --ca $session_dir/intermediate_ca.crt \
     --ca-key $session_dir/intermediate_ca.key \
-    --no-password --insecure
+    --no-password --insecure --force
 
 # Create a SAT auth file for local testing
 kubectl create token default --namespace azure-iot-operations --duration=86400s --audience=aio-internal > $session_dir/token.txt
