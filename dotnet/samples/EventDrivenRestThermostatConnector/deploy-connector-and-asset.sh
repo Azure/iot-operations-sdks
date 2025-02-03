@@ -1,6 +1,6 @@
 # Build connector sample image
 dotnet publish /t:PublishContainer
-k3d image import restthermostatpollingconnectorapp:latest -c k3s-default
+k3d image import eventdrivenrestthermostatconnector:latest -c k3s-default
 
 # Build REST server docker image
 docker build -t rest-server:latest ./SampleRestServer

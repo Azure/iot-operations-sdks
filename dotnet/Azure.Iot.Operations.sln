@@ -77,9 +77,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnectorAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventingTelemetryConnectorApp", "templates\EventingTelemetryConnectorApp\EventingTelemetryConnectorApp.csproj", "{2A106AEB-D476-4531-93F8-DA88EDC1BF41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestThermostatEventingConnectorApp", "samples\RestThermostatEventingConnectorApp\RestThermostatEventingConnectorApp.csproj", "{13AE1AE8-C806-4435-8210-77B675673FA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenRestThermostatConnector", "samples\RestThermostatEventingConnectorApp\EventDrivenRestThermostatConnector.csproj", "{13AE1AE8-C806-4435-8210-77B675673FA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestThermostatPollingConnectorApp", "samples\RestThermostatPollingConnectorApp\RestThermostatPollingConnectorApp.csproj", "{A9205D98-1F10-4BEA-A800-05FD5596046D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingRestThermostatConnector", "samples\RestThermostatPollingConnectorApp\PollingRestThermostatConnector.csproj", "{A9205D98-1F10-4BEA-A800-05FD5596046D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlQualityAnalyzerConnectorApp", "samples\SqlConnectorApp\SqlQualityAnalyzerConnectorApp.csproj", "{C75E1DD5-0E63-43CB-A16E-6829231059C1}"
 EndProject
