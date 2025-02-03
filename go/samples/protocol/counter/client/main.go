@@ -35,7 +35,6 @@ func main() {
 		app,
 		mqttClient,
 		handleTelemetry,
-		protocol.WithResponseTopicPrefix("response"),
 	))
 	defer client.Close()
 

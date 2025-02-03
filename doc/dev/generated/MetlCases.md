@@ -52,7 +52,7 @@ See below for categorized tests.
 | CommandExecutor receives request with no MessageExpiry metadata. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no payload. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
-| CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status BadRequest. |
+| CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status OK. |
 | CommandExecutor receives two requests that synchronize so that they complete in reverse order. | CommandExecutor sends responses in reverse order and acknowledges in receipt order. |
 | CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified. | CommandExecutor starts successfully. |
 | CommandExecutor request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandExecutor throws 'invalid configuration' exception. |
@@ -85,7 +85,9 @@ See below for categorized tests.
 | CommandInvoker invokes command and receives response. | CommandInvoker publication includes protocol version header with expected version value. |
 | CommandInvoker initialized with an invalid request topic string. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception; error details unchecked. |
 | CommandInvoker initialized with a response topic suffix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker initialized with a response topic suffix that is invalid. | CommandInvoker throws 'invalid configuration' exception; error details unchecked. |
 | CommandInvoker initialized with a topic namespace that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker invokes command and receives response. | CommandInvoker copies Telemetry timout value into message expiry interval. |
 | CommandInvoker initialized with no request topic string. | CommandInvoker throws 'invalid configuration' exception. |
@@ -139,7 +141,9 @@ See below for categorized tests.
 | CommandInvoker with custom response topic invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker with custom topic-token map invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker invokes command with metadata and receives response. | CommandInvoker publication includes metadata. |
-| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid configuration' exception. |
+| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid argument' exception. |
+| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid argument' exception; error details unchecked. |
 | CommandInvoker with topic namespace invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid configuration' exception. |
+| CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception. |
+| CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception; error details unchecked. |
 
