@@ -18,6 +18,8 @@ namespace Azure.Iot.Operations.Connector
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
+            _connector.OnAssetAvailable += OnAssetSampleableAsync;
+            _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
 
         public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
