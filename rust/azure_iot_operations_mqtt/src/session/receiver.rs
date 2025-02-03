@@ -84,7 +84,7 @@ impl PublishReceiverManager {
     pub fn create_filtered_receiver(&mut self, topic_filter: &TopicFilter) -> PublishRx {
         // NOTE: We prune the filtered txs before registering any more to ensure that closed
         // txs (or entire vectors of txs) don't stick around in the HashMap indefinitely, making
-        // dispatching more expensive. We also due cleanup during a dispatch, but since dispatching
+        // dispatching more expensive. We also do cleanup during a dispatch, but since dispatching
         // only looks at the elements of vectors that are relevant to a given dispatch (i.e. lazy pruning),
         // we still need to do a full pruning when registering new tx filters.
         self.prune_filtered_txs();
