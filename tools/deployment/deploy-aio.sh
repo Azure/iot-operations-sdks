@@ -39,9 +39,11 @@ if [ "$deploy_type" = "nightly" ]; then
     helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.1.0-dev oci://mqbuilds.azurecr.io/helm/aio-broker --wait
 
     # add ADR
+    helm uninstall adr -n azure-iot-operations --ignore-not-found
     helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension
 
     # add Akri service, port 18883
+    helm uninstall akri -n azure-iot-operations --ignore-not-found
     helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.6.1 \
         --set agent.extensionService.mqttBroker.useTls=true \
         --set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
@@ -51,8 +53,8 @@ if [ "$deploy_type" = "nightly" ]; then
         -n azure-iot-operations
 
     # deploy the Akri Operator
+    helm uninstall akri-operator -n azure-iot-operations --ignore-not-found
     helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.5-preview -n azure-iot-operations
-
 fi
 
 # create root & intermediate CA
