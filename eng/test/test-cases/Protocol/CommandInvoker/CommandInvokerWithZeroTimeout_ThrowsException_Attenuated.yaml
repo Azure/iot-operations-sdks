@@ -1,0 +1,27 @@
+---
+test-name: CommandInvokerWithZeroTimeout_ThrowsException_Attenuated
+description:
+  condition: >-
+    CommandInvoker invokes command with command timeout of zero duration.
+  expect: >-
+    Invocation throws 'invalid argument' exception; error details unchecked.
+
+requires:
+- explicit-default
+
+prologue:
+  invokers:
+  - { }
+
+actions:
+- action: invoke command
+  invocation-index: 0
+  timeout: { seconds: 0 }
+- action: await invocation
+  invocation-index: 0
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+...
