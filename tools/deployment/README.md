@@ -1,12 +1,15 @@
 # Initializing a Kubernetes cluster and installing Azure IoT Operations
 
-## Supported platforms
+## Supported environments
 
-The following platforms work with the scripts in this directory:
+The scripts have been tested in the following environments:
 
 1. [CodeSpaces](https://github.com/features/codespaces) - Launch this repository directly in codespaces
 1. [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) - Create the environment in docker runnning on your local box using VSCode
 1. WSL - Deploy on k3d installed in WSL
+
+> [!NOTE]
+> Docker will need to be preinstalled in the target environment
 
 ## Scripts
 
@@ -26,6 +29,8 @@ The following is a brief outline of the function of the three major scripts in t
 1. Create a local registry
 
 ### `deploy-aio`
+
+Deploy all AIO prerequesites and configure the Broker ready for development.
 
 1. Install the required AZ CLI extensions
 1. If nightly:
