@@ -40,9 +40,7 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
-            _logger.LogInformation("TODO sample b4 sem"); 
             _assetSemaphore.Wait();
-            _logger.LogInformation("TODO sample after sem"); 
             try
             {
                 if (_sampleableAssets.TryAdd(args.AssetName, args.Asset))
@@ -58,7 +56,6 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("TODO execut asyn");
             await Task.WhenAny(
                 _connector.RunConnectorAsync(cancellationToken),
                 ExecuteEventsAsync(cancellationToken));
@@ -66,7 +63,6 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("TODO my stuff");
             while (!cancellationToken.IsCancellationRequested)
             {
                 await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
@@ -92,7 +88,7 @@ namespace Azure.Iot.Operations.Connector
                                 // This may happen if you try to sample a dataset when its asset was just deleted
                                 _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because it is no longer sampleable", dataset.Name, assetName);
                             }
-                            catch (ConnectorSamplingException e)
+                            catch (AssetSamplingException e)
                             {
                                 // This may happen if the asset (an HTTP server in this sample's case) failed to respond to a request or otherwise could not be reached.
                                 _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because the asset could not be reached", dataset.Name, assetName);

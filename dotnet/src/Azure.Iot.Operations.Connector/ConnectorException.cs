@@ -3,7 +3,12 @@
 
 namespace Azure.Iot.Operations.Connector
 {
-    //TODO naming?
+    /// <summary>
+    /// The generic exception to indicate something went wrong when running a connector. It may be releated to connecting to the asset, 
+    /// reading/writing data to the asset, or reading/writing data to the MQTT broker.
+    /// </summary>
+    /// <seealso cref="AssetDatasetUnavailableException"/>
+    /// <seealso cref="AssetSamplingException"/>
     public class ConnectorException : Exception
     {
         public ConnectorException()

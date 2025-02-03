@@ -290,8 +290,6 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            _logger.LogInformation($"TODO invoking callback? it is {OnAssetAvailable != null} not null");
-            // Don't block on this callback returning since users may start sampling from within this thread.
             OnAssetAvailable?.Invoke(this, new(assetName, asset));
         }
 
@@ -303,7 +301,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="datasetName">The name of the dataset to sample</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <exception cref="AssetDatasetUnavailableException">Thrown if the specified asset or dataset is unavailable to be sampled currently.</exception>
-        /// <exception cref="ConnectorSamplingException">Thrown if connecting or getting a response from the asset fails (i.e. HTTP read timeout).</exception>
+        /// <exception cref="AssetSamplingException">Thrown if connecting or getting a response from the asset fails (i.e. HTTP read timeout).</exception>
         /// <exception cref="ConnectorException">Thrown if publishing the telemetry to the MQTT broker fails.</exception>
         public async Task SampleDatasetAsync(string assetName, Asset asset, string datasetName, CancellationToken cancellationToken = default)
         {
@@ -327,7 +325,7 @@ namespace Azure.Iot.Operations.Connector
             }
             catch (Exception e)
             {
-                throw new ConnectorSamplingException($"Error sampling dataset with name {datasetName} in asset with name {assetName}", e);
+                throw new AssetSamplingException($"Error sampling dataset with name {datasetName} in asset with name {assetName}", e);
             }
 
             _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");

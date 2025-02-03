@@ -415,7 +415,7 @@ namespace Azure.Iot.Operations.Services.Assets
         /// <summary>
         /// Defines the message schema reference properties.
         /// </summary>
-        public MessageSchemaReference? MessageSchemaReference { get; set; } //TODO this should be populated during sample w/ the MQTT message schema
+        public MessageSchemaReference? MessageSchemaReference { get; set; }
     }
 
     public record StatusEvents
