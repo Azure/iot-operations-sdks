@@ -67,10 +67,11 @@ func NewTelemetrySender[T any](
 	topicPattern string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
-	defer func() { err = errutil.Return(err, ts.log, true) }()
-
 	var opts TelemetrySenderOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, ts.log, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -90,14 +91,14 @@ func NewTelemetrySender[T any](
 	}
 
 	ts = &TelemetrySender[T]{
-		log: log.Wrap(opts.Logger),
+		log: logger,
 	}
 	ts.publisher = &publisher[T]{
 		app:      app,
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
-		log:      log.Wrap(opts.Logger),
+		log:      logger,
 	}
 
 	ts.dataSchema = opts.DataSchema
