@@ -191,6 +191,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 subscribedTopics.Add(responseTopicFilter);
             }
+            Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{this.commandName}'");
         }
 
         private Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -550,6 +551,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             CorrelationId = requestGuid,
                         };
                     }
+                    Trace.TraceInformation($"Invoked command '{this.commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {
