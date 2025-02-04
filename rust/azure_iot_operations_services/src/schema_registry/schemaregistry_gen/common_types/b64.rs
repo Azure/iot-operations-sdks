@@ -37,8 +37,8 @@ impl<'de> Deserialize<'de> for Bytes {
         D: Deserializer<'de>,
     {
         let s: String = String::deserialize(deserializer)?;
-        Ok(Bytes(Vec::<u8>::from(
+        Ok(Bytes(
             BASE64_STANDARD.decode(&s).map_err(de::Error::custom)?,
-        )))
+        ))
     }
 }
