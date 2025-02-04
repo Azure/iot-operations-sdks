@@ -46,7 +46,7 @@ pub enum UnsubscribeError {
 }
 
 /// Error executing acknowledging an MQTT publish
-#[derive(Debug, Error)]
+#[derive(Debug, Error, Clone)]
 pub enum AckError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
