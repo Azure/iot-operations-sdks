@@ -112,7 +112,8 @@ pub enum DeserializationError<T: Debug + Into<Box<dyn std::error::Error + Sync +
 
 // Provided convenience implementations
 
-/// A provided convenience struct for data that is externally serialized via custom code.
+/// A provided convenience struct for bypassing serialization and deserialization,
+/// but having dynamic content type and format indicator.
 pub type BypassPayload = SerializedPayload;
 
 impl PayloadSerialize for BypassPayload {
