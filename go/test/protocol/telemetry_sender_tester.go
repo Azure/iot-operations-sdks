@@ -181,23 +181,6 @@ func getTelemetrySender(
 		protocol.WithTopicTokens(tcs.TopicTokenMap),
 	}
 
-	if tcs.DataSchema != nil {
-		dataSchema, err := url.Parse(*tcs.DataSchema)
-		require.NoErrorf(
-			t,
-			err,
-			"Unable to parse DataSchema as a URL: %s",
-			*tcs.DataSchema,
-		)
-
-		dataSchemaOption := protocol.WithDataSchema(*dataSchema)
-
-		options = append(
-			options,
-			&dataSchemaOption,
-		)
-	}
-
 	if tcs.TopicNamespace != nil {
 		options = append(
 			options,
@@ -263,6 +246,9 @@ func sendTelemetry(
 
 	if actionSendTelemetry.CloudEvent != nil {
 		sourceURL, _ := url.Parse(*actionSendTelemetry.CloudEvent.Source)
+		dataSchemaURL, _ := url.Parse(
+			*actionSendTelemetry.CloudEvent.DataSchema,
+		)
 		options = append(
 			options,
 			protocol.WithCloudEvent(
@@ -270,6 +256,7 @@ func sendTelemetry(
 					Source:      sourceURL,
 					SpecVersion: *actionSendTelemetry.CloudEvent.SpecVersion,
 					Type:        *actionSendTelemetry.CloudEvent.Type,
+					DataSchema:  dataSchemaURL,
 				},
 			),
 		)
