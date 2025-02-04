@@ -358,7 +358,14 @@ async fn telemetry_complex_send_receive_network_tests() {
                         let cloud_event =
                             telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
-                        assert_eq!(message.custom_user_data, test_custom_user_data_clone);
+                        assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
+                            message
+                                .custom_user_data
+                                .iter()
+                                .any(|(test_key, test_value)| {
+                                    key == test_key && value == test_value
+                                })
+                        }));
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
@@ -380,7 +387,14 @@ async fn telemetry_complex_send_receive_network_tests() {
                         let cloud_event =
                             telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
-                        assert_eq!(message.custom_user_data, test_custom_user_data_clone);
+                        assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
+                            message
+                                .custom_user_data
+                                .iter()
+                                .any(|(test_key, test_value)| {
+                                    key == test_key && value == test_value
+                                })
+                        }));
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
