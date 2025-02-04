@@ -77,31 +77,33 @@ async fn invoke_loop(
 
     // Send 10 file transfer requests
     for i in 1..6 {
-        let payload = CommandRequestBuilder::default()
-            .payload(BypassPayload {
-                payload: b"fruit,count\napple,2\norange,3".to_vec(),
-                content_type: "text/csv".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            })
+        let payload = BypassPayload {
+            payload: b"fruit,count\napple,2\norange,3".to_vec(),
+            content_type: "text/csv".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let request = CommandRequestBuilder::default()
+            .payload(payload)
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
             .unwrap();
-        let response = file_transfer_invoker.invoke(payload).await;
+        let response = file_transfer_invoker.invoke(request).await;
         log::info!("Response {}: {:?}", i, response);
     }
     for i in 6..11 {
-        let payload = CommandRequestBuilder::default()
-            .payload(BypassPayload {
-                payload: "Hello, World!".to_string().into_bytes(),
-                content_type: "text/plain".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            })
+        let payload = BypassPayload {
+            payload: "Hello, World!".to_string().into_bytes(),
+            content_type: "text/plain".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let request = CommandRequestBuilder::default()
+            .payload(payload)
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
             .unwrap();
-        let response = file_transfer_invoker.invoke(payload).await;
+        let response = file_transfer_invoker.invoke(request).await;
         log::info!("Response {}: {:?}", i, response);
     }
 
