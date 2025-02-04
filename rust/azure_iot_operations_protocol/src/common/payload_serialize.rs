@@ -114,7 +114,7 @@ pub enum DeserializationError<T: Debug + Into<Box<dyn std::error::Error + Sync +
 
 /// A provided convenience struct for data that is externally serialized via custom code.
 pub type CustomPayload = SerializedPayload;
-/// A buildder for [`CustomPayload`].
+/// A builder for [`CustomPayload`].
 pub type CustomPayloadBuilder = SerializedPayloadBuilder;
 
 impl PayloadSerialize for CustomPayload {
