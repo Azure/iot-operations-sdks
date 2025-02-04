@@ -72,18 +72,18 @@ pub struct CloudEvent {
     /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
     /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
     /// for any specific event if the source context has internal sub-structure.
-    #[builder(default = "Subject::TelemetryTopic")]
-    subject: Subject,
+    #[builder(default = "CloudEventSubject::TelemetryTopic")]
+    subject: CloudEventSubject,
 }
 
-/// Enum representing the different values that the `subject` field of a `CloudEvent` can take.
+/// Enum representing the different values that the [`subject`](CloudEvent::subject) field of a [`CloudEvent`] can take.
 #[derive(Clone, Debug)]
-pub enum Subject {
-    /// The telemetry topic should be used as the subject when the `CloudEvent` is sent across the wire
+pub enum CloudEventSubject {
+    /// The telemetry topic should be used as the subject when the [`CloudEvent`] is sent across the wire
     TelemetryTopic,
-    /// A custom (provided) String should be used for the `subject` of the `CloudEvent`
+    /// A custom (provided) `String` should be used for the `subject` of the [`CloudEvent`]
     Custom(String),
-    /// No subject should be included on the `CloudEvent`
+    /// No subject should be included on the [`CloudEvent`]
     None,
 }
 
@@ -112,7 +112,7 @@ impl CloudEventBuilder {
             CloudEventFields::Id.validate(&id.to_string(), &spec_version)?;
         }
 
-        if let Some(Subject::Custom(subject)) = &self.subject {
+        if let Some(CloudEventSubject::Custom(subject)) = &self.subject {
             CloudEventFields::Subject.validate(subject, &spec_version)?;
         }
 
@@ -133,16 +133,16 @@ impl CloudEvent {
             (CloudEventFields::EventType.to_string(), self.event_type),
         ];
         match self.subject {
-            Subject::Custom(subject) => {
+            CloudEventSubject::Custom(subject) => {
                 headers.push((CloudEventFields::Subject.to_string(), subject));
             }
-            Subject::TelemetryTopic => {
+            CloudEventSubject::TelemetryTopic => {
                 headers.push((
                     CloudEventFields::Subject.to_string(),
                     telemetry_topic.to_string(),
                 ));
             }
-            Subject::None => {}
+            CloudEventSubject::None => {}
         }
         if let Some(time) = self.time {
             headers.push((CloudEventFields::Time.to_string(), time.to_rfc3339()));

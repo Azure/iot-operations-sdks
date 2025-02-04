@@ -15,9 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_receiver::{
-        CloudEvent, TelemetryReceiver, TelemetryReceiverOptionsBuilder,
-    },
+    telemetry::telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
 
 const CLIENT_ID: &str = "myReceiver";
@@ -96,7 +94,7 @@ async fn telemetry_loop(
                 );
 
                 // Parse cloud event
-                match CloudEvent::from_telemetry(&message) {
+                match telemetry_receiver::CloudEvent::from_telemetry(&message) {
                     Ok(cloud_event) => {
                         println!("{cloud_event}");
                     }

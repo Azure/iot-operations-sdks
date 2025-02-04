@@ -143,6 +143,8 @@ impl CloudEvent {
     ///
     /// # Errors
     /// [`CloudEventBuilderError::UninitializedField`] if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
+    ///
+    /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
     pub fn from_telemetry<T: PayloadSerialize>(
         telemetry: &TelemetryMessage<T>,
     ) -> Result<Self, CloudEventBuilderError> {

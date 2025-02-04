@@ -16,7 +16,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 };
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEventBuilder, Subject, TelemetryMessageBuilder, TelemetryMessageBuilderError,
+    CloudEventBuilder, CloudEventSubject, TelemetryMessageBuilder, TelemetryMessageBuilderError,
     TelemetrySender, TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
 };
 use bytes::Bytes;
@@ -335,7 +335,7 @@ where
                 }
 
                 if let Some(subject) = &cloud_event.subject {
-                    cloud_event_builder.subject(Subject::Custom(subject.to_string()));
+                    cloud_event_builder.subject(CloudEventSubject::Custom(subject.to_string()));
                 }
 
                 telemetry_message_builder.cloud_event(cloud_event_builder.build().unwrap());
