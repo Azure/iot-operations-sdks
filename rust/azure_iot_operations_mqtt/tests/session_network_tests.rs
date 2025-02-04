@@ -45,7 +45,10 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
 #[tokio::test]
 async fn test_simple_manual_ack(qos: QoS) {
     let client_id = "network_test_simple_manual_ack";
-    let mut session = setup_test(client_id).unwrap();
+    let Ok(mut session) = setup_test(client_id) else {
+        // Network tests disabled, skipping tests
+        return;
+    };
     let exit_handle = session.create_exit_handle();
     let managed_client = session.create_managed_client();
 
