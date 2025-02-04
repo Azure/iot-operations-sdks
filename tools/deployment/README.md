@@ -20,7 +20,7 @@ The following is a brief outline of the function of the three major scripts in t
 
 ### `initialize-cluster`
 
-1. Install requirements (by running `./install-requirements` including:
+1. Installs prerequisities (executes `./install-requirements`) including:
     1. Install k3d
     1. Install Step CLI
     1. Helm
@@ -33,7 +33,7 @@ The following is a brief outline of the function of the three major scripts in t
 
 ### `deploy-aio`
 
-Deploy all AIO prerequesites and configure the Broker ready for development.
+Deploy all AIO prerequisites and configure the Broker ready for development.
 
 1. Install the required AZ CLI extensions
 1. If nightly:
