@@ -7,7 +7,8 @@ The scripts support the general [Setups](/docs/setup.md) documentation.
 The scripts have been tested in the following environments:
 
 1. [CodeSpaces](https://github.com/features/codespaces) - Launch this repository directly in codespaces
-1. [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) - Create the environment in docker runnning on your local box using VSCode
+1. [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) - Create the environment in docker running on your local box using VSCode
+
 1. WSL - Deploy on k3d installed in WSL
 
 > [!NOTE]
