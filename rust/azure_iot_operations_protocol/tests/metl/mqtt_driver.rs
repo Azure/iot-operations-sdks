@@ -186,11 +186,11 @@ impl MqttPubSub for MqttDriver {
 
 #[async_trait]
 impl MqttAck for MqttDriver {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         self.operation_tx
             .send(MqttOperation::Ack { pkid: publish.pkid })
             .unwrap();
-        Ok(())
+        Ok(CompletionToken(Box::new(async { Ok(()) })))
     }
 }
 

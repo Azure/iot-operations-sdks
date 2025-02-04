@@ -243,28 +243,44 @@
 
         private ITypeName GetTelemSchema(DTTelemetryInfo dtTelem)
         {
-            return payloadFormat == PayloadFormat.Raw ? RawTypeName.Instance : SchemaNames.GetTelemSchema(dtTelem.Name);
+            return payloadFormat switch
+            {
+                PayloadFormat.Raw => RawTypeName.Instance,
+                PayloadFormat.Custom => CustomTypeName.Instance,
+                _ => SchemaNames.GetTelemSchema(dtTelem.Name),
+            };
         }
 
         private ITypeName GetAggregateTelemSchema()
         {
-            return payloadFormat == PayloadFormat.Raw ? RawTypeName.Instance : SchemaNames.AggregateTelemSchema;
+            return payloadFormat switch
+            {
+                PayloadFormat.Raw => RawTypeName.Instance,
+                PayloadFormat.Custom => CustomTypeName.Instance,
+                _ => SchemaNames.AggregateTelemSchema,
+            };
         }
 
         private ITypeName? GetRequestSchema(DTCommandInfo dtCommand, int mqttVersion)
         {
-            return dtCommand.Request == null ? null :
-                payloadFormat == PayloadFormat.Raw ? RawTypeName.Instance :
-                IsCommandPayloadTransparent(dtCommand.Request, mqttVersion) ? new CodeName(dtCommand.Request.Schema.Id) :
-                SchemaNames.GetCmdReqSchema(dtCommand.Name);
+            return dtCommand.Request == null ? null : payloadFormat switch
+            {
+                PayloadFormat.Raw => RawTypeName.Instance,
+                PayloadFormat.Custom => CustomTypeName.Instance,
+                _ when IsCommandPayloadTransparent(dtCommand.Request, mqttVersion) => new CodeName(dtCommand.Request.Schema.Id),
+                _ => SchemaNames.GetCmdReqSchema(dtCommand.Name),
+            };
         }
 
         private ITypeName? GetResponseSchema(DTCommandInfo dtCommand, int mqttVersion)
         {
-            return dtCommand.Response == null ? null :
-                payloadFormat == PayloadFormat.Raw ? RawTypeName.Instance :
-                IsCommandPayloadTransparent(dtCommand.Response, mqttVersion) ? new CodeName(dtCommand.Request.Schema.Id) :
-                SchemaNames.GetCmdRespSchema(dtCommand.Name);
+            return dtCommand.Response == null ? null : payloadFormat switch
+            {
+                PayloadFormat.Raw => RawTypeName.Instance,
+                PayloadFormat.Custom => CustomTypeName.Instance,
+                _ when IsCommandPayloadTransparent(dtCommand.Response, mqttVersion) => new CodeName(dtCommand.Response.Schema.Id),
+                _ => SchemaNames.GetCmdRespSchema(dtCommand.Name),
+            };
         }
 
         private static bool IsCommandIdempotent(DTCommandInfo dtCommand, int mqttVersion)
