@@ -3,8 +3,6 @@
 
 //! Traits and types for defining sets and subsets of MQTT client functionality.
 
-use std::sync::Arc;
-
 use async_trait::async_trait;
 use bytes::Bytes;
 
@@ -15,7 +13,7 @@ use crate::error::{
     AckError, CompletionError, ConnectionError, DisconnectError, PublishError, ReauthError,
     SubscribeError, UnsubscribeError,
 };
-use crate::session::pub_tracker;
+pub use crate::session::receiver::AckToken; // TODO: remove this pub re-export after concretized receivers / managed clients
 use crate::topic::TopicParseError;
 
 // ---------- Concrete Types ----------
@@ -45,48 +43,6 @@ impl std::future::Future for CompletionToken {
         // so there is no risk of a null pointer error / segfault.
         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
         inner.poll(cx)
-    }
-}
-
-/// Awaitable token indicating completion of MQTT message acknowledgement.
-pub struct AckToken {
-    // TODO: AckToken design should not be here. It depends on the pub tracking implementation, which
-    // should be out of scope for this module. This is a stopgap measure for now. In the longer term,
-    // ManagedClient should be concretized and not be defined in this module at all, thus there would
-    // be no need for AckToken to be here either.
-    // TODO: if this were implemented correctly, we could likely get rid of the pub(crate) declarations
-    /// Tracker for unacked incoming publishes
-    pub(crate) pub_tracker: Arc<pub_tracker::PubTracker>,
-    /// Publish to be acknowledged
-    pub(crate) publish: Publish,
-}
-
-// TODO: Finish doc along with implementation
-impl AckToken {
-    /// Acknowledge the received Publish message and return a `[CompletionToken]` for the
-    /// completion of the acknowledgement process.
-    ///
-    /// # Errors
-    /// Returns an [`AckError`] if the Publish message could not be acknowledged.
-    pub async fn ack(self) -> Result<CompletionToken, AckError> {
-        self.pub_tracker.ack(&self.publish).await?;
-        // TODO: This CompletionToken is spurious. We don't (yet) have a way to
-        // generate a CompletionToken at MQTT client level for the ack.
-        Ok(CompletionToken(Box::new(async { Ok(()) })))
-    }
-}
-
-impl Drop for AckToken {
-    fn drop(&mut self) {
-        tokio::task::spawn({
-            let pub_tracker = self.pub_tracker.clone();
-            let publish = self.publish.clone();
-            async move {
-                if let Err(e) = pub_tracker.ack(&publish).await {
-                    log::error!("Failed to ack incoming publish: {:?}", e);
-                }
-            }
-        });
     }
 }
 
@@ -176,7 +132,7 @@ pub trait MqttPubSub {
 #[async_trait]
 pub trait MqttAck {
     /// Acknowledge a received Publish.
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError>;
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
@@ -232,6 +188,10 @@ pub trait ManagedClient: MqttPubSub {
         topic_filter: &str,
         auto_ack: bool,
     ) -> Result<Self::PubReceiver, TopicParseError>;
+
+    /// Creates a new [`PubReceiver`] that receives all messages not sent to other
+    /// filtered receivers.
+    fn create_unfiltered_pub_receiver(&self, auto_ack: bool) -> Self::PubReceiver;
 }
 
 #[async_trait]
