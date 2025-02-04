@@ -58,7 +58,7 @@ impl CloudEventFields {
     ///
     /// # Errors
     /// Returns a string containing the error message if either the field or spec version are invalid.
-    /// 
+    ///
     /// # Panics
     /// If any regex fails to compile which is impossible given that the regex is pre-defined.
     pub fn validate(&self, value: &str, spec_version: &str) -> Result<(), String> {
@@ -70,7 +70,7 @@ impl CloudEventFields {
                 CloudEventFields::Id
                 | CloudEventFields::SpecVersion
                 | CloudEventFields::EventType
-                | CloudEventFields::Subject => {},
+                | CloudEventFields::Subject => {}
                 CloudEventFields::Source => {
                     // URI reference
                     match UriRef::parse(value) {
@@ -81,8 +81,8 @@ impl CloudEventFields {
                             ));
                         }
                     }
-                },
-                CloudEventFields::DataSchema  => {
+                }
+                CloudEventFields::DataSchema => {
                     // URI
                     match Uri::parse(value) {
                         Ok(_) => {}
@@ -92,23 +92,22 @@ impl CloudEventFields {
                             ));
                         }
                     }
-                },
-                CloudEventFields::Time  => {
+                }
+                CloudEventFields::Time => {
                     // serializable as RFC3339
                     match DateTime::parse_from_rfc3339(value) {
-                        Ok(_) => {
-                        }
+                        Ok(_) => {}
                         Err(e) => {
                             return Err(format!(
                                 "Invalid {self} value: {value}. Must adhere to RFC 3339. Error: {e}"
                             ));
                         }
                     }
-                    
-                },
+                }
                 CloudEventFields::DataContentType => {
                     let rfc_2045_regex =
-                        Regex::new(r"^([-a-z]+)/([-a-z0-9\.\-]+)(?:\+([a-z0-9\.\-]+))?$").expect("Static regex string should not fail");
+                        Regex::new(r"^([-a-z]+)/([-a-z0-9\.\-]+)(?:\+([a-z0-9\.\-]+))?$")
+                            .expect("Static regex string should not fail");
 
                     if !rfc_2045_regex.is_match(value) {
                         return Err(format!(
@@ -207,16 +206,24 @@ mod tests {
     #[test_case("./bar", true; "uri_reference")]
     #[test_case("::::", false; "not_uri_reference")]
     fn test_cloud_event_validate_invalid_source(source: &str, expected: bool) {
-        assert_eq!(CloudEventFields::Source
-            .validate(source, DEFAULT_CLOUD_EVENT_SPEC_VERSION).is_ok(), expected);
+        assert_eq!(
+            CloudEventFields::Source
+                .validate(source, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
     }
 
     #[test_case("aio://oven/sample", true; "absolute_uri")]
     #[test_case("./bar", false; "uri_reference")]
     #[test_case("ht!tp://example.com", false; "invalid_uri")]
     fn test_cloud_event_validate_data_schema(data_schema: &str, expected: bool) {
-        assert_eq!(CloudEventFields::DataSchema
-            .validate(data_schema, DEFAULT_CLOUD_EVENT_SPEC_VERSION).is_ok(), expected);
+        assert_eq!(
+            CloudEventFields::DataSchema
+                .validate(data_schema, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
     }
 
     #[test_case("application/json", true; "json")]
@@ -230,8 +237,12 @@ mod tests {
     #[test_case("foo", false; "no_slash")]
     #[test_case("foo/bar?bazz", false; "question_mark")]
     fn test_cloud_event_validate_data_content_type(data_content_type: &str, expected: bool) {
-        assert_eq!(CloudEventFields::DataContentType
-            .validate(data_content_type, DEFAULT_CLOUD_EVENT_SPEC_VERSION).is_ok(), expected);
+        assert_eq!(
+            CloudEventFields::DataContentType
+                .validate(data_content_type, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
     }
 
     #[test]

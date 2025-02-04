@@ -84,7 +84,7 @@ pub enum Subject {
     /// A custom (provided) String should be used for the `subject` of the `CloudEvent`
     Custom(String),
     /// No subject should be included on the `CloudEvent`
-    None
+    None,
 }
 
 impl CloudEventBuilder {
@@ -137,7 +137,10 @@ impl CloudEvent {
                 headers.push((CloudEventFields::Subject.to_string(), subject));
             }
             Subject::TelemetryTopic => {
-                headers.push((CloudEventFields::Subject.to_string(), telemetry_topic.to_string()));
+                headers.push((
+                    CloudEventFields::Subject.to_string(),
+                    telemetry_topic.to_string(),
+                ));
             }
             Subject::None => {}
         }
@@ -145,7 +148,10 @@ impl CloudEvent {
             headers.push((CloudEventFields::Time.to_string(), time.to_rfc3339()));
         }
         if let Some(data_schema) = self.data_schema {
-            headers.push((CloudEventFields::DataSchema.to_string(), data_schema.to_string()));
+            headers.push((
+                CloudEventFields::DataSchema.to_string(),
+                data_schema.to_string(),
+            ));
         }
         headers
     }
@@ -259,7 +265,8 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
         // If there's a cloud event, make sure the content type is valid for the cloud event spec version
         if let Some(Some(cloud_event)) = &self.cloud_event {
             if let Some(serialized_payload) = &self.serialized_payload {
-                CloudEventFields::DataContentType.validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
+                CloudEventFields::DataContentType
+                    .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
             }
         }
         Ok(())

@@ -15,7 +15,9 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_receiver::{CloudEvent, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    telemetry::telemetry_receiver::{
+        CloudEvent, TelemetryReceiver, TelemetryReceiverOptionsBuilder,
+    },
 };
 
 const CLIENT_ID: &str = "myReceiver";

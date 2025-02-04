@@ -355,7 +355,8 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        let cloud_event = telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
+                        let cloud_event =
+                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
                         assert_eq!(message.custom_user_data, test_custom_user_data_clone);
                         assert_eq!(message.sender_id.unwrap(), client_id);
@@ -376,7 +377,8 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_some());
 
                         // Validate contents of message match expected based on what was sent
-                        let cloud_event = telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
+                        let cloud_event =
+                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
                         assert_eq!(message.custom_user_data, test_custom_user_data_clone);
                         assert_eq!(message.sender_id.unwrap(), client_id);

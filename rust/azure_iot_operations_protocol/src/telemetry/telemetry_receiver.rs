@@ -140,16 +140,18 @@ impl Display for CloudEvent {
 impl CloudEvent {
     /// Parse a [`CloudEvent`] from a [`TelemetryMessage`].
     /// Note that this will return an error if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
-    /// 
+    ///
     /// # Errors
     /// [`CloudEventBuilderError::UninitializedField`] if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
-    pub fn from_telemetry<T: PayloadSerialize>(telemetry: &TelemetryMessage<T>) -> Result<Self, CloudEventBuilderError> {
+    pub fn from_telemetry<T: PayloadSerialize>(
+        telemetry: &TelemetryMessage<T>,
+    ) -> Result<Self, CloudEventBuilderError> {
         // use builder so that all fields can be validated together
         let mut cloud_event_builder = CloudEventBuilder::default();
         if let Some(content_type) = &telemetry.content_type {
             cloud_event_builder.data_content_type(content_type.clone());
         }
-        
+
         for (key, value) in &telemetry.custom_user_data {
             match CloudEventFields::from_str(key) {
                 Ok(CloudEventFields::Id) => {
@@ -548,7 +550,7 @@ where
                                 }
                                 Err(()) => {
                                     custom_user_data.push((key, value));
-                                },
+                                }
                                 _ => {
                                     log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
                                     custom_user_data.push((key, value));

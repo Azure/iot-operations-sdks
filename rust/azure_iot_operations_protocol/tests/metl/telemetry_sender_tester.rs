@@ -8,16 +8,16 @@ use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::{application::{
+use azure_iot_operations_protocol::application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
-}, telemetry::telemetry_sender::Subject};
+};
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEventBuilder, TelemetryMessageBuilder, TelemetryMessageBuilderError, TelemetrySender,
-    TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
+    CloudEventBuilder, Subject, TelemetryMessageBuilder, TelemetryMessageBuilderError,
+    TelemetrySender, TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
 };
 use bytes::Bytes;
 use tokio::sync::oneshot;
