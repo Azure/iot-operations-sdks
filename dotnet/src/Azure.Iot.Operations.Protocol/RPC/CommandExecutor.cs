@@ -483,8 +483,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 Debug.Assert(requestedProtocolVersion != null);
                 message.AddUserProperty(AkriSystemProperties.RequestedProtocolVersion, requestedProtocolVersion);
-                string spaceSeperatedListOfSupportedProtocolVersions = ProtocolVersion.ToString(supportedMajorProtocolVersions);
-                message.AddUserProperty(AkriSystemProperties.SupportedMajorProtocolVersions, spaceSeperatedListOfSupportedProtocolVersions);
+                string spaceSeparatedListOfSupportedProtocolVersions = ProtocolVersion.ToString(supportedMajorProtocolVersions);
+                message.AddUserProperty(AkriSystemProperties.SupportedMajorProtocolVersions, spaceSeparatedListOfSupportedProtocolVersions);
             }
 
             int remainingSeconds = Math.Max(0, (int)(commandExpirationTime - WallClock.UtcNow).TotalSeconds);
