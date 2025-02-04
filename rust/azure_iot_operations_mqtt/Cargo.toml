@@ -16,12 +16,13 @@ anyhow = "1.0.86"                                                               
 async-trait = "0.1.81"
 bytes.workspace = true
 derive_builder.workspace = true
+futures = "0.3.31"
 log.workspace = true
 notify = "7"
 notify-debouncer-full = "0.4.0"
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
-rumqttc = { version = "0.24.0-fork.3", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
+rumqttc = { version = "0.24.0-fork.4", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
 thiserror.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
