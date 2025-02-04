@@ -59,8 +59,8 @@ pub struct CloudEvent {
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
     /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
     /// id. Consumers MAY assume that Events with identical source and id are duplicates.
-    #[builder(default =  Uuid::new_v4())]
-    id: Uuid,
+    #[builder(default =  "Uuid::new_v4().to_string()")]
+    id: String,
     /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
     /// determined then this attribute MAY be set to some other time (such as the current time) by
     /// the cloud event producer, however all producers for the same source MUST be consistent in
@@ -109,7 +109,7 @@ impl CloudEventBuilder {
         }
 
         if let Some(id) = &self.id {
-            CloudEventFields::Id.validate(&id.to_string(), &spec_version)?;
+            CloudEventFields::Id.validate(id, &spec_version)?;
         }
 
         if let Some(CloudEventSubject::Custom(subject)) = &self.subject {
@@ -127,7 +127,7 @@ impl CloudEvent {
     #[must_use]
     fn into_headers(self, telemetry_topic: &str) -> Vec<(String, String)> {
         let mut headers = vec![
-            (CloudEventFields::Id.to_string(), self.id.to_string()),
+            (CloudEventFields::Id.to_string(), self.id),
             (CloudEventFields::Source.to_string(), self.source),
             (CloudEventFields::SpecVersion.to_string(), self.spec_version),
             (CloudEventFields::EventType.to_string(), self.event_type),
