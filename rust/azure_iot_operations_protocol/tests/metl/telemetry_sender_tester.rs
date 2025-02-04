@@ -330,6 +330,14 @@ where
                     cloud_event_builder.spec_version(spec_version);
                 }
 
+                if let Some(data_schema) = &cloud_event.data_schema {
+                    cloud_event_builder.data_schema(data_schema.clone());
+                }
+
+                if let Some(subject) = &cloud_event.subject {
+                    cloud_event_builder.subject(Subject::Custom(subject.to_string()));
+                }
+
                 telemetry_message_builder.cloud_event(cloud_event_builder.build().unwrap());
             }
 

@@ -7,8 +7,8 @@ use std::{
 };
 
 use chrono::DateTime;
+use fluent_uri::{Uri, UriRef};
 use regex::Regex;
-use url::{ParseError, Url};
 
 /// Default spec version for a `CloudEvent`. Compliant event producers MUST
 /// use a value of 1.0 when referring to this version of the specification.
@@ -73,34 +73,18 @@ impl CloudEventFields {
                 | CloudEventFields::Subject => {},
                 CloudEventFields::Source => {
                     // URI reference
-                    match Url::parse(value) {
+                    match UriRef::parse(value) {
                         Ok(_) => {}
                         Err(e) => {
-                            match e {
-                                ParseError::RelativeUrlWithoutBase => {
-                                    // relative URL is valid, so if it parses when there's a valid base URL, it's valid
-                                    match Url::parse("http://example.com/base/").unwrap().join(value) {
-                                        Ok(_) => {
-                                        }
-                                        Err(e) => {
-                                            return Err(format!(
-                                                "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.1. Error: {e}"
-                                            ));
-                                        }
-                                    }
-                                }
-                                _ => {
-                                    return Err(format!(
-                                        "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.1. Error: {e}"
-                                    ));
-                                }
-                            }
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.1. Error: {e}"
+                            ));
                         }
                     }
                 },
                 CloudEventFields::DataSchema  => {
                     // URI
-                    match Url::parse(value) {
+                    match Uri::parse(value) {
                         Ok(_) => {}
                         Err(e) => {
                             return Err(format!(
@@ -219,13 +203,13 @@ mod tests {
             .unwrap_err();
     }
 
-    // #[test_case("aio://oven/sample", true; "absolute_uri")]
-    // #[test_case("./bar", true; "uri_reference")]
-    // #[test_case("::::", false; "not_uri_reference")]
-    // fn test_cloud_event_validate_invalid_source(source: &str, expected: bool) {
-    //     assert_eq!(CloudEventFields::Source
-    //         .validate(source, DEFAULT_CLOUD_EVENT_SPEC_VERSION).is_ok(), expected);
-    // }
+    #[test_case("aio://oven/sample", true; "absolute_uri")]
+    #[test_case("./bar", true; "uri_reference")]
+    #[test_case("::::", false; "not_uri_reference")]
+    fn test_cloud_event_validate_invalid_source(source: &str, expected: bool) {
+        assert_eq!(CloudEventFields::Source
+            .validate(source, DEFAULT_CLOUD_EVENT_SPEC_VERSION).is_ok(), expected);
+    }
 
     #[test_case("aio://oven/sample", true; "absolute_uri")]
     #[test_case("./bar", false; "uri_reference")]

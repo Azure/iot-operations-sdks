@@ -10,7 +10,6 @@ use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use bytes::Bytes;
 use chrono::{DateTime, Utc};
-use url::Url;
 use uuid::Uuid;
 
 use crate::application::{ApplicationContext, ApplicationHybridLogicalClock};
@@ -56,7 +55,7 @@ pub struct CloudEvent {
     /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
     /// reflected by a different URI.
     #[builder(default = "None")]
-    data_schema: Option<Url>,
+    data_schema: Option<String>,
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
     /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
     /// id. Consumers MAY assume that Events with identical source and id are duplicates.
@@ -105,15 +104,19 @@ impl CloudEventBuilder {
             CloudEventFields::EventType.validate(event_type, &spec_version)?;
         }
 
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
+        }
+
         if let Some(id) = &self.id {
             CloudEventFields::Id.validate(&id.to_string(), &spec_version)?;
         }
+
         if let Some(Subject::Custom(subject)) = &self.subject {
             CloudEventFields::Subject.validate(subject, &spec_version)?;
         }
 
         // time does not need to be validated because converting it to an rfc3339 compliant string will always succeed
-        // data_schema does not need to be validated because it is already a typed URL and will always be valid
 
         Ok(())
     }

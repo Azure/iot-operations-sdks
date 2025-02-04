@@ -8,7 +8,6 @@ use azure_iot_operations_mqtt::{
 };
 use chrono::{DateTime, Utc};
 use tokio_util::sync::CancellationToken;
-use url::Url;
 
 use crate::{
     application::{ApplicationContext, ApplicationHybridLogicalClock},
@@ -58,13 +57,10 @@ pub struct CloudEvent {
     /// for any specific event if the source context has internal sub-structure.
     #[builder(default = "None")]
     pub subject: Option<String>,
-    /// data schema as a string so that it can be validated during build
-    #[builder(default = "None")]
-    builder_data_schema: Option<String>,
     /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
     /// reflected by a different URI.
-    #[builder(setter(skip))]
-    pub data_schema: Option<Url>,
+    #[builder(default = "None")]
+    pub data_schema: Option<String>,
     /// Content type of data value. This attribute enables data to carry any type of content,
     /// whereby format and encoding might differ from that of the chosen event format.
     #[builder(default = "None")]
@@ -107,8 +103,8 @@ impl CloudEventBuilder {
             CloudEventFields::Subject.validate(subject, &spec_version)?;
         }
 
-        if let Some(Some(builder_data_schema)) = &self.builder_data_schema {
-            CloudEventFields::DataSchema.validate(builder_data_schema, &spec_version)?;
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
         }
 
         if let Some(Some(data_content_type)) = &self.data_content_type {
@@ -134,7 +130,7 @@ impl Display for CloudEvent {
             spec_version = self.spec_version,
             event_type = self.event_type,
             subject = self.subject.as_deref().unwrap_or("None"),
-            data_schema = self.data_schema.as_ref().map_or("None", url::Url::as_str),
+            data_schema = self.data_schema.as_deref().unwrap_or("None"),
             data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
             time = self.time,
         )
@@ -172,7 +168,7 @@ impl CloudEvent {
                     cloud_event_builder.subject(Some(value.into()));
                 }
                 Ok(CloudEventFields::DataSchema) => {
-                    cloud_event_builder.builder_data_schema(Some(value.into()));
+                    cloud_event_builder.data_schema(Some(value.into()));
                 }
                 Ok(CloudEventFields::Time) => {
                     cloud_event_builder.builder_time(Some(value.into()));
@@ -181,7 +177,7 @@ impl CloudEvent {
             }
         }
         let mut cloud_event = cloud_event_builder.build()?;
-        // now that everything is validated, update time and data_schema fields to their correct typings
+        // now that everything is validated, update the time field to its correct typing
         // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
         // For now, the builder validates spec version 1.0
         if let Some(ref time_str) = cloud_event.builder_time {
@@ -194,19 +190,6 @@ impl CloudEvent {
                     // Builder should have already caught this error
                     return Err(CloudEventBuilderError::ValidationError(format!(
                         "Invalid cloud event time {time_str}: {e}"
-                    )));
-                }
-            }
-        }
-        if let Some(ref data_schema_str) = cloud_event.builder_data_schema {
-            match Url::parse(data_schema_str) {
-                Ok(data_schema) => {
-                    cloud_event.data_schema = Some(data_schema);
-                }
-                Err(e) => {
-                    // Builder should have already caught this error
-                    return Err(CloudEventBuilderError::ValidationError(format!(
-                        "Invalid cloud event data schema {data_schema_str}: {e}"
                     )));
                 }
             }

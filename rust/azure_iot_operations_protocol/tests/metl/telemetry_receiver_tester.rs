@@ -22,7 +22,6 @@ use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
 use bytes::Bytes;
 use tokio::sync::mpsc;
 use tokio::time;
-use url::Url;
 use uuid::Uuid;
 
 use crate::metl::aio_protocol_error_checker;
@@ -204,7 +203,7 @@ where
                             spec_version: Some(cloud_event.spec_version),
                             data_content_type: cloud_event.data_content_type,
                             subject: cloud_event.subject,
-                            data_schema: cloud_event.data_schema.map(|uri: url::Url| Url::to_string(&uri)),
+                            data_schema: cloud_event.data_schema,
                         }),
                         Err(_) => None,
                     };
