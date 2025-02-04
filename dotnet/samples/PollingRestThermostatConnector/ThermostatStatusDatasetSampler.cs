@@ -13,9 +13,9 @@ namespace RestThermostatConnector
     {
         private HttpClient _httpClient;
         private string _assetName;
-        private AssetEndpointProfileCredentials _credentials;
+        private AssetEndpointProfileCredentials? _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials? credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;
