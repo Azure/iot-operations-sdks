@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 TargetLanguage.CSharp => "ExternalSerializer.EmptyValue",
                 TargetLanguage.Go => "protocol.Data{}",
-                TargetLanguage.Rust => "CustomPayload::default()",
+                TargetLanguage.Rust => "CustomPayload{}",
                 _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
             };
         }

@@ -11,9 +11,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{
-    CustomPayload, CustomPayloadBuilder, FormatIndicator,
-};
+use azure_iot_operations_protocol::common::payload_serialize::{BypassPayload, FormatIndicator};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
 };
@@ -74,17 +72,16 @@ async fn invoke_loop(
         .command_name("file_transfer")
         .build()
         .unwrap();
-    let file_transfer_invoker: CommandInvoker<CustomPayload, Vec<u8>, _> =
+    let file_transfer_invoker: CommandInvoker<BypassPayload, Vec<u8>, _> =
         CommandInvoker::new(application_context, client, file_transfer_invoker_options).unwrap();
 
     // Send 10 file transfer requests
     for i in 1..6 {
-        let payload = CustomPayloadBuilder::default()
-            .payload(b"fruit,count\napple,2\norange,3".to_vec())
-            .content_type("text/csv".to_string())
-            .format_indicator(FormatIndicator::Utf8EncodedCharacterData)
-            .build()
-            .unwrap();
+        let payload = BypassPayload {
+            payload: b"fruit,count\napple,2\norange,3".to_vec(),
+            content_type: "text/csv".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
         let request = CommandRequestBuilder::default()
             .payload(payload)
             .unwrap()
@@ -95,12 +92,11 @@ async fn invoke_loop(
         log::info!("Response {}: {:?}", i, response);
     }
     for i in 6..11 {
-        let payload = CustomPayloadBuilder::default()
-            .payload("Hello, World!".to_string().into_bytes())
-            .content_type("text/plain".to_string())
-            .format_indicator(FormatIndicator::Utf8EncodedCharacterData)
-            .build()
-            .unwrap();
+        let payload = BypassPayload {
+            payload: "Hello, World!".to_string().into_bytes(),
+            content_type: "text/plain".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
         let request = CommandRequestBuilder::default()
             .payload(payload)
             .unwrap()

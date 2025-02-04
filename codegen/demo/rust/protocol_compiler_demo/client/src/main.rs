@@ -262,7 +262,9 @@ async fn custom_telemetry_loop(client: SessionManagedClient) {
                 let content_type = &message.payload.content_type.as_str();
 
                 let payload = str::from_utf8(&message.payload.payload).unwrap();
-                println!("Received telemetry from {sender_id} with content type {content_type}....");
+                println!(
+                    "Received telemetry from {sender_id} with content type {content_type}...."
+                );
                 println!("  Payload: {payload:?}");
 
                 println!();

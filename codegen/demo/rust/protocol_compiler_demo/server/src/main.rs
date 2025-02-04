@@ -11,8 +11,9 @@ use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
 };
-use azure_iot_operations_protocol::common::payload_serialize::{CustomPayloadBuilder, FormatIndicator};
+use azure_iot_operations_protocol::common::payload_serialize::FormatIndicator;
 use iso8601_duration;
+use custom_comm::common_types::custom_payload::CustomPayload;
 use raw_comm::common_types::bytes::Bytes;
 
 const AVRO_SERVER_ID: &str = "AvroRustServer";
@@ -272,9 +273,10 @@ async fn custom_telemetry_loop(
     let application_context =
         ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
 
-    let sender_options = custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
-        .build()
-        .unwrap();
+    let sender_options =
+        custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+            .build()
+            .unwrap();
 
     let telemetry_sender: custom_comm::custom_model::service::TelemetrySender<_> =
         custom_comm::custom_model::service::TelemetrySender::new(
@@ -292,17 +294,12 @@ async fn custom_telemetry_loop(
         let mut builder = custom_comm::custom_model::service::TelemetryMessageBuilder::default();
         let telemetry = format!("Sample data {i}");
 
-        let payload = CustomPayloadBuilder::default()
-            .payload(telemetry.into_bytes().to_vec())
-            .content_type("text/csv".to_string())
-            .format_indicator(FormatIndicator::Utf8EncodedCharacterData)
-            .build()
-            .unwrap();
-        let message = builder
-            .payload(payload)
-            .unwrap()
-            .build()
-            .unwrap();
+        let payload = CustomPayload {
+            payload: telemetry.into_bytes().to_vec(),
+            content_type: "text/csv".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let message = builder.payload(payload).unwrap().build().unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;

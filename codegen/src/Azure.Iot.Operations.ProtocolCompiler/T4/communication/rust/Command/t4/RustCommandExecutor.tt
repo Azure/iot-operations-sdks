@@ -6,9 +6,6 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-<# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
-use azure_iot_operations_protocol::common::payload_serialize::CustomPayload;
-<# } #>
 <# if (this.respSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>
@@ -34,6 +31,9 @@ use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 <# if (this.reqSchema is RawTypeName || this.respSchema is RawTypeName) { #>
 use super::super::common_types::bytes::Bytes;
+<# } #>
+<# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
+use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
 use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>

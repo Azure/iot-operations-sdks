@@ -6,9 +6,6 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-<# if (this.schemaType is CustomTypeName) { #>
-use azure_iot_operations_protocol::common::payload_serialize::CustomPayload;
-<# } #>
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
     TelemetryMessage as TelemetryMessageBase, TelemetryReceiver as TelemetryReceiverBase,
     TelemetryReceiverOptionsBuilder as TelemetryReceiverOptionsBaseBuilder,
@@ -25,6 +22,9 @@ use super::TELEMETRY_SERVICE_GROUP_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
 <# if (this.schemaType is RawTypeName) { #>
 use super::super::common_types::bytes::Bytes;
+<# } #>
+<# if (this.schemaType is CustomTypeName) { #>
+use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 

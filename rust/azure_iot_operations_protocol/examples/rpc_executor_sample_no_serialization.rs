@@ -9,7 +9,7 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::CustomPayload;
+use azure_iot_operations_protocol::common::payload_serialize::BypassPayload;
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
@@ -63,7 +63,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
         .command_name("file_transfer")
         .build()
         .unwrap();
-    let mut file_transfer_executor: CommandExecutor<CustomPayload, Vec<u8>, _> =
+    let mut file_transfer_executor: CommandExecutor<BypassPayload, Vec<u8>, _> =
         CommandExecutor::new(application_context, client, file_transfer_executor_options).unwrap();
 
     // Save the file for each incoming request
