@@ -12,7 +12,6 @@ use azure_iot_operations_protocol::application::{
     ApplicationContext, ApplicationContextOptionsBuilder,
 };
 use iso8601_duration;
-use raw_comm::common_types::bytes::Bytes;
 
 const AVRO_SERVER_ID: &str = "AvroRustServer";
 const JSON_SERVER_ID: &str = "JsonRustServer";
@@ -241,7 +240,7 @@ async fn raw_telemetry_loop(
         let telemetry = format!("Sample data {i}");
 
         let message = builder
-            .payload(Bytes(telemetry.into_bytes().into()))
+            .payload(telemetry.into_bytes())
             .unwrap()
             .build()
             .unwrap();

@@ -29,9 +29,6 @@ use super::COMMAND_SERVICE_GROUP_ID;
 <# } #>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-<# if (this.reqSchema is RawTypeName || this.respSchema is RawTypeName) { #>
-use super::super::common_types::bytes::Bytes;
-<# } #>
 use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
 use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
