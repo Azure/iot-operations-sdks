@@ -59,7 +59,7 @@ pub struct CloudEvent {
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
     /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
     /// id. Consumers MAY assume that Events with identical source and id are duplicates.
-    #[builder(default =  "Uuid::new_v4().to_string()")]
+    #[builder(default = "Uuid::new_v4().to_string()")]
     id: String,
     /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
     /// determined then this attribute MAY be set to some other time (such as the current time) by
