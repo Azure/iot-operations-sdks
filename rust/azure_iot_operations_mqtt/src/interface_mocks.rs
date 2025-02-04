@@ -310,7 +310,7 @@ impl MqttPubSub for MockClient {
 
 #[async_trait]
 impl MqttAck for MockClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         let call = AckCall {
             publish: publish.clone(),
         };
@@ -319,7 +319,7 @@ impl MqttAck for MockClient {
             .unwrap()
             .call_sequence
             .push(MockClientCall::Ack(call));
-        Ok(())
+        Ok(CompletionToken(Box::new(CompletedAckFuture {})))
     }
 }
 

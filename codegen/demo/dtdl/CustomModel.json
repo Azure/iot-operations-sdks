@@ -1,0 +1,17 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
+  ],
+  "@id": "dtmi:codegen:communicationTest:customModel;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "custom/0",
+  "telemetryTopic": "test/CustomModel/{senderId}/telemetry",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "data",
+      "schema": "bytes"
+    }
+  ]
+}

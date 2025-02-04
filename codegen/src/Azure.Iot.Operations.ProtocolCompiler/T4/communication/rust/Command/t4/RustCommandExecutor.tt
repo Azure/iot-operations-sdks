@@ -29,8 +29,8 @@ use super::COMMAND_SERVICE_GROUP_ID;
 <# } #>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-<# if (this.reqSchema is RawTypeName || this.respSchema is RawTypeName) { #>
-use super::super::common_types::bytes::Bytes;
+<# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
+use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
 use super::super::common_types::common_options::CommandOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
