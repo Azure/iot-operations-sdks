@@ -93,10 +93,11 @@ func NewCommandInvoker[Req, Res any](
 	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts CommandInvokerOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -168,11 +169,6 @@ func NewCommandInvoker[Req, Res any](
 		return nil, err
 	}
 
-	logger := opts.Logger
-	if logger == nil {
-		logger = app.log
-	}
-
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
@@ -189,7 +185,7 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
-		log:            log.Wrap(logger),
+		log:            logger,
 		handler:        ci,
 	}
 
@@ -206,7 +202,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	opt ...InvokeOption,
 ) (res *CommandResponse[Res], err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
+	defer func() { err = errutil.Return(err, ci.listener.log, shallow) }()
 
 	var opts InvokeOptions
 	opts.Apply(opt)
@@ -255,6 +251,12 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
+	ci.listener.log.Debug(
+		ctx,
+		"request sent",
+		slog.String("correlation_data", correlationData),
+	)
+
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
 	ctx, cancel := expiry.Context(ctx)
@@ -294,12 +296,27 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	if pending, ok := ci.pending.Get(cdata); ok {
 		select {
 		case pending.ret <- commandReturn[Res]{res, err}:
+			ci.listener.log.Debug(
+				ctx,
+				"request ack received",
+				slog.String("correlation_data", cdata),
+			)
 		case <-pending.done:
 		case <-ctx.Done():
 		}
+		ci.listener.log.Debug(
+			ctx,
+			"response acked",
+			slog.String("correlation_data", cdata),
+		)
 		return nil
 	}
 
+	ci.listener.log.Debug(
+		ctx,
+		"response not for this invoker",
+		slog.String("correlation_data", cdata),
+	)
 	return &errors.Error{
 		Message:     "unrecognized correlation data",
 		Kind:        errors.HeaderInvalid,
@@ -336,6 +353,11 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 		// If sendPending fails onErr will also fail, so just drop the message.
 		ci.listener.drop(ctx, pub, e)
 	}
+	ci.listener.log.Debug(
+		ctx,
+		"response received",
+		slog.String("correlation_data", string(pub.CorrelationData)),
+	)
 	return nil
 }
 
