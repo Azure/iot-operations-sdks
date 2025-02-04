@@ -39,7 +39,6 @@ func New(
 		app,
 		client,
 		opts.invoker(),
-		protocol.WithResponseTopicPrefix("clients/{invokerClientId}"),
 	)
 	if err != nil {
 		return nil, err

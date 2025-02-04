@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"log/slog"
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
@@ -87,20 +88,31 @@ func (l *listener[T]) listen(ctx context.Context) error {
 			mqtt.WithQoS(1),
 			mqtt.WithNoLocal(l.shareName == ""),
 		)
+		l.log.Info(
+			ctx,
+			"subscribing to MQTT response topic",
+			slog.String("topic", l.filter()),
+		)
 		return errutil.Mqtt(ctx, "subscribe", ack, err)
 	}
 	return nil
 }
 
 func (l *listener[T]) close() {
+	ctx := context.Background()
 	if l.active.CompareAndSwap(true, false) {
-		ctx := context.Background()
 		if ack, err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
 			l.log.Error(ctx, errutil.Mqtt(ctx, "unsubscribe", ack, err))
 		}
+		l.log.Info(
+			ctx,
+			"unsubscribing from MQTT response topic",
+			slog.String("topic", l.filter()),
+		)
 	}
+	l.log.Info(ctx, "command invoker shutdown complete")
 	l.done()
 }
 
