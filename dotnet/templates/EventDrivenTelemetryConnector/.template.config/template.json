@@ -5,7 +5,7 @@
     "identity": "AzureIotOperations.EventDrivenTelemetryConnector",
     "name": "Azure IoT Operations Event Driven Telemetry Connector",
     "shortName": "aioeventdriventelemetryconnector",
-    "sourceName":"EventDrivenTelemetryConnector",
+    "sourceName":"AioEventDrivenTelemetryConnector",
     "tags": {
       "language": "C#",
       "type": "project"
