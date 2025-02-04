@@ -9,7 +9,7 @@ session_dir=$(dirname $(readlink -f $0))/../../.session
 mkdir -p $session_dir
 
 # Wait for CA trust bundle to be generated (for external connections to the MQTT Broker) and then push to a local file
-kubectl wait --for=create --timeout=30s secret/azure-iot-operations-aio-ca-certificate -n cert-manager
+kubectl wait --for=create --timeout=60s secret/azure-iot-operations-aio-ca-certificate -n cert-manager
 kubectl get secret azure-iot-operations-aio-ca-certificate -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d > $session_dir/broker-ca.crt
 
 # create client certificate
