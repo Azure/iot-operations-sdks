@@ -53,16 +53,19 @@ async fn test_simple_manual_ack(qos: QoS) {
     let payload = "Hello, World!";
 
     let notify_ack = Arc::new(Notify::new());
+    let notify_sub = Arc::new(Notify::new());
 
     // Task for the sender
     let sender = {
         let client = managed_client.clone();
         let notify_ack = notify_ack.clone();
+        let notify_sub = notify_sub.clone();
         async move {
-            // Pub
+            // Wait for subscribe from receiver task
+            notify_sub.notified().await;
+            // Publish a message
             let ct = client.publish(topic, qos, true, payload).await.unwrap();
             let ct_complete = tokio::task::spawn(ct);
-
             assert!(!ct_complete.is_finished());
             // Wait for ack from receiver task
             notify_ack.notified().await;
@@ -78,9 +81,12 @@ async fn test_simple_manual_ack(qos: QoS) {
     let receiver = {
         let client = managed_client;
         let notify_ack = notify_ack.clone();
+        let notify_sub = notify_sub.clone();
         async move {
             // Subscribe
             client.subscribe(topic, qos).await.unwrap().await.unwrap();
+            // Notify the sender that the subscription is ready
+            notify_sub.notify_one();
             // Wait for message
             let mut receiver = client.create_filtered_pub_receiver(topic, false).unwrap();
             let (publish, ack_token) = receiver.recv().await.unwrap();
