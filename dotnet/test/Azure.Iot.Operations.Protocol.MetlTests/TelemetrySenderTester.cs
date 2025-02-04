@@ -53,7 +53,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 TestCaseSender.DefaultTelemetryName = defaultTestCase.Prologue.Sender.TelemetryName;
                 TestCaseSender.DefaultTelemetryTopic = defaultTestCase.Prologue.Sender.TelemetryTopic;
-                TestCaseSender.DefaultDataSchema = defaultTestCase.Prologue.Sender.DataSchema;
                 TestCaseSender.DefaultTopicNamespace = defaultTestCase.Prologue.Sender.TopicNamespace;
 
                 TestCaseActionSendTelemetry.DefaultTelemetryName = defaultTestCase.Actions.SendTelemetry.TelemetryName;
@@ -231,7 +230,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestTelemetrySender telemetrySender = new TestTelemetrySender(mqttClient, testCaseSender.TelemetryName!)
                 {
-                    DataSchema = testCaseSender.DataSchema,
                     TopicPattern = testCaseSender.TelemetryTopic!,
                     TopicNamespace = testCaseSender.TopicNamespace,
                 };
@@ -308,6 +306,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 else
                 {
                     metadata.CloudEvent = new CloudEvent(sourceUri);
+                }
+
+                if (actionSendTelemetry.CloudEvent.DataSchema != null)
+                {
+                    metadata.CloudEvent.DataSchema = actionSendTelemetry.CloudEvent.DataSchema;
                 }
             }
 

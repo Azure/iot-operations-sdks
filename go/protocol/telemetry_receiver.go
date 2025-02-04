@@ -76,10 +76,11 @@ func NewTelemetryReceiver[T any](
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts TelemetryReceiverOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -117,11 +118,6 @@ func NewTelemetryReceiver[T any](
 		return nil, err
 	}
 
-	logger := opts.Logger
-	if logger == nil {
-		logger = app.log
-	}
-
 	tr = &TelemetryReceiver[T]{
 		handler:   handler,
 		manualAck: opts.ManualAck,
@@ -134,7 +130,7 @@ func NewTelemetryReceiver[T any](
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
-		log:         log.Wrap(logger),
+		log:         logger,
 		handler:     tr,
 	}
 
@@ -144,11 +140,15 @@ func NewTelemetryReceiver[T any](
 
 // Start listening to the MQTT telemetry topic.
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
+	tr.listener.log.Info(ctx, "telemetry receiver subscribing to topic",
+		slog.String("topic", tr.listener.topic.Filter()))
 	return tr.listener.listen(ctx)
 }
 
 // Close the telemetry receiver to free its resources.
 func (tr *TelemetryReceiver[T]) Close() {
+	ctx := context.Background()
+	tr.listener.log.Info(ctx, "telemetry receiver closing")
 	tr.listener.close()
 }
 
@@ -162,6 +162,7 @@ func (tr *TelemetryReceiver[T]) onMsg(
 
 	message.Payload, err = tr.listener.payload(msg)
 	if err != nil {
+		tr.listener.log.Warn(ctx, err)
 		return err
 	}
 
@@ -172,14 +173,37 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
+	tr.listener.log.Debug(ctx, "telemetry received",
+		slog.String("topic", pub.Topic))
+
 	if err := tr.handle(handlerCtx, message); err != nil {
 		return err
 	}
 
 	if !tr.manualAck && pub.QoS > 0 {
+		tr.listener.log.Debug(ctx, "telemetry acknowledged automatically",
+			slog.String("topic", pub.Topic))
 		pub.Ack()
 	}
 	return nil
+}
+
+var reservedProperties = map[string]struct{}{
+	"__ts":             {},
+	"__stat":           {},
+	"__stMsg":          {},
+	"__apErr":          {},
+	"__srcId":          {},
+	"__propName":       {},
+	"__propVal":        {},
+	"__protVer":        {},
+	"__supProtMajVer":  {},
+	"__requestProtVer": {},
+}
+
+func isReservedProperty(property string) bool {
+	_, reserved := reservedProperties[property]
+	return reserved
 }
 
 func (tr *TelemetryReceiver[T]) onErr(
@@ -190,7 +214,7 @@ func (tr *TelemetryReceiver[T]) onErr(
 	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
-	return errutil.Return(err, false)
+	return errutil.Return(err, tr.listener.log, false)
 }
 
 // Call handler with panic catch.

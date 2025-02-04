@@ -135,10 +135,6 @@ func NewGreeterClient(
 		"invokerClientId": client.ID(),
 	})
 
-	if opt.ResponseTopicPrefix == "" && opt.ResponseTopicSuffix == "" {
-		opt.ResponseTopicPrefix = "clients/{invokerClientId}"
-	}
-
 	c.sayHelloInvoker, err = protocol.NewCommandInvoker(
 		app,
 		client,

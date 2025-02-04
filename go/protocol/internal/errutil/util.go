@@ -3,6 +3,9 @@
 package errutil
 
 import (
+	"context"
+
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/google/uuid"
 )
@@ -24,12 +27,15 @@ func IsNoReturn(err error) (bool, error) {
 
 // Prepare the error for returning, removing any no-return flags (since this is
 // used outside of the RPC context) and applying the shallow flag if possible.
-func Return(err error, shallow bool) error {
+func Return(err error, logger log.Logger, shallow bool) error {
 	if e, ok := err.(noReturn); ok {
 		err = e.error
 	}
 	if e, ok := err.(*errors.Error); ok {
 		e.IsShallow = shallow
+	}
+	if err != nil {
+		logger.Error(context.Background(), err)
 	}
 	return err
 }
