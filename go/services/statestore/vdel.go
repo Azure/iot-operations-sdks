@@ -32,15 +32,17 @@ func (c *Client[K, V]) VDel(
 	val V,
 	opt ...VDelOption,
 ) (*Response[int], error) {
-	if len(key) == 0 {
-		return nil, ArgumentError{Name: "key"}
+	if err := c.validateKey(ctx, key); err != nil {
+		return nil, err
 	}
 
 	var opts VDelOptions
 	opts.Apply(opt)
 
 	req := resp.OpKV("VDEL", key, val)
-	return invoke(ctx, c.invoker, resp.Number, &opts, req)
+	c.logKV(ctx, "VDEL", key, val)
+
+	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.log)
 }
 
 // Apply resolves the provided list of options.

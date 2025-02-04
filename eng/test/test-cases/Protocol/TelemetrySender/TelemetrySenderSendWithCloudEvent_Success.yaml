@@ -16,6 +16,7 @@ actions:
     source: "dtmi:test:myEventSource;1"
     type: "test-type"
     spec-version: "1.0"
+    data-schema: "dtmi:test:MyModel:_contents:__test;1"
 - action: await publish
 - action: await send
 
