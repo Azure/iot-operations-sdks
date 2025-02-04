@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             (null, null, null, TargetLanguage.Independent) => "",
             (null, null, null, TargetLanguage.CSharp) => "byte[]",
             (null, null, null, TargetLanguage.Go) => "[]byte",
-            (null, null, null, TargetLanguage.Rust) => "Bytes",
+            (null, null, null, TargetLanguage.Rust) => "Vec<u8>",
             _ => throw new InvalidOperationException(suffix1 != null ? $"{typeof(RawTypeName)} cannot take a suffix" : $"There is no {language} representation for {typeof(RawTypeName)}"),
         };
 
