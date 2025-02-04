@@ -1,5 +1,7 @@
-use std::sync::Arc;
-use std::{env, time::Duration};
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::{env, sync::Arc, time::Duration};
 
 use test_case::test_case;
 use tokio::sync::Notify;
