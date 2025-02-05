@@ -43,8 +43,8 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
 // #[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
-async fn test_simple_manual_ack(qos: QoS) {
-    let client_id = "network_test_simple_manual_ack";
+async fn test_simple_recv_manual_ack(qos: QoS) {
+    let client_id = "network_test_simple_recv_manual_ack";
     let Ok(mut session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
         return;
@@ -52,7 +52,7 @@ async fn test_simple_manual_ack(qos: QoS) {
     let exit_handle = session.create_exit_handle();
     let managed_client = session.create_managed_client();
 
-    let topic = "mqtt/test/simple_manual_ack";
+    let topic = "mqtt/test/simple_recv_manual_ack";
     let payload = "Hello, World!";
 
     let notify_ack = Arc::new(Notify::new());
