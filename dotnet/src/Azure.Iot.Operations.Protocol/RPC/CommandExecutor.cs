@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.majorProtocolVersion];
+        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
@@ -460,7 +460,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.ContentType = payloadContext.ContentType;
             }
 
-            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.majorProtocolVersion}.{CommandVersion.minorProtocolVersion}");
+            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
 
             metadata?.MarshalTo(message);
 
@@ -540,7 +540,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
             }
 
-            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, CommandVersion.majorProtocolVersion + "." + CommandVersion.minorProtocolVersion);
+            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, CommandVersion.MajorProtocolVersion + "." + CommandVersion.MinorProtocolVersion);
 
             int remainingSeconds = Math.Max(0, (int)(commandExpirationTime - WallClock.UtcNow).TotalSeconds);
 

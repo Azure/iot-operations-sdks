@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.majorProtocolVersion];
+        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan MinimumCommandTimeout = TimeSpan.FromMilliseconds(1);
@@ -538,7 +538,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
                 }
 
-                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.majorProtocolVersion}.{CommandVersion.minorProtocolVersion}");
+                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
                 requestMessage.AddUserProperty("$partition", clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 

@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     applicationMessage.AddMetadata(metadata);
                 }
 
-                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.majorProtocolVersion}.{TelemetryVersion.minorProtocolVersion}");
+                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.MajorProtocolVersion}.{TelemetryVersion.MinorProtocolVersion}");
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
