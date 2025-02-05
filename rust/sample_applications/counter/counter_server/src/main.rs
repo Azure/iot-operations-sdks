@@ -84,7 +84,7 @@ async fn read_counter_executor(
             .unwrap()
             .build()
             .unwrap();
-        request.complete(response).unwrap();
+        request.complete(response).await.unwrap();
     }
 }
 
@@ -129,7 +129,7 @@ async fn increment_counter_and_publish(
             .unwrap()
             .build()
             .unwrap();
-        request.complete(response).unwrap();
+        request.complete(response).await.unwrap();
 
         // Create telemetry message using the new counter value
         let telemetry_message = TelemetryMessageBuilder::default()

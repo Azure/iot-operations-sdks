@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Connector;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
 using System.Net.Http;
 using System.Net.Http.Headers;
