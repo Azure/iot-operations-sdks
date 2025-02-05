@@ -118,8 +118,7 @@ impl ManagedClient for SessionManagedClient {
         topic_filter: &str,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0
-                .create_filtered_pub_receiver(topic_filter)?,
+            self.0.create_filtered_pub_receiver(topic_filter)?,
         ))
     }
 

@@ -40,6 +40,9 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
     Ok(session)
 }
 
+#[tokio::test]
+async fn test_simple_recv() {}
+
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
 // #[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
