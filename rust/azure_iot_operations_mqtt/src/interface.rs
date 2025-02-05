@@ -201,13 +201,14 @@ pub trait PubReceiver {
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
 
-    /// Receives the next incoming publish, and an optional token for acknowledging it.
+    /// Receives the next incoming publish, and a token that can be used to manually acknowledge
+    /// the publish (Quality of Service 1 or 2), or `None` (Quality of Service 0).
     ///
     /// Return None if there will be no more incoming publishes.
     async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)>;
 
     /// Close the receiver, preventing further incoming publishes.
     ///
-    /// To guarantee no publish loss, `recv()` must be called until `None` is returned.
+    /// To guarantee no publish loss, `recv()`/`recv_manual_ack()` must be called until `None` is returned.
     fn close(&mut self);
 }
