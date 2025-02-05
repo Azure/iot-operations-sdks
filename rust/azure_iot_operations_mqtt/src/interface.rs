@@ -186,21 +186,25 @@ pub trait ManagedClient: MqttPubSub {
     fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
-        auto_ack: bool,
     ) -> Result<Self::PubReceiver, TopicParseError>;
 
     /// Creates a new [`PubReceiver`] that receives all messages not sent to other
     /// filtered receivers.
-    fn create_unfiltered_pub_receiver(&self, auto_ack: bool) -> Self::PubReceiver;
+    fn create_unfiltered_pub_receiver(&self) -> Self::PubReceiver;
 }
 
 #[async_trait]
 /// Receiver for incoming MQTT messages.
 pub trait PubReceiver {
+    /// Receives the next incoming publish.
+    /// 
+    /// Return None if there will be no more incoming publishes.
+    async fn recv(&mut self) -> Option<Publish>;
+
     /// Receives the next incoming publish, and an optional token for acknowledging it.
     ///
     /// Return None if there will be no more incoming publishes.
-    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)>; //TODO: this should be `recv_manual_ack` instead
+    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)>;
 
     /// Close the receiver, preventing further incoming publishes.
     ///

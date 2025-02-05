@@ -106,8 +106,8 @@ async fn test_simple_manual_ack(qos: QoS) {
             // Notify the sender that the subscription is ready
             notify_sub.notify_one();
             // Wait for message
-            let mut receiver = client.create_filtered_pub_receiver(topic, false).unwrap();
-            let (publish, ack_token) = receiver.recv().await.unwrap();
+            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
+            let (publish, ack_token) = receiver.recv_manual_ack().await.unwrap();
             // The message was the correct one
             assert_eq!(publish.payload, payload.as_bytes());
             assert!(ack_token.is_some());

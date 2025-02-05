@@ -195,6 +195,8 @@ where
     receiver_state: TelemetryReceiverState,
     // Information to manage state
     receiver_cancellation_token: CancellationToken,
+    // User autoack setting
+    auto_ack: bool,
 }
 
 /// Describes state of receiver
@@ -246,9 +248,7 @@ where
         // Get the telemetry topic
         let telemetry_topic = topic_pattern.as_subscribe_topic();
 
-        let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&telemetry_topic, receiver_options.auto_ack)
-        {
+        let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic) {
             Ok(receiver) => receiver,
             Err(e) => {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -270,6 +270,7 @@ where
             _application_hlc: application_context.application_hlc,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
+            auto_ack: receiver_options.auto_ack,
         })
     }
 
@@ -382,7 +383,14 @@ where
         }
 
         loop {
-            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+            if let Some((m, mut ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
+                // Drop the ack token if the user does not desire it
+                // TODO: change API around this receive to simplify
+                if self.auto_ack {
+                    // Replace the token with None (if Some)
+                    ack_token.take();
+                }
+
                 // Process the received message
                 log::info!("[pkid: {}] Received message", m.pkid);
 
