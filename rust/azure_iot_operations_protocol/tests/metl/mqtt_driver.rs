@@ -103,13 +103,11 @@ impl MqttDriver {
         properties: Option<UnsubscribeProperties>,
     ) -> CompletionToken {
         let (ack_tx, ack_rx) = oneshot::channel();
-        self.operation_tx
-            .send(MqttOperation::Unsubscribe {
-                _topic: topic.into(),
-                _properties: properties,
-                ack_tx,
-            })
-            .unwrap();
+        _ = self.operation_tx.send(MqttOperation::Unsubscribe {
+            _topic: topic.into(),
+            _properties: properties,
+            ack_tx,
+        });
 
         CompletionToken(Box::new(ack_rx.map_ok_or_else(
             |_: oneshot::error::RecvError| Err(NoticeError::Recv),
@@ -188,11 +186,11 @@ impl MqttPubSub for MqttDriver {
 
 #[async_trait]
 impl MqttAck for MqttDriver {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         self.operation_tx
             .send(MqttOperation::Ack { pkid: publish.pkid })
             .unwrap();
-        Ok(())
+        Ok(CompletionToken(Box::new(async { Ok(()) })))
     }
 }
 

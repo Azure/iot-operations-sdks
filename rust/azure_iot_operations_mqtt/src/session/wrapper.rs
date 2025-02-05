@@ -123,6 +123,10 @@ impl ManagedClient for SessionManagedClient {
                 .create_filtered_pub_receiver(topic_filter, auto_ack)?,
         ))
     }
+
+    fn create_unfiltered_pub_receiver(&self, auto_ack: bool) -> SessionPubReceiver {
+        SessionPubReceiver(self.0.create_unfiltered_pub_receiver(auto_ack))
+    }
 }
 
 #[async_trait]

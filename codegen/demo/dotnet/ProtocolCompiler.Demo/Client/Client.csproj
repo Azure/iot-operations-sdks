@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AvroComm\AvroComm.csproj" />
+    <ProjectReference Include="..\CustomComm\CustomComm.csproj" />
     <ProjectReference Include="..\JsonComm\JsonComm.csproj" />
     <ProjectReference Include="..\RawComm\RawComm.csproj" />
     <ProjectReference Include="..\..\..\..\..\dotnet\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />

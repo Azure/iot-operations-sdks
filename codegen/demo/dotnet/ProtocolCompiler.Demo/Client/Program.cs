@@ -18,18 +18,20 @@ namespace Client
         {
             Avro,
             Json,
-            Raw
+            Raw,
+            Custom
         }
 
         const string avroClientId = "AvroDotnetClient";
         const string jsonClientId = "JsonDotnetClient";
         const string rawClientId = "RawDotnetClient";
+        const string customClientId = "CustomDotnetClient";
 
         static async Task Main(string[] args)
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: Client {AVRO|JSON|RAW} seconds_to_run");
+                Console.WriteLine("Usage: Client {AVRO|JSON|RAW|CUSTOM} seconds_to_run");
                 return;
             }
 
@@ -38,7 +40,8 @@ namespace Client
                 "avro" => (CommFormat.Avro, avroClientId),
                 "json" => (CommFormat.Json, jsonClientId),
                 "raw" => (CommFormat.Raw, rawClientId),
-                _ => throw new ArgumentException("format must be AVRO or JSON or RAW", nameof(args))
+                "custom" => (CommFormat.Custom, customClientId),
+                _ => throw new ArgumentException("format must be AVRO or JSON or RAW or CUSTOM", nameof(args))
             };
 
             TimeSpan runDuration = TimeSpan.FromSeconds(int.Parse(args[1], CultureInfo.InvariantCulture));
@@ -63,6 +66,9 @@ namespace Client
                 case CommFormat.Raw:
                     await ReceiveRaw(mqttSessionClient, runDuration);
                     break;
+                case CommFormat.Custom:
+                    await ReceiveCustom(mqttSessionClient, runDuration);
+                    break;
             }
 
             Console.WriteLine("Stopping receive loop");
@@ -70,9 +76,9 @@ namespace Client
 
         private static async Task ReceiveAvro(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            AvroComm.AvroModel.AvroModel.TelemetryReceiver telemetryCollectionReceiver = new(mqttSessionClient);
+            AvroComm.AvroModel.AvroModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
 
-            telemetryCollectionReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
+            telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
                 Console.WriteLine($"Received telemetry from {sender}....");
 
@@ -96,18 +102,18 @@ namespace Client
                 return Task.CompletedTask;
             };
 
-            await telemetryCollectionReceiver.StartAsync();
+            await telemetryReceiver.StartAsync();
 
             await Task.Delay(runDuration);
 
-            await telemetryCollectionReceiver.StopAsync();
+            await telemetryReceiver.StopAsync();
         }
 
         private static async Task ReceiveJson(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            JsonComm.JsonModel.JsonModel.TelemetryReceiver telemetryCollectionReceiver = new(mqttSessionClient);
+            JsonComm.JsonModel.JsonModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
 
-            telemetryCollectionReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
+            telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
                 Console.WriteLine($"Received telemetry from {sender}....");
 
@@ -131,18 +137,18 @@ namespace Client
                 return Task.CompletedTask;
             };
 
-            await telemetryCollectionReceiver.StartAsync();
+            await telemetryReceiver.StartAsync();
 
             await Task.Delay(runDuration);
 
-            await telemetryCollectionReceiver.StopAsync();
+            await telemetryReceiver.StopAsync();
         }
 
         private static async Task ReceiveRaw(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            RawComm.RawModel.RawModel.TelemetryReceiver telemetryCollectionReceiver = new(mqttSessionClient);
+            RawComm.RawModel.RawModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
 
-            telemetryCollectionReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
+            telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
                 Console.WriteLine($"Received telemetry from {sender}....");
 
@@ -157,11 +163,37 @@ namespace Client
                 return Task.CompletedTask;
             };
 
-            await telemetryCollectionReceiver.StartAsync();
+            await telemetryReceiver.StartAsync();
 
             await Task.Delay(runDuration);
 
-            await telemetryCollectionReceiver.StopAsync();
+            await telemetryReceiver.StopAsync();
+        }
+
+        private static async Task ReceiveCustom(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
+        {
+            CustomComm.CustomModel.CustomModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
+
+            telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
+            {
+                Console.WriteLine($"Received telemetry from {sender} with content type {telemetry.ContentType}....");
+
+                if (telemetry != null)
+                {
+                    string data = Encoding.UTF8.GetString(telemetry.SerializedPayload!);
+                    Console.WriteLine($"  Payload: \"{data}\"");
+                }
+
+                Console.WriteLine();
+
+                return Task.CompletedTask;
+            };
+
+            await telemetryReceiver.StartAsync();
+
+            await Task.Delay(runDuration);
+
+            await telemetryReceiver.StopAsync();
         }
     }
 }

@@ -15,10 +15,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetrySender<T> : IAsyncDisposable
         where T : class
     {
-
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
-
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
         private bool _isDisposed;
@@ -38,11 +34,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
         private readonly Dictionary<string, string> topicTokenMap = [];
-
-        /// <summary>
-        /// Gets or sets the data schema used in a cloud event when one is associated with the telemetry.
-        /// </summary>
-        public string? DataSchema { get; set; }
 
         public string TopicPattern { get; init; }
 
@@ -130,7 +121,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.Time = DateTime.UtcNow;
                     metadata.CloudEvent.Subject = telemTopic.ToString();
                     metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
-                    metadata.CloudEvent.DataSchema = DataSchema;
                 }
 
                 if (metadata != null)
@@ -138,7 +128,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     applicationMessage.AddMetadata(metadata);
                 }
 
-                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.MajorProtocolVersion}.{TelemetryVersion.MinorProtocolVersion}");
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);

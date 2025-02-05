@@ -19,13 +19,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
+        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
-        private readonly int[] supportedMajorProtocolVersions = [1];
-
-        private const string? DefaultResponseTopicPrefix = null;
-        private const string? DefaultResponseTopicSuffix = null;
         private static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan MinimumCommandTimeout = TimeSpan.FromMilliseconds(1);
 
@@ -48,11 +43,36 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string RequestTopicPattern { get; init; }
 
         public string? TopicNamespace { get; set; }
+        
+        /// <summary>
+        /// The prefix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
+        /// </summary>
+        /// <remarks>
+        /// If no prefix or suffix is specified, and no value is provided in <see cref="GetResponseTopic"/>, then this
+        /// value will default to "clients/{invokerClientId}" for security purposes.
+        /// 
+        /// If a prefix and/or suffix are provided, then the response topic will use the format:
+        /// {prefix}/{command request topic}/{suffix}.
+        /// </remarks>
+        public string? ResponseTopicPrefix { get; set; }
 
-        public string? ResponseTopicPrefix { get; set; } = DefaultResponseTopicPrefix;
+        /// <summary>
+        /// The suffix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
+        /// </summary>
+        /// <remarks>
+        /// If no suffix is specified, then the command response topic won't include a suffix.
+        /// 
+        /// If a prefix and/or suffix are provided, then the response topic will use the format:
+        /// {prefix}/{command request topic}/{suffix}.
+        /// </remarks>
+        public string? ResponseTopicSuffix { get; set; }
 
-        public string? ResponseTopicSuffix { get; set; } = DefaultResponseTopicSuffix;
-
+        /// <summary>
+        /// If provided, this function will be used to determine the command response topic used.
+        /// </summary>
+        /// <remarks>
+        /// If provided, this function will override any values set in <see cref="ResponseTopicPrefix"/> and <see cref="ResponseTopicSuffix"/>.
+        /// </remarks>
         public Func<string, string>? GetResponseTopic { get; set; }
 
         /// <summary>
@@ -93,6 +113,15 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
             StringBuilder responseTopicPattern = new();
+
+            // ADR 14 specifies that a default response topic prefix should be used if
+            // the user doesn't provide any prefix, suffix, or specify the response topic
+            if (string.IsNullOrWhiteSpace(ResponseTopicPrefix) 
+                && string.IsNullOrWhiteSpace(ResponseTopicSuffix)
+                && GetResponseTopic == null)
+            {
+                ResponseTopicPrefix = "clients/" + mqttClient.ClientId;
+            }
 
             if (ResponseTopicPrefix != null)
             {
@@ -509,7 +538,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
                 }
 
-                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
                 requestMessage.AddUserProperty("$partition", clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
