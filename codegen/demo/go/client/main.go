@@ -14,12 +14,14 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 
+	"client/custommodel"
 	"client/jsonmodel"
 	"client/rawmodel"
 )
 
 const jsonCientId = "JsonGoClient"
 const rawCientId = "RawGoClient"
+const customCientId = "CustomGoClient"
 
 type TelemetryClient interface {
 	Start(ctx context.Context) error
@@ -34,7 +36,7 @@ func main() {
 	}
 
 	if len(os.Args) < 3 {
-		fmt.Printf("Usage: %s {JSON|RAW} seconds_to_run", os.Args[0]);
+		fmt.Printf("Usage: %s {JSON|RAW|CUSTOM} seconds_to_run", os.Args[0]);
 		return;
 	}
 
@@ -70,8 +72,19 @@ func main() {
 				mqttClient,
 				handleRawTelemetry,
 			)
+		case "custom":
+			clientId = customCientId
+			mqttClient = mqtt.NewSessionClient(
+				mqtt.TCPConnection("localhost", 1883),
+				mqtt.WithClientID(clientId),
+			)
+			telemClient, err = custommodel.NewCustomModelClient(
+				app,
+				mqttClient,
+				handleCustomTelemetry,
+			)
 		default:
-			fmt.Printf("format must be JSON or RAW")
+			fmt.Printf("format must be JSON or RAW or CUSTOM")
 			return
 	}
 
@@ -131,6 +144,15 @@ func handleRawTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[[]by
 	fmt.Printf("Received telemetry....\n")
 
 	fmt.Printf("  data: %s\n\n", string(msg.Payload))
+
+	msg.Ack()
+	return nil
+}
+
+func handleCustomTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[protocol.Data]) error {
+	fmt.Printf("Received telemetry with content type %s....\n", msg.ContentType)
+
+	fmt.Printf("  Payload: %s\n\n", string(msg.Payload.Payload))
 
 	msg.Ack()
 	return nil

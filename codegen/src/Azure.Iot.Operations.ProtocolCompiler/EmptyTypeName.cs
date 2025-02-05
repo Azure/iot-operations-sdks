@@ -7,6 +7,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public static EmptyJsonTypeName JsonInstance = new();
         public static EmptyProtoTypeName ProtoInstance = new();
         public static EmptyRawTypeName RawInstance = new();
+        public static EmptyCustomTypeName CustomInstance = new();
 
         public class EmptyAvroTypeName : EmptyTypeName
         {
@@ -110,7 +111,30 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             public override string GetAllocator(TargetLanguage language) => language switch
             {
                 TargetLanguage.CSharp => "Array.Empty<byte>()",
+                TargetLanguage.Go => "[]byte{}",
                 TargetLanguage.Rust => "byte[]{}",
+                _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
+            };
+        }
+
+        public class EmptyCustomTypeName : EmptyTypeName
+        {
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            {
+                (null, null, null, TargetLanguage.CSharp) => "CustomPayload",
+                (null, null, null, TargetLanguage.Go) => "protocol.Data",
+                (null, null, null, TargetLanguage.Rust) => "CustomPayload",
+                _ => throw new InvalidOperationException(suffix1 != null ? $"{typeof(EmptyCustomTypeName)} cannot take a suffix" : $"There is no {language} representation for {typeof(EmptyCustomTypeName)}"),
+            };
+
+            public override string GetFileName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) =>
+                throw new InvalidOperationException(suffix1 != null ? $"{typeof(EmptyCustomTypeName)} cannot take a suffix" : $"There is no {language} file name for {typeof(EmptyCustomTypeName)}");
+
+            public override string GetAllocator(TargetLanguage language) => language switch
+            {
+                TargetLanguage.CSharp => "ExternalSerializer.EmptyValue",
+                TargetLanguage.Go => "protocol.Data{}",
+                TargetLanguage.Rust => "CustomPayload{}",
                 _ => throw new InvalidOperationException($"There is no {language} allocator for {typeof(EmptyAvroTypeName)}"),
             };
         }

@@ -153,7 +153,9 @@ pub struct CommandInvokerOptions {
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
     /// Topic pattern for the command response.
-    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md).
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
     #[builder(default = "None")]
     response_topic_pattern: Option<String>,
     /// Command name
@@ -164,10 +166,14 @@ pub struct CommandInvokerOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
-    /// Prefix for the response topic
-    #[builder(default = "Some(\"clients/{invokerClientId}\".to_string())")]
+    /// Prefix for the response topic.
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
+    #[builder(default = "None")]
     response_topic_prefix: Option<String>,
-    /// Suffix for the response topic
+    /// Suffix for the response topic.
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
     #[builder(default = "None")]
     response_topic_suffix: Option<String>,
 }
@@ -296,13 +302,27 @@ where
             response_topic_pattern = pattern;
         } else {
             response_topic_pattern = invoker_options.request_topic_pattern.clone();
-            if let Some(prefix) = invoker_options.response_topic_prefix {
-                // Validity check will be done within the topic processor
-                response_topic_pattern = prefix + "/" + &response_topic_pattern;
-            }
-            if let Some(suffix) = invoker_options.response_topic_suffix {
-                // Validity check will be done within the topic processor
-                response_topic_pattern = response_topic_pattern + "/" + &suffix;
+
+            // If no options around the response topic have been specified
+            // (no response topic or prefix/suffix), default to a well-known
+            // pattern of clients/<client_id>/<request_topic>. This ensures
+            // that the response topic is different from the request topic and lets
+            // us document this pattern for auth configuration. Note that this does
+            // not use any topic tokens, since we cannot guarantee their existence.
+            if invoker_options.response_topic_prefix.is_none()
+                && invoker_options.response_topic_suffix.is_none()
+            {
+                response_topic_pattern =
+                    "clients/".to_owned() + client.client_id() + "/" + &response_topic_pattern;
+            } else {
+                if let Some(prefix) = invoker_options.response_topic_prefix {
+                    // Validity check will be done within the topic processor
+                    response_topic_pattern = prefix + "/" + &response_topic_pattern;
+                }
+                if let Some(suffix) = invoker_options.response_topic_suffix {
+                    // Validity check will be done within the topic processor
+                    response_topic_pattern = response_topic_pattern + "/" + &suffix;
+                }
             }
         }
 
@@ -1304,7 +1324,7 @@ mod tests {
     #[test_case(Some("custom/prefix".to_string()), Some("custom/suffix".to_string()), "custom/prefix/test/req/topic/custom/suffix"; "new_response_topic_prefix_and_suffix")]
     #[test_case(None, Some("custom/suffix".to_string()), "test/req/topic/custom/suffix"; "new_none_response_topic_prefix")]
     #[test_case(Some("custom/prefix".to_string()), None, "custom/prefix/test/req/topic"; "new_none_response_topic_suffix")]
-    #[test_case(None, None, "test/req/topic"; "new_none_response_topic_prefix_and_suffix")]
+    #[test_case(None, None, "clients/test_client/test/req/topic"; "new_none_response_topic_prefix_and_suffix")]
     #[tokio::test]
     async fn test_new_response_pattern_prefix_suffix_args(
         response_topic_prefix: Option<String>,
@@ -1343,7 +1363,7 @@ mod tests {
         );
     }
 
-    // If response pattern suffix is not specified, the default is used
+    // If response pattern prefix/suffix are not specified, the default response topic prefix is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
         let session = create_session();
@@ -1372,6 +1392,40 @@ mod tests {
                 .response_topic_pattern
                 .as_subscribe_topic(),
             "clients/test_client/test/req/topic"
+        );
+    }
+
+    // If response pattern suffix is specified, there is no prefix added
+    #[tokio::test]
+    async fn test_new_response_pattern_only_suffix() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let command_name = "test_command_name";
+        let request_topic_pattern = "test/req/topic";
+        let response_topic_suffix = "custom/suffix";
+
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern(request_topic_pattern)
+            .command_name(command_name)
+            .topic_token_map(create_topic_tokens())
+            .response_topic_suffix(response_topic_suffix.to_string())
+            .build()
+            .unwrap();
+        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
+            CommandInvoker::new(
+                ApplicationContext::new(
+                    ApplicationContextOptionsBuilder::default().build().unwrap(),
+                ),
+                managed_client,
+                invoker_options,
+            );
+        assert!(command_invoker.is_ok());
+        assert_eq!(
+            command_invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic(),
+            "test/req/topic/custom/suffix"
         );
     }
 

@@ -1,4 +1,7 @@
-﻿using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
 
 

@@ -13,6 +13,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Proto2, new List<(string, string)> { } },
             { PayloadFormat.Proto3, new List<(string, string)> { } },
             { PayloadFormat.Raw, new List<(string, string)> { } },
+            { PayloadFormat.Custom, new List<(string, string)> { } },
         };
 
         private readonly string genRoot;

@@ -50,5 +50,8 @@ func (sender <#=this.componentName.GetTypeName(TargetLanguage.Go)#>) <#=this.tel
 	return sender.Send(ctx, telemetry, opt...)
 }
 <#+
-    private string GetSerializer(ITypeName schema) => schema is RawTypeName ? "Raw" : $"{this.serializerSubNamespace}[{schema.GetTypeName(TargetLanguage.Go)}]";
+    private string GetSerializer(ITypeName schema) =>
+		schema is RawTypeName ? "Raw" :
+		schema is CustomTypeName ? "Custom" :
+		$"{this.serializerSubNamespace}[{schema.GetTypeName(TargetLanguage.Go)}]";
 #>
