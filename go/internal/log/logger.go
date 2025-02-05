@@ -22,8 +22,13 @@ type (
 )
 
 // Wrap the slog logger.
-func Wrap(logger *slog.Logger) Logger {
-	return Logger{logger}
+func Wrap(logger ...*slog.Logger) Logger {
+	for _, l := range logger {
+		if l != nil {
+			return Logger{l}
+		}
+	}
+	return Logger{}
 }
 
 // Log is designed to build logging wrappers; it should not be called directly.
@@ -57,13 +62,27 @@ func (l Logger) Error(ctx context.Context, err error, attrs ...slog.Attr) {
 }
 
 // Warn logs a message with structured logging.
-func (l Logger) Warn(ctx context.Context, msg string, attrs ...slog.Attr) {
-	l.Log(ctx, slog.LevelWarn, msg, attrs...)
+func (l Logger) Warn(ctx context.Context, m any, attrs ...slog.Attr) {
+	switch msg := m.(type) {
+	case error:
+		if a, ok := msg.(Attrs); ok {
+			l.Log(ctx, slog.LevelWarn, msg.Error(), append(a.Attrs(), attrs...)...)
+		} else {
+			l.Log(ctx, slog.LevelWarn, msg.Error(), attrs...)
+		}
+	case string:
+		l.Log(ctx, slog.LevelWarn, msg, attrs...)
+	}
 }
 
 // Info logs a message with structured logging.
 func (l Logger) Info(ctx context.Context, msg string, attrs ...slog.Attr) {
 	l.Log(ctx, slog.LevelInfo, msg, attrs...)
+}
+
+// Debug logs a message with structured logging.
+func (l Logger) Debug(ctx context.Context, msg string, attrs ...slog.Attr) {
+	l.Log(ctx, slog.LevelDebug, msg, attrs...)
 }
 
 // Enabled indicates that the logger is enabled for the given logging level.
