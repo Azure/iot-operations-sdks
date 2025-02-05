@@ -17,6 +17,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Proto2, new SerializerValues("protobuf", "ProtobufSerializer{0}", EmptyTypeName.ProtoInstance) },
             { PayloadFormat.Proto3, new SerializerValues("protobuf", "ProtobufSerializer{0}", EmptyTypeName.ProtoInstance) },
             { PayloadFormat.Raw, new SerializerValues("raw", "PassthroughSerializer", EmptyTypeName.RawInstance) },
+            { PayloadFormat.Custom, new SerializerValues("custom", "ExternalSerializer", EmptyTypeName.CustomInstance) },
         };
 
         public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds, string genRoot, bool generateProject)
@@ -96,7 +97,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             CodeName telemetryName = new CodeName(telemElt.TryGetProperty(AnnexFileProperties.TelemName, out JsonElement nameElt) ? nameElt.GetString() ?? string.Empty : string.Empty);
             string schemaRep = telemElt.GetProperty(AnnexFileProperties.TelemSchema).GetString()!;
-            ITypeName schemaType = schemaRep != string.Empty ? new CodeName(schemaRep) : RawTypeName.Instance;
+            ITypeName schemaType = schemaRep switch
+            {
+                RawTypeName.Designator => RawTypeName.Instance,
+                CustomTypeName.Designator => CustomTypeName.Instance,
+                _ => new CodeName(schemaRep),
+            };
 
             switch (language)
             {
@@ -190,14 +196,20 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             CodeName commandName = new CodeName(cmdElt.GetProperty(AnnexFileProperties.CommandName).GetString()!);
 
             string? reqSchemaRep = cmdElt.TryGetProperty(AnnexFileProperties.CmdRequestSchema, out JsonElement reqSchemaElt) ? reqSchemaElt.GetString() : null;
-            ITypeName? reqSchemaType = reqSchemaRep == null ? null :
-                reqSchemaRep == string.Empty ? RawTypeName.Instance :
-                new CodeName(reqSchemaRep);
+            ITypeName? reqSchemaType = reqSchemaRep == null ? null : reqSchemaRep switch
+            {
+                RawTypeName.Designator => RawTypeName.Instance,
+                CustomTypeName.Designator => CustomTypeName.Instance,
+                _ => new CodeName(reqSchemaRep),
+            };
 
             string? respSchemaRep = cmdElt.TryGetProperty(AnnexFileProperties.CmdResponseSchema, out JsonElement respSchemaElt) ? respSchemaElt.GetString() : null;
-            ITypeName? respSchemaType = respSchemaRep == null ? null :
-                respSchemaRep == string.Empty ? RawTypeName.Instance :
-                new CodeName(respSchemaRep);
+            ITypeName? respSchemaType = respSchemaRep == null ? null : reqSchemaRep switch
+            {
+                RawTypeName.Designator => RawTypeName.Instance,
+                CustomTypeName.Designator => CustomTypeName.Instance,
+                _ => new CodeName(respSchemaRep),
+            };
 
             bool isIdempotent = cmdElt.GetProperty(AnnexFileProperties.CmdIsIdempotent).GetBoolean();
             string? cacheability = cmdElt.GetProperty(AnnexFileProperties.Cacheability).GetString();

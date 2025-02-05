@@ -11,6 +11,7 @@ license = "MIT"
 avro_comm = { path = "../avro_comm" }
 azure_iot_operations_mqtt = { path = "../../../../../rust/azure_iot_operations_mqtt" }
 azure_iot_operations_protocol = { path = "../../../../../rust/azure_iot_operations_protocol" }
+custom_comm = { path = "../custom_comm" }
 json_comm = { path = "../json_comm" }
 raw_comm = { path = "../raw_comm" }
 tokio = { version = "1.36", features = ["full"] }
