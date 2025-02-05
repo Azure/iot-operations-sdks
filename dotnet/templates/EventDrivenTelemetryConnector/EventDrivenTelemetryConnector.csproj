@@ -12,6 +12,5 @@
     <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.8.0" />
     <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.8.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-
   </ItemGroup>
 </Project>
