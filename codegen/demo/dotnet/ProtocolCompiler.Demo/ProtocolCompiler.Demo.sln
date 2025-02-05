@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawComm", "RawComm\RawComm.csproj", "{D0FCA560-C50B-4C93-9EAD-C73226DBCD33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomComm", "CustomComm\CustomComm.csproj", "{4A12FD8A-E4B7-4882-994C-F013BCC756C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D0FCA560-C50B-4C93-9EAD-C73226DBCD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0FCA560-C50B-4C93-9EAD-C73226DBCD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0FCA560-C50B-4C93-9EAD-C73226DBCD33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

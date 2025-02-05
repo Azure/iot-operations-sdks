@@ -15,10 +15,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetrySender<T> : IAsyncDisposable
         where T : class
     {
-
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
-
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
         private bool _isDisposed;
@@ -132,7 +128,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     applicationMessage.AddMetadata(metadata);
                 }
 
-                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.MajorProtocolVersion}.{TelemetryVersion.MinorProtocolVersion}");
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);

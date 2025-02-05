@@ -23,8 +23,8 @@ use super::<#=this.schemaType.GetFileName(TargetLanguage.Rust)#>::<#=this.schema
 <# } #>
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-<# if (this.schemaType is RawTypeName) { #>
-use super::super::common_types::bytes::Bytes;
+<# if (this.schemaType is CustomTypeName) { #>
+use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 

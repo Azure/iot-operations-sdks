@@ -19,6 +19,8 @@
 
         public const string Raw = "raw/0";
 
+        public const string Custom = "custom/0";
+
         public static string Itemize(string separator, string mark) =>
             string.Join(separator, new string[]
             {
@@ -28,6 +30,7 @@
                 Proto2,
                 Proto3,
                 Raw,
+                Custom,
             }.Select(s => $"{mark}{s}{mark}"));
     }
 }
