@@ -154,7 +154,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     await commandResponseCache.RetrieveAsync(
                         this.commandName,
                         sourceId,
-                        args.ApplicationMessage.Topic,
+                        args.ApplicationMessage.ResponseTopic,
                         args.ApplicationMessage.CorrelationData,
                         args.ApplicationMessage.PayloadSegment.Array ?? [],
                         isCacheable: CacheTtl > TimeSpan.Zero,
@@ -226,7 +226,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         await commandResponseCache.StoreAsync(
                             this.commandName,
                             sourceId,
-                            args.ApplicationMessage.Topic,
+                            args.ApplicationMessage.ResponseTopic,
                             args.ApplicationMessage.CorrelationData,
                             args.ApplicationMessage.PayloadSegment.Array,
                             responseMessage,
