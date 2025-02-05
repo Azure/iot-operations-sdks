@@ -190,11 +190,9 @@ impl CloudEvent {
                     let time = parsed_time.with_timezone(&Utc);
                     cloud_event.time = Some(time);
                 }
-                Err(e) => {
+                Err(_) => {
                     // Builder should have already caught this error
-                    return Err(CloudEventBuilderError::ValidationError(format!(
-                        "Invalid cloud event time {time_str}: {e}"
-                    )));
+                    unreachable!()
                 }
             }
         }
