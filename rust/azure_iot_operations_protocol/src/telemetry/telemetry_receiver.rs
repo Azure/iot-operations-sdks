@@ -204,6 +204,7 @@ impl CloudEvent {
 
 /// Telemetry message struct.
 /// Used by the [`TelemetryReceiver`].
+#[derive(Debug)]
 pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     pub payload: T,

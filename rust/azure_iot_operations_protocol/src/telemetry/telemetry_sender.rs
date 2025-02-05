@@ -66,7 +66,7 @@ pub struct CloudEvent {
     /// the cloud event producer, however all producers for the same source MUST be consistent in
     /// this respect. In other words, either they all use the actual time of the occurrence or they
     /// all use the same algorithm to determine the value used.
-    #[builder(default =  Some(DateTime::<Utc>::from(SystemTime::now())))]
+    #[builder(default = "Some(DateTime::<Utc>::from(SystemTime::now()))")]
     time: Option<DateTime<Utc>>,
     /// Identifies the subject of the event in the context of the event producer (identified by
     /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
