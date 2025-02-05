@@ -12,11 +12,10 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use crate::application::{ApplicationContext, ApplicationHybridLogicalClock};
 use crate::{
+    application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
-        hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
@@ -273,10 +272,10 @@ where
     T: PayloadSerialize,
     C: ManagedClient + Send + Sync + 'static,
 {
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
-    _application_hlc: Arc<ApplicationHybridLogicalClock>,
 }
 
 /// Implementation of Telemetry Sender
@@ -315,10 +314,10 @@ where
         )?;
 
         Ok(Self {
+            application_hlc: application_context.application_hlc,
             mqtt_client: client,
             message_payload_type: PhantomData,
             topic_pattern,
-            _application_hlc: application_context.application_hlc,
         })
     }
 
@@ -345,7 +344,7 @@ where
         let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
 
         // Create timestamp
-        let timestamp = HybridLogicalClock::new();
+        let timestamp_str = self.application_hlc.update_now()?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -363,7 +362,7 @@ where
         // Add internal user properties
         message
             .custom_user_data
-            .push((UserProperty::Timestamp.to_string(), timestamp.to_string()));
+            .push((UserProperty::Timestamp.to_string(), timestamp_str));
 
         message.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),

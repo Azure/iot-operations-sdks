@@ -185,12 +185,12 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the receiver
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: C,
     mqtt_receiver: C::PubReceiver,
     telemetry_topic: String,
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
-    _application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     receiver_state: TelemetryReceiverState,
     // Information to manage state
@@ -262,12 +262,12 @@ where
         };
 
         Ok(Self {
+            application_hlc: application_context.application_hlc,
             mqtt_client: client,
             mqtt_receiver,
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            _application_hlc: application_context.application_hlc,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
         })
@@ -448,6 +448,14 @@ where
                                 Ok(UserProperty::Timestamp) => {
                                     match HybridLogicalClock::from_str(&value) {
                                         Ok(ts) => {
+                                            // Update application HLC against received __ts
+                                            if let Err(e) = self.application_hlc.update(&ts) {
+                                                log::error!(
+                                                    "[pkid: {}] Failure updating application HLC against {value}: {e}",
+                                                    m.pkid
+                                                );
+                                                break 'process_message;
+                                            }
                                             timestamp = Some(ts);
                                         }
                                         Err(e) => {
