@@ -19,10 +19,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
-
-        private readonly int[] supportedMajorProtocolVersions = [1];
+        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
@@ -463,7 +460,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.ContentType = payloadContext.ContentType;
             }
 
-            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
 
             metadata?.MarshalTo(message);
 
@@ -486,8 +483,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 Debug.Assert(requestedProtocolVersion != null);
                 message.AddUserProperty(AkriSystemProperties.RequestedProtocolVersion, requestedProtocolVersion);
-                string spaceSeperatedListOfSupportedProtocolVersions = ProtocolVersion.ToString(supportedMajorProtocolVersions);
-                message.AddUserProperty(AkriSystemProperties.SupportedMajorProtocolVersions, spaceSeperatedListOfSupportedProtocolVersions);
+                string spaceSeparatedListOfSupportedProtocolVersions = ProtocolVersion.ToString(supportedMajorProtocolVersions);
+                message.AddUserProperty(AkriSystemProperties.SupportedMajorProtocolVersions, spaceSeparatedListOfSupportedProtocolVersions);
             }
 
             int remainingSeconds = Math.Max(0, (int)(commandExpirationTime - WallClock.UtcNow).TotalSeconds);
@@ -543,7 +540,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
             }
 
-            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, majorProtocolVersion + "." + minorProtocolVersion);
+            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, CommandVersion.MajorProtocolVersion + "." + CommandVersion.MinorProtocolVersion);
 
             int remainingSeconds = Math.Max(0, (int)(commandExpirationTime - WallClock.UtcNow).TotalSeconds);
 
