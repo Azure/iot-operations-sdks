@@ -36,6 +36,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Proto2, "application/protobuf" },
             { PayloadFormat.Proto3, "application/protobuf" },
             { PayloadFormat.Raw, "application/octet-stream" },
+            { PayloadFormat.Custom, "" },
         };
 
         private static readonly Dictionary<string, string> formatFormatIndicator = new()
@@ -46,6 +47,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Proto2, "UnspecifiedBytes" },
             { PayloadFormat.Proto3, "UnspecifiedBytes" },
             { PayloadFormat.Raw, "UnspecifiedBytes" },
+            { PayloadFormat.Custom, "UnspecifiedBytes" },
         };
 
         private static readonly Dictionary<string, List<string>> formatSerializeCode = new()

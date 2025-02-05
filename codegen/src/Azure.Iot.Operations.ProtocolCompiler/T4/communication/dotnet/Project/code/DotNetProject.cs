@@ -28,6 +28,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Proto2, new List<(string, string)> { ("Google.Api.CommonProtos", "2.10.0"), ("Google.Protobuf", "3.23.1") } },
             { PayloadFormat.Proto3, new List<(string, string)> { ("Google.Api.CommonProtos", "2.10.0"), ("Google.Protobuf", "3.23.1") } },
             { PayloadFormat.Raw, new List<(string, string)> { } },
+            { PayloadFormat.Custom, new List<(string, string)> { } },
         };
 
         private static readonly Regex MajorMinorRegex = new("^(\\d+\\.\\d+).", RegexOptions.Compiled);

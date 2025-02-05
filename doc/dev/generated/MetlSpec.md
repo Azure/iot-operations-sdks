@@ -1076,7 +1076,6 @@ Each element of the `senders` array can have the following child keys:
 | --- | --- | --- | --- | --- | --- |
 | telemetry-name | drive | no | string or null | "test" | The name of the Telemetry. |
 | telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
-| data-schema | drive | no | string or null | "dtmi:test:MyModel:_contents:__test;1" | The data schema to use in a cloud event when associated with the telemetry. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 
@@ -1167,6 +1166,7 @@ A `send telemetry` action causes the TelemetrySender to send a telemetry without
     source: "dtmi:test:myEventSource;1"
     type: "test-type"
     spec-version: "1.0"
+    data-schema: "dtmi:test:MyModel:_contents:__test;1"
 ```
 
 When the value of the `action` key is `send telemetry`, the following sibling keys are also available:
@@ -1192,6 +1192,7 @@ The cloud event can have the following child keys:
 | source | drive | yes | string | URI that identifies the context in which an event happened. |
 | type | drive | no | string | The type of event related to the originating occurrence. |
 | spec-version | drive | no | string | The version of the CloudEvents specification which the event uses. |
+| data-schema | drive | no | string | URI that identifies the schema the data adheres to. |
 
 #### ActionAwaitSend
 

@@ -330,6 +330,10 @@ where
                     cloud_event_builder.spec_version(spec_version);
                 }
 
+                if let Some(data_schema) = &cloud_event.data_schema {
+                    cloud_event_builder.data_schema(data_schema.clone());
+                }
+
                 telemetry_message_builder.cloud_event(cloud_event_builder.build().unwrap());
             }
 

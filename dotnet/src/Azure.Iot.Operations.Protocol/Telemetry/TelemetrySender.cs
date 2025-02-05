@@ -35,11 +35,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private readonly Dictionary<string, string> topicTokenMap = [];
 
-        /// <summary>
-        /// Gets or sets the data schema used in a cloud event when one is associated with the telemetry.
-        /// </summary>
-        public string? DataSchema { get; set; }
-
         public string TopicPattern { get; init; }
 
         public string? TopicNamespace { get; set; }
@@ -126,7 +121,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.Time = DateTime.UtcNow;
                     metadata.CloudEvent.Subject = telemTopic.ToString();
                     metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
-                    metadata.CloudEvent.DataSchema = DataSchema;
                 }
 
                 if (metadata != null)
