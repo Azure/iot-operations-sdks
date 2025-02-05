@@ -17,20 +17,20 @@ func TestTelemetry(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	enc := protocol.Data{}
+	enc := protocol.Custom{}
 	topic := "prefix/{token}/suffix"
-	value := &protocol.Data{
+	value := protocol.Data{
 		Payload:     []byte("value"),
 		ContentType: "custom/type",
 	}
 
-	results := make(chan *protocol.TelemetryMessage[*protocol.Data])
+	results := make(chan *protocol.TelemetryMessage[protocol.Data])
 
 	receiver, err := protocol.NewTelemetryReceiver(
 		app, server, enc, topic,
 		func(
 			_ context.Context,
-			tm *protocol.TelemetryMessage[*protocol.Data],
+			tm *protocol.TelemetryMessage[protocol.Data],
 		) error {
 			results <- tm
 			return nil

@@ -2,12 +2,11 @@
 
 The following instructions will get you started with setting up a development environment for building the samples and creating Azure IoT Operations edge applications.
 
-## Setup the platform
+## Setup the environment
 
-We recommend four different platform paths for developing with Azure IoT Operations which utilize [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
+We recommend four platform environments for developing for *Azure IoT Operations* which utilize [k3d](https://k3d.io/#what-is-k3d) (a lightweight [k3s](https://k3s.io/) wrapper). Codespaces provides the most streamlined experience and will get the development environment up and running in a couple of minutes.
 
-> [!NOTE]
-> For development, it's recommended to make the cluster locally available, either by deploying the cluster on the local machine, or using the the [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server) function that is used by Codespaces.
+Each of the following environments will give your local development environment local cluster access.
 
 The Codespaces approach is the recommended option and it provides all the necessary tools pre-installed.
 
@@ -44,15 +43,6 @@ The Codespaces approach is the recommended option and it provides all the necess
 >
 > **F1 > Dev Containers: Open Folder in Container...**
 
-### Linux
-
-1. Install [Ubuntu](https://ubuntu.com/download/desktop)
-
-1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
-
-> [!CAUTION]
-> Ubuntu provides unofficial Docker packages via snap or apt. Install directly from Docker guarantees that latest version.
-
 ### Windows Subsystem for Linux (WSL)
 
 1. Install Ubuntu on [WSL 2](https://learn.microsoft.com/windows/wsl/install):
@@ -62,6 +52,15 @@ The Codespaces approach is the recommended option and it provides all the necess
     ```
 
 1. Install [Docker Desktop with WSL 2](https://docs.docker.com/desktop/features/wsl/)
+
+### Linux
+
+1. Install [Ubuntu](https://ubuntu.com/download/desktop)
+
+1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
+
+> [!CAUTION]
+> Ubuntu provides unofficial Docker packages via snap or apt. Install directly from Docker guarantees that latest version.
 
 ## Install prerequisites
 
