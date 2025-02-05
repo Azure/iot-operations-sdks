@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
-        private readonly int[] supportedMajorProtocolVersions = [1];
+        private readonly int[] supportedMajorProtocolVersions = [TelemetryVersion.MajorProtocolVersion];
 
         private static readonly int PreferredDispatchConcurrency = 10;
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);

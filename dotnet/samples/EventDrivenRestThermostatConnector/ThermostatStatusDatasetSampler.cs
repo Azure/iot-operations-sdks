@@ -1,4 +1,7 @@
-﻿using Azure.Iot.Operations.Connector;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,9 +13,9 @@ namespace RestThermostatConnector
     {
         private HttpClient _httpClient;
         private string _assetName;
-        private AssetEndpointProfileCredentials _credentials;
+        private AssetEndpointProfileCredentials? _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials credentials)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials? credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;

@@ -1,10 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
@@ -12,18 +14,25 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class TelemetryConnectorWorker : BackgroundService
+    /// <summary>
+    /// Base class for a worker that samples datasets from assets and publishes the data to an MQTT broker. This worker allows implementations
+    /// to choose when to sample each dataset and notifies the implementation when an asset is/is not available to be sampled.
+    /// </summary>
+    public class EventDrivenTelemetryConnectorWorker : ConnectorBackgroundService
     {
-        private readonly ILogger<TelemetryConnectorWorker> _logger;
+        protected readonly ILogger<EventDrivenTelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private IAssetMonitor _assetMonitor;
 
         // Mapping of asset name to the mapping of dataset name to its sampler and sampling interval
-        private ConcurrentDictionary<string, ConcurrentDictionary<string, DatasetSamplingContext>> _assetsDatasetSamplers = new();
+        private ConcurrentDictionary<string, ConcurrentDictionary<string, IDatasetSampler>> _assetsDatasetSamplers = new();
 
-        public TelemetryConnectorWorker(
-            ILogger<TelemetryConnectorWorker> logger,
+        public EventHandler<AssetAvailabileEventArgs>? OnAssetAvailable;
+        public EventHandler<AssetUnavailabileEventArgs>? OnAssetUnavailable;
+
+        public EventDrivenTelemetryConnectorWorker(
+            ILogger<EventDrivenTelemetryConnectorWorker> logger,
             IMqttClient mqttClient, 
             IDatasetSamplerFactory datasetSamplerFactory,
             IAssetMonitor assetMonitor)
@@ -32,6 +41,11 @@ namespace Azure.Iot.Operations.Connector
             _mqttClient = mqttClient;
             _datasetSamplerFactory = datasetSamplerFactory;
             _assetMonitor = assetMonitor;
+        }
+
+        public override Task RunConnectorAsync(CancellationToken cancellationToken = default)
+        {
+            return ExecuteAsync(cancellationToken);
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -128,7 +142,7 @@ namespace Azure.Iot.Operations.Connector
 
                             if (args.ChangeType == ChangeType.Deleted)
                             {
-                                _ = StopSamplingAssetAsync(args.AssetName);
+                                _ = StopSamplingAssetAsync(args.AssetName, false, cancellationToken);
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
@@ -139,7 +153,7 @@ namespace Azure.Iot.Operations.Connector
                                 // asset changes don't all necessitate re-creating the relevant dataset samplers, but there is no way to know
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
-                                _ = StopSamplingAssetAsync(args.AssetName).ContinueWith((task) => StartSamplingAssetAsync(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken));
+                                _ = StopSamplingAssetAsync(args.AssetName, true, cancellationToken).ContinueWith((task) => StartSamplingAssetAsync(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken));
                             }
                         };
 
@@ -192,13 +206,9 @@ namespace Azure.Iot.Operations.Connector
                         _assetMonitor.UnobserveAssetEndpointProfile();
 
                         // Dispose of all samplers and timers
-                        foreach (var datasetSamplers in _assetsDatasetSamplers.Values)
+                        foreach (string assetName in _assetsDatasetSamplers.Keys)
                         {
-                            foreach (DatasetSamplingContext datasetSamplingContext in datasetSamplers.Values)
-                            {
-                                _ = datasetSamplingContext.DatasetSampler.DisposeAsync();
-                                datasetSamplingContext.DatasetSamplingTimer.Dispose();
-                            }
+                            await StopSamplingAssetAsync(assetName, false, cancellationToken);
                         }
                     }
                     catch (Exception ex)
@@ -213,16 +223,21 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task StopSamplingAssetAsync(string assetName)
+        private async Task StopSamplingAssetAsync(string assetName, bool isRestarting, CancellationToken cancellationToken)
         {
             // Stop sampling this asset's datasets since it was deleted. Dispose all dataset samplers and timers associated with this asset
             if (_assetsDatasetSamplers.Remove(assetName, out var datasetSamplers))
             { 
-                foreach (DatasetSamplingContext datasetSamplingContext in datasetSamplers.Values)
+                foreach (IDatasetSampler datasetSampler in datasetSamplers.Values)
                 {
-                    await datasetSamplingContext.DatasetSampler.DisposeAsync();
-                    datasetSamplingContext.DatasetSamplingTimer.Dispose();
+                    await datasetSampler.DisposeAsync();
                 }
+            }
+
+            // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
+            if (!isRestarting)
+            {
+                OnAssetUnavailable?.Invoke(this, new(assetName));
             }
         }
 
@@ -233,140 +248,130 @@ namespace Azure.Iot.Operations.Connector
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
                 return;
             }
-            else
+
+            // This won't overwrite the existing asset dataset samplers if they already exist
+            _assetsDatasetSamplers.TryAdd(assetName, new());
+
+            foreach (string datasetName in asset.DatasetsDictionary!.Keys)
             {
-                // This won't overwrite the existing asset dataset samplers if they already exist
-                _assetsDatasetSamplers.TryAdd(assetName, new());
+                Dataset dataset = asset.DatasetsDictionary![datasetName];
 
-                foreach (string datasetName in asset.DatasetsDictionary!.Keys)
+                if (_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers))
                 {
-                    Dataset dataset = asset.DatasetsDictionary![datasetName];
-
-                    TimeSpan samplingInterval;
-                    if (dataset.DatasetConfiguration != null
-                        && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
-                        && datasetSpecificSamplingInterval.TryGetInt32(out int datasetSpecificSamplingIntervalMilliseconds))
+                    // Overwrite any previous dataset sampler for this dataset
+                    if (assetDatasetSamplers.Remove(datasetName, out var oldDatasetSampler))
                     {
-                        samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingIntervalMilliseconds);
+                        await oldDatasetSampler.DisposeAsync();
                     }
-                    else if (asset.DefaultDatasetsConfiguration != null
-                        && asset.DefaultDatasetsConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
-                        && defaultDatasetSamplingInterval.TryGetInt32(out int defaultSamplingIntervalMilliseconds))
+
+                    // Create a new dataset sampler since the old one may have been updated in some way
+                    IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(assetEndpointProfile, asset, dataset);
+
+                    _assetsDatasetSamplers[assetName].TryAdd(datasetName, datasetSampler);
+
+                    DatasetMessageSchema? datasetMessageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
+                    if (datasetMessageSchema != null)
                     {
-                        samplingInterval = TimeSpan.FromMilliseconds(defaultSamplingIntervalMilliseconds);
+                        _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
+                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                        await schemaRegistryClient.PutAsync(
+                            datasetMessageSchema.SchemaContent,
+                            datasetMessageSchema.SchemaFormat,
+                            datasetMessageSchema.SchemaType,
+                            datasetMessageSchema.Version ?? "1.0.0",
+                            datasetMessageSchema.Tags,
+                            null,
+                            cancellationToken);
                     }
                     else
                     {
-                        _logger.LogError($"Dataset with name {datasetName} in Asset with name {assetName} has no configured sampling interval. This dataset will not be sampled.");
-                        return;
-                    }
-
-                    if (_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers))
-                    {
-                        // Overwrite any previous dataset sampler for this dataset
-                        if (assetDatasetSamplers.Remove(datasetName, out var oldDatasetSampler))
-                        {
-                            oldDatasetSampler.DatasetSamplingTimer.Dispose();
-                            await oldDatasetSampler.DatasetSampler.DisposeAsync();
-                        }
-
-                        // Create a new dataset sampler since the old one may have been updated in some way
-                        IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(assetEndpointProfile, asset, dataset);
-
-                        DatasetMessageSchema? datasetMessageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
-                        if (datasetMessageSchema != null)
-                        {
-                            _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
-                            await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
-                            await schemaRegistryClient.PutAsync(
-                                datasetMessageSchema.SchemaContent,
-                                datasetMessageSchema.SchemaFormat,
-                                datasetMessageSchema.SchemaType,
-                                datasetMessageSchema.Version ?? "1.0.0",
-                                datasetMessageSchema.Tags,
-                                null,
-                                cancellationToken);
-                        }
-                        else
-                        {
-                            _logger.LogInformation($"No message schema will be registered for dataset with name {datasetName} on asset with name {assetName}");
-                        }
-
-                        _logger.LogInformation($"Will sample dataset with name {datasetName} on asset with name {assetName} at a rate of once per {(int)samplingInterval.TotalMilliseconds} milliseconds");
-                        Timer datasetSamplingTimer = new(SampleDataset, new TimerContext(assetEndpointProfile, asset, assetName, datasetName, cancellationToken), 0, (int)samplingInterval.TotalMilliseconds);
-                        assetDatasetSamplers.TryAdd(datasetName, new(datasetSampler, datasetSamplingTimer));
+                        _logger.LogInformation($"No message schema will be registered for dataset with name {datasetName} on asset with name {assetName}");
                     }
                 }
             }
+
+            OnAssetAvailable?.Invoke(this, new(assetName, asset));
         }
 
-        private async void SampleDataset(object? status)
+        /// <summary>
+        /// Sample the provided dataset on the provided asset and publish the sampled data to the MQTT broker as MQTT telemetry.
+        /// </summary>
+        /// <param name="assetName">The name of the asset to sample</param>
+        /// <param name="asset">The asset to sample</param>
+        /// <param name="datasetName">The name of the dataset to sample</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <exception cref="AssetDatasetUnavailableException">Thrown if the specified asset or dataset is unavailable to be sampled currently.</exception>
+        /// <exception cref="AssetSamplingException">Thrown if connecting or getting a response from the asset fails (i.e. HTTP read timeout).</exception>
+        /// <exception cref="ConnectorException">Thrown if publishing the telemetry to the MQTT broker fails.</exception>
+        public async Task SampleDatasetAsync(string assetName, Asset asset, string datasetName, CancellationToken cancellationToken = default)
         {
-            TimerContext samplerContext = (TimerContext)status!;
-
-            Asset asset = samplerContext.Asset;
-            string datasetName = samplerContext.DatasetName;
-            string assetName = samplerContext.AssetName;
-
             Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
-            if (assetDatasets == null || !assetDatasets.ContainsKey(datasetName))
+            if (assetDatasets == null || !assetDatasets.TryGetValue(datasetName, out Dataset? dataset))
             {
-                _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} was deleted. This sample won't sample this dataset anymore.");
+                throw new AssetDatasetUnavailableException($"Could not sample the provided dataset: No dataset with the provided name ({datasetName}) was found in the provided asset ({assetName})");
+            }
+
+            if (!_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers)
+                || !assetDatasetSamplers.TryGetValue(datasetName, out var datasetSampler))
+            {
+                // Should never happen, but may signal the asset was just removed.
+                throw new AssetDatasetUnavailableException($"Could not sample the provided dataset: No dataset sampler found for the provided asset ({assetName}) and dataset name ({datasetName})");
+            }
+
+            byte[] serializedPayload;
+            try
+            {
+                serializedPayload = await datasetSampler.SampleDatasetAsync(dataset);
+            }
+            catch (Exception e)
+            {
+                throw new AssetSamplingException($"Error sampling dataset with name {datasetName} in asset with name {assetName}", e);
+            }
+
+            _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+
+            Topic topic;
+            if (dataset.Topic != null)
+            {
+                topic = dataset.Topic;
+            }
+            else if (asset.DefaultTopic != null)
+            {
+                topic = asset.DefaultTopic;
+            }
+            else
+            {
+                _logger.LogError($"Dataset with name {datasetName} in asset with name {assetName} has no configured MQTT topic to publish to. This sample won't publish the data sampled from the asset.");
                 return;
             }
 
-            Dataset dataset = assetDatasets[datasetName];
-            
-            if (_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers)
-                && assetDatasetSamplers.TryGetValue(datasetName, out var datasetSamplingContext))
-            { 
-                byte[] serializedPayload;
-                try
-                {
-                    serializedPayload = await datasetSamplingContext.DatasetSampler.SampleDatasetAsync(dataset);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, $"Error sampling dataset with name {datasetName} in asset with name {assetName}");
-                    return;
-                }
+            var mqttMessage = new MqttApplicationMessage(topic.Path)
+            {
+                PayloadSegment = serializedPayload,
+                Retain = topic.Retain == RetainHandling.Keep,
+            };
 
-                _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            MqttClientPublishResult puback;
 
-                Topic topic;
-                if (dataset.Topic != null)
-                {
-                    topic = dataset.Topic;
-                }
-                else if (asset.DefaultTopic != null)
-                {
-                    topic = asset.DefaultTopic;
-                }
-                else
-                {
-                    _logger.LogInformation($"Dataset with name {datasetName} in asset with name {assetName} has no configured MQTT topic to publish to. This sample won't publish the data sampled from the asset.");
-                    return;
-                }
+            try
+            {
+                puback = await _mqttClient.PublishAsync(mqttMessage);
+            }
+            catch (Exception e)
+            {
+                throw new ConnectorException("Failed to publish telemetry to the MQTT broker.", e);
+            }
 
-                var mqttMessage = new MqttApplicationMessage(topic.Path)
-                {
-                    PayloadSegment = serializedPayload,
-                    Retain = topic.Retain == RetainHandling.Keep,
-                };
-
-                var puback = await _mqttClient.PublishAsync(mqttMessage);
-
-                if (puback.ReasonCode == MqttClientPublishReasonCode.Success
-                    || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
-                {
-                    // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
-                    // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                    _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
-                }
-                else
-                {
-                    _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
-                }
+            if (puback.ReasonCode == MqttClientPublishReasonCode.Success
+                || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+            {
+                // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+            }
+            else
+            {
+                _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
         }
     }
