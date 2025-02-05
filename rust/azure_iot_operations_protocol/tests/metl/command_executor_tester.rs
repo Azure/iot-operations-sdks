@@ -233,7 +233,7 @@ where
                             Some(message) => message.clone(),
                             None => String::default(),
                         };
-                        request.error(message).unwrap();
+                        request.error(message).await.unwrap();
                         continue;
                     }
                 }
@@ -275,7 +275,7 @@ where
                     .build()
                     .unwrap();
 
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
         }
     }
