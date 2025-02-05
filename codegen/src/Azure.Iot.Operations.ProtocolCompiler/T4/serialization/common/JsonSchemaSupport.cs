@@ -5,16 +5,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public static class JsonSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, DtmiToSchemaName dtmiToSchemaName)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema)
         {
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
-                return $"\"type\": \"array\", \"items\": {{ {GetTypeAndAddenda(((DTArrayInfo)dtSchema).ElementSchema, dtmiToSchemaName)} }}";
+                return $"\"type\": \"array\", \"items\": {{ {GetTypeAndAddenda(((DTArrayInfo)dtSchema).ElementSchema)} }}";
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
-                return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(((DTMapInfo)dtSchema).MapValue.Schema, dtmiToSchemaName)} }}";
+                return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(((DTMapInfo)dtSchema).MapValue.Schema)} }}";
             }
 
             return dtSchema.Id.AbsoluteUri switch
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:uuid;4" => @"""type"": ""string"", ""format"": ""uuid""",
                 "dtmi:dtdl:instance:Schema:bytes;4" => @"""type"": ""string"", ""contentEncoding"": ""base64""",
                 "dtmi:dtdl:instance:Schema:decimal;4" => @"""type"": ""string"", ""pattern"": ""^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$""",
-                _ => $"\"$ref\": \"{dtmiToSchemaName(dtSchema.Id, dtSchema.EntityKind.ToString())}.schema.json\"",
+                _ => $"\"$ref\": \"{new CodeName(dtSchema.Id).GetFileName(TargetLanguage.Independent)}.schema.json\"",
             };
         }
 

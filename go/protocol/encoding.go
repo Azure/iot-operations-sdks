@@ -5,6 +5,7 @@ package protocol
 import (
 	"encoding/json"
 	stderr "errors"
+	"fmt"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
@@ -19,8 +20,6 @@ type (
 	}
 
 	// Data represents encoded values along with their transmitted content type.
-	// It may also be provided as the encoding to act as a passthrough, allowing
-	// the calling code to fully specify the data manually.
 	Data struct {
 		Payload       []byte
 		ContentType   string
@@ -35,6 +34,9 @@ type (
 
 	// Raw represents a raw byte stream.
 	Raw struct{}
+
+	// Custom represents data that is externally serialized into a byte stream via custom code.
+	Custom struct{}
 )
 
 // ErrUnsupportedContentType should be returned if the content type is not
@@ -42,27 +44,28 @@ type (
 var ErrUnsupportedContentType = stderr.New("unsupported content type")
 
 // Utility to serialize with a protocol error.
-func serialize[T any](encoding Encoding[T], value T) (*Data, error) {
-	data, err := encoding.Serialize(value)
+func serialize[T any](encoding Encoding[T], value T) (data *Data, err error) {
+	defer func() {
+		if ePanic := recover(); ePanic != nil {
+			err = payloadError("cannot serialize payload", ePanic)
+		}
+	}()
+	data, err = encoding.Serialize(value)
 	if err != nil {
-		if e, ok := err.(*errors.Error); ok {
-			return nil, e
-		}
-		return nil, &errors.Error{
-			Message: "cannot serialize payload",
-			Kind:    errors.PayloadInvalid,
-		}
+		return nil, payloadError("cannot serialize payload", err)
 	}
 	return data, nil
 }
 
 // Utility to deserialize with a protocol error.
-func deserialize[T any](encoding Encoding[T], data *Data) (T, error) {
-	value, err := encoding.Deserialize(data)
-	if err != nil {
-		if e, ok := err.(*errors.Error); ok {
-			return value, e
+func deserialize[T any](encoding Encoding[T], data *Data) (value T, err error) {
+	defer func() {
+		if ePanic := recover(); ePanic != nil {
+			err = payloadError("cannot deserialize payload", err)
 		}
+	}()
+	value, err = encoding.Deserialize(data)
+	if err != nil {
 		if stderr.Is(err, ErrUnsupportedContentType) {
 			return value, &errors.Error{
 				Message:     "content type mismatch",
@@ -71,12 +74,28 @@ func deserialize[T any](encoding Encoding[T], data *Data) (T, error) {
 				HeaderValue: data.ContentType,
 			}
 		}
-		return value, &errors.Error{
-			Message: "cannot deserialize payload",
-			Kind:    errors.PayloadInvalid,
-		}
+		return value, payloadError("cannot deserialize payload", err)
 	}
 	return value, nil
+}
+
+func payloadError(msg string, err any) error {
+	switch e := err.(type) {
+	case *errors.Error:
+		return e
+	case error:
+		return &errors.Error{
+			Message:     msg,
+			Kind:        errors.PayloadInvalid,
+			NestedError: e,
+		}
+	default:
+		return &errors.Error{
+			Message:     msg,
+			Kind:        errors.PayloadInvalid,
+			NestedError: stderr.New(fmt.Sprint(e)),
+		}
+	}
 }
 
 // Serialize translates the Go type T into JSON bytes.
@@ -138,11 +157,11 @@ func (Raw) Deserialize(data *Data) ([]byte, error) {
 }
 
 // Serialize returns the data unchanged.
-func (Data) Serialize(t *Data) (*Data, error) {
-	return t, nil
+func (Custom) Serialize(t Data) (*Data, error) {
+	return &t, nil
 }
 
 // Deserialize returns the data unchanged.
-func (Data) Deserialize(data *Data) (*Data, error) {
-	return data, nil
+func (Custom) Deserialize(data *Data) (Data, error) {
+	return *data, nil
 }

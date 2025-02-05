@@ -6,6 +6,9 @@ description:
   expect: >-
     CommandExecutor ignores request, and MQTT client auto-acknowledges.
 
+requires:
+- topic-filtering
+
 prologue:
   executors:
   - { }

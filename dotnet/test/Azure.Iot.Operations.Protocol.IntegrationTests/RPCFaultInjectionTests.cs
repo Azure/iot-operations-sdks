@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using System.Text;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {

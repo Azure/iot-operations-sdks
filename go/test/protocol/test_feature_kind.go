@@ -13,6 +13,7 @@ type TestFeatureKind int
 const (
 	Unobtanium TestFeatureKind = iota
 	AckOrdering
+	TopicFiltering
 	Reconnection
 	Caching
 	Dispatch
@@ -20,7 +21,7 @@ const (
 )
 
 func (k TestFeatureKind) String() string {
-	return [...]string{"Unobtanium", "AckOrdering", "Reconnection", "Caching", "Dispatch", "ExplicitDefault"}[k]
+	return [...]string{"Unobtanium", "AckOrdering", "TopicFiltering", "Reconnection", "Caching", "Dispatch", "ExplicitDefault"}[k]
 }
 
 func (k *TestFeatureKind) UnmarshalYAML(value *yaml.Node) error {
@@ -36,6 +37,9 @@ func (k *TestFeatureKind) UnmarshalYAML(value *yaml.Node) error {
 		return nil
 	case "ack-ordering":
 		*k = AckOrdering
+		return nil
+	case "topic-filtering":
+		*k = TopicFiltering
 		return nil
 	case "reconnection":
 		*k = Reconnection

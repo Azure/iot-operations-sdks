@@ -24,6 +24,23 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public HybridLogicalClock? Timestamp { get; }
 
         /// <summary>
+        /// The content type of a command response received by a command invoker if a content type was provided on the MQTT message.
+
+        /// </summary>
+        /// <remarks>
+        /// This field is only set by the command invoker when deserializing a response. It cannot be used by a command executor to change the content type of a command response.
+        /// </remarks>
+        public string? ContentType { get; internal set; }
+
+        /// <summary>
+        /// The payload format indicator of a command response received by a command invoker.
+        /// </summary>
+        /// <remarks>
+        /// This field is only set by the command invoker when deserializing a response. It cannot be used by a command executor to change the payload format indicator of a command response.
+        /// </remarks>
+        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
+
+        /// <summary>
         /// A dictionary of user properties that are sent along with the response from the CommandExecutor to the CommandInvoker.
         /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the UserData is initialized with an empty dictionary.
         /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the UserData is set from the resonse message.

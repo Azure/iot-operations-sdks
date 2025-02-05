@@ -1,18 +1,18 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 syntax = "proto3";
 
-package <#=this.genNamespace#>;
+package <#=this.genNamespace.GetTypeName(TargetLanguage.Independent)#>;
 
 option java_multiple_files = true;
-option java_package = "<#=this.genNamespace#>";
+option java_package = "<#=this.genNamespace.GetTypeName(TargetLanguage.Java)#>";
 
-option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>";
 
 <# if (this.valueSchema == "string") { #>
 import "dtdl/protobuf/dtdl_options.proto";
 <# } #>
 
-enum <#=this.schema#> {
+enum <#=this.schema.AsGiven#> {
     <#=this.zeroNameValueIndex.Item1#> = <#=GetNumericValue(this.zeroNameValueIndex)#><#=GetOption(this.zeroNameValueIndex)#>;
 <# foreach (var nameValueIndex in this.nameValueIndices) { if (GetNumericValue(nameValueIndex) != "0") { #>
     <#=nameValueIndex.Item1#> = <#=GetNumericValue(nameValueIndex)#><#=GetOption(nameValueIndex)#>;

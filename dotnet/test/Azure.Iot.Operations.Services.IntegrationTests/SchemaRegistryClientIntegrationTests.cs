@@ -4,13 +4,13 @@
 namespace Azure.Iot.Operations.Services.IntegrationTest;
 
 using Azure.Iot.Operations.Services.SchemaRegistry;
-using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt.Session;
 using Xunit;
 using Xunit.Abstractions;
-using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;
-using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_SchemaType__1;
+using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
+using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
 
 [Trait("Category", "SchemaRegistry")]
 public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
@@ -24,11 +24,11 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await using SchemaRegistryClient client = new(_mqttClient);
         Dictionary<string, string> testTags = new() { { "key1", "value1" } };
 
-        Object_Ms_Adr_SchemaRegistry_Schema__1? res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, testTags);
+        Schema? res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, testTags);
         output.WriteLine($"resp {res?.Name}");
         //Assert.Equal("29F37966A94F76DB402A96BC5D9B2B3A5B9465CA2A80696D7DE40AEB3DE8E9E7", res.Name);
         string schemaId = res?.Name!;
-        Object_Ms_Adr_SchemaRegistry_Schema__1? getSchemaResponse = await client.GetAsync(schemaId, Version1_0_0);
+        Schema? getSchemaResponse = await client.GetAsync(schemaId, Version1_0_0);
 
         output.WriteLine($"getRes {res?.Version}");
         Assert.Contains("temperature", getSchemaResponse?.SchemaContent);
@@ -46,7 +46,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using SchemaRegistryClient client = new(_mqttClient);
 
-        Object_Ms_Adr_SchemaRegistry_Schema__1? s = await client.GetAsync("NotFound");
+        Schema? s = await client.GetAsync("NotFound");
         Assert.Null(s);
     }
 

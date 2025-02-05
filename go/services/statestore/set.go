@@ -4,6 +4,7 @@ package statestore
 
 import (
 	"context"
+	"log/slog"
 	"strconv"
 	"time"
 
@@ -35,8 +36,8 @@ func (c *Client[K, V]) Set(
 	val V,
 	opt ...SetOption,
 ) (*Response[bool], error) {
-	if len(key) == 0 {
-		return nil, ArgumentError{Name: "key"}
+	if err := c.validateKey(ctx, key); err != nil {
+		return nil, err
 	}
 
 	var opts SetOptions
@@ -48,13 +49,15 @@ func (c *Client[K, V]) Set(
 	}
 	switch {
 	case opts.Expiry < 0:
+		c.log.Warn(ctx, "negative expiry", slog.Duration("expiry", opts.Expiry))
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
 		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
 	}
 
 	req := resp.OpKV("SET", key, val, rest...)
-	return invoke(ctx, c.invoker, parseOK, &opts, req)
+	c.logK(ctx, "SET", key, slog.Duration("expiry", opts.Expiry))
+	return invoke(ctx, c.invoker, parseOK, &opts, req, c.log)
 }
 
 // Apply resolves the provided list of options.

@@ -4,17 +4,17 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public partial class DotNetTelemetrySender : ITemplateTransform
     {
-        private readonly string? telemetryName;
+        private readonly CodeName telemetryName;
         private readonly string projectName;
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string modelId;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string serializerSubNamespace;
         private readonly string serializerClassName;
-        private readonly string schemaClassName;
-        private readonly string componentName;
+        private readonly ITypeName schemaType;
+        private readonly CodeName componentName;
 
-        public DotNetTelemetrySender(string? telemetryName, string projectName, string genNamespace, string modelId, string serviceName, string serializerSubNamespace, string serializerClassName, string serializerEmptyType, string schemaClassName)
+        public DotNetTelemetrySender(CodeName telemetryName, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string serializerSubNamespace, string serializerClassName, EmptyTypeName serializerEmptyType, ITypeName schemaType)
         {
             this.telemetryName = telemetryName;
             this.projectName = projectName;
@@ -22,13 +22,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.modelId = modelId;
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
-            this.serializerClassName = string.Format(serializerClassName, $"<{schemaClassName}, {serializerEmptyType}>");
-            this.schemaClassName = schemaClassName == "" ? "byte[]" : schemaClassName;
-            this.componentName = schemaClassName == "" ? $"{(this.telemetryName != null ? NameFormatter.Capitalize(this.telemetryName) : string.Empty)}Telemetry" : schemaClassName;
+            this.serializerClassName = string.Format(serializerClassName, $"<{schemaType.GetTypeName(TargetLanguage.CSharp)}, {serializerEmptyType.GetTypeName(TargetLanguage.CSharp)}>");
+            this.schemaType = schemaType;
+            this.componentName = new CodeName(this.telemetryName, "telemetry", "sender");
         }
 
-        public string FileName { get => $"{this.componentName}Sender.g.cs"; }
+        public string FileName { get => $"{this.componentName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.CSharp); }
     }
 }

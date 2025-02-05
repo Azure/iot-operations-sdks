@@ -61,6 +61,8 @@ use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions}
 //    34. 1 del notification received after observe and then key is del
 //    35. 1 set(v2), 1 del, 1 set(v3) notifications received after set(v1), del, observe, set(v2), del, set(v3), unobserve, set(v4), del. This test is confirming that operations that happen outside of the observation aren't received.
 //    36. TODO set with key expiry, recv delete notification once key expires
+// SHUTDOWN
+//    37. where key is being observed, then shutdown is called. Recv returns None.
 
 const VALUE1: &[u8] = b"value1";
 const VALUE2: &[u8] = b"value2";
@@ -796,7 +798,7 @@ async fn state_store_set_key_notifications_network_tests() {
 }
 
 /// ~~~~~~~~ Key 6 ~~~~~~~~
-/// basic recv del notification, as well as basic observe (where key does exist) and unobserve
+/// basic recv del notification, as well as basic observe (where key does exist) and shutdown
 #[tokio::test]
 async fn state_store_del_key_notifications_network_tests() {
     let log_identifier = "del_key_notifications";
@@ -865,21 +867,16 @@ async fn state_store_del_key_notifications_network_tests() {
                 del_for_notification
             );
 
-            // Tests 31 (where key is being observed)
-            let unobserve_key6 = state_store_client
-                .unobserve(key6.to_vec(), TIMEOUT)
-                .await
-                .unwrap();
-            assert!(unobserve_key6.response);
-            log::info!(
-                "[{log_identifier}] unobserve_key6 response: {:?}",
-                unobserve_key6
-            );
+            // wait to make sure delete notification is received before shutting down
+            tokio::time::sleep(Duration::from_secs(1)).await;
+
+            // Shutdown state store client and underlying resources
+            // Tests 37 (where key is being observed, then shutdown is called. Recv returns None)
+            assert!(state_store_client.shutdown().await.is_ok());
 
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
+            // Also validates that recv gets None after shutdown.
             assert!(receive_notifications_task.await.is_ok());
-            // Shutdown state store client and underlying resources
-            assert!(state_store_client.shutdown().await.is_ok());
 
             // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
             match exit_handle.try_exit().await {

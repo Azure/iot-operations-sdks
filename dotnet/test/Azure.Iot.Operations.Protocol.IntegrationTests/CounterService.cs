@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using MQTTnet.Client;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.RPC;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;

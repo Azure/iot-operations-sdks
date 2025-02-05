@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
+namespace Azure.Iot.Operations.Services.StateStore.StateStore
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.invokeCommandExecutor = new InvokeCommandExecutor(mqttClient) { OnCommandReceived = Invoke_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.invokeCommandExecutor = new InvokeCommandExecutor(mqttClient) { OnCommandReceived = InvokeInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public InvokeCommandExecutor InvokeCommandExecutor { get => this.invokeCommandExecutor; }
@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Services.StateStore.dtmi_ms_aio_mq_StateStore__1
                 await Task.WhenAll(
                     this.invokeCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<byte[]>> Invoke_Int(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<byte[]>> InvokeInt(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<byte[]> extended = await this.InvokeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<byte[]> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };

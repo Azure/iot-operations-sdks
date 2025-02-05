@@ -711,12 +711,8 @@ where
                             }
                         }
                     } else {
-                        match response_tx.send(None) {
-                            Ok(_) => { },
-                            Err(e) => {
-                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
-                            }
-                        }
+                        // if this fails, it's just because there are no more pending commands, which is fine
+                        _ = response_tx.send(None);
                         log::info!("[{command_name}] No more command responses will be received.");
                         break;
                     }

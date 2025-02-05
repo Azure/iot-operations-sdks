@@ -13,6 +13,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Proto2, new List<(string, string)> { } },
             { PayloadFormat.Proto3, new List<(string, string)> { } },
             { PayloadFormat.Raw, new List<(string, string)> { } },
+            { PayloadFormat.Custom, new List<(string, string)> { } },
         };
 
         private readonly string genRoot;
@@ -27,7 +28,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         {
             this.genRoot = genRoot;
             this.generateProject = generateProject;
-            this.projectName = NamingSupport.ToSnakeCase(projectName);
+            this.projectName = projectName;
             this.sdkPath = sdkPath?.Replace('\\', '/');
             this.usesAnySchemas = distinctSchemaKinds.Any();
             this.usesIntEnum = distinctSchemaKinds.Contains(SchemaKind.EnumInt);
