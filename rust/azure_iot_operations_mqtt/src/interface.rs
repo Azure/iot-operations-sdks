@@ -197,7 +197,7 @@ pub trait ManagedClient: MqttPubSub {
 /// Receiver for incoming MQTT messages.
 pub trait PubReceiver {
     /// Receives the next incoming publish.
-    /// 
+    ///
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
 
