@@ -267,7 +267,7 @@ struct CommandExecutorCacheEntry {
 
 /// Command Executor Cache Entry Status enum.
 ///
-/// Used to determine the status of a cache entry.
+/// Used to indicate the status of a cache entry.
 ///
 /// Note: It is not possible for a cache entry to be in progress due to the nature of the underlying
 /// session. If a command request is received, the session will drop duplicates while the original
