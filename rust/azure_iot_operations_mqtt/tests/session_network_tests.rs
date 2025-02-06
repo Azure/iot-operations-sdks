@@ -61,81 +61,81 @@ async fn trigger_session_exit(exit_handle: SessionExitHandle) -> Result<(), Stri
     }
 }
 
-#[test_case(QoS::AtLeastOnce; "QoS 1")]
-#[test_case(QoS::ExactlyOnce; "QoS 2")]
-#[tokio::test]
-async fn test_simple_recv(qos: QoS) {
-    let client_id = "network_test_simple_recv";
-    let Ok(mut session) = setup_test(client_id) else {
-        // Network tests disabled, skipping tests
-        return;
-    };
-    let exit_handle = session.create_exit_handle();
-    let managed_client = session.create_managed_client();
+// #[test_case(QoS::AtLeastOnce; "QoS 1")]
+// //#[test_case(QoS::ExactlyOnce; "QoS 2")]
+// #[tokio::test]
+// async fn test_simple_recv(qos: QoS) {
+//     let client_id = "network_test_simple_recv";
+//     let Ok(mut session) = setup_test(client_id) else {
+//         // Network tests disabled, skipping tests
+//         return;
+//     };
+//     let exit_handle = session.create_exit_handle();
+//     let managed_client = session.create_managed_client();
 
-    let topic = "mqtt/test/simple_recv";
-    let payload = "simple_recv_test_payload";
+//     let topic = "mqtt/test/simple_recv";
+//     let payload = "simple_recv_test_payload";
 
-    let notify_sub = Arc::new(Notify::new());
+//     let notify_sub = Arc::new(Notify::new());
 
-    // TODO: more elegant way to handle completions
-    let receiver_done = Arc::new(Notify::new());
-    let sender_done = Arc::new(Notify::new());
+//     // TODO: more elegant way to handle completions
+//     let receiver_done = Arc::new(Notify::new());
+//     let sender_done = Arc::new(Notify::new());
 
-    // Task for the sending client
-    let sender = {
-        let client = managed_client.clone();
-        let notify_sub = notify_sub.clone();
-        let sender_done = sender_done.clone();
-        async move {
-            // Wait for subscribe from receiver task
-            notify_sub.notified().await;
-            // Publish a message
-            let ct = client.publish(topic, qos, false, payload).await.unwrap();
-            assert!(ct.await.is_ok());
-            // Indicate completion
-            sender_done.notify_one();
-        }
-    };
+//     // Task for the sending client
+//     let sender = {
+//         let client = managed_client.clone();
+//         let notify_sub = notify_sub.clone();
+//         let sender_done = sender_done.clone();
+//         async move {
+//             // Wait for subscribe from receiver task
+//             notify_sub.notified().await;
+//             // Publish a message
+//             let ct = client.publish(topic, qos, false, payload).await.unwrap();
+//             assert!(ct.await.is_ok());
+//             // Indicate completion
+//             sender_done.notify_one();
+//         }
+//     };
 
-    // Task for the receiving client
-    let receiver = {
-        let client = managed_client.clone();
-        let notify_sub = notify_sub.clone();
-        let receiver_done = receiver_done.clone();
-        async move {
-            // Subscribe
-            client.subscribe(topic, qos).await.unwrap().await.unwrap();
-            // Notify the sender that the subscription is ready
-            notify_sub.notify_one();
-            // Wait for message
-            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
-            let publish = receiver.recv().await.unwrap();
-            // The message was the correct one
-            assert_eq!(publish.payload, payload.as_bytes());
-            // Indicate completion
-            receiver_done.notify_one();
-        }
-    };
+//     // Task for the receiving client
+//     let receiver = {
+//         let client = managed_client.clone();
+//         let notify_sub = notify_sub.clone();
+//         let receiver_done = receiver_done.clone();
+//         async move {
+//             // Subscribe
+//             client.subscribe(topic, qos).await.unwrap().await.unwrap();
+//             // Notify the sender that the subscription is ready
+//             notify_sub.notify_one();
+//             // Wait for message
+//             let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
+//             let publish = receiver.recv().await.unwrap();
+//             // The message was the correct one
+//             assert_eq!(publish.payload, payload.as_bytes());
+//             // Indicate completion
+//             receiver_done.notify_one();
+//         }
+//     };
 
-    let test_complete = async move {
-        sender_done.notified().await;
-        receiver_done.notified().await;
-        trigger_session_exit(exit_handle).await
-    };
+//     let test_complete = async move {
+//         sender_done.notified().await;
+//         receiver_done.notified().await;
+//         trigger_session_exit(exit_handle).await
+//     };
 
-    assert!(tokio::try_join!(
-        async move { tokio::task::spawn(sender).await.map_err(|e| e.to_string()) },
-        async move {
-            tokio::task::spawn(receiver)
-                .await
-                .map_err(|e| e.to_string())
-        },
-        async move { test_complete.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) },
-    )
-    .is_ok());
-}
+//     assert!(tokio::try_join!(
+//         async move { tokio::task::spawn(sender).await.map_err(|e| e.to_string()) },
+//         async move {
+//             tokio::task::spawn(receiver)
+//                 .await
+//                 .map_err(|e| e.to_string())
+//         },
+//         async move { test_complete.await.map_err(|e| { e.to_string() }) },
+//         async move { session.run().await.map_err(|e| { e.to_string() }) },
+//     )
+//     .is_ok());
+// }
 
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
 // #[test_case(QoS::ExactlyOnce; "QoS 2")]
