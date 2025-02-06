@@ -50,6 +50,7 @@ struct ResponseArguments {
     invalid_property_name: Option<String>,
     invalid_property_value: Option<String>,
     command_expiration_time: Option<Instant>,
+    message_expiry_interval: Option<u32>,
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
 }
@@ -78,7 +79,9 @@ where
     /// Resolved topic tokens from the incoming request's topic.
     pub topic_tokens: HashMap<String, String>,
     // Internal fields
+    command_name: String,
     response_tx: oneshot::Sender<Result<CommandResponse<TResp>, String>>,
+    publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
 }
 
 impl<TReq, TResp> CommandRequest<TReq, TResp>
@@ -86,44 +89,82 @@ where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
 {
-    /// Consumes the command request and completes it with a response.
+    /// Consumes the command request and reports the response to the executor. An attempt is made to
+    /// send the response to the invoker.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Arguments
     /// * `response` - The [`CommandResponse`] to send.
     ///
-    /// Returns Ok(()) on success, otherwise returns the [`CommandResponse`] response.
-    ///
     /// # Errors
-    /// Returns the [`CommandResponse`] if the response is no longer expected because of a
-    /// timeout or dropped executor.
-    pub fn complete(self, response: CommandResponse<TResp>) -> Result<(), CommandResponse<TResp>> {
-        match self.response_tx.send(Ok(response)) {
-            Ok(()) => Ok(()),
-            Err(e) => match e {
-                Ok(resp) => Err(resp),
-                Err(_) => unreachable!(), // The response channel is sending a command response, receiving an error message on failure is impossible
-            },
-        }
+    ///
+    /// [`AIOProtocolError`] of kind [`Timeout`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Timeout) if the command request
+    /// has expired.
+    ///
+    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the response
+    /// acknowledgement returns an error.
+    ///
+    /// [`AIOProtocolError`] of kind [`Cancellation`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Cancellation) if the
+    /// executor is dropped.
+    ///
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
+    /// if the response publish completion fails. This should not happen.
+    pub async fn complete(self, response: CommandResponse<TResp>) -> Result<(), AIOProtocolError> {
+        self.send_response(Ok(response)).await
     }
 
-    /// Consumes the command request and completes it with an error message.
+    /// Consumes the command request and reports an error to the executor. An attempt is made to
+    /// send the error to the invoker.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Arguments
     /// * `error` - The error message to send.
     ///
-    /// Returns Ok(()) on success, otherwise returns the error message.
-    ///
     /// # Errors
-    /// Returns the error message if the response channel is no longer expected because of a
-    /// timeout or dropped executor.
-    pub fn error(self, error: String) -> Result<(), String> {
-        match self.response_tx.send(Err(error)) {
-            Ok(()) => Ok(()),
-            Err(e) => match e {
-                Ok(_) => unreachable!(), // The response channel is sending an error message, receiving a response on failure is impossible
-                Err(e_msg) => Err(e_msg),
-            },
-        }
+    ///
+    /// [`AIOProtocolError`] of kind [`Timeout`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Timeout) if the command request
+    /// has expired.
+    ///
+    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the error
+    /// acknowledgement returns an error.
+    ///
+    /// [`AIOProtocolError`] of kind [`Cancellation`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Cancellation) if the
+    /// executor is dropped.
+    ///
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
+    /// if the error publish completion fails. This should not happen.
+    pub async fn error(self, error: String) -> Result<(), AIOProtocolError> {
+        self.send_response(Err(error)).await
+    }
+
+    fn create_cancellation_error(command_name: String) -> AIOProtocolError {
+        AIOProtocolError::new_cancellation_error(
+            false,
+            None,
+            None,
+            Some(
+                "Command Executor has been shutdown and can no longer respond to commands"
+                    .to_string(),
+            ),
+            Some(command_name),
+        )
+    }
+
+    async fn send_response(
+        self,
+        response: Result<CommandResponse<TResp>, String>,
+    ) -> Result<(), AIOProtocolError> {
+        // We can ignore the error here. If the receiver of the response is dropped it may be
+        // because the executor is shutting down in which case the receive below will fail.
+        // If the executor is not shutting down, the receive below will succeed and we'll receive a
+        // timeout error since that is the only possible error at this point.
+        let _ = self.response_tx.send(response);
+
+        self.publish_completion_rx
+            .await
+            .map_err(|_| Self::create_cancellation_error(self.command_name))?
     }
 
     /// Check if the command response is no longer expected.
@@ -257,12 +298,11 @@ pub struct CommandExecutorOptions {
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
 /// let mut command_executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
-/// // command_executor.start().await.unwrap();
 /// // let request = command_executor.recv().await.unwrap();
 /// // let response = CommandResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
 ///  // .build().unwrap();
-/// // let request.complete(response).unwrap();
+/// // let request.complete(response).await.unwrap();
 /// # });
 /// ```
 #[allow(unused)]
@@ -584,6 +624,7 @@ where
                     is_application_error: false,
                     invalid_property_name: None,
                     invalid_property_value: None,
+                    message_expiry_interval: None,
                     command_expiration_time: None,
                     supported_protocol_major_versions: None,
                     request_protocol_version: None,
@@ -591,6 +632,7 @@ where
 
                 // Get message expiry interval
                 let command_expiration_time = if let Some(ct) = properties.message_expiry_interval {
+                    response_arguments.message_expiry_interval = Some(ct);
                     message_received_time.checked_add(Duration::from_secs(ct.into()))
                 } else {
                     message_received_time
@@ -777,6 +819,7 @@ where
                     };
 
                     let (response_tx, response_rx) = oneshot::channel();
+                    let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
 
                     let command_request = CommandRequest {
                         payload,
@@ -786,7 +829,9 @@ where
                         timestamp,
                         invoker_id,
                         topic_tokens,
+                        command_name: self.command_name.clone(),
                         response_tx,
+                        publish_completion_rx,
                     };
 
                     // Check the command has not expired, if it has, we do not respond to the invoker.
@@ -805,6 +850,7 @@ where
                                         pkid,
                                         response_arguments,
                                         Some(response_rx),
+                                        Some(publish_completion_tx),
                                     ) => {
                                         // Finished processing command
                                         handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -836,6 +882,7 @@ where
                                 client_clone,
                                 pkid,
                                 response_arguments,
+                                None,
                                 None,
                             ) => {
                                 // Finished processing command
@@ -869,6 +916,7 @@ where
         pkid: u16,
         mut response_arguments: ResponseArguments,
         response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
+        completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
     ) {
         let mut user_properties: Vec<(String, String)> = Vec::new();
         let mut serialized_payload = SerializedPayload::default();
@@ -908,6 +956,23 @@ where
                         response_arguments.command_name,
                         pkid
                     );
+                    // Notify the application that a timeout occurred
+                    if let Some(completion_tx) = completion_tx {
+                        let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                            false,
+                            None,
+                            None,
+                            &response_arguments.command_name,
+                            Duration::from_secs(
+                                response_arguments
+                                    .message_expiry_interval
+                                    .unwrap_or_default()
+                                    .into(),
+                            ),
+                            None,
+                            Some(response_arguments.command_name.clone()),
+                        )));
+                    }
                     return;
                 };
 
@@ -987,7 +1052,7 @@ where
             ));
         }
 
-        let message_expiry_interval =
+        let response_message_expiry_interval =
             if let Some(command_expiration_time) = response_arguments.command_expiration_time {
                 command_expiration_time.saturating_duration_since(Instant::now())
             } else {
@@ -995,16 +1060,35 @@ where
                 Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL)
             };
 
-        if message_expiry_interval.is_zero() {
+        if response_message_expiry_interval.is_zero() {
             log::error!(
                 "[{}][pkid: {}] Request timed out",
                 response_arguments.command_name,
                 pkid
             );
+            // Notify the application that a timeout occurred
+            if let Some(completion_tx) = completion_tx {
+                let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                    false,
+                    None,
+                    None,
+                    &response_arguments.command_name,
+                    Duration::from_secs(
+                        response_arguments
+                            .message_expiry_interval
+                            .unwrap_or_default()
+                            .into(),
+                    ),
+                    None,
+                    Some(response_arguments.command_name.clone()),
+                )));
+            }
             return;
         }
 
-        let Ok(message_expiry_interval) = message_expiry_interval.as_secs().try_into() else {
+        let Ok(response_message_expiry_interval) =
+            response_message_expiry_interval.as_secs().try_into()
+        else {
             // Unreachable, will be smaller than u32::MAX
             log::error!(
                 "[{}][pkid: {}] Message expiry interval is too large",
@@ -1017,7 +1101,7 @@ where
         // Create publish properties
         let publish_properties = PublishProperties {
             payload_format_indicator: Some(serialized_payload.format_indicator as u8),
-            message_expiry_interval: Some(message_expiry_interval),
+            message_expiry_interval: Some(response_message_expiry_interval),
             topic_alias: None,
             response_topic: None,
             correlation_data: response_arguments.correlation_data,
@@ -1040,22 +1124,51 @@ where
             Ok(publish_completion_token) => {
                 // Wait and handle puback
                 match publish_completion_token.await {
-                    Ok(()) => {}
+                    Ok(()) => {
+                        if let Some(completion_tx) = completion_tx {
+                            // We ignore the error as the receiver may have been dropped indicating that the
+                            // application is not interested in the completion of the publish.
+                            let _ = completion_tx.send(Ok(()));
+                        }
+                    }
                     Err(e) => {
                         log::error!(
                             "[{}][pkid: {}] Puback error: {e}",
                             response_arguments.command_name,
                             pkid
                         );
+                        if let Some(completion_tx) = completion_tx {
+                            // Ignore error as receiver may have been dropped
+                            let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command executor response puback".to_string()),
+                                Box::new(e),
+                                Some(response_arguments.command_name.clone()),
+                            )));
+                        }
                     }
                 }
             }
             Err(e) => {
+                // Unreachable, we control the topic
                 log::error!(
                     "[{}][pkid: {}] Client error on command executor response publish: {e}",
                     response_arguments.command_name,
                     pkid
                 );
+                // Notify error publishing
+                if let Some(completion_tx) = completion_tx {
+                    // Ignore error as receiver may have been dropped
+                    let _ = completion_tx.send(Err(AIOProtocolError::new_internal_logic_error(
+                        false,
+                        false,
+                        Some(Box::new(e)),
+                        None,
+                        "response_publish",
+                        None,
+                        Some("Error publishing response".to_string()),
+                        Some(response_arguments.command_name.clone()),
+                    )));
+                }
             }
         }
     }
