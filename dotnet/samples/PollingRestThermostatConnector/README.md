@@ -1,1 +1,0 @@
-Note that this project was, in part, generated from the .NET project template defined [here](../../templates/ConnectorApp/). For instructions on how to install this project template so that you can create a new connector app, see [these instructions](../../templates/README.md).

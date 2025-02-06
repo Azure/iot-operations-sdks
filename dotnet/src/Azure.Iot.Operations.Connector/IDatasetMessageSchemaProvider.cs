@@ -5,8 +5,8 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public interface IDatasetSampler
+    public interface IDatasetMessageSchemaProvider
     {
-        public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default);
+        public Task<DatasetMessageSchema?> GetMessageSchemaAsync(CancellationToken cancellationToken = default);
     }
 }

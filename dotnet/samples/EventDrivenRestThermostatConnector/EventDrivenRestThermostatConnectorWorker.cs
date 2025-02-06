@@ -3,19 +3,17 @@
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
+using EventDrivenRestThermostatConnector;
 
 namespace Azure.Iot.Operations.Connector
 {
     public class EventDrivenRestThermostatConnectorWorker : BackgroundService, IDisposable
     {
-        // This semaphore protects the _sampleableAssets dictionary from concurrent modification since one thread adds to it and another thread iterates over it.
-        private readonly SemaphoreSlim _assetSemaphore = new(1);
-        private readonly Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
-
         private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
-        private readonly EventDrivenTelemetryConnectorWorker _connector;
+        private readonly TelemetryConnectorWorker _connector;
+        private MockDataSource? _mockDataSource;
 
-        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetMessageSchemaProviderFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
@@ -23,91 +21,44 @@ namespace Azure.Iot.Operations.Connector
             _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
 
+        private async void HandleReceivedData(object? sender, MockDataReceivedEventArgs e)
+        {
+            _logger.LogInformation("Received data from dataset with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", e.DatasetName, e.AssetName);
+            await _connector.ForwardSampledDatasetAsync(e.AssetName, e.DatasetName, e.Data);
+        }
+
         private void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
         {
-            _assetSemaphore.Wait();
-            try
+            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
+            if (_mockDataSource != null)
             {
-                if (_sampleableAssets.Remove(args.AssetName, out Asset? asset))
-                {
-                    _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-                }
-            }
-            finally
-            { 
-                _assetSemaphore.Release();
+                _mockDataSource.Close();
+                _mockDataSource.OnDataReceived -= HandleReceivedData;
+                _mockDataSource = null;
             }
         }
 
         private void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
-            _assetSemaphore.Wait();
-            try
+            _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
+            
+            if (args.Asset.Datasets == null)
             {
-                if (_sampleableAssets.TryAdd(args.AssetName, args.Asset))
-                {
-                    _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
-                }
+                // If the asset has no datasets to sample, then do nothing
+                return;
             }
-            finally
-            {
-                _assetSemaphore.Release();
-            }
+
+            // This sample only has one asset with one dataset
+            var dataset = args.Asset.Datasets[0];
+            _mockDataSource = new(args.AssetName, dataset.Name);
+            _mockDataSource.OnDataReceived += HandleReceivedData;
+            _mockDataSource.Open();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // This will allow the connector process to run in parallel with any application-layer logic
-            await Task.WhenAny(
-                _connector.RunConnectorAsync(cancellationToken),
-                ExecuteEventsAsync(cancellationToken));
-        }
-
-        private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(new Random().Next(1000, 5000), cancellationToken);
-
-                await _assetSemaphore.WaitAsync(cancellationToken);
-                try
-                {
-                    foreach (string assetName in _sampleableAssets.Keys)
-                    {
-                        Asset sampleableAsset = _sampleableAssets[assetName];
-                        if (sampleableAsset.Datasets == null) 
-                        {
-                            continue;
-                        }
-
-                        foreach (Dataset dataset in sampleableAsset.Datasets)
-                        {
-                            try
-                            {
-                                await _connector.SampleDatasetAsync(assetName, sampleableAsset, dataset.Name);
-                            }
-                            catch (AssetDatasetUnavailableException e)
-                            {
-                                // This may happen if you try to sample a dataset when its asset was just deleted
-                                _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because it is no longer sampleable", dataset.Name, assetName);
-                            }
-                            catch (AssetSamplingException e)
-                            {
-                                // This may happen if the asset (an HTTP server in this sample's case) failed to respond to a request or otherwise could not be reached.
-                                _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1} because the asset could not be reached", dataset.Name, assetName);
-                            }
-                            catch (ConnectorException e)
-                            {
-                                _logger.LogWarning(e, "Failed to sample dataset with name {0} on asset with name {1}", dataset.Name, assetName);
-                            }
-                        }
-                    }
-                }
-                finally
-                {
-                    _assetSemaphore.Release();
-                }
-            }
+            _logger.LogInformation("Starting the connector...");
+            await _connector.RunConnectorAsync(cancellationToken);
         }
 
         public override void Dispose()
@@ -116,7 +67,11 @@ namespace Azure.Iot.Operations.Connector
             _connector.OnAssetAvailable -= OnAssetSampleableAsync;
             _connector.OnAssetUnavailable -= OnAssetNotSampleableAsync;
             _connector.Dispose();
-            _assetSemaphore.Dispose();
+            if (_mockDataSource != null)
+            {
+                _mockDataSource.Close();
+                _mockDataSource.OnDataReceived -= HandleReceivedData;
+            }
         }
     }
 }
