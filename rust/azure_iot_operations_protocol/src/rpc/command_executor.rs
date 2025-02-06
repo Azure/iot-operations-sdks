@@ -253,7 +253,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
 /// Used to uniquely identify a command request
 #[derive(Eq, Hash, PartialEq, Clone)]
 struct CommandExecutorCacheKey {
-    topic: Bytes,
+    response_topic: String,
     correlation_data: Bytes,
 }
 
@@ -736,7 +736,7 @@ where
                     if correlation_data.len() == 16 {
                         response_arguments.correlation_data = Some(correlation_data.clone());
                         response_arguments.cached_key = Some(CommandExecutorCacheKey {
-                            topic: m.topic.clone(),
+                            response_topic: response_arguments.response_topic.clone(),
                             correlation_data,
                         });
                     } else {
@@ -1759,7 +1759,7 @@ mod tests {
     async fn test_cache_not_found() {
         let cache = CommandExecutorCache::new();
         let key = CommandExecutorCacheKey {
-            topic: Bytes::from("test_topic"),
+            response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
         let status = cache.get(&key);
@@ -1770,7 +1770,7 @@ mod tests {
     async fn test_cache_found() {
         let cache = CommandExecutorCache::new();
         let key = CommandExecutorCacheKey {
-            topic: Bytes::from("test_topic"),
+            response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
         let entry = CommandExecutorCacheEntry {
@@ -1791,7 +1791,7 @@ mod tests {
     async fn test_cache_expired() {
         let cache = CommandExecutorCache::new();
         let key = CommandExecutorCacheKey {
-            topic: Bytes::from("test_topic"),
+            response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
         let entry = CommandExecutorCacheEntry {
