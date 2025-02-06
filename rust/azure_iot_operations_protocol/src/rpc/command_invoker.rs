@@ -346,7 +346,7 @@ where
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
+            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic())
         {
             Ok(receiver) => receiver,
             Err(e) => {
@@ -712,7 +712,7 @@ where
                     mqtt_receiver.close();
                     log::info!("[{command_name}] MQTT Receiver closed");
                   },
-                  recv_result = mqtt_receiver.recv() => {
+                  recv_result = mqtt_receiver.recv_manual_ack() => {
                     if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
                         match response_tx.send(Some(m)) {

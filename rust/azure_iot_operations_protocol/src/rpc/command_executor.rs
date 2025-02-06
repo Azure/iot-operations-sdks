@@ -400,7 +400,7 @@ where
 
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
+            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic())
         {
             Ok(receiver) => receiver,
             Err(e) => {
@@ -551,7 +551,7 @@ where
         }
 
         loop {
-            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+            if let Some((m, ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
                 let Some(ack_token) = ack_token else {
                     // No ack token, ignore the message. This should never happen as the executor
                     // should always receive QoS 1 messages that have an ack token.

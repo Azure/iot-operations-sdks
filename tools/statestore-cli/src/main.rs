@@ -2,22 +2,25 @@
 // Licensed under the MIT License.
 
 use core::str;
-use std::time::Duration;
 use std::fs;
+use std::time::Duration;
 
-use clap::{Subcommand, Parser};
+use clap::{Parser, Subcommand};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{
+    ApplicationContext, ApplicationContextOptionsBuilder,
+};
 use azure_iot_operations_services::state_store::{self, SetOptions};
 
-const TOOL_NAME : &str = "statestore-cli";
-const TOOL_VERSION : &str = "0.0.1";
-const TOOL_ABOUT_SHORT : &str = "Azure Device State Store CLI";
-const TOOL_ABOUT_LONG : &str = "Allows managing key/value pairs in the Azure State Store.";
+const TOOL_NAME: &str = "statestore-cli";
+const TOOL_VERSION: &str = "0.0.1";
+const TOOL_ABOUT_SHORT: &str = "Azure Device State Store CLI";
+const TOOL_ABOUT_LONG: &str = "Allows managing key/value pairs in the Azure State Store.";
 
 #[derive(Parser)]
 #[command(version = TOOL_VERSION, about = TOOL_ABOUT_SHORT, long_about = TOOL_ABOUT_LONG)]
@@ -25,7 +28,12 @@ struct Cli {
     #[command(subcommand)]
     cmd: Commands,
     /// MQ broker hostname.
-    #[arg(short = 'n', long = "hostname", default_value = "localhost", global = true)]
+    #[arg(
+        short = 'n',
+        long = "hostname",
+        default_value = "localhost",
+        global = true
+    )]
     hostname: String,
     /// MQ broker port number.
     #[arg(short, long, default_value_t = 8883, global = true)]
@@ -33,7 +41,7 @@ struct Cli {
     /// Do not use TLS for connection with MQ broker.
     #[arg(short = None, long, default_value_t = false, global = true)]
     notls: bool,
-    /// Trusted certificate bundle for TLS connection. 
+    /// Trusted certificate bundle for TLS connection.
     #[arg(short = 'T', long, default_value = None, global = true)]
     cafile: Option<String>,
     /// Client authentication certificate file.
@@ -86,9 +94,11 @@ enum Commands {
 async fn main() {
     let args = Cli::parse();
 
-    let logging_level : log::LevelFilter =
-        if args.verbose { log::LevelFilter::Trace }
-           else { log::LevelFilter::Off };
+    let logging_level: log::LevelFilter = if args.verbose {
+        log::LevelFilter::Trace
+    } else {
+        log::LevelFilter::Off
+    };
 
     Builder::new()
         .filter_level(logging_level)
@@ -113,10 +123,14 @@ async fn main() {
         .build()
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
-    
-    let exit_code : i32 = match args.cmd {
+
+    let application_context =
+        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+
+    let exit_code: i32 = match args.cmd {
         Commands::Get { key, valuefile } => {
             let get_join_handle = tokio::task::spawn(state_store_get_value(
+                application_context.clone(),
                 session.create_managed_client(),
                 session.create_exit_handle(),
                 key,
@@ -126,14 +140,19 @@ async fn main() {
             session.run().await.unwrap();
 
             get_join_handle.await.unwrap()
-        },
-        Commands::Set { key, value , valuefile } => {
+        }
+        Commands::Set {
+            key,
+            value,
+            valuefile,
+        } => {
             let actual_value = match value {
                 Some(option_value) => option_value,
-                None => fs::read_to_string(valuefile.unwrap()).expect("Could not open/read file")
+                None => fs::read_to_string(valuefile.unwrap()).expect("Could not open/read file"),
             };
 
             let set_join_handle = tokio::task::spawn(state_store_set_value(
+                application_context.clone(),
                 session.create_managed_client(),
                 session.create_exit_handle(),
                 key,
@@ -143,9 +162,10 @@ async fn main() {
             session.run().await.unwrap();
 
             set_join_handle.await.unwrap()
-        },
+        }
         Commands::Delete { key } => {
             let delete_join_handle = tokio::task::spawn(state_store_delete_key(
+                application_context.clone(),
                 session.create_managed_client(),
                 session.create_exit_handle(),
                 key,
@@ -160,14 +180,19 @@ async fn main() {
     std::process::exit(exit_code);
 }
 
-async fn state_store_get_value(client: SessionManagedClient,
-    exit_handle: SessionExitHandle, key: String, valuefile: Option<String>)
-        -> i32 {
+async fn state_store_get_value(
+    context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+    key: String,
+    valuefile: Option<String>,
+) -> i32 {
     let result;
     let state_store_key = key.as_bytes();
     let timeout = Duration::from_secs(10);
 
     let state_store_client = state_store::Client::new(
+        context,
         client,
         state_store::ClientOptionsBuilder::default()
             .build()
@@ -189,29 +214,34 @@ async fn state_store_get_value(client: SessionManagedClient,
                     .expect("Could not open/write to file.");
             }
             result = 0;
-        },
+        }
         None => {
             result = 1;
         }
     };
 
     match exit_handle.try_exit().await {
-        Ok(_exit_result) => {},
+        Ok(_exit_result) => {}
         Err(_exit_error) => {}
     };
 
     result
 }
 
-async fn state_store_set_value(client: SessionManagedClient,
-    exit_handle: SessionExitHandle, key: String, value: String)
-       -> i32 {
+async fn state_store_set_value(
+    context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+    key: String,
+    value: String,
+) -> i32 {
     let result;
     let state_store_key = key.as_bytes();
     let state_store_value = value.as_bytes();
     let timeout = Duration::from_secs(10);
 
     let state_store_client = state_store::Client::new(
+        context,
         client,
         state_store::ClientOptionsBuilder::default()
             .build()
@@ -234,26 +264,30 @@ async fn state_store_set_value(client: SessionManagedClient,
         .unwrap();
 
     result = match set_response.response {
-      true => { 0 },  
-      false => { 1 } 
+        true => 0,
+        false => 1,
     };
 
     match exit_handle.try_exit().await {
-        Ok(_exit_result) => {},
+        Ok(_exit_result) => {}
         Err(_exit_error) => {}
     };
 
     result
 }
 
-async fn state_store_delete_key(client: SessionManagedClient,
-    exit_handle: SessionExitHandle, key: String)
-        -> i32 {
+async fn state_store_delete_key(
+    context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+    key: String,
+) -> i32 {
     let result;
     let state_store_key = key.as_bytes();
     let timeout = Duration::from_secs(10);
 
     let state_store_client = state_store::Client::new(
+        context,
         client,
         state_store::ClientOptionsBuilder::default()
             .build()
@@ -267,9 +301,9 @@ async fn state_store_delete_key(client: SessionManagedClient,
         .unwrap();
 
     result = if delete_response.response == 1 { 0 } else { 1 };
-  
+
     match exit_handle.try_exit().await {
-        Ok(_exit_result) => {},
+        Ok(_exit_result) => {}
         Err(_exit_error) => {}
     };
 
