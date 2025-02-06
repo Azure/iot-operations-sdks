@@ -41,7 +41,7 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
 }
 
 // NOTE: This function wouldn't be necessary if there weren't a race condition on using exit handles.
-async fn trigger_test_exit(exit_handle: SessionExitHandle) -> Result<(), String> {
+async fn trigger_session_exit(exit_handle: SessionExitHandle) -> Result<(), String> {
     match exit_handle.try_exit().await {
         Ok(()) => Ok(()),
         Err(e) => {
@@ -121,13 +121,11 @@ async fn test_simple_recv(qos: QoS) {
     let test_complete = async move {
         sender_done.notified().await;
         receiver_done.notified().await;
-        trigger_test_exit(exit_handle).await
+        trigger_session_exit(exit_handle).await
     };
 
     assert!(tokio::try_join!(
-        async move {
-            tokio::task::spawn(sender).await.map_err(|e| e.to_string())
-        },
+        async move { tokio::task::spawn(sender).await.map_err(|e| e.to_string()) },
         async move {
             tokio::task::spawn(receiver)
                 .await
@@ -157,11 +155,15 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
     let notify_ack = Arc::new(Notify::new());
     let notify_sub = Arc::new(Notify::new());
 
+    let sender_done = Arc::new(Notify::new());
+    let receiver_done = Arc::new(Notify::new());
+
     // Task for the sender
     let sender = {
         let client = managed_client.clone();
         let notify_ack = notify_ack.clone();
         let notify_sub = notify_sub.clone();
+        let sender_done = sender_done.clone();
         async move {
             // Wait for subscribe from receiver task
             notify_sub.notified().await;
@@ -173,24 +175,8 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
             notify_ack.notified().await;
             // Once acked by receiver, the completion token will return
             assert!(ct_complete.await.is_ok());
-
-            // Test is complete, so exit session
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            // Indicate completion
+            sender_done.notify_one();
         }
     };
 
@@ -199,13 +185,14 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
         let client = managed_client;
         let notify_ack = notify_ack.clone();
         let notify_sub = notify_sub.clone();
+        let receiver_done = receiver_done.clone();
         async move {
+            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
             // Subscribe
             client.subscribe(topic, qos).await.unwrap().await.unwrap();
             // Notify the sender that the subscription is ready
             notify_sub.notify_one();
             // Wait for message
-            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
             let (publish, ack_token) = receiver.recv_manual_ack().await.unwrap();
             // The message was the correct one
             assert_eq!(publish.payload, payload.as_bytes());
@@ -214,16 +201,25 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
             ack_token.unwrap().ack().await.unwrap();
             // Notify the sender that the message was acked
             notify_ack.notify_one();
+            // Indicate completion
+            receiver_done.notify_one();
         }
     };
 
-    let sender_jh = tokio::task::spawn(sender);
+    let test_complete = async move {
+        sender_done.notified().await;
+        receiver_done.notified().await;
+        trigger_session_exit(exit_handle).await
+    };
 
+    let sender_jh = tokio::task::spawn(sender);
     let receiver_jh = tokio::task::spawn(receiver);
+    let test_complete_jh = tokio::task::spawn(test_complete);
 
     assert!(tokio::try_join!(
         async move { sender_jh.await.map_err(|e| { e.to_string() }) },
         async move { receiver_jh.await.map_err(|e| { e.to_string() }) },
+        async move { test_complete_jh.await.map_err(|e| { e.to_string() }) },
         async move { session.run().await.map_err(|e| { e.to_string() }) },
     )
     .is_ok());
