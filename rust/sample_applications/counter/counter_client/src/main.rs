@@ -146,7 +146,7 @@ async fn increment_and_check(
     // Initial counter read from the server
     log::info!("Calling readCounter");
     let read_counter_request = ReadCounterRequestBuilder::default()
-        .timeout(Duration::from_secs(100))
+        .timeout(Duration::from_secs(10))
         .executor_id(target_executor_id.clone())
         .build()
         .unwrap();
@@ -163,7 +163,7 @@ async fn increment_and_check(
     for _ in 0..15 {
         log::info!("Calling increment");
         let increment_request = IncrementRequestBuilder::default()
-            .timeout(Duration::from_secs(100))
+            .timeout(Duration::from_secs(10))
             .executor_id(target_executor_id.clone())
             .payload(
                 IncrementRequestPayloadBuilder::default()
@@ -184,7 +184,7 @@ async fn increment_and_check(
     // Final counter read from the server
     log::info!("Calling readCounter");
     let read_counter_request = ReadCounterRequestBuilder::default()
-        .timeout(Duration::from_secs(100))
+        .timeout(Duration::from_secs(10))
         .executor_id(target_executor_id)
         .build()
         .unwrap();

@@ -29,9 +29,9 @@ const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::max())
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
@@ -84,7 +84,7 @@ async fn invoke_loop(
         let payload = CommandRequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
-            .timeout(Duration::from_secs(200))
+            .timeout(Duration::from_secs(2))
             .build()
             .unwrap();
         let response = incr_invoker.invoke(payload).await;

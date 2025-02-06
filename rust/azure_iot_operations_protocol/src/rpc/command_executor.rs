@@ -248,16 +248,16 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     }
 }
 
-/// Command Executor Cache Key struct
+/// Command Executor Cache Key struct.
 ///
-/// Used to uniquely identify a command request
+/// Used to uniquely identify a command request.
 #[derive(Eq, Hash, PartialEq, Clone)]
 struct CommandExecutorCacheKey {
     response_topic: String,
     correlation_data: Bytes,
 }
 
-/// Command Executor Cache Entry struct
+/// Command Executor Cache Entry struct.
 #[derive(Clone, PartialEq, Debug)]
 struct CommandExecutorCacheEntry {
     serialized_payload: SerializedPayload,
@@ -265,7 +265,7 @@ struct CommandExecutorCacheEntry {
     expiration_time: Instant,
 }
 
-/// Command Executor Cache Entry Status enum
+/// Command Executor Cache Entry Status enum.
 ///
 /// Used to determine the status of a cache entry.
 ///
@@ -282,7 +282,7 @@ enum CommandExecutorCacheEntryStatus {
     NotFound,
 }
 
-/// The Command Executor Cache struct
+/// The Command Executor Cache struct.
 ///
 /// Used to cache command responses and determine if a command request is a duplicate.
 #[derive(Clone)]
@@ -298,21 +298,23 @@ impl CommandExecutorCache {
         }
     }
 
-    /// Get a cache entry from the cache.
+    /// Get a cache entry from the [`CommandExecutorCache`].
     ///
     /// # Arguments
     /// `key` - The cache key to get the cache entry for.
     ///
-    /// Returns the [`CommandExecutorCacheEntryStatus`] of the cache entry.
+    /// Returns a [`CommandExecutorCacheEntryStatus`] indicating the status of the cache entry.
     fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
         let cache = self.cache.lock().unwrap();
-        if let Some(entry) = cache.get(key) {
-            if entry.expiration_time.elapsed().is_zero() {
-                return CommandExecutorCacheEntryStatus::Cached(entry.clone());
-            }
-            return CommandExecutorCacheEntryStatus::Expired;
-        }
-        CommandExecutorCacheEntryStatus::NotFound
+        cache
+            .get(key)
+            .map_or(CommandExecutorCacheEntryStatus::NotFound, |entry| {
+                if entry.expiration_time.elapsed().is_zero() {
+                    CommandExecutorCacheEntryStatus::Cached(entry.clone())
+                } else {
+                    CommandExecutorCacheEntryStatus::Expired
+                }
+            })
     }
 
     /// Set a cache entry in the cache. Also removes expired cache entries.
@@ -957,8 +959,6 @@ where
 
                                     ) => {
                                         // Finished processing command
-                                        println!("Waiting ten seconds for ack");
-                                        tokio::time::sleep(Duration::from_secs(10)).await;
                                         handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
                                     },
                                 }
@@ -1246,7 +1246,7 @@ where
 
             publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
 
-            // Store cache
+            // Store cache, even if the response is an error
             if cache_not_found {
                 if let Some(cached_key) = response_arguments.cached_key {
                     let cache_entry = CommandExecutorCacheEntry {

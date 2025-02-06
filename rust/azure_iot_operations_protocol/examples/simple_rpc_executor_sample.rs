@@ -25,9 +25,9 @@ const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::max())
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
@@ -80,8 +80,6 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                 let response = IncrResponsePayload {
                     counter_response: counter,
                 };
-                println!("Waiting 10 seconds for processing");
-                tokio::time::sleep(Duration::from_secs(10)).await;
                 let response = CommandResponseBuilder::default()
                     .payload(response)
                     .unwrap()
