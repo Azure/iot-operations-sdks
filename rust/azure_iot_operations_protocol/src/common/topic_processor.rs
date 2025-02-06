@@ -50,6 +50,8 @@ pub struct TopicPattern {
     dynamic_pattern: String,
     /// The regex pattern to match tokens in the topic pattern
     pattern_regex: Regex,
+    /// The share name for the topic pattern
+    share_name: Option<String>,
 }
 
 impl TopicPattern {
@@ -76,6 +78,7 @@ impl TopicPattern {
     pub fn new<'a>(
         property_name: &'a str,
         pattern: &'a str,
+        service_group_id: Option<String>,
         topic_namespace: Option<&str>,
         topic_token_map: &'a HashMap<String, String>,
     ) -> Result<Self, AIOProtocolError> {
@@ -97,6 +100,21 @@ impl TopicPattern {
                 Some("MQTT topic pattern starts with reserved character '$'".to_string()),
                 None,
             ));
+        }
+
+        if let Some(service_group_id) = &service_group_id {
+            if service_group_id.trim().is_empty()
+                || contains_invalid_char(service_group_id)
+                || service_group_id.contains('/')
+            {
+                return Err(AIOProtocolError::new_configuration_invalid_error(
+                    None,
+                    "service_group_id",
+                    Value::String(service_group_id.to_string()),
+                    Some("Share name contains invalid characters".to_string()),
+                    None,
+                ));
+            }
         }
 
         // Matches empty levels at the start, middle, or end of the pattern
@@ -235,17 +253,26 @@ impl TopicPattern {
         Ok(TopicPattern {
             dynamic_pattern: acc_pattern,
             pattern_regex,
+            share_name: service_group_id,
         })
     }
 
     /// Get the subscribe topic for the pattern
     ///
+    /// If a share name is present, it is prepended to the topic pattern
+    ///
     /// Returns the subscribe topic for the pattern
     #[must_use]
     pub fn as_subscribe_topic(&self) -> String {
-        self.pattern_regex
-            .replace_all(&self.dynamic_pattern, WILDCARD.to_string())
-            .to_string()
+        let topic = self
+            .pattern_regex
+            .replace_all(&self.dynamic_pattern, WILDCARD)
+            .to_string();
+        if let Some(share_name) = &self.share_name {
+            format!("$share/{share_name}/{topic}")
+        } else {
+            topic
+        }
     }
 
     /// Get the publish topic for the pattern
@@ -390,7 +417,8 @@ mod tests {
     #[test_case("test/{testToken1}/{wildToken}/test", "test/testRepl1/{wildToken}/test"; "wildcard token in middle")]
     #[test_case("test/{testToken1}/{testToken2}/{testToken3}", "test/testRepl1/testRepl2/testRepl3"; "multiple varied tokens")]
     fn test_topic_pattern_new_pattern_valid(pattern: &str, result: &str) {
-        let pattern = TopicPattern::new("pattern", pattern, None, &create_topic_tokens()).unwrap();
+        let pattern =
+            TopicPattern::new("pattern", pattern, None, None, &create_topic_tokens()).unwrap();
 
         assert_eq!(pattern.dynamic_pattern, result);
     }
@@ -416,7 +444,8 @@ mod tests {
     #[test_case("{}{}"; "two adjacent empty")]
     #[test_case("test/{testToken1}}"; "curly brace end")]
     fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
-        let err = TopicPattern::new("pattern", pattern, None, &create_topic_tokens()).unwrap_err();
+        let err =
+            TopicPattern::new("pattern", pattern, None, None, &create_topic_tokens()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
         assert_eq!(err.property_value, Some(Value::String(pattern.to_string())));
@@ -430,6 +459,7 @@ mod tests {
         TopicPattern::new(
             "pattern",
             pattern,
+            None,
             Some(topic_namespace),
             &create_topic_tokens(),
         )
@@ -452,6 +482,7 @@ mod tests {
         let err = TopicPattern::new(
             "pattern",
             pattern,
+            None,
             Some(topic_namespace),
             &create_topic_tokens(),
         )
@@ -470,7 +501,7 @@ mod tests {
     #[test_case("test/{test/Token}", "test/{test/Token}"; "slash")]
     #[test_case("test/{test\u{0000}Token}", "test/{test\u{0000}Token}"; "non-ASCII")]
     fn test_topic_pattern_new_pattern_invalid_token(pattern: &str, property_value: &str) {
-        let err = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap_err();
+        let err = TopicPattern::new("pattern", pattern, None, None, &HashMap::new()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
         assert_eq!(
@@ -497,6 +528,7 @@ mod tests {
             "pattern",
             pattern,
             None,
+            None,
             &HashMap::from([("testToken".to_string(), replacement.to_string())]),
         )
         .unwrap_err();
@@ -517,9 +549,55 @@ mod tests {
     #[test_case("{wildToken}/test/{wildToken}", "+/test/+"; "token at start and end")]
     #[test_case("{wildToken1}/{wildToken2}", "+/+"; "multiple wildcards")]
     fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
-        let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.as_subscribe_topic(), result);
+    }
+
+    #[test_case("invalid ServiceGroupId"; "contains space")]
+    #[test_case("invalid+ServiceGroupId"; "contains plus")]
+    #[test_case("invalid#ServiceGroupId"; "contains hash")]
+    #[test_case("invalid{ServiceGroupId"; "contains open brace")]
+    #[test_case("invalid}ServiceGroupId"; "contains close brace")]
+    #[test_case("invalid/ServiceGroupId"; "contains slash")]
+    #[test_case("invalid\u{0000}ServiceGroupId"; "contains non-ASCII")]
+    fn test_topic_pattern_new_pattern_invalid_service_group_id(service_group_id: &str) {
+        let err = TopicPattern::new(
+            "pattern",
+            "test",
+            Some(service_group_id.to_string()),
+            None,
+            &HashMap::new(),
+        )
+        .unwrap_err();
+        assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+        assert_eq!(err.property_name, Some("service_group_id".to_string()));
+        assert_eq!(
+            err.property_value,
+            Some(Value::String(service_group_id.to_string()))
+        );
+    }
+
+    #[test]
+    fn test_topic_pattern_methods_with_service_group_id() {
+        let service_group_id = "validServiceGroupId";
+        let pattern = "test/{testToken1}";
+        let result = "$share/validServiceGroupId/test/testRepl1";
+
+        let pattern = TopicPattern::new(
+            "pattern",
+            pattern,
+            Some(service_group_id.to_string()),
+            None,
+            &create_topic_tokens(),
+        )
+        .unwrap();
+
+        assert_eq!(pattern.as_subscribe_topic(), result);
+        assert_eq!(
+            pattern.as_publish_topic(&HashMap::new()).unwrap(),
+            "test/testRepl1"
+        );
     }
 
     #[test_case("test", &HashMap::new(), "test"; "no token")]
@@ -534,7 +612,7 @@ mod tests {
         tokens: &HashMap<String, String>,
         result: &str,
     ) {
-        let pattern = TopicPattern::new("pattern", pattern, None, tokens).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, None, tokens).unwrap();
 
         assert_eq!(pattern.as_publish_topic(tokens).unwrap(), result);
     }
@@ -557,7 +635,7 @@ mod tests {
         property_name: &str,
         property_value: &str,
     ) {
-        let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, None, &HashMap::new()).unwrap();
 
         let err = pattern.as_publish_topic(tokens).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ArgumentInvalid);
@@ -579,7 +657,7 @@ mod tests {
         topic: &str,
         result: &HashMap<String, String>,
     ) {
-        let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.parse_tokens(topic), *result);
     }

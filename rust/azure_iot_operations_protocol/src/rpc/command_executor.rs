@@ -354,6 +354,7 @@ where
         let request_topic_pattern = TopicPattern::new(
             "executor_options.request_topic_pattern",
             &executor_options.request_topic_pattern,
+            executor_options.service_group_id,
             executor_options.topic_namespace.as_deref(),
             &executor_options.topic_token_map,
         )?;

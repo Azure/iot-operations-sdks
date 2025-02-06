@@ -310,6 +310,7 @@ where
         let topic_pattern = TopicPattern::new(
             "sender_options.topic_pattern",
             &sender_options.topic_pattern,
+            None,
             sender_options.topic_namespace.as_deref(),
             &sender_options.topic_token_map,
         )?;

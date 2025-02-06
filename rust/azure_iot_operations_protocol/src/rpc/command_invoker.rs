@@ -330,6 +330,7 @@ where
         let request_topic_pattern = TopicPattern::new(
             "invoker_options.request_topic_pattern",
             &invoker_options.request_topic_pattern,
+            None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
         )?;
@@ -337,6 +338,7 @@ where
         let response_topic_pattern = TopicPattern::new(
             "response_topic_pattern",
             &response_topic_pattern,
+            None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
         )?;
@@ -557,6 +559,10 @@ where
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
             RPC_PROTOCOL_VERSION.to_string(),
+        ));
+        request.custom_user_data.push((
+            "$partition".to_string(),
+            self.mqtt_client.client_id().to_string(),
         ));
 
         // Create MQTT Properties
