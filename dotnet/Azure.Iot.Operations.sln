@@ -81,6 +81,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenTelemetryConnector", "templates\EventDrivenTelemetryConnector\EventDrivenTelemetryConnector.csproj", "{A05529AD-2D62-405A-9C2D-A122F837ECBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnector", "templates\PollingTelemetryConnector\PollingTelemetryConnector.csproj", "{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -203,6 +205,10 @@ Global
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,6 +248,7 @@ Global
 		{B2AAE7A6-85D3-4787-BCEA-D8715B87B109} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{78562762-96CB-4527-8EE2-43A1CE119A21} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
+		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}
