@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc};
+use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
     control_packet::QoS,
@@ -31,7 +31,7 @@ const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 ///
 /// Implements the cloud event spec 1.0 for the telemetry receiver.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
-#[derive(Builder, Clone, Debug)]
+#[derive(Builder, Clone)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct CloudEvent {
     /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
@@ -70,11 +70,15 @@ pub struct CloudEvent {
     /// the cloud event producer, however all producers for the same source MUST be consistent in
     /// this respect. In other words, either they all use the actual time of the occurrence or they
     /// all use the same algorithm to determine the value used.
-    #[builder(default = "None")]
+    #[builder(setter(skip))]
     pub time: Option<DateTime<Utc>>,
+    /// time as a string so that it can be validated during build
+    #[builder(default = "None")]
+    builder_time: Option<String>,
 }
 
 impl CloudEventBuilder {
+    // now that spec version is known, all fields can be validated against that spec version
     fn validate(&self) -> Result<(), String> {
         let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
 
@@ -107,12 +111,98 @@ impl CloudEventBuilder {
             CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
         }
 
+        if let Some(Some(builder_time)) = &self.builder_time {
+            CloudEventFields::Time.validate(builder_time, &spec_version)?;
+        }
+
         Ok(())
+    }
+}
+
+// implementing display because debug prints private fields
+impl Display for CloudEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "CloudEvent {{ id: {id}, source: {source}, spec_version: {spec_version}, event_type: {event_type}, subject: {subject}, data_schema: {data_schema}, data_content_type: {data_content_type}, time: {time:?} }}",
+            id = self.id,
+            source = self.source,
+            spec_version = self.spec_version,
+            event_type = self.event_type,
+            subject = self.subject.as_deref().unwrap_or("None"),
+            data_schema = self.data_schema.as_deref().unwrap_or("None"),
+            data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
+            time = self.time,
+        )
+    }
+}
+
+impl CloudEvent {
+    /// Parse a [`CloudEvent`] from a [`TelemetryMessage`].
+    /// Note that this will return an error if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
+    ///
+    /// # Errors
+    /// [`CloudEventBuilderError::UninitializedField`] if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
+    ///
+    /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
+    pub fn from_telemetry<T: PayloadSerialize>(
+        telemetry: &TelemetryMessage<T>,
+    ) -> Result<Self, CloudEventBuilderError> {
+        // use builder so that all fields can be validated together
+        let mut cloud_event_builder = CloudEventBuilder::default();
+        if let Some(content_type) = &telemetry.content_type {
+            cloud_event_builder.data_content_type(content_type.clone());
+        }
+
+        for (key, value) in &telemetry.custom_user_data {
+            match CloudEventFields::from_str(key) {
+                Ok(CloudEventFields::Id) => {
+                    cloud_event_builder.id(value);
+                }
+                Ok(CloudEventFields::Source) => {
+                    cloud_event_builder.source(value);
+                }
+                Ok(CloudEventFields::SpecVersion) => {
+                    cloud_event_builder.spec_version(value);
+                }
+                Ok(CloudEventFields::EventType) => {
+                    cloud_event_builder.event_type(value);
+                }
+                Ok(CloudEventFields::Subject) => {
+                    cloud_event_builder.subject(Some(value.into()));
+                }
+                Ok(CloudEventFields::DataSchema) => {
+                    cloud_event_builder.data_schema(Some(value.into()));
+                }
+                Ok(CloudEventFields::Time) => {
+                    cloud_event_builder.builder_time(Some(value.into()));
+                }
+                _ => {}
+            }
+        }
+        let mut cloud_event = cloud_event_builder.build()?;
+        // now that everything is validated, update the time field to its correct typing
+        // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
+        // For now, the builder validates spec version 1.0
+        if let Some(ref time_str) = cloud_event.builder_time {
+            match DateTime::parse_from_rfc3339(time_str) {
+                Ok(parsed_time) => {
+                    let time = parsed_time.with_timezone(&Utc);
+                    cloud_event.time = Some(time);
+                }
+                Err(_) => {
+                    // Builder should have already caught this error
+                    unreachable!()
+                }
+            }
+        }
+        Ok(cloud_event)
     }
 }
 
 /// Telemetry message struct.
 /// Used by the [`TelemetryReceiver`].
+#[derive(Debug)]
 pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     pub payload: T,
@@ -126,8 +216,6 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub sender_id: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
-    /// Cloud event of the telemetry message.
-    pub cloud_event: Option<CloudEvent>,
     /// Resolved topic tokens from the incoming message's topic.
     pub topic_tokens: HashMap<String, String>,
 }
@@ -195,6 +283,8 @@ where
     receiver_state: TelemetryReceiverState,
     // Information to manage state
     receiver_cancellation_token: CancellationToken,
+    // User autoack setting
+    auto_ack: bool,
 }
 
 /// Describes state of receiver
@@ -247,9 +337,7 @@ where
         // Get the telemetry topic
         let telemetry_topic = topic_pattern.as_subscribe_topic();
 
-        let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&telemetry_topic, receiver_options.auto_ack)
-        {
+        let mqtt_receiver = match client.create_filtered_pub_receiver(&telemetry_topic) {
             Ok(receiver) => receiver,
             Err(e) => {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -271,6 +359,7 @@ where
             _application_hlc: application_context.application_hlc,
             receiver_state: TelemetryReceiverState::New,
             receiver_cancellation_token: CancellationToken::new(),
+            auto_ack: receiver_options.auto_ack,
         })
     }
 
@@ -383,7 +472,14 @@ where
         }
 
         loop {
-            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+            if let Some((m, mut ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
+                // Drop the ack token if the user does not desire it
+                // TODO: change API around this receive to simplify
+                if self.auto_ack {
+                    // Replace the token with None (if Some)
+                    ack_token.take();
+                }
+
                 // Process the received message
                 log::info!("[pkid: {}] Received message", m.pkid);
 
@@ -394,7 +490,6 @@ where
 
                     let mut custom_user_data = Vec::new();
                     let mut timestamp = None;
-                    let mut cloud_event = None;
                     let mut sender_id = None;
                     let mut content_type = None;
                     let mut format_indicator = FormatIndicator::UnspecifiedBytes;
@@ -441,9 +536,6 @@ where
                             break 'process_message;
                         }
 
-                        let mut cloud_event_present = false;
-                        let mut cloud_event_builder = CloudEventBuilder::default();
-                        let mut cloud_event_time = None;
                         for (key, value) in properties.user_properties {
                             match UserProperty::from_str(&key) {
                                 Ok(UserProperty::Timestamp) => {
@@ -466,70 +558,13 @@ where
                                 Ok(UserProperty::SourceId) => {
                                     sender_id = Some(value);
                                 }
-                                Err(()) => match CloudEventFields::from_str(&key) {
-                                    Ok(CloudEventFields::Id) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.id(value);
-                                    }
-                                    Ok(CloudEventFields::Source) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.source(value);
-                                    }
-                                    Ok(CloudEventFields::SpecVersion) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.spec_version(value);
-                                    }
-                                    Ok(CloudEventFields::EventType) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.event_type(value);
-                                    }
-                                    Ok(CloudEventFields::Subject) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.subject(value);
-                                    }
-                                    Ok(CloudEventFields::DataSchema) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.data_schema(Some(value));
-                                    }
-                                    Ok(CloudEventFields::DataContentType) => {
-                                        cloud_event_present = true;
-                                        cloud_event_builder.data_content_type(value);
-                                    }
-                                    Ok(CloudEventFields::Time) => {
-                                        cloud_event_present = true;
-                                        cloud_event_time = Some(value);
-                                    }
-                                    Err(()) => {
-                                        custom_user_data.push((key, value));
-                                    }
-                                },
+                                Err(()) => {
+                                    custom_user_data.push((key, value));
+                                }
                                 _ => {
                                     log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
                                     custom_user_data.push((key, value));
                                 }
-                            }
-                        }
-                        if cloud_event_present {
-                            if let Ok(mut ce) = cloud_event_builder.build() {
-                                if let Some(ce_time) = cloud_event_time {
-                                    match DateTime::parse_from_rfc3339(&ce_time) {
-                                        Ok(time) => {
-                                            let time = time.with_timezone(&Utc);
-                                            ce.time = Some(time);
-                                            cloud_event = Some(ce);
-                                        }
-                                        Err(e) => {
-                                            log::error!("[pkid: {}] Invalid cloud event time {ce_time}: {e}", m.pkid);
-                                        }
-                                    }
-                                } else {
-                                    cloud_event = Some(ce);
-                                }
-                            } else {
-                                log::error!(
-                                    "[pkid: {}] Telemetry received invalid cloud event",
-                                    m.pkid
-                                );
                             }
                         }
                     }
@@ -562,7 +597,6 @@ where
                         custom_user_data,
                         sender_id,
                         timestamp,
-                        cloud_event,
                         topic_tokens,
                     };
 

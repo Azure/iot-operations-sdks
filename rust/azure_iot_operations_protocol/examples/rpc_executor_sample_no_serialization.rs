@@ -79,7 +79,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                     .unwrap()
                     .build()
                     .unwrap();
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
             "text/plain" => {
                 // save txt file implementation would go here
@@ -90,11 +90,11 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                     .unwrap()
                     .build()
                     .unwrap();
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
             _ => {
                 log::warn!("Ignored file");
-                request.error("Ignored File".to_string()).unwrap();
+                request.error("Ignored File".to_string()).await.unwrap();
             }
         }
     }

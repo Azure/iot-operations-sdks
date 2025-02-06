@@ -17,7 +17,7 @@ use azure_iot_operations_protocol::{
     },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+        telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
         telemetry_sender::{
             CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender,
             TelemetrySenderOptionsBuilder,
@@ -165,11 +165,11 @@ async fn telemetry_basic_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
+                        assert!(telemetry_receiver::CloudEvent::from_telemetry(&message).is_err());
                         assert_eq!(message.payload, EmptyPayload::default());
                         assert!(message.custom_user_data.is_empty());
                         assert_eq!(message.sender_id.unwrap(), sender_id);
                         assert!(message.timestamp.is_some());
-                        assert!(message.cloud_event.is_none());
                         assert!(message.topic_tokens.is_empty());
                         // stop waiting for more messages after we shouldn't get any more
                         if count == 2 {
@@ -355,11 +355,19 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
+                        let cloud_event =
+                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
-                        assert_eq!(message.custom_user_data, test_custom_user_data_clone);
+                        assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
+                            message
+                                .custom_user_data
+                                .iter()
+                                .any(|(test_key, test_value)| {
+                                    key == test_key && value == test_value
+                                })
+                        }));
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
-                        let cloud_event = message.cloud_event.unwrap();
                         assert_eq!(cloud_event.source, test_cloud_event_source);
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
@@ -376,11 +384,19 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_some());
 
                         // Validate contents of message match expected based on what was sent
+                        let cloud_event =
+                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
-                        assert_eq!(message.custom_user_data, test_custom_user_data_clone);
+                        assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
+                            message
+                                .custom_user_data
+                                .iter()
+                                .any(|(test_key, test_value)| {
+                                    key == test_key && value == test_value
+                                })
+                        }));
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
-                        let cloud_event = message.cloud_event.unwrap();
                         assert_eq!(cloud_event.source, test_cloud_event_source);
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
