@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_protocol"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 license = "MIT"
 description = "Utilities for using the Azure IoT Operations Protocol over MQTT"
@@ -12,7 +12,7 @@ readme = "README.md"
 publish = true
 
 [dependencies]
-azure_iot_operations_mqtt = { version = "0.6", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { version = "0.7", path = "../azure_iot_operations_mqtt", registry = "aio-sdks" }
 bytes.workspace = true
 derive_builder.workspace = true
 iso8601-duration = "0.2.0"
