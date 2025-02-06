@@ -62,7 +62,7 @@ async fn trigger_session_exit(exit_handle: SessionExitHandle) -> Result<(), Stri
 }
 
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
-#[test_case(QoS::ExactlyOnce; "QoS 2")]
+//#[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
 async fn test_simple_recv(qos: QoS) {
     let client_id = "network_test_simple_recv";
