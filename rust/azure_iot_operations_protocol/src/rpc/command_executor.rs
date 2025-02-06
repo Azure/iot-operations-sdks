@@ -248,7 +248,7 @@ pub struct CommandExecutorOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let executor_options = CommandExecutorOptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
@@ -693,7 +693,7 @@ where
                                 match HybridLogicalClock::from_str(&value) {
                                     Ok(ts) => {
                                         // Update application HLC against received __ts
-                                        if let Err(e) = self.application_hlc.update(&ts) {
+                                        if let Err(e) = self.application_hlc.update(&ts).await {
                                             response_arguments.status_message = Some(format!("Failure updating application HLC against {value}: {e}"));
                                             response_arguments.invalid_property_name =
                                                 Some(UserProperty::Timestamp.to_string());
@@ -969,7 +969,7 @@ where
         // If there are errors updating the HLC (unlikely when updating against now),
         // the timestamp will not be added.
         // TODO: should we add the non-updated timestamp instead if this fails?
-        if let Ok(timestamp_str) = application_hlc.update_now() {
+        if let Ok(timestamp_str) = application_hlc.update_now().await {
             user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
         }
 
@@ -1155,7 +1155,7 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
-    use crate::application::ApplicationContextOptionsBuilder;
+    use crate::application::ApplicationContextBuilder;
     use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
     // TODO: This should return a mock ManagedClient instead.
@@ -1193,7 +1193,7 @@ mod tests {
             .unwrap();
 
         let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         )
@@ -1224,7 +1224,7 @@ mod tests {
             .unwrap();
 
         let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         )
@@ -1255,9 +1255,7 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
             );
@@ -1295,9 +1293,7 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
             );
@@ -1338,9 +1334,7 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
             );
@@ -1376,7 +1370,7 @@ mod tests {
             .unwrap();
 
         let command_executor = CommandExecutor::<MockPayload, MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         );
@@ -1400,7 +1394,7 @@ mod tests {
             CommandExecutor<MockPayload, MockPayload, _>,
             AIOProtocolError,
         > = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         );
@@ -1431,9 +1425,7 @@ mod tests {
             .unwrap();
         let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 session.create_managed_client(),
                 executor_options,
             )

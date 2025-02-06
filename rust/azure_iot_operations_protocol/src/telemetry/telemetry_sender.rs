@@ -251,7 +251,7 @@ pub struct TelemetrySenderOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
@@ -344,7 +344,7 @@ where
         let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
 
         // Create timestamp
-        let timestamp_str = self.application_hlc.update_now()?;
+        let timestamp_str = self.application_hlc.update_now().await?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -431,9 +431,8 @@ mod tests {
 
     use test_case::test_case;
 
-    use super::*;
     use crate::{
-        application::ApplicationContextOptionsBuilder,
+        application::ApplicationContextBuilder,
         common::{
             aio_protocol_error::{AIOProtocolErrorKind, Value},
             payload_serialize::{FormatIndicator, MockPayload, SerializedPayload},
@@ -471,7 +470,7 @@ mod tests {
             .unwrap();
 
         TelemetrySender::<MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         )
@@ -492,7 +491,7 @@ mod tests {
             .unwrap();
 
         TelemetrySender::<MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         )
@@ -510,7 +509,7 @@ mod tests {
             .unwrap();
 
         let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         );

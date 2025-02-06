@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
-    application::{ApplicationContext, ApplicationContextOptionsBuilder},
+    application::{ApplicationContext, ApplicationContextBuilder},
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
@@ -49,8 +49,7 @@ async fn main() {
 
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(

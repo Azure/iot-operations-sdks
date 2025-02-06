@@ -171,7 +171,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
@@ -449,7 +449,7 @@ where
                                     match HybridLogicalClock::from_str(&value) {
                                         Ok(ts) => {
                                             // Update application HLC against received __ts
-                                            if let Err(e) = self.application_hlc.update(&ts) {
+                                            if let Err(e) = self.application_hlc.update(&ts).await {
                                                 log::error!(
                                                     "[pkid: {}] Failure updating application HLC against {value}: {e}",
                                                     m.pkid
@@ -644,7 +644,7 @@ mod tests {
 
     use super::*;
     use crate::{
-        application::ApplicationContextOptionsBuilder,
+        application::ApplicationContextBuilder,
         common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
         telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
     };
@@ -681,7 +681,7 @@ mod tests {
             .unwrap();
 
         TelemetryReceiver::<MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
         )
@@ -699,7 +699,7 @@ mod tests {
             .unwrap();
 
         TelemetryReceiver::<MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
         )
@@ -716,7 +716,7 @@ mod tests {
             .unwrap();
 
         let result: Result<TelemetryReceiver<MockPayload, _>, _> = TelemetryReceiver::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
         );
@@ -749,7 +749,7 @@ mod tests {
             .unwrap();
 
         let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> = TelemetryReceiver::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
         )

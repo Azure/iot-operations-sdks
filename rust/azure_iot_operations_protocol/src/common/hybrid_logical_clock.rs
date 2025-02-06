@@ -95,8 +95,6 @@ impl HybridLogicalClock {
         Ok(())
     }
 
-    
-
     // Update now - updates the HLC based on the current time
     /// # Errors
     /// TODO: Add errors once [`HybridLogicalClock`] is implemented
@@ -245,7 +243,7 @@ fn now_ms_precision() -> SystemTime {
     let now = SystemTime::now();
 
     // allow setting an offset for testing
-    #[cfg(test)] 
+    #[cfg(test)]
     let now = {
         let mut offset_now = SystemTime::now();
         let offset = TIME_OFFSET.with(std::cell::Cell::get);
@@ -260,29 +258,29 @@ fn now_ms_precision() -> SystemTime {
 
     if let Ok(dur_since_epoch) = now.duration_since(UNIX_EPOCH) {
         if let Ok(ms_since_epoch) = u64::try_from(dur_since_epoch.as_millis()) {
-            if let Some(now) = UNIX_EPOCH.checked_add(Duration::from_millis(ms_since_epoch))
-            {
+            if let Some(now) = UNIX_EPOCH.checked_add(Duration::from_millis(ms_since_epoch)) {
                 return now;
             }
         }
     }
     // If any errors occur while rounding to the nearest millisecond, just return the current time
-    log::warn!("Error rounding SystemTime::now() to the nearest millisecond. Returning unrounded time.");
+    log::warn!(
+        "Error rounding SystemTime::now() to the nearest millisecond. Returning unrounded time."
+    );
     now
 }
 
-
 // Functions to allow manipulation of the system time for testing purposes
-#[cfg(test)] 
+#[cfg(test)]
 use std::cell::Cell;
 
-#[cfg(test)] 
+#[cfg(test)]
 thread_local! {
     static TIME_OFFSET: Cell<Duration> = const { Cell::new(Duration::from_secs(0)) };
     static TIME_OFFSET_POS: Cell<bool> = const { Cell::new(false) };
 }
 
-#[cfg(test)] 
+#[cfg(test)]
 fn set_time_offset(offset: Duration, positive: bool) {
     TIME_OFFSET.with(|time_offset| time_offset.set(offset));
     TIME_OFFSET_POS.with(|time_offset_pos| time_offset_pos.set(positive));
@@ -290,16 +288,23 @@ fn set_time_offset(offset: Duration, positive: bool) {
 
 #[cfg(test)]
 mod tests {
-    use test_case::test_case;
-    use crate::common::{aio_protocol_error::AIOProtocolErrorKind, hybrid_logical_clock::{now_ms_precision, set_time_offset, HybridLogicalClock, DEFAULT_MAX_CLOCK_DRIFT}};
+    use crate::common::{
+        aio_protocol_error::AIOProtocolErrorKind,
+        hybrid_logical_clock::{
+            now_ms_precision, set_time_offset, HybridLogicalClock, DEFAULT_MAX_CLOCK_DRIFT,
+        },
+    };
     use std::time::{Duration, UNIX_EPOCH};
+    use test_case::test_case;
     use uuid::Uuid;
 
     // a new HLC should pass validation
     #[test]
     fn test_validate_default() {
         let hlc = HybridLogicalClock::new();
-        assert!(hlc.validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT).is_ok());
+        assert!(hlc
+            .validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT)
+            .is_ok());
     }
 
     // Test validate when the HLC is in the future or the past
@@ -312,7 +317,7 @@ mod tests {
         let hlc = HybridLogicalClock::new();
         // set System clock forward or backward by offset_sec
         set_time_offset(Duration::from_secs(offset_sec), positive);
-        
+
         match hlc.validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT) {
             Ok(()) => assert!(should_succeed),
             Err(e) => {
@@ -320,7 +325,7 @@ mod tests {
                 assert_eq!(e.kind, AIOProtocolErrorKind::StateInvalid);
                 assert_eq!(e.property_name, Some("MaxClockDrift".to_string()));
                 assert_eq!(e.property_value, None);
-            },
+            }
         }
     }
 
@@ -332,7 +337,7 @@ mod tests {
     fn test_max_drift(max_drift: Duration, test_offset: Duration) {
         // create HLC at true current time
         let mut hlc = HybridLogicalClock::new();
-        
+
         assert!(hlc.validate(now_ms_precision(), max_drift).is_ok());
 
         // validate with offset in the future, but before max drift
@@ -352,7 +357,7 @@ mod tests {
                 assert_eq!(e.kind, AIOProtocolErrorKind::StateInvalid);
                 assert_eq!(e.property_name, Some("MaxClockDrift".to_string()));
                 assert_eq!(e.property_value, None);
-            },
+            }
         }
     }
 
@@ -376,7 +381,9 @@ mod tests {
 
         // a sufficiently large counter value that isn't u64::MAX should pass validation
         hlc.counter = u64::MAX - 1;
-        assert!(hlc.validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT).is_ok());
+        assert!(hlc
+            .validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT)
+            .is_ok());
     }
 
     // Test update_now with default HLC
@@ -386,34 +393,39 @@ mod tests {
         let mut hlc = HybridLogicalClock::new();
         assert!(hlc.update_now(DEFAULT_MAX_CLOCK_DRIFT).is_ok());
         // it's possible and valid for the HLC or the current time to be the
-        // latest, especially since the HLC will win in a tie, but either 
+        // latest, especially since the HLC will win in a tie, but either
         // scenario will reset the counter or increment it only by 1
         assert!(hlc.counter == 0 || hlc.counter == 1);
     }
-        
+
     // Test update_now when the HLC is in the future or the past
     #[test_case(120, true, true, 0; "hlc in past more than max drift - success")]
     #[test_case(30, true, true, 0; "hlc in past less than max drift - success")]
     #[test_case(120, false, false, 1000; "hlc in future more than max drift - failure")] // counter value shouldn't be used in this test
     #[test_case(30, false, true, 1; "hlc in future less than max drift - success")]
-    fn test_update_now_drift(offset_sec: u64, positive: bool, should_succeed: bool, expected_counter: u64) {
+    fn test_update_now_drift(
+        offset_sec: u64,
+        positive: bool,
+        should_succeed: bool,
+        expected_counter: u64,
+    ) {
         // create HLC at true current time
         let mut hlc = HybridLogicalClock::new();
         // set System clock forward or backward by offset_sec
         set_time_offset(Duration::from_secs(offset_sec), positive);
-        
+
         match hlc.update_now(DEFAULT_MAX_CLOCK_DRIFT) {
             Ok(()) => {
                 assert!(should_succeed);
                 assert_eq!(hlc.counter, expected_counter);
                 // if counter is 1, check that original timestamp is still used? Otherwise check that it's different?
-            },
+            }
             Err(e) => {
                 assert!(!should_succeed);
                 assert_eq!(e.kind, AIOProtocolErrorKind::StateInvalid);
                 assert_eq!(e.property_name, Some("MaxClockDrift".to_string()));
                 assert_eq!(e.property_value, None);
-            },
+            }
         }
     }
 
@@ -436,7 +448,9 @@ mod tests {
             set_time_offset(Duration::from_secs(0), true);
         }
 
-        assert!(self_hlc.update(&self_clone, DEFAULT_MAX_CLOCK_DRIFT).is_ok());
+        assert!(self_hlc
+            .update(&self_clone, DEFAULT_MAX_CLOCK_DRIFT)
+            .is_ok());
         // assert that no update occurred
         assert_eq!(self_hlc.timestamp, self_ts_copy);
         assert_eq!(self_hlc.counter, 0);
@@ -455,18 +469,18 @@ mod tests {
     #[test_case(-30, -30, true, &[0]; "self_hlc and other_hlc equal and in past less than max drift - success")]
     #[test_case(-15, -30, true, &[0]; "self_hlc and other_hlc in past less than max drift, but self_hlc in future of other_hlc - success")]
     #[test_case(-30, -15, true, &[0]; "self_hlc and other_hlc in past less than max drift, but self_hlc in past of other_hlc - success")]
-    #[test_case(-30, 0, true, &[0,4]; "self_hlc in past less than max drift, other_hlc now - success")] // 0 or 4
+    #[test_case(-30, 0, true, &[0,4]; "self_hlc in past less than max drift, other_hlc now - success")]
     #[test_case(-30, 30, true, &[4]; "self_hlc in past less than max drift, other_hlc in future less than max drift - success")]
     #[test_case(-30, 120, false, &[]; "self_hlc in past less than max drift, other_hlc in future more than max drift - failure")]
-    #[test_case(0, -120, true, &[0,1]; "self_hlc now, other_hlc in past more than max drift - success")] // 0 or 1
-    #[test_case(0, -30, true, &[0,1]; "self_hlc now, other_hlc in past less than max drift - success")] // 0 or 1
+    #[test_case(0, -120, true, &[0,1]; "self_hlc now, other_hlc in past more than max drift - success")]
+    #[test_case(0, -30, true, &[0,1]; "self_hlc now, other_hlc in past less than max drift - success")]
     #[test_case(0, 0, true, &[0,4]; "self_hlc now, other_hlc now - success")]
     #[test_case(0, 30, true, &[4]; "self_hlc now, other_hlc in future less than max drift - success")]
     #[test_case(0, 120, false, &[]; "self_hlc now, other_hlc in future more than max drift - failure")]
     #[test_case(30, -120, true, &[1]; "self_hlc in future less than max drift, other_hlc in past more than max drift - success")]
     #[test_case(30, -30, true, &[1]; "self_hlc in future less than max drift, other_hlc in past less than max drift - success")]
     #[test_case(30, 0, true, &[1]; "self_hlc in future less than max drift, other_hlc now - success")]
-    #[test_case(30, 30, true, &[4]; "self_hlc and other_hlc equal and in future less than max drift - success")]  // 1 or 4
+    #[test_case(30, 30, true, &[4]; "self_hlc and other_hlc equal and in future less than max drift - success")]
     #[test_case(45, 30, true, &[1]; "self_hlc and other_hlc in future less than max drift, but self_hlc in future of other_hlc - success")]
     #[test_case(30, 45, true, &[4]; "self_hlc and other_hlc in future less than max drift, but self_hlc in past of other_hlc - success")]
     #[test_case(30, 120, false, &[]; "self_hlc in future less than max drift, other_hlc in future more than max drift - failure")]
@@ -477,10 +491,18 @@ mod tests {
     #[test_case(120, 120, false, &[]; "self_hlc and other_hlc equal and in future more than max drift - failure")]
     #[test_case(135, 120, false, &[]; "self_hlc and other_hlc in future more than max drift, but self_hlc in future of other_hlc - failure")]
     #[test_case(120, 135, false, &[]; "self_hlc and other_hlc in future more than max drift, but self_hlc in past of other_hlc - failure")]
-    fn test_update_other_drift(self_offset_sec: i64, other_offset_sec: i64, should_succeed: bool, valid_counters: &[u64]) {
+    fn test_update_other_drift(
+        self_offset_sec: i64,
+        other_offset_sec: i64,
+        should_succeed: bool,
+        valid_counters: &[u64],
+    ) {
         // ~~Create Self~~
         // set System clock for HLC creation forward or backward by offset_sec
-        set_time_offset(Duration::from_secs(self_offset_sec.unsigned_abs()), self_offset_sec > 0);
+        set_time_offset(
+            Duration::from_secs(self_offset_sec.unsigned_abs()),
+            self_offset_sec > 0,
+        );
         // create self HLC at offset time
         let mut self_hlc = HybridLogicalClock::new();
         let self_ts_copy = self_hlc.timestamp;
@@ -493,7 +515,10 @@ mod tests {
             other
         } else {
             // set System clock for HLC creation forward or backward by offset_sec
-            set_time_offset(Duration::from_secs(other_offset_sec.unsigned_abs()), other_offset_sec > 0);
+            set_time_offset(
+                Duration::from_secs(other_offset_sec.unsigned_abs()),
+                other_offset_sec > 0,
+            );
             // create other HLC at offset  time
             HybridLogicalClock::new()
         };
@@ -503,7 +528,7 @@ mod tests {
 
         // ~~reset System Time to now~~
         set_time_offset(Duration::from_secs(0), true);
-        
+
         match self_hlc.update(&other_hlc, DEFAULT_MAX_CLOCK_DRIFT) {
             Ok(()) => {
                 assert!(should_succeed);
@@ -516,12 +541,12 @@ mod tests {
                         // isn't the same as either of the provided HLCs' timestamps
                         assert_ne!(self_hlc.timestamp, self_ts_copy);
                         assert_ne!(self_hlc.timestamp, other_ts_copy);
-                    },
+                    }
                     1 => assert_eq!(self_hlc.timestamp, self_ts_copy),
                     4 => assert_eq!(self_hlc.timestamp, other_ts_copy),
                     _ => panic!("Unexpected counter value"),
                 }
-            },
+            }
             Err(e) => {
                 assert!(!should_succeed);
                 assert_eq!(e.kind, AIOProtocolErrorKind::StateInvalid);
@@ -530,7 +555,7 @@ mod tests {
                 // self hlc should not have been updated
                 assert_eq!(self_hlc.counter, 0);
                 assert_eq!(self_hlc.timestamp, self_ts_copy);
-            },
+            }
         }
     }
 
@@ -543,10 +568,19 @@ mod tests {
     #[test_case(-30, -30, true, true, true; "both max, but in past - success")]
     #[test_case(30, 30, false, true, false; "other max, same time as self - failure")]
     #[test_case(30, 30, true, false, false; "self max, same time as other - failure")]
-    fn test_update_other_counter(self_offset_sec: i64, other_offset_sec: i64, max_self: bool, max_other: bool, should_succeed: bool) {
+    fn test_update_other_counter(
+        self_offset_sec: i64,
+        other_offset_sec: i64,
+        max_self: bool,
+        max_other: bool,
+        should_succeed: bool,
+    ) {
         // ~~Create Self~~
         // set System clock for HLC creation forward or backward by offset_sec
-        set_time_offset(Duration::from_secs(self_offset_sec.unsigned_abs()), self_offset_sec > 0);
+        set_time_offset(
+            Duration::from_secs(self_offset_sec.unsigned_abs()),
+            self_offset_sec > 0,
+        );
         // create self HLC at offset time
         let mut self_hlc = HybridLogicalClock::new();
         if max_self {
@@ -563,7 +597,10 @@ mod tests {
             other
         } else {
             // set System clock for HLC creation forward or backward by offset_sec
-            set_time_offset(Duration::from_secs(other_offset_sec.unsigned_abs()), other_offset_sec > 0);
+            set_time_offset(
+                Duration::from_secs(other_offset_sec.unsigned_abs()),
+                other_offset_sec > 0,
+            );
             // create other HLC at offset  time
             HybridLogicalClock::new()
         };
@@ -573,11 +610,11 @@ mod tests {
 
         // ~~reset System Time to now~~
         set_time_offset(Duration::from_secs(0), true);
-        
+
         match self_hlc.update(&other_hlc, DEFAULT_MAX_CLOCK_DRIFT) {
             Ok(()) => {
                 assert!(should_succeed);
-            },
+            }
             Err(e) => {
                 assert!(!should_succeed);
                 assert_eq!(e.kind, AIOProtocolErrorKind::InternalLogicError);
@@ -585,7 +622,7 @@ mod tests {
                 // self hlc should not have been updated
                 assert_eq!(self_hlc.counter, self_counter_copy);
                 assert_eq!(self_hlc.timestamp, self_ts_copy);
-            },
+            }
         }
     }
 
@@ -594,7 +631,10 @@ mod tests {
         let hlc = HybridLogicalClock::new();
         assert_eq!(hlc.counter, 0);
         // verify that the timestamp is rounded to the nearest millisecond
-        assert_eq!(hlc.timestamp.duration_since(UNIX_EPOCH).unwrap().as_nanos() % 1_000_000, 0);
+        assert_eq!(
+            hlc.timestamp.duration_since(UNIX_EPOCH).unwrap().as_nanos() % 1_000_000,
+            0
+        );
     }
 
     #[test]
