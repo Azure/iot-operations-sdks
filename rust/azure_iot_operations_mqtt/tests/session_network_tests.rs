@@ -8,7 +8,7 @@ use tokio::sync::Notify;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
-use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 fn setup_test(client_id: &str) -> Result<Session, ()> {
@@ -40,8 +40,104 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
     Ok(session)
 }
 
+// NOTE: This function wouldn't be necessary if there weren't a race condition on using exit handles.
+async fn trigger_test_exit(exit_handle: SessionExitHandle) -> Result<(), String> {
+    match exit_handle.try_exit().await {
+        Ok(()) => Ok(()),
+        Err(e) => {
+            match e {
+                azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
+                    attempted,
+                } => {
+                    // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                    if !attempted {
+                        return Err(e.to_string());
+                    }
+                    Ok(())
+                }
+                _ => Err(e.to_string()),
+            }
+        }
+    }
+}
+
+#[test_case(QoS::AtLeastOnce; "QoS 1")]
+#[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
-async fn test_simple_recv() {}
+async fn test_simple_recv(qos: QoS) {
+    let client_id = "network_test_simple_recv";
+    let Ok(mut session) = setup_test(client_id) else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+    let exit_handle = session.create_exit_handle();
+    let managed_client = session.create_managed_client();
+
+    let topic = "mqtt/test/simple_recv";
+    let payload = "simple_recv_test_payload";
+
+    let notify_sub = Arc::new(Notify::new());
+
+    // TODO: more elegant way to handle completions
+    let receiver_done = Arc::new(Notify::new());
+    let sender_done = Arc::new(Notify::new());
+
+    // Task for the sending client
+    let sender = {
+        let client = managed_client.clone();
+        let notify_sub = notify_sub.clone();
+        let sender_done = sender_done.clone();
+        async move {
+            // Wait for subscribe from receiver task
+            notify_sub.notified().await;
+            // Publish a message
+            let ct = client.publish(topic, qos, false, payload).await.unwrap();
+            assert!(ct.await.is_ok());
+            // Indicate completion
+            sender_done.notify_one();
+        }
+    };
+
+    // Task for the receiving client
+    let receiver = {
+        let client = managed_client.clone();
+        let notify_sub = notify_sub.clone();
+        let receiver_done = receiver_done.clone();
+        async move {
+            // Subscribe
+            client.subscribe(topic, qos).await.unwrap().await.unwrap();
+            // Notify the sender that the subscription is ready
+            notify_sub.notify_one();
+            // Wait for message
+            let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
+            let publish = receiver.recv().await.unwrap();
+            // The message was the correct one
+            assert_eq!(publish.payload, payload.as_bytes());
+            // Indicate completion
+            receiver_done.notify_one();
+        }
+    };
+
+    let test_complete = async move {
+        sender_done.notified().await;
+        receiver_done.notified().await;
+        trigger_test_exit(exit_handle).await
+    };
+
+    assert!(tokio::try_join!(
+        async move {
+            tokio::task::spawn(sender).await.map_err(|e| e.to_string())
+        },
+        async move {
+            tokio::task::spawn(receiver)
+                .await
+                .map_err(|e| e.to_string())
+        },
+        async move { test_complete.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) },
+    )
+    .is_ok());
+}
 
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
 // #[test_case(QoS::ExactlyOnce; "QoS 2")]
@@ -56,7 +152,7 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
     let managed_client = session.create_managed_client();
 
     let topic = "mqtt/test/simple_recv_manual_ack";
-    let payload = "Hello, World!";
+    let payload = "simple_recv_manual_ack_test_payload";
 
     let notify_ack = Arc::new(Notify::new());
     let notify_sub = Arc::new(Notify::new());
@@ -70,7 +166,7 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
             // Wait for subscribe from receiver task
             notify_sub.notified().await;
             // Publish a message
-            let ct = client.publish(topic, qos, true, payload).await.unwrap();
+            let ct = client.publish(topic, qos, false, payload).await.unwrap();
             let ct_complete = tokio::task::spawn(ct);
             assert!(!ct_complete.is_finished());
             // Wait for ack from receiver task
