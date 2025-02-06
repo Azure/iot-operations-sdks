@@ -37,7 +37,10 @@ impl ApplicationHybridLogicalClock {
     ///
     /// Returns an instant of the current [`HybridLogicalClock`] on success.
     ///
+    /// # Errors
     /// TODO: Add errors once [`HybridLogicalClock`] is implemented
+    /// # Panics
+    /// TODO
     pub fn read(&self) -> HybridLogicalClock {
         self.hlc.lock().unwrap().clone()
     }
@@ -46,8 +49,11 @@ impl ApplicationHybridLogicalClock {
     ///
     /// Returns `Ok(())` on success.
     /// TODO: Errors
-    pub(crate) fn update(&self, hlc: &HybridLogicalClock) -> Result<(), AIOProtocolError> {
-        self.hlc.lock().unwrap().update(hlc, self.max_clock_drift)
+    pub(crate) fn update(&self, other_hlc: &HybridLogicalClock) -> Result<(), AIOProtocolError> {
+        self.hlc
+            .lock()
+            .unwrap()
+            .update(other_hlc, self.max_clock_drift)
     }
 
     /// Updates the [`ApplicationHybridLogicalClock`] with the current time and returns a string representation of the updated HLC.
