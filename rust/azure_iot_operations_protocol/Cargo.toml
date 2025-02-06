@@ -22,7 +22,8 @@ tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4","fast-rng"] }
 chrono = "0.4"
 regex = "1.11.0"
-thiserror.workspace = true 
+thiserror.workspace = true
+fluent-uri = "0.3.2"
 
 [dev-dependencies]
 async-std = "1.12"

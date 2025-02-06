@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    telemetry::telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
 
 const CLIENT_ID: &str = "myReceiver";
@@ -86,7 +86,7 @@ async fn telemetry_loop(
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             Ok((message, ack_token)) => {
-                let sender_id = message.sender_id.unwrap();
+                let sender_id = message.sender_id.as_ref().unwrap();
 
                 println!(
                     "Sender {} sent temperature reading: {:?}",
@@ -94,8 +94,14 @@ async fn telemetry_loop(
                 );
 
                 // Parse cloud event
-                if let Some(cloud_event) = message.cloud_event {
-                    println!("{cloud_event:?}");
+                match telemetry_receiver::CloudEvent::from_telemetry(&message) {
+                    Ok(cloud_event) => {
+                        println!("{cloud_event}");
+                    }
+                    Err(e) => {
+                        // Note: if a cloud event is not present, this error is expected
+                        println!("Error parsing cloud event: {e}");
+                    }
                 }
 
                 // Acknowledge the message if ack_token is present

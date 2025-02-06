@@ -16,8 +16,8 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 };
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEventBuilder, TelemetryMessageBuilder, TelemetryMessageBuilderError, TelemetrySender,
-    TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
+    CloudEventBuilder, CloudEventSubject, TelemetryMessageBuilder, TelemetryMessageBuilderError,
+    TelemetrySender, TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
 };
 use bytes::Bytes;
 use tokio::sync::oneshot;
@@ -332,6 +332,10 @@ where
 
                 if let Some(data_schema) = &cloud_event.data_schema {
                     cloud_event_builder.data_schema(data_schema.clone());
+                }
+
+                if let Some(subject) = &cloud_event.subject {
+                    cloud_event_builder.subject(CloudEventSubject::Custom(subject.to_string()));
                 }
 
                 telemetry_message_builder.cloud_event(cloud_event_builder.build().unwrap());
