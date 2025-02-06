@@ -9,12 +9,12 @@ namespace Azure.Iot.Operations.Connector
     public class ConnectorWorker : BackgroundService, IDisposable
     {
         private readonly ILogger<ConnectorWorker> _logger;
-        private readonly EventDrivenTelemetryConnectorWorker _connector;
+        private readonly TelemetryConnectorWorker _connector;
 
-        public ConnectorWorker(ILogger<ConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public ConnectorWorker(ILogger<ConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetMessageSchemaProviderFactory datasetMessageSchemaProviderFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
-            _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
+            _connector = new(connectorLogger, mqttClient, datasetMessageSchemaProviderFactory, assetMonitor);
             _connector.OnAssetAvailable += OnAssetSampleableAsync;
             _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
@@ -30,20 +30,14 @@ namespace Azure.Iot.Operations.Connector
         {
             // This callback notifies your app when an asset and its datasets can no longer be sampled
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
+
+            
             throw new NotImplementedException();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // This will allow the connector process to run in parallel with any application-layer logic
-            await Task.WhenAny(
-                _connector.StartAsync(cancellationToken),
-                ExecuteEventsAsync(cancellationToken));
-        }
-
-        private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            await _connector.StartAsync(cancellationToken);
         }
 
         public override void Dispose()
