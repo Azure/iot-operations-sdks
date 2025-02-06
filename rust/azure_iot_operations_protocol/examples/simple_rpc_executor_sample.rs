@@ -80,6 +80,8 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                 let response = IncrResponsePayload {
                     counter_response: counter,
                 };
+                println!("Waiting 10 seconds for processing");
+                tokio::time::sleep(Duration::from_secs(10)).await;
                 let response = CommandResponseBuilder::default()
                     .payload(response)
                     .unwrap()

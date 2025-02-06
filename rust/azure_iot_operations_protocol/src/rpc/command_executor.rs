@@ -957,6 +957,8 @@ where
 
                                     ) => {
                                         // Finished processing command
+                                        println!("Waiting ten seconds for ack");
+                                        tokio::time::sleep(Duration::from_secs(10)).await;
                                         handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
                                     },
                                 }
