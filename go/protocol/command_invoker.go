@@ -178,6 +178,7 @@ func NewCommandInvoker[Req, Res any](
 		app:      app,
 		client:   client,
 		encoding: requestEncoding,
+		version:  version.RPCProtocolString,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
