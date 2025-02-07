@@ -18,7 +18,7 @@ type result struct {
 	name             string
 	value            any
 	version          string
-	supportedVersion string
+	supportedVersion []int
 }
 
 func ToUserProp(err error) map[string]string {
@@ -120,9 +120,10 @@ func ToUserProp(err error) map[string]string {
 		}).props()
 	case errors.UnsupportedRequestVersion:
 		return (&result{
-			status:  505,
-			error:   e,
-			version: e.ProtocolVersion,
+			status:           505,
+			error:            e,
+			version:          e.ProtocolVersion,
+			supportedVersion: e.SupportedMajorProtocolVersions,
 		}).props()
 	default:
 		return (&result{
@@ -260,7 +261,9 @@ func (r *result) props() map[string]string {
 
 	if r.version != "" {
 		props[constants.RequestProtocolVersion] = r.version
-		props[constants.SupportedProtocolMajorVersion] = r.supportedVersion
+		props[constants.SupportedProtocolMajorVersion] = version.ParseInt(
+			r.supportedVersion,
+		)
 	}
 
 	return props

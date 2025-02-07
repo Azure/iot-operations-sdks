@@ -53,6 +53,18 @@ func ParseSupported(vs string) []int {
 	return res
 }
 
+func ParseInt(v []int) string {
+	if len(v) == 0 {
+		return ""
+	}
+
+	res := make([]string, len(v))
+	for i, n := range v {
+		res[i] = strconv.Itoa(n)
+	}
+	return strings.Join(res, " ")
+}
+
 func IsSupported(v, supported string) bool {
 	major, _ := ParseProtocol(v)
 	for _, s := range ParseSupported(supported) {
