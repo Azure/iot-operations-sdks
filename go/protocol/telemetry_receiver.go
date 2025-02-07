@@ -125,15 +125,16 @@ func NewTelemetryReceiver[T any](
 		timeout:   to,
 	}
 	tr.listener = &listener[T]{
-		app:         app,
-		client:      client,
-		encoding:    encoding,
-		topic:       tf,
-		shareName:   opts.ShareName,
-		concurrency: opts.Concurrency,
-		version:     version.TelemetryProtocolString,
-		log:         logger,
-		handler:     tr,
+		app:              app,
+		client:           client,
+		encoding:         encoding,
+		topic:            tf,
+		shareName:        opts.ShareName,
+		concurrency:      opts.Concurrency,
+		version:          version.TelemetryProtocolString,
+		supportedVersion: version.TelemetrySupportedString,
+		log:              logger,
+		handler:          tr,
 	}
 
 	tr.listener.register()

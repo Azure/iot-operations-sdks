@@ -175,21 +175,23 @@ func NewCommandInvoker[Req, Res any](
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
-		app:      app,
-		client:   client,
-		encoding: requestEncoding,
-		version:  version.RPCProtocolString,
-		topic:    reqTP,
+		app:              app,
+		client:           client,
+		encoding:         requestEncoding,
+		version:          version.RPCProtocolString,
+		supportedVersion: version.RPCSupportedString,
+		topic:            reqTP,
 	}
 	ci.listener = &listener[Res]{
-		app:            app,
-		client:         client,
-		encoding:       responseEncoding,
-		topic:          resTF,
-		reqCorrelation: true,
-		version:        version.RPCProtocolString,
-		log:            logger,
-		handler:        ci,
+		app:              app,
+		client:           client,
+		encoding:         responseEncoding,
+		topic:            resTF,
+		reqCorrelation:   true,
+		version:          version.RPCProtocolString,
+		supportedVersion: version.RPCSupportedString,
+		log:              logger,
+		handler:          ci,
 	}
 
 	ci.listener.register()

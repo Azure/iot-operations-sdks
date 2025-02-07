@@ -139,22 +139,24 @@ func NewCommandExecutor[Req, Res any](
 		cache:   caching.New(wallclock.Instance),
 	}
 	ce.listener = &listener[Req]{
-		app:            app,
-		client:         client,
-		encoding:       requestEncoding,
-		topic:          reqTF,
-		shareName:      opts.ShareName,
-		concurrency:    opts.Concurrency,
-		reqCorrelation: true,
-		version:        version.RPCProtocolString,
-		log:            logger,
-		handler:        ce,
+		app:              app,
+		client:           client,
+		encoding:         requestEncoding,
+		topic:            reqTF,
+		shareName:        opts.ShareName,
+		concurrency:      opts.Concurrency,
+		reqCorrelation:   true,
+		version:          version.RPCProtocolString,
+		supportedVersion: version.RPCSupportedString,
+		log:              logger,
+		handler:          ce,
 	}
 	ce.publisher = &publisher[Res]{
-		app:      app,
-		client:   client,
-		encoding: responseEncoding,
-		version:  version.RPCProtocolString,
+		app:              app,
+		client:           client,
+		encoding:         responseEncoding,
+		version:          version.RPCProtocolString,
+		supportedVersion: version.RPCSupportedString,
 	}
 
 	ce.listener.register()

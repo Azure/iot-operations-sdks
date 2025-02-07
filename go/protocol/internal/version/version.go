@@ -8,9 +8,10 @@ import (
 )
 
 const (
-	RPCProtocolString       = "1.0"
-	TelemetryProtocolString = "1.0"
-	SupportedString         = "1"
+	RPCProtocolString        = "1.0"
+	TelemetryProtocolString  = "1.0"
+	RPCSupportedString       = "1"
+	TelemetrySupportedString = "1"
 )
 
 func ParseProtocol(v string) (major, minor int) {
