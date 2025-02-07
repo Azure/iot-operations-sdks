@@ -306,10 +306,6 @@ where
 
         executor_options_builder.is_idempotent(tce.idempotent);
 
-        if let Some(cache_ttl) = tce.cache_ttl.as_ref() {
-            executor_options_builder.cacheable_duration(cache_ttl.to_duration());
-        }
-
         let options_result = executor_options_builder.build();
         if let Err(error) = options_result {
             if let Some(catch) = catch {

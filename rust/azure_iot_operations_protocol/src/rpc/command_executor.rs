@@ -345,9 +345,6 @@ pub struct CommandExecutorOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
-    /// Duration to cache the command response
-    #[builder(default = "Duration::from_secs(0)")]
-    cacheable_duration: Duration,
     /// Denotes if commands are idempotent
     #[builder(default = "false")]
     is_idempotent: bool,
@@ -402,7 +399,6 @@ where
     is_idempotent: bool,
     request_topic_pattern: TopicPattern,
     command_name: String,
-    cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     application_hlc: Arc<ApplicationHybridLogicalClock>,
@@ -464,15 +460,6 @@ where
                 Some(executor_options.command_name),
             ));
         }
-        if !executor_options.is_idempotent && !executor_options.cacheable_duration.is_zero() {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "is_idempotent",
-                Value::Boolean(executor_options.is_idempotent),
-                None,
-                Some(executor_options.command_name),
-            ));
-        }
 
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
@@ -505,7 +492,6 @@ where
             is_idempotent: executor_options.is_idempotent,
             request_topic_pattern,
             command_name: executor_options.command_name,
-            cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             cache: CommandExecutorCache::new(),
@@ -1465,8 +1451,6 @@ mod tests {
         );
 
         assert!(!command_executor.is_idempotent);
-        // Since idempotent is false by default, cacheable_duration should be 0
-        assert_eq!(command_executor.cacheable_duration, Duration::from_secs(0));
     }
 
     #[tokio::test]
@@ -1477,7 +1461,6 @@ mod tests {
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_namespace("test_namespace")
-            .cacheable_duration(Duration::from_secs(10))
             .topic_token_map(create_topic_tokens())
             .is_idempotent(true)
             .build()
@@ -1496,7 +1479,6 @@ mod tests {
         );
 
         assert!(command_executor.is_idempotent);
-        assert_eq!(command_executor.cacheable_duration, Duration::from_secs(10));
     }
 
     #[test_case(""; "empty command name")]
@@ -1613,67 +1595,6 @@ mod tests {
                 assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("topic_namespace".to_string()));
                 assert!(e.property_value == Some(Value::String(topic_namespace.to_string())));
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
-    }
-
-    #[test_case(Duration::from_secs(0); "cacheable duration zero")]
-    #[test_case(Duration::from_secs(60); "cacheable duration positive")]
-    #[tokio::test]
-    async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/request")
-            .command_name("test_command_name")
-            .cacheable_duration(cacheable_duration)
-            .is_idempotent(true)
-            .topic_token_map(create_topic_tokens())
-            .build()
-            .unwrap();
-
-        let command_executor = CommandExecutor::<MockPayload, MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
-            managed_client,
-            executor_options,
-        );
-        assert!(command_executor.is_ok());
-    }
-
-    #[tokio::test]
-    async fn test_non_idempotent_command_with_positive_cacheable_duration() {
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{executorId}/request")
-            .command_name("test_command_name")
-            .cacheable_duration(Duration::from_secs(10))
-            .topic_token_map(create_topic_tokens())
-            .build()
-            .unwrap();
-
-        let command_executor: Result<
-            CommandExecutor<MockPayload, MockPayload, _>,
-            AIOProtocolError,
-        > = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
-            managed_client,
-            executor_options,
-        );
-
-        match command_executor {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("is_idempotent".to_string()));
-                assert!(e.property_value == Some(Value::Boolean(false)));
             }
             Ok(_) => {
                 panic!("Expected error");
