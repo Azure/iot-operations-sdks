@@ -28,7 +28,7 @@ namespace SampleTcpClientApp
                     await client.ConnectAsync("127.0.0.1", 80);
                     await using NetworkStream stream = client.GetStream();
 
-                    RestThermostatConnector.ThermostatStatus thermostatStatus = new()
+                    ThermostatStatus thermostatStatus = new()
                     {
                         DesiredTemperature = 72.0,
                         CurrentTemperature = 70.0
