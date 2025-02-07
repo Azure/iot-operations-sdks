@@ -73,12 +73,12 @@ func (g *Global) Get() (HybridLogicalClock, error) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	var err error
-	g.hlc, err = g.hlc.Update(HybridLogicalClock{})
+	hlc, err := g.hlc.Update(HybridLogicalClock{})
 	if err != nil {
 		return HybridLogicalClock{}, err
 	}
 
+	g.hlc = hlc
 	return g.hlc, nil
 }
 
@@ -87,9 +87,13 @@ func (g *Global) Set(hlc HybridLogicalClock) error {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	var err error
-	g.hlc, err = g.hlc.Update(hlc)
-	return err
+	hlc, err := g.hlc.Update(hlc)
+	if err != nil {
+		return err
+	}
+
+	g.hlc = hlc
+	return nil
 }
 
 // UTC returns the physical clock component of the HTC in UTC.
