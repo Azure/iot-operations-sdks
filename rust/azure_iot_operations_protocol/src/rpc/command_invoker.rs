@@ -1419,9 +1419,7 @@ mod tests {
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandInvoker::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 invoker_options,
             );
