@@ -30,14 +30,16 @@ impl ApplicationHybridLogicalClock {
         }
     }
 
-    /// Reads the current value of the [`ApplicationHybridLogicalClock`] and returns a copy.
+    /// Reads the current value of the [`ApplicationHybridLogicalClock`]
+    /// and returns a new [`HybridLogicalClock`] that is a snapshot of
+    /// the current value of the [`ApplicationHybridLogicalClock`].
     pub async fn read(&self) -> HybridLogicalClock {
         self.hlc.lock().await.clone()
     }
 
     /// Updates the [`ApplicationHybridLogicalClock`] based on the provided other [`HybridLogicalClock`].
     /// The [`ApplicationHybridLogicalClock`] will be set to the latest timestamp between itself, the
-    /// other [`HybridLogicalClock`], and the current time, and it's counter will also be updated accordingly.
+    /// other [`HybridLogicalClock`], and the current time, and its counter will also be updated accordingly.
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if

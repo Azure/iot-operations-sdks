@@ -46,7 +46,7 @@ impl HybridLogicalClock {
 
     /// Updates the [`HybridLogicalClock`] based on another [`HybridLogicalClock`].
     /// Self will be set to the latest timestamp between itself, other, and the current time, and
-    /// it's counter will also be updated accordingly.
+    /// its counter will also be updated accordingly.
     ///
     /// Note: Update performed against another [`HybridLogicalClock`] with the same [`node_id`](HybridLogicalClock::node_id)
     /// is a no-op, and will not result in an error.
@@ -96,6 +96,7 @@ impl HybridLogicalClock {
             self.timestamp = other.timestamp;
             self.counter = other.counter + 1;
         }
+        // all cases are covered at this point, so there is no need for a final else
         Ok(())
     }
 
@@ -267,10 +268,12 @@ fn now_ms_precision() -> SystemTime {
     };
 
     if let Ok(dur_since_epoch) = now.duration_since(UNIX_EPOCH) {
-        if let Ok(ms_since_epoch) = u64::try_from(dur_since_epoch.as_millis()) {
-            if let Some(now) = UNIX_EPOCH.checked_add(Duration::from_millis(ms_since_epoch)) {
-                return now;
-            }
+        let sec_since_epoch = dur_since_epoch.as_secs();
+        let ms_since_epoch = dur_since_epoch.subsec_millis();
+        if let Some(now) =
+            UNIX_EPOCH.checked_add(Duration::new(sec_since_epoch, ms_since_epoch * 1_000_000))
+        {
+            return now;
         }
     }
     // If any errors occur while rounding to the nearest millisecond, just return the current time
@@ -428,7 +431,6 @@ mod tests {
             Ok(()) => {
                 assert!(should_succeed);
                 assert_eq!(hlc.counter, expected_counter);
-                // if counter is 1, check that original timestamp is still used? Otherwise check that it's different?
             }
             Err(e) => {
                 assert!(!should_succeed);
