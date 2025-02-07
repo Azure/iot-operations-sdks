@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// Note that "\r\n" may appear within the {bytes} segment, so this function
         /// does not simply split on "\r\n"
         /// </remarks>
-        /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
+        /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
         /// <param name="resp3BlobStringBytes">The RESP3 string to parse</param>
         /// <returns>The byte[] value embedded in the RESP3 string</returns>
         /// <exception cref="Resp3ProtocolException">If the provided byte[] is malformed</exception>
@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             {
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: Extra characters found at the end of a valid blob string.");
             }
-            
+
             return output;
         }
 
@@ -52,7 +52,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// Note that "\r\n" may appear within the {bytes} segment, so this function
         /// does not simply split on "\r\n"
         /// </remarks>
-        /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
+        /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
         /// <param name="startIndex">The index to start parsing the blob array from.</param>
         /// <param name="resp3BlobStringBytes">The RESP3 string to parse</param>
         /// <param name="blobString">The parsed blob string that will be returned</param>
@@ -117,7 +117,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// Note that "\r\n" may appear within each of the {bytes} segments, so this function
         /// does not simply split on "\r\n"
         /// </remarks>
-        /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#aggregate-data-types-overview"/>
+        /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#aggregate-data-types-overview"/>
         /// <param name="resp3BlobArrayBytes">The RESP3 blob array to parse</param>
         /// <returns>The segments of the blob array in order.</returns>
         /// <exception cref="Resp3ProtocolException">If the provided byte[] is malformed</exception>
@@ -187,7 +187,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// basic form: ":{number}\r\n"
         /// for example: ":1234\r\n"
         /// </summary>
-        /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
+        /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
         /// <param name="resp3NumberBytes">The RESP3 string to parse</param>
         /// <returns>The number embedded in the RESP3 string</returns>
         /// <exception cref="ArgumentException">If the provided byte[] is malformed</exception>
@@ -200,7 +200,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
 
             string resp3Number;
             try
-            { 
+            {
                 resp3Number = Encoding.ASCII.GetString(resp3NumberBytes);
             }
             catch (DecoderFallbackException)
@@ -239,7 +239,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// basic form: "+{string}\r\n"
         /// for example: "+hello world\r\n"
         /// </summary>
-        /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
+        /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
         /// <param name="resp3SimpleStringBytes">The RESP3 string to parse</param>
         /// <returns>The simple string embedded in the RESP3 string</returns>
         /// <exception cref="ArgumentException">If the provided byte[] is malformed</exception>
@@ -288,7 +288,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// For example: "*3\r\n+someSimpleString\r\n:1\r\n:200\r\n"
         /// which can be read as ["someSimpleString", 1, 200]
         /// </summary>
-        /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#aggregate-data-types-overview"/>
+        /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#aggregate-data-types-overview"/>
         /// <param name="resp3Objects">The RESP3 byte[] objects to include in the array</param>
         /// <returns>The RESP3 array byte[]</returns>
         internal static byte[] BuildArray(params byte[][] resp3Objects)
@@ -341,7 +341,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
         /// <remarks>
         /// Nil is defined as "$-1\r\n"
         /// </remarks>
-        /// <seealso cref="https://redis.io/docs/reference/protocol-spec/#null-bulk-strings"/>
+        /// <seealso href="https://redis.io/docs/reference/protocol-spec/#null-bulk-strings"/>
         /// <param name="value">The payload to check.</param>
         /// <returns>True if it is a Nil payload and false otherwise.</returns>
         internal static bool IsNil(byte[] value)

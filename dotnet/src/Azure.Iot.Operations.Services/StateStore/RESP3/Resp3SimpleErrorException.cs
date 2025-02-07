@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
     /// service. The error description is a human-readable error message that explains what went
     /// wrong.
     /// </summary>
-    /// <seealso cref="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
+    /// <seealso href="https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#simple-types"/>
     public class Resp3SimpleErrorException : Exception
     {
         public string ErrorDescription { get; set; }
