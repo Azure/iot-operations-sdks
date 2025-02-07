@@ -3,9 +3,10 @@
 
 //! Application-wide utilities for use with the Azure IoT Operations SDK.
 
-use std::{sync::Arc, time::Duration};
-
-use tokio::sync::Mutex;
+use std::{
+    sync::{Arc, Mutex},
+    time::Duration,
+};
 
 use crate::common::{
     aio_protocol_error::AIOProtocolError,
@@ -33,8 +34,12 @@ impl ApplicationHybridLogicalClock {
     /// Reads the current value of the [`ApplicationHybridLogicalClock`]
     /// and returns a new [`HybridLogicalClock`] that is a snapshot of
     /// the current value of the [`ApplicationHybridLogicalClock`].
-    pub async fn read(&self) -> HybridLogicalClock {
-        self.hlc.lock().await.clone()
+    ///
+    /// # Panics
+    /// if the lock on the [`ApplicationHybridLogicalClock`] is poisoned,
+    /// which should not be possible
+    pub fn read(&self) -> HybridLogicalClock {
+        self.hlc.lock().unwrap().clone()
     }
 
     /// Updates the [`ApplicationHybridLogicalClock`] based on the provided other [`HybridLogicalClock`].
@@ -48,13 +53,10 @@ impl ApplicationHybridLogicalClock {
     /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid) if
     /// the latest [`HybridLogicalClock`] (of [`ApplicationHybridLogicalClock`] or `other`)'s timestamp is too far in
     /// the future (determined by [`max_clock_drift`](ApplicationHybridLogicalClock::max_clock_drift)) compared to [`SystemTime::now()`]
-    pub(crate) async fn update(
-        &self,
-        other_hlc: &HybridLogicalClock,
-    ) -> Result<(), AIOProtocolError> {
+    pub(crate) fn update(&self, other_hlc: &HybridLogicalClock) -> Result<(), AIOProtocolError> {
         self.hlc
             .lock()
-            .await
+            .unwrap()
             .update(other_hlc, self.max_clock_drift)
     }
 
@@ -67,8 +69,8 @@ impl ApplicationHybridLogicalClock {
     /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid) if
     /// the [`ApplicationHybridLogicalClock`]'s timestamp is too far in the future (determined
     /// by [`max_clock_drift`](ApplicationHybridLogicalClock::max_clock_drift)) compared to [`SystemTime::now()`]
-    pub(crate) async fn update_now(&self) -> Result<String, AIOProtocolError> {
-        let mut hlc = self.hlc.lock().await;
+    pub(crate) fn update_now(&self) -> Result<String, AIOProtocolError> {
+        let mut hlc = self.hlc.lock().unwrap();
         hlc.update_now(self.max_clock_drift)?;
         Ok(hlc.to_string())
     }

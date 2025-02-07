@@ -541,7 +541,7 @@ where
                                     match HybridLogicalClock::from_str(&value) {
                                         Ok(ts) => {
                                             // Update application HLC against received __ts
-                                            if let Err(e) = self.application_hlc.update(&ts).await {
+                                            if let Err(e) = self.application_hlc.update(&ts) {
                                                 log::error!(
                                                     "[pkid: {}] Failure updating application HLC against {value}: {e}",
                                                     m.pkid

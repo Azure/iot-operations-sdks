@@ -405,7 +405,7 @@ where
         let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
 
         // Get updated timestamp
-        let timestamp_str = self.application_hlc.update_now().await?;
+        let timestamp_str = self.application_hlc.update_now()?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();

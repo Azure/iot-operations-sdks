@@ -547,7 +547,7 @@ where
         let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
         // Get updated timestamp
-        let timestamp_str = self.application_hlc.update_now().await?;
+        let timestamp_str = self.application_hlc.update_now()?;
 
         // Add internal user properties
         request.custom_user_data.push((
@@ -660,8 +660,7 @@ where
                                         self.command_name.clone(),
                                         &rsp_pub.payload,
                                         rsp_properties.clone(),
-                                    )
-                                    .await;
+                                    );
                                 }
                             }
                         }
@@ -808,7 +807,7 @@ where
     }
 }
 
-async fn validate_and_parse_response<TResp: PayloadSerialize>(
+fn validate_and_parse_response<TResp: PayloadSerialize>(
     application_hlc: &Arc<ApplicationHybridLogicalClock>,
     command_name: String,
     response_payload: &Bytes,
@@ -880,7 +879,7 @@ async fn validate_and_parse_response<TResp: PayloadSerialize>(
                 match HybridLogicalClock::from_str(&value) {
                     Ok(ts) => {
                         // Update application HLC against received __ts
-                        if let Err(mut e) = application_hlc.update(&ts).await {
+                        if let Err(mut e) = application_hlc.update(&ts) {
                             // update error to include command name
                             e.command_name = Some(command_name);
                             return Err(e);

@@ -735,7 +735,7 @@ where
                                 match HybridLogicalClock::from_str(&value) {
                                     Ok(ts) => {
                                         // Update application HLC against received __ts
-                                        if let Err(e) = self.application_hlc.update(&ts).await {
+                                        if let Err(e) = self.application_hlc.update(&ts) {
                                             response_arguments.status_message = Some(format!("Failure updating application HLC against {value}: {e}"));
                                             response_arguments.invalid_property_name =
                                                 Some(UserProperty::Timestamp.to_string());
@@ -1033,7 +1033,7 @@ where
         // Update HLC and use as the timestamp.
         // If there are errors updating the HLC (unlikely when updating against now),
         // the timestamp will not be added.
-        if let Ok(timestamp_str) = application_hlc.update_now().await {
+        if let Ok(timestamp_str) = application_hlc.update_now() {
             user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
         }
 
