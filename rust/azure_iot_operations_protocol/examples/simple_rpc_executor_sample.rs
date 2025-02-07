@@ -64,6 +64,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
+        .service_group_id("testgroup".to_string())
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
