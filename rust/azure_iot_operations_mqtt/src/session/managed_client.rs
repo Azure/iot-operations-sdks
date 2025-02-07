@@ -45,7 +45,6 @@ where
     fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
-        auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         let topic_filter = TopicFilter::from_str(topic_filter)?;
         let pub_rx = self
@@ -53,16 +52,16 @@ where
             .lock()
             .unwrap()
             .create_filtered_receiver(&topic_filter);
-        Ok(SessionPubReceiver { pub_rx, auto_ack })
+        Ok(SessionPubReceiver { pub_rx })
     }
 
-    fn create_unfiltered_pub_receiver(&self, auto_ack: bool) -> SessionPubReceiver {
+    fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
         let pub_rx = self
             .receiver_manager
             .lock()
             .unwrap()
             .create_unfiltered_receiver();
-        SessionPubReceiver { pub_rx, auto_ack }
+        SessionPubReceiver { pub_rx }
     }
 }
 
@@ -135,24 +134,16 @@ where
 pub struct SessionPubReceiver {
     /// Receiver for incoming publishes
     pub_rx: PublishRx,
-    /// Controls whether incoming publishes are auto-acked
-    auto_ack: bool,
 }
 
 #[async_trait]
 impl PubReceiver for SessionPubReceiver {
-    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)> {
-        match self.pub_rx.recv().await {
-            Some((publish, ack_token)) => {
-                // If auto ack enabled, do not pass on the ack token
-                if self.auto_ack {
-                    Some((publish, None))
-                } else {
-                    Some((publish, ack_token))
-                }
-            }
-            None => None,
-        }
+    async fn recv(&mut self) -> Option<Publish> {
+        self.pub_rx.recv().await.map(|(publish, _)| publish)
+    }
+
+    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)> {
+        self.pub_rx.recv().await
     }
 
     fn close(&mut self) {

@@ -56,6 +56,35 @@ pub struct CloudEvent {
     /// reflected by a different URI.
     #[builder(default = "None")]
     data_schema: Option<String>,
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    #[builder(default = "Uuid::new_v4().to_string()")]
+    id: String,
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    #[builder(default = "Some(DateTime::<Utc>::from(SystemTime::now()))")]
+    time: Option<DateTime<Utc>>,
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    #[builder(default = "CloudEventSubject::TelemetryTopic")]
+    subject: CloudEventSubject,
+}
+
+/// Enum representing the different values that the [`subject`](CloudEvent::subject) field of a [`CloudEvent`] can take.
+#[derive(Clone, Debug)]
+pub enum CloudEventSubject {
+    /// The telemetry topic should be used as the subject when the [`CloudEvent`] is sent across the wire
+    TelemetryTopic,
+    /// A custom (provided) `String` should be used for the `subject` of the [`CloudEvent`]
+    Custom(String),
+    /// No subject should be included on the [`CloudEvent`]
+    None,
 }
 
 impl CloudEventBuilder {
@@ -79,6 +108,16 @@ impl CloudEventBuilder {
             CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
         }
 
+        if let Some(id) = &self.id {
+            CloudEventFields::Id.validate(id, &spec_version)?;
+        }
+
+        if let Some(CloudEventSubject::Custom(subject)) = &self.subject {
+            CloudEventFields::Subject.validate(subject, &spec_version)?;
+        }
+
+        // time does not need to be validated because converting it to an rfc3339 compliant string will always succeed
+
         Ok(())
     }
 }
@@ -86,24 +125,33 @@ impl CloudEventBuilder {
 impl CloudEvent {
     /// Get [`CloudEvent`] as headers for an MQTT message
     #[must_use]
-    fn into_headers(self, subject: &str, content_type: &str) -> Vec<(String, String)> {
+    fn into_headers(self, telemetry_topic: &str) -> Vec<(String, String)> {
         let mut headers = vec![
-            (CloudEventFields::Id.to_string(), Uuid::new_v4().to_string()),
+            (CloudEventFields::Id.to_string(), self.id),
             (CloudEventFields::Source.to_string(), self.source),
             (CloudEventFields::SpecVersion.to_string(), self.spec_version),
             (CloudEventFields::EventType.to_string(), self.event_type),
-            (CloudEventFields::Subject.to_string(), subject.to_string()),
-            (
-                CloudEventFields::DataContentType.to_string(),
-                content_type.to_string(),
-            ),
-            (
-                CloudEventFields::Time.to_string(),
-                DateTime::<Utc>::from(SystemTime::now()).to_rfc3339(),
-            ),
         ];
+        match self.subject {
+            CloudEventSubject::Custom(subject) => {
+                headers.push((CloudEventFields::Subject.to_string(), subject));
+            }
+            CloudEventSubject::TelemetryTopic => {
+                headers.push((
+                    CloudEventFields::Subject.to_string(),
+                    telemetry_topic.to_string(),
+                ));
+            }
+            CloudEventSubject::None => {}
+        }
+        if let Some(time) = self.time {
+            headers.push((CloudEventFields::Time.to_string(), time.to_rfc3339()));
+        }
         if let Some(data_schema) = self.data_schema {
-            headers.push((CloudEventFields::DataSchema.to_string(), data_schema));
+            headers.push((
+                CloudEventFields::DataSchema.to_string(),
+                data_schema.to_string(),
+            ));
         }
         headers
     }
@@ -212,6 +260,13 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
         if let Some(qos) = &self.qos {
             if *qos != QoS::AtMostOnce && *qos != QoS::AtLeastOnce {
                 return Err("QoS must be AtMostOnce or AtLeastOnce".to_string());
+            }
+        }
+        // If there's a cloud event, make sure the content type is valid for the cloud event spec version
+        if let Some(Some(cloud_event)) = &self.cloud_event {
+            if let Some(serialized_payload) = &self.serialized_payload {
+                CloudEventFields::DataContentType
+                    .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
             }
         }
         Ok(())
@@ -353,8 +408,7 @@ where
 
         // Cloud Events headers
         if let Some(cloud_event) = message.cloud_event {
-            let cloud_event_headers =
-                cloud_event.into_headers(&message_topic, &message.serialized_payload.content_type);
+            let cloud_event_headers = cloud_event.into_headers(&message_topic);
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }

@@ -6,6 +6,10 @@ use std::{
     str::FromStr,
 };
 
+use chrono::DateTime;
+use fluent_uri::{Uri, UriRef};
+use regex::Regex;
+
 /// Default spec version for a `CloudEvent`. Compliant event producers MUST
 /// use a value of 1.0 when referring to this version of the specification.
 pub const DEFAULT_CLOUD_EVENT_SPEC_VERSION: &str = "1.0";
@@ -54,21 +58,62 @@ impl CloudEventFields {
     ///
     /// # Errors
     /// Returns a string containing the error message if either the field or spec version are invalid.
+    ///
+    /// # Panics
+    /// If any regex fails to compile which is impossible given that the regex is pre-defined.
     pub fn validate(&self, value: &str, spec_version: &str) -> Result<(), String> {
         if spec_version == "1.0" {
+            if value.is_empty() {
+                return Err(format!("{self} cannot be empty"));
+            }
             match self {
                 CloudEventFields::Id
-                | CloudEventFields::Source
                 | CloudEventFields::SpecVersion
                 | CloudEventFields::EventType
-                | CloudEventFields::DataSchema
-                | CloudEventFields::Subject
-                | CloudEventFields::Time
-                | CloudEventFields::DataContentType => {
-                    if value.is_empty() {
-                        return Err(format!("{self} cannot be empty"));
+                | CloudEventFields::Subject => {}
+                CloudEventFields::Source => {
+                    // URI reference
+                    match UriRef::parse(value) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.1. Error: {e}"
+                            ));
+                        }
                     }
-                    // TODO: Ensure DataContentType adheres to RFC 2046
+                }
+                CloudEventFields::DataSchema => {
+                    // URI
+                    match Uri::parse(value) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.3. Error: {e}"
+                            ));
+                        }
+                    }
+                }
+                CloudEventFields::Time => {
+                    // serializable as RFC3339
+                    match DateTime::parse_from_rfc3339(value) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3339. Error: {e}"
+                            ));
+                        }
+                    }
+                }
+                CloudEventFields::DataContentType => {
+                    let rfc_2045_regex =
+                        Regex::new(r"^([-a-z]+)/([-a-z0-9\.\-]+)(?:\+([a-z0-9\.\-]+))?$")
+                            .expect("Static regex string should not fail");
+
+                    if !rfc_2045_regex.is_match(value) {
+                        return Err(format!(
+                            "Invalid {self} value: {value}. Must adhere to RFC 2045"
+                        ));
+                    }
                 }
             }
         } else {
@@ -155,6 +200,49 @@ mod tests {
         CloudEventFields::DataContentType
             .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
             .unwrap_err();
+    }
+
+    #[test_case("aio://oven/sample", true; "absolute_uri")]
+    #[test_case("./bar", true; "uri_reference")]
+    #[test_case("::::", false; "not_uri_reference")]
+    fn test_cloud_event_validate_invalid_source(source: &str, expected: bool) {
+        assert_eq!(
+            CloudEventFields::Source
+                .validate(source, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
+    }
+
+    #[test_case("aio://oven/sample", true; "absolute_uri")]
+    #[test_case("./bar", false; "uri_reference")]
+    #[test_case("ht!tp://example.com", false; "invalid_uri")]
+    fn test_cloud_event_validate_data_schema(data_schema: &str, expected: bool) {
+        assert_eq!(
+            CloudEventFields::DataSchema
+                .validate(data_schema, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
+    }
+
+    #[test_case("application/json", true; "json")]
+    #[test_case("text/csv", true; "csv")]
+    #[test_case("application/avro", true; "avro")]
+    #[test_case("application/octet-stream", true; "dash_second_half")]
+    #[test_case("application/f0o", true; "number_second_half")]
+    #[test_case("application/f.o", true; "period_second_half")]
+    #[test_case("foo/bar+bazz", true; "plus_extra")]
+    #[test_case("f0o/json", false; "number_first_half")]
+    #[test_case("foo", false; "no_slash")]
+    #[test_case("foo/bar?bazz", false; "question_mark")]
+    fn test_cloud_event_validate_data_content_type(data_content_type: &str, expected: bool) {
+        assert_eq!(
+            CloudEventFields::DataContentType
+                .validate(data_content_type, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
     }
 
     #[test]

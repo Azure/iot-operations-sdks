@@ -17,7 +17,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 };
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
+    self, TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
 };
 use bytes::Bytes;
 use tokio::sync::mpsc;
@@ -196,22 +196,23 @@ where
                 Ok((telemetry, ack_token)) => {
                     *telemetry_count.lock().unwrap() += 1;
 
+                    let cloud_event =
+                        match telemetry_receiver::CloudEvent::from_telemetry(&telemetry) {
+                            Ok(cloud_event) => Some(TestCaseCloudEvent {
+                                source: Some(cloud_event.source),
+                                event_type: Some(cloud_event.event_type),
+                                spec_version: Some(cloud_event.spec_version),
+                                data_content_type: cloud_event.data_content_type,
+                                subject: cloud_event.subject,
+                                data_schema: cloud_event.data_schema,
+                            }),
+                            Err(_) => None,
+                        };
+
                     let mut metadata = HashMap::new();
                     for (key, value) in telemetry.custom_user_data {
                         metadata.insert(key, value);
                     }
-
-                    let cloud_event = match telemetry.cloud_event {
-                        Some(cloud_event) => Some(TestCaseCloudEvent {
-                            source: Some(cloud_event.source),
-                            event_type: Some(cloud_event.event_type),
-                            spec_version: Some(cloud_event.spec_version),
-                            data_content_type: cloud_event.data_content_type,
-                            subject: cloud_event.subject,
-                            data_schema: cloud_event.data_schema,
-                        }),
-                        None => None,
-                    };
 
                     telemetry_tx
                         .send(ReceivedTelemetry {
