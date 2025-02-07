@@ -330,6 +330,12 @@ where
     /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
+    ///
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if
+    /// - the [`ApplicationHybridLogicalClock`]'s counter would be incremented and overflow beyond [`u64::MAX`] when preparing the timestamp for the message
+    ///
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if
+    /// - the [`ApplicationHybridLogicalClock`]'s timestamp is too far in the future
     pub async fn send(&self, mut message: TelemetryMessage<T>) -> Result<(), AIOProtocolError> {
         // Validate parameters. Custom user data, timeout, QoS, and payload serialization have already been validated in TelemetryMessageBuilder
         let message_expiry_interval: u32 = match message.message_expiry.as_secs().try_into() {
@@ -343,7 +349,7 @@ where
         // Get topic.
         let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
 
-        // Create timestamp
+        // Get updated timestamp
         let timestamp_str = self.application_hlc.update_now().await?;
 
         // Create correlation id

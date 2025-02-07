@@ -419,9 +419,13 @@ where
     ///
     /// [`AIOProtocolError`] of kind [`ExecutionException`](AIOProtocolErrorKind::ExecutionException) if the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`] and the [`UserProperty::IsApplicationError`] is true
     ///
-    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`], the [`UserProperty::IsApplicationError`] is false, and a [`UserProperty::InvalidPropertyName`] is provided
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if
+    /// - the [`ApplicationHybridLogicalClock`]'s counter would be incremented and overflow beyond [`u64::MAX`]
+    /// - the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`], the [`UserProperty::IsApplicationError`] is false, and a [`UserProperty::InvalidPropertyName`] is provided
     ///
-    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if the response has a [`UserProperty::Status`] of [`StatusCode::ServiceUnavailable`]
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if
+    /// - the [`ApplicationHybridLogicalClock`] or the received timestamp on the response is too far in the future
+    /// - the response has a [`UserProperty::Status`] of [`StatusCode::ServiceUnavailable`]
     pub async fn invoke(
         &self,
         request: CommandRequest<TReq>,
@@ -522,7 +526,7 @@ where
         let correlation_id = Uuid::new_v4();
         let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
-        // Create timestamp
+        // Get updated timestamp
         let timestamp_str = self.application_hlc.update_now().await?;
 
         // Add internal user properties
