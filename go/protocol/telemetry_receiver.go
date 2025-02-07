@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -130,6 +131,7 @@ func NewTelemetryReceiver[T any](
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
+		version:     version.TelemetryProtocolString,
 		log:         logger,
 		handler:     tr,
 	}

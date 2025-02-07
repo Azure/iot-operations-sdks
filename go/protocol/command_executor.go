@@ -17,6 +17,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/caching"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -145,6 +146,7 @@ func NewCommandExecutor[Req, Res any](
 		shareName:      opts.ShareName,
 		concurrency:    opts.Concurrency,
 		reqCorrelation: true,
+		version:        version.RPCProtocolString,
 		log:            logger,
 		handler:        ce,
 	}
@@ -152,6 +154,7 @@ func NewCommandExecutor[Req, Res any](
 		app:      app,
 		client:   client,
 		encoding: responseEncoding,
+		version:  version.RPCProtocolString,
 	}
 
 	ce.listener.register()

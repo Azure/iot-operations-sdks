@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -185,6 +186,7 @@ func NewCommandInvoker[Req, Res any](
 		encoding:       responseEncoding,
 		topic:          resTF,
 		reqCorrelation: true,
+		version:        version.RPCProtocolString,
 		log:            logger,
 		handler:        ci,
 	}

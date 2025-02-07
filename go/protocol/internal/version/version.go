@@ -8,11 +8,10 @@ import (
 )
 
 const (
-	ProtocolString  = "1.0"
-	SupportedString = "1"
+	RPCProtocolString       = "1.0"
+	TelemetryProtocolString = "1.0"
+	SupportedString         = "1"
 )
-
-var Supported = ParseSupported(SupportedString)
 
 func ParseProtocol(v string) (major, minor int) {
 	if v == "" {
@@ -53,9 +52,9 @@ func ParseSupported(vs string) []int {
 	return res
 }
 
-func IsSupported(v string) bool {
+func IsSupported(v, supported string) bool {
 	major, _ := ParseProtocol(v)
-	for _, s := range Supported {
+	for _, s := range ParseSupported(supported) {
 		if major == s {
 			return true
 		}
