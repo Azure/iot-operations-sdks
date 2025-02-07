@@ -44,16 +44,20 @@ impl HybridLogicalClock {
         }
     }
 
-    // (G?) Get - syncs the HLC to the current time and returns it
-    // (G - only adds locking) Set - syncs the HLC to the given HLC
-
-    // compare
-    // equals?
-
-    // Update - updates the HLC based on another one
-
+    /// Updates the [`HybridLogicalClock`] based on another [`HybridLogicalClock`].
+    /// Self will be set to the latest timestamp between itself, other, and the current time, and
+    /// it's counter will also be updated accordingly.
+    ///
+    /// Note: Update performed against another [`HybridLogicalClock`] with the same [`node_id`](HybridLogicalClock::node_id)
+    /// is a no-op, and will not result in an error.
+    ///
     /// # Errors
-    /// TODO: Add errors once [`HybridLogicalClock`] is implemented
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if
+    /// the [`HybridLogicalClock`]'s counter would be set to a value that would overflow beyond [`u64::MAX`]
+    ///
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid) if
+    /// the latest [`HybridLogicalClock`] (of `Self` or `other`)'s timestamp is too far in the future (determined by `max_clock_drift`)
+    /// compared to [`SystemTime::now()`]
     pub fn update(
         &mut self,
         other: &HybridLogicalClock,
@@ -95,9 +99,14 @@ impl HybridLogicalClock {
         Ok(())
     }
 
-    // Update now - updates the HLC based on the current time
+    /// Updates the [`HybridLogicalClock`] based on the current time
+    ///
     /// # Errors
-    /// TODO: Add errors once [`HybridLogicalClock`] is implemented
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if
+    /// the [`HybridLogicalClock`]'s counter would be incremented and overflow beyond [`u64::MAX`]
+    ///
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid) if
+    /// the [`HybridLogicalClock`]'s timestamp is too far in the future (determined by `max_clock_drift`) compared to [`SystemTime::now()`]
     pub fn update_now(&mut self, max_clock_drift: Duration) -> Result<(), AIOProtocolError> {
         let now = now_ms_precision();
 
@@ -114,13 +123,14 @@ impl HybridLogicalClock {
 
     /// Validates that the HLC is not too far in the future compared to the current time,
     /// and that the counter will not overflow if it is increased.
+    ///
     /// # Errors
-    /// TODO: Add errors once [`HybridLogicalClock`] is implemented
-    pub fn validate(
-        &self,
-        now: SystemTime,
-        max_clock_drift: Duration,
-    ) -> Result<(), AIOProtocolError> {
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
+    /// if the [`HybridLogicalClock`] counter is at [`u64::MAX`]
+    ///
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid)
+    /// if the [`HybridLogicalClock`]'s timestamp is too far in the future (determined by `max_clock_drift`)
+    fn validate(&self, now: SystemTime, max_clock_drift: Duration) -> Result<(), AIOProtocolError> {
         if self.counter == u64::MAX {
             return Err(AIOProtocolError::new_internal_logic_error(
                 true,

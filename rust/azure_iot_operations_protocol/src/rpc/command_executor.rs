@@ -968,7 +968,6 @@ where
         // Update HLC and use as the timestamp.
         // If there are errors updating the HLC (unlikely when updating against now),
         // the timestamp will not be added.
-        // TODO: should we add the non-updated timestamp instead if this fails?
         if let Ok(timestamp_str) = application_hlc.update_now().await {
             user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
         }
