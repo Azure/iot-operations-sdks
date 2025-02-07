@@ -116,16 +116,14 @@ impl ManagedClient for SessionManagedClient {
     fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
-        auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0
-                .create_filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0.create_filtered_pub_receiver(topic_filter)?,
         ))
     }
 
-    fn create_unfiltered_pub_receiver(&self, auto_ack: bool) -> SessionPubReceiver {
-        SessionPubReceiver(self.0.create_unfiltered_pub_receiver(auto_ack))
+    fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
+        SessionPubReceiver(self.0.create_unfiltered_pub_receiver())
     }
 }
 
@@ -191,8 +189,12 @@ impl MqttPubSub for SessionManagedClient {
 
 #[async_trait]
 impl PubReceiver for SessionPubReceiver {
-    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)> {
+    async fn recv(&mut self) -> Option<Publish> {
         self.0.recv().await
+    }
+
+    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)> {
+        self.0.recv_manual_ack().await
     }
 
     fn close(&mut self) {
