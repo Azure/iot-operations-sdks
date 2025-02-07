@@ -85,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnector",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingRestThermostatConnector", "samples\PollingRestThermostatConnector\PollingRestThermostatConnector.csproj", "{6D8CEBB2-C805-4B45-AAFB-418B1E558146}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTcpClientApp", "samples\SampleTcpClientApp\SampleTcpClientApp.csproj", "{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -215,6 +217,10 @@ Global
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,6 +262,7 @@ Global
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146} = {78562762-96CB-4527-8EE2-43A1CE119A21}
+		{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Microsoft.Extensions.DependencyInjection;
 using SqlQualityAnalyzerConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)

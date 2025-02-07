@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
 using EventDrivenRestThermostatConnector;
+using System.Net.Sockets;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -11,7 +12,7 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
         private readonly TelemetryConnectorWorker _connector;
-        private MockDataSource? _mockDataSource;
+        private TcpListener? _tcpListener;
 
         public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetMessageSchemaProviderFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
@@ -27,21 +28,10 @@ namespace Azure.Iot.Operations.Connector
             await _connector.ForwardSampledDatasetAsync(e.AssetName, e.DatasetName, e.Data);
         }
 
-        private void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
-        {
-            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-            if (_mockDataSource != null)
-            {
-                _mockDataSource.Close();
-                _mockDataSource.OnDataReceived -= HandleReceivedData;
-                _mockDataSource = null;
-            }
-        }
-
         private void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
-            
+
             if (args.Asset.Datasets == null)
             {
                 // If the asset has no datasets to sample, then do nothing
@@ -50,9 +40,27 @@ namespace Azure.Iot.Operations.Connector
 
             // This sample only has one asset with one dataset
             var dataset = args.Asset.Datasets[0];
-            _mockDataSource = new(args.AssetName, dataset.Name);
-            _mockDataSource.OnDataReceived += HandleReceivedData;
-            _mockDataSource.Open();
+            _tcpListener = new TcpListener(System.Net.IPAddress.Any, 80);
+            _tcpListener.Start();
+
+            // Spawn a task that listens for incoming data on the TCP port
+            _ = new Task(async () =>
+            {
+                using TcpClient handler = await _tcpListener.AcceptTcpClientAsync();
+                await using NetworkStream stream = handler.GetStream();
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, 1024);
+                Array.Resize(ref buffer, bytesRead);
+
+                HandleReceivedData(this, new(buffer, args.AssetName, dataset.Name));
+            });
+        }
+
+        private void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
+        {
+            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
+            _tcpListener?.Stop();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -67,11 +75,7 @@ namespace Azure.Iot.Operations.Connector
             _connector.OnAssetAvailable -= OnAssetSampleableAsync;
             _connector.OnAssetUnavailable -= OnAssetNotSampleableAsync;
             _connector.Dispose();
-            if (_mockDataSource != null)
-            {
-                _mockDataSource.Close();
-                _mockDataSource.OnDataReceived -= HandleReceivedData;
-            }
+            _tcpListener?.Dispose();
         }
     }
 }
