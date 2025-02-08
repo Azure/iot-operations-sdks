@@ -286,18 +286,11 @@ enum CommandExecutorCacheEntryStatus {
 ///
 /// Used to cache command responses and determine if a command request is a duplicate.
 #[derive(Clone)]
-struct CommandExecutorCache {
-    cache: Arc<Mutex<HashMap<CommandExecutorCacheKey, CommandExecutorCacheEntry>>>,
-}
+struct CommandExecutorCache(
+    Arc<Mutex<HashMap<CommandExecutorCacheKey, CommandExecutorCacheEntry>>>,
+);
 
 impl CommandExecutorCache {
-    /// Create a new [`CommandExecutorCache`] instance.
-    fn new() -> Self {
-        CommandExecutorCache {
-            cache: Arc::new(Mutex::new(HashMap::new())),
-        }
-    }
-
     /// Get a cache entry from the [`CommandExecutorCache`].
     ///
     /// # Arguments
@@ -305,7 +298,7 @@ impl CommandExecutorCache {
     ///
     /// Returns a [`CommandExecutorCacheEntryStatus`] indicating the status of the cache entry.
     fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
-        let cache = self.cache.lock().unwrap();
+        let cache = self.0.lock().unwrap();
         cache
             .get(key)
             .map_or(CommandExecutorCacheEntryStatus::NotFound, |entry| {
@@ -323,8 +316,8 @@ impl CommandExecutorCache {
     /// `key` - The cache key to set the cache entry for.
     /// `entry` - The cache entry to set.
     fn set(&self, key: CommandExecutorCacheKey, entry: CommandExecutorCacheEntry) {
-        let mut cache = self.cache.lock().unwrap();
-        cache.retain(|_, entry| !entry.expiration_time.elapsed().is_zero());
+        let mut cache = self.0.lock().unwrap();
+        cache.retain(|_, entry| entry.expiration_time.elapsed().is_zero());
         cache.insert(key, entry);
     }
 }
@@ -494,7 +487,7 @@ where
             command_name: executor_options.command_name,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            cache: CommandExecutorCache::new(),
+            cache: CommandExecutorCache(Arc::new(Mutex::new(HashMap::new()))),
             application_hlc: application_context.application_hlc,
             executor_state: CommandExecutorState::New,
             executor_cancellation_token: CancellationToken::new(),
@@ -1026,7 +1019,6 @@ where
         completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
         cache: CommandExecutorCache,
     ) {
-        let mut user_properties: Vec<(String, String)> = Vec::new();
         let mut serialized_payload = SerializedPayload::default();
         let mut publish_properties = PublishProperties::default();
         let cache_not_found =
@@ -1044,6 +1036,7 @@ where
             publish_properties = entry.properties;
             serialized_payload = entry.serialized_payload;
         } else {
+            let mut user_properties: Vec<(String, String)> = Vec::new();
             'process_response: {
                 let Some(command_expiration_time) = response_arguments.command_expiration_time
                 else {
@@ -1678,7 +1671,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_cache_not_found() {
-        let cache = CommandExecutorCache::new();
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
         let key = CommandExecutorCacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
@@ -1689,7 +1682,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_cache_found() {
-        let cache = CommandExecutorCache::new();
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
         let key = CommandExecutorCacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
@@ -1710,7 +1703,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_cache_expired() {
-        let cache = CommandExecutorCache::new();
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
         let key = CommandExecutorCacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
@@ -1748,7 +1741,47 @@ mod tests {
         );
     }
 
-    // ...existing code...
+    #[tokio::test]
+    async fn test_cache_expired_with_different_key_set() {
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CommandExecutorCacheKey {
+            response_topic: String::from("test_response_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() - Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry);
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Expired);
+
+        // Set a new entry with a different key and check if the expired entry is deleted
+        let new_key = CommandExecutorCacheKey {
+            response_topic: String::from("new_test_response_topic"),
+            correlation_data: Bytes::from("new_test_correlation_data"),
+        };
+        let new_entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("new_test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(new_key.clone(), new_entry.clone());
+
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::NotFound);
+        let status = cache.get(&new_key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Cached(new_entry));
+    }
 }
 
 // Test cases for subscribe
