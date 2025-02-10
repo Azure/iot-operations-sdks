@@ -3,6 +3,13 @@ command-name = "test"
 request-topic = "mock/test"
 response-topic-prefix = "response"
 
+[prologue.invoker.serializer]
+out-content-type = "application/json"
+accept-content-types = [ "", "application/json" ]
+indicate-character-data = true
+allow-character-data = true
+fail-deserialization = false
+
 [actions.invoke-command]
 command-name = "test"
 request-value = "Test_Request"

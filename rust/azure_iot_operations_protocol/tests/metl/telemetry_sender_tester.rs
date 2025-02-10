@@ -12,12 +12,10 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
     CloudEventBuilder, CloudEventSubject, TelemetryMessageBuilder, TelemetryMessageBuilderError,
     TelemetrySender, TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
 };
-use bytes::Bytes;
 use tokio::sync::oneshot;
 use tokio::time;
 
@@ -30,6 +28,7 @@ use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_sender::TestCaseSender;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -51,7 +50,6 @@ where
 {
     pub async fn test_telemetry_sender(
         test_case: TestCase<SenderDefaults>,
-        test_case_index: i32,
         managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
@@ -86,7 +84,6 @@ where
                 test_case_sender,
                 catch,
                 &mut mqtt_hub,
-                test_case_index,
             )
             .await
             {
@@ -97,6 +94,8 @@ where
             }
         }
 
+        let test_case_serializer = &test_case.prologue.senders[0].serializer;
+
         let mut send_chans: VecDeque<SendResultReceiver> = VecDeque::new();
 
         for test_case_action in &test_case.actions {
@@ -106,7 +105,7 @@ where
                         action_send_telemetry,
                         &senders,
                         &mut send_chans,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_send @ TestCaseAction::AwaitSend { .. } => {
@@ -147,7 +146,6 @@ where
                     sequence_index.try_into().unwrap(),
                     published_message,
                     &mqtt_hub,
-                    test_case_index,
                 );
             }
 
@@ -166,7 +164,6 @@ where
         tcs: &TestCaseSender<SenderDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-        test_case_index: i32,
     ) -> Option<TelemetrySender<TestPayload, C>> {
         let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
 
@@ -223,7 +220,11 @@ where
                         telemetry_message_builder
                             .payload(TestPayload {
                                 payload: Some(telemetry_value.clone()),
-                                test_case_index: Some(test_case_index),
+                                out_content_type: tcs.serializer.out_content_type.clone(),
+                                accept_content_types: tcs.serializer.accept_content_types.clone(),
+                                indicate_character_data: tcs.serializer.indicate_character_data,
+                                allow_character_data: tcs.serializer.allow_character_data,
+                                fail_deserialization: tcs.serializer.fail_deserialization,
                             })
                             .unwrap();
                     }
@@ -276,7 +277,7 @@ where
         action: &TestCaseAction<SenderDefaults>,
         senders: &'a HashMap<String, Arc<TelemetrySender<TestPayload, C>>>,
         send_chans: &mut VecDeque<SendResultReceiver>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<SenderDefaults>,
     ) {
         if let TestCaseAction::SendTelemetry {
             defaults_type: _,
@@ -294,7 +295,11 @@ where
                 telemetry_message_builder
                     .payload(TestPayload {
                         payload: Some(telemetry_value.clone()),
-                        test_case_index: Some(test_case_index),
+                        out_content_type: tcs.out_content_type.clone(),
+                        accept_content_types: tcs.accept_content_types.clone(),
+                        indicate_character_data: tcs.indicate_character_data,
+                        allow_character_data: tcs.allow_character_data,
+                        fail_deserialization: tcs.fail_deserialization,
                     })
                     .unwrap();
             }
@@ -421,7 +426,6 @@ where
         sequence_index: i32,
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        test_case_index: i32,
     ) {
         let published_message = mqtt_hub
             .get_sequentially_published_message(sequence_index)
@@ -438,17 +442,12 @@ where
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                let payload = Bytes::copy_from_slice(
-                    TestPayload {
-                        payload: Some(payload.clone()),
-                        test_case_index: Some(test_case_index),
-                    }
-                    .serialize()
-                    .unwrap()
-                    .payload
-                    .as_slice(),
+                assert_eq!(
+                    payload,
+                    from_utf8(published_message.payload.to_vec().as_slice())
+                        .expect("could not process published payload topic as UTF8"),
+                    "payload"
                 );
-                assert_eq!(payload, published_message.payload, "payload");
             } else {
                 assert!(published_message.payload.is_empty());
             }

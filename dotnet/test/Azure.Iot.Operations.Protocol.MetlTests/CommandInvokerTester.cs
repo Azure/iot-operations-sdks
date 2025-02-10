@@ -4,7 +4,6 @@
 using System.Collections.Concurrent;
 using System.Text;
 using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 using Tomlyn;
 using Xunit;
 using YamlDotNet.Core;
@@ -29,7 +28,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
         private static FreezableWallClock freezableWallClock;
-        private static IPayloadSerializer payloadSerializer;
 
         static CommandInvokerTester()
         {
@@ -54,6 +52,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             if (File.Exists(defaultsFilePath))
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
+
+                TestCaseSerializer.DefaultOutContentType = defaultTestCase.Prologue.Invoker.Serializer.OutContentType;
+                TestCaseSerializer.DefaultAcceptContentTypes = defaultTestCase.Prologue.Invoker.Serializer.AcceptContentTypes;
+                TestCaseSerializer.DefaultIndicateCharacterData = defaultTestCase.Prologue.Invoker.Serializer.IndicateCharacterData;
+                TestCaseSerializer.DefaultAllowCharacterData = defaultTestCase.Prologue.Invoker.Serializer.AllowCharacterData;
+                TestCaseSerializer.DefaultFailDeserialization = defaultTestCase.Prologue.Invoker.Serializer.FailDeserialization;
 
                 TestCaseInvoker.DefaultCommandName = defaultTestCase.Prologue.Invoker.CommandName;
                 TestCaseInvoker.DefaultRequestTopic = defaultTestCase.Prologue.Invoker.RequestTopic;
@@ -81,8 +85,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             freezableWallClock = new FreezableWallClock();
             TestCommandInvoker.WallClock = freezableWallClock;
-
-            payloadSerializer = new Utf8JsonSerializer();
         }
 
         public static IEnumerable<object[]> GetAllCommandInvokerCases()
@@ -254,7 +256,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestCommandInvoker commandInvoker = new TestCommandInvoker(mqttClient, testCaseInvoker.CommandName!)
+                TestSerializer testSerializer = new TestSerializer(testCaseInvoker.Serializer);
+
+                TestCommandInvoker commandInvoker = new TestCommandInvoker(mqttClient, testCaseInvoker.CommandName!, testSerializer)
                 {
                     RequestTopicPattern = testCaseInvoker.RequestTopic!,
                     TopicNamespace = testCaseInvoker.TopicNamespace,
@@ -388,7 +392,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (actionReceiveResponse.Payload != null)
             {
-                byte[]? payload = actionReceiveResponse.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveResponse.Payload) : payloadSerializer.ToBytes(actionReceiveResponse.Payload).SerializedPayload;
+                byte[]? payload = Encoding.UTF8.GetBytes(actionReceiveResponse.Payload);
                 responseAppMsgBuilder.WithPayload(payload);
             }
 
@@ -509,7 +513,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(payload).SerializedPayload, appMsg.PayloadSegment.Array);
+                Assert.NotNull(appMsg.PayloadSegment.Array);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)

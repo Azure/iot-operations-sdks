@@ -10,13 +10,11 @@ using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 using Tomlyn;
 using Xunit;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using TestModel.dtmi_test_TestModel__1;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Converters;
 
@@ -38,7 +36,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
         private static FreezableWallClock freezableWallClock;
-        private static IPayloadSerializer payloadSerializer;
 
         static TelemetryReceiverTester()
         {
@@ -61,6 +58,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
+                TestCaseSerializer.DefaultAcceptContentTypes = defaultTestCase.Prologue.Receiver.Serializer.AcceptContentTypes;
+                TestCaseSerializer.DefaultAllowCharacterData = defaultTestCase.Prologue.Receiver.Serializer.AllowCharacterData;
+                TestCaseSerializer.DefaultFailDeserialization = defaultTestCase.Prologue.Receiver.Serializer.FailDeserialization;
+
                 TestCaseReceiver.DefaultTelemetryTopic = defaultTestCase.Prologue.Receiver.TelemetryTopic;
                 TestCaseReceiver.DefaultTopicNamespace = defaultTestCase.Prologue.Receiver.TopicNamespace;
 
@@ -75,8 +76,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             freezableWallClock = new FreezableWallClock();
             TestTelemetryReceiver.WallClock = freezableWallClock;
-
-            payloadSerializer = new Utf8JsonSerializer();
         }
 
         public static IEnumerable<object[]> GetAllTelemetryReceiverCases()
@@ -295,7 +294,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient)
+                TestSerializer testSerializer = new TestSerializer(testCaseReceiver.Serializer);
+
+                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient, testSerializer)
                 {
                     TopicPattern = testCaseReceiver.TelemetryTopic!,
                     TopicNamespace = testCaseReceiver.TopicNamespace,
@@ -373,9 +374,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (actionReceiveTelemetry.Payload != null)
             {
-                byte[]? payload =
-                    actionReceiveTelemetry.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveTelemetry.Payload) :
-                    payloadSerializer.ToBytes(actionReceiveTelemetry.Payload).SerializedPayload;
+                byte[]? payload = Encoding.UTF8.GetBytes(actionReceiveTelemetry.Payload);
                 requestAppMsgBuilder.WithPayload(payload);
             }
 

@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/url"
@@ -32,6 +31,7 @@ func RunTelemetrySenderTests(t *testing.T) {
 	}
 
 	TestCaseDefaultInfo = &telemetrySenderDefaultInfo
+	TestCaseDefaultSerializer = &telemetrySenderDefaultInfo.Prologue.Sender.Serializer
 
 	files, err := filepath.Glob(
 		"../../../eng/test/test-cases/Protocol/TelemetrySender/*.yaml",
@@ -116,7 +116,7 @@ func runOneTelemetrySenderTest(
 			catch = testCase.Prologue.Catch
 		}
 
-		sender := getTelemetrySender(t, sessionClient, stubBroker, tcs, catch)
+		sender := getTelemetrySender(t, sessionClient, stubBroker, &tcs, catch)
 		if sender != nil {
 			telemetrySenders[*tcs.TelemetryName] = sender
 		}
@@ -174,7 +174,7 @@ func getTelemetrySender(
 	t *testing.T,
 	sessionClient protocol.MqttClient,
 	stubBroker *StubBroker,
-	tcs TestCaseSender,
+	tcs *TestCaseSender,
 	catch *TestCaseCatch,
 ) *TestingTelemetrySender {
 	options := []protocol.TelemetrySenderOption{
@@ -190,6 +190,7 @@ func getTelemetrySender(
 
 	sender, err := NewTestingTelemetrySender(
 		sessionClient,
+		&tcs.Serializer,
 		tcs.TelemetryTopic,
 		options...)
 
@@ -317,9 +318,7 @@ func checkPublishedTelemetry(
 	if publishedMessage.Payload == nil {
 		require.Empty(t, msg.Payload)
 	} else if payload, ok := publishedMessage.Payload.(string); ok {
-		payloadBytes, err := json.Marshal(payload)
-		require.NoError(t, err)
-		require.Equal(t, payloadBytes, msg.Payload)
+		require.Equal(t, payload, string(msg.Payload))
 	}
 
 	for key, val := range publishedMessage.Metadata {

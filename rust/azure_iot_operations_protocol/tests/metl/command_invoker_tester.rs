@@ -14,12 +14,12 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandInvokerOptionsBuilderError,
     CommandRequestBuilder, CommandRequestBuilderError, CommandResponse,
 };
 use bytes::Bytes;
+use serde_json;
 use tokio::sync::oneshot;
 use tokio::time;
 
@@ -32,6 +32,7 @@ use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_invoker::TestCaseInvoker;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -54,7 +55,6 @@ where
 {
     pub async fn test_command_invoker(
         test_case: TestCase<InvokerDefaults>,
-        test_case_index: i32,
         managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
@@ -90,7 +90,6 @@ where
                 test_case_invoker,
                 catch,
                 &mut mqtt_hub,
-                test_case_index,
             )
             .await
             {
@@ -100,6 +99,8 @@ where
                 );
             }
         }
+
+        let test_case_serializer = &test_case.prologue.invokers[0].serializer;
 
         let mut invocation_chans: HashMap<i32, Option<InvokeResultReceiver>> = HashMap::new();
         let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
@@ -112,7 +113,7 @@ where
                         action_invoke_command,
                         &invokers,
                         &mut invocation_chans,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_invocation @ TestCaseAction::AwaitInvocation { .. } => {
@@ -124,7 +125,7 @@ where
                         &mut mqtt_hub,
                         &mut correlation_ids,
                         &mut packet_ids,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_ack @ TestCaseAction::AwaitAck { .. } => {
@@ -169,12 +170,7 @@ where
             }
 
             for published_message in &test_case_epilogue.published_messages {
-                Self::check_published_message(
-                    published_message,
-                    &mqtt_hub,
-                    &correlation_ids,
-                    test_case_index,
-                );
+                Self::check_published_message(published_message, &mqtt_hub, &correlation_ids);
             }
 
             if let Some(acknowledgement_count) = test_case_epilogue.acknowledgement_count {
@@ -192,7 +188,6 @@ where
         tci: &TestCaseInvoker<InvokerDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-        test_case_index: i32,
     ) -> Option<CommandInvoker<TestPayload, TestPayload, C>> {
         let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
 
@@ -258,7 +253,11 @@ where
                         command_request_builder
                             .payload(TestPayload {
                                 payload: Some(request_value.clone()),
-                                test_case_index: Some(test_case_index),
+                                out_content_type: tci.serializer.out_content_type.clone(),
+                                accept_content_types: tci.serializer.accept_content_types.clone(),
+                                indicate_character_data: tci.serializer.indicate_character_data,
+                                allow_character_data: tci.serializer.allow_character_data,
+                                fail_deserialization: tci.serializer.fail_deserialization,
                             })
                             .unwrap();
                     }
@@ -311,7 +310,7 @@ where
         action: &TestCaseAction<InvokerDefaults>,
         invokers: &'a HashMap<String, Arc<CommandInvoker<TestPayload, TestPayload, C>>>,
         invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
         if let TestCaseAction::InvokeCommand {
             defaults_type: _,
@@ -329,7 +328,11 @@ where
                 command_request_builder
                     .payload(TestPayload {
                         payload: Some(request_value.clone()),
-                        test_case_index: Some(test_case_index),
+                        out_content_type: tcs.out_content_type.clone(),
+                        accept_content_types: tcs.accept_content_types.clone(),
+                        indicate_character_data: tcs.indicate_character_data,
+                        allow_character_data: tcs.allow_character_data,
+                        fail_deserialization: tcs.fail_deserialization,
                     })
                     .unwrap();
             }
@@ -433,13 +436,12 @@ where
         mqtt_hub: &mut MqttHub,
         correlation_ids: &mut HashMap<i32, Option<Bytes>>,
         packet_ids: &mut HashMap<i32, u16>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
         if let TestCaseAction::ReceiveResponse {
             defaults_type: _,
             topic,
             payload,
-            bypass_serialization,
             content_type,
             format_indicator,
             metadata,
@@ -509,24 +511,15 @@ where
                 Bytes::new()
             };
 
-            let payload = if let Some(payload) = payload {
-                if *bypass_serialization {
-                    Bytes::copy_from_slice(payload.as_bytes())
-                } else {
-                    Bytes::copy_from_slice(
-                        TestPayload {
-                            payload: Some(payload.clone()),
-                            test_case_index: Some(test_case_index),
-                        }
-                        .serialize()
-                        .unwrap()
-                        .payload
-                        .as_slice(),
-                    )
-                }
-            } else {
-                Bytes::new()
-            };
+            let payload = serde_json::to_vec(&TestPayload {
+                payload: payload.clone(),
+                out_content_type: tcs.out_content_type.clone(),
+                accept_content_types: tcs.accept_content_types.clone(),
+                indicate_character_data: tcs.indicate_character_data,
+                allow_character_data: tcs.allow_character_data,
+                fail_deserialization: tcs.fail_deserialization,
+            })
+            .unwrap();
 
             let properties = PublishProperties {
                 payload_format_indicator: *format_indicator,
@@ -541,7 +534,7 @@ where
                 qos: qos::to_enum(*qos),
                 topic,
                 pkid: packet_id,
-                payload,
+                payload: payload.into(),
                 properties: Some(properties),
                 ..Default::default()
             };
@@ -624,7 +617,6 @@ where
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
         correlation_ids: &HashMap<i32, Option<Bytes>>,
-        test_case_index: i32,
     ) {
         let published_message =
             if let Some(correlation_index) = expected_message.correlation_index {
@@ -658,17 +650,12 @@ where
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                let payload = Bytes::copy_from_slice(
-                    TestPayload {
-                        payload: Some(payload.clone()),
-                        test_case_index: Some(test_case_index),
-                    }
-                    .serialize()
-                    .unwrap()
-                    .payload
-                    .as_slice(),
+                assert_eq!(
+                    payload,
+                    from_utf8(published_message.payload.to_vec().as_slice())
+                        .expect("could not process published payload topic as UTF8"),
+                    "payload"
                 );
-                assert_eq!(payload, published_message.payload, "payload");
             } else {
                 assert!(published_message.payload.is_empty());
             }
