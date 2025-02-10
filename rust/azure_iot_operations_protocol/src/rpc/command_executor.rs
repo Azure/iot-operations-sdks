@@ -393,7 +393,6 @@ where
     command_name: String,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
-    application_hlc: Arc<ApplicationHybridLogicalClock>,
     cache: CommandExecutorCache,
     // Describes state
     executor_state: CommandExecutorState,
