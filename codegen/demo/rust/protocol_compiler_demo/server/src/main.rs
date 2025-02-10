@@ -8,9 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::FormatIndicator;
 use iso8601_duration;
 use custom_comm::common_types::custom_payload::CustomPayload;
@@ -120,8 +118,7 @@ async fn avro_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -170,8 +167,7 @@ async fn json_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -227,8 +223,7 @@ async fn raw_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options = raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
         .build()
@@ -269,8 +264,7 @@ async fn custom_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()

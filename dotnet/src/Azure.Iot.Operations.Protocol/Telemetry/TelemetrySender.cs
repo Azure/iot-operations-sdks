@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             string? clientId = _mqttClient.ClientId;
             if (string.IsNullOrEmpty(clientId))
             {
-                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before sending telemetry.");
             }
 
             TimeSpan verifiedMessageExpiryInterval = messageExpiryInterval ?? DefaultTelemetryTimeout;

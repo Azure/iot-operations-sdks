@@ -10,9 +10,7 @@ use std::sync::Arc;
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -200,6 +198,11 @@ where
 
         if let Some(request_topic) = tci.request_topic.as_ref() {
             invoker_options_builder.request_topic_pattern(request_topic);
+            if let Some(response_topic_map) = &tci.response_topic_map {
+                if let Some(response_topic) = response_topic_map.get(request_topic) {
+                    invoker_options_builder.response_topic_pattern(response_topic.clone());
+                }
+            }
         }
 
         invoker_options_builder.topic_namespace(tci.topic_namespace.clone());
@@ -231,7 +234,7 @@ where
         let invoker_options = options_result.unwrap();
 
         match CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         ) {
