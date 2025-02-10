@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -177,16 +178,18 @@ func NewCommandInvoker[Req, Res any](
 		app:      app,
 		client:   client,
 		encoding: requestEncoding,
+		version:  version.RPCProtocolString,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		app:            app,
-		client:         client,
-		encoding:       responseEncoding,
-		topic:          resTF,
-		reqCorrelation: true,
-		log:            logger,
-		handler:        ci,
+		app:              app,
+		client:           client,
+		encoding:         responseEncoding,
+		topic:            resTF,
+		reqCorrelation:   true,
+		supportedVersion: version.RPCSupported,
+		log:              logger,
+		handler:          ci,
 	}
 
 	ci.listener.register()
