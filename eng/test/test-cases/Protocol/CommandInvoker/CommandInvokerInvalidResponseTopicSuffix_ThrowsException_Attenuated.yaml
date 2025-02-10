@@ -1,0 +1,17 @@
+---
+test-name: CommandInvokerInvalidResponseTopicSuffix_ThrowsException_Attenuated
+description:
+  condition: >-
+    CommandInvoker initialized with a response topic suffix that is invalid.
+  expect: >-
+    CommandInvoker throws 'invalid configuration' exception; error details unchecked.
+
+prologue:
+  invokers:
+  - response-topic-suffix: "suffix/{in/valid}"
+  catch:
+    error-kind: invalid configuration
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+...

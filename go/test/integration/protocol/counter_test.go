@@ -4,12 +4,53 @@ package protocol
 
 import (
 	"context"
+	"sync/atomic"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/test/integration/protocol/dtmi_com_example_Counter__1"
+	"github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy/counter"
 	"github.com/stretchr/testify/require"
 )
+
+type Handlers struct{ counter int32 }
+
+func (h *Handlers) ReadCounter(
+	context.Context,
+	*protocol.CommandRequest[any],
+) (*protocol.CommandResponse[counter.ReadCounterResponsePayload], error) {
+	response := counter.ReadCounterResponsePayload{
+		CounterResponse: atomic.LoadInt32(&h.counter),
+	}
+	return protocol.Respond(response)
+}
+
+func (h *Handlers) Increment(
+	_ context.Context,
+	req *protocol.CommandRequest[counter.IncrementRequestPayload],
+) (*protocol.CommandResponse[counter.IncrementResponsePayload], error) {
+	response := counter.IncrementResponsePayload{
+		CounterResponse: atomic.AddInt32(
+			&h.counter,
+			req.Payload.IncrementValue,
+		),
+	}
+	return protocol.Respond(response)
+}
+
+func (h *Handlers) Reset(
+	context.Context,
+	*protocol.CommandRequest[any],
+) (*protocol.CommandResponse[any], error) {
+	atomic.StoreInt32(&h.counter, 0)
+	return protocol.Respond[any](nil)
+}
+
+func TelemetryNoOp(
+	context.Context,
+	*protocol.TelemetryMessage[counter.TelemetryCollection],
+) error {
+	return nil
+}
 
 func TestIncrement(t *testing.T) {
 	ctx := context.Background()
@@ -19,41 +60,11 @@ func TestIncrement(t *testing.T) {
 	var listeners protocol.Listeners
 	defer listeners.Close()
 
-	ResetCounter()
-
-	counterService, err := dtmi_com_example_Counter__1.NewCounterService(
-		server,
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[dtmi_com_example_Counter__1.ReadCounterResponsePayload], error) {
-			response := dtmi_com_example_Counter__1.ReadCounterResponsePayload{
-				CounterResponse: ReadCounter(),
-			}
-			return protocol.Respond(response)
-		},
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[dtmi_com_example_Counter__1.IncrementResponsePayload], error) {
-			newValue := IncrementCounter()
-			response := dtmi_com_example_Counter__1.IncrementResponsePayload{
-				CounterResponse: newValue,
-			}
-			return protocol.Respond(response)
-		},
-		func(
-			_ context.Context,
-			_ *protocol.CommandRequest[any],
-		) (*protocol.CommandResponse[any], error) {
-			ResetCounter()
-			return protocol.Respond[any](nil)
-		},
-	)
+	counterService, err := counter.NewCounterService(app, server, &Handlers{})
 	require.NoError(t, err)
 	listeners = append(listeners, counterService)
 
-	counterClient, err := dtmi_com_example_Counter__1.NewCounterClient(client)
+	counterClient, err := counter.NewCounterClient(app, client, TelemetryNoOp)
 	require.NoError(t, err)
 	listeners = append(listeners, counterClient)
 
@@ -61,12 +72,13 @@ func TestIncrement(t *testing.T) {
 	require.NoError(t, err)
 
 	executorID := server.ID()
+	one := counter.IncrementRequestPayload{IncrementValue: 1}
 
 	readRes, err := counterClient.ReadCounter(ctx, executorID)
 	require.NoError(t, err)
 	require.Equal(t, int32(0), readRes.Payload.CounterResponse)
 
-	incrRes, err := counterClient.Increment(ctx, executorID)
+	incrRes, err := counterClient.Increment(ctx, executorID, one)
 	require.NoError(t, err)
 	require.Equal(t, int32(1), incrRes.Payload.CounterResponse)
 
@@ -75,7 +87,7 @@ func TestIncrement(t *testing.T) {
 	require.Equal(t, int32(1), readRes.Payload.CounterResponse)
 
 	for i := int32(2); i <= 4; i++ {
-		incrRes, err := counterClient.Increment(ctx, executorID)
+		incrRes, err := counterClient.Increment(ctx, executorID, one)
 		require.NoError(t, err)
 		require.Equal(t, i, incrRes.Payload.CounterResponse)
 	}

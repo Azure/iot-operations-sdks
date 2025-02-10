@@ -3,11 +3,11 @@
 
 using Azure.Iot.Operations.Protocol.RPC;
 using System.Diagnostics;
-using TestEnvoys.dtmi_rpc_samples_math__1;
+using TestEnvoys.Math;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
-public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
+public class MathService : TestEnvoys.Math.Math.Service
 {
     IMqttPubSubClient _mqttClient;
     public MathService(IMqttPubSubClient mqttClient) : base(mqttClient)
@@ -33,7 +33,7 @@ public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
         {
             Response = new FibResponsePayload
             {
-                FibResponse = new Object_Fib_Response
+                FibResponse = new FibResponseSchema
                 {
                     FibResult = result
                 }
@@ -63,7 +63,7 @@ public class MathService : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service
 
         IsPrimeResponsePayload response = new()
         {
-            IsPrimeResponse = new Object_IsPrime_Response
+            IsPrimeResponse = new IsPrimeResponseSchema
             {
                 Number = request.IsPrimeRequest.Number,
                 ExecutorId = _mqttClient.ClientId,

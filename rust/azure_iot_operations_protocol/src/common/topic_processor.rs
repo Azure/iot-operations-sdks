@@ -10,7 +10,7 @@ use super::aio_protocol_error::{AIOProtocolError, Value};
 /// Wildcard token
 pub const WILDCARD: &str = "+";
 
-/// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+/// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
 ///
 /// Returns true if the string contains any of the following:
 /// - Non-ASCII characters
@@ -27,7 +27,7 @@ pub(crate) fn contains_invalid_char(s: &str) -> bool {
 }
 
 /// Determine whether a string is valid for use as a replacement string in a custom replacement map
-/// or a topic namespace based on [topic-structure.md](https://github.com/microsoft/mqtt-patterns/blob/main/docs/specs/topic-structure.md)
+/// or a topic namespace based on [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
 ///
 /// Returns true if the string is not empty, does not contain invalid characters, does not start or
 /// end with '/', and does not contain "//"
@@ -58,6 +58,7 @@ impl TopicPattern {
     /// Returns a new [`TopicPattern`] on success, or an [`AIOProtocolError`] on failure
     ///
     /// # Arguments
+    /// * `property_name` - A string slice representing the name of the property that provides the topic pattern
     /// * `pattern` - A string slice representing the topic pattern
     /// * `topic_namespace` - An optional string slice representing the topic namespace
     /// * `token_map` - A map of token replacements for initial replacement
@@ -73,6 +74,7 @@ impl TopicPattern {
     /// If any regex group is not present when it is expected to be, which is impossible given
     /// that there is only one group in the regex pattern.
     pub fn new<'a>(
+        property_name: &'a str,
         pattern: &'a str,
         topic_namespace: Option<&str>,
         topic_token_map: &'a HashMap<String, String>,
@@ -80,7 +82,7 @@ impl TopicPattern {
         if pattern.trim().is_empty() {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
-                "pattern",
+                property_name,
                 Value::String(pattern.to_string()),
                 Some("MQTT topic pattern must not be whitespace or empty".to_string()),
                 None,
@@ -90,7 +92,7 @@ impl TopicPattern {
         if pattern.starts_with('$') {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
-                "pattern",
+                property_name,
                 Value::String(pattern.to_string()),
                 Some("MQTT topic pattern starts with reserved character '$'".to_string()),
                 None,
@@ -104,7 +106,7 @@ impl TopicPattern {
         if empty_level_regex.is_match(pattern) {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
-                "pattern",
+                property_name,
                 Value::String(pattern.to_string()),
                 Some("MQTT topic pattern contains empty levels".to_string()),
                 None,
@@ -148,7 +150,7 @@ impl TopicPattern {
             if token_without_braces.trim().is_empty() {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
-                    "pattern",
+                    property_name,
                     Value::String(pattern.to_string()),
                     Some("MQTT topic pattern contains empty token".to_string()),
                     None,
@@ -158,7 +160,7 @@ impl TopicPattern {
             if last_end_index != 0 && last_end_index == token_capture.start() {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
-                    "pattern",
+                    property_name,
                     Value::String(pattern.to_string()),
                     Some("MQTT topic pattern contains adjacent tokens".to_string()),
                     None,
@@ -173,7 +175,7 @@ impl TopicPattern {
             if invalid_regex.is_match(acc) {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
-                    "pattern",
+                    property_name,
                     Value::String(pattern.to_string()),
                     Some("MQTT topic pattern contains invalid characters".to_string()),
                     None,
@@ -186,8 +188,8 @@ impl TopicPattern {
             if invalid_regex.is_match(token_without_braces) || token_without_braces.contains('/') {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
-                    "pattern",
-                    Value::String(token_without_braces.to_string()),
+                    property_name,
+                    Value::String(pattern.to_string()),
                     Some(format!(
                         "MQTT topic pattern contains invalid characters in token '{token_without_braces}'",
                     )),
@@ -221,7 +223,7 @@ impl TopicPattern {
         if invalid_regex.is_match(acc) {
             return Err(AIOProtocolError::new_configuration_invalid_error(
                 None,
-                "pattern",
+                property_name,
                 Value::String(pattern.to_string()),
                 Some("MQTT topic pattern contains invalid characters".to_string()),
                 None,
@@ -285,8 +287,7 @@ impl TopicPattern {
             // Check if the replacement is valid
             if let Some(val) = tokens.get(key) {
                 if !is_valid_replacement(val) {
-                    return Err(AIOProtocolError::new_configuration_invalid_error(
-                        None,
+                    return Err(AIOProtocolError::new_argument_invalid_error(
                         key,
                         Value::String(val.to_string()),
                         Some(format!(
@@ -297,8 +298,7 @@ impl TopicPattern {
                 }
                 publish_topic.push_str(val);
             } else {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    None,
+                return Err(AIOProtocolError::new_argument_invalid_error(
                     key,
                     Value::String(String::new()),
                     Some(format!(
@@ -390,7 +390,7 @@ mod tests {
     #[test_case("test/{testToken1}/{wildToken}/test", "test/testRepl1/{wildToken}/test"; "wildcard token in middle")]
     #[test_case("test/{testToken1}/{testToken2}/{testToken3}", "test/testRepl1/testRepl2/testRepl3"; "multiple varied tokens")]
     fn test_topic_pattern_new_pattern_valid(pattern: &str, result: &str) {
-        let pattern = TopicPattern::new(pattern, None, &create_topic_tokens()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, &create_topic_tokens()).unwrap();
 
         assert_eq!(pattern.dynamic_pattern, result);
     }
@@ -416,7 +416,7 @@ mod tests {
     #[test_case("{}{}"; "two adjacent empty")]
     #[test_case("test/{testToken1}}"; "curly brace end")]
     fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
-        let err = TopicPattern::new(pattern, None, &create_topic_tokens()).unwrap_err();
+        let err = TopicPattern::new("pattern", pattern, None, &create_topic_tokens()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
         assert_eq!(err.property_value, Some(Value::String(pattern.to_string())));
@@ -427,7 +427,13 @@ mod tests {
     fn test_topic_pattern_new_pattern_valid_topic_namespace(topic_namespace: &str) {
         let pattern = "test/{testToken1}";
 
-        TopicPattern::new(pattern, Some(topic_namespace), &create_topic_tokens()).unwrap();
+        TopicPattern::new(
+            "pattern",
+            pattern,
+            Some(topic_namespace),
+            &create_topic_tokens(),
+        )
+        .unwrap();
     }
 
     #[test_case(""; "empty")]
@@ -443,8 +449,13 @@ mod tests {
     fn test_topic_pattern_new_pattern_invalid_topic_namespace(topic_namespace: &str) {
         let pattern = "test/{testToken1}";
 
-        let err =
-            TopicPattern::new(pattern, Some(topic_namespace), &create_topic_tokens()).unwrap_err();
+        let err = TopicPattern::new(
+            "pattern",
+            pattern,
+            Some(topic_namespace),
+            &create_topic_tokens(),
+        )
+        .unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("topic_namespace".to_string()));
         assert_eq!(
@@ -453,13 +464,13 @@ mod tests {
         );
     }
 
-    #[test_case("test/{{testToken1}", "{testToken1"; "open brace")]
-    #[test_case("test/{test+Token}", "test+Token"; "plus")]
-    #[test_case("test/{test#Token}", "test#Token"; "hash")]
-    #[test_case("test/{test/Token}", "test/Token"; "slash")]
-    #[test_case("test/{test\u{0000}Token}", "test\u{0000}Token"; "non-ASCII")]
+    #[test_case("test/{{testToken1}", "test/{{testToken1}"; "open brace")]
+    #[test_case("test/{test+Token}", "test/{test+Token}"; "plus")]
+    #[test_case("test/{test#Token}", "test/{test#Token}"; "hash")]
+    #[test_case("test/{test/Token}", "test/{test/Token}"; "slash")]
+    #[test_case("test/{test\u{0000}Token}", "test/{test\u{0000}Token}"; "non-ASCII")]
     fn test_topic_pattern_new_pattern_invalid_token(pattern: &str, property_value: &str) {
-        let err = TopicPattern::new(pattern, None, &HashMap::new()).unwrap_err();
+        let err = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
         assert_eq!(err.property_name, Some("pattern".to_string()));
         assert_eq!(
@@ -483,6 +494,7 @@ mod tests {
         let pattern = "test/{testToken}/test";
 
         let err = TopicPattern::new(
+            "pattern",
             pattern,
             None,
             &HashMap::from([("testToken".to_string(), replacement.to_string())]),
@@ -505,7 +517,7 @@ mod tests {
     #[test_case("{wildToken}/test/{wildToken}", "+/test/+"; "token at start and end")]
     #[test_case("{wildToken1}/{wildToken2}", "+/+"; "multiple wildcards")]
     fn test_topic_pattern_as_subscribe_topic(pattern: &str, result: &str) {
-        let pattern = TopicPattern::new(pattern, None, &HashMap::new()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.as_subscribe_topic(), result);
     }
@@ -522,7 +534,7 @@ mod tests {
         tokens: &HashMap<String, String>,
         result: &str,
     ) {
-        let pattern = TopicPattern::new(pattern, None, tokens).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, tokens).unwrap();
 
         assert_eq!(pattern.as_publish_topic(tokens).unwrap(), result);
     }
@@ -545,10 +557,10 @@ mod tests {
         property_name: &str,
         property_value: &str,
     ) {
-        let pattern = TopicPattern::new(pattern, None, &HashMap::new()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
 
         let err = pattern.as_publish_topic(tokens).unwrap_err();
-        assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
+        assert_eq!(err.kind, AIOProtocolErrorKind::ArgumentInvalid);
         assert_eq!(err.property_name, Some(property_name.to_string()));
         assert_eq!(
             err.property_value,
@@ -567,7 +579,7 @@ mod tests {
         topic: &str,
         result: &HashMap<String, String>,
     ) {
-        let pattern = TopicPattern::new(pattern, None, &HashMap::new()).unwrap();
+        let pattern = TopicPattern::new("pattern", pattern, None, &HashMap::new()).unwrap();
 
         assert_eq!(pattern.parse_tokens(topic), *result);
     }

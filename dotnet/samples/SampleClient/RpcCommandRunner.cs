@@ -6,8 +6,8 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using MQTTnet.Client;
 using MQTTnet.Server;
-using TestEnvoys.dtmi_com_example_Counter__1;
-using TestEnvoys.dtmi_rpc_samples_math__1;
+using TestEnvoys.Counter;
+using TestEnvoys.Math;
 using TestEnvoys.Greeter;
 
 namespace SampleClient;
@@ -28,7 +28,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         string userResponse = "y";
         while (userResponse == "y")
         {
-            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.dtmi_akri_samples_memmon__1.StartTelemetryRequestPayload { interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
+            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
             await RunCounterCommands("SampleServer");
             await RunGreeterCommands();
             await RunMathCommands();
@@ -59,7 +59,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             Task<ExtendedResponse<IsPrimeResponsePayload>> respIsPrimeTask = mathClient.IsPrimeAsync("SampleServer",
                 new IsPrimeRequestPayload
                 {
-                    IsPrimeRequest = new Object_IsPrime_Request
+                    IsPrimeRequest = new IsPrimeRequestSchema
                     {
                         Number = number
                     }
@@ -73,7 +73,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             Task<ExtendedResponse<FibResponsePayload>> respFibTask = mathClient.FibAsync("SampleServer",
                 new FibRequestPayload
                 {
-                    FibRequest = new Object_Fib_Request
+                    FibRequest = new FibRequestSchema
                     {
                         Number = number
                     }
@@ -130,8 +130,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             for (int i = 0; i < tasks.Length; i++)
             {
                 CommandRequestMetadata reqMd2 = new();
+                IncrementRequestPayload payload = new IncrementRequestPayload();
+                payload.IncrementValue = 1;
                 logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
-                Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, reqMd2).WithMetadata();
+                Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
                 tasks[i] = incrCounterTask;
             }
             await Task.WhenAll(tasks);

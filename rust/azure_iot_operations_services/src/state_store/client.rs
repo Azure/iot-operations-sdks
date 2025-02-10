@@ -2,27 +2,31 @@
 // Licensed under the MIT License.
 
 //! Client for State Store operations.
+//!
+//! To use this client, the `state_store` feature must be enabled.
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::{
+    application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
-    telemetry::telemetry_receiver::{AckToken, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
-        mpsc::{channel, Receiver, Sender},
-        Mutex,
+        mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
+        Mutex, Notify,
     },
     task,
 };
-use tokio_util::sync::CancellationToken;
 
-use crate::state_store::{self, SetOptions, StateStoreError, StateStoreErrorKind};
+use crate::state_store::{
+    self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
+};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -41,7 +45,7 @@ pub struct KeyObservation {
     /// The name of the key (for convenience)
     pub key: Vec<u8>,
     /// The internal channel for receiving notifications for this key
-    receiver: Receiver<(state_store::KeyNotification, Option<AckToken>)>,
+    receiver: UnboundedReceiver<(state_store::KeyNotification, Option<AckToken>)>,
 }
 impl KeyObservation {
     /// Receives a [`state_store::KeyNotification`] or [`None`] if there will be no more notifications.
@@ -78,8 +82,8 @@ where
 {
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
-        ArcMutexHashmap<String, Sender<(state_store::KeyNotification, Option<AckToken>)>>,
-    recv_cancellation_token: CancellationToken,
+        ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
+    shutdown_notifier: Arc<Notify>,
 }
 
 impl<C> Client<C>
@@ -96,7 +100,11 @@ where
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new(client: C, options: ClientOptions) -> Result<Self, StateStoreError> {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: ClientOptions,
+    ) -> Result<Self, StateStoreError> {
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -111,8 +119,12 @@ where
             state_store::resp3::Request,
             state_store::resp3::Response,
             C,
-        > = CommandInvoker::new(client.clone(), command_invoker_options)
-            .map_err(StateStoreErrorKind::from)?;
+        > = CommandInvoker::new(
+            application_context.clone(),
+            client.clone(),
+            command_invoker_options,
+        )
+        .map_err(StateStoreErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
@@ -128,8 +140,8 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        // Create the cancellation token for the receiver loop
-        let recv_cancellation_token = CancellationToken::new();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
         // Create a hashmap of keys being observed and channels to send their notifications to
         let observed_keys = Arc::new(Mutex::new(HashMap::new()));
@@ -137,13 +149,13 @@ where
         // Start the receive key notification loop
         task::spawn({
             let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
-                TelemetryReceiver::new(client, telemetry_receiver_options)
+                TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
                     .map_err(StateStoreErrorKind::from)?;
-            let recv_cancellation_token_clone = recv_cancellation_token.clone();
+            let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
             async move {
                 Self::receive_key_notification_loop(
-                    recv_cancellation_token_clone,
+                    shutdown_notifier_clone,
                     notification_receiver,
                     observed_keys_clone,
                 )
@@ -154,11 +166,10 @@ where
         Ok(Self {
             command_invoker,
             observed_keys,
-            recv_cancellation_token,
+            shutdown_notifier,
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver
     /// and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
@@ -169,8 +180,8 @@ where
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), StateStoreError> {
-        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to shutdown the telemetry receiver
+        self.shutdown_notifier.notify_one();
 
         self.command_invoker
             .shutdown()
@@ -209,15 +220,22 @@ where
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
-        let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Set {
+        let mut request_builder = CommandRequestBuilder::default();
+        request_builder
+            .payload(state_store::resp3::Request::Set {
                 key,
                 value,
                 options: options.clone(),
             })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout)
-            .fencing_token(fencing_token)
+            .timeout(timeout);
+        if let Some(ft) = fencing_token {
+            request_builder.custom_user_data(vec![(
+                FENCING_TOKEN_USER_PROPERTY.to_string(),
+                ft.to_string(),
+            )]);
+        }
+        let request = request_builder
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
@@ -259,7 +277,7 @@ where
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::Get { key })
+            .payload(state_store::resp3::Request::Get { key })
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
@@ -353,11 +371,18 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        let request = CommandRequestBuilder::default()
-            .payload(&request)
+        let mut request_builder = CommandRequestBuilder::default();
+        request_builder
+            .payload(request)
             .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout)
-            .fencing_token(fencing_token)
+            .timeout(timeout);
+        if let Some(ft) = fencing_token {
+            request_builder.custom_user_data(vec![(
+                FENCING_TOKEN_USER_PROPERTY.to_string(),
+                ft.to_string(),
+            )]);
+        }
+        let request = request_builder
             .build()
             .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
@@ -382,7 +407,7 @@ where
     ) -> Result<state_store::Response<()>, StateStoreError> {
         // Send invoke request for observe
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::KeyNotify {
+            .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
             })
@@ -444,7 +469,7 @@ where
         // add to observed keys before sending command to prevent missing any notifications.
         // If the observe request fails, this entry will be removed before the function returns
         let encoded_key_name = HEXUPPER.encode(&key);
-        let (tx, rx) = channel(100);
+        let (tx, rx) = unbounded_channel();
 
         {
             let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
@@ -514,7 +539,7 @@ where
         }
         // Send invoke request for unobserve
         let request = CommandRequestBuilder::default()
-            .payload(&state_store::resp3::Request::KeyNotify {
+            .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
             })
@@ -553,19 +578,32 @@ where
     }
 
     async fn receive_key_notification_loop(
-        recv_cancellation_token: CancellationToken,
+        shutdown_notifier: Arc<Notify>,
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
-            Sender<(state_store::KeyNotification, Option<AckToken>)>,
+            UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
     ) {
+        let mut shutdown_attempt_count = 0;
         loop {
             tokio::select! {
-                  // on shutdown, this cancellation token will be called so this
-                  // loop can exit and the telemetry receiver can be cleaned up
-                  () = recv_cancellation_token.cancelled() => {
-                    break;
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
+                    match telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("Telemetry Receiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down Telemetry Receiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if shutdown_attempt_count < 3 {
+                                shutdown_attempt_count += 1;
+                                shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
                   },
                   msg = telemetry_receiver.recv() => {
                     if let Some(m) = msg {
@@ -596,7 +634,7 @@ where
                                         }
                                         else {
                                             // Otherwise, send the notification to the receiver
-                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)).await {
+                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)) {
                                                 log::error!("Error delivering key notification {key_notification:?}: {e}");
                                             }
                                         }
@@ -606,19 +644,23 @@ where
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving key notifications: {e}");
-                                break;
+                                log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
+                                // try to shutdown telemetry receiver, but not indefinitely
+                                if shutdown_attempt_count < 3 {
+                                    shutdown_notifier.notify_one();
+                                }
                             }
                         }
                     } else {
-                        log::error!("Telemetry Receiver closed, no more Key Notifications can be received");
+                        log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
+                        let mut observed_keys_mutex_guard = observed_keys.lock().await;
+                        // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
+                        observed_keys_mutex_guard.drain();
                         break;
                     }
                 }
             }
         }
-        let result = telemetry_receiver.shutdown().await;
-        log::info!("Receive key notification loop cancelled: {result:?}");
     }
 }
 
@@ -628,7 +670,8 @@ where
     C::PubReceiver: Send + Sync,
 {
     fn drop(&mut self) {
-        self.recv_cancellation_token.cancel();
+        self.shutdown_notifier.notify_one();
+        log::info!("State Store Client has been dropped.");
     }
 }
 
@@ -639,6 +682,7 @@ mod tests {
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
@@ -664,6 +708,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -688,6 +733,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -704,6 +750,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -722,6 +769,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -740,6 +788,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -758,6 +807,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -776,6 +826,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -800,6 +851,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -818,6 +870,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -836,6 +889,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -859,6 +913,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
@@ -877,6 +932,7 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )

@@ -17,6 +17,11 @@
             "description": "The version of the CloudEvents specification which the event uses.",
             "type": "string",
             "kind": "drive"
+        },
+        "data-schema": {
+            "description": "URI that identifies the schema the data adheres to.",
+            "type": "string",
+            "kind": "drive"
         }
     },
     "required": [ "source" ]

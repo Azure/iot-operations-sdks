@@ -8,8 +8,8 @@ use bytes::Bytes;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
-use crate::error::{AckError, PublishError, SubscribeError, UnsubscribeError};
-use crate::interface::{CompletionToken, ManagedClient, MqttAck, MqttPubSub, PubReceiver};
+use crate::error::{PublishError, SubscribeError, UnsubscribeError};
+use crate::interface::{AckToken, CompletionToken, ManagedClient, MqttPubSub, PubReceiver};
 use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
@@ -116,12 +116,14 @@ impl ManagedClient for SessionManagedClient {
     fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
-        auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0
-                .create_filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0.create_filtered_pub_receiver(topic_filter)?,
         ))
+    }
+
+    fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
+        SessionPubReceiver(self.0.create_unfiltered_pub_receiver())
     }
 }
 
@@ -191,15 +193,12 @@ impl PubReceiver for SessionPubReceiver {
         self.0.recv().await
     }
 
+    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)> {
+        self.0.recv_manual_ack().await
+    }
+
     fn close(&mut self) {
         self.0.close();
-    }
-}
-
-#[async_trait]
-impl MqttAck for SessionPubReceiver {
-    async fn ack(&self, msg: &Publish) -> Result<(), AckError> {
-        self.0.ack(msg).await
     }
 }
 

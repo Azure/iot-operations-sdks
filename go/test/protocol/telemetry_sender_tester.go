@@ -136,7 +136,7 @@ func runOneTelemetrySenderTest(
 		case AwaitSend:
 			awaitSend(t, action.AsAwaitSend(), sendChan)
 		case AwaitPublish:
-			awaitPublish(
+			awaitPublishTelemetry(
 				t,
 				action.AsAwaitPublish(),
 				stubBroker,
@@ -178,25 +178,7 @@ func getTelemetrySender(
 	catch *TestCaseCatch,
 ) *TestingTelemetrySender {
 	options := []protocol.TelemetrySenderOption{
-		protocol.WithTopicTokens(tcs.CustomTokenMap),
-		protocol.WithTopicTokenNamespace("ex:"),
-	}
-
-	if tcs.DataSchema != nil {
-		dataSchema, err := url.Parse(*tcs.DataSchema)
-		require.NoErrorf(
-			t,
-			err,
-			"Unable to parse DataSchema as a URL: %s",
-			*tcs.DataSchema,
-		)
-
-		dataSchemaOption := protocol.WithDataSchema(*dataSchema)
-
-		options = append(
-			options,
-			&dataSchemaOption,
-		)
+		protocol.WithTopicTokens(tcs.TopicTokenMap),
 	}
 
 	if tcs.TopicNamespace != nil {
@@ -208,9 +190,7 @@ func getTelemetrySender(
 
 	sender, err := NewTestingTelemetrySender(
 		sessionClient,
-		tcs.TelemetryName,
 		tcs.TelemetryTopic,
-		tcs.ModelID,
 		options...)
 
 	if catch == nil {
@@ -266,6 +246,9 @@ func sendTelemetry(
 
 	if actionSendTelemetry.CloudEvent != nil {
 		sourceURL, _ := url.Parse(*actionSendTelemetry.CloudEvent.Source)
+		dataSchemaURL, _ := url.Parse(
+			*actionSendTelemetry.CloudEvent.DataSchema,
+		)
 		options = append(
 			options,
 			protocol.WithCloudEvent(
@@ -273,6 +256,7 @@ func sendTelemetry(
 					Source:      sourceURL,
 					SpecVersion: *actionSendTelemetry.CloudEvent.SpecVersion,
 					Type:        *actionSendTelemetry.CloudEvent.Type,
+					DataSchema:  dataSchemaURL,
 				},
 			),
 		)
@@ -306,6 +290,15 @@ func awaitSend(
 		require.Errorf(t, err, "Expected %s error, but no error returned when awaiting TelemetrySender.Send()", actionAwaitSend.Catch.ErrorKind)
 		CheckError(t, *actionAwaitSend.Catch, err)
 	}
+}
+
+func awaitPublishTelemetry(
+	_ *testing.T,
+	_ *TestCaseActionAwaitPublish,
+	stubBroker *StubBroker,
+	_ map[int][]byte,
+) {
+	stubBroker.AwaitPublish()
 }
 
 func checkPublishedTelemetry(

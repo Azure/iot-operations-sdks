@@ -3,9 +3,9 @@
 
 namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
-using SchemaInfo = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
-using SchemaFormat = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;
-using SchemaType = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_SchemaType__1;
+using SchemaInfo = SchemaRegistry.Schema;
+using SchemaFormat = SchemaRegistry.Format;
+using SchemaType = SchemaRegistry.SchemaType;
 
 public interface ISchemaRegistryClient : IAsyncDisposable
 {

@@ -4,12 +4,12 @@ package protocol
 
 import (
 	"context"
+	"log/slog"
 	"sync/atomic"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
@@ -29,6 +29,7 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
+		app            *Application
 		client         MqttClient
 		encoding       Encoding[T]
 		topic          *internal.TopicFilter
@@ -87,20 +88,31 @@ func (l *listener[T]) listen(ctx context.Context) error {
 			mqtt.WithQoS(1),
 			mqtt.WithNoLocal(l.shareName == ""),
 		)
+		l.log.Info(
+			ctx,
+			"subscribing to MQTT response topic",
+			slog.String("topic", l.filter()),
+		)
 		return errutil.Mqtt(ctx, "subscribe", ack, err)
 	}
 	return nil
 }
 
 func (l *listener[T]) close() {
+	ctx := context.Background()
 	if l.active.CompareAndSwap(true, false) {
-		ctx := context.Background()
 		if ack, err := l.client.Unsubscribe(ctx, l.filter()); err != nil {
 			// Returning an error from a close function that is most likely to
 			// be deferred is rarely useful, so just log it.
 			l.log.Error(ctx, errutil.Mqtt(ctx, "unsubscribe", ack, err))
 		}
+		l.log.Info(
+			ctx,
+			"unsubscribing from MQTT response topic",
+			slog.String("topic", l.filter()),
+		)
 	}
+	l.log.Info(ctx, "command invoker shutdown complete")
 	l.done()
 }
 
@@ -144,14 +156,24 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	ts := msg.Mqtt.UserProperties[constants.Timestamp]
 	if ts != "" {
 		var err error
-		msg.Timestamp, err = hlc.Parse(constants.Timestamp, ts)
+		msg.Timestamp, err = l.app.hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
+			l.error(ctx, msg.Mqtt, err)
+			return
+		}
+		if err = l.app.hlc.Set(msg.Timestamp); err != nil {
 			l.error(ctx, msg.Mqtt, err)
 			return
 		}
 	}
 
 	msg.Metadata = internal.PropToMetadata(msg.Mqtt.UserProperties)
+
+	msg.Data = &Data{
+		msg.Mqtt.Payload,
+		msg.Mqtt.ContentType,
+		msg.Mqtt.PayloadFormat,
+	}
 
 	if err := l.handler.onMsg(ctx, msg.Mqtt, &msg.Message); err != nil {
 		l.error(ctx, msg.Mqtt, err)
@@ -160,20 +182,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 }
 
 // Handle payload manually, since it may be ignored on errors.
-func (l *listener[T]) payload(pub *mqtt.Message) (T, error) {
-	var zero T
-
-	if pub.ContentType != "" && l.encoding.ContentType() != "" &&
-		pub.ContentType != l.encoding.ContentType() {
-		return zero, &errors.Error{
-			Message:     "content type mismatch",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.ContentType,
-			HeaderValue: pub.ContentType,
-		}
-	}
-
-	return deserialize(l.encoding, pub.Payload)
+func (l *listener[T]) payload(msg *Message[T]) (T, error) {
+	return deserialize(l.encoding, msg.Data)
 }
 
 func (l *listener[T]) error(ctx context.Context, pub *mqtt.Message, err error) {

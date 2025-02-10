@@ -39,19 +39,34 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? CmdCacheability { get; } = AnnexFileProperties.Cacheability;
 
+        public static string? TelemSeparate { get; } = AnnexFileProperties.TelemSeparate;
+
         private readonly string projectName;
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string modelId;
         private readonly string serializationFormat;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string? telemTopicPattern;
         private readonly string? cmdTopicPattern;
         private readonly string? telemServiceGroupId;
         private readonly string? cmdServiceGroupId;
-        private readonly List<(string?, string)> telemNameSchemas;
-        private readonly List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales;
+        private readonly List<(string?, ITypeName)> telemNameSchemas;
+        private readonly List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales;
+        private readonly bool separateTelemetries;
 
-        public InterfaceAnnex(string projectName, string genNamespace, string modelId, string serializationFormat, string serviceName, string? telemTopicPattern, string? cmdTopicPattern, string? telemServiceGroupId, string? cmdServiceGroupId, List<(string?, string)> telemNameSchemas, List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales)
+        public InterfaceAnnex(
+            string projectName,
+            CodeName genNamespace,
+            string modelId,
+            string serializationFormat,
+            CodeName serviceName,
+            string? telemTopicPattern,
+            string? cmdTopicPattern,
+            string? telemServiceGroupId,
+            string? cmdServiceGroupId,
+            List<(string?, ITypeName)> telemNameSchemas,
+            List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales,
+            bool separateTelemetries)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -64,10 +79,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemNameSchemas = telemNameSchemas;
             this.cmdNameReqRespIdemStales = cmdNameReqRespIdemStales;
+            this.separateTelemetries = separateTelemetries;
         }
 
-        public string FileName { get => $"{this.serviceName}.annex.json"; }
+        public string FileName { get => $"{this.serviceName.GetFileName(TargetLanguage.Independent)}.annex.json"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
     }
 }

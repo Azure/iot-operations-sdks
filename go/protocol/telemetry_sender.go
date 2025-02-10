@@ -5,9 +5,9 @@ package protocol
 import (
 	"context"
 	"log/slog"
-	"net/url"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
@@ -17,8 +17,8 @@ import (
 type (
 	// TelemetrySender provides the ability to send a single telemetry.
 	TelemetrySender[T any] struct {
-		publisher  *publisher[T]
-		dataSchema *url.URL
+		publisher *publisher[T]
+		log       log.Logger
 	}
 
 	// TelemetrySenderOption represents a single telemetry sender option.
@@ -28,7 +28,6 @@ type (
 
 	// TelemetrySenderOptions are the resolved telemetry sender options.
 	TelemetrySenderOptions struct {
-		DataSchema     *url.URL
 		TopicNamespace string
 		TopicTokens    map[string]string
 		Logger         *slog.Logger
@@ -59,15 +58,17 @@ const telemetrySenderErrStr = "telemetry send"
 
 // NewTelemetrySender creates a new telemetry sender.
 func NewTelemetrySender[T any](
+	app *Application,
 	client MqttClient,
 	encoding Encoding[T],
 	topicPattern string,
 	opt ...TelemetrySenderOption,
 ) (ts *TelemetrySender[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts TelemetrySenderOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -86,14 +87,16 @@ func NewTelemetrySender[T any](
 		return nil, err
 	}
 
-	ts = &TelemetrySender[T]{}
+	ts = &TelemetrySender[T]{
+		log: logger,
+	}
 	ts.publisher = &publisher[T]{
+		app:      app,
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
+		log:      logger,
 	}
-
-	ts.dataSchema = opts.DataSchema
 
 	return ts, nil
 }
@@ -105,10 +108,10 @@ func (ts *TelemetrySender[T]) Send(
 	opt ...SendOption,
 ) (err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
-
 	var opts SendOptions
 	opts.Apply(opt)
+
+	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	timeout := opts.Timeout
 	if timeout == 0 {
@@ -133,10 +136,13 @@ func (ts *TelemetrySender[T]) Send(
 		return err
 	}
 
-	if err := cloudEventToMessage(pub, opts.CloudEvent, ts.dataSchema); err != nil {
+	if err := opts.CloudEvent.toMessage(pub); err != nil {
 		return err
 	}
 	pub.Retain = opts.Retain
+
+	ts.log.Debug(ctx, "sending telemetry",
+		slog.String("topic", pub.Topic))
 
 	shallow = false
 	return ts.publisher.publish(ctx, pub)

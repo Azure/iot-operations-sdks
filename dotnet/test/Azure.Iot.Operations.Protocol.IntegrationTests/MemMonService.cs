@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -25,7 +25,7 @@ public class MemMonService : Memmon.Service
         {
             Response = new GetRuntimeStatsResponsePayload
             {
-                diagnosticResults = new Dictionary<string, string>
+                DiagnosticResults = new Dictionary<string, string>
                 {
                     { ".NETversion", Environment.Version.ToString() },
                     { "Is64Bit", Environment.Is64BitProcess.ToString() },
@@ -44,7 +44,7 @@ public class MemMonService : Memmon.Service
     {
         Console.WriteLine("Starting Memmon.Telemetry");
         enabled = true;
-        interval = request.interval;
+        interval = request.Interval;
         return Task.FromResult(new CommandResponseMetadata())!;
     }
 

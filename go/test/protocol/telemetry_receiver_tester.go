@@ -204,8 +204,7 @@ func getTelemetryReceiver(
 	receivedTelemetries chan receivedTelemetry,
 ) *TestingTelemetryReceiver {
 	options := []protocol.TelemetryReceiverOption{
-		protocol.WithTopicTokens(tcr.CustomTokenMap),
-		protocol.WithTopicTokenNamespace("ex:"),
+		protocol.WithTopicTokens(tcr.TopicTokenMap),
 	}
 
 	if tcr.TopicNamespace != nil {
@@ -217,7 +216,6 @@ func getTelemetryReceiver(
 
 	receiver, err := NewTestingTelemetryReceiver(
 		sessionClient,
-		tcr.TelemetryName,
 		tcr.TelemetryTopic,
 		func(
 			_ context.Context,
@@ -225,7 +223,6 @@ func getTelemetryReceiver(
 		) error {
 			return processTelemetry(msg, tcr, receivedTelemetries)
 		},
-		tcr.ModelID,
 		options...)
 
 	if err == nil {
@@ -436,10 +433,13 @@ func processTelemetry(
 		return errors.New(*tcr.RaiseError.Message)
 	}
 
+	// Used for all telemetry, so ignore the error.
+	cloudEvent, _ := protocol.CloudEventFromTelemetry(msg)
+
 	receivedTelemetries <- receivedTelemetry{
 		TelemetryValue: msg.Message.Payload,
 		Metadata:       msg.Message.Metadata,
-		CloudEvent:     msg.CloudEvent,
+		CloudEvent:     cloudEvent,
 		SourceID:       msg.ClientID,
 	}
 

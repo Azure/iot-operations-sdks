@@ -6,13 +6,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class EnumProto2 : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string schema;
+        private readonly CodeName genNamespace;
+        private readonly CodeName schema;
         private readonly string valueSchema;
         private readonly List<(string, string, int)> nameValueIndices;
         private readonly (string, string, int) zeroNameValueIndex;
 
-        public EnumProto2(string projectName, string genNamespace, string schema, Dtmi valueSchemaId, List<(string, string, int)> nameValueIndices)
+        public EnumProto2(string projectName, CodeName genNamespace, CodeName schema, Dtmi valueSchemaId, List<(string, string, int)> nameValueIndices)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -22,8 +22,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.zeroNameValueIndex = nameValueIndices.FirstOrDefault(nvi => nvi.Item2 == "0" || nvi.Item3 == 0, ($"{this.schema}_none", "0", 0));
         }
 
-        public string FileName { get => $"{this.schema}.proto"; }
+        public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.proto"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
     }
 }

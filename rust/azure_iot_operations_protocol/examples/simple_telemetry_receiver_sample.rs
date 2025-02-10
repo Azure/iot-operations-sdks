@@ -10,10 +10,12 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::telemetry::telemetry_receiver::TelemetryReceiver;
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
-    telemetry::telemetry_receiver::TelemetryReceiverOptionsBuilder,
+    application::{ApplicationContext, ApplicationContextBuilder},
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+    },
+    telemetry::telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
 };
 
 const CLIENT_ID: &str = "myReceiver";
@@ -47,8 +49,11 @@ async fn main() {
 
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(
+        application_context,
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
@@ -58,7 +63,11 @@ async fn main() {
 }
 
 // Handle incoming telemetry messages
-async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn telemetry_loop(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+) {
     // Create a telemetry receiver for the temperature telemetry
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(TOPIC)
@@ -70,13 +79,13 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
         .build()
         .unwrap();
     let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
-        TelemetryReceiver::new(client, receiver_options).unwrap();
+        TelemetryReceiver::new(application_context, client, receiver_options).unwrap();
 
     while let Some(message) = telemetry_receiver.recv().await {
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             Ok((message, ack_token)) => {
-                let sender_id = message.sender_id.unwrap();
+                let sender_id = message.sender_id.as_ref().unwrap();
 
                 println!(
                     "Sender {} sent temperature reading: {:?}",
@@ -84,13 +93,19 @@ async fn telemetry_loop(client: SessionManagedClient, exit_handle: SessionExitHa
                 );
 
                 // Parse cloud event
-                if let Some(cloud_event) = message.cloud_event {
-                    println!("{cloud_event:?}");
+                match telemetry_receiver::CloudEvent::from_telemetry(&message) {
+                    Ok(cloud_event) => {
+                        println!("{cloud_event}");
+                    }
+                    Err(e) => {
+                        // Note: if a cloud event is not present, this error is expected
+                        println!("Error parsing cloud event: {e}");
+                    }
                 }
 
                 // Acknowledge the message if ack_token is present
                 if let Some(ack_token) = ack_token {
-                    ack_token.ack();
+                    ack_token.ack().await.unwrap().await.unwrap();
                 }
             }
             Err(e) => {
@@ -112,23 +127,32 @@ pub struct SampleTelemetry {
 
 impl PayloadSerialize for SampleTelemetry {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(&self) -> Result<Vec<u8>, String> {
+    fn serialize(self) -> Result<SerializedPayload, String> {
         // Not used in this example
-        Ok(Vec::new())
+        unimplemented!()
     }
 
-    fn deserialize(payload: &[u8]) -> Result<SampleTelemetry, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<SampleTelemetry, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+                )));
+            }
+        }
+
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -137,7 +161,11 @@ impl PayloadSerialize for SampleTelemetry {
             .parse::<f64>()
         {
             Ok(ext_temp) => ext_temp,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
@@ -145,7 +173,11 @@ impl PayloadSerialize for SampleTelemetry {
             .parse::<f64>()
         {
             Ok(int_temp) => int_temp,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
 
         Ok(SampleTelemetry {

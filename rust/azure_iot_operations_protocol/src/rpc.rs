@@ -6,12 +6,19 @@
 use std::str::FromStr;
 
 use crate::common::aio_protocol_error::AIOProtocolError;
+use crate::ProtocolVersion;
 
 /// This module contains the command invoker implementation.
 pub mod command_invoker;
 
 /// This module contains the command executor implementation.
 pub mod command_executor;
+
+/// Protocol version used by all envoys in this module
+pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
+/// Assumed version if no version is provided.
+pub(crate) const DEFAULT_RPC_PROTOCOL_VERSION: ProtocolVersion =
+    ProtocolVersion { major: 1, minor: 0 };
 
 /// Represents the valid status codes for command responses.
 #[repr(u16)]
@@ -79,7 +86,7 @@ impl FromStr for StatusCode {
                 )),
             },
             Err(e) => Err(AIOProtocolError::new_header_invalid_error(
-                "status",
+                "__stat",
                 s,
                 false,
                 None,
@@ -129,7 +136,7 @@ mod tests {
                 assert!(!e.is_remote);
                 assert!(e.nested_error.is_none());
                 assert_eq!(e.http_status_code, None);
-                assert_eq!(e.header_name, Some("status".to_string()));
+                assert_eq!(e.header_name, Some("__stat".to_string()));
                 assert_eq!(e.header_value, Some(test_invalid_code.to_string()));
             }
         }

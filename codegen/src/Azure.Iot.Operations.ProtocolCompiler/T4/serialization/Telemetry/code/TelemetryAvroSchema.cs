@@ -6,22 +6,20 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class TelemetryAvroSchema : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string schema;
+        private readonly CodeName genNamespace;
+        private readonly ITypeName schema;
         private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
 
-        public TelemetryAvroSchema(string projectName, string genNamespace, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, DtmiToSchemaName dtmiToSchemaName)
+        public TelemetryAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
             this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
-            this.dtmiToSchemaName = dtmiToSchemaName;
         }
 
-        public string FileName { get => $"{this.schema}.avsc"; }
+        public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.avsc"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFileName(TargetLanguage.Independent); }
     }
 }

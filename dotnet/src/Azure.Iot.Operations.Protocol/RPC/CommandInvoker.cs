@@ -19,13 +19,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
+        private readonly int[] supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
-        private readonly int[] supportedMajorProtocolVersions = [1];
-
-        private const string? DefaultResponseTopicPrefix = null;
-        private const string? DefaultResponseTopicSuffix = null;
         private static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan MinimumCommandTimeout = TimeSpan.FromMilliseconds(1);
 
@@ -48,11 +43,36 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string RequestTopicPattern { get; init; }
 
         public string? TopicNamespace { get; set; }
+        
+        /// <summary>
+        /// The prefix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
+        /// </summary>
+        /// <remarks>
+        /// If no prefix or suffix is specified, and no value is provided in <see cref="GetResponseTopic"/>, then this
+        /// value will default to "clients/{invokerClientId}" for security purposes.
+        /// 
+        /// If a prefix and/or suffix are provided, then the response topic will use the format:
+        /// {prefix}/{command request topic}/{suffix}.
+        /// </remarks>
+        public string? ResponseTopicPrefix { get; set; }
 
-        public string? ResponseTopicPrefix { get; set; } = DefaultResponseTopicPrefix;
+        /// <summary>
+        /// The suffix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
+        /// </summary>
+        /// <remarks>
+        /// If no suffix is specified, then the command response topic won't include a suffix.
+        /// 
+        /// If a prefix and/or suffix are provided, then the response topic will use the format:
+        /// {prefix}/{command request topic}/{suffix}.
+        /// </remarks>
+        public string? ResponseTopicSuffix { get; set; }
 
-        public string? ResponseTopicSuffix { get; set; } = DefaultResponseTopicSuffix;
-
+        /// <summary>
+        /// If provided, this function will be used to determine the command response topic used.
+        /// </summary>
+        /// <remarks>
+        /// If provided, this function will override any values set in <see cref="ResponseTopicPrefix"/> and <see cref="ResponseTopicSuffix"/>.
+        /// </remarks>
         public Func<string, string>? GetResponseTopic { get; set; }
 
         /// <summary>
@@ -93,6 +113,15 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
             StringBuilder responseTopicPattern = new();
+
+            // ADR 14 specifies that a default response topic prefix should be used if
+            // the user doesn't provide any prefix, suffix, or specify the response topic
+            if (string.IsNullOrWhiteSpace(ResponseTopicPrefix) 
+                && string.IsNullOrWhiteSpace(ResponseTopicSuffix)
+                && GetResponseTopic == null)
+            {
+                ResponseTopicPrefix = "clients/" + mqttClient.ClientId;
+            }
 
             if (ResponseTopicPrefix != null)
             {
@@ -191,6 +220,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 subscribedTopics.Add(responseTopicFilter);
             }
+            Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{this.commandName}'");
         }
 
         private Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -328,7 +358,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     CommandResponseMetadata responseMetadata;
                     try
                     {
-                        response = serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array);
+                        response = serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
                         responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
                     }
                     catch (Exception ex)
@@ -354,7 +384,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.CompletedTask;
         }
 
-        private bool TryValidateResponseHeaders(
+        private static bool TryValidateResponseHeaders(
             MqttApplicationMessage responseMsg,
             MqttUserProperty? statusProperty,
             string correlationId,
@@ -363,15 +393,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             out string? headerName,
             out string? headerValue)
         {
-            if (responseMsg.ContentType != null && responseMsg.ContentType != this.serializer.ContentType)
-            {
-                errorKind = AkriMqttErrorKind.HeaderInvalid;
-                message = $"Content type {responseMsg.ContentType} is not supported by this implementation; only {this.serializer.ContentType} is accepted.";
-                headerName = "Content Type";
-                headerValue = responseMsg.ContentType;
-                return false;
-            }
-
             if (!Guid.TryParse(correlationId, out _))
             {
                 errorKind = AkriMqttErrorKind.HeaderInvalid;
@@ -458,12 +479,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (reifiedCommandTimeout < MinimumCommandTimeout)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("commandTimeout", reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}", commandName: commandName);
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
             }
 
             if (reifiedCommandTimeout.TotalSeconds > uint.MaxValue)
             {
-                throw AkriMqttException.GetConfigurationInvalidException("commandTimeout", reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
             }
 
             if (requestIdMap.ContainsKey(requestGuid.ToString()))
@@ -517,19 +538,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
                 }
 
-                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                requestMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
                 requestMessage.AddUserProperty("$partition", clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                byte[]? payload = serializer.ToBytes(request);
-                if (payload != null)
+                SerializedPayloadContext payloadContext = serializer.ToBytes(request);
+                if (payloadContext.SerializedPayload != null)
                 {
-                    requestMessage.PayloadSegment = payload;
-                    requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator;
-                    requestMessage.ContentType = serializer.ContentType;
+                    requestMessage.PayloadSegment = payloadContext.SerializedPayload;
+                    requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
+                    requestMessage.ContentType = payloadContext.ContentType;
                 }
 
                 try
@@ -559,6 +580,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             CorrelationId = requestGuid,
                         };
                     }
+                    Trace.TraceInformation($"Invoked command '{this.commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {

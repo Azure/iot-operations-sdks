@@ -31,13 +31,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public HybridLogicalClock? Timestamp { get; }
 
         /// <summary>
-        /// A fencing token attached to the request.
-        /// When CommandRequestMetadata is constructed by user code that will invoke a command, the FencingToken is initialized to null, and it can be set by user code.
-        /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the FencingToken is set from the request message; this will be null if the message contains no fencing token header.
-        /// </summary>
-        public HybridLogicalClock? FencingToken { get; set; }
-
-        /// <summary>
         /// A dictionary of user properties that are sent along with the request from the CommandInvoker to the CommandExecutor.
         /// When CommandRequestMetadata is constructed by user code that will invoke a command, the UserData is initialized with an empty dictionary.
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the UserData is set from the request message.
@@ -50,6 +43,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the partition is set from the request message; this will be null if the message contains no partition header.
         /// </summary>
         public string? Partition { get; }
+
+        /// <summary>
+        /// The content type of a command received by a command executor if a content type was provided on the MQTT message.
+        /// </summary>
+        /// <remarks>
+        /// This field is only set by the command executor when deserializing a request. It cannot be used by a command invoker to change the content type of a command request.
+        /// </remarks>
+        public string? ContentType { get; internal set; }
+
+        /// <summary>
+        /// The payload format indicator of a command received by a command executor.
+        /// </summary>
+        /// <remarks>
+        /// This field is only set by the command executor when deserializing a request. It cannot be used by a command invoker to change the payload format indicator of a command request.
+        /// </remarks>
+        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
         /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
@@ -70,7 +79,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             InvokerClientId = null;
 
             Timestamp = new HybridLogicalClock(localClock);
-            FencingToken = null;
             UserData = [];
         }
 
@@ -83,7 +91,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             InvokerClientId = null;
 
             Timestamp = null;
-            FencingToken = null;
             UserData = [];
 
             if (message.UserProperties != null)
@@ -95,9 +102,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         case AkriSystemProperties.Timestamp:
                             Timestamp = HybridLogicalClock.DecodeFromString(AkriSystemProperties.Timestamp, property.Value);
                             break;
-                        case AkriSystemProperties.FencingToken:
-                            FencingToken = HybridLogicalClock.DecodeFromString(AkriSystemProperties.FencingToken, property.Value);
-                            break;
                         case AkriSystemProperties.SourceId:
                             InvokerClientId = property.Value;
                             break;
@@ -105,7 +109,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             Partition = property.Value;
                             break;
                         default:
-                            if (!property.Name.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
+                            if (!AkriSystemProperties.IsReservedUserProperty(property.Name))
                             {
                                 UserData[property.Name] = property.Value;
                             }
@@ -122,11 +126,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.AddUserProperty(AkriSystemProperties.Timestamp, Timestamp.EncodeToString());
             }
 
-            if (FencingToken != default)
-            {
-                message.AddUserProperty(AkriSystemProperties.FencingToken, FencingToken.EncodeToString());
-            }
-
             if (Partition != null)
             {
                 message.AddUserProperty("$partition", Partition);
@@ -134,18 +133,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             foreach (KeyValuePair<string, string> kvp in UserData)
             {
-                if (kvp.Key.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
-                {
-                    throw new AkriMqttException($"Invalid user property \"{kvp.Key}\" starts with reserved prefix {AkriSystemProperties.ReservedPrefix}")
-                    {
-                        Kind = AkriMqttErrorKind.HeaderInvalid,
-                        InApplication = true,
-                        IsShallow = false,
-                        IsRemote = false,
-                        HeaderName = kvp.Key,
-                    };
-                }
-
                 message.AddUserProperty(kvp.Key, kvp.Value);
             }
         }

@@ -13,6 +13,7 @@ use crate::error::{
     AckError, CompletionError, ConnectionError, DisconnectError, PublishError, ReauthError,
     SubscribeError, UnsubscribeError,
 };
+pub use crate::session::receiver::AckToken; // TODO: remove this pub re-export after concretized receivers / managed clients
 use crate::topic::TopicParseError;
 
 // ---------- Concrete Types ----------
@@ -29,6 +30,17 @@ impl std::future::Future for CompletionToken {
         self: std::pin::Pin<&mut Self>,
         cx: &mut std::task::Context<'_>,
     ) -> std::task::Poll<Self::Output> {
+        // NOTE: Need to use `unsafe` here because we need to poll the inner future, but can't get
+        // a mutable reference to it, as it's in a box (at least, not without unsafe code).
+        // It is safe for us to use the `unsafe` code for the following reasons:
+        //
+        // 1. This CompletionToken struct is the only reference to the boxed future that it holds
+        // internally, so mutability among multiple references is not a concern. Nowhere is this
+        // struct used in a way that the inner future can be accessed from multiple threads,
+        // and so we are safe from race conditions.
+        //
+        // 2. We do not move the memory - the future stays right where it is, all we do is poll it,
+        // so there is no risk of a null pointer error / segfault.
         let inner = unsafe { self.map_unchecked_mut(|s| &mut *s.0) };
         inner.poll(cx)
     }
@@ -120,7 +132,7 @@ pub trait MqttPubSub {
 #[async_trait]
 pub trait MqttAck {
     /// Acknowledge a received Publish.
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError>;
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError>;
 }
 
 // TODO: consider scoping this to also include a `connect`. Not currently needed, but would be more flexible,
@@ -162,7 +174,7 @@ pub trait MqttEventLoop {
 /// Can be used to send messages and create receivers for incoming messages.
 pub trait ManagedClient: MqttPubSub {
     /// The type of receiver used by this client
-    type PubReceiver: PubReceiver + MqttAck;
+    type PubReceiver: PubReceiver;
 
     /// Get the client id for the MQTT connection
     fn client_id(&self) -> &str;
@@ -174,8 +186,11 @@ pub trait ManagedClient: MqttPubSub {
     fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
-        auto_ack: bool,
     ) -> Result<Self::PubReceiver, TopicParseError>;
+
+    /// Creates a new [`PubReceiver`] that receives all messages not sent to other
+    /// filtered receivers.
+    fn create_unfiltered_pub_receiver(&self) -> Self::PubReceiver;
 }
 
 #[async_trait]
@@ -186,8 +201,14 @@ pub trait PubReceiver {
     /// Return None if there will be no more incoming publishes.
     async fn recv(&mut self) -> Option<Publish>;
 
+    /// Receives the next incoming publish, and a token that can be used to manually acknowledge
+    /// the publish (Quality of Service 1 or 2), or `None` (Quality of Service 0).
+    ///
+    /// Return None if there will be no more incoming publishes.
+    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)>;
+
     /// Close the receiver, preventing further incoming publishes.
     ///
-    /// To guarantee no publish loss, `recv()` must be called until `None` is returned.
+    /// To guarantee no publish loss, `recv()`/`recv_manual_ack()` must be called until `None` is returned.
     fn close(&mut self);
 }

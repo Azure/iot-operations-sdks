@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
     using TestModel.dtmi_test_TestModel__1;
 
-    public class TestCommandExecutor : CommandExecutor<Object_Test_Request, Object_Test_Response>
+    public class TestCommandExecutor : CommandExecutor<TestRequestSchema, TestResponseSchema>
     {
         private AsyncAtomicInt executionCount;
 

@@ -2,14 +2,14 @@
 <#@ import namespace="DTDLParser.Models" #>
 <# this.PushIndent(new string(' ', this.indent)); #>
 <# if (this.schema != null) { #>
-"name": "<#=this.schema#>",
+"name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# } #>
 "type": "record",
 "fields": [
 <# foreach (var nameSchemaRequired in this.nameSchemaRequireds) { #>
   {
     "name": "<#=nameSchemaRequired.Item1#>",
-<#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, this.dtmiToSchemaName, 4, nullable: !nameSchemaRequired.Item3, nestNamedType: true)#>
+<#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, 4, nullable: !nameSchemaRequired.Item3, nestNamedType: true)#>
   }<#=this.IsLast(nameSchemaRequired) ? "" : ","#>
 <# } #>
 ]<# this.PopIndent(); #>

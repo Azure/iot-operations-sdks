@@ -54,9 +54,6 @@ type (
 	TelemetryMessage[T any] struct {
 		Message[T]
 
-		// CloudEvent will be present if the message was sent with cloud events.
-		*CloudEvent
-
 		// Ack provides a function to manually ack if enabled and if possible;
 		// it will be nil otherwise. Note that, since QoS 0 messages cannot be
 		// acked, this will be nil in this case even if manual ack is enabled.
@@ -72,16 +69,18 @@ const telemetryReceiverErrStr = "telemetry receipt"
 
 // NewTelemetryReceiver creates a new telemetry receiver.
 func NewTelemetryReceiver[T any](
+	app *Application,
 	client MqttClient,
 	encoding Encoding[T],
 	topicPattern string,
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts TelemetryReceiverOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -125,12 +124,13 @@ func NewTelemetryReceiver[T any](
 		timeout:   to,
 	}
 	tr.listener = &listener[T]{
+		app:         app,
 		client:      client,
 		encoding:    encoding,
 		topic:       tf,
 		shareName:   opts.ShareName,
 		concurrency: opts.Concurrency,
-		log:         log.Wrap(opts.Logger),
+		log:         logger,
 		handler:     tr,
 	}
 
@@ -140,11 +140,15 @@ func NewTelemetryReceiver[T any](
 
 // Start listening to the MQTT telemetry topic.
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
+	tr.listener.log.Info(ctx, "telemetry receiver subscribing to topic",
+		slog.String("topic", tr.listener.topic.Filter()))
 	return tr.listener.listen(ctx)
 }
 
 // Close the telemetry receiver to free its resources.
 func (tr *TelemetryReceiver[T]) Close() {
+	ctx := context.Background()
+	tr.listener.log.Info(ctx, "telemetry receiver closing")
 	tr.listener.close()
 }
 
@@ -156,12 +160,11 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	message := &TelemetryMessage[T]{Message: *msg}
 	var err error
 
-	message.Payload, err = tr.listener.payload(pub)
+	message.Payload, err = tr.listener.payload(msg)
 	if err != nil {
+		tr.listener.log.Warn(ctx, err)
 		return err
 	}
-
-	message.CloudEvent = cloudEventFromMessage(pub)
 
 	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
@@ -170,14 +173,37 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	handlerCtx, cancel := tr.timeout.Context(ctx)
 	defer cancel()
 
+	tr.listener.log.Debug(ctx, "telemetry received",
+		slog.String("topic", pub.Topic))
+
 	if err := tr.handle(handlerCtx, message); err != nil {
 		return err
 	}
 
 	if !tr.manualAck && pub.QoS > 0 {
+		tr.listener.log.Debug(ctx, "telemetry acknowledged automatically",
+			slog.String("topic", pub.Topic))
 		pub.Ack()
 	}
 	return nil
+}
+
+var reservedProperties = map[string]struct{}{
+	"__ts":             {},
+	"__stat":           {},
+	"__stMsg":          {},
+	"__apErr":          {},
+	"__srcId":          {},
+	"__propName":       {},
+	"__propVal":        {},
+	"__protVer":        {},
+	"__supProtMajVer":  {},
+	"__requestProtVer": {},
+}
+
+func isReservedProperty(property string) bool {
+	_, reserved := reservedProperties[property]
+	return reserved
 }
 
 func (tr *TelemetryReceiver[T]) onErr(
@@ -188,7 +214,7 @@ func (tr *TelemetryReceiver[T]) onErr(
 	if !tr.manualAck && pub.QoS > 0 {
 		pub.Ack()
 	}
-	return errutil.Return(err, false)
+	return errutil.Return(err, tr.listener.log, false)
 }
 
 // Call handler with panic catch.

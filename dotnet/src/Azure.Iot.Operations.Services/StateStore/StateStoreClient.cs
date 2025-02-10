@@ -23,6 +23,8 @@ namespace Azure.Iot.Operations.Services.StateStore
         string _clientIdHexString = "";
         private bool _disposed = false;
 
+        internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
+
         public event Func<object?, KeyChangeMessageReceivedEventArgs, Task>? KeyChangeMessageReceivedAsync;
 
         public StateStoreClient(IMqttPubSubClient mqttClient) 
@@ -182,13 +184,17 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             byte[] requestPayload = StateStorePayloadParser.BuildSetRequestPayload(key, value, options);
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.FencingToken != null)
+            { 
+                requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
+            }
+
             ExtendedResponse<byte[]> commandResponse = 
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    new CommandRequestMetadata 
-                    {
-                        FencingToken = options.FencingToken,
-                    },
+                    requestMetadata,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 
@@ -227,13 +233,17 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.FencingToken != null)
+            {
+                requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
+            }
+
             ExtendedResponse<byte[]> commandResponse = 
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    new CommandRequestMetadata 
-                    {
-                        FencingToken = options.FencingToken,
-                    },
+                    requestMetadata,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 
@@ -284,6 +294,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 _isSubscribedToNotifications = true;
+                Trace.TraceInformation($"Subscribed to notifications for key {key}");
             }
 
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyRequestPayload(key);
@@ -292,6 +303,9 @@ namespace Azure.Iot.Operations.Services.StateStore
                     requestPayload,
                     commandTimeout: requestTimeout, 
                     cancellationToken: cancellationToken).WithMetadata();
+
+            Trace.TraceInformation($"Key notification receiver started for key {key}.");
+            Trace.TraceInformation($"Response from Observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -320,6 +334,9 @@ namespace Azure.Iot.Operations.Services.StateStore
                     requestPayload,
                     commandTimeout: requestTimeout, 
                     cancellationToken: cancellationToken).WithMetadata();
+
+            Trace.TraceInformation($"Key notification receiver stopped for key {key}.");
+            Trace.TraceInformation($"Response from Un-observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -375,8 +392,8 @@ namespace Azure.Iot.Operations.Services.StateStore
                     await _mqttClient.DisposeAsync(disposing);
                 }
             }
-        
-            _disposed = true;
+
+            _disposed = true;   
         }
 
         private void LogWithoutLineBreaks(string message)
