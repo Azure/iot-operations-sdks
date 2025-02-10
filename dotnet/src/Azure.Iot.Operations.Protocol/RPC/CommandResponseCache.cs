@@ -70,7 +70,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return executionBypassBenefit / storageCost;
         }
 
-        public async Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
+        public async Task StoreAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
         {
             if (!isMaintenanceActive)
             {
@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            FullCorrelationId fullCorrelationId = new(topic, correlationData);
+            FullCorrelationId fullCorrelationId = new(responseTopic, correlationData);
 
             await semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -133,12 +133,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             expireEvent.Set();
         }
 
-        public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
+        public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
         {
             Task<MqttApplicationMessage>? responseTask = null;
             await semaphore.WaitAsync().ConfigureAwait(false);
 
-            FullCorrelationId fullCorrelationId = new(topic, correlationData);
+            FullCorrelationId fullCorrelationId = new(responseTopic, correlationData);
             FullRequest? fullRequest = isCacheable ? new FullRequest(commandName, canReuseAcrossInvokers ? string.Empty : invokerId, requestPayload) : null;
 
             if (requestResponseCache.TryGetValue(fullCorrelationId, out RequestResponse? dedupRequestResponse))
@@ -258,16 +258,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
             requestResponseCache.Remove(correlationId);
         }
 
-        private class FullCorrelationId(string topic, byte[] correlationData)
+        private class FullCorrelationId(string responseTopic, byte[] correlationData)
         {
-            public string Topic { get; } = topic;
+            public string ResponseTopic { get; } = responseTopic;
 
             public byte[] CorrelationData { get; } = correlationData ?? [];
 
             public override bool Equals(object? obj)
             {
                 return obj != null && obj is FullCorrelationId other
-                    && Topic == other.Topic && CorrelationData.SequenceEqual(other.CorrelationData);
+                    && ResponseTopic == other.ResponseTopic && CorrelationData.SequenceEqual(other.CorrelationData);
             }
 
             public override int GetHashCode()
@@ -275,7 +275,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 unchecked
                 {
                     int hash = 0;
-                    hash = 131 * hash + Topic.GetHashCode();
+                    hash = 131 * hash + ResponseTopic.GetHashCode();
                     hash = 131 * hash + ((IStructuralEquatable)CorrelationData).GetHashCode(EqualityComparer<byte>.Default);
                     return hash;
                 }

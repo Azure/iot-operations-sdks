@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::{BypassPayload, FormatIndicator};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
@@ -45,8 +43,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(invoke_loop(

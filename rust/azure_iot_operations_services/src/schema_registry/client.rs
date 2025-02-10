@@ -260,9 +260,8 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
-    use azure_iot_operations_protocol::application::ApplicationContextOptionsBuilder;
+    use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
-    use super::*;
     use crate::schema_registry::{
         client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
         Client, Format, GetRequestBuilder, PutRequestBuilder, SchemaRegistryError,
@@ -346,7 +345,7 @@ mod tests {
     async fn test_get_timeout_invalid() {
         let session = create_session();
         let client = Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             &session.create_managed_client(),
         );
 
@@ -385,7 +384,7 @@ mod tests {
     async fn test_put_timeout_invalid() {
         let session = create_session();
         let client = Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             &session.create_managed_client(),
         );
 
