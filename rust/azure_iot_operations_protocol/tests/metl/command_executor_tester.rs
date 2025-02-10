@@ -10,9 +10,7 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
@@ -233,7 +231,7 @@ where
                             Some(message) => message.clone(),
                             None => String::default(),
                         };
-                        request.error(message).unwrap();
+                        request.error(message).await.unwrap();
                         continue;
                     }
                 }
@@ -275,7 +273,7 @@ where
                     .build()
                     .unwrap();
 
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
         }
     }
@@ -306,10 +304,6 @@ where
 
         executor_options_builder.is_idempotent(tce.idempotent);
 
-        if let Some(cache_ttl) = tce.cache_ttl.as_ref() {
-            executor_options_builder.cacheable_duration(cache_ttl.to_duration());
-        }
-
         let options_result = executor_options_builder.build();
         if let Err(error) = options_result {
             if let Some(catch) = catch {
@@ -327,7 +321,7 @@ where
         let executor_options = options_result.unwrap();
 
         match CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         ) {

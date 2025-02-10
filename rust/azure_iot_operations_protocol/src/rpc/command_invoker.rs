@@ -16,10 +16,8 @@ use tokio::{
 };
 use uuid::Uuid;
 
-use super::StatusCode;
-use crate::application::ApplicationHybridLogicalClock;
 use crate::{
-    application::ApplicationContext,
+    application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
@@ -31,7 +29,7 @@ use crate::{
         user_properties::{validate_user_properties, UserProperty},
     },
     parse_supported_protocol_major_versions,
-    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     ProtocolVersion,
 };
 
@@ -153,7 +151,9 @@ pub struct CommandInvokerOptions {
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
     /// Topic pattern for the command response.
-    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
+    /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md).
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
     #[builder(default = "None")]
     response_topic_pattern: Option<String>,
     /// Command name
@@ -164,10 +164,14 @@ pub struct CommandInvokerOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
-    /// Prefix for the response topic
-    #[builder(default = "Some(\"clients/{invokerClientId}\".to_string())")]
+    /// Prefix for the response topic.
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
+    #[builder(default = "None")]
     response_topic_prefix: Option<String>,
-    /// Suffix for the response topic
+    /// Suffix for the response topic.
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
     #[builder(default = "None")]
     response_topic_suffix: Option<String>,
 }
@@ -180,7 +184,7 @@ pub struct CommandInvokerOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
-/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
 /// #     .hostname("mqtt://localhost")
@@ -190,7 +194,7 @@ pub struct CommandInvokerOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let invoker_options = CommandInvokerOptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
@@ -218,14 +222,13 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     // static properties of the invoker
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: C,
     command_name: String,
     request_topic_pattern: TopicPattern,
     response_topic_pattern: TopicPattern,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
-    #[allow(dead_code)] // TODO: Remove when used
-    application_hlc: Arc<ApplicationHybridLogicalClock>,
     // Describes state
     invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
     // Used to send information to manage state
@@ -296,13 +299,27 @@ where
             response_topic_pattern = pattern;
         } else {
             response_topic_pattern = invoker_options.request_topic_pattern.clone();
-            if let Some(prefix) = invoker_options.response_topic_prefix {
-                // Validity check will be done within the topic processor
-                response_topic_pattern = prefix + "/" + &response_topic_pattern;
-            }
-            if let Some(suffix) = invoker_options.response_topic_suffix {
-                // Validity check will be done within the topic processor
-                response_topic_pattern = response_topic_pattern + "/" + &suffix;
+
+            // If no options around the response topic have been specified
+            // (no response topic or prefix/suffix), default to a well-known
+            // pattern of clients/<client_id>/<request_topic>. This ensures
+            // that the response topic is different from the request topic and lets
+            // us document this pattern for auth configuration. Note that this does
+            // not use any topic tokens, since we cannot guarantee their existence.
+            if invoker_options.response_topic_prefix.is_none()
+                && invoker_options.response_topic_suffix.is_none()
+            {
+                response_topic_pattern =
+                    "clients/".to_owned() + client.client_id() + "/" + &response_topic_pattern;
+            } else {
+                if let Some(prefix) = invoker_options.response_topic_prefix {
+                    // Validity check will be done within the topic processor
+                    response_topic_pattern = prefix + "/" + &response_topic_pattern;
+                }
+                if let Some(suffix) = invoker_options.response_topic_suffix {
+                    // Validity check will be done within the topic processor
+                    response_topic_pattern = response_topic_pattern + "/" + &suffix;
+                }
             }
         }
 
@@ -326,7 +343,7 @@ where
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic(), false)
+            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic())
         {
             Ok(receiver) => receiver,
             Err(e) => {
@@ -363,13 +380,13 @@ where
         });
 
         Ok(Self {
+            application_hlc: application_context.application_hlc,
             mqtt_client: client,
             command_name: invoker_options.command_name,
             request_topic_pattern,
             response_topic_pattern,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            application_hlc: application_context.application_hlc,
             invoker_state_mutex,
             shutdown_notifier,
             response_tx,
@@ -422,9 +439,13 @@ where
     ///
     /// [`AIOProtocolError`] of kind [`ExecutionException`](AIOProtocolErrorKind::ExecutionException) if the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`] and the [`UserProperty::IsApplicationError`] is true
     ///
-    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`], the [`UserProperty::IsApplicationError`] is false, and a [`UserProperty::InvalidPropertyName`] is provided
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if
+    /// - the [`ApplicationHybridLogicalClock`]'s counter would be incremented and overflow beyond [`u64::MAX`]
+    /// - the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`], the [`UserProperty::IsApplicationError`] is false, and a [`UserProperty::InvalidPropertyName`] is provided
     ///
-    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if the response has a [`UserProperty::Status`] of [`StatusCode::ServiceUnavailable`]
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if
+    /// - the [`ApplicationHybridLogicalClock`] or the received timestamp on the response is too far in the future
+    /// - the response has a [`UserProperty::Status`] of [`StatusCode::ServiceUnavailable`]
     pub async fn invoke(
         &self,
         request: CommandRequest<TReq>,
@@ -525,15 +546,17 @@ where
         let correlation_id = Uuid::new_v4();
         let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
+        // Get updated timestamp
+        let timestamp_str = self.application_hlc.update_now()?;
+
         // Add internal user properties
         request.custom_user_data.push((
             UserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
-        request.custom_user_data.push((
-            UserProperty::Timestamp.to_string(),
-            HybridLogicalClock::new().to_string(),
-        ));
+        request
+            .custom_user_data
+            .push((UserProperty::Timestamp.to_string(), timestamp_str));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
             RPC_PROTOCOL_VERSION.to_string(),
@@ -633,6 +656,7 @@ where
                                     // This is implicit validation of the correlation data - if it's malformed it won't match the request
                                     // This is the response for this request, validate and parse it and send it back to the application
                                     return validate_and_parse_response(
+                                        &self.application_hlc,
                                         self.command_name.clone(),
                                         &rsp_pub.payload,
                                         rsp_properties.clone(),
@@ -692,7 +716,7 @@ where
                     mqtt_receiver.close();
                     log::info!("[{command_name}] MQTT Receiver closed");
                   },
-                  recv_result = mqtt_receiver.recv() => {
+                  recv_result = mqtt_receiver.recv_manual_ack() => {
                     if let Some((m, ack_token)) = recv_result {
                         // Send to pending command listeners
                         match response_tx.send(Some(m)) {
@@ -784,6 +808,7 @@ where
 }
 
 fn validate_and_parse_response<TResp: PayloadSerialize>(
+    application_hlc: &Arc<ApplicationHybridLogicalClock>,
     command_name: String,
     response_payload: &Bytes,
     response_properties: PublishProperties,
@@ -853,6 +878,12 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             Ok(UserProperty::Timestamp) => {
                 match HybridLogicalClock::from_str(&value) {
                     Ok(ts) => {
+                        // Update application HLC against received __ts
+                        if let Err(mut e) = application_hlc.update(&ts) {
+                            // update error to include command name
+                            e.command_name = Some(command_name);
+                            return Err(e);
+                        }
                         timestamp = Some(ts);
                     }
                     Err(mut e) => {
@@ -1137,7 +1168,7 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
-    use crate::application::ApplicationContextOptionsBuilder;
+    use crate::application::ApplicationContextBuilder;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
         payload_serialize::{FormatIndicator, MockPayload, DESERIALIZE_MTX},
@@ -1178,7 +1209,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
@@ -1205,7 +1236,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
@@ -1279,9 +1310,7 @@ mod tests {
 
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandInvoker::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 invoker_options,
             );
@@ -1304,7 +1333,7 @@ mod tests {
     #[test_case(Some("custom/prefix".to_string()), Some("custom/suffix".to_string()), "custom/prefix/test/req/topic/custom/suffix"; "new_response_topic_prefix_and_suffix")]
     #[test_case(None, Some("custom/suffix".to_string()), "test/req/topic/custom/suffix"; "new_none_response_topic_prefix")]
     #[test_case(Some("custom/prefix".to_string()), None, "custom/prefix/test/req/topic"; "new_none_response_topic_suffix")]
-    #[test_case(None, None, "test/req/topic"; "new_none_response_topic_prefix_and_suffix")]
+    #[test_case(None, None, "clients/test_client/test/req/topic"; "new_none_response_topic_prefix_and_suffix")]
     #[tokio::test]
     async fn test_new_response_pattern_prefix_suffix_args(
         response_topic_prefix: Option<String>,
@@ -1327,9 +1356,7 @@ mod tests {
 
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandInvoker::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 invoker_options,
             );
@@ -1343,7 +1370,7 @@ mod tests {
         );
     }
 
-    // If response pattern suffix is not specified, the default is used
+    // If response pattern prefix/suffix are not specified, the default response topic prefix is used
     #[tokio::test]
     async fn test_new_response_pattern_default_prefix() {
         let session = create_session();
@@ -1359,9 +1386,7 @@ mod tests {
             .unwrap();
         let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandInvoker::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 invoker_options,
             );
@@ -1372,6 +1397,38 @@ mod tests {
                 .response_topic_pattern
                 .as_subscribe_topic(),
             "clients/test_client/test/req/topic"
+        );
+    }
+
+    // If response pattern suffix is specified, there is no prefix added
+    #[tokio::test]
+    async fn test_new_response_pattern_only_suffix() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let command_name = "test_command_name";
+        let request_topic_pattern = "test/req/topic";
+        let response_topic_suffix = "custom/suffix";
+
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern(request_topic_pattern)
+            .command_name(command_name)
+            .topic_token_map(create_topic_tokens())
+            .response_topic_suffix(response_topic_suffix.to_string())
+            .build()
+            .unwrap();
+        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
+            CommandInvoker::new(
+                ApplicationContextBuilder::default().build().unwrap(),
+                managed_client,
+                invoker_options,
+            );
+        assert!(command_invoker.is_ok());
+        assert_eq!(
+            command_invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic(),
+            "test/req/topic/custom/suffix"
         );
     }
 
@@ -1391,7 +1448,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
@@ -1461,7 +1518,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
@@ -1524,7 +1581,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
@@ -1599,7 +1656,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
@@ -1656,7 +1713,7 @@ mod tests {
             .unwrap();
 
         let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )

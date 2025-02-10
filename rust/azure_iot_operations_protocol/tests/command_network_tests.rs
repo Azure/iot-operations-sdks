@@ -9,9 +9,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -80,8 +78,7 @@ fn setup_test<
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(topic)
@@ -168,7 +165,7 @@ async fn command_basic_invoke_response_network_tests() {
                             .unwrap()
                             .build()
                             .unwrap();
-                        assert!(request.complete(response).is_ok());
+                        assert!(request.complete(response).await.is_ok());
                     }
 
                     // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)
@@ -432,7 +429,7 @@ async fn command_complex_invoke_response_network_tests() {
                             .custom_user_data(test_response_custom_user_data_clone)
                             .build()
                             .unwrap();
-                        assert!(request.complete(response).is_ok());
+                        assert!(request.complete(response).await.is_ok());
                     }
 
                     // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)

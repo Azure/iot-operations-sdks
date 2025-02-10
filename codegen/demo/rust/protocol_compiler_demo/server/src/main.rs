@@ -8,14 +8,15 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
+use azure_iot_operations_protocol::common::payload_serialize::FormatIndicator;
 use iso8601_duration;
+use custom_comm::common_types::custom_payload::CustomPayload;
 
 const AVRO_SERVER_ID: &str = "AvroRustServer";
 const JSON_SERVER_ID: &str = "JsonRustServer";
 const RAW_SERVER_ID: &str = "RawRustServer";
+const CUSTOM_SERVER_ID: &str = "CustomRustServer";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 
@@ -24,6 +25,7 @@ enum CommFormat {
     Avro,
     Json,
     Raw,
+    Custom,
 }
 
 #[tokio::main(flavor = "current_thread")]
@@ -32,7 +34,7 @@ async fn main() {
 
     if args.len() < 3 {
         println!(
-            "Usage: {} {{AVRO|JSON|RAW}} iterations [interval_in_seconds]",
+            "Usage: {} {{AVRO|JSON|RAW|CUSTOM}} iterations [interval_in_seconds]",
             args[0]
         );
         return;
@@ -42,6 +44,7 @@ async fn main() {
         "avro" => (CommFormat::Avro, AVRO_SERVER_ID),
         "json" => (CommFormat::Json, JSON_SERVER_ID),
         "raw" => (CommFormat::Raw, RAW_SERVER_ID),
+        "custom" => (CommFormat::Custom, CUSTOM_SERVER_ID),
         _ => {
             println!("format must be AVRO or JSON or RAW");
             return;
@@ -95,6 +98,12 @@ async fn main() {
             iterations,
             interval,
         )),
+        CommFormat::Custom => tokio::task::spawn(custom_telemetry_loop(
+            mqtt_client,
+            exit_handle,
+            iterations,
+            interval,
+        )),
     };
 
     session.run().await.unwrap();
@@ -109,8 +118,7 @@ async fn avro_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -159,8 +167,7 @@ async fn json_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -216,8 +223,7 @@ async fn raw_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options = raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
         .build()
@@ -244,6 +250,49 @@ async fn raw_telemetry_loop(
             .unwrap()
             .build()
             .unwrap();
+        telemetry_sender.send(message).await.unwrap();
+
+        tokio::time::sleep(interval).await;
+    }
+
+    exit_handle.try_exit().await.unwrap();
+}
+
+async fn custom_telemetry_loop(
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+    iterations: i32,
+    interval: Duration,
+) {
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
+    let sender_options =
+        custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+            .build()
+            .unwrap();
+
+    let telemetry_sender: custom_comm::custom_model::service::TelemetrySender<_> =
+        custom_comm::custom_model::service::TelemetrySender::new(
+            application_context,
+            client,
+            &sender_options,
+        );
+
+    println!("Starting send loop");
+    println!();
+
+    for i in 0..iterations {
+        println!("  Sending iteration {i}");
+
+        let mut builder = custom_comm::custom_model::service::TelemetryMessageBuilder::default();
+        let telemetry = format!("Sample data {i}");
+
+        let payload = CustomPayload {
+            payload: telemetry.into_bytes().to_vec(),
+            content_type: "text/csv".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let message = builder.payload(payload).unwrap().build().unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;

@@ -16,14 +16,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
+                case PayloadFormat.Custom:
                     if (nameDescSchemaRequiredIndices.Any(ndsri => ndsri.Item3.GetType() != typeof(DTBytesInfo)))
                     {
-                        throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' does not support any Telemetry schema other than 'bytes'");
+                        throw new Exception($"PayloadFormat '{payloadFormat}' does not support any Telemetry schema other than 'bytes'");
                     }
 
                     if (!isSeparate && nameDescSchemaRequiredIndices.Count > 1)
                     {
-                        throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' requires multiple Telemetries to have distinct topics by name");
+                        throw new Exception($"PayloadFormat '{payloadFormat}' requires multiple Telemetries to have distinct topics by name");
                     }
 
                     yield break;
@@ -52,9 +53,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
+                case PayloadFormat.Custom:
                     if (paramSchema.GetType() != typeof(DTBytesInfo))
                     {
-                        throw new Exception($"PayloadFormat '{PayloadFormat.Raw}' does not support any Command {subType} schema other than 'bytes'");
+                        throw new Exception($"PayloadFormat '{payloadFormat}' does not support any Command {subType} schema other than 'bytes'");
                     }
 
                     yield break;
@@ -84,6 +86,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 case PayloadFormat.Raw:
                     yield break;
+                case PayloadFormat.Custom:
+                    yield break;
                 case PayloadFormat.Avro:
                     yield break;
                 case PayloadFormat.Cbor:
@@ -108,6 +112,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (payloadFormat)
             {
                 case PayloadFormat.Raw:
+                    yield break;
+                case PayloadFormat.Custom:
                     yield break;
                 case PayloadFormat.Avro:
                     yield break;
@@ -134,6 +140,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 case PayloadFormat.Raw:
                     yield break;
+                case PayloadFormat.Custom:
+                    yield break;
                 case PayloadFormat.Avro:
                     yield break;
                 case PayloadFormat.Cbor:
@@ -157,6 +165,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 case PayloadFormat.Raw:
                     yield break;
+                case PayloadFormat.Custom:
+                    yield break;
                 case PayloadFormat.Avro:
                     yield break;
                 case PayloadFormat.Cbor:
@@ -179,6 +189,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string ext = payloadFormat switch
             {
                 PayloadFormat.Raw => "txt",
+                PayloadFormat.Custom => "txt",
                 PayloadFormat.Avro => "avsc",
                 PayloadFormat.Cbor => "json",
                 PayloadFormat.Json => "json",

@@ -25,7 +25,7 @@ async fn mock_event_injection() {
 
     let mut pub_receiver = session
         .create_managed_client()
-        .create_filtered_pub_receiver("test/resp/topic", true)
+        .create_filtered_pub_receiver("test/resp/topic")
         .unwrap();
 
     #[allow(clippy::items_after_statements)]
@@ -42,7 +42,7 @@ async fn mock_event_injection() {
             })))
             .unwrap();
 
-        let (received_pub, _) = pub_receiver.recv().await.unwrap();
+        let received_pub = pub_receiver.recv().await.unwrap();
         assert_eq!(received_pub.topic, "test/resp/topic");
     }
 

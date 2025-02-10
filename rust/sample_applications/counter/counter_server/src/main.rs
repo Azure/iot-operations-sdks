@@ -8,9 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::counter::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
@@ -36,8 +34,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // The counter value for the server
     let counter = Arc::new(Mutex::new(0));
@@ -84,7 +81,7 @@ async fn read_counter_executor(
             .unwrap()
             .build()
             .unwrap();
-        request.complete(response).unwrap();
+        request.complete(response).await.unwrap();
     }
 }
 
@@ -129,7 +126,7 @@ async fn increment_counter_and_publish(
             .unwrap()
             .build()
             .unwrap();
-        request.complete(response).unwrap();
+        request.complete(response).await.unwrap();
 
         // Create telemetry message using the new counter value
         let telemetry_message = TelemetryMessageBuilder::default()

@@ -7,9 +7,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use env_logger::Builder;
 
@@ -36,8 +34,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     tokio::task::spawn(state_store_operations(
         application_context,

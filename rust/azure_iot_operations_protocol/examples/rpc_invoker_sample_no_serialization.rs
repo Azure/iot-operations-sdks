@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::{BypassPayload, FormatIndicator};
 use azure_iot_operations_protocol::rpc::command_invoker::{
     CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
@@ -45,8 +43,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Use the managed client to run command invocations in another task
     tokio::task::spawn(invoke_loop(
@@ -77,31 +74,33 @@ async fn invoke_loop(
 
     // Send 10 file transfer requests
     for i in 1..6 {
-        let payload = CommandRequestBuilder::default()
-            .payload(BypassPayload {
-                payload: b"fruit,count\napple,2\norange,3".to_vec(),
-                content_type: "text/csv".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            })
+        let payload = BypassPayload {
+            payload: b"fruit,count\napple,2\norange,3".to_vec(),
+            content_type: "text/csv".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let request = CommandRequestBuilder::default()
+            .payload(payload)
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
             .unwrap();
-        let response = file_transfer_invoker.invoke(payload).await;
+        let response = file_transfer_invoker.invoke(request).await;
         log::info!("Response {}: {:?}", i, response);
     }
     for i in 6..11 {
-        let payload = CommandRequestBuilder::default()
-            .payload(BypassPayload {
-                payload: "Hello, World!".to_string().into_bytes(),
-                content_type: "text/plain".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            })
+        let payload = BypassPayload {
+            payload: "Hello, World!".to_string().into_bytes(),
+            content_type: "text/plain".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let request = CommandRequestBuilder::default()
+            .payload(payload)
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
             .unwrap();
-        let response = file_transfer_invoker.invoke(payload).await;
+        let response = file_transfer_invoker.invoke(request).await;
         log::info!("Response {}: {:?}", i, response);
     }
 

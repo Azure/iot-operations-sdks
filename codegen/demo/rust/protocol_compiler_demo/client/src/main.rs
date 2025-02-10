@@ -9,13 +9,12 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
 const AVRO_CLIENT_ID: &str = "AvroRustClient";
 const JSON_CLIENT_ID: &str = "JsonRustClient";
 const RAW_CLIENT_ID: &str = "RawRustClient";
+const CUSTOM_CLIENT_ID: &str = "CustomRustClient";
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 
@@ -24,6 +23,7 @@ enum CommFormat {
     Avro,
     Json,
     Raw,
+    Custom,
 }
 
 #[tokio::main(flavor = "current_thread")]
@@ -31,7 +31,7 @@ async fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 3 {
-        println!("Usage: {} {{AVRO|JSON|RAW}} seconds_to_run", args[0]);
+        println!("Usage: {} {{AVRO|JSON|RAW|CUSTOM}} seconds_to_run", args[0]);
         return;
     }
 
@@ -39,8 +39,9 @@ async fn main() {
         "avro" => (CommFormat::Avro, AVRO_CLIENT_ID),
         "json" => (CommFormat::Json, JSON_CLIENT_ID),
         "raw" => (CommFormat::Raw, RAW_CLIENT_ID),
+        "custom" => (CommFormat::Custom, CUSTOM_CLIENT_ID),
         _ => {
-            println!("format must be AVRO or JSON or RAW");
+            println!("format must be AVRO or JSON or RAW or CUSTOM");
             return;
         }
     };
@@ -70,6 +71,7 @@ async fn main() {
         CommFormat::Avro => tokio::task::spawn(avro_telemetry_loop(mqtt_client)),
         CommFormat::Json => tokio::task::spawn(json_telemetry_loop(mqtt_client)),
         CommFormat::Raw => tokio::task::spawn(raw_telemetry_loop(mqtt_client)),
+        CommFormat::Custom => tokio::task::spawn(custom_telemetry_loop(mqtt_client)),
     };
 
     tokio::spawn(exit_timer(session.create_exit_handle(), run_duration));
@@ -80,8 +82,7 @@ async fn main() {
 }
 
 async fn avro_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -136,8 +137,7 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn json_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -195,8 +195,7 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn raw_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -221,6 +220,46 @@ async fn raw_telemetry_loop(client: SessionManagedClient) {
                 let data = str::from_utf8(&message.payload).unwrap();
                 println!("Received telemetry from {sender_id}....");
                 println!("  Data: {data:?}");
+
+                println!();
+            }
+            Err(e) => {
+                println!("Error receiving telemetry message: {e:?}");
+                break;
+            }
+        }
+    }
+}
+
+async fn custom_telemetry_loop(client: SessionManagedClient) {
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
+    let receiver_options =
+        custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+            .build()
+            .unwrap();
+
+    let mut telemetry_receiver: custom_comm::custom_model::client::TelemetryReceiver<_> =
+        custom_comm::custom_model::client::TelemetryReceiver::new(
+            application_context,
+            client,
+            &receiver_options,
+        );
+
+    println!("Starting receive loop");
+    println!();
+
+    while let Some(message) = telemetry_receiver.recv().await {
+        match message {
+            Ok((message, _)) => {
+                let sender_id = message.sender_id.unwrap();
+                let content_type = &message.payload.content_type.as_str();
+
+                let payload = str::from_utf8(&message.payload.payload).unwrap();
+                println!(
+                    "Received telemetry from {sender_id} with content type {content_type}...."
+                );
+                println!("  Payload: {payload:?}");
 
                 println!();
             }

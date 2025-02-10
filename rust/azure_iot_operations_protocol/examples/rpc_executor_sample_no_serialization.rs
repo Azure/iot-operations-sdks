@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 use std::time::Duration;
 
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::BypassPayload;
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
@@ -42,8 +40,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Use the managed client to run a command executor in another task
     tokio::task::spawn(executor_loop(
@@ -79,7 +76,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                     .unwrap()
                     .build()
                     .unwrap();
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
             "text/plain" => {
                 // save txt file implementation would go here
@@ -90,11 +87,11 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                     .unwrap()
                     .build()
                     .unwrap();
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
             _ => {
                 log::warn!("Ignored file");
-                request.error("Ignored File".to_string()).unwrap();
+                request.error("Ignored File".to_string()).await.unwrap();
             }
         }
     }

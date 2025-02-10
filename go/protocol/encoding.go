@@ -20,8 +20,6 @@ type (
 	}
 
 	// Data represents encoded values along with their transmitted content type.
-	// It may also be provided as the encoding to act as a passthrough, allowing
-	// the calling code to fully specify the data manually.
 	Data struct {
 		Payload       []byte
 		ContentType   string
@@ -36,6 +34,9 @@ type (
 
 	// Raw represents a raw byte stream.
 	Raw struct{}
+
+	// Custom represents data that is externally serialized into a byte stream via custom code.
+	Custom struct{}
 )
 
 // ErrUnsupportedContentType should be returned if the content type is not
@@ -156,11 +157,11 @@ func (Raw) Deserialize(data *Data) ([]byte, error) {
 }
 
 // Serialize returns the data unchanged.
-func (Data) Serialize(t *Data) (*Data, error) {
-	return t, nil
+func (Custom) Serialize(t Data) (*Data, error) {
+	return &t, nil
 }
 
 // Deserialize returns the data unchanged.
-func (Data) Deserialize(data *Data) (*Data, error) {
-	return data, nil
+func (Custom) Deserialize(data *Data) (Data, error) {
+	return *data, nil
 }

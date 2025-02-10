@@ -20,6 +20,9 @@ use super::MODEL_ID;
 use super::TELEMETRY_SERVICE_GROUP_ID;
 <# } #>
 use super::TELEMETRY_TOPIC_PATTERN;
+<# if (this.schemaType is CustomTypeName) { #>
+use super::super::common_types::custom_payload::CustomPayload;
+<# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 
 pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = TelemetryMessageBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
