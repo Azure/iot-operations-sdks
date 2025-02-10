@@ -92,13 +92,12 @@ func NewTelemetrySender[T any](
 		log: logger,
 	}
 	ts.publisher = &publisher[T]{
-		app:              app,
-		client:           client,
-		encoding:         encoding,
-		topic:            tp,
-		version:          version.TelemetryProtocolString,
-		supportedVersion: version.TelemetrySupportedString,
-		log:              logger,
+		app:      app,
+		client:   client,
+		encoding: encoding,
+		topic:    tp,
+		version:  version.TelemetryProtocolString,
+		log:      logger,
 	}
 
 	return ts, nil

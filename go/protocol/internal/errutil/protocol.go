@@ -229,7 +229,7 @@ func FromUserProp(user map[string]string) error {
 	case 505:
 		e.Kind = errors.UnsupportedRequestVersion
 		e.ProtocolVersion = protocolVersion
-		e.SupportedMajorProtocolVersions = version.ParseSupported(
+		e.SupportedMajorProtocolVersions = version.SerializeSupported(
 			supportedVersions,
 		)
 	default:

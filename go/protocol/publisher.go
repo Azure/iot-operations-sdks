@@ -17,13 +17,12 @@ import (
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
-	app              *Application
-	client           MqttClient
-	encoding         Encoding[T]
-	topic            *internal.TopicPattern
-	log              log.Logger
-	version          string
-	supportedVersion string
+	app      *Application
+	client   MqttClient
+	encoding Encoding[T]
+	topic    *internal.TopicPattern
+	log      log.Logger
+	version  string
 }
 
 // DefaultTimeout is the timeout applied to Invoke or Send if none is specified.

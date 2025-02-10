@@ -8,10 +8,13 @@ import (
 )
 
 const (
-	RPCProtocolString        = "1.0"
-	TelemetryProtocolString  = "1.0"
-	RPCSupportedString       = "1"
-	TelemetrySupportedString = "1"
+	RPCProtocolString       = "1.0"
+	TelemetryProtocolString = "1.0"
+)
+
+var (
+	RPCSupported       = []int{1}
+	TelemetrySupported = []int{1}
 )
 
 func ParseProtocol(v string) (major, minor int) {
@@ -36,11 +39,8 @@ func ParseProtocol(v string) (major, minor int) {
 	return major, minor
 }
 
-func ParseSupported(vs string) []int {
+func SerializeSupported(vs string) []int {
 	parts := strings.Split(vs, " ")
-	if len(parts) == 0 {
-		return nil
-	}
 
 	res := make([]int, len(parts))
 	for i, part := range parts {
@@ -65,9 +65,9 @@ func ParseInt(v []int) string {
 	return strings.Join(res, " ")
 }
 
-func IsSupported(v, supported string) bool {
+func IsSupported(v string, supported []int) bool {
 	major, _ := ParseProtocol(v)
-	for _, s := range ParseSupported(supported) {
+	for _, s := range supported {
 		if major == s {
 			return true
 		}

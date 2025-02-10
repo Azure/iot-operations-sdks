@@ -146,17 +146,15 @@ func NewCommandExecutor[Req, Res any](
 		shareName:        opts.ShareName,
 		concurrency:      opts.Concurrency,
 		reqCorrelation:   true,
-		version:          version.RPCProtocolString,
-		supportedVersion: version.RPCSupportedString,
+		supportedVersion: version.RPCSupported,
 		log:              logger,
 		handler:          ce,
 	}
 	ce.publisher = &publisher[Res]{
-		app:              app,
-		client:           client,
-		encoding:         responseEncoding,
-		version:          version.RPCProtocolString,
-		supportedVersion: version.RPCSupportedString,
+		app:      app,
+		client:   client,
+		encoding: responseEncoding,
+		version:  version.RPCProtocolString,
 	}
 
 	ce.listener.register()

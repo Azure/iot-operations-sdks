@@ -131,8 +131,7 @@ func NewTelemetryReceiver[T any](
 		topic:            tf,
 		shareName:        opts.ShareName,
 		concurrency:      opts.Concurrency,
-		version:          version.TelemetryProtocolString,
-		supportedVersion: version.TelemetrySupportedString,
+		supportedVersion: version.TelemetrySupported,
 		log:              logger,
 		handler:          tr,
 	}

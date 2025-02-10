@@ -36,8 +36,7 @@ type (
 		shareName        string
 		concurrency      uint
 		reqCorrelation   bool
-		version          string
-		supportedVersion string
+		supportedVersion []int
 		log              log.Logger
 		handler          interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
@@ -124,12 +123,10 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	ver := msg.Mqtt.UserProperties[constants.ProtocolVersion]
 	if !version.IsSupported(ver, l.supportedVersion) {
 		l.error(ctx, msg.Mqtt, &errors.Error{
-			Message:         "unsupported version",
-			Kind:            errors.UnsupportedRequestVersion,
-			ProtocolVersion: ver,
-			SupportedMajorProtocolVersions: version.ParseSupported(
-				l.supportedVersion,
-			),
+			Message:                        "unsupported version",
+			Kind:                           errors.UnsupportedRequestVersion,
+			ProtocolVersion:                ver,
+			SupportedMajorProtocolVersions: l.supportedVersion,
 		})
 		return
 	}
