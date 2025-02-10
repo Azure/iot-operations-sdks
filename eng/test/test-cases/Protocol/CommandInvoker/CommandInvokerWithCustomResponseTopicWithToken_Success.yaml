@@ -1,0 +1,43 @@
+---
+test-name: CommandInvokerWithCustomResponseTopicWithToken_Success
+description:
+  condition: >-
+    CommandInvoker with custom response topic invokes command that maps a topic token.
+  expect: >-
+    CommandInvoker completes command and acknowledges response.
+
+prologue:
+  invokers:
+  - request-topic: "mock/{greeting}"
+    response-topic-map:
+      "mock/hello": "response/topic/hola"
+      "mock/goodbye": "response/topic/adios"
+
+actions:
+- action: invoke command
+  topic-token-map:
+    "greeting": "hello"
+  invocation-index: 0
+- action: await publish
+  correlation-index: 0
+- action: receive response
+  correlation-index: 0
+  topic: "response/topic/hola"
+  payload: "Test_Response"
+  status: "200" # OK
+  packet-index: 0
+- action: await invocation
+  invocation-index: 0
+  response-value: "Test_Response"
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  subscribed-topics:
+  - "response/topic/hola"
+  acknowledgement-count: 1
+  published-messages:
+  - correlation-index: 0
+    topic: "mock/hello"
+    payload: "Test_Request"
+...
