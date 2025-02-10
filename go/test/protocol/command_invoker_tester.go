@@ -228,15 +228,11 @@ func getCommandInvoker(
 	}
 
 	if tci.ResponseTopicMap != nil {
-		responseTopicMap := make(map[string]string, len(*tci.ResponseTopicMap))
-		for k, v := range *tci.ResponseTopicMap {
-			responseTopicMap[k] = strings.Clone(*v)
-		}
-
+		responseTopicMap := *tci.ResponseTopicMap
 		options = append(
 			options,
 			protocol.WithResponseTopic(
-				func(reqTopic string) string { return responseTopicMap[reqTopic] },
+				func(reqTopic string) string { return *responseTopicMap[reqTopic] },
 			),
 		)
 	}
