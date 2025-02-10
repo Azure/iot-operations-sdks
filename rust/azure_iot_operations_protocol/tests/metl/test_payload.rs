@@ -61,9 +61,9 @@ impl PayloadSerialize for TestPayload {
         }
 
         if test_payload.fail_deserialization {
-            return Err(DeserializationError::InvalidPayload(format!(
-                "Deserialization failed."
-            )));
+            return Err(DeserializationError::InvalidPayload(
+                "Deserialization failed.",
+            ));
         }
 
         Ok(test_payload)
