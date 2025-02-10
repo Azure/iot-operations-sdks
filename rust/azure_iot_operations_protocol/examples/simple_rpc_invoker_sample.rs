@@ -22,7 +22,7 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
 const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1883;
+const PORT: u16 = 4883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 
@@ -80,11 +80,11 @@ async fn invoke_loop(
         CommandInvoker::new(application_context, client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
-    for i in 1..11 {
+    for i in 1..2 {
         let payload = CommandRequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
-            .timeout(Duration::from_secs(100))
+            .timeout(Duration::from_secs(3))
             .build()
             .unwrap();
         let response = incr_invoker.invoke(payload).await;

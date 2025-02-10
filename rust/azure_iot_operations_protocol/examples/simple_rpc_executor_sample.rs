@@ -17,9 +17,9 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
 
-const CLIENT_ID: &str = "aio_example_executor_client";
+const CLIENT_ID: &str = "aio_example_executor_client2";
 const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1883;
+const PORT: u16 = 4883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 
 #[tokio::main(flavor = "current_thread")]

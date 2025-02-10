@@ -400,9 +400,7 @@ where
         )?;
 
         // Get pub sub and receiver from the mqtt session
-        let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic())
-        {
+        let mqtt_receiver = match client.create_filtered_pub_receiver("topic/for/request") {
             Ok(receiver) => receiver,
             Err(e) => {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
@@ -493,12 +491,12 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
+        let request_topic_str = self.request_topic_pattern.as_subscribe_topic();
+        println!("Topic subscribing to: {request_topic_str}");
+
         let subscribe_result = self
             .mqtt_client
-            .subscribe(
-                self.request_topic_pattern.as_subscribe_topic(),
-                QoS::AtLeastOnce,
-            )
+            .subscribe(request_topic_str, QoS::AtLeastOnce)
             .await;
 
         match subscribe_result {
