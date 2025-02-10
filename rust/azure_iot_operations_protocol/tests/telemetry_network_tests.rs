@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
-    application::{ApplicationContext, ApplicationContextOptionsBuilder},
+    application::ApplicationContextBuilder,
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
@@ -87,8 +87,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(topic)
