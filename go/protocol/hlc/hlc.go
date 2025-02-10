@@ -4,7 +4,6 @@ package hlc
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 	"strings"
 	"sync"
@@ -113,27 +112,18 @@ func (hlc HybridLogicalClock) Update(
 
 	wall := now()
 
-	// Validate both timestamps prior to updating; this guarantees that neither
-	// will cause an integer overflow, and because the later timestamp will
-	// always be chosen by the update, it also preemptively verifies the final
-	// clock skew.
-	if err := hlc.validate(wall, hlc.opt); err != nil {
-		return HybridLogicalClock{}, err
-	}
-	if err := other.validate(wall, hlc.opt); err != nil {
-		return HybridLogicalClock{}, err
-	}
-
 	// Note: The order of checks ensures that a zeroed other HLC behaves as if
 	// it were the same as the wall clock.
 	updated := HybridLogicalClock{
-		nodeID: hlc.nodeID,
-		opt:    hlc.opt,
+		timestamp: wall,
+		nodeID:    hlc.nodeID,
+		opt:       hlc.opt,
 	}
 	switch {
 	case wall.After(hlc.timestamp) && wall.After(other.timestamp):
-		updated.timestamp = wall
-		updated.counter = 0
+		// Since we're setting the HLC to the wall clock, we don't need to
+		// validate it further.
+		return updated, nil
 
 	case hlc.timestamp.Equal(other.timestamp):
 		updated.timestamp = hlc.timestamp
@@ -148,7 +138,26 @@ func (hlc HybridLogicalClock) Update(
 		updated.counter = other.counter + 1
 	}
 
-	return updated, nil
+	switch {
+	// Since the unsigned counter was incremented by 1, a value of 0 here
+	// indicates integer overflow.
+	case updated.counter == 0:
+		return HybridLogicalClock{}, &errors.Error{
+			Message:      "integer overflow in HLC counter",
+			Kind:         errors.InternalLogicError,
+			PropertyName: "Counter",
+		}
+
+	case updated.timestamp.Sub(wall) > updated.opt.MaxClockDrift:
+		return HybridLogicalClock{}, &errors.Error{
+			Message:      "clock drift exceeds maximum",
+			Kind:         errors.StateInvalid,
+			PropertyName: "MaxClockDrift",
+		}
+
+	default:
+		return updated, nil
+	}
 }
 
 // Compare this HLC value with another one.
@@ -181,30 +190,6 @@ func (hlc HybridLogicalClock) String() string {
 		hlc.counter,
 		hlc.nodeID,
 	)
-}
-
-func (hlc *HybridLogicalClock) validate(
-	wall time.Time,
-	opt *HybridLogicalClockOptions,
-) error {
-	switch {
-	case hlc.counter == math.MaxUint64:
-		return &errors.Error{
-			Message:      "integer overflow in HLC counter",
-			Kind:         errors.InternalLogicError,
-			PropertyName: "Counter",
-		}
-
-	case hlc.timestamp.Sub(wall) > opt.MaxClockDrift:
-		return &errors.Error{
-			Message:      "clock drift exceeds maximum",
-			Kind:         errors.StateInvalid,
-			PropertyName: "MaxClockDrift",
-		}
-
-	default:
-		return nil
-	}
 }
 
 // Get the current time in UTC with ms precision.
