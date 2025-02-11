@@ -332,7 +332,7 @@ func checkPublishedTelemetry(
 	if publishedMessage.FormatIndicator != nil {
 		require.Equal(
 			t,
-			uint8(*publishedMessage.FormatIndicator),
+			*publishedMessage.FormatIndicator,
 			*msg.Properties.PayloadFormat,
 		)
 	}

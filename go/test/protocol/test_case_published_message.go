@@ -11,7 +11,7 @@ type testCasePublishedMessage struct {
 	Topic              *string            `yaml:"topic"`
 	Payload            any                `yaml:"payload"`
 	ContentType        *string            `yaml:"content-type"`
-	FormatIndicator    *int               `yaml:"format-indicator"`
+	FormatIndicator    *uint8             `yaml:"format-indicator"`
 	Metadata           map[string]*string `yaml:"metadata"`
 	CommandStatus      any                `yaml:"command-status"`
 	IsApplicationError *bool              `yaml:"is-application-error"`
