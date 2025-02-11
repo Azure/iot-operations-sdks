@@ -18,5 +18,7 @@ spec:
       eventConfiguration: |-
        {
        }
-      eventNotifier: 80
-      topic: /mqtt/machine/status/change_event
+      eventNotifier: "80"
+      topic:
+        path: /mqtt/machine/status/change_event
+        retain: Keep 
