@@ -631,9 +631,7 @@ where
             if let Some(properties) = published_message.properties.as_ref() {
                 assert_eq!(expected_message.content_type, properties.content_type);
             } else {
-                panic!(
-                    "expected content type but found no properties in published message"
-                );
+                panic!("expected content type but found no properties in published message");
             }
         }
 
