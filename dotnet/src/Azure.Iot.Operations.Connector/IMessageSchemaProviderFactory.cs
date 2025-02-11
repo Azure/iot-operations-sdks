@@ -5,8 +5,8 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public interface IDatasetMessageSchemaProvider
+    public interface IMessageSchemaProviderFactory
     {
-        public Task<DatasetMessageSchema?> GetMessageSchemaAsync(CancellationToken cancellationToken = default);
+        public IMessageSchemaProvider CreateMessageSchemaProvider(AssetEndpointProfile assetEndpointProfile, Asset asset);
     }
 }

@@ -10,7 +10,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(DatasetSamplerFactory.DatasetSamplerFactoryProvider);
-        services.AddSingleton(DatasetMessageSchemaProviderFactory.DatasetMessageSchemaFactoryProvider);
+        services.AddSingleton(MessageSchemaProviderFactory.DatasetMessageSchemaFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })

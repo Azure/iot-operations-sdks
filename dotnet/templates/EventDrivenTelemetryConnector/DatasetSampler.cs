@@ -18,12 +18,6 @@ namespace ConnectorApp
             throw new NotImplementedException();
         }
 
-        public Task<DatasetMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
-        {
-            // By returning null, no message schema will be registered for telemetry sent for this dataset.
-            return Task.FromResult((DatasetMessageSchema?) null);
-        }
-
         public ValueTask DisposeAsync()
         {
             // Nothing to dispose yet

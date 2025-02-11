@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly ILogger<ConnectorWorker> _logger;
         private readonly TelemetryConnectorWorker _connector;
 
-        public ConnectorWorker(ILogger<ConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetMessageSchemaProviderFactory datasetMessageSchemaProviderFactory, IAssetMonitor assetMonitor)
+        public ConnectorWorker(ILogger<ConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProviderFactory datasetMessageSchemaProviderFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetMessageSchemaProviderFactory, assetMonitor);

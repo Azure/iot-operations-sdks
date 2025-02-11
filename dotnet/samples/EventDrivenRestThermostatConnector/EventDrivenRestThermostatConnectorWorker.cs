@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly TelemetryConnectorWorker _connector;
         private TcpListener? _tcpListener;
 
-        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetMessageSchemaProviderFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProviderFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);

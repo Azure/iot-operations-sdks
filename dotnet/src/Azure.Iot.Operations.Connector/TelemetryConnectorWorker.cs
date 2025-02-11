@@ -9,7 +9,6 @@ using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
@@ -24,8 +23,9 @@ namespace Azure.Iot.Operations.Connector
         protected readonly ILogger<TelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
         private IAssetMonitor _assetMonitor;
-        private IDatasetMessageSchemaProviderFactory _messageSchemaProviderFactory;
-        private ConcurrentDictionary<string, ConcurrentDictionary<string, DatasetMessageSchema>> _assetsDatasetMessageSchemas = new();
+        private IMessageSchemaProviderFactory _messageSchemaProviderFactory;
+        private ConcurrentDictionary<string, ConcurrentDictionary<string, ConnectorMessageSchema>> _assetsDatasetMessageSchemas = new();
+        private ConcurrentDictionary<string, ConcurrentDictionary<string, ConnectorMessageSchema>> _assetsEventMessageSchemas = new();
         private ConcurrentDictionary<string, Asset> _assets = new();
 
         public EventHandler<AssetAvailabileEventArgs>? OnAssetAvailable;
@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.Connector
         public TelemetryConnectorWorker(
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
-            IDatasetMessageSchemaProviderFactory messageSchemaProviderFactory,
+            IMessageSchemaProviderFactory messageSchemaProviderFactory,
             IAssetMonitor assetMonitor)
         {
             _logger = logger;
@@ -144,19 +144,19 @@ namespace Azure.Iot.Operations.Connector
 
                             if (args.ChangeType == ChangeType.Deleted)
                             {
-                                StopSamplingAsset(args.AssetName, false, cancellationToken);
+                                AssetUnavailableAsync(args.AssetName, false, cancellationToken);
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
-                                _ = StartSamplingAssetAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
+                                _ = AssetAvailableAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                             else
                             {
                                 // asset changes don't all necessitate re-creating the relevant dataset samplers, but there is no way to know
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
-                                StopSamplingAsset(args.AssetName, true, cancellationToken);
-                                _ = StartSamplingAssetAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
+                                AssetUnavailableAsync(args.AssetName, true, cancellationToken);
+                                _ = AssetAvailableAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                         };
 
@@ -208,9 +208,9 @@ namespace Azure.Iot.Operations.Connector
                         _assetMonitor.UnobserveAssetEndpointProfile();
 
                         // Dispose of all samplers and timers
-                        foreach (string assetName in _assetsDatasetMessageSchemas.Keys)
+                        foreach (string assetName in _assets.Keys)
                         {
-                            StopSamplingAsset(assetName, false, cancellationToken);
+                            AssetUnavailableAsync(assetName, false, cancellationToken);
                         }
                     }
                     catch (Exception ex)
@@ -225,7 +225,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private void StopSamplingAsset(string assetName, bool isRestarting, CancellationToken cancellationToken)
+        private void AssetUnavailableAsync(string assetName, bool isRestarting, CancellationToken cancellationToken)
         {
             _assetsDatasetMessageSchemas.Remove(assetName, out var _);
             _assets.Remove(assetName, out Asset? _);
@@ -237,47 +237,91 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task StartSamplingAssetAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
+        private async Task AssetAvailableAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
         {
+            _assets.TryAdd(assetName, asset);
+            
             if (asset.DatasetsDictionary == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
-                return;
             }
-            // This won't overwrite the existing asset dataset samplers if they already exist
-            _assets.TryAdd(assetName, asset);
-            _assetsDatasetMessageSchemas.TryAdd(assetName, new());
-
-            foreach (string datasetName in asset.DatasetsDictionary!.Keys)
+            else
             {
-                Dataset dataset = asset.DatasetsDictionary![datasetName];
+                _assetsDatasetMessageSchemas.TryAdd(assetName, new());
 
-                if (_assetsDatasetMessageSchemas.TryGetValue(assetName, out var assetDatasetSamplers))
+                foreach (string datasetName in asset.DatasetsDictionary!.Keys)
                 {
-                    // Overwrite any previous dataset sampler for this dataset
-                    _ = assetDatasetSamplers.Remove(datasetName, out var oldDatasetSampler);
+                    Dataset dataset = asset.DatasetsDictionary![datasetName];
 
-                    // Create a new dataset sampler since the old one may have been updated in some way
-                    var datasetMessageSchemaProvider = _messageSchemaProviderFactory.CreateDatasetMessageSchemaProvider(assetEndpointProfile, asset, dataset);
-                    var datasetMessageSchema = await datasetMessageSchemaProvider.GetMessageSchemaAsync();
-                    if (datasetMessageSchema != null)
+                    if (_assetsDatasetMessageSchemas.TryGetValue(assetName, out var assetDatasetSamplers))
                     {
-                        _assetsDatasetMessageSchemas[assetName].TryAdd(datasetName, datasetMessageSchema);
+                        // Overwrite any previous dataset sampler for this dataset
+                        _ = assetDatasetSamplers.Remove(datasetName, out var oldDatasetSampler);
 
-                        _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
-                        await schemaRegistryClient.PutAsync(
-                            datasetMessageSchema.SchemaContent,
-                            datasetMessageSchema.SchemaFormat,
-                            datasetMessageSchema.SchemaType,
-                            datasetMessageSchema.Version ?? "1.0.0",
-                            datasetMessageSchema.Tags,
-                            null,
-                            cancellationToken);
+                        // Create a new dataset sampler since the old one may have been updated in some way
+                        var datasetMessageSchemaProvider = _messageSchemaProviderFactory.CreateMessageSchemaProvider(assetEndpointProfile, asset);
+                        var datasetMessageSchema = await datasetMessageSchemaProvider.GetMessageSchemaAsync(datasetName, dataset);
+                        if (datasetMessageSchema != null)
+                        {
+                            _assetsDatasetMessageSchemas[assetName].TryAdd(datasetName, datasetMessageSchema);
+
+                            _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
+                            await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                            await schemaRegistryClient.PutAsync(
+                                datasetMessageSchema.SchemaContent,
+                                datasetMessageSchema.SchemaFormat,
+                                datasetMessageSchema.SchemaType,
+                                datasetMessageSchema.Version ?? "1.0.0",
+                                datasetMessageSchema.Tags,
+                                null,
+                                cancellationToken);
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"No message schema will be registered for dataset with name {datasetName} on asset with name {assetName}");
+                        }
                     }
-                    else
+                }
+            }
+
+            if (asset.EventsDictionary == null)
+            {
+                _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
+            }
+            else
+            {
+                _assetsDatasetMessageSchemas.TryAdd(assetName, new());
+
+                foreach (string eventName in asset.EventsDictionary!.Keys)
+                {
+                    Event assetEvent = asset.EventsDictionary[eventName];
+
+                    if (_assetsEventMessageSchemas.TryGetValue(assetName, out var assetEventMessageSchemas))
                     {
-                        _logger.LogInformation($"No message schema will be registered for dataset with name {datasetName} on asset with name {assetName}");
+                        _ = assetEventMessageSchemas.Remove(eventName, out var oldAssetEventMessageSchemas);
+
+                        // Create a new dataset sampler since the old one may have been updated in some way
+                        var eventMessageSchemaProvider = _messageSchemaProviderFactory.CreateMessageSchemaProvider(assetEndpointProfile, asset);
+                        var eventMessageSchema = await eventMessageSchemaProvider.GetMessageSchemaAsync(eventName, assetEvent);
+                        if (eventMessageSchema != null)
+                        {
+                            _assetsDatasetMessageSchemas[assetName].TryAdd(eventName, eventMessageSchema);
+
+                            _logger.LogInformation($"Registering message schema for event with name {eventName} on asset with name {assetName}");
+                            await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                            await schemaRegistryClient.PutAsync(
+                                eventMessageSchema.SchemaContent,
+                                eventMessageSchema.SchemaFormat,
+                                eventMessageSchema.SchemaType,
+                                eventMessageSchema.Version ?? "1.0.0",
+                                eventMessageSchema.Tags,
+                                null,
+                                cancellationToken);
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"No message schema will be registered for event with name {eventName} on asset with name {assetName}");
+                        }
                     }
                 }
             }

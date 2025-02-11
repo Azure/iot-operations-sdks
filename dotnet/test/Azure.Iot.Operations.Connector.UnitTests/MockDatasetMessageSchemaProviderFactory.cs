@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    internal class MockDatasetMessageSchemaProviderFactory : IDatasetMessageSchemaProviderFactory
+    internal class MockDatasetMessageSchemaProviderFactory : IMessageSchemaProviderFactory
     {
-        public IDatasetMessageSchemaProvider CreateDatasetMessageSchemaProvider(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
+        public IMessageSchemaProvider CreateMessageSchemaProvider(AssetEndpointProfile assetEndpointProfile, Asset asset)
         {
-            return new MockDatasetMessageSchemaProvider();
+            return new MockMessageSchemaProvider();
         }
     }
 }

@@ -6,17 +6,17 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace EventDrivenRestThermostatConnector
 {
-    internal class DatasetMessageSchemaProviderFactory : IDatasetMessageSchemaProviderFactory
+    internal class DatasetMessageSchemaProviderFactory : IMessageSchemaProviderFactory
     {
-        public static Func<IServiceProvider, IDatasetMessageSchemaProviderFactory> DatasetMessageSchemaFactoryProvider = service =>
+        public static Func<IServiceProvider, IMessageSchemaProviderFactory> DatasetMessageSchemaFactoryProvider = service =>
         {
             return new DatasetMessageSchemaProviderFactory();
         };
 
-        public IDatasetMessageSchemaProvider CreateDatasetMessageSchemaProvider(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
+        public IMessageSchemaProvider CreateMessageSchemaProvider(AssetEndpointProfile assetEndpointProfile, Asset asset)
         {
             // No datasets in this sample will register a message schema.
-            return new DatasetMessageSchemaProvider();
+            return new MessageSchemaProvider();
         }
     }
 }

@@ -3,20 +3,20 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
+using ConnectorApp;
 
-namespace SqlQualityAnalyzerConnectorApp
+namespace PollingTelemetryConnector
 {
-    internal class DatasetMessageSchemaProviderFactory : IMessageSchemaProviderFactory
+    internal class MessageSchemaProviderFactory : IMessageSchemaProviderFactory
     {
         public static Func<IServiceProvider, IMessageSchemaProviderFactory> DatasetMessageSchemaFactoryProvider = service =>
         {
-            return new DatasetMessageSchemaProviderFactory();
+            return new MessageSchemaProviderFactory();
         };
 
         public IMessageSchemaProvider CreateMessageSchemaProvider(AssetEndpointProfile assetEndpointProfile, Asset asset)
         {
-            // No datasets in this sample will register a message schema.
-            return new MessageSchemaProvider();
+            throw new NotImplementedException();
         }
     }
 }
