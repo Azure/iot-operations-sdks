@@ -43,20 +43,32 @@ namespace Azure.Iot.Operations.Connector
             }
 
             _tcpListener = new TcpListener(System.Net.IPAddress.Any, port);
+            _logger.LogInformation("Starting TCP listener");
             _tcpListener.Start();
 
             // Spawn a task that listens for incoming data on the TCP port
             _ = new Task(async () =>
             {
-                using TcpClient handler = await _tcpListener.AcceptTcpClientAsync();
-                await using NetworkStream stream = handler.GetStream();
+                while (true)
+                {
+                    try
+                    {
+                        using TcpClient handler = await _tcpListener.AcceptTcpClientAsync();
+                        await using NetworkStream stream = handler.GetStream();
 
-                byte[] buffer = new byte[1024];
-                int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024));
-                Array.Resize(ref buffer, bytesRead);
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024));
+                        Array.Resize(ref buffer, bytesRead);
 
-                _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                await _connector.ForwardReceivedEventAsync(args.AssetName, assetEvent.Name, buffer);
+                        _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
+                        await _connector.ForwardReceivedEventAsync(args.AssetName, assetEvent.Name, buffer);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to listen on TCP connection");
+                        await Task.Delay(TimeSpan.FromSeconds(10));
+                    }
+                }
             });
         }
 
