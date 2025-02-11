@@ -326,7 +326,7 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            OnAssetAvailable?.Invoke(this, new(assetName, asset));
+            OnAssetAvailable?.Invoke(this, new(assetName, asset, assetEndpointProfile));
         }
 
         public async Task ForwardSampledDatasetAsync(string assetName, string datasetName, byte[] serializedPayload, CancellationToken cancellationToken = default)

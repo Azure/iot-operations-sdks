@@ -20,13 +20,16 @@ namespace SampleTcpClientApp
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(1000, stoppingToken);
-
                 try
                 {
-                    using TcpClient client = new();
-                    await client.ConnectAsync("127.0.0.1", 80);
-                    await using NetworkStream stream = client.GetStream();
+                    var tcpListener = new TcpListener(System.Net.IPAddress.Any, 80);
+                    _logger.LogInformation("Starting TCP listener");
+                    tcpListener.Start();
+
+                    using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
+                    await handler.ConnectAsync("127.0.0.1", 80);
+
+                    await using NetworkStream stream = handler.GetStream();
 
                     ThermostatStatus thermostatStatus = new()
                     {
@@ -36,11 +39,12 @@ namespace SampleTcpClientApp
 
                     byte[] payload = JsonSerializer.SerializeToUtf8Bytes(thermostatStatus);
 
+                    _logger.LogInformation("Writing to TCP stream");
                     await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to connect to TCP server");
+                    _logger.LogError(ex, "Failed to open TCP connection");
                 }   
             }
         }

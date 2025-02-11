@@ -9,5 +9,5 @@ spec:
   additionalConfiguration: '{"leadershipPositionId" : "rest-server-leadership-position-id"}'
   discoveredAssetEndpointProfileRef: my-tcp-thermostat-discovered-asset-endpoint-profile
   endpointProfileType: tcp-thermostat
-  targetAddress: http://tcp-client-service.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+  targetAddress: http://tcp-service.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
   uuid: 1234-5678-9012-3456

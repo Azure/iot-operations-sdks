@@ -42,19 +42,17 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            _tcpListener = new TcpListener(System.Net.IPAddress.Any, port);
-            _logger.LogInformation("Starting TCP listener");
-            _tcpListener.Start();
-
             // Spawn a task that listens for incoming data on the TCP port
-            _ = new Task(async () =>
+            new Task(async () =>
             {
                 while (true)
                 {
                     try
                     {
-                        using TcpClient handler = await _tcpListener.AcceptTcpClientAsync();
-                        await using NetworkStream stream = handler.GetStream();
+                        _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", args.AssetEndpointProfile.TargetAddress, args.AssetName);
+                        using TcpClient client = new();
+                        await client.ConnectAsync(args.AssetEndpointProfile.TargetAddress, 80);
+                        await using NetworkStream stream = client.GetStream();
 
                         byte[] buffer = new byte[1024];
                         int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024));

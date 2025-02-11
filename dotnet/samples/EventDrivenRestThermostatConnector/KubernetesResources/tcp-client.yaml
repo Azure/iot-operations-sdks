@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tcp-client-deployment
+  name: tcp-service-deployment
   labels:
-    app: tcp-client-deployment
+    app: tcp-service-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tcp-client-deployment
+      app: tcp-service-deployment
   template:
     metadata:
       labels:
-        app: tcp-client-deployment
+        app: tcp-service-deployment
     spec:
       containers:
-      - name: tcp-client-deployment
+      - name: tcp-service-deployment
         image: sampletcpclientapp:latest
         imagePullPolicy: Never # This forces docker to use the locally built image
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tcp-client-service
+  name: tcp-service
   labels:
-    app: tcp-client-deployment
+    app: tcp-service-deployment
 spec:
   type: ClusterIP
   ports:
@@ -32,4 +32,4 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: tcp-client-deployment
+    app: tcp-service-deployment
