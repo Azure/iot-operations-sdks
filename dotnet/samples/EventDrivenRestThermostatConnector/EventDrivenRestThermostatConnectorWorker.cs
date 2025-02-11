@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Connector
                         await Task.Delay(TimeSpan.FromSeconds(10));
                     }
                 }
-            });
+            }).Start();
         }
 
         private void OnAssetUnavailableAsync(object? sender, AssetUnavailabileEventArgs args)
