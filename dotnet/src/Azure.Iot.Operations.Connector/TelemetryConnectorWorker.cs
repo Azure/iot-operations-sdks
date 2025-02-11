@@ -311,7 +311,59 @@ namespace Azure.Iot.Operations.Connector
             }
             else
             {
-                _logger.LogError($"Dataset with name {datasetName} in asset with name {assetName} has no configured MQTT topic to publish to. This sample won't publish the data sampled from the asset.");
+                _logger.LogError($"Dataset with name {dataset.Name} in asset with name {assetName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                return;
+            }
+
+            var mqttMessage = new MqttApplicationMessage(topic.Path)
+            {
+                PayloadSegment = serializedPayload,
+                Retain = topic.Retain == RetainHandling.Keep,
+            };
+
+            //TODO error handling?
+            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage);
+
+            if (puback.ReasonCode == MqttClientPublishReasonCode.Success
+                || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+            {
+                // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+            }
+            else
+            {
+                _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+            }
+        }
+
+        public async Task ForwardReceivedEventAsync(string assetName, string eventName, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        {
+            if (!_assets.TryGetValue(assetName, out Asset? asset))
+            {
+                return; //TODO
+            }
+
+            Dictionary<string, Event>? assetEvents = asset.EventsDictionary;
+            if (assetEvents == null || !assetEvents.TryGetValue(eventName, out Event? assetEvent))
+            {
+                return; //TODO
+            }
+
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+
+            Topic topic;
+            if (assetEvent.Topic != null)
+            {
+                topic = assetEvent.Topic;
+            }
+            else if (asset.DefaultTopic != null)
+            {
+                topic = asset.DefaultTopic;
+            }
+            else
+            {
+                _logger.LogError($"Event with name {assetEvent.Name} in asset with name {assetName} has no configured MQTT topic to publish to. Data won't be forwarded for this event.");
                 return;
             }
 

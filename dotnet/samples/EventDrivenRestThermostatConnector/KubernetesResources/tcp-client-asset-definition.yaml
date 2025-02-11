@@ -7,24 +7,16 @@ spec:
   displayName: My REST Thermostat Asset
   description: A sample for an Asset modeling a device with REST endpoint
   assetEndpointProfileRef: azure-iot-operations/my-tcp-thermostat-profile # <namespace>/<assetEndpointProfile.metadata.name>
-  defaultDatasetsConfiguration: |-
+  defaultEventsConfiguration: |-
    {
    }
   defaultTopic:
     path: /mqtt/machine/status
     retain: Keep         
-  datasets:
-    - name: thermostat_status
-      dataPoints:
-        - dataSource: /api/thermostat/current
-          name: currentTemperature
-          dataPointConfiguration: |-
-           {
-              "HttpRequestMethod": "GET",
-           }
-        - dataSource: /api/thermostat/desired
-          name: desiredTemperature
-          dataPointConfiguration: |-
-           {
-              "HttpRequestMethod": "GET",
-           }
+  events:
+    - name: thermostat_status_changed
+      eventConfiguration: |-
+       {
+       }
+      eventNotifier: 80
+      topic: /mqtt/machine/status/change_event
