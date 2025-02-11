@@ -20,14 +20,25 @@ namespace SampleTcpClientApp
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var tcpListener = new TcpListener(System.Net.IPAddress.Any, 80);
+
                 try
                 {
-                    var tcpListener = new TcpListener(System.Net.IPAddress.Any, 80);
                     _logger.LogInformation("Starting TCP listener");
                     tcpListener.Start();
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to start listening for a TCP connection");
+                    continue;
+                }
 
+                try
+                {
                     using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
-                    await handler.ConnectAsync("127.0.0.1", 80);
+
+                    _logger.LogInformation("Accepted a TCP connection");
+
 
                     await using NetworkStream stream = handler.GetStream();
 
@@ -41,10 +52,11 @@ namespace SampleTcpClientApp
 
                     _logger.LogInformation("Writing to TCP stream");
                     await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
+                    handler.Close();
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to open TCP connection");
+                    _logger.LogError(ex, "Failed to handle TCP connection");
                 }   
             }
         }
