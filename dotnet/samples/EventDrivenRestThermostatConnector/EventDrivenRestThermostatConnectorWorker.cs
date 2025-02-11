@@ -28,6 +28,7 @@ namespace Azure.Iot.Operations.Connector
             if (args.Asset.Events == null)
             {
                 // If the asset has no datasets to sample, then do nothing
+                _logger.LogError("Asset with name {0} does not have the expected event", args.AssetName);
                 return;
             }
 
