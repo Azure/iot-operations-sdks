@@ -34,6 +34,8 @@ namespace SampleTcpClientApp
 
                         _logger.LogInformation("Accepted a TCP connection");
 
+                        // Wait a bit to simulate this information being sent as an event
+                        await Task.Delay(TimeSpan.FromSeconds(new Random().Next(30)));
 
                         await using NetworkStream stream = handler.GetStream();
 
