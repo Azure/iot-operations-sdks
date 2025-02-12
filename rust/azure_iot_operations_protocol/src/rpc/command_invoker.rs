@@ -27,7 +27,7 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{contains_invalid_char, TopicPattern},
-        user_properties::{validate_user_properties, UserProperty},
+        user_properties::UserProperty,
     },
     parse_supported_protocol_major_versions,
     rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},

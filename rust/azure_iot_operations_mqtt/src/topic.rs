@@ -220,7 +220,7 @@ impl TopicFilter {
     fn check_topic_filter(topic_filter: &str) -> Result<(), TopicParseError> {
         let mut prev_ml_wildcard = false;
         let mut levels = topic_filter.split(LEVEL_SEPARATOR);
-        let mut levels_length = 0;
+        let mut filter_levels_length = 0;
         // Used to check if the first level of the topic filter is empty to account for the case
         // where a shared subscription topic filter is used with an empty topic filter, i.e "$share/consumer1/"
         let mut first_topic_filter_level_empty = false;
@@ -250,10 +250,10 @@ impl TopicFilter {
         // NOTE: Adjacent topic filter level separators ("/") are valid and indicate a zero length topic level (4.7.1.1)
         // NOTE: Topic filters can contain the space (" ") character (4.7.3)
         for level in levels {
-            levels_length += 1;
+            filter_levels_length += 1;
 
             // Check if the first level of the topic filter is empty
-            if levels_length == 1 && level.is_empty() {
+            if filter_levels_length == 1 && level.is_empty() {
                 first_topic_filter_level_empty = true;
             }
 
@@ -276,7 +276,9 @@ impl TopicFilter {
             }
         }
         // Topic filters must be at least one character long (4.7.3)
-        if levels_length == 0 || (first_topic_filter_level_empty && levels_length == 1) {
+        if filter_levels_length == 0
+            || (first_topic_filter_level_empty && filter_levels_length == 1)
+        {
             return Err(TopicParseError::Empty);
         }
         Ok(())
@@ -325,11 +327,6 @@ impl fmt::Display for TopicFilter {
 /// # Arguments
 /// * `topic_name` - The MQTT topic name
 /// * `topic_filter` - The MQTT topic filter
-///
-/// # Panics
-/// Panics if the topic filter is empty or is a shared subscription topic filter and does not
-/// contain at least three levels. This scenario is impossible since the topic filter is checked
-/// for both conditions prior to calling this function.
 #[must_use]
 pub fn topic_matches(topic_name: &TopicName, topic_filter: &TopicFilter) -> bool {
     let mut topic_filter_levels_len = topic_filter.levels.len();
