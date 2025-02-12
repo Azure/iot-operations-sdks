@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: tcp-service-deployment
-        image: sampletcpclientapp:latest
+        image: sampletcpserviceapp:latest
         imagePullPolicy: Never # This forces docker to use the locally built image
 ---
 apiVersion: v1

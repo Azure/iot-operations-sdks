@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace SampleTcpClientApp
+namespace SampleTcpServiceApp
 {
     public class ThermostatStatus
     {
