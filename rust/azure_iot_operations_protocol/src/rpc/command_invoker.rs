@@ -16,6 +16,7 @@ use tokio::{
 };
 use uuid::Uuid;
 
+use crate::common::user_properties::{validate_invoker_user_properties, PARTITION_KEY};
 use crate::{
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
@@ -103,11 +104,11 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys or values are invalid utf-8
+    ///     - any of `custom_user_data`'s keys or values are invalid utf-8 or the key is reserved
     ///     - timeout is < 1 ms or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
-            validate_user_properties(custom_user_data)?;
+            validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
             if timeout.as_millis() < 1 {
@@ -564,7 +565,7 @@ where
             RPC_PROTOCOL_VERSION.to_string(),
         ));
         request.custom_user_data.push((
-            "$partition".to_string(),
+            PARTITION_KEY.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
 
