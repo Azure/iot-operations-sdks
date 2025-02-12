@@ -4,6 +4,7 @@
 using System.Net.Sockets;
 using System.Net;
 using System.Text.Json;
+using System.Text;
 
 namespace SampleTcpClientApp
 {
@@ -47,10 +48,11 @@ namespace SampleTcpClientApp
                                 CurrentTemperature = new Random().NextDouble() * 80 + 50
                             };
 
-                            byte[] payload = JsonSerializer.SerializeToUtf8Bytes(thermostatStatus);
+                            string payload = JsonSerializer.Serialize(thermostatStatus);
 
-                            _logger.LogInformation("Writing to TCP stream");
-                            await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
+                            _logger.LogInformation("Writing to TCP stream: {0}", payload);
+                            byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
+                            await stream.WriteAsync(payloadBytes, 0, payloadBytes.Length, stoppingToken);
                         }
                     }
                     catch (Exception ex)
