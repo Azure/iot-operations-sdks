@@ -23,16 +23,12 @@ namespace Azure.Iot.Operations.Connector
         {
             // This callback notifies your app when an asset and its datasets can be sampled
             _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-            throw new NotImplementedException();
         }
 
         public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
             // This callback notifies your app when an asset and its datasets can no longer be sampled
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
-
-            
-            throw new NotImplementedException();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)

@@ -25,6 +25,7 @@ namespace Azure.Iot.Operations.Connector
         private IAssetMonitor _assetMonitor;
         private IMessageSchemaProviderFactory _messageSchemaProviderFactory;
         private ConcurrentDictionary<string, Asset> _assets = new();
+        private bool _isDisposed = false;
 
         /// <summary>
         /// Event handler for when an asset becomes available.
@@ -56,6 +57,8 @@ namespace Azure.Iot.Operations.Connector
         ///<inheritdoc/>
         public override Task RunConnectorAsync(CancellationToken cancellationToken = default)
         {
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
+            
             // This method is public to allow users to access the BackgroundService interface's ExecuteAsync method.
             return ExecuteAsync(cancellationToken);
         }
@@ -320,6 +323,8 @@ namespace Azure.Iot.Operations.Connector
 
         public async Task ForwardSampledDatasetAsync(Asset asset, Dataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
+            
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             Topic topic;
@@ -359,6 +364,8 @@ namespace Azure.Iot.Operations.Connector
 
         public async Task ForwardReceivedEventAsync(Asset asset, Event assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
+
             _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             Topic topic;
@@ -394,6 +401,12 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _isDisposed = true;
         }
     }
 }
