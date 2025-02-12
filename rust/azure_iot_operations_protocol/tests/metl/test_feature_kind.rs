@@ -25,4 +25,7 @@ pub enum TestFeatureKind {
 
     #[serde(rename = "explicit-default")]
     ExplicitDefault,
+
+    #[serde(rename = "multiple-serializers")]
+    MultipleSerializers,
 }

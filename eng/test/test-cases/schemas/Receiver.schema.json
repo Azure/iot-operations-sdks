@@ -3,6 +3,11 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "serializer": {
+            "description": "Configuration settings for the test serializer associated with the receiver.",
+            "$ref": "ReceiverSerializer.schema.json",
+            "kind": "drive"
+        },
         "telemetry-topic": {
             "description": "The MQTT topic pattern for the Telemetry.",
             "type": [ "string", "null" ],

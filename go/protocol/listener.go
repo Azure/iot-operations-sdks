@@ -29,15 +29,16 @@ type (
 
 	// Provide the shared implementation details for the MQTT listeners.
 	listener[T any] struct {
-		app            *Application
-		client         MqttClient
-		encoding       Encoding[T]
-		topic          *internal.TopicFilter
-		shareName      string
-		concurrency    uint
-		reqCorrelation bool
-		log            log.Logger
-		handler        interface {
+		app              *Application
+		client           MqttClient
+		encoding         Encoding[T]
+		topic            *internal.TopicFilter
+		shareName        string
+		concurrency      uint
+		reqCorrelation   bool
+		supportedVersion []int
+		log              log.Logger
+		handler          interface {
 			onMsg(context.Context, *mqtt.Message, *Message[T]) error
 			onErr(context.Context, *mqtt.Message, error) error
 		}
@@ -120,12 +121,12 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	// The very first check must be the version, because if we don't support it,
 	// nothing else is trustworthy.
 	ver := msg.Mqtt.UserProperties[constants.ProtocolVersion]
-	if !version.IsSupported(ver) {
+	if !version.IsSupported(ver, l.supportedVersion) {
 		l.error(ctx, msg.Mqtt, &errors.Error{
 			Message:                        "unsupported version",
 			Kind:                           errors.UnsupportedRequestVersion,
 			ProtocolVersion:                ver,
-			SupportedMajorProtocolVersions: version.Supported,
+			SupportedMajorProtocolVersions: l.supportedVersion,
 		})
 		return
 	}

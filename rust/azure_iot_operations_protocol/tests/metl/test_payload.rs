@@ -10,38 +10,62 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct TestPayload {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub payload: Option<String>,
-
-    // The 'testCaseIndex' Field.
-    #[serde(rename = "testCaseIndex")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub test_case_index: Option<i32>,
+    pub out_content_type: Option<String>,
+    pub accept_content_types: Vec<String>,
+    pub indicate_character_data: bool,
+    pub allow_character_data: bool,
+    pub fail_deserialization: bool,
 }
 
 impl PayloadSerialize for TestPayload {
-    type Error = serde_json::Error;
+    type Error = String;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
         Ok(SerializedPayload {
-            payload: serde_json::to_vec(&self)?,
-            content_type: "application/json".to_string(),
-            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            payload: if let Some(payload) = &self.payload {
+                payload.as_bytes().to_vec()
+            } else {
+                Vec::new()
+            },
+            content_type: self.out_content_type.unwrap().to_string(),
+            format_indicator: if self.indicate_character_data {
+                FormatIndicator::Utf8EncodedCharacterData
+            } else {
+                FormatIndicator::UnspecifiedBytes
+            },
         })
     }
 
     fn deserialize(
         payload: &[u8],
         content_type: &Option<String>,
-        _format_indicator: &FormatIndicator,
+        format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
+        let test_payload: TestPayload = serde_json::from_slice(payload).unwrap();
+
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !test_payload.accept_content_types.contains(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type}'. Must be 'application/json'"
+                    "Invalid content type: '{content_type}'."
                 )));
             }
         }
-        serde_json::from_slice(payload).map_err(DeserializationError::InvalidPayload)
+
+        if *format_indicator == FormatIndicator::Utf8EncodedCharacterData
+            && !test_payload.allow_character_data
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid format indicator: '{format_indicator:?}'."
+            )));
+        }
+
+        if test_payload.fail_deserialization {
+            return Err(DeserializationError::InvalidPayload(
+                "Deserialization failed.".to_string(),
+            ));
+        }
+
+        Ok(test_payload)
     }
 }

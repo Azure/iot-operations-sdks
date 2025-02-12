@@ -10,6 +10,8 @@ type testCasePublishedMessage struct {
 	CorrelationIndex   *int               `yaml:"correlation-index"`
 	Topic              *string            `yaml:"topic"`
 	Payload            any                `yaml:"payload"`
+	ContentType        *string            `yaml:"content-type"`
+	FormatIndicator    *uint8             `yaml:"format-indicator"`
 	Metadata           map[string]*string `yaml:"metadata"`
 	CommandStatus      any                `yaml:"command-status"`
 	IsApplicationError *bool              `yaml:"is-application-error"`

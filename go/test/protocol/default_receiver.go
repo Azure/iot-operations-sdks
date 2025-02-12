@@ -3,8 +3,13 @@
 package protocol
 
 type DefaultReceiver struct {
-	TelemetryTopic *string `toml:"telemetry-topic"`
-	TopicNamespace *string `toml:"topic-namespace"`
+	Serializer     DefaultSerializer `toml:"serializer"`
+	TelemetryTopic *string           `toml:"telemetry-topic"`
+	TopicNamespace *string           `toml:"topic-namespace"`
+}
+
+func (receiver *DefaultReceiver) GetSerializer() TestCaseSerializer {
+	return receiver.Serializer.GetSerializer()
 }
 
 func (receiver *DefaultReceiver) GetTelemetryTopic() *string {

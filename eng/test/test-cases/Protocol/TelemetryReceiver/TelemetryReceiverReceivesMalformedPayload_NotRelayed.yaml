@@ -8,12 +8,11 @@ description:
 
 prologue:
   receivers:
-  - { }
+  - serializer:
+      fail-deserialization: true
 
 actions:
 - action: receive telemetry
-  payload: '{ "invalid" "json" }'
-  bypass-serialization: true
   packet-index: 0
 - action: await acknowledgement
   packet-index: 0
