@@ -82,6 +82,7 @@ namespace Azure.Iot.Operations.Connector
         {
             _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
             tcpConnectionCancellationToken?.Cancel();
+            tcpConnectionCancellationToken?.Dispose();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
