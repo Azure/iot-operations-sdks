@@ -81,7 +81,7 @@ async fn invoke_loop(
         let payload = CommandRequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
-            .timeout(Duration::from_secs(3))
+            .timeout(Duration::from_secs(20))
             .build()
             .unwrap();
         let response = incr_invoker.invoke(payload).await;

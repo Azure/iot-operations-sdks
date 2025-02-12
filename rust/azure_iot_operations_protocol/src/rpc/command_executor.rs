@@ -462,7 +462,9 @@ where
         )?;
 
         // Get pub sub and receiver from the mqtt session
-        let mqtt_receiver = match client.create_filtered_pub_receiver("topic/for/request") {
+        let mqtt_receiver = match client
+            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic())
+        {
             Ok(receiver) => receiver,
             Err(e) => {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
