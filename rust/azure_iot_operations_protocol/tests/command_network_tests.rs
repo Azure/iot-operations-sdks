@@ -393,6 +393,7 @@ async fn command_complex_invoke_response_network_tests() {
     let test_request_custom_user_data = vec![
         ("test1".to_string(), "value1".to_string()),
         ("test2".to_string(), "value2".to_string()),
+        ("$partition".to_string(), invoker_id.to_string()),
     ];
     let test_response_custom_user_data = vec![
         ("test3".to_string(), "value3".to_string()),

@@ -110,8 +110,8 @@ impl TopicName {
             return Err(TopicParseError::WildcardInTopicName(topic_name.to_string()));
         }
 
-        // A Shared Subscription's Topic Filter MUST start with $share/ (4.8.2)
-        if topic_name.starts_with("$share/") || topic_name == "$share" {
+        // Shared subscriptions, identified by the $share prefix, are not allowed in topic names
+        if is_shared_sub(topic_name) {
             return Err(TopicParseError::SharedSubscriptionNotAllowed(
                 topic_name.to_string(),
             ));
@@ -225,10 +225,10 @@ impl TopicFilter {
         // where a shared subscription topic filter is used with an empty topic filter, i.e "$share/consumer1/"
         let mut first_topic_filter_level_empty = false;
 
-        // $share is a literal string that marks the Topic Filter as being a Shared Subscription Topic Filter (4.8.2)
-        // The ShareName MUST NOT contain the characters "/", "+" or "#", but MUST be followed by a "/" character. This "/" character MUST be followed by a Topic Filter (4.8.2)
-        if topic_filter.starts_with("$share/") || topic_filter == "$share" {
-            levels.next(); // Skip $share
+        if is_shared_sub(topic_filter) {
+            // Skip $share
+            levels.next();
+            // The ShareName MUST NOT contain the characters "/", "+" or "#", but MUST be followed by a "/" character. This "/" character MUST be followed by a Topic Filter (4.8.2)
             match levels.next() {
                 Some(share_name) => {
                     if share_name.contains(MULTI_LEVEL_WILDCARD)
@@ -333,12 +333,8 @@ impl fmt::Display for TopicFilter {
 #[must_use]
 pub fn topic_matches(topic_name: &TopicName, topic_filter: &TopicFilter) -> bool {
     let mut topic_filter_levels_len = topic_filter.levels.len();
-    let topic_filter_levels_iterator = if topic_filter
-        .levels
-        .first()
-        .expect("Topic filter must have at least one level")
-        == "$share"
-    {
+
+    let topic_filter_levels_iterator = if is_shared_sub(&topic_filter.topic_filter) {
         // Subtract the two levels used for shared subscription
         topic_filter_levels_len -= 2;
         // A shared subscription topic filter must contain at least three levels
@@ -363,6 +359,15 @@ pub fn topic_matches(topic_name: &TopicName, topic_filter: &TopicFilter) -> bool
     true
 }
 
+/// Check if the given topic filter is a shared subscription topic filter
+///
+/// # Arguments
+/// * `topic_filter` - The MQTT topic filter
+fn is_shared_sub(topic_filter: &str) -> bool {
+    // $share is a literal string that marks the Topic Filter as being a Shared Subscription Topic Filter (4.8.2)
+    topic_filter.starts_with("$share/") || topic_filter == "$share"
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -379,7 +384,8 @@ mod tests {
     #[test_case("/sport/tennis/player1"; "Multi-level topic name with zero-length level at start")]
     #[test_case("sport//tennis//player1"; "Multi-level topic name with zero-length levels in middle")]
     #[test_case("/"; "Multi-level topic name with only zero-length levels")]
-    #[test_case("$shareexception/consumer1/sport/tennis"; "Non-shared subscription topic containing $share")]
+    #[test_case("$shareholders/finance/bonds/banker1"; "Non-shared subscription topic containing $share")]
+
     fn valid_topic_name(topic_name: &str) {
         assert!(TopicName::is_valid_topic_name(topic_name));
         assert!(TopicName::from_str(topic_name).is_ok());
@@ -390,8 +396,8 @@ mod tests {
     #[test_case("sport/tennis/#"; "Topic name contains multi-level wildcard")]
     #[test_case("$share"; "Shared subscription topic name")]
     #[test_case("$share/"; "Shared subscription topic name with empty level")]
-    #[test_case("$share/consumer1"; "Shared subscription topic name with one level")]
-    #[test_case("$share/consumer1/sport/tennis"; "Shared subscription topic name with multiple levels")]
+    #[test_case("$share/consumer1"; "Shared subscription topic name with share name only")]
+    #[test_case("$share/consumer1/sport/tennis/player1"; "Shared subscription topic name with multiple levels")]
     fn invalid_topic_name(topic_name: &str) {
         assert!(!TopicName::is_valid_topic_name(topic_name));
         assert!(TopicName::from_str(topic_name).is_err());
@@ -411,7 +417,7 @@ mod tests {
     #[test_case("sport//tennis//player1"; "Multi-level topic filter with zero length levels in middle")]
     #[test_case("$share/consumer1/sport/tennis"; "Shared subscription topic filter")]
     #[test_case("$share/consumer1/#"; "Shared subscription topic filter with multi-level wildcard")]
-    #[test_case("$share/consumer1/+/tennis"; "Shared subscription topic filter with single-level wildcard")]
+    #[test_case("$share/consumer1/+/tennis/player1"; "Shared subscription topic filter with single-level wildcard")]
     #[test_case("$share/consumer1//";"Shared subscription topic filter with two zero-length levels")]
     fn valid_topic_filter(topic_filter: &str) {
         assert!(TopicFilter::is_valid_topic_filter(topic_filter));
@@ -425,9 +431,9 @@ mod tests {
     #[test_case("$share"; "Shared subscription topic filter without share name and topic filter")]
     #[test_case("$share/consumer1"; "Shared subscription topic filter without topic filter")]
     #[test_case("$share/consumer1/"; "Shared subscription topic filter with empty topic filter")]
-    #[test_case("$share//sport"; "Shared subscription topic filter with zero-length level in share name")]
-    #[test_case("$share/#/sport"; "Shared subscription topic filter with multi-level wildcard in share name")]
-    #[test_case("$share/+/sport"; "Shared subscription topic filter with single-level wildcard in share name")]
+    #[test_case("$share//sport/tennis/player1"; "Shared subscription topic filter with zero-length level in share name")]
+    #[test_case("$share/#/sport/tennis/player1"; "Shared subscription topic filter with multi-level wildcard in share name")]
+    #[test_case("$share/+/sport/tennis/player1"; "Shared subscription topic filter with single-level wildcard in share name")]
     fn invalid_topic_filter(topic_filter: &str) {
         assert!(!TopicFilter::is_valid_topic_filter(topic_filter));
         assert!(TopicFilter::from_str(topic_filter).is_err());
@@ -439,9 +445,9 @@ mod tests {
     #[test_case("sport/+/+", vec!["sport/tennis/player1", "sport/tennis/player2", "sport/badminton/player1", "sport/badminton/player2"]; "Single-level wildcard match (multiple wildcards)")]
     #[test_case("sport/tennis/#", vec!["sport/tennis/player1", "sport/tennis/player1/ranking", "sport/tennis/player2", "sport/tennis/player2/ranking"]; "Multi-level wildcard match")]
     #[test_case("sport/+/#", vec!["sport/tennis/player1", "sport/tennis/player1/ranking", "sport/tennis/player2", "sport/tennis/player2/ranking", "sport/badminton/player1", "sport/badminton/player1/ranking", "sport/badminton/player2", "sport/badminton/player2/ranking"]; "Single-level and multi-level wildcard match")]
-    #[test_case("$share/consumer1/sport/tennis", vec!["sport/tennis"]; "Shared subscription match")]
+    #[test_case("$share/consumer1/sport/tennis/player1", vec!["sport/tennis/player1"]; "Shared subscription match")]
     #[test_case("$share/consumer1/#", vec!["sport/tennis", "sport/tennis/player1", "sport/tennis/player1/ranking"]; "Shared subscription multi-level wildcard match")]
-    #[test_case("$share/consumer1/+", vec!["sport", "finance"]; "Shared subscription single-level wildcard match")]
+    #[test_case("$share/consumer1/+/+/+", vec!["sport/tennis/player1", "finance/bonds/banker1"]; "Shared subscription single-level wildcard match")]
     fn normative_topic_match(topic_filter: &str, topic_names: Vec<&str>) {
         let topic_filter = TopicFilter::from_str(topic_filter).unwrap();
         for topic_name in topic_names {
@@ -458,7 +464,7 @@ mod tests {
     #[test_case("sport/+/+", vec!["sport/tennis/player1/ranking", "finance/banking/banker1", "sport"]; "Single-level wildcard mismatch (multiple wildcards)")]
     #[test_case("sport/tennis/#", vec!["sport/tennis", "sport/badminton", "finance/banking/banker1"]; "Multi-level wildcard mismatch")]
     #[test_case("sport/+/#", vec!["sport/tennis", "sport/badminton", "finance/banking/banker1"]; "Single-level and multi-level wildcard mismatch")]
-    #[test_case("$share/consumer1/sport", vec!["finance", "sport/tennis"]; "Shared subscription mismatch")]
+    #[test_case("$share/consumer1/sport", vec!["finance/banking/banker1", "sport/tennis/player1"]; "Shared subscription mismatch")]
     fn normative_topic_mismatch(topic_filter: &str, topic_names: Vec<&str>) {
         let topic_filter = TopicFilter::from_str(topic_filter).unwrap();
         for topic_name in topic_names {
