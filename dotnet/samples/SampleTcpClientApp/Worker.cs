@@ -40,7 +40,7 @@ namespace SampleTcpClientApp
                         while (true)
                         {
                             // Wait a bit to simulate this information being sent as an event
-                            await Task.Delay(TimeSpan.FromSeconds(new Random().Next(5)));
+                            await Task.Delay(TimeSpan.FromSeconds(3 + new Random().Next(5)));
 
                             ThermostatStatus thermostatStatus = new()
                             {
