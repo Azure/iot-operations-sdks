@@ -43,14 +43,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string RequestTopicPattern { get; init; }
 
         public string? TopicNamespace { get; set; }
-        
+
         /// <summary>
         /// The prefix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
         /// </summary>
         /// <remarks>
         /// If no prefix or suffix is specified, and no value is provided in <see cref="GetResponseTopic"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -116,7 +116,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             // ADR 14 specifies that a default response topic prefix should be used if
             // the user doesn't provide any prefix, suffix, or specify the response topic
-            if (string.IsNullOrWhiteSpace(ResponseTopicPrefix) 
+            if (string.IsNullOrWhiteSpace(ResponseTopicPrefix)
                 && string.IsNullOrWhiteSpace(ResponseTopicSuffix)
                 && GetResponseTopic == null)
             {
@@ -185,7 +185,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="responseTopicFilter"></param>
         /// <param name="cancellationToken"></param>
@@ -368,7 +368,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
 
                     if (responseMetadata.Timestamp != null)
-                    { 
+                    {
                         HybridLogicalClock.GetInstance().Update(responseMetadata.Timestamp);
                     }
 
@@ -684,7 +684,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Dispose this object and choose whether to dispose the underlying mqtt client as well.
         /// </summary>
         /// <param name="disposing">
-        /// If true, this call will dispose the underlying mqtt client. If false, this call will 
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
         /// not dispose the underlying mqtt client.
         /// </param>
         public async ValueTask DisposeAsync(bool disposing)

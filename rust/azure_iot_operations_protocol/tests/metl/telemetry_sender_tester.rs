@@ -453,6 +453,25 @@ where
             }
         }
 
+        if expected_message.content_type.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(expected_message.content_type, properties.content_type);
+            } else {
+                panic!("expected content type but found no properties in published message");
+            }
+        }
+
+        if expected_message.format_indicator.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(
+                    expected_message.format_indicator,
+                    properties.payload_format_indicator
+                );
+            } else {
+                panic!("expected format indicator but found no properties in published message");
+            }
+        }
+
         if !expected_message.metadata.is_empty() {
             if let Some(properties) = published_message.properties.as_ref() {
                 for (key, value) in &expected_message.metadata {

@@ -437,6 +437,22 @@ func checkPublishedResponse(
 		require.Equal(t, payload, string(msg.Payload))
 	}
 
+	if publishedMessage.ContentType != nil {
+		require.Equal(
+			t,
+			*publishedMessage.ContentType,
+			msg.Properties.ContentType,
+		)
+	}
+
+	if publishedMessage.FormatIndicator != nil {
+		require.Equal(
+			t,
+			*publishedMessage.FormatIndicator,
+			*msg.Properties.PayloadFormat,
+		)
+	}
+
 	for key, val := range publishedMessage.Metadata {
 		propVal, ok := getUserProperty(t, msg, key)
 		if val != nil {

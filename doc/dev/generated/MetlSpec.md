@@ -373,6 +373,8 @@ Each element of the `published-messages` array can have the following child keys
 | correlation-index | match | yes | integer or null | An arbitrary numeric value used to identify the correlation ID used in request and response messages; null matches singular absent header property. |
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The UTF8 string encapsulated in the response payload, or null if no payload. |
+| content-type | check | no | string | The value of the ContentType header in the message. |
+| format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | command-status | check | no | integer or null | HTTP status code in the message, or null if no status code present. |
 | is-application-error | check | no | boolean | In an error response, whether the error is in the application rather than in the platform. |
@@ -626,6 +628,8 @@ Each element of the `published-messages` array can have the following child keys
 | correlation-index | match | yes | integer | An arbitrary numeric value used to identify the correlation ID used in request and response messages. |
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The request payload UTF8 string, or null if no payload. |
+| content-type | check | no | string | The value of the ContentType header in the message. |
+| format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
@@ -1135,6 +1139,8 @@ Each element of the `published-messages` array can have the following child keys
 | --- | --- | --- | --- | --- |
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string | The Telemetry payload UTF8 string. |
+| content-type | check | no | string | The value of the ContentType header in the message. |
+| format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |

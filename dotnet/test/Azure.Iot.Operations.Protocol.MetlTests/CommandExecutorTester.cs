@@ -583,6 +583,16 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
             }
 
+            if (publishedMessage.ContentType != null)
+            {
+                Assert.Equal(publishedMessage.ContentType, appMsg.ContentType);
+            }
+
+            if (publishedMessage.FormatIndicator != null)
+            {
+                Assert.Equal(publishedMessage.FormatIndicator, (int)appMsg.PayloadFormatIndicator);
+            }
+
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)
             {
                 if (kvp.Value != null)
