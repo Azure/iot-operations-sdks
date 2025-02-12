@@ -85,7 +85,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnector",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingRestThermostatConnector", "samples\PollingRestThermostatConnector\PollingRestThermostatConnector.csproj", "{6D8CEBB2-C805-4B45-AAFB-418B1E558146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTcpClientApp", "samples\SampleTcpClientApp\SampleTcpClientApp.csproj", "{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTcpServiceApp", "samples\SampleTcpClientApp\SampleTcpServiceApp.csproj", "{5AA9939E-7AEF-41D1-AF5A-B07A5D7E52D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

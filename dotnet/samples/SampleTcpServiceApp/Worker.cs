@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 
-namespace SampleTcpClientApp
+namespace SampleTcpServiceApp
 {
     public class Worker : BackgroundService
     {
