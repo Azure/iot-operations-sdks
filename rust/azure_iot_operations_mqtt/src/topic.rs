@@ -415,7 +415,7 @@ mod tests {
     #[test_case("sport/tennis/player1/"; "Multi-level topic filter with zero-length level at end")]
     #[test_case("/sport/tennis/player1"; "Multi-level topic filter with zero-length level at start")]
     #[test_case("sport//tennis//player1"; "Multi-level topic filter with zero length levels in middle")]
-    #[test_case("$share/consumer1/sport/tennis"; "Shared subscription topic filter")]
+    #[test_case("$share/consumer1/sport/tennis/player1"; "Shared subscription topic filter")]
     #[test_case("$share/consumer1/#"; "Shared subscription topic filter with multi-level wildcard")]
     #[test_case("$share/consumer1/+/tennis/player1"; "Shared subscription topic filter with single-level wildcard")]
     #[test_case("$share/consumer1//";"Shared subscription topic filter with two zero-length levels")]
