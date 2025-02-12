@@ -35,6 +35,7 @@ namespace SampleTcpClientApp
 
                 try
                 {
+                    _logger.LogInformation("Waiting for a TCP connection");
                     using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
 
                     _logger.LogInformation("Accepted a TCP connection");
