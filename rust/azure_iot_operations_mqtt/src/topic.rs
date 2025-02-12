@@ -221,6 +221,8 @@ impl TopicFilter {
         let mut prev_ml_wildcard = false;
         let mut levels = topic_filter.split(LEVEL_SEPARATOR);
         let mut levels_length = 0;
+        // Used to check if the first level of the topic filter is empty to account for the case
+        // where a shared subscription topic filter is used with an empty topic filter, i.e "$share/consumer1/"
         let mut first_topic_filter_level_empty = false;
 
         // $share is a literal string that marks the Topic Filter as being a Shared Subscription Topic Filter (4.8.2)
@@ -249,7 +251,8 @@ impl TopicFilter {
         // NOTE: Topic filters can contain the space (" ") character (4.7.3)
         for level in levels {
             levels_length += 1;
-            // Topic filters must be at least one character long (4.7.3)
+
+            // Check if the first level of the topic filter is empty
             if levels_length == 1 && level.is_empty() {
                 first_topic_filter_level_empty = true;
             }
@@ -409,6 +412,7 @@ mod tests {
     #[test_case("$share/consumer1/sport/tennis"; "Shared subscription topic filter")]
     #[test_case("$share/consumer1/#"; "Shared subscription topic filter with multi-level wildcard")]
     #[test_case("$share/consumer1/+/tennis"; "Shared subscription topic filter with single-level wildcard")]
+    #[test_case("$share/consumer1//";"Shared subscription topic filter with two zero-length levels")]
     fn valid_topic_filter(topic_filter: &str) {
         assert!(TopicFilter::is_valid_topic_filter(topic_filter));
         assert!(TopicFilter::from_str(topic_filter).is_ok());

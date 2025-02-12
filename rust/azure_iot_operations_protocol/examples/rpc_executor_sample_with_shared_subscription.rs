@@ -1,5 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//! This example demonstrates how to use shared subscriptions to run multiple command executors
+//! for the same command on different clients. The example creates two clients, each running a
+//! command executor for the "increment" command. The command executor increments a shared counter
+//! for each incoming request.
+//!
+//! To test, run against the `simple_rpc_invoker_sample.rs` example.
+
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
@@ -68,7 +76,7 @@ async fn main() {
     // Creating shared counter
     let counter = Arc::new(Mutex::new(0));
 
-    // Use the managed client to run a a command executor in another task
+    // Use the managed client to run command executor 1 in another task
     tokio::task::spawn(executor_loop(
         application_context_client_1,
         session_client_1.create_managed_client(),
@@ -76,7 +84,7 @@ async fn main() {
         counter.clone(),
     ));
 
-    // Use the managed client to run a a command executor in another task
+    // Use the managed client to run command executor 2 in another task
     tokio::task::spawn(executor_loop(
         application_context_client_2,
         session_client_2.create_managed_client(),
@@ -128,9 +136,6 @@ async fn executor_loop(
                     .unwrap()
                     .build()
                     .unwrap();
-
-                println!("{executor_client_id}: Processing!");
-                tokio::time::sleep(Duration::from_secs(5)).await;
                 request.complete(response).await.unwrap();
                 println!(
                     "{executor_client_id}: Completed request with counter value: {updated_counter}"
