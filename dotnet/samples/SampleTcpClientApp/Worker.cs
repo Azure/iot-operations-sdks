@@ -27,19 +27,19 @@ namespace SampleTcpClientApp
                     _logger.LogInformation("Starting TCP listener");
                     tcpListener.Start();
 
+                    _logger.LogInformation("Waiting for a TCP connection");
+                    using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
+
+                    _logger.LogInformation("Accepted a TCP connection");
+
+                    await using NetworkStream stream = handler.GetStream();
+
                     try
                     {
                         while (true)
                         {
-                            _logger.LogInformation("Waiting for a TCP connection");
-                            using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
-
-                            _logger.LogInformation("Accepted a TCP connection");
-
                             // Wait a bit to simulate this information being sent as an event
                             await Task.Delay(TimeSpan.FromSeconds(new Random().Next(5)));
-
-                            await using NetworkStream stream = handler.GetStream();
 
                             ThermostatStatus thermostatStatus = new()
                             {
@@ -51,12 +51,15 @@ namespace SampleTcpClientApp
 
                             _logger.LogInformation("Writing to TCP stream");
                             await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
-                            handler.Close();
                         }
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Failed to handle TCP connection");
+                    }
+                    finally
+                    {
+                        handler.Close();
                     }
                 }
                 catch (Exception e)
