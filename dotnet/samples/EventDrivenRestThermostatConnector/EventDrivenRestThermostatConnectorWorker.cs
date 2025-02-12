@@ -49,6 +49,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
+                        //tcp-service.azure-iot-operations.svc.cluster.local:80
                         string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
                         int.TryParse(assetEvent.EventNotifier, out int port);
                         _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
