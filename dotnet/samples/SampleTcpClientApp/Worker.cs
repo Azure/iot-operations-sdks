@@ -20,45 +20,49 @@ namespace SampleTcpClientApp
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var tcpListener = new TcpListener(System.Net.IPAddress.Any, 80);
+                using var tcpListener = new TcpListener(System.Net.IPAddress.Any, 80);
 
                 try
                 {
                     _logger.LogInformation("Starting TCP listener");
                     tcpListener.Start();
+
+                    try
+                    {
+                        _logger.LogInformation("Waiting for a TCP connection");
+                        using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
+
+                        _logger.LogInformation("Accepted a TCP connection");
+
+
+                        await using NetworkStream stream = handler.GetStream();
+
+                        ThermostatStatus thermostatStatus = new()
+                        {
+                            DesiredTemperature = 72.0,
+                            CurrentTemperature = 70.0
+                        };
+
+                        byte[] payload = JsonSerializer.SerializeToUtf8Bytes(thermostatStatus);
+
+                        _logger.LogInformation("Writing to TCP stream");
+                        await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
+                        handler.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to handle TCP connection");
+                    }
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Failed to start listening for a TCP connection");
                     continue;
                 }
-
-                try
+                finally
                 {
-                    _logger.LogInformation("Waiting for a TCP connection");
-                    using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
-
-                    _logger.LogInformation("Accepted a TCP connection");
-
-
-                    await using NetworkStream stream = handler.GetStream();
-
-                    ThermostatStatus thermostatStatus = new()
-                    {
-                        DesiredTemperature = 72.0,
-                        CurrentTemperature = 70.0
-                    };
-
-                    byte[] payload = JsonSerializer.SerializeToUtf8Bytes(thermostatStatus);
-
-                    _logger.LogInformation("Writing to TCP stream");
-                    await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
-                    handler.Close();
+                    tcpListener.Stop();
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to handle TCP connection");
-                }   
             }
         }
     }
