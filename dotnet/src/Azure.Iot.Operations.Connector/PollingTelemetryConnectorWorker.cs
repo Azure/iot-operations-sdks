@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Connector
                 _assetsSamplingTimers[args.AssetName][dataset.Name] = new Timer(async (state) =>
                 {
                     byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                    await ForwardSampledDatasetAsync(args.AssetName, dataset.Name, sampledData);
+                    await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
             }
         }
