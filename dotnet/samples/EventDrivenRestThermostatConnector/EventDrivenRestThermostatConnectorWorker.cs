@@ -49,10 +49,11 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", args.AssetEndpointProfile.TargetAddress, assetEvent.EventNotifier);
-                        using TcpClient client = new();
+                        string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
                         int.TryParse(assetEvent.EventNotifier, out int port);
-                        await client.ConnectAsync(args.AssetEndpointProfile.TargetAddress, port);
+                        _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
+                        using TcpClient client = new();
+                        await client.ConnectAsync(host, port);
                         await using NetworkStream stream = client.GetStream();
 
                         byte[] buffer = new byte[1024];
