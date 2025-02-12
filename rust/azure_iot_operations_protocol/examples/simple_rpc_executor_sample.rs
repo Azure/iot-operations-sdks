@@ -15,17 +15,17 @@ use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
 
-const CLIENT_ID: &str = "aio_example_executor_client2";
+const CLIENT_ID: &str = "aio_example_executor_client";
 const HOSTNAME: &str = "localhost";
-const PORT: u16 = 4883;
+const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::max())
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
@@ -61,7 +61,6 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
-        .service_group_id("testgroup".to_string())
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
@@ -83,8 +82,6 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                     .unwrap()
                     .build()
                     .unwrap();
-                println!("Processing response!");
-                tokio::time::sleep(Duration::from_secs(10)).await;
                 request.complete(response).await.unwrap();
             }
             Err(err) => {

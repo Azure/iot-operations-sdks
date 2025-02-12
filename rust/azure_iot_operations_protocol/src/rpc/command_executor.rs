@@ -555,12 +555,12 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn try_subscribe(&mut self) -> Result<(), AIOProtocolError> {
-        let request_topic_str = self.request_topic_pattern.as_subscribe_topic();
-        println!("Topic subscribing to: {request_topic_str}");
-
         let subscribe_result = self
             .mqtt_client
-            .subscribe(request_topic_str, QoS::AtLeastOnce)
+            .subscribe(
+                self.request_topic_pattern.as_subscribe_topic(),
+                QoS::AtLeastOnce,
+            )
             .await;
 
         match subscribe_result {

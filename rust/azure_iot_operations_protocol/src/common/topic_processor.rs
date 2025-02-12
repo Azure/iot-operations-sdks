@@ -62,6 +62,7 @@ impl TopicPattern {
     /// # Arguments
     /// * `property_name` - A string slice representing the name of the property that provides the topic pattern
     /// * `pattern` - A string slice representing the topic pattern
+    /// * `share_name` - An optional string representing the share name for the topic pattern
     /// * `topic_namespace` - An optional string slice representing the topic namespace
     /// * `token_map` - A map of token replacements for initial replacement
     ///
@@ -78,7 +79,7 @@ impl TopicPattern {
     pub fn new<'a>(
         property_name: &'a str,
         pattern: &'a str,
-        service_group_id: Option<String>,
+        share_name: Option<String>,
         topic_namespace: Option<&str>,
         topic_token_map: &'a HashMap<String, String>,
     ) -> Result<Self, AIOProtocolError> {
@@ -102,15 +103,15 @@ impl TopicPattern {
             ));
         }
 
-        if let Some(service_group_id) = &service_group_id {
-            if service_group_id.trim().is_empty()
-                || contains_invalid_char(service_group_id)
-                || service_group_id.contains('/')
+        if let Some(share_name) = &share_name {
+            if share_name.trim().is_empty()
+                || contains_invalid_char(share_name)
+                || share_name.contains('/')
             {
                 return Err(AIOProtocolError::new_configuration_invalid_error(
                     None,
-                    "service_group_id",
-                    Value::String(service_group_id.to_string()),
+                    "share_name",
+                    Value::String(share_name.to_string()),
                     Some("Share name contains invalid characters".to_string()),
                     None,
                 ));
@@ -253,7 +254,7 @@ impl TopicPattern {
         Ok(TopicPattern {
             dynamic_pattern: acc_pattern,
             pattern_regex,
-            share_name: service_group_id,
+            share_name,
         })
     }
 
@@ -554,40 +555,40 @@ mod tests {
         assert_eq!(pattern.as_subscribe_topic(), result);
     }
 
-    #[test_case("invalid ServiceGroupId"; "contains space")]
-    #[test_case("invalid+ServiceGroupId"; "contains plus")]
-    #[test_case("invalid#ServiceGroupId"; "contains hash")]
-    #[test_case("invalid{ServiceGroupId"; "contains open brace")]
-    #[test_case("invalid}ServiceGroupId"; "contains close brace")]
-    #[test_case("invalid/ServiceGroupId"; "contains slash")]
-    #[test_case("invalid\u{0000}ServiceGroupId"; "contains non-ASCII")]
-    fn test_topic_pattern_new_pattern_invalid_service_group_id(service_group_id: &str) {
+    #[test_case("invalid ShareName"; "contains space")]
+    #[test_case("invalid+ShareName"; "contains plus")]
+    #[test_case("invalid#ShareName"; "contains hash")]
+    #[test_case("invalid{ShareName"; "contains open brace")]
+    #[test_case("invalid}ShareName"; "contains close brace")]
+    #[test_case("invalid/ShareName"; "contains slash")]
+    #[test_case("invalid\u{0000}ShareName"; "contains non-ASCII")]
+    fn test_topic_pattern_new_pattern_invalid_share_name(share_name: &str) {
         let err = TopicPattern::new(
             "pattern",
             "test",
-            Some(service_group_id.to_string()),
+            Some(share_name.to_string()),
             None,
             &HashMap::new(),
         )
         .unwrap_err();
         assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-        assert_eq!(err.property_name, Some("service_group_id".to_string()));
+        assert_eq!(err.property_name, Some("share_name".to_string()));
         assert_eq!(
             err.property_value,
-            Some(Value::String(service_group_id.to_string()))
+            Some(Value::String(share_name.to_string()))
         );
     }
 
     #[test]
-    fn test_topic_pattern_methods_with_service_group_id() {
-        let service_group_id = "validServiceGroupId";
+    fn test_topic_pattern_methods_with_share_name() {
+        let share_name = "validShareName";
         let pattern = "test/{testToken1}";
-        let result = "$share/validServiceGroupId/test/testRepl1";
+        let result = "$share/validShareName/test/testRepl1";
 
         let pattern = TopicPattern::new(
             "pattern",
             pattern,
-            Some(service_group_id.to_string()),
+            Some(share_name.to_string()),
             None,
             &create_topic_tokens(),
         )
