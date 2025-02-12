@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Connector
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
 
-        private void OnAssetAvailableAsync(object? sender, AssetAvailabileEventArgs args)
+        private async void OnAssetAvailableAsync(object? sender, AssetAvailabileEventArgs args)
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
 
@@ -44,48 +44,44 @@ namespace Azure.Iot.Operations.Connector
 
             // Spawn a task that listens for incoming data on the TCP port
             tcpConnectionCancellationToken = new();
-            new Task(async () =>
+            try
             {
-                try 
+                //tcp-service.azure-iot-operations.svc.cluster.local:80
+                string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
+                _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
+                using TcpClient client = new();
+                await client.ConnectAsync(host, port, tcpConnectionCancellationToken.Token);
+                await using NetworkStream stream = client.GetStream();
+
+                try
                 {
-                    //tcp-service.azure-iot-operations.svc.cluster.local:80
-                    string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
-                    int.TryParse(assetEvent.EventNotifier, out int port);
-                    _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
-                    using TcpClient client = new();
-                    await client.ConnectAsync(host, port, tcpConnectionCancellationToken.Token);
-                    await using NetworkStream stream = client.GetStream();
-
-                    try
+                    while (true)
                     {
-                        while (true)
-                        {
 
-                            byte[] buffer = new byte[1024];
-                            int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), tcpConnectionCancellationToken.Token);
-                            Array.Resize(ref buffer, bytesRead);
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), tcpConnectionCancellationToken.Token);
+                        Array.Resize(ref buffer, bytesRead);
 
-                            _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                            await _connector.ForwardReceivedEventAsync(args.AssetName, assetEvent.Name, buffer, tcpConnectionCancellationToken.Token);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogError(e, "Failed to listen on TCP connection");
-                        await Task.Delay(TimeSpan.FromSeconds(10));
+                        _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
+                        await _connector.ForwardReceivedEventAsync(args.AssetName, assetEvent.Name, buffer, tcpConnectionCancellationToken.Token);
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Failed to open TCP connection to asset");
+                    _logger.LogError(e, "Failed to listen on TCP connection");
+                    await Task.Delay(TimeSpan.FromSeconds(10));
                 }
-            }).Start();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to open TCP connection to asset");
+            }
         }
 
         private void OnAssetUnavailableAsync(object? sender, AssetUnavailabileEventArgs args)
         {
             _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-            _tcpListener?.Stop();
+            tcpConnectionCancellationToken?.Cancel();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -97,10 +93,10 @@ namespace Azure.Iot.Operations.Connector
         public override void Dispose()
         {
             base.Dispose();
+            tcpConnectionCancellationToken?.Dispose();
             _connector.OnAssetAvailable -= OnAssetAvailableAsync;
             _connector.OnAssetUnavailable -= OnAssetUnavailableAsync;
             _connector.Dispose();
-            _tcpListener?.Dispose();
         }
     }
 }
