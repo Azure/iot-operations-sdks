@@ -10,8 +10,8 @@ k3d image import eventdrivenrestthermostatconnector:latest -c k3s-default
 kubectl apply -f ./KubernetesResources/connector-config.yaml
 
 # Deploy REST server (as an asset)
-kubectl apply -f ./KubernetesResources/tcp-client.yaml
+kubectl apply -f ./KubernetesResources/tcp-service.yaml
 
 # Deploy REST server asset and AEP
-kubectl apply -f ./KubernetesResources/tcp-client-asset-endpoint-profile-definition.yaml
-kubectl apply -f ./KubernetesResources/tcp-client-asset-definition.yaml
+kubectl apply -f ./KubernetesResources/tcp-service-asset-endpoint-profile-definition.yaml
+kubectl apply -f ./KubernetesResources/tcp-service-asset-definition.yaml
