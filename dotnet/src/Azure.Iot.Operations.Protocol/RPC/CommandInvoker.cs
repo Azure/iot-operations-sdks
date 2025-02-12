@@ -280,7 +280,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     MqttUserProperty? statusProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.Status);
 
-                    if (!TryValidateResponseHeaders(statusProperty, requestGuidString, out AkriMqttErrorKind errorKind, out string message, out string? headerName, out string? headerValue))
+                    if (!TryValidateResponseHeaders(args.ApplicationMessage, statusProperty, requestGuidString, out AkriMqttErrorKind errorKind, out string message, out string? headerName, out string? headerValue))
                     {
                         AkriMqttException akriException = new(message)
                         {
@@ -384,7 +384,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.CompletedTask;
         }
 
-        private static bool TryValidateResponseHeaders(MqttUserProperty? statusProperty,
+        private static bool TryValidateResponseHeaders(
+            MqttApplicationMessage responseMsg,
+            MqttUserProperty? statusProperty,
             string correlationId,
             out AkriMqttErrorKind errorKind,
             out string message,
