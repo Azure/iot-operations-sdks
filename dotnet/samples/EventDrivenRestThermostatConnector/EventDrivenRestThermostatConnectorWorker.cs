@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
         private readonly TelemetryConnectorWorker _connector;
-        private TcpListener? _tcpListener;
+        private CancellationTokenSource? tcpConnectionCancellationToken;
 
         public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProviderFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
@@ -43,32 +43,41 @@ namespace Azure.Iot.Operations.Connector
             }
 
             // Spawn a task that listens for incoming data on the TCP port
+            tcpConnectionCancellationToken = new();
             new Task(async () =>
             {
-                while (true)
+                try 
                 {
+                    //tcp-service.azure-iot-operations.svc.cluster.local:80
+                    string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
+                    int.TryParse(assetEvent.EventNotifier, out int port);
+                    _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
+                    using TcpClient client = new();
+                    await client.ConnectAsync(host, port, tcpConnectionCancellationToken.Token);
+                    await using NetworkStream stream = client.GetStream();
+
                     try
                     {
-                        //tcp-service.azure-iot-operations.svc.cluster.local:80
-                        string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
-                        int.TryParse(assetEvent.EventNotifier, out int port);
-                        _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
-                        using TcpClient client = new();
-                        await client.ConnectAsync(host, port);
-                        await using NetworkStream stream = client.GetStream();
+                        while (true)
+                        {
 
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024));
-                        Array.Resize(ref buffer, bytesRead);
+                            byte[] buffer = new byte[1024];
+                            int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), tcpConnectionCancellationToken.Token);
+                            Array.Resize(ref buffer, bytesRead);
 
-                        _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                        await _connector.ForwardReceivedEventAsync(args.AssetName, assetEvent.Name, buffer);
+                            _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
+                            await _connector.ForwardReceivedEventAsync(args.AssetName, assetEvent.Name, buffer, tcpConnectionCancellationToken.Token);
+                        }
                     }
                     catch (Exception e)
                     {
                         _logger.LogError(e, "Failed to listen on TCP connection");
                         await Task.Delay(TimeSpan.FromSeconds(10));
                     }
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to open TCP connection to asset");
                 }
             }).Start();
         }

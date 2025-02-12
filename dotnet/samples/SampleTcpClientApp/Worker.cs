@@ -29,27 +29,30 @@ namespace SampleTcpClientApp
 
                     try
                     {
-                        _logger.LogInformation("Waiting for a TCP connection");
-                        using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
-
-                        _logger.LogInformation("Accepted a TCP connection");
-
-                        // Wait a bit to simulate this information being sent as an event
-                        await Task.Delay(TimeSpan.FromSeconds(new Random().Next(30)));
-
-                        await using NetworkStream stream = handler.GetStream();
-
-                        ThermostatStatus thermostatStatus = new()
+                        while (true)
                         {
-                            DesiredTemperature = 72.0,
-                            CurrentTemperature = 70.0
-                        };
+                            _logger.LogInformation("Waiting for a TCP connection");
+                            using TcpClient handler = await tcpListener.AcceptTcpClientAsync();
 
-                        byte[] payload = JsonSerializer.SerializeToUtf8Bytes(thermostatStatus);
+                            _logger.LogInformation("Accepted a TCP connection");
 
-                        _logger.LogInformation("Writing to TCP stream");
-                        await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
-                        handler.Close();
+                            // Wait a bit to simulate this information being sent as an event
+                            await Task.Delay(TimeSpan.FromSeconds(new Random().Next(30)));
+
+                            await using NetworkStream stream = handler.GetStream();
+
+                            ThermostatStatus thermostatStatus = new()
+                            {
+                                DesiredTemperature = 72.0,
+                                CurrentTemperature = 70.0
+                            };
+
+                            byte[] payload = JsonSerializer.SerializeToUtf8Bytes(thermostatStatus);
+
+                            _logger.LogInformation("Writing to TCP stream");
+                            await stream.WriteAsync(payload, 0, payload.Length, stoppingToken);
+                            handler.Close();
+                        }
                     }
                     catch (Exception ex)
                     {
