@@ -3,7 +3,6 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Microsoft.Extensions.Logging;
 
-[CommandTopic("{MqttCommandTopic}")]
 internal class DatasetWriteService : IAsyncDisposable
 {
     private readonly IMqttPubSubClient _mqttClient;
@@ -14,9 +13,9 @@ internal class DatasetWriteService : IAsyncDisposable
     private readonly ILogger<DatasetWriteService> _logger;
 
     public DatasetWriteService(
-            IMqttPubSubClient mqttClient, 
-            string mqttCommandTopic, 
-            string assetName, 
+            IMqttPubSubClient mqttClient,
+            string mqttCommandTopic,
+            string assetName,
             string datasetName,
             ILogger<DatasetWriteService> logger)
     {
@@ -25,17 +24,21 @@ internal class DatasetWriteService : IAsyncDisposable
         _commandTopic = mqttCommandTopic;
         _datasetName = datasetName;
 
-        _datasetWriteExecutor = new DatasetWriteExecutor(mqttClient) {
-            OnCommandReceived = DatasetWrite}; 
+        _datasetWriteExecutor = new DatasetWriteExecutor(mqttClient)
+        {
+            OnCommandReceived = DatasetWrite,
+            TopicNamespace = null,
+        };
         _datasetWriteExecutor.TopicTokenMap["MqttCommandTopic"] = _commandTopic;
 
         _logger = logger;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public async Task RunAsync(CancellationToken cancellationToken)
     {
         var clientId = _mqttClient.ClientId;
-        if (string.IsNullOrWhiteSpace(clientId)) {
+        if (string.IsNullOrWhiteSpace(clientId))
+        {
             throw new InvalidOperationException("No MQTT client id configured");
         }
 
@@ -43,8 +46,21 @@ internal class DatasetWriteService : IAsyncDisposable
         {
             { "executorId", clientId }
         };
-    
-       await _datasetWriteExecutor.StartAsync(null, transientTokenMap, cancellationToken).ConfigureAwait(false);
+
+        await _datasetWriteExecutor.StartAsync(
+                preferredDispatchConcurrency: null,
+                transientTokenMap,
+                cancellationToken).ConfigureAwait(false);
+
+        await Task.Run(async () => {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                // keep the executor running
+                await Task.Delay(100).ConfigureAwait(false);
+            }
+        });
+
+        await _datasetWriteExecutor.StopAsync().ConfigureAwait(false);
     }
 
     private async Task<ExtendedResponse<DatasetWriteResponse>> DatasetWrite(
@@ -57,6 +73,9 @@ internal class DatasetWriteService : IAsyncDisposable
         _logger.LogInformation($"Executing DatasetWrite with correlationId {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         _logger.LogDebug($"Asset {_assetName}, Dataset {_datasetName}");
         _logger.LogTrace(request.ToString());
+
+        await Task.Delay(100);
+
         return new ExtendedResponse<DatasetWriteResponse>
         {
             Response = default(DatasetWriteResponse)

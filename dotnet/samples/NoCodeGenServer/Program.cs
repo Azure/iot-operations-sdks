@@ -64,10 +64,22 @@ var dataSetWriteServiceUNS = new DatasetWriteService(
     "default",
     loggerFactory.CreateLogger<DatasetWriteService>());
 
-var datasetWriteDefaulTask = dataSetWriteServiceDefault.StartAsync(cancellationTokenSource.Token);
-var datasetWriteUNSTask = dataSetWriteServiceUNS.StartAsync(cancellationTokenSource.Token);
+var datasetWriteDefaulTask = dataSetWriteServiceDefault
+    .RunAsync(cancellationTokenSource.Token)
+    .ContinueWith(t => {
+        if (t.IsFaulted) {
+            logger.LogError($"DatasetWrite Server w/ default topic failed: {t.Exception}");
+        }
+    });
+var datasetWriteUNSTask = dataSetWriteServiceUNS
+    .RunAsync(cancellationTokenSource.Token)
+    .ContinueWith(t => {
+        if (t.IsFaulted) {
+            logger.LogError($"DatasetWrite Server w/ UNS topic failed: {t.Exception}");
+        }
+    });
 
-await Task.WhenAny(
+await Task.WhenAll(
     datasetWriteDefaulTask,
     datasetWriteUNSTask).ConfigureAwait(false);
 
