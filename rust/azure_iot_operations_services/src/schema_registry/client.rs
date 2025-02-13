@@ -23,7 +23,7 @@ use super::{Format, Schema, SchemaType};
 use super::{SchemaRegistryError, SchemaRegistryErrorKind};
 
 /// The default schema version to use if not provided.
-const DEFAULT_SCHEMA_VERSION: &str = "1.0.0";
+const DEFAULT_SCHEMA_VERSION: &str = "1";
 
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug)]
@@ -80,6 +80,7 @@ where
 {
     get_command_invoker: Arc<GetCommandInvoker<C>>,
     put_command_invoker: Arc<PutCommandInvoker<C>>,
+    client_id: String, // TODO: Temporary until the schema registry service updates their executor
 }
 
 impl<C> Client<C>
@@ -108,6 +109,7 @@ where
                 client.clone(),
                 &options,
             )),
+            client_id: client.client_id().to_string(), // TODO: Temporary until the schema registry service updates their executor
         }
     }
 
@@ -149,6 +151,7 @@ where
             })?;
 
         let command_request = CommandRequestBuilder::default()
+            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(get_request_payload)
             .map_err(|e| {
                 SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
@@ -209,6 +212,7 @@ where
             })?;
 
         let command_request = CommandRequestBuilder::default()
+            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(put_request_payload)
             .map_err(|e| {
                 SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
