@@ -5,7 +5,7 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace EventDrivenRestThermostatConnector
 {
-    public class MockDataReceivedEventArgs : EventArgs
+    public class TelemetryEventReceivedEventArgs : EventArgs
     {
         public byte[] Data { get; set; }
         
@@ -13,7 +13,7 @@ namespace EventDrivenRestThermostatConnector
 
         public string DatasetName { get; set; }
 
-        public MockDataReceivedEventArgs(byte[] data, string assetName, string datasetName)
+        public TelemetryEventReceivedEventArgs(byte[] data, string assetName, string datasetName)
         {
             Data = data;
             AssetName = assetName;
