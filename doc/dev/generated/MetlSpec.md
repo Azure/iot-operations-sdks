@@ -43,18 +43,18 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesNoPayload_NotRelayed
+test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with no payload when one was expected.
+    TelemetryReceiver receives telemetry with payload that cannot deserialize.
   expect: >-
     TelemetryReceiver does not relay telemetry to user code.
 prologue:
   receivers:
-  - { }
+  - serializer:
+      fail-deserialization: true
 actions:
 - action: receive telemetry
-  payload:
   packet-index: 0
 - action: await acknowledgement
   packet-index: 0
@@ -143,71 +143,15 @@ The feature kind is an enumeration that includes the following enumerated values
 | caching | The component under test will cache Command responses for deduplication and reuse. |
 | dispatch | The component under test will dispatch execution functions to a thread pool. |
 | explicit-default | The component under test uses an explicit indication (not a sentinel value) to imply a default value. |
+| multiple-serializers | Each component under test can have a different serializer configuration. |
 
 The remainder of this document defines and exemplifies the subsets of METL used for [`CommandExecutor`](#commandexecutor-test-suite), [`CommandInvoker`](#commandinvoker-test-suite), [`TelemetryReceiver`](#telemetryreceiver-test-suite), and [`TelemetrySender`](#telemetrysender-test-suite) test cases.
 A final section describes [common test elements](#common-test-elements) that are usable across test cases.
 
 ## CommandExecutor test suite
 
-The DTDL that defines request and response types for testing the `CommandExecutor` is as follows.
-
-```json
-{
-  "@context": [
-    "dtmi:dtdl:context;3",
-    "dtmi:dtdl:extension:mqtt;1"
-  ],
-  "@id": "dtmi:test:TestModel;1",
-  "@type": [ "Interface", "Mqtt" ],
-  "payloadFormat": "Json/ecma/404",
-  "commandTopic": "test/command/{commandName}",
-  "contents": [
-    {
-      "@type": "Command",
-      "name": "test",
-      "request": {
-        "name": "payload",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "name": "testCaseIndex",
-              "schema": "integer"
-            },
-            {
-              "name": "request",
-              "schema": "string"
-            }
-          ]
-        }
-      },
-      "response": {
-        "name": "payload",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "name": "testCaseIndex",
-              "schema": "integer"
-            },
-            {
-              "name": "response",
-              "schema": "string"
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-Because tests can execute concurrently, and the response cache is shared across all `CommandExecutor` instances, it is necessary to prevent test cases from interfering with each other.
-The test engine generates a unique integer for each executing test case and populates the `testCaseIndex` field of the request payload with this value.
-This ensures that separate test cases do not generate identical requests, which could collide in the cache.
-
-In the `CommandExecutor` execution function, the test engine copies the `testCaseIndex` from the request payload to the response payload.
-Whenever a test case indicates that a response value should be checked, the test engine also checks the `testCaseIndex` value to ensure it matches the value for the test case.
+Request and response types of `string` are used for testing the `CommandExecutor`.
+These are serialized to, and deserialized from, UTF8 bytes.
 
 ### CommandExecutor test language
 
@@ -288,11 +232,12 @@ Each element of the `executors` array can have the following child keys:
 | Key | Test Kind | Required | Value Type | Default Value | Description |
 | --- | --- | --- | --- | --- | --- |
 | command-name | drive | no | string or null | "test" | The name of the Command. |
+| serializer | drive | no | [ExecutorSerializer](#executorserializer) | (see below) | Configuration settings for the test serializer associated with the executor. |
 | request-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Command request. |
 | executor-id | drive | no | string or null | "someExecutor" | Identifier of the asset that is targeted to execute a Command. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request MQTT topic pattern. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
-| idempotent | drive | no | boolean | False | Whether it is permissible to execute the Command multiple times for a single invocation of the Command. |
+| idempotent | drive | no | boolean | false | Whether it is permissible to execute the Command multiple times for a single invocation of the Command. |
 | cache-ttl | drive | no | [Duration](#duration) or null | null | Maximum duration for which a response to a Command instance may be reused as a response to other Command instances. |
 | execution-timeout | drive | no | [Duration](#duration) or null | { "seconds": 10 } | Maximum duration to permit a Command to execute before aborting the execution. |
 | request-responses-map | drive | no | map from string to array of string | { "Test_Request": [ "Test_Response" ] } | A map from received request value to an array of response values to be used sequentially. |
@@ -308,6 +253,26 @@ If the request value is not found in the map, or if the mapped array has no elem
 
 The value type for `cacheable-duration` and `executor-timeout` is common across classes, so it is defined towards the end of this document.
 The value types for `raise-error` and `sync` are specific to CommandExecutor and are defined in the next subsections.
+
+#### ExecutorSerializer
+
+The 'serializer' key provides configuration settings for the test serializer associated with the executor, as in the following example:
+
+```yaml
+  executors:
+  - serializer:
+      fail-deserialization: true
+```
+
+A CommandExecutor serializer can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Default Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| out-content-type | drive | no | string | "application/json" | String to use as the content type on outgoing serialized data |
+| accept-content-types | check | no | array of string | [ "", "application/json" ] | A list of strings allowed as content types on incoming data to deserialize. |
+| indicate-character-data | drive | no | boolean | true | Whether the outgoing serialized data should have a payload format indicator that specifies character data. |
+| allow-character-data | check | no | boolean | true | Whether to allow a payload format indicator that specifies character data for incoming data to deserialize. |
+| fail-deserialization | drive | no | boolean | false | Whether to fail the deserialization of incoming data. |
 
 #### Error
 
@@ -408,6 +373,8 @@ Each element of the `published-messages` array can have the following child keys
 | correlation-index | match | yes | integer or null | An arbitrary numeric value used to identify the correlation ID used in request and response messages; null matches singular absent header property. |
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The UTF8 string encapsulated in the response payload, or null if no payload. |
+| content-type | check | no | string | The value of the ContentType header in the message. |
+| format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | command-status | check | no | integer or null | HTTP status code in the message, or null if no status code present. |
 | is-application-error | check | no | boolean | In an error response, whether the error is in the application rather than in the platform. |
@@ -472,7 +439,6 @@ When the value of the `action` key is `receive request`, the following sibling k
 | action |  | yes | string | "receive request" |  | Receive a request message. |
 | topic | drive | no | string |  | "mock/test" | The MQTT topic on which the message is published. |
 | payload | drive | no | string or null |  | "Test_Request" | A UTF8 string to encapsulate in the request payload; if null, omit payload from request message. |
-| bypass-serialization | drive | no | boolean |  | false | Bypass serializing the payload and just embed raw bytes. |
 | content-type | drive | no | string or null |  | "application/json" | The value of the ContentType header in the message, or null if no such header. |
 | format-indicator | drive | no | integer or null |  | 1 | The value of the PayloadFormatIndicator header in the message, or null if no such header. |
 | metadata | drive | no | map from string to string |  | { } | Keys and values for header fields in the message. |
@@ -527,7 +493,7 @@ When the value of the `action` key is `await publish`, the following sibling key
 ## CommandInvoker test suite
 
 Request and response types of `string` are used for testing the `CommandInvoker`.
-There are no shared components across `CommandInvoker` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+These are serialized to, and deserialized from, UTF8 bytes.
 
 ### CommandInvoker test language
 
@@ -590,12 +556,33 @@ Each element of the `invokers` array can have the following child keys:
 | Key | Test Kind | Required | Value Type | Default Value | Description |
 | --- | --- | --- | --- | --- | --- |
 | command-name | drive | no | string or null | "test" | The name of the Command. |
+| serializer | drive | no | [InvokerSerializer](#invokerserializer) | (see below) | Configuration settings for the test serializer associated with the invoker. |
 | request-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Command request. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Command request and response MQTT topic patterns. |
 | response-topic-prefix | drive | no | string or null | "response" | A prefix to be prepended to the request topic pattern to produce a response topic pattern. |
 | response-topic-suffix | drive | no | string or null | null | A suffix to be appended to the request topic pattern to produce a response topic pattern. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 | response-topic-map | drive | no | map from string to string | { } | A map from request topic to response topic, as an alternative to using prefix/suffix. |
+
+#### InvokerSerializer
+
+The 'serializer' key provides configuration settings for the test serializer associated with the invoker, as in the following example:
+
+```yaml
+  invokers:
+  - serializer:
+      fail-deserialization: true
+```
+
+A CommandInvoker serializer can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Default Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| out-content-type | drive | no | string | "application/json" | String to use as the content type on outgoing serialized data |
+| accept-content-types | check | no | array of string | [ "", "application/json" ] | A list of strings allowed as content types on incoming data to deserialize. |
+| indicate-character-data | drive | no | boolean | true | Whether the outgoing serialized data should have a payload format indicator that specifies character data. |
+| allow-character-data | check | no | boolean | true | Whether to allow a payload format indicator that specifies character data for incoming data to deserialize. |
+| fail-deserialization | drive | no | boolean | false | Whether to fail the deserialization of incoming data. |
 
 ### CommandInvoker test epilogue
 
@@ -641,6 +628,8 @@ Each element of the `published-messages` array can have the following child keys
 | correlation-index | match | yes | integer | An arbitrary numeric value used to identify the correlation ID used in request and response messages. |
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string or null | The request payload UTF8 string, or null if no payload. |
+| content-type | check | no | string | The value of the ContentType header in the message. |
+| format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
@@ -789,7 +778,6 @@ When the value of the `action` key is `receive response`, the following sibling 
 | action |  | yes | string | "receive response" |  | Receive a response message. |
 | topic | drive | no | string |  | "response/mock/test" | The MQTT topic on which the message is published. |
 | payload | drive | no | string or null |  | "Test_Response" | A UTF8 string for the request payload; if null, omit payload from request message. |
-| bypass-serialization | drive | no | boolean |  | false | Bypass serializing the payload and just embed raw bytes. |
 | content-type | drive | no | string or null |  | "application/json" | The value of the ContentType header in the message, or null if no such header. |
 | format-indicator | drive | no | integer or null |  | 1 | The value of the PayloadFormatIndicator header in the message, or null if no such header. |
 | metadata | drive | no | map from string to string |  | { } | Keys and values for header fields in the message. |
@@ -811,7 +799,7 @@ Therefore, the correlation index must have been used in an `await publish` actio
 ## TelemetryReceiver test suite
 
 A Telemetry type of `string` is used for testing the `TelemetryReceiver`.
-There are no shared components across `TelemetryReceiver` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+This is serialized to, and deserialized from, UTF8 bytes.
 
 ### TelemetryReceiver test language
 
@@ -873,10 +861,29 @@ Each element of the `receivers` array can have the following child keys:
 
 | Key | Test Kind | Required | Value Type | Default Value | Description |
 | --- | --- | --- | --- | --- | --- |
+| serializer | drive | no | [ReceiverSerializer](#receiverserializer) | (see below) | Configuration settings for the test serializer associated with the receiver. |
 | telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
 | raise-error | drive | no | [Error](#error) |  | Raise an error from the Telemetry receive function. |
+
+#### ReceiverSerializer
+
+The 'serializer' key provides configuration settings for the test serializer associated with the receiver, as in the following example:
+
+```yaml
+  receivers:
+  - serializer:
+      fail-deserialization: true
+```
+
+A TelemetryReceiver serializer can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Default Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| accept-content-types | check | no | array of string | [ "", "application/json" ] | A list of strings allowed as content types on incoming data to deserialize. |
+| allow-character-data | check | no | boolean | true | Whether to allow a payload format indicator that specifies character data for incoming data to deserialize. |
+| fail-deserialization | drive | no | boolean | false | Whether to fail the deserialization of incoming data. |
 
 ### TelemetryReceiver test epilogue
 
@@ -996,7 +1003,6 @@ When the value of the `action` key is `receive telemetry`, the following sibling
 | action |  | yes | string | "receive telemetry" |  | Receive a telemetry message. |
 | topic | drive | no | string |  | "mock/test" | The MQTT topic on which the message is published. |
 | payload | drive | no | string or null |  | "Test_Telemetry" | A UTF8 string to encapsulate in the telemetry payload; if null, omit payload from telemetry message. |
-| bypass-serialization | drive | no | boolean |  | false | Bypass serializing the payload and just embed raw bytes. |
 | content-type | drive | no | string or null |  | "application/json" | The value of the ContentType header in the message, or null if no such header. |
 | format-indicator | drive | no | integer or null |  | 1 | The value of the PayloadFormatIndicator header in the message, or null if no such header. |
 | metadata | drive | no | map from string to string |  | { } | Keys and values for header fields in the message. |
@@ -1011,7 +1017,7 @@ The index values can be used in multiple actions and in the epilogue, and each v
 ## TelemetrySender test suite
 
 A Telemetry type of `string` is used for testing the `TelemetrySender`.
-There are no shared components across `TelemetrySender` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+This is serialized to, and deserialized from, UTF8 bytes.
 
 ### TelemetrySender test language
 
@@ -1075,9 +1081,23 @@ Each element of the `senders` array can have the following child keys:
 | Key | Test Kind | Required | Value Type | Default Value | Description |
 | --- | --- | --- | --- | --- | --- |
 | telemetry-name | drive | no | string or null | "test" | The name of the Telemetry. |
+| serializer | drive | no | [SenderSerializer](#senderserializer) | (see below) | Configuration settings for the test serializer associated with the sender. |
 | telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
+
+#### SenderSerializer
+
+The 'serializer' key provides configuration settings for the test serializer associated with the sender, as in the following example:
+
+> **No available example in suite TelemetrySender for key 'senders' with subkey 'serializer'**
+
+A TelemetrySender serializer can have the following child keys:
+
+| Key | Test Kind | Required | Value Type | Default Value | Description |
+| --- | --- | --- | --- | --- | --- |
+| out-content-type | drive | no | string | "application/json" | String to use as the content type on outgoing serialized data |
+| indicate-character-data | drive | no | boolean | true | Whether the outgoing serialized data should have a payload format indicator that specifies character data. |
 
 ### TelemetrySender test epilogue
 
@@ -1119,6 +1139,8 @@ Each element of the `published-messages` array can have the following child keys
 | --- | --- | --- | --- | --- |
 | topic | check | no | string | The MQTT topic to which the message is published. |
 | payload | check | no | string | The Telemetry payload UTF8 string. |
+| content-type | check | no | string | The value of the ContentType header in the message. |
+| format-indicator | check | no | integer | The value of the PayloadFormatIndicator header in the message. |
 | metadata | check | no | map from string to string or null | Keys and values of header fields in the message; a null value indicates field should not be present. |
 | source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
@@ -1311,7 +1333,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "MyInvokerClientId"
+    client-id: "ThisInvokerId"
 ```
 
 The MQTT configuration can have the following child keys:

@@ -181,8 +181,8 @@ public class GreeterEnvoyTests
     [Fact]
     public async Task TestSharedSubscriptionWithTwoExecutors()
     {
-        /// connects 2 command executors on one shared subscription
-        /// asserts that command invoked on shared topic is handled by one and only one executor
+        // connects 2 command executors on one shared subscription
+        // asserts that command invoked on shared topic is handled by one and only one executor
         string executorId1 = "executor-1-" + Guid.NewGuid();
         string executorId2 = "executor-2-" + Guid.NewGuid();
 
@@ -248,8 +248,8 @@ public class GreeterEnvoyTests
     [Fact(Skip = "Waiting for $partition to be ready")]
     public async Task TestMultipleExecutorsWithPartitionId()
     {
-        /// connects 2 command executors on one shared subscription
-        /// asserts that command invoked on shared topic is handled by one and only one executor
+        // connects 2 command executors on one shared subscription
+        // asserts that command invoked on shared topic is handled by one and only one executor
         string executorId1 = "executor-1-" + Guid.NewGuid();
         string executorId2 = "executor-2-" + Guid.NewGuid();
 

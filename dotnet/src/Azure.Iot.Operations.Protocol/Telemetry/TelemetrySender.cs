@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// that, if the message is successfully delivered to the MQTT broker, the message will be discarded
         /// by the broker if the broker has not managed to start onward delivery to a matching subscriber within
         /// this timeout.
-        /// 
+        ///
         /// If this value is equal to zero seconds, then the message will never expire at the broker.
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             string? clientId = _mqttClient.ClientId;
             if (string.IsNullOrEmpty(clientId))
             {
-                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before sending telemetry.");
             }
 
             TimeSpan verifiedMessageExpiryInterval = messageExpiryInterval ?? DefaultTelemetryTimeout;

@@ -3,10 +3,15 @@
 
 use serde::Deserialize;
 
+use crate::metl::default_serializer::DefaultSerializer;
+
 #[derive(Deserialize, Debug)]
 pub struct DefaultInvoker {
     #[serde(rename = "command-name")]
     pub command_name: Option<String>,
+
+    #[serde(rename = "serializer")]
+    pub serializer: Option<DefaultSerializer>,
 
     #[serde(rename = "request-topic")]
     pub request_topic: Option<String>,

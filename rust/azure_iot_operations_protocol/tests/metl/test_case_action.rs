@@ -121,10 +121,6 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
         #[serde(default = "test_case_action_receive_request::get_default_payload::<T>")]
         payload: Option<String>,
 
-        #[serde(rename = "bypass-serialization")]
-        #[serde(default)]
-        bypass_serialization: bool,
-
         #[serde(rename = "content-type")]
         #[serde(default = "test_case_action_receive_request::get_default_content_type::<T>")]
         content_type: Option<String>,
@@ -176,10 +172,6 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
         #[serde(rename = "payload")]
         #[serde(default = "test_case_action_receive_response::get_default_payload::<T>")]
         payload: Option<String>,
-
-        #[serde(rename = "bypass-serialization")]
-        #[serde(default)]
-        bypass_serialization: bool,
 
         #[serde(rename = "content-type")]
         #[serde(default = "test_case_action_receive_response::get_default_content_type::<T>")]
@@ -247,10 +239,6 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
         #[serde(rename = "payload")]
         #[serde(default = "test_case_action_receive_telemetry::get_default_payload::<T>")]
         payload: Option<String>,
-
-        #[serde(rename = "bypass-serialization")]
-        #[serde(default)]
-        bypass_serialization: bool,
 
         #[serde(rename = "content-type")]
         #[serde(default = "test_case_action_receive_telemetry::get_default_content_type::<T>")]

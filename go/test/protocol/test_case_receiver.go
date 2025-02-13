@@ -7,10 +7,11 @@ import (
 )
 
 type testCaseReceiver struct {
-	TelemetryTopic *string           `yaml:"telemetry-topic"`
-	TopicNamespace *string           `yaml:"topic-namespace"`
-	TopicTokenMap  map[string]string `yaml:"topic-token-map"`
-	RaiseError     TestCaseError     `yaml:"raise-error"`
+	Serializer     TestCaseSerializer `yaml:"serializer"`
+	TelemetryTopic *string            `yaml:"telemetry-topic"`
+	TopicNamespace *string            `yaml:"topic-namespace"`
+	TopicTokenMap  map[string]string  `yaml:"topic-token-map"`
+	RaiseError     TestCaseError      `yaml:"raise-error"`
 }
 
 type TestCaseReceiver struct {
@@ -20,6 +21,7 @@ type TestCaseReceiver struct {
 func (receiver *TestCaseReceiver) UnmarshalYAML(node *yaml.Node) error {
 	*receiver = TestCaseReceiver{}
 
+	receiver.Serializer = TestCaseDefaultInfo.Prologue.Receiver.GetSerializer()
 	receiver.TelemetryTopic = TestCaseDefaultInfo.Prologue.Receiver.GetTelemetryTopic()
 	receiver.TopicNamespace = TestCaseDefaultInfo.Prologue.Receiver.GetTopicNamespace()
 

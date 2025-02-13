@@ -5,10 +5,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.RPC;
-    using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
-    using TestModel.dtmi_test_TestModel__1;
 
-    public class TestCommandExecutor : CommandExecutor<TestRequestSchema, TestResponseSchema>
+    public class TestCommandExecutor : CommandExecutor<string, string>
     {
         private AsyncAtomicInt executionCount;
 
@@ -17,13 +15,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return await executionCount.Read().ConfigureAwait(false);
         }
 
-        internal TestCommandExecutor(IMqttPubSubClient mqttClient, string commandName)
-            : base(mqttClient, commandName, new Utf8JsonSerializer())
+        internal TestCommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
+            : base(mqttClient, commandName, payloadSerializer)
         {
             executionCount = new(0);
         }
 
-        public async Task Track()
+        internal async Task Track()
         {
             await executionCount.Increment().ConfigureAwait(false);
         }

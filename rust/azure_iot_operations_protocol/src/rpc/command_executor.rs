@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 use std::str::FromStr;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
@@ -12,12 +12,10 @@ use tokio::sync::oneshot;
 use tokio::time::{timeout, Instant};
 use tokio_util::sync::CancellationToken;
 
-use super::StatusCode;
-use crate::application::ApplicationHybridLogicalClock;
 use crate::{
-    application::ApplicationContext,
+    application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
-        aio_protocol_error::{AIOProtocolError, Value},
+        aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
         hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::{
@@ -26,7 +24,7 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty},
     },
-    rpc::{DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     supported_protocol_major_versions_to_string, ProtocolVersion,
 };
 
@@ -53,6 +51,8 @@ struct ResponseArguments {
     message_expiry_interval: Option<u32>,
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
+    cached_key: Option<CommandExecutorCacheKey>,
+    cached_entry_status: CommandExecutorCacheEntryStatus,
 }
 
 /// Command Request struct.
@@ -246,6 +246,80 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     }
 }
 
+/// Command Executor Cache Key struct.
+///
+/// Used to uniquely identify a command request.
+#[derive(Eq, Hash, PartialEq, Clone)]
+struct CommandExecutorCacheKey {
+    response_topic: String,
+    correlation_data: Bytes,
+}
+
+/// Command Executor Cache Entry struct.
+#[derive(Clone, PartialEq, Debug)]
+struct CommandExecutorCacheEntry {
+    serialized_payload: SerializedPayload,
+    properties: PublishProperties,
+    expiration_time: Instant,
+}
+
+/// Command Executor Cache Entry Status enum.
+///
+/// Used to indicate the status of a cache entry.
+///
+/// Note: It is not possible for a cache entry to be in progress due to the nature of the underlying
+/// session. If a command request is received, the session will drop duplicates while the original
+/// request is being processed.
+#[derive(PartialEq, Debug)]
+enum CommandExecutorCacheEntryStatus {
+    /// The cache entry is cached and has not expired
+    Cached(CommandExecutorCacheEntry),
+    /// The cache entry is expired
+    Expired,
+    /// The cache entry is not found
+    NotFound,
+}
+
+/// The Command Executor Cache struct.
+///
+/// Used to cache command responses and determine if a command request is a duplicate.
+#[derive(Clone)]
+struct CommandExecutorCache(
+    Arc<Mutex<HashMap<CommandExecutorCacheKey, CommandExecutorCacheEntry>>>,
+);
+
+impl CommandExecutorCache {
+    /// Get a cache entry from the [`CommandExecutorCache`].
+    ///
+    /// # Arguments
+    /// `key` - The cache key to get the cache entry for.
+    ///
+    /// Returns a [`CommandExecutorCacheEntryStatus`] indicating the status of the cache entry.
+    fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
+        let cache = self.0.lock().unwrap();
+        cache
+            .get(key)
+            .map_or(CommandExecutorCacheEntryStatus::NotFound, |entry| {
+                if entry.expiration_time.elapsed().is_zero() {
+                    CommandExecutorCacheEntryStatus::Cached(entry.clone())
+                } else {
+                    CommandExecutorCacheEntryStatus::Expired
+                }
+            })
+    }
+
+    /// Set a cache entry in the cache. Also removes expired cache entries.
+    ///
+    /// # Arguments
+    /// `key` - The cache key to set the cache entry for.
+    /// `entry` - The cache entry to set.
+    fn set(&self, key: CommandExecutorCacheKey, entry: CommandExecutorCacheEntry) {
+        let mut cache = self.0.lock().unwrap();
+        cache.retain(|_, entry| entry.expiration_time.elapsed().is_zero());
+        cache.insert(key, entry);
+    }
+}
+
 /// Command Executor Options struct
 #[allow(unused)]
 #[derive(Builder, Clone)]
@@ -262,9 +336,6 @@ pub struct CommandExecutorOptions {
     /// Topic token keys/values to be permanently replaced in the topic pattern
     #[builder(default)]
     topic_token_map: HashMap<String, String>,
-    /// Duration to cache the command response
-    #[builder(default = "Duration::from_secs(0)")]
-    cacheable_duration: Duration,
     /// Denotes if commands are idempotent
     #[builder(default = "false")]
     is_idempotent: bool,
@@ -281,7 +352,7 @@ pub struct CommandExecutorOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, CommandExecutorOptionsBuilder, CommandResponse, CommandResponseBuilder, CommandRequest};
-/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
 /// #     .hostname("localhost")
@@ -291,7 +362,7 @@ pub struct CommandExecutorOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let executor_options = CommandExecutorOptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
@@ -314,15 +385,15 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the executor
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: C,
     mqtt_receiver: C::PubReceiver,
     is_idempotent: bool,
     request_topic_pattern: TopicPattern,
     command_name: String,
-    cacheable_duration: Duration,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
-    application_hlc: Arc<ApplicationHybridLogicalClock>,
+    cache: CommandExecutorCache,
     // Describes state
     executor_state: CommandExecutorState,
     // Information to manage state
@@ -380,15 +451,6 @@ where
                 Some(executor_options.command_name),
             ));
         }
-        if !executor_options.is_idempotent && !executor_options.cacheable_duration.is_zero() {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "is_idempotent",
-                Value::Boolean(executor_options.is_idempotent),
-                None,
-                Some(executor_options.command_name),
-            ));
-        }
 
         // Create a new Command Pattern, validates topic pattern and options
         let request_topic_pattern = TopicPattern::new(
@@ -400,7 +462,7 @@ where
 
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic(), false)
+            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic())
         {
             Ok(receiver) => receiver,
             Err(e) => {
@@ -416,15 +478,15 @@ where
 
         // Create Command executor
         Ok(CommandExecutor {
+            application_hlc: application_context.application_hlc,
             mqtt_client: client,
             mqtt_receiver,
             is_idempotent: executor_options.is_idempotent,
             request_topic_pattern,
             command_name: executor_options.command_name,
-            cacheable_duration: executor_options.cacheable_duration,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            application_hlc: application_context.application_hlc,
+            cache: CommandExecutorCache(Arc::new(Mutex::new(HashMap::new()))),
             executor_state: CommandExecutorState::New,
             executor_cancellation_token: CancellationToken::new(),
         })
@@ -551,7 +613,7 @@ where
         }
 
         loop {
-            if let Some((m, ack_token)) = self.mqtt_receiver.recv().await {
+            if let Some((m, ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
                 let Some(ack_token) = ack_token else {
                     // No ack token, ignore the message. This should never happen as the executor
                     // should always receive QoS 1 messages that have an ack token.
@@ -628,6 +690,8 @@ where
                     command_expiration_time: None,
                     supported_protocol_major_versions: None,
                     request_protocol_version: None,
+                    cached_key: None,
+                    cached_entry_status: CommandExecutorCacheEntryStatus::NotFound,
                 };
 
                 // Get message expiry interval
@@ -646,32 +710,38 @@ where
                     command_expiration_time_calculated = true;
                 }
 
-                'process_request: {
-                    // Get correlation data
-                    if let Some(correlation_data) = properties.correlation_data {
-                        if correlation_data.len() != 16 {
-                            response_arguments.status_code = StatusCode::BadRequest;
-                            response_arguments.status_message =
-                                Some("Correlation data bytes do not conform to a GUID".to_string());
-                            response_arguments.invalid_property_name =
-                                Some("Correlation Data".to_string());
-                            if let Ok(correlation_data_str) =
-                                String::from_utf8(correlation_data.to_vec())
-                            {
-                                response_arguments.invalid_property_value =
-                                    Some(correlation_data_str);
-                            } else { /* Ignore */
-                            }
-                            response_arguments.correlation_data = Some(correlation_data);
-                            break 'process_request;
-                        }
-                        response_arguments.correlation_data = Some(correlation_data);
+                // Get correlation data
+                if let Some(correlation_data) = properties.correlation_data {
+                    if correlation_data.len() == 16 {
+                        response_arguments.correlation_data = Some(correlation_data.clone());
+                        response_arguments.cached_key = Some(CommandExecutorCacheKey {
+                            response_topic: response_arguments.response_topic.clone(),
+                            correlation_data,
+                        });
                     } else {
                         response_arguments.status_code = StatusCode::BadRequest;
                         response_arguments.status_message =
-                            Some("Correlation data missing".to_string());
+                            Some("Correlation data bytes do not conform to a GUID".to_string());
                         response_arguments.invalid_property_name =
                             Some("Correlation Data".to_string());
+                        if let Ok(correlation_data_str) =
+                            String::from_utf8(correlation_data.to_vec())
+                        {
+                            response_arguments.invalid_property_value = Some(correlation_data_str);
+                        } else { /* Ignore */
+                        }
+                        response_arguments.correlation_data = Some(correlation_data);
+                    }
+                } else {
+                    response_arguments.status_code = StatusCode::BadRequest;
+                    response_arguments.status_message =
+                        Some("Correlation data missing".to_string());
+                    response_arguments.invalid_property_name = Some("Correlation Data".to_string());
+                };
+
+                'process_request: {
+                    // If the cache key was not created it means the correlation data was invalid
+                    let Some(cache_key) = &response_arguments.cached_key else {
                         break 'process_request;
                     };
 
@@ -691,6 +761,16 @@ where
                             Some("Message expiry interval missing".to_string());
                         response_arguments.invalid_property_name =
                             Some("Message Expiry".to_string());
+                        break 'process_request;
+                    }
+
+                    // Check cache
+                    response_arguments.cached_entry_status = self.cache.get(cache_key);
+
+                    // If the cache entry is not found, continue processing the request
+                    if response_arguments.cached_entry_status
+                        != CommandExecutorCacheEntryStatus::NotFound
+                    {
                         break 'process_request;
                     }
 
@@ -736,6 +816,26 @@ where
                             Ok(UserProperty::Timestamp) => {
                                 match HybridLogicalClock::from_str(&value) {
                                     Ok(ts) => {
+                                        // Update application HLC against received __ts
+                                        if let Err(e) = self.application_hlc.update(&ts) {
+                                            response_arguments.status_message = Some(format!("Failure updating application HLC against {value}: {e}"));
+                                            response_arguments.invalid_property_name =
+                                                Some(UserProperty::Timestamp.to_string());
+                                            response_arguments.invalid_property_value = Some(value);
+                                            match e.kind {
+                                                AIOProtocolErrorKind::StateInvalid => {
+                                                    response_arguments.status_code =
+                                                        StatusCode::ServiceUnavailable;
+                                                }
+                                                _ => {
+                                                    // AIOProtocolErrorKind::InternalLogicError should route here,
+                                                    // but anything unexpected should also be classified as InternalServerError
+                                                    response_arguments.status_code =
+                                                        StatusCode::InternalServerError;
+                                                }
+                                            }
+                                            break 'process_request;
+                                        }
                                         timestamp = Some(ts);
                                     }
                                     Err(e) => {
@@ -838,7 +938,9 @@ where
                     if command_expiration_time.elapsed().is_zero() {
                         // Elapsed returns zero if the time has not passed
                         tokio::task::spawn({
+                            let app_hlc_clone = self.application_hlc.clone();
                             let client_clone = self.mqtt_client.clone();
+                            let cache_clone = self.cache.clone();
                             let executor_cancellation_token_clone =
                                 self.executor_cancellation_token.clone();
                             let pkid = m.pkid;
@@ -846,11 +948,14 @@ where
                                 tokio::select! {
                                     () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
                                     () = Self::process_command(
+                                        app_hlc_clone,
                                         client_clone,
                                         pkid,
                                         response_arguments,
                                         Some(response_rx),
                                         Some(publish_completion_tx),
+                                        cache_clone,
+
                                     ) => {
                                         // Finished processing command
                                         handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -870,27 +975,44 @@ where
                     }
                 }
 
-                tokio::task::spawn({
-                    let client_clone = self.mqtt_client.clone();
-                    let executor_cancellation_token_clone =
-                        self.executor_cancellation_token.clone();
-                    let pkid = m.pkid;
-                    async move {
-                        tokio::select! {
-                            () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                            () = Self::process_command(
-                                client_clone,
-                                pkid,
-                                response_arguments,
-                                None,
-                                None,
-                            ) => {
-                                // Finished processing command
-                                handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
-                            },
-                        }
+                // If the command has expired, we do not respond to the invoker.
+                match response_arguments.cached_entry_status {
+                    CommandExecutorCacheEntryStatus::Expired => {
+                        log::debug!(
+                            "[{}][pkid: {}] Duplicate request has expired",
+                            self.command_name,
+                            m.pkid
+                        );
+                        continue;
                     }
-                });
+                    _ => {
+                        tokio::task::spawn({
+                            let app_hlc_clone = self.application_hlc.clone();
+                            let client_clone = self.mqtt_client.clone();
+                            let cache_clone = self.cache.clone();
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            let pkid = m.pkid;
+                            async move {
+                                tokio::select! {
+                                    () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                    () = Self::process_command(
+                                        app_hlc_clone,
+                                        client_clone,
+                                        pkid,
+                                        response_arguments,
+                                        None,
+                                        None,
+                                        cache_clone,
+                                    ) => {
+                                        // Finished processing command
+                                        handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                    },
+                                }
+                            }
+                        });
+                    }
+                }
 
                 if !command_expiration_time_calculated {
                     return Some(Err(AIOProtocolError::new_internal_logic_error(
@@ -912,203 +1034,258 @@ where
     }
 
     async fn process_command(
+        application_hlc: Arc<ApplicationHybridLogicalClock>,
         client: C,
         pkid: u16,
         mut response_arguments: ResponseArguments,
         response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
         completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
+        cache: CommandExecutorCache,
     ) {
-        let mut user_properties: Vec<(String, String)> = Vec::new();
         let mut serialized_payload = SerializedPayload::default();
-        'process_response: {
-            let Some(command_expiration_time) = response_arguments.command_expiration_time else {
-                break 'process_response;
-            };
-            if let Some(response_rx) = response_rx {
-                // Wait for response
-                let response = if let Ok(response_timer) = timeout(
-                    command_expiration_time.duration_since(Instant::now()),
-                    response_rx,
-                )
-                .await
-                {
-                    if let Ok(response_app) = response_timer {
-                        match response_app {
-                            Ok(response) => response,
-                            Err(e) => {
-                                response_arguments.status_code = StatusCode::InternalServerError;
-                                response_arguments.status_message = Some(e);
-                                response_arguments.is_application_error = true;
-                                break 'process_response;
+        let mut publish_properties = PublishProperties::default();
+        let cache_not_found =
+            response_arguments.cached_entry_status == CommandExecutorCacheEntryStatus::NotFound;
+
+        if let CommandExecutorCacheEntryStatus::Cached(entry) =
+            response_arguments.cached_entry_status
+        {
+            // The command has already been processed, we can respond with the cached response
+            log::debug!(
+                "[{}][pkid: {}] Duplicate request, responding with cached response",
+                response_arguments.command_name,
+                pkid
+            );
+            publish_properties = entry.properties;
+            serialized_payload = entry.serialized_payload;
+        } else {
+            let mut user_properties: Vec<(String, String)> = Vec::new();
+            'process_response: {
+                let Some(command_expiration_time) = response_arguments.command_expiration_time
+                else {
+                    break 'process_response;
+                };
+                if let Some(response_rx) = response_rx {
+                    // Wait for response
+                    let response = if let Ok(response_timer) = timeout(
+                        command_expiration_time.duration_since(Instant::now()),
+                        response_rx,
+                    )
+                    .await
+                    {
+                        if let Ok(response_app) = response_timer {
+                            match response_app {
+                                Ok(response) => response,
+                                Err(e) => {
+                                    response_arguments.status_code =
+                                        StatusCode::InternalServerError;
+                                    response_arguments.status_message = Some(e);
+                                    response_arguments.is_application_error = true;
+                                    break 'process_response;
+                                }
                             }
+                        } else {
+                            // Happens when the sender is dropped by the application.
+                            response_arguments.status_code = StatusCode::InternalServerError;
+                            response_arguments.status_message =
+                                Some("Request has been dropped by the application".to_string());
+                            response_arguments.is_application_error = true;
+                            break 'process_response;
                         }
                     } else {
-                        // Happens when the sender is dropped by the application.
-                        response_arguments.status_code = StatusCode::InternalServerError;
-                        response_arguments.status_message =
-                            Some("Request has been dropped by the application".to_string());
-                        response_arguments.is_application_error = true;
-                        break 'process_response;
+                        log::error!(
+                            "[{}][pkid: {}] Request timed out",
+                            response_arguments.command_name,
+                            pkid
+                        );
+                        // Notify the application that a timeout occurred
+                        if let Some(completion_tx) = completion_tx {
+                            let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                                false,
+                                None,
+                                None,
+                                &response_arguments.command_name,
+                                Duration::from_secs(
+                                    response_arguments
+                                        .message_expiry_interval
+                                        .unwrap_or_default()
+                                        .into(),
+                                ),
+                                None,
+                                Some(response_arguments.command_name.clone()),
+                            )));
+                        }
+                        return;
+                    };
+
+                    user_properties = response.custom_user_data;
+
+                    // Serialize payload
+                    serialized_payload = response.serialized_payload;
+
+                    if serialized_payload.payload.is_empty() {
+                        response_arguments.status_code = StatusCode::NoContent;
                     }
-                } else {
-                    log::error!(
-                        "[{}][pkid: {}] Request timed out",
+                } else { /* Error */
+                }
+            }
+
+            if response_arguments.status_code != StatusCode::Ok
+                || response_arguments.status_code != StatusCode::NoContent
+            {
+                user_properties.push((
+                    UserProperty::IsApplicationError.to_string(),
+                    response_arguments.is_application_error.to_string(),
+                ));
+            }
+
+            user_properties.push((
+                UserProperty::Status.to_string(),
+                (response_arguments.status_code as u16).to_string(),
+            ));
+
+            user_properties.push((
+                UserProperty::ProtocolVersion.to_string(),
+                RPC_PROTOCOL_VERSION.to_string(),
+            ));
+
+            // Update HLC and use as the timestamp.
+            // If there are errors updating the HLC (unlikely when updating against now),
+            // the timestamp will not be added.
+            if let Ok(timestamp_str) = application_hlc.update_now() {
+                user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
+            }
+
+            if let Some(status_message) = response_arguments.status_message {
+                log::error!(
+                    "[{}][pkid: {}] {}",
+                    response_arguments.command_name,
+                    pkid,
+                    status_message
+                );
+                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+            }
+
+            if let Some(name) = response_arguments.invalid_property_name {
+                user_properties.push((
+                    UserProperty::InvalidPropertyName.to_string(),
+                    name.to_string(),
+                ));
+            }
+
+            if let Some(value) = response_arguments.invalid_property_value {
+                user_properties.push((
+                    UserProperty::InvalidPropertyValue.to_string(),
+                    value.to_string(),
+                ));
+            }
+
+            if let Some(supported_protocol_major_versions) =
+                response_arguments.supported_protocol_major_versions
+            {
+                user_properties.push((
+                    UserProperty::SupportedMajorVersions.to_string(),
+                    supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+                ));
+            }
+
+            if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+                user_properties.push((
+                    UserProperty::RequestProtocolVersion.to_string(),
+                    request_protocol_version,
+                ));
+            }
+
+            // Create publish properties
+            publish_properties.payload_format_indicator =
+                Some(serialized_payload.format_indicator.clone() as u8);
+            publish_properties.topic_alias = None;
+            publish_properties.response_topic = None;
+            publish_properties.correlation_data = response_arguments.correlation_data;
+            publish_properties.user_properties = user_properties;
+            publish_properties.subscription_identifiers = Vec::new();
+            publish_properties.content_type = Some(serialized_payload.content_type.to_string());
+        };
+
+        if let Some(command_expiration_time) = response_arguments.command_expiration_time {
+            let response_message_expiry_interval =
+                command_expiration_time.saturating_duration_since(Instant::now());
+            if response_message_expiry_interval.is_zero() {
+                log::error!(
+                    "[{}][pkid: {}] Request timed out",
+                    response_arguments.command_name,
+                    pkid
+                );
+                // Notify the application that a timeout occurred
+                if let Some(completion_tx) = completion_tx {
+                    let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                        false,
+                        None,
+                        None,
+                        &response_arguments.command_name,
+                        Duration::from_secs(
+                            response_arguments
+                                .message_expiry_interval
+                                .unwrap_or_default()
+                                .into(),
+                        ),
+                        None,
+                        Some(response_arguments.command_name.clone()),
+                    )));
+                }
+                return;
+            }
+
+            let Ok(response_message_expiry_interval) =
+                response_message_expiry_interval.as_secs().try_into()
+            else {
+                // Unreachable, will be smaller than u32::MAX
+                log::error!(
+                    "[{}][pkid: {}] Message expiry interval is too large",
+                    response_arguments.command_name,
+                    pkid
+                );
+                return;
+            };
+
+            publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
+
+            // Store cache, even if the response is an error
+            if cache_not_found {
+                if let Some(cached_key) = response_arguments.cached_key {
+                    let cache_entry = CommandExecutorCacheEntry {
+                        properties: publish_properties.clone(),
+                        serialized_payload: serialized_payload.clone(),
+                        expiration_time: command_expiration_time,
+                    };
+                    log::info!(
+                        "[{}][pkid: {}] Caching response",
                         response_arguments.command_name,
                         pkid
                     );
-                    // Notify the application that a timeout occurred
-                    if let Some(completion_tx) = completion_tx {
-                        let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
-                            false,
-                            None,
-                            None,
-                            &response_arguments.command_name,
-                            Duration::from_secs(
-                                response_arguments
-                                    .message_expiry_interval
-                                    .unwrap_or_default()
-                                    .into(),
-                            ),
-                            None,
-                            Some(response_arguments.command_name.clone()),
-                        )));
-                    }
-                    return;
-                };
-
-                user_properties = response.custom_user_data;
-
-                // Serialize payload
-                serialized_payload = response.serialized_payload;
-
-                if serialized_payload.payload.is_empty() {
-                    response_arguments.status_code = StatusCode::NoContent;
+                    cache.set(cached_key, cache_entry);
                 }
-            } else { /* Error */
             }
-        }
+        } else {
+            // Happens when the command expiration time was not able to be calculated.
+            // We don't cache the response in this case.
+            let response_message_expiry_interval =
+                Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL);
 
-        if response_arguments.status_code != StatusCode::Ok
-            || response_arguments.status_code != StatusCode::NoContent
-        {
-            user_properties.push((
-                UserProperty::IsApplicationError.to_string(),
-                response_arguments.is_application_error.to_string(),
-            ));
-        }
-
-        user_properties.push((
-            UserProperty::Status.to_string(),
-            (response_arguments.status_code as u16).to_string(),
-        ));
-
-        user_properties.push((
-            UserProperty::ProtocolVersion.to_string(),
-            RPC_PROTOCOL_VERSION.to_string(),
-        ));
-
-        user_properties.push((
-            UserProperty::Timestamp.to_string(),
-            HybridLogicalClock::new().to_string(),
-        ));
-
-        if let Some(status_message) = response_arguments.status_message {
-            log::error!(
-                "[{}][pkid: {}] {}",
-                response_arguments.command_name,
-                pkid,
-                status_message
-            );
-            user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
-        }
-
-        if let Some(name) = response_arguments.invalid_property_name {
-            user_properties.push((
-                UserProperty::InvalidPropertyName.to_string(),
-                name.to_string(),
-            ));
-        }
-
-        if let Some(value) = response_arguments.invalid_property_value {
-            user_properties.push((
-                UserProperty::InvalidPropertyValue.to_string(),
-                value.to_string(),
-            ));
-        }
-
-        if let Some(supported_protocol_major_versions) =
-            response_arguments.supported_protocol_major_versions
-        {
-            user_properties.push((
-                UserProperty::SupportedMajorVersions.to_string(),
-                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
-            ));
-        }
-
-        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
-            user_properties.push((
-                UserProperty::RequestProtocolVersion.to_string(),
-                request_protocol_version,
-            ));
-        }
-
-        let response_message_expiry_interval =
-            if let Some(command_expiration_time) = response_arguments.command_expiration_time {
-                command_expiration_time.saturating_duration_since(Instant::now())
-            } else {
-                // Happens when the command expiration time was not able to be calculated.
-                Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL)
+            let Ok(response_message_expiry_interval) =
+                response_message_expiry_interval.as_secs().try_into()
+            else {
+                // Unreachable, will be smaller than u32::MAX
+                log::error!(
+                    "[{}][pkid: {}] Message expiry interval is too large",
+                    response_arguments.command_name,
+                    pkid
+                );
+                return;
             };
 
-        if response_message_expiry_interval.is_zero() {
-            log::error!(
-                "[{}][pkid: {}] Request timed out",
-                response_arguments.command_name,
-                pkid
-            );
-            // Notify the application that a timeout occurred
-            if let Some(completion_tx) = completion_tx {
-                let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
-                    false,
-                    None,
-                    None,
-                    &response_arguments.command_name,
-                    Duration::from_secs(
-                        response_arguments
-                            .message_expiry_interval
-                            .unwrap_or_default()
-                            .into(),
-                    ),
-                    None,
-                    Some(response_arguments.command_name.clone()),
-                )));
-            }
-            return;
+            publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
         }
-
-        let Ok(response_message_expiry_interval) =
-            response_message_expiry_interval.as_secs().try_into()
-        else {
-            // Unreachable, will be smaller than u32::MAX
-            log::error!(
-                "[{}][pkid: {}] Message expiry interval is too large",
-                response_arguments.command_name,
-                pkid
-            );
-            return;
-        };
-
-        // Create publish properties
-        let publish_properties = PublishProperties {
-            payload_format_indicator: Some(serialized_payload.format_indicator as u8),
-            message_expiry_interval: Some(response_message_expiry_interval),
-            topic_alias: None,
-            response_topic: None,
-            correlation_data: response_arguments.correlation_data,
-            user_properties,
-            subscription_identifiers: Vec::new(),
-            content_type: Some(serialized_payload.content_type.to_string()),
-        };
 
         // Try to publish
         match client
@@ -1242,7 +1419,7 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
     use super::*;
-    use crate::application::ApplicationContextOptionsBuilder;
+    use crate::application::ApplicationContextBuilder;
     use crate::common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload};
 
     // TODO: This should return a mock ManagedClient instead.
@@ -1280,7 +1457,7 @@ mod tests {
             .unwrap();
 
         let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         )
@@ -1292,8 +1469,6 @@ mod tests {
         );
 
         assert!(!command_executor.is_idempotent);
-        // Since idempotent is false by default, cacheable_duration should be 0
-        assert_eq!(command_executor.cacheable_duration, Duration::from_secs(0));
     }
 
     #[tokio::test]
@@ -1304,14 +1479,13 @@ mod tests {
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_namespace("test_namespace")
-            .cacheable_duration(Duration::from_secs(10))
             .topic_token_map(create_topic_tokens())
             .is_idempotent(true)
             .build()
             .unwrap();
 
         let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
         )
@@ -1323,7 +1497,6 @@ mod tests {
         );
 
         assert!(command_executor.is_idempotent);
-        assert_eq!(command_executor.cacheable_duration, Duration::from_secs(10));
     }
 
     #[test_case(""; "empty command name")]
@@ -1342,9 +1515,7 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
             );
@@ -1382,9 +1553,7 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
             );
@@ -1425,9 +1594,7 @@ mod tests {
 
         let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
             );
@@ -1447,67 +1614,6 @@ mod tests {
         }
     }
 
-    #[test_case(Duration::from_secs(0); "cacheable duration zero")]
-    #[test_case(Duration::from_secs(60); "cacheable duration positive")]
-    #[tokio::test]
-    async fn test_idempotent_command_with_cacheable_duration(cacheable_duration: Duration) {
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/request")
-            .command_name("test_command_name")
-            .cacheable_duration(cacheable_duration)
-            .is_idempotent(true)
-            .topic_token_map(create_topic_tokens())
-            .build()
-            .unwrap();
-
-        let command_executor = CommandExecutor::<MockPayload, MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
-            managed_client,
-            executor_options,
-        );
-        assert!(command_executor.is_ok());
-    }
-
-    #[tokio::test]
-    async fn test_non_idempotent_command_with_positive_cacheable_duration() {
-        let session = create_session();
-        let managed_client = session.create_managed_client();
-
-        let executor_options = CommandExecutorOptionsBuilder::default()
-            .request_topic_pattern("test/{commandName}/{executorId}/request")
-            .command_name("test_command_name")
-            .cacheable_duration(Duration::from_secs(10))
-            .topic_token_map(create_topic_tokens())
-            .build()
-            .unwrap();
-
-        let command_executor: Result<
-            CommandExecutor<MockPayload, MockPayload, _>,
-            AIOProtocolError,
-        > = CommandExecutor::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
-            managed_client,
-            executor_options,
-        );
-
-        match command_executor {
-            Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
-                assert!(e.is_shallow);
-                assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
-                assert_eq!(e.property_name, Some("is_idempotent".to_string()));
-                assert!(e.property_value == Some(Value::Boolean(false)));
-            }
-            Ok(_) => {
-                panic!("Expected error");
-            }
-        }
-    }
-
     #[tokio::test]
     async fn test_shutdown_without_subscribe() {
         let session = create_session();
@@ -1518,9 +1624,7 @@ mod tests {
             .unwrap();
         let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
             CommandExecutor::new(
-                ApplicationContext::new(
-                    ApplicationContextOptionsBuilder::default().build().unwrap(),
-                ),
+                ApplicationContextBuilder::default().build().unwrap(),
                 session.create_managed_client(),
                 executor_options,
             )
@@ -1529,7 +1633,6 @@ mod tests {
     }
 
     // CommandResponse tests
-
     #[test]
     fn test_response_serialization_error() {
         let mut mock_response_payload = MockPayload::new();
@@ -1581,6 +1684,120 @@ mod tests {
                 panic!("Expected error");
             }
         }
+    }
+
+    #[tokio::test]
+    async fn test_cache_not_found() {
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CommandExecutorCacheKey {
+            response_topic: String::from("test_response_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::NotFound);
+    }
+
+    #[tokio::test]
+    async fn test_cache_found() {
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CommandExecutorCacheKey {
+            response_topic: String::from("test_response_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry.clone());
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Cached(entry));
+    }
+
+    #[tokio::test]
+    async fn test_cache_expired() {
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CommandExecutorCacheKey {
+            response_topic: String::from("test_response_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() - Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry);
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Expired);
+
+        // Set a new entry and check if the expired entry is deleted
+        let new_entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("new_test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        // The cache should never see another entry with the same key, this is for testing purposes only.
+        cache.set(key.clone(), new_entry.clone());
+
+        let new_status = cache.get(&key);
+        assert_eq!(
+            new_status,
+            CommandExecutorCacheEntryStatus::Cached(new_entry)
+        );
+    }
+
+    #[tokio::test]
+    async fn test_cache_expired_with_different_key_set() {
+        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CommandExecutorCacheKey {
+            response_topic: String::from("test_response_topic"),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() - Duration::from_secs(60),
+        };
+        cache.set(key.clone(), entry);
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Expired);
+
+        // Set a new entry with a different key and check if the expired entry is deleted
+        let new_key = CommandExecutorCacheKey {
+            response_topic: String::from("new_test_response_topic"),
+            correlation_data: Bytes::from("new_test_correlation_data"),
+        };
+        let new_entry = CommandExecutorCacheEntry {
+            serialized_payload: SerializedPayload {
+                payload: Bytes::from("new_test_payload").to_vec(),
+                content_type: "application/json".to_string(),
+                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            },
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(new_key.clone(), new_entry.clone());
+
+        let status = cache.get(&key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::NotFound);
+        let status = cache.get(&new_key);
+        assert_eq!(status, CommandExecutorCacheEntryStatus::Cached(new_entry));
     }
 }
 

@@ -8,9 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::counter::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
@@ -37,8 +35,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Use the managed client to run telemetry checks in another task
     let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(

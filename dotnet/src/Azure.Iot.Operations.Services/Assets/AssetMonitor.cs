@@ -41,14 +41,14 @@ namespace Azure.Iot.Operations.Services.Assets
         private FilesMonitor? _assetFilesObserver;
 
         /// <summary>
-        /// The callback that executes when an asset has changed once you start observing an asset with 
-        /// <see cref="ObserveAssetAsync(string, TimeSpan?, CancellationToken)"/>.
+        /// The callback that executes when an asset has changed once you start observing an asset with
+        /// <see cref="ObserveAssets(TimeSpan?, CancellationToken)"/>.
         /// </summary>
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
         /// <summary>
         /// The callback that executes when the asset endpoint profile has changed once you start observing it with
-        /// <see cref="ObserveAssetEndpointProfileAsync(TimeSpan?, CancellationToken)"/>.
+        /// <see cref="ObserveAssetEndpointProfile(TimeSpan?, CancellationToken)"/>.
         /// </summary>
         public event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
 
@@ -85,7 +85,7 @@ namespace Azure.Iot.Operations.Services.Assets
             var _aepUsernameSecretName = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepUsernameFileNameRelativeMountPath}");
             var _aepPasswordSecretName = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepPasswordFileNameRelativeMountPath}");
             var _aepCertificateSecretName = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepCertificateFileNameRelativeMountPath}");
-            
+
             string? aepUsernameSecretFileContents = GetAepUsernameDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepUsernameDirectory()}/{_aepUsernameSecretName}") : null;
             byte[]? aepPasswordSecretFileContents = GetAepPasswordDirectory() != null ? await GetMountedConfigurationValueAsync($"{GetAepPasswordDirectory()}/{_aepPasswordSecretName}") : null;
             string? aepCertFileContents = GetAepCertDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepCertDirectory()}/{_aepCertificateSecretName}"): null;
@@ -247,7 +247,7 @@ namespace Azure.Iot.Operations.Services.Assets
                     AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, null));
                 }
                 else
-                { 
+                {
                     AssetChanged?.Invoke(this, new(e.FileName, e.ChangeType, await GetAssetAsync(e.FileName)));
                 }
             });

@@ -9,17 +9,15 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
+    self, TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
 };
 use bytes::Bytes;
+use serde_json;
 use tokio::sync::mpsc;
 use tokio::time;
 use uuid::Uuid;
@@ -34,6 +32,7 @@ use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_cloud_event::TestCaseCloudEvent;
 use crate::metl::test_case_received_telemetry::TestCaseReceivedTelemetry;
 use crate::metl::test_case_receiver::TestCaseReceiver;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -60,7 +59,6 @@ where
 {
     pub async fn test_telemetry_receiver(
         test_case: TestCase<ReceiverDefaults>,
-        test_case_index: i32,
         managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
@@ -112,6 +110,8 @@ where
             }
         }
 
+        let test_case_serializer = &test_case.prologue.receivers[0].serializer;
+
         let mut source_ids: HashMap<i32, Uuid> = HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
@@ -123,7 +123,7 @@ where
                         &mut mqtt_hub,
                         &mut source_ids,
                         &mut packet_ids,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_ack @ TestCaseAction::AwaitAck { .. } => {
@@ -196,22 +196,23 @@ where
                 Ok((telemetry, ack_token)) => {
                     *telemetry_count.lock().unwrap() += 1;
 
+                    let cloud_event =
+                        match telemetry_receiver::CloudEvent::from_telemetry(&telemetry) {
+                            Ok(cloud_event) => Some(TestCaseCloudEvent {
+                                source: Some(cloud_event.source),
+                                event_type: Some(cloud_event.event_type),
+                                spec_version: Some(cloud_event.spec_version),
+                                data_content_type: cloud_event.data_content_type,
+                                subject: cloud_event.subject,
+                                data_schema: cloud_event.data_schema,
+                            }),
+                            Err(_) => None,
+                        };
+
                     let mut metadata = HashMap::new();
                     for (key, value) in telemetry.custom_user_data {
                         metadata.insert(key, value);
                     }
-
-                    let cloud_event = match telemetry.cloud_event {
-                        Some(cloud_event) => Some(TestCaseCloudEvent {
-                            source: Some(cloud_event.source),
-                            event_type: Some(cloud_event.event_type),
-                            spec_version: Some(cloud_event.spec_version),
-                            data_content_type: cloud_event.data_content_type,
-                            subject: cloud_event.subject,
-                            data_schema: cloud_event.data_schema,
-                        }),
-                        None => None,
-                    };
 
                     telemetry_tx
                         .send(ReceivedTelemetry {
@@ -270,7 +271,7 @@ where
         let receiver_options = options_result.unwrap();
 
         match TelemetryReceiver::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             receiver_options,
         ) {
@@ -318,13 +319,12 @@ where
         mqtt_hub: &mut MqttHub,
         source_ids: &mut HashMap<i32, Uuid>,
         packet_ids: &mut HashMap<i32, u16>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<ReceiverDefaults>,
     ) {
         if let TestCaseAction::ReceiveTelemetry {
             defaults_type: _,
             topic,
             payload,
-            bypass_serialization,
             content_type,
             format_indicator,
             metadata,
@@ -375,24 +375,15 @@ where
                 Bytes::new()
             };
 
-            let payload = if let Some(payload) = payload {
-                if *bypass_serialization {
-                    Bytes::copy_from_slice(payload.as_bytes())
-                } else {
-                    Bytes::copy_from_slice(
-                        TestPayload {
-                            payload: Some(payload.clone()),
-                            test_case_index: Some(test_case_index),
-                        }
-                        .serialize()
-                        .unwrap()
-                        .payload
-                        .as_slice(),
-                    )
-                }
-            } else {
-                Bytes::new()
-            };
+            let payload = serde_json::to_vec(&TestPayload {
+                payload: payload.clone(),
+                out_content_type: tcs.out_content_type.clone(),
+                accept_content_types: tcs.accept_content_types.clone(),
+                indicate_character_data: tcs.indicate_character_data,
+                allow_character_data: tcs.allow_character_data,
+                fail_deserialization: tcs.fail_deserialization,
+            })
+            .unwrap();
 
             let properties = PublishProperties {
                 payload_format_indicator: *format_indicator,
@@ -406,7 +397,7 @@ where
                 qos: qos::to_enum(*qos),
                 topic,
                 pkid: packet_id,
-                payload,
+                payload: payload.into(),
                 properties: Some(properties),
                 ..Default::default()
             };

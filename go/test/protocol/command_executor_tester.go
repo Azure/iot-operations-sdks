@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -36,6 +35,7 @@ func RunCommandExecutorTests(t *testing.T) {
 	}
 
 	TestCaseDefaultInfo = &commandExecutorDefaultInfo
+	TestCaseDefaultSerializer = &commandExecutorDefaultInfo.Prologue.Executor.Serializer
 
 	files, err := filepath.Glob(
 		"../../../eng/test/test-cases/Protocol/CommandExecutor/*.yaml",
@@ -151,7 +151,6 @@ func runOneCommandExecutorTest(
 		switch action.Kind {
 		case ReceiveRequest:
 			receiveRequest(
-				t,
 				action.AsReceiveRequest(),
 				stubBroker,
 				sourceIDs,
@@ -250,6 +249,7 @@ func getCommandExecutor(
 	executor, err := NewTestingCommandExecutor(
 		sessionClient,
 		tce.CommandName,
+		&tce.Serializer,
 		tce.RequestTopic,
 		func(
 			ctx context.Context,
@@ -280,7 +280,6 @@ func getCommandExecutor(
 }
 
 func receiveRequest(
-	t *testing.T,
 	actionReceiveRequest *TestCaseActionReceiveRequest,
 	stubBroker *StubBroker,
 	sourceIDs map[int]string,
@@ -344,13 +343,7 @@ func receiveRequest(
 
 	var payload []byte
 	if actionReceiveRequest.Payload != nil {
-		if actionReceiveRequest.BypassSerialization {
-			payload = []byte(*actionReceiveRequest.Payload)
-		} else {
-			var err error
-			payload, err = json.Marshal(*actionReceiveRequest.Payload)
-			require.NoErrorf(t, err, "Unexpected error serializing payload: %s", err)
-		}
+		payload = []byte(*actionReceiveRequest.Payload)
 	}
 
 	if actionReceiveRequest.MessageExpiry != nil {
@@ -441,9 +434,23 @@ func checkPublishedResponse(
 	if publishedMessage.Payload == nil {
 		require.Empty(t, msg.Payload)
 	} else if payload, ok := publishedMessage.Payload.(string); ok {
-		payloadBytes, err := json.Marshal(payload)
-		require.NoError(t, err)
-		require.Equal(t, payloadBytes, msg.Payload)
+		require.Equal(t, payload, string(msg.Payload))
+	}
+
+	if publishedMessage.ContentType != nil {
+		require.Equal(
+			t,
+			*publishedMessage.ContentType,
+			msg.Properties.ContentType,
+		)
+	}
+
+	if publishedMessage.FormatIndicator != nil {
+		require.Equal(
+			t,
+			*publishedMessage.FormatIndicator,
+			*msg.Properties.PayloadFormat,
+		)
 	}
 
 	for key, val := range publishedMessage.Metadata {

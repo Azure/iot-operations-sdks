@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
     /// with <see cref="AutomaticRenewalOptions"/>, though.
     /// </para>
     /// <para>
-    /// When a leader is elected via <see cref="CampaignAsync(long, CampaignRequestOptions?, CancellationToken)"/>,
+    /// When a leader is elected via <see cref="CampaignAsync(TimeSpan, CampaignRequestOptions?, CancellationToken)"/>,
     /// the service will respond with a fencing token via <see cref="CampaignResponse.FencingToken"/>. This fencing token
     /// allows for State Store set/delete operations on shared resources without risk of race conditions.
     /// </para>
@@ -40,17 +40,17 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <summary>
         /// The name of this client that is used when campaigning to be leader.
         /// </summary>
-        public string CandidateName 
-        { 
-            get 
+        public string CandidateName
+        {
+            get
             {
                 ObjectDisposedException.ThrowIf(_disposed, this);
-                return _leasedLockClient.LockHolderName; 
+                return _leasedLockClient.LockHolderName;
             }
         }
 
         /// <summary>
-        /// The options for automatically re-campaigning to be leader at the end of a term as leader. 
+        /// The options for automatically re-campaigning to be leader at the end of a term as leader.
         /// By default, no automatic renewing happens.
         /// </summary>
         /// <remarks>
@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <remarks>
         /// This value captures the result of automatic re-campaigning with <see cref="AutomaticRenewalOptions"/>.
         /// </remarks>
-        public CampaignResponse? LastKnownCampaignResult 
+        public CampaignResponse? LastKnownCampaignResult
         {
             get
             {
@@ -116,10 +116,10 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// </summary>
         /// <param name="mqttClient">The mqtt client to use for I/O.</param>
         /// <param name="leadershipPositionId">
-        /// The identifier of the leadership position that this client can campaign for. Each client that will 
+        /// The identifier of the leadership position that this client can campaign for. Each client that will
         /// campaign for the same leadership role must share the same value for this parameter.
         /// </param>
-        /// <param name="candidateName">The name to represent this client. Other clients can look up the current 
+        /// <param name="candidateName">The name to represent this client. Other clients can look up the current
         /// leader's name.</param>
         public LeaderElectionClient(IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null)
         {
@@ -240,16 +240,15 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// the current value of the state store key. The return value of this function is the new value
         /// that you wish the state store key to have.
         /// </param>
-        /// </param>
         /// <param name="maximumTermLength">
         /// The maximum length of time that the client will be leader once elected. Under normal circumstances,
-        /// this function will resign from the leadership position after updating the value of the shared resource, but 
-        /// it is possible that this client is interrupted or encounters a fatal exception. By setting a low value for this field, 
+        /// this function will resign from the leadership position after updating the value of the shared resource, but
+        /// it is possible that this client is interrupted or encounters a fatal exception. By setting a low value for this field,
         /// you limit how long the leadership position can be acquired for before it is released automatically by the service.
         /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
-        /// This function will always resign from the leadership position if it was elected. Even if cancellation is requested 
+        /// This function will always resign from the leadership position if it was elected. Even if cancellation is requested
         /// after being elected leader, this function will resign from that position.
         /// </remarks>
         public async Task CampaignAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumTermLength = null, CancellationToken cancellationToken = default)
@@ -309,7 +308,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <param name="options">The optional parameters for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
-        /// Users who want to watch lock holder change events must first set one or more handlers on 
+        /// Users who want to watch lock holder change events must first set one or more handlers on
         /// <see cref="LeadershipChangeEventReceivedAsync"/>, then call this function.
         /// To stop watching lock holder change events, call <see cref="UnobserveLeadershipChangesAsync(CancellationToken)"/>
         /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
@@ -322,9 +321,9 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             options ??= new ObserveLeadershipChangesRequestOptions();
             await _leasedLockClient.ObserveLockAsync(
                 new ObserveLockRequestOptions()
-                { 
+                {
                     GetNewValue = options.GetNewLeader,
-                }, 
+                },
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -333,7 +332,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
-        /// Users who want to watch lock holder change events must first set one or more handlers on 
+        /// Users who want to watch lock holder change events must first set one or more handlers on
         /// <see cref="LeadershipChangeEventReceivedAsync"/>, then call <see cref="ObserveLeadershipChangesAsync(ObserveLeadershipChangesRequestOptions?, CancellationToken)"/>.
         /// To stop watching lock holder change events, call this function
         /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
@@ -368,7 +367,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             _leasedLockClient.LockChangeEventReceivedAsync -= LockChangeEventCallback;
 
             if (disposing)
-            { 
+            {
                 await _leasedLockClient.DisposeAsync(disposing).ConfigureAwait(false);
             }
 

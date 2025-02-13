@@ -6,7 +6,6 @@ using System.Text;
 using Azure.Iot.Operations.Mqtt.Converters;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 using Microsoft.VisualStudio.Threading;
 using Tomlyn;
 using Xunit;
@@ -30,7 +29,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static IPayloadSerializer payloadSerializer;
 
         static TelemetrySenderTester()
         {
@@ -51,6 +49,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
+                TestCaseSerializer.DefaultOutContentType = defaultTestCase.Prologue.Sender.Serializer.OutContentType;
+                TestCaseSerializer.DefaultIndicateCharacterData = defaultTestCase.Prologue.Sender.Serializer.IndicateCharacterData;
+
                 TestCaseSender.DefaultTelemetryName = defaultTestCase.Prologue.Sender.TelemetryName;
                 TestCaseSender.DefaultTelemetryTopic = defaultTestCase.Prologue.Sender.TelemetryTopic;
                 TestCaseSender.DefaultTopicNamespace = defaultTestCase.Prologue.Sender.TopicNamespace;
@@ -60,8 +61,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 TestCaseActionSendTelemetry.DefaultTimeout = defaultTestCase.Actions.SendTelemetry.Timeout;
                 TestCaseActionSendTelemetry.DefaultQos = defaultTestCase.Actions.SendTelemetry.Qos;
             }
-
-            payloadSerializer = new Utf8JsonSerializer();
         }
 
         public static IEnumerable<object[]> GetAllTelemetrySenderCases()
@@ -228,7 +227,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestTelemetrySender telemetrySender = new TestTelemetrySender(mqttClient, testCaseSender.TelemetryName!)
+                TestSerializer testSerializer = new TestSerializer(testCaseSender.Serializer);
+
+                TestTelemetrySender telemetrySender = new TestTelemetrySender(mqttClient, testCaseSender.TelemetryName!, testSerializer)
                 {
                     TopicPattern = testCaseSender.TelemetryTopic!,
                     TopicNamespace = testCaseSender.TopicNamespace,
@@ -367,7 +368,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(payload).SerializedPayload, appMsg.PayloadSegment.Array);
+                Assert.NotNull(appMsg.PayloadSegment.Array);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
+            }
+
+            if (publishedMessage.ContentType != null)
+            {
+                Assert.Equal(publishedMessage.ContentType, appMsg.ContentType);
+            }
+
+            if (publishedMessage.FormatIndicator != null)
+            {
+                Assert.Equal(publishedMessage.FormatIndicator, (int)appMsg.PayloadFormatIndicator);
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)

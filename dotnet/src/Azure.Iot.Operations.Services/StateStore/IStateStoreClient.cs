@@ -43,6 +43,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// </summary>
         /// <param name="key">The key to delete from the State Store.</param>
         /// <param name="options">The optional parameters for this request. <see cref="StateStoreDeleteRequestOptions.OnlyDeleteIfValueEquals"/> allows for conditional deletion.</param>
+        /// <param name="requestTimeout">The request timeout.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The details of the service response.</returns>
         public Task<StateStoreDeleteResponse> DeleteAsync(StateStoreKey key, StateStoreDeleteRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
@@ -64,7 +65,6 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// Stop receiving events each time the provided key is updated, created, or deleted.
         /// </summary>
         /// <param name="key">The key to stop receiving events about.</param>
-        /// <param name="options">The optional parameters for this request.</param>
         /// <param name="requestTimeout">The optional timeout for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>

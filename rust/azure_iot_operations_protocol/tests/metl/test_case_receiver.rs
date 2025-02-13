@@ -8,12 +8,17 @@ use serde::Deserialize;
 
 use crate::metl::defaults::DefaultsType;
 use crate::metl::test_case_error::TestCaseError;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 
 #[derive(Clone, Deserialize, Debug)]
 #[allow(dead_code)]
 pub struct TestCaseReceiver<T: DefaultsType + Default> {
     #[serde(default)]
     pub defaults_type: PhantomData<T>,
+
+    #[serde(rename = "serializer")]
+    #[serde(default = "TestCaseSerializer::get_default")]
+    pub serializer: TestCaseSerializer<T>,
 
     #[serde(rename = "telemetry-topic")]
     #[serde(default = "get_default_telemetry_topic::<T>")]

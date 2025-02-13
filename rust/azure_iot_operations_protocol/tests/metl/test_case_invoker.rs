@@ -7,6 +7,7 @@ use std::marker::PhantomData;
 use serde::Deserialize;
 
 use crate::metl::defaults::DefaultsType;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 
 #[derive(Clone, Deserialize, Debug)]
 #[allow(dead_code)]
@@ -17,6 +18,10 @@ pub struct TestCaseInvoker<T: DefaultsType + Default> {
     #[serde(rename = "command-name")]
     #[serde(default = "get_default_command_name::<T>")]
     pub command_name: Option<String>,
+
+    #[serde(rename = "serializer")]
+    #[serde(default = "TestCaseSerializer::get_default")]
+    pub serializer: TestCaseSerializer<T>,
 
     #[serde(rename = "request-topic")]
     #[serde(default = "get_default_request_topic::<T>")]
