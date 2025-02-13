@@ -42,10 +42,10 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            await OpenTcpConnectionAsync(args);
+            await OpenTcpConnectionAsync(args, assetEvent, port);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailabileEventArgs args)
+        private async Task OpenTcpConnectionAsync(AssetAvailabileEventArgs args, Event assetEvent, int port)
         {
             tcpConnectionCancellationToken = new();
             try
