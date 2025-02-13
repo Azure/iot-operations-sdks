@@ -59,6 +59,11 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// Once set, the automatic renewal will begin after the first call to <see cref="CampaignAsync(TimeSpan, CampaignRequestOptions?, CancellationToken)"/>.
         /// </para>
         /// <para>
+        /// Automatic renewal will continue for as long as the leadership position can be re-acquired. If another party acquires the leadership position, then this party's auto-renewal
+        /// will end. In this case, users should use <see cref="CampaignAsync(TimeSpan, CampaignRequestOptions?, CancellationToken)"/> to campaign
+        /// instead to avoid polling.
+        /// </para>
+        /// <para>
         /// The result of automatic renewals can be accessed via <see cref="LastKnownCampaignResult"/>.
         /// </para>
         /// </remarks>
