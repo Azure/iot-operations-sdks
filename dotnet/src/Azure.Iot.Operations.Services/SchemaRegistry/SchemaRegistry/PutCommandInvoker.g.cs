@@ -39,8 +39,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <summary>
             /// Initializes a new instance of the <see cref="PutCommandInvoker"/> class.
             /// </summary>
-            public PutCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "put", new Utf8JsonSerializer())
+            public PutCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "put", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

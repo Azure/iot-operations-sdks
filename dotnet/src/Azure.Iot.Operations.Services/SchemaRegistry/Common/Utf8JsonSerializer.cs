@@ -75,7 +75,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return new(null, ContentType, PayloadFormatIndicator);
+                    return new(null, null, 0);
                 }
 
                 return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);

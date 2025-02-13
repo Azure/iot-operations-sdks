@@ -12,7 +12,7 @@ using SchemaType = SchemaRegistry.SchemaType;
 public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
 {
     private static readonly TimeSpan s_DefaultCommandTimeout = TimeSpan.FromSeconds(10);
-    private readonly SchemaRegistryClientStub _clientStub = new (pubSubClient);
+    private readonly SchemaRegistryClientStub _clientStub = new (new ApplicationContext(), pubSubClient); // TODO - Decide later if app context this is passed in or created here.
     private bool _disposed;
 
     public async Task<SchemaInfo?> GetAsync(

@@ -42,8 +42,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandExecutor"/> class.
             /// </summary>
-            internal GetCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "get", new Utf8JsonSerializer())
+            internal GetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "get", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
