@@ -6,6 +6,7 @@ using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using System.Text.Json;
 using System.Collections.Concurrent;
+using Azure.Iot.Operations.Protocol;
 
 namespace EventDrivenApp;
 
@@ -19,9 +20,9 @@ public class InputWorker(SessionClientFactory clientFactory, ILogger<InputWorker
         {
             // Get a connected session client
             MqttSessionClient sessionClient = await clientFactory.GetSessionClient("input");
-
+            ApplicationContext applicationContext = new ApplicationContext();
             // Start the telemetry receiver
-            var receiver = new SensorTelemetryReceiver(sessionClient)
+            var receiver = new SensorTelemetryReceiver(applicationContext, sessionClient)
             {
                 OnTelemetryReceived = ReceiveTelemetry
             };
