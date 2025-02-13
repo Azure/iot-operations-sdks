@@ -15,7 +15,7 @@ using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.S
 [Trait("Category", "SchemaRegistry")]
 public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 {
-    const string Version1_0_0 = "1.0.0";
+    const string Version1_0_0 = "1";
 
     [Fact]
     public async Task JsonRegisterGet()
