@@ -13,8 +13,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class EchoCommandExecutor : CommandExecutor<string, string>
     {
-        public EchoCommandExecutor(IMqttPubSubClient mqttClient, string commandName = "echo")
-            : base(mqttClient, commandName, new Utf8JsonSerializer())
+        public EchoCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName = "echo")
+            : base(applicationContext, mqttClient, commandName, new Utf8JsonSerializer())
         {
 
         }
@@ -22,8 +22,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
     public class EchoWithMetadataCommandExecutor : CommandExecutor<string, string>
     {
-        public EchoWithMetadataCommandExecutor(IMqttPubSubClient mqttClient)
-            : base(mqttClient, "echoWithMetadata", new Utf8JsonSerializer())
+        public EchoWithMetadataCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            : base(applicationContext, mqttClient, "echoWithMetadata", new Utf8JsonSerializer())
         {
 
         }
@@ -31,8 +31,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
     public class DelayCommandExecutor : CommandExecutor<TimeSpanClass, IntegerClass>
     {
-        public DelayCommandExecutor(IMqttPubSubClient mqttClient, string commandName = "delay")
-            : base(mqttClient, commandName, new Utf8JsonSerializer())
+        public DelayCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName = "delay")
+            : base(applicationContext, mqttClient, commandName, new Utf8JsonSerializer())
         {
 
         }
@@ -54,7 +54,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersionUnknownThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.Unknown);
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersion310ThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.V310);
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersion311ThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.V311);
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -114,7 +114,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvalidRequestTopicPatternThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/{improper/token}/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task NonIdempotentCommandNegativeCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = false,
@@ -156,7 +156,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task IdempotentCommandNegativeCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = true,
@@ -179,7 +179,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mock = new();
             TaskCompletionSource tcs = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -210,7 +210,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string execClientId = mock.ClientId;
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = $"mock/{execClientId}/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -260,7 +260,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string execClientId = mock.ClientId;
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = $"mock/{execClientId}/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -308,7 +308,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string execClientId = mock.ClientId;
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = $"mock/{execClientId}/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -379,7 +379,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/any/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -450,7 +450,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -501,7 +501,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MockMqttPubSubClient mock = new();
 
-            await using DelayCommandExecutor delay = new(mock)
+            await using DelayCommandExecutor delay = new(new ApplicationContext(), mock)
             {
                 // There are separate increment and decrement operations for the currentParallelism counter that happen within a semaphore.
                 // These increment and decrement operations are separated by a delay.
@@ -597,7 +597,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             int timesCmdExecuted = 0;
             TimeSpan timeout = TimeSpan.FromSeconds(10);
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -654,7 +654,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -705,7 +705,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mock = new();
             string topic = "mock/echo/unsubAckUnspecifiedError";
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = topic,
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -723,7 +723,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task CommandExecutor_ThrowsIfCancellationRequested()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "irrelevant",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),

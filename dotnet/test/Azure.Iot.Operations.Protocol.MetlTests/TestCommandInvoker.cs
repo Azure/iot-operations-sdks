@@ -8,8 +8,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestCommandInvoker : CommandInvoker<string, string>
     {
-        internal TestCommandInvoker(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
-            : base(mqttClient, commandName, payloadSerializer)
+        internal TestCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
+            : base(applicationContext, mqttClient, commandName, payloadSerializer)
         {
         }
     }
