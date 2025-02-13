@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.sdkProjPath = sdkPath != null ? $"{sdkPath.Replace('/', '\\')}\\{SdkProjectName}" : null;
 
             Match? majorMinorMatch = MajorMinorRegex.Match(Assembly.GetExecutingAssembly().GetName().Version!.ToString());
-            sdkVersion = majorMinorMatch.Success ? $"8.*-*" : null; //TODO we want a more sophisticated mapping from protocol compiler to language protocol package version
+            sdkVersion = majorMinorMatch.Success ? $"{majorMinorMatch.Groups[1].Captures[0].Value}.*-*" : null;
 
             Version frameworkVersion = new FrameworkName(Assembly.GetExecutingAssembly().GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName!).Version;
             this.targetFramework = $"net{frameworkVersion}";
