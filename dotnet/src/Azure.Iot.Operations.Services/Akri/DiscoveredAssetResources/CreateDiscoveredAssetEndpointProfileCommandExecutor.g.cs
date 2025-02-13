@@ -41,8 +41,8 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateDiscoveredAssetEndpointProfileCommandExecutor"/> class.
             /// </summary>
-            internal CreateDiscoveredAssetEndpointProfileCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "createDiscoveredAssetEndpointProfile", new Utf8JsonSerializer())
+            internal CreateDiscoveredAssetEndpointProfileCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "createDiscoveredAssetEndpointProfile", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
