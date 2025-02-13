@@ -115,19 +115,6 @@ async fn increment_counter_and_publish(
             *counter_guard
         };
 
-        // Respond
-        let response_payload = IncrementResponsePayload {
-            counter_response: updated_counter,
-        };
-
-        // Respond to the increment request
-        let response = IncrementResponseBuilder::default()
-            .payload(response_payload)
-            .unwrap()
-            .build()
-            .unwrap();
-        request.complete(response).await.unwrap();
-
         // Create telemetry message using the new counter value
         let telemetry_message = TelemetryMessageBuilder::default()
             .payload(
@@ -142,6 +129,19 @@ async fn increment_counter_and_publish(
 
         // Send associated telemetry
         counter_sender.send(telemetry_message).await.unwrap();
+
+        // Respond
+        let response_payload = IncrementResponsePayload {
+            counter_response: updated_counter,
+        };
+
+        // Respond to the increment request
+        let response = IncrementResponseBuilder::default()
+            .payload(response_payload)
+            .unwrap()
+            .build()
+            .unwrap();
+        request.complete(response).await.unwrap();
     }
 }
 
