@@ -127,9 +127,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 DateTime commandExpirationTime = messageReceivedTime + commandTimeout;
                 DateTime ttl = messageReceivedTime + CacheTtl;
 
+                Trace.TraceInformation($"Command '{this.commandName}' received.");
+
                 string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
+                    Trace.TraceWarning($"Command '{this.commandName}' header validation failed. Status message: {statusMessage}");
+
                     await GetDispatcher()(
                         status != null ? async () => { await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status, statusMessage, null, null, false, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion).ConfigureAwait(false); }
                     : null,
@@ -141,7 +145,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(args.ApplicationMessage.ResponseTopic != null);
                 Debug.Assert(args.ApplicationMessage.CorrelationData != null);
 
-                string? clientId = this.mqttClient.ClientId;
+                string? clientId = mqttClient.ClientId;
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
@@ -149,7 +153,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 Task<MqttApplicationMessage>? cachedResponse =
                     await commandResponseCache.RetrieveAsync(
-                        this.commandName,
+                        commandName,
                         sourceId,
                         args.ApplicationMessage.ResponseTopic,
                         args.ApplicationMessage.CorrelationData,
@@ -160,6 +164,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (cachedResponse != null)
                 {
+                    Trace.TraceInformation($"Command '{commandName}' has a cached response. Will use cached response instead of executing the command again.");
+
                     await GetDispatcher()(
                         async () =>
                         {
@@ -180,11 +186,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
                     };
-                    request = this.serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
+                    request = serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     hybridLogicalClock.Update(requestMetadata.Timestamp);
                 }
                 catch (Exception ex)
                 {
+                    Trace.TraceWarning($"Command '{commandName}' invocation failed during response message contruction. Error message: {ex.Message}");
                     AkriMqttException? amex = ex as AkriMqttException;
                     CommandStatusCode statusCode = amex != null ? ErrorKindToStatusCode(amex.Kind) : CommandStatusCode.InternalServerError;
 
@@ -221,7 +228,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                         MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, serializedPayloadContext.SerializedPayload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await commandResponseCache.StoreAsync(
-                            this.commandName,
+                            commandName,
                             sourceId,
                             args.ApplicationMessage.ResponseTopic,
                             args.ApplicationMessage.CorrelationData,
