@@ -22,7 +22,7 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
-        user_properties::{validate_user_properties, UserProperty},
+        user_properties::{validate_user_properties, UserProperty, PARTITION_KEY},
     },
     rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     supported_protocol_major_versions_to_string, ProtocolVersion,
@@ -238,6 +238,7 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if any of `custom_user_data`'s keys or values are invalid utf-8
+    /// or the reserved [`PARTITION_KEY`] key is used.
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             validate_user_properties(custom_user_data)?;
@@ -456,6 +457,7 @@ where
         let request_topic_pattern = TopicPattern::new(
             "executor_options.request_topic_pattern",
             &executor_options.request_topic_pattern,
+            executor_options.service_group_id,
             executor_options.topic_namespace.as_deref(),
             &executor_options.topic_token_map,
         )?;
@@ -856,6 +858,10 @@ where
                                 // skip, already processed
                             }
                             Err(()) => {
+                                if key == PARTITION_KEY {
+                                    // Ignore partition key, it is meant for the broker
+                                    continue;
+                                }
                                 user_data.push((key, value));
                             }
                             _ => {
