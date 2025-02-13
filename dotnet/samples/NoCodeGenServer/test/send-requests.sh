@@ -1,0 +1,14 @@
+mosquitto_pub \
+-d \
+-t "AioNamespace/asset-operations/MyAssetId/DatasetName" \
+-V mqttv5 \
+-q 1 \
+-D Publish user-property "__invId" "tester" \
+-D Publish user-property "__ts" "13.02.2025 14:31:55.555" \
+-D Publish user-property "__ft" "13.02.2025 14:31:55.555" \
+-D Publish correlation-data "7Cg1yZsNZkaBtcKrtwGynQ==" \
+-D Publish payload-format-indicator 1 \
+-D Publish content-type "application/json" \
+-D Publish message-expiry-interval 3600 \
+-D Publish response-topic "myResponseTopic" \
+-f simple-types-request.json
