@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.StateStore;
 using System.Text.Json;
@@ -33,7 +34,7 @@ public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorke
     private async Task ProcessWindow(MqttSessionClient sessionClient, CancellationToken cancellationToken)
     {
         JsonSerializerOptions serializeOptions = new() { WriteIndented = true };
-        WindowTelemetrySender sender = new(sessionClient);
+        WindowTelemetrySender sender = new(new ApplicationContext(), sessionClient);
 
         while (!cancellationToken.IsCancellationRequested)
         {
