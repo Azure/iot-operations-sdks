@@ -16,6 +16,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
+        private readonly ApplicationContext applicationContext;
         private readonly int[] supportedMajorProtocolVersions = [TelemetryVersion.MajorProtocolVersion];
 
         private static readonly int PreferredDispatchConcurrency = 10;
@@ -54,8 +55,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
 
-        public TelemetryReceiver(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
+            this.applicationContext = applicationContext;
             this.mqttClient = mqttClient;
             this.serializer = serializer;
 
@@ -114,8 +116,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
 
                     if (metadata.Timestamp != null)
-                    { 
-                        HybridLogicalClock.GetInstance().Update(metadata.Timestamp);
+                    {
+                        // Update application HLC against received TS
+                        await applicationContext.UpdateHlcWithOtherAsync(metadata.Timestamp);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation($"No timestamp present in telemetry received metadata.");
                     }
 
                     async Task telemFunc()
