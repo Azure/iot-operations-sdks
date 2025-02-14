@@ -37,8 +37,8 @@ derive_builder = "0.20"
 azure_iot_operations_mqtt = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_mqtt")#>" }
 azure_iot_operations_protocol = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_protocol")#>" }
 <# } else { #>
-azure_iot_operations_mqtt = { version = "0.7.0", registry = "aio-sdks" }
-azure_iot_operations_protocol = { version = "0.7.0", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { version = "0.8.0", registry = "aio-sdks" }
+azure_iot_operations_protocol = { version = "0.8.0", registry = "aio-sdks" }
 <# } #>
 <# if (!this.generateProject) { #>
 ```
