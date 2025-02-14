@@ -7,6 +7,6 @@ namespace Azure.Iot.Operations.Connector
 {
     public interface IDatasetSampler
     {
-        public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default);
+        Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default);
     }
 }
