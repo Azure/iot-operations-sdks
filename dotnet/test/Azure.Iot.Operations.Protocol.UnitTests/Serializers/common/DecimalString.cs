@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
     {
         private static readonly Regex validationRegex = new Regex("^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$", RegexOptions.Compiled);
 
-        private readonly string _value;
+        private readonly string value;
 
         public static bool TryParse(string value, out DecimalString? decimalString)
         {
@@ -39,10 +39,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
         {
         }
 
-        public static implicit operator string(DecimalString decimalString) => decimalString._value;
+        public static implicit operator string(DecimalString decimalString) => decimalString.value;
         public static explicit operator DecimalString(string stringVal) => new DecimalString(stringVal);
 
-        public static implicit operator double(DecimalString decimalString) => double.TryParse(decimalString._value, out double doubleVal) ? doubleVal : double.NaN;
+        public static implicit operator double(DecimalString decimalString) => double.TryParse(decimalString.value, out double doubleVal) ? doubleVal : double.NaN;
         public static explicit operator DecimalString(double doubleVal) => new DecimalString(doubleVal.ToString("F", CultureInfo.InvariantCulture));
 
         public static bool operator !=(DecimalString? x, DecimalString? y)
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
 
         public virtual bool Equals(DecimalString? other)
         {
-            return other?._value == this?._value;
+            return other?.value == this?.value;
         }
 
         public override bool Equals(object? obj)
@@ -76,7 +76,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
         }
         public override int GetHashCode()
         {
-            return this._value.GetHashCode();
+            return this.value.GetHashCode();
         }
 
         private DecimalString(string value, bool skipValidation)
@@ -86,9 +86,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
                 throw new ArgumentException($"string {value} is not a valid decimal value");
             }
 
-            this._value = value;
+            this.value = value;
         }
 
-        public override string ToString() => _value;
+        public override string ToString() => value;
     }
 }

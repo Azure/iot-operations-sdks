@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 
     public class Utf8JsonSerializer : IPayloadSerializer
     {
-        protected static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        protected static readonly JsonSerializerOptions jsonSerializerOptions = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
                 }
 
                 Utf8JsonReader reader = new(payload);
-                return JsonSerializer.Deserialize<T>(ref reader, _jsonSerializerOptions)!;
+                return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
             }
             catch (Exception)
             {
@@ -78,7 +78,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
                     return new(null, null, 0);
                 }
 
-                return new(JsonSerializer.SerializeToUtf8Bytes(payload, _jsonSerializerOptions), ContentType, PayloadFormatIndicator);
+                return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {
