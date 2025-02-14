@@ -21,10 +21,10 @@ namespace Azure.Iot.Operations.Connector
     public class TelemetryConnectorWorker : ConnectorBackgroundService
     {
         protected readonly ILogger<TelemetryConnectorWorker> _logger;
-        private IMqttClient _mqttClient;
-        private IAssetMonitor _assetMonitor;
-        private IMessageSchemaProviderFactory _messageSchemaProviderFactory;
-        private ConcurrentDictionary<string, Asset> _assets = new();
+        private readonly IMqttClient _mqttClient;
+        private readonly IAssetMonitor _assetMonitor;
+        private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
+        private readonly ConcurrentDictionary<string, Asset> _assets = new();
         private bool _isDisposed = false;
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Connector
         public TelemetryConnectorWorker(
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
-            IMessageSchemaProviderFactory messageSchemaProviderFactory,
+            IMessageSchemaProvider messageSchemaProviderFactory,
             IAssetMonitor assetMonitor)
         {
             _logger = logger;
@@ -157,7 +157,7 @@ namespace Azure.Iot.Operations.Connector
 
                             if (args.ChangeType == ChangeType.Deleted)
                             {
-                                AssetUnavailableAsync(args.AssetName, false, cancellationToken);
+                                AssetUnavailable(args.AssetName, false);
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
@@ -168,7 +168,7 @@ namespace Azure.Iot.Operations.Connector
                                 // asset changes don't all necessitate re-creating the relevant dataset samplers, but there is no way to know
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
-                                AssetUnavailableAsync(args.AssetName, true, cancellationToken);
+                                AssetUnavailable(args.AssetName, true);
                                 _ = AssetAvailableAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                         };
@@ -222,7 +222,7 @@ namespace Azure.Iot.Operations.Connector
 
                         foreach (string assetName in _assets.Keys)
                         {
-                            AssetUnavailableAsync(assetName, false, cancellationToken);
+                            AssetUnavailable(assetName, false);
                         }
                     }
                     catch (Exception ex)
@@ -237,7 +237,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private void AssetUnavailableAsync(string assetName, bool isRestarting, CancellationToken cancellationToken)
+        private void AssetUnavailable(string assetName, bool isRestarting)
         {
             _assets.Remove(assetName, out Asset? _);
 
@@ -263,8 +263,7 @@ namespace Azure.Iot.Operations.Connector
                     Dataset dataset = asset.DatasetsDictionary![datasetName];
 
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var datasetMessageSchemaProvider = _messageSchemaProviderFactory.CreateMessageSchemaProvider(assetEndpointProfile, asset);
-                    var datasetMessageSchema = await datasetMessageSchemaProvider.GetMessageSchemaAsync(datasetName, dataset);
+                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, datasetName, dataset);
                     if (datasetMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
@@ -296,8 +295,7 @@ namespace Azure.Iot.Operations.Connector
                     Event assetEvent = asset.EventsDictionary[eventName];
 
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var eventMessageSchemaProvider = _messageSchemaProviderFactory.CreateMessageSchemaProvider(assetEndpointProfile, asset);
-                    var eventMessageSchema = await eventMessageSchemaProvider.GetMessageSchemaAsync(eventName, assetEvent);
+                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, eventName, assetEvent);
                     if (eventMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for event with name {eventName} on asset with name {assetName}");
@@ -347,7 +345,7 @@ namespace Azure.Iot.Operations.Connector
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage);
+            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
             if (puback.ReasonCode == MqttClientPublishReasonCode.Success
                 || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
@@ -388,7 +386,7 @@ namespace Azure.Iot.Operations.Connector
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage);
+            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
             if (puback.ReasonCode == MqttClientPublishReasonCode.Success
                 || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)

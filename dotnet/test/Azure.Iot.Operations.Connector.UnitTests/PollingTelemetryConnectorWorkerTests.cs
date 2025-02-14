@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -149,7 +149,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -233,7 +233,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -363,7 +363,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -427,7 +427,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -494,7 +494,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -550,7 +550,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -603,7 +603,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
@@ -668,7 +668,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
-            IMessageSchemaProviderFactory messageSchemaProviderFactory = new MockDatasetMessageSchemaProviderFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);

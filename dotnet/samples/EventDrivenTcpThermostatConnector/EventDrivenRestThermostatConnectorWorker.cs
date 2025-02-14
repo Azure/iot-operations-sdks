@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
 using System.Net.Sockets;
 
-namespace Azure.Iot.Operations.Connector
+namespace EventDrivenRestThermostatConnector
 {
     public class EventDrivenRestThermostatConnectorWorker : BackgroundService, IDisposable
     {
@@ -13,7 +14,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly TelemetryConnectorWorker _connector;
         private CancellationTokenSource? tcpConnectionCancellationToken;
 
-        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProviderFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);

@@ -24,7 +24,7 @@ namespace EventDrivenTelemetryConnector
             ILogger<ConnectorWorker> logger,
             ILogger<TelemetryConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
-            IMessageSchemaProviderFactory messageSchemaProviderFactory,
+            IMessageSchemaProvider messageSchemaProviderFactory,
             IAssetMonitor assetMonitor)
         {
             _logger = logger;

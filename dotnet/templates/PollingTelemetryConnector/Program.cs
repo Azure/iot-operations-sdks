@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using ConnectorApp;
 using PollingTelemetryConnector;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -10,7 +9,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(DatasetSamplerFactory.DatasetSamplerFactoryProvider);
-        services.AddSingleton(MessageSchemaProviderFactory.DatasetMessageSchemaFactoryProvider);
+        services.AddSingleton(MessageSchemaProvider.MessageSchemaProviderFactory);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
