@@ -22,7 +22,10 @@ pub struct TestCaseReceivedTelemetry {
     pub metadata: HashMap<String, Option<String>>,
 
     #[serde(rename = "cloud-event")]
-    pub cloud_event: Option<TestCaseCloudEvent>,
+    #[serde(default)]
+    #[serde(deserialize_with = "deserialize_optional_field")]
+    #[allow(clippy::option_option)]
+    pub cloud_event: Option<Option<TestCaseCloudEvent>>,
 
     #[serde(rename = "source-index")]
     pub source_index: Option<i32>,

@@ -1,0 +1,26 @@
+---
+test-name: TelemetrySenderSendWithCloudEventDataSchemaRelativeUri_ThrowsException
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry with CloudEvent info with a time value string that is not compliant with RFC3339.
+  expect: >-
+    Send throws 'invalid argument' exception.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
+    time: "11/12/1955 22:04:00 UTC"
+- action: await send
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'cloudevent'
+...

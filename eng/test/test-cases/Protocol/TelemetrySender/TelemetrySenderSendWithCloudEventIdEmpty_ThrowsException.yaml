@@ -1,0 +1,29 @@
+---
+test-name: TelemetrySenderSendWithCloudEventIdEmpty_ThrowsException
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry with CloudEvent info with an ID value that is an empty string.
+  expect: >-
+    Send throws 'invalid argument' exception.
+
+requires:
+- explicit-default
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
+    id: ""
+- action: await send
+  catch:
+    error-kind: invalid argument
+    in-application: !!bool false
+    is-shallow: !!bool true
+    is-remote: !!bool false
+    supplemental:
+      property-name: 'cloudevent'
+...

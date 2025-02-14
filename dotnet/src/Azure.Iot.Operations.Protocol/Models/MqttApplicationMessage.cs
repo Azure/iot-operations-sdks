@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.Models
@@ -177,7 +178,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             if (md.Time is not null)
             {
-                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("O"));
+                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
             }
 
             if (md.Subject is not null)
