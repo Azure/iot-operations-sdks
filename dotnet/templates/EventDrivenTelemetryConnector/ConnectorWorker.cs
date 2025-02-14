@@ -42,7 +42,7 @@ namespace EventDrivenTelemetryConnector
             // await _connector.ForwardReceivedEventAsync(args.Asset, args.Asset.Events[0], new byte[0]);
         }
 
-        public void OnAssetUnavailableAsync(object? sender, AssetUnavailabileEventArgs args)
+        public void OnAssetUnavailableAsync(object? sender, AssetUnavailableEventArgs args)
         {
             // This callback notifies your app when an asset is no longer available. At this point, you should close any connection to your asset
             _logger.LogInformation("Asset with name {0} is no longer available", args.AssetName);

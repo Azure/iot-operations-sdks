@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Connector
             _datasetSamplerFactory = datasetSamplerFactory;
         }
 
-        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
+        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailableEventArgs args)
         {
             if (_assetsSamplingTimers.Remove(args.AssetName, out Dictionary<string, Timer>? datasetTimers) && datasetTimers != null)
             {

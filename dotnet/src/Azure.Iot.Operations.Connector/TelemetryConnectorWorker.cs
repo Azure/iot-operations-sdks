@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Event handler for when an asset becomes unavailable.
         /// </summary>
-        public EventHandler<AssetUnavailabileEventArgs>? OnAssetUnavailable;
+        public EventHandler<AssetUnavailableEventArgs>? OnAssetUnavailable;
 
         /// <summary>
         /// The asset endpoint profile associated with this connector. This will be null until the asset endpoint profile is first discovered.

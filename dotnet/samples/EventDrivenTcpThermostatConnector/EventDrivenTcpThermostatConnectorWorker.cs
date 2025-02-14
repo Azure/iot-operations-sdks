@@ -83,7 +83,7 @@ namespace EventDrivenTcpThermostatConnector
             }
         }
 
-        private void OnAssetUnavailableAsync(object? sender, AssetUnavailabileEventArgs args)
+        private void OnAssetUnavailableAsync(object? sender, AssetUnavailableEventArgs args)
         {
             _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
             _tcpConnectionCancellationToken?.Cancel();

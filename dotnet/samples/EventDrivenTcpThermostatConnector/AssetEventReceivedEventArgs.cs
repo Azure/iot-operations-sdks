@@ -3,7 +3,7 @@
 
 namespace EventDrivenTcpThermostatConnector
 {
-    public class TelemetryEventReceivedEventArgs : EventArgs
+    public class AssetEventReceivedEventArgs : EventArgs
     {
         public byte[] Data { get; set; }
         
@@ -11,7 +11,7 @@ namespace EventDrivenTcpThermostatConnector
 
         public string DatasetName { get; set; }
 
-        public TelemetryEventReceivedEventArgs(byte[] data, string assetName, string datasetName)
+        public AssetEventReceivedEventArgs(byte[] data, string assetName, string datasetName)
         {
             Data = data;
             AssetName = assetName;
