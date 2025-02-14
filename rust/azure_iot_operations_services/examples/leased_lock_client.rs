@@ -1,12 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::time::Duration;
+use std::{
+    time::Duration,
+    sync::Arc
+};
+
+use tokio::sync::Mutex;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{ApplicationContextBuilder};
+use azure_iot_operations_services::state_store::{self};
 use azure_iot_operations_services::leased_lock::{self};
 use env_logger::Builder;
 
@@ -17,6 +24,8 @@ async fn main() {
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
+
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
@@ -33,21 +42,30 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    tokio::task::spawn(leased_lock_operations(
+    let dss_client = state_store::Client::new(
+        application_context,
         session.create_managed_client(),
+        crate::state_store::ClientOptionsBuilder::default().build().unwrap(),
+    )
+    .unwrap();
+
+    let rc_dss_client = Arc::new(Mutex::new(dss_client));
+
+    tokio::task::spawn(leased_lock_operations(
+        rc_dss_client,
         session.create_exit_handle(),
     ));
 
     session.run().await.unwrap();
 }
 
-async fn leased_lock_operations(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn leased_lock_operations(dss_client: Arc<Mutex<state_store::Client<SessionManagedClient>>>, exit_handle: SessionExitHandle) {
     let lock_holder = b"lockHolder";
     let lock_key = b"lockKey1";
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(10);
 
-    let leased_lock_client = leased_lock::Client::new(client, lock_holder.to_vec()).unwrap();
+    let leased_lock_client = leased_lock::Client::new(dss_client, lock_holder.to_vec()).unwrap();
 
     match leased_lock_client
         .acquire_lock(lock_key.to_vec(), lock_expiry, request_timeout)

@@ -3,7 +3,12 @@
 
 //! Client for Lease Lock operations.
 
-use std::time::Duration;
+use std:: {
+    time::Duration,
+    sync::Arc
+};
+
+use tokio::sync::Mutex;
 
 use crate::state_store::{self, KeyObservation, SetCondition, SetOptions, StateStoreError};
 use azure_iot_operations_mqtt::interface::ManagedClient;
@@ -14,7 +19,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    dss_client: state_store::Client<C>,
+    dss_client: Arc<Mutex<state_store::Client<C>>>,
     lock_holder_name: Vec<u8>,
 }
 
@@ -34,15 +39,7 @@ where
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new(client: C, lock_holder_name: Vec<u8>) -> Result<Self, StateStoreError> {
-        let dss_client = crate::state_store::Client::new(
-            client,
-            crate::state_store::ClientOptionsBuilder::default()
-                .build()
-                .unwrap(),
-        )
-        .unwrap();
-
+    pub fn new(dss_client: Arc<Mutex<state_store::Client<C>>>, lock_holder_name: Vec<u8>) -> Result<Self, StateStoreError> {
         Ok(Self {
             dss_client,
             lock_holder_name,
@@ -72,7 +69,10 @@ where
         expiration: Duration,
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
-        self.dss_client
+        let cloned_dss_client = self.dss_client.clone();
+        let locked_dss_client = cloned_dss_client.lock().await;
+
+        locked_dss_client
             .set(
                 key,
                 self.lock_holder_name.clone(),
@@ -108,7 +108,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        self.dss_client
+        let cloned_dss_client = self.dss_client.clone();
+        let locked_dss_client = cloned_dss_client.lock().await;
+
+        locked_dss_client
             .vdel(key.clone(), self.lock_holder_name.clone(), None, timeout)
             .await
     }
@@ -147,7 +150,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<KeyObservation>, StateStoreError> {
-        self.dss_client.observe(key, timeout).await
+        let cloned_dss_client = self.dss_client.clone();
+        let locked_dss_client = cloned_dss_client.lock().await;
+
+        locked_dss_client.observe(key, timeout).await
     }
 
     /// Stops observation of any changes on a lock key from the State Store Service
@@ -171,7 +177,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
-        self.dss_client.unobserve(key, timeout).await
+        let cloned_dss_client = self.dss_client.clone();
+        let locked_dss_client = cloned_dss_client.lock().await;
+
+        locked_dss_client.unobserve(key, timeout).await
     }
 
     /// Gets the holder of a lock key in the State Store Service
@@ -196,7 +205,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<Option<Vec<u8>>>, StateStoreError> {
-        self.dss_client.get(key.clone(), timeout).await
+        let cloned_dss_client = self.dss_client.clone();
+        let locked_dss_client = cloned_dss_client.lock().await;
+
+        locked_dss_client.get(key.clone(), timeout).await
     }
 
     /// Enables the auto-renewal of the lock duration.
@@ -222,6 +234,9 @@ where
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), StateStoreError> {
-        self.dss_client.shutdown().await
+        let cloned_dss_client = self.dss_client.clone();
+        let locked_dss_client = cloned_dss_client.lock().await;
+
+        locked_dss_client.shutdown().await
     }
 }
