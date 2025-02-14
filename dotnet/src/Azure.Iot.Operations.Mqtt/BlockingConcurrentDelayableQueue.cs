@@ -61,6 +61,7 @@ namespace Azure.Iot.Operations.Mqtt
             {
                 if (_queue.IsEmpty)
                 {
+                    _gate.Reset();
                     _gate.Wait(cancellationToken);
                     cancellationToken.ThrowIfCancellationRequested();
                     continue;
