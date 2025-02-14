@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
     public class CborSerializer : IPayloadSerializer
     {
-        protected static readonly CborOptions cborOptions = new()
+        protected static readonly CborOptions _cborOptions = new()
         {
             DateTimeFormat = Dahomey.Cbor.DateTimeFormat.ISO8601,
             ObjectFormat = Dahomey.Cbor.Attributes.CborObjectFormat.IntKeyMap,
@@ -24,11 +24,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
         static CborSerializer()
         {
-            cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(TimeSpan), new DurationCborConverter());
-            cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(DateOnly), new DateCborConverter());
-            cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(TimeOnly), new TimeCborConverter());
-            cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(Guid), new UuidCborConverter());
-            cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(byte[]), new BytesCborConverter());
+            _cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(TimeSpan), new DurationCborConverter());
+            _cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(DateOnly), new DateCborConverter());
+            _cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(TimeOnly), new TimeCborConverter());
+            _cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(Guid), new UuidCborConverter());
+            _cborOptions.Registry.ConverterRegistry.RegisterConverter(typeof(byte[]), new BytesCborConverter());
         }
 
         public const string ContentType = "application/cbor";
@@ -65,7 +65,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
                 using (var stream = new MemoryStream(payload))
                 {
-                    ValueTask<T> task = Cbor.DeserializeAsync<T>(stream, cborOptions);
+                    ValueTask<T> task = Cbor.DeserializeAsync<T>(stream, _cborOptions);
                     return task.IsCompletedSuccessfully ? task.Result : default!;
                 }
             }
@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
 
                 using (var stream = new MemoryStream())
                 {
-                    Cbor.SerializeAsync(payload, stream, cborOptions).Wait();
+                    Cbor.SerializeAsync(payload, stream, _cborOptions).Wait();
                     stream.Flush();
 
                     byte[] buffer = new byte[stream.Length];

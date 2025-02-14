@@ -12,110 +12,110 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     {
         private static readonly double MinTickMilliseconds = 16;
 
-        private readonly SemaphoreSlim semaphore;
-        private readonly System.Timers.Timer timer;
+        private readonly SemaphoreSlim _semaphore;
+        private readonly System.Timers.Timer _timer;
 
-        private TimerState timerState;
-        private TimeSpan remainingDelay;  // stale unless timerState == TimerState.Paused
-        private DateTime startTime;       // invalid unless timerState == TimerState.Running
+        private TimerState _timerState;
+        private TimeSpan _remainingDelay;  // stale unless timerState == TimerState.Paused
+        private DateTime _startTime;       // invalid unless timerState == TimerState.Running
 
-        protected readonly T source;
+        protected readonly T _source;
 
         public Pausable(TimeSpan delay, bool startPaused)
         {
-            semaphore = new SemaphoreSlim(1);
-            source = new T();
+            _semaphore = new SemaphoreSlim(1);
+            _source = new T();
 
-            timer = new System.Timers.Timer { Interval = delay.TotalMilliseconds, AutoReset = false, Enabled = !startPaused };
-            timer.Elapsed += this.TimerElapsed;
+            _timer = new System.Timers.Timer { Interval = delay.TotalMilliseconds, AutoReset = false, Enabled = !startPaused };
+            _timer.Elapsed += this.TimerElapsed;
 
-            timerState = startPaused ? TimerState.Paused : TimerState.Running;
-            remainingDelay = delay;
-            startTime = DateTime.UtcNow;
+            _timerState = startPaused ? TimerState.Paused : TimerState.Running;
+            _remainingDelay = delay;
+            _startTime = DateTime.UtcNow;
         }
 
-        public bool HasFired { get => timerState == TimerState.Fired; }
+        public bool HasFired { get => _timerState == TimerState.Fired; }
 
         public async Task<bool> TryPauseAsync()
         {
-            await semaphore.WaitAsync().ConfigureAwait(false);
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                if (timerState == TimerState.Paused)
+                if (_timerState == TimerState.Paused)
                 {
                     throw new InvalidOperationException("TryPause() called when already paused");
                 }
-                else if (timerState == TimerState.Fired)
+                else if (_timerState == TimerState.Fired)
                 {
                     return false;
                 }
 
                 DateTime now = DateTime.UtcNow;
-                remainingDelay -= now - startTime;
+                _remainingDelay -= now - _startTime;
 
-                if (remainingDelay <= TimeSpan.Zero)
+                if (_remainingDelay <= TimeSpan.Zero)
                 {
-                    timerState = TimerState.Fired;
-                    source.Trigger();
+                    _timerState = TimerState.Fired;
+                    _source.Trigger();
                     return false;
                 }
 
-                timerState = TimerState.Paused;
-                timer.Stop();
+                _timerState = TimerState.Paused;
+                _timer.Stop();
 
                 return true;
             }
             finally
             {
-                semaphore.Release();
+                _semaphore.Release();
             }
         }
 
         public async Task ResumeAsync()
         {
-            await semaphore.WaitAsync().ConfigureAwait(false);
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                if (timerState == TimerState.Running)
+                if (_timerState == TimerState.Running)
                 {
                     throw new InvalidOperationException("Resume() called when not paused");
                 }
-                else if (timerState == TimerState.Fired)
+                else if (_timerState == TimerState.Fired)
                 {
                     return;
                 }
 
-                startTime = DateTime.UtcNow;
-                timerState = TimerState.Running;
+                _startTime = DateTime.UtcNow;
+                _timerState = TimerState.Running;
 
-                timer.Interval = Math.Max(remainingDelay.TotalMilliseconds, MinTickMilliseconds);
-                timer.Start();
+                _timer.Interval = Math.Max(_remainingDelay.TotalMilliseconds, MinTickMilliseconds);
+                _timer.Start();
             }
             finally
             {
-                semaphore.Release();
+                _semaphore.Release();
             }
         }
 
         private void TimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            semaphore.Wait();
+            _semaphore.Wait();
 
-            if (timerState == TimerState.Running)
+            if (_timerState == TimerState.Running)
             {
-                timerState = TimerState.Fired;
-                timer.Enabled = false;
-                source.Trigger();
+                _timerState = TimerState.Fired;
+                _timer.Enabled = false;
+                _source.Trigger();
             }
 
-            semaphore.Release();
+            _semaphore.Release();
         }
 
         public void Dispose()
         {
-            semaphore.Dispose();
+            _semaphore.Dispose();
             GC.SuppressFinalize(this);
         }
 

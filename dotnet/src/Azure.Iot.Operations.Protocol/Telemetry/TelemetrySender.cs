@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
-        private readonly Dictionary<string, string> topicTokenMap = [];
+        private readonly Dictionary<string, string> _topicTokenMap = [];
 
         public string TopicPattern { get; init; }
 
@@ -43,13 +43,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => topicTokenMap;
+        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
 
         /// <summary>
         /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
         public TelemetrySender(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {

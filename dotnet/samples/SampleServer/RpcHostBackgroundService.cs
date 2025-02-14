@@ -9,26 +9,26 @@ namespace SampleServer;
 
 public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProvider provider, ILogger<RpcHostBackgroundService> logger, IConfiguration configuration) : BackgroundService
 {
-    CounterService? counterService;
-    GreeterService? greetService;
-    MathService? mathService;
-    MemMonService? memMonService;
+    CounterService? _counterService;
+    GreeterService? _greetService;
+    MathService? _mathService;
+    MemMonService? _memMonService;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        counterService = provider.GetService<CounterService>()!;
-        greetService = provider.GetService<GreeterService>()!;
-        mathService = provider.GetService<MathService>()!;
-        memMonService = provider.GetService<MemMonService>()!;
+        _counterService = provider.GetService<CounterService>()!;
+        _greetService = provider.GetService<GreeterService>()!;
+        _mathService = provider.GetService<MathService>()!;
+        _memMonService = provider.GetService<MemMonService>()!;
 
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
         logger.LogInformation("Connected to: {mcs} with session present: {s}", mcs, connAck.IsSessionPresent);
 
-        await counterService!.StartAsync(null, stoppingToken);
-        await greetService!.StartAsync(null, stoppingToken);
-        await mathService!.StartAsync(null, stoppingToken);
-        await memMonService!.StartAsync(null, stoppingToken);
+        await _counterService!.StartAsync(null, stoppingToken);
+        await _greetService!.StartAsync(null, stoppingToken);
+        await _mathService!.StartAsync(null, stoppingToken);
+        await _memMonService!.StartAsync(null, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -38,10 +38,10 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
                 await Console.Out.WriteLineAsync($"Disconnecting with delay {delay} s.");
                 await mqttClient.DisconnectAsync(
                     new MqttClientDisconnectOptions()
-                    { 
+                    {
                         Reason = MqttClientDisconnectOptionsReason.AdministrativeAction,
                         ReasonString = "force reconnect",
-                    }, 
+                    },
                     stoppingToken);
 
                 await Task.Delay(delay * 1000);
@@ -53,10 +53,10 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
 
     protected async ValueTask DisposeAsync()
     {
-        await counterService!.DisposeAsync();
-        await greetService!.DisposeAsync();
-        await mathService!.DisposeAsync();
-        await memMonService!.DisposeAsync();
+        await _counterService!.DisposeAsync();
+        await _greetService!.DisposeAsync();
+        await _mathService!.DisposeAsync();
+        await _memMonService!.DisposeAsync();
         await mqttClient.DisposeAsync();
     }
 }
