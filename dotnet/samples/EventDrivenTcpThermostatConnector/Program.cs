@@ -9,7 +9,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddSingleton(MessageSchemaProvider.MessageSchemaProviderFactory);
+        services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
         services.AddHostedService<EventDrivenRestThermostatConnectorWorker>();
     })
     .Build();
