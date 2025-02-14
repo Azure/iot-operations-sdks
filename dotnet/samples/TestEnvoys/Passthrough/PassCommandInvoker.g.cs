@@ -39,8 +39,8 @@ namespace TestEnvoys.Passthrough
             /// <summary>
             /// Initializes a new instance of the <see cref="PassCommandInvoker"/> class.
             /// </summary>
-            public PassCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "pass", new PassthroughSerializer())
+            public PassCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "pass", new PassthroughSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

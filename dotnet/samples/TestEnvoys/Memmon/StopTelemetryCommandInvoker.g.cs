@@ -39,8 +39,8 @@ namespace TestEnvoys.Memmon
             /// <summary>
             /// Initializes a new instance of the <see cref="StopTelemetryCommandInvoker"/> class.
             /// </summary>
-            public StopTelemetryCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "stopTelemetry", new AvroSerializer<EmptyAvro, EmptyAvro>())
+            public StopTelemetryCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "stopTelemetry", new AvroSerializer<EmptyAvro, EmptyAvro>())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

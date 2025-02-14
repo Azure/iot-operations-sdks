@@ -101,7 +101,7 @@ namespace TestEnvoys
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return new(null, ContentType, PayloadFormatIndicator);
+                    return new(null, null, 0);
                 }
 
                 using (var stream = new MemoryStream())
@@ -118,7 +118,7 @@ namespace TestEnvoys
                     }
                     else
                     {
-                        return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
+                        return new(Array.Empty<byte>(), null, 0);
                     }
 
                     stream.Flush();

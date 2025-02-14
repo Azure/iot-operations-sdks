@@ -39,8 +39,8 @@ namespace TestEnvoys.Memmon
             /// <summary>
             /// Initializes a new instance of the <see cref="GetRuntimeStatsCommandInvoker"/> class.
             /// </summary>
-            public GetRuntimeStatsCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "getRuntimeStats", new AvroSerializer<GetRuntimeStatsRequestPayload, GetRuntimeStatsResponsePayload>())
+            public GetRuntimeStatsCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "getRuntimeStats", new AvroSerializer<GetRuntimeStatsRequestPayload, GetRuntimeStatsResponsePayload>())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

@@ -22,6 +22,7 @@ namespace TestEnvoys.Memmon
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly StartTelemetryCommandExecutor startTelemetryCommandExecutor;
             private readonly StopTelemetryCommandExecutor stopTelemetryCommandExecutor;
@@ -30,17 +31,18 @@ namespace TestEnvoys.Memmon
             private readonly ManagedMemoryTelemetrySender managedMemoryTelemetrySender;
             private readonly MemoryStatsTelemetrySender memoryStatsTelemetrySender;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(mqttClient) { OnCommandReceived = StartTelemetryInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(mqttClient) { OnCommandReceived = StopTelemetryInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(mqttClient) { OnCommandReceived = GetRuntimeStatsInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.workingSetTelemetrySender = new WorkingSetTelemetrySender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.managedMemoryTelemetrySender = new ManagedMemoryTelemetrySender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.memoryStatsTelemetrySender = new MemoryStatsTelemetrySender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StartTelemetryInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.managedMemoryTelemetrySender = new ManagedMemoryTelemetrySender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.memoryStatsTelemetrySender = new MemoryStatsTelemetrySender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public StartTelemetryCommandExecutor StartTelemetryCommandExecutor { get => this.startTelemetryCommandExecutor; }
@@ -138,6 +140,7 @@ namespace TestEnvoys.Memmon
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly StartTelemetryCommandInvoker startTelemetryCommandInvoker;
             private readonly StopTelemetryCommandInvoker stopTelemetryCommandInvoker;
@@ -146,17 +149,18 @@ namespace TestEnvoys.Memmon
             private readonly ManagedMemoryTelemetryReceiver managedMemoryTelemetryReceiver;
             private readonly MemoryStatsTelemetryReceiver memoryStatsTelemetryReceiver;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.stopTelemetryCommandInvoker = new StopTelemetryCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getRuntimeStatsCommandInvoker = new GetRuntimeStatsCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.workingSetTelemetryReceiver = new WorkingSetTelemetryReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.managedMemoryTelemetryReceiver = new ManagedMemoryTelemetryReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.memoryStatsTelemetryReceiver = new MemoryStatsTelemetryReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.stopTelemetryCommandInvoker = new StopTelemetryCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.getRuntimeStatsCommandInvoker = new GetRuntimeStatsCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.workingSetTelemetryReceiver = new WorkingSetTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.managedMemoryTelemetryReceiver = new ManagedMemoryTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.memoryStatsTelemetryReceiver = new MemoryStatsTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public StartTelemetryCommandInvoker StartTelemetryCommandInvoker { get => this.startTelemetryCommandInvoker; }

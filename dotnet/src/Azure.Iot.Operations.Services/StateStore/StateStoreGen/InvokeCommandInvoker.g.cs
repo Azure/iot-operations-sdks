@@ -39,8 +39,8 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             /// <summary>
             /// Initializes a new instance of the <see cref="InvokeCommandInvoker"/> class.
             /// </summary>
-            public InvokeCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "invoke", new PassthroughSerializer())
+            public InvokeCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "invoke", new PassthroughSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

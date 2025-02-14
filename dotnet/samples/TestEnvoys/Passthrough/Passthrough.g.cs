@@ -21,15 +21,17 @@ namespace TestEnvoys.Passthrough
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly PassCommandExecutor passCommandExecutor;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.passCommandExecutor = new PassCommandExecutor(mqttClient) { OnCommandReceived = PassInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
@@ -79,15 +81,17 @@ namespace TestEnvoys.Passthrough
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly PassCommandInvoker passCommandInvoker;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.passCommandInvoker = new PassCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public PassCommandInvoker PassCommandInvoker { get => this.passCommandInvoker; }
