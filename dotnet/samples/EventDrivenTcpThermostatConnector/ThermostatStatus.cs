@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace EventDrivenRestThermostatConnector
+namespace EventDrivenTcpThermostatConnector
 {
     public class ThermostatStatus
     {

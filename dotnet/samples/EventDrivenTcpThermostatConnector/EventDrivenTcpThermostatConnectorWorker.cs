@@ -6,15 +6,15 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
 using System.Net.Sockets;
 
-namespace EventDrivenRestThermostatConnector
+namespace EventDrivenTcpThermostatConnector
 {
-    public class EventDrivenRestThermostatConnectorWorker : BackgroundService, IDisposable
+    public class EventDrivenTcpThermostatConnectorWorker : BackgroundService, IDisposable
     {
-        private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
+        private readonly ILogger<EventDrivenTcpThermostatConnectorWorker> _logger;
         private readonly TelemetryConnectorWorker _connector;
         private CancellationTokenSource? _tcpConnectionCancellationToken;
 
-        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenTcpThermostatConnectorWorker(ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
             _logger = logger;
             _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace EventDrivenRestThermostatConnector
+namespace EventDrivenTcpThermostatConnector
 {
     public class TelemetryEventReceivedEventArgs : EventArgs
     {
