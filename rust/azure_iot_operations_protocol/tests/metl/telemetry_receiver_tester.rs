@@ -597,7 +597,7 @@ where
                     assert!(
                         received_telemetry.cloud_event.is_none(),
                         "unexpected cloud event found in received telemetry"
-                    )
+                    );
                 }
             }
         }
