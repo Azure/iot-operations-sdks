@@ -1,6 +1,6 @@
 # Build TCP thermostat client app
 dotnet publish ../SampleTcpServiceApp /t:PublishContainer
-k3d image import sampletcpclientapp:latest -c k3s-default
+k3d image import sampletcpserviceapp:latest -c k3s-default
 
 # Build connector sample image
 dotnet publish /t:PublishContainer
