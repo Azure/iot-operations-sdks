@@ -16,6 +16,7 @@ namespace Azure.Iot.Operations.Services.StateStore
     public class StateStoreClient : IAsyncDisposable, IStateStoreClient
     { 
         private readonly StateStoreGeneratedClientHolder? _generatedClientHolder;
+        // private readonly ApplicationContext? _applicationContext;
         private readonly IMqttPubSubClient? _mqttClient; // only used in this layer while the code gen patterns for KeyNotify type scenarios aren't solved yet.
         private bool _isSubscribedToNotifications = false;
         private const string NotificationsTopicFormat = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{0}/command/notify";
@@ -27,16 +28,16 @@ namespace Azure.Iot.Operations.Services.StateStore
 
         public event Func<object?, KeyChangeMessageReceivedEventArgs, Task>? KeyChangeMessageReceivedAsync;
 
-        public StateStoreClient(IMqttPubSubClient mqttClient) 
+        public StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) 
         {
-            _generatedClientHolder = new StateStoreGeneratedClientHolder(new StateStoreGeneratedClient(mqttClient));
+            _generatedClientHolder = new StateStoreGeneratedClientHolder(new StateStoreGeneratedClient(applicationContext, mqttClient));
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;
         }
 
         // For unit test purposes only
-        internal StateStoreClient(IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder) 
-            : this(mqttClient)
+        internal StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder) 
+            : this(applicationContext, mqttClient)
         {
             _generatedClientHolder = generatedClientHolder;
             _mqttClient = mqttClient;

@@ -72,7 +72,7 @@ namespace TestEnvoys
             {
                 if (typeof(T) == typeof(Empty))
                 {
-                    return new(null, ContentType, PayloadFormatIndicator);
+                    return new(null, null, 0);
                 }
                 else if (typeof(T) == typeof(T1))
                 {

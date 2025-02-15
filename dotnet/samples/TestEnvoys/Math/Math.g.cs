@@ -21,19 +21,21 @@ namespace TestEnvoys.Math
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly IsPrimeCommandExecutor isPrimeCommandExecutor;
             private readonly FibCommandExecutor fibCommandExecutor;
             private readonly GetRandomCommandExecutor getRandomCommandExecutor;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(mqttClient) { OnCommandReceived = IsPrimeInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.fibCommandExecutor = new FibCommandExecutor(mqttClient) { OnCommandReceived = FibInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getRandomCommandExecutor = new GetRandomCommandExecutor(mqttClient) { OnCommandReceived = GetRandomInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }
@@ -107,19 +109,21 @@ namespace TestEnvoys.Math
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly IsPrimeCommandInvoker isPrimeCommandInvoker;
             private readonly FibCommandInvoker fibCommandInvoker;
             private readonly GetRandomCommandInvoker getRandomCommandInvoker;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.fibCommandInvoker = new FibCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getRandomCommandInvoker = new GetRandomCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public IsPrimeCommandInvoker IsPrimeCommandInvoker { get => this.isPrimeCommandInvoker; }

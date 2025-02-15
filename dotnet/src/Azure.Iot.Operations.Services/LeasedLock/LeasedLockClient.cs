@@ -101,14 +101,14 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <param name="lockHolderName">The name for this client that will hold a lock. Other processes 
         /// will be able to check which client holds a lock by name. By default, this is set to the MQTT client ID.
         /// </param>
-        public LeasedLockClient(IMqttPubSubClient mqttClient, string lockName, string? lockHolderName = null)
+        public LeasedLockClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string lockName, string? lockHolderName = null)
         {
             if (string.IsNullOrEmpty(lockName))
             {
                 throw new ArgumentException("Must provide a non-null, non-empty lock name");
             }
 
-            _stateStoreClient = new StateStoreClient(mqttClient);
+            _stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
             _lockKey = lockName;
 
             if (lockHolderName != null)
