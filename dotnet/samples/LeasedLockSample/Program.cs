@@ -39,9 +39,9 @@ internal sealed class Program
     {
         await using MqttSessionClient mqttClient = new MqttSessionClient();
         await mqttClient.ConnectAsync(new MqttConnectionSettings("localhost") { TcpPort = 1883, UseTls = false, ClientId = "someClientId" });
-
-        await using LeasedLockClient leasedLockClient = new LeasedLockClient(mqttClient, "someLock");
-        await using StateStoreClient stateStoreClient = new StateStoreClient(mqttClient);
+        ApplicationContext applicationContext = new ApplicationContext();
+        await using LeasedLockClient leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, "someLock");
+        await using StateStoreClient stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
 
         bool sharedResourceChanged = false;
         while (!sharedResourceChanged)

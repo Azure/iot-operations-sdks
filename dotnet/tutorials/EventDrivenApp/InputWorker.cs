@@ -60,7 +60,7 @@ public class InputWorker(SessionClientFactory clientFactory, ILogger<InputWorker
 
             List<SensorData> data = [];
 
-            await using StateStoreClient stateStoreClient = new(sessionClient);
+            await using StateStoreClient stateStoreClient = new(new ApplicationContext(), sessionClient);
             {
                 try
                 {

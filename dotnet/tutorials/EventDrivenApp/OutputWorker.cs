@@ -48,7 +48,7 @@ public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorke
                 // Wait before processing the next window
                 await Task.Delay(Constants.PublishInterval * 1000, cancellationToken);
 
-                await using StateStoreClient stateStoreClient = new(sessionClient);
+                await using StateStoreClient stateStoreClient = new(new ApplicationContext(), sessionClient);
                 {
                     // Fetch the past sensor data from the state store
                     StateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey);

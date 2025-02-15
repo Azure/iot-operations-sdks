@@ -15,11 +15,12 @@ public class LeaderElectionClientIntegrationTests
     public async Task TestFencing()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        ApplicationContext applicationContext = new ApplicationContext();
+        
         var sharedResourceName = Guid.NewGuid().ToString();
-
         string candidateName = Guid.NewGuid().ToString();
-        await using var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString(), candidateName);
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString(), candidateName);
+        await using var stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
         GetCurrentLeaderResponse getCurrentLeaderResponse =
             await leaderElectionClient.GetCurrentLeaderAsync();
 
@@ -63,11 +64,11 @@ public class LeaderElectionClientIntegrationTests
     public async Task TestFencingWithCampaignAndUpdateValueAsync()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
-
         string holderId = Guid.NewGuid().ToString();
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
-        await using var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString(), holderId);
+        await using var stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
+        await using var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString(), holderId);
 
         StateStoreValue initialValue = "someInitialValue";
         StateStoreValue updatedValue = "someUpdatedValue";
@@ -97,9 +98,9 @@ public class LeaderElectionClientIntegrationTests
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         var sharedResourceName = Guid.NewGuid().ToString();
-
-        await using var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString(), "someCandidate");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        ApplicationContext applicationContext = new ApplicationContext();
+        await using var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString(), "someCandidate");
+        await using var stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
 
         var campaignOptions = new CampaignRequestOptions()
         {
@@ -134,9 +135,9 @@ public class LeaderElectionClientIntegrationTests
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         var sharedResourceName = Guid.NewGuid().ToString();
-
-        var stateStoreClient = new StateStoreClient(mqttClient);
-        var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString());
+        ApplicationContext applicationContext = new ApplicationContext();
+        var stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
+        var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString());
 
         CampaignResponse campaignResponse = await leaderElectionClient.TryCampaignAsync(TimeSpan.FromMinutes(1));
 
@@ -175,9 +176,9 @@ public class LeaderElectionClientIntegrationTests
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         var sharedResourceName = Guid.NewGuid().ToString();
-
-        await using var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString(), "someCandidate");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        ApplicationContext applicationContext = new ApplicationContext();
+        await using var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString(), "someCandidate");
+        await using var stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
 
         var electionTermLength = TimeSpan.FromSeconds(2);
 
@@ -254,7 +255,7 @@ public class LeaderElectionClientIntegrationTests
         var sharedResourceName = Guid.NewGuid().ToString();
 
         string candidateName = Guid.NewGuid().ToString();
-        await using var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString(), candidateName);
+        await using var leaderElectionClient = new LeaderElectionClient(new ApplicationContext(), mqttClient, Guid.NewGuid().ToString(), candidateName);
         var onCallbackExecuted = new TaskCompletionSource<LeadershipChangeEventArgs>();
         leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
         {
@@ -331,7 +332,7 @@ public class LeaderElectionClientIntegrationTests
         var sharedResourceName = Guid.NewGuid().ToString();
 
         string candidateName = Guid.NewGuid().ToString();
-        var leaderElectionClient = new LeaderElectionClient(mqttClient, Guid.NewGuid().ToString(), candidateName);
+        var leaderElectionClient = new LeaderElectionClient(new ApplicationContext(), mqttClient, Guid.NewGuid().ToString(), candidateName);
         var onCallbackExecuted = new TaskCompletionSource<LeadershipChangeEventArgs>();
         leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
         {
@@ -391,10 +392,11 @@ public class LeaderElectionClientIntegrationTests
     {
         await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        ApplicationContext applicationContext = new ApplicationContext();
 
         string leadershipPositionId = Guid.NewGuid().ToString();
-        await using var leaderElectionClient1 = new LeaderElectionClient(mqttClient1, leadershipPositionId, Guid.NewGuid().ToString());
-        await using var leaderElectionClient2 = new LeaderElectionClient(mqttClient2, leadershipPositionId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient1 = new LeaderElectionClient(applicationContext, mqttClient1, leadershipPositionId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient2 = new LeaderElectionClient(applicationContext, mqttClient2, leadershipPositionId, Guid.NewGuid().ToString());
 
         // Make leaderElectionClient1 release the lock after a few seconds
         CampaignResponse response1 =
@@ -415,13 +417,14 @@ public class LeaderElectionClientIntegrationTests
     {
         await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        ApplicationContext applicationContext = new ApplicationContext();
 
         var sharedResourceName = Guid.NewGuid().ToString();
         string lockId = Guid.NewGuid().ToString();
-        await using var leaderElectionClient1 = new LeaderElectionClient(mqttClient1, lockId, Guid.NewGuid().ToString());
-        await using var leaderElectionClient2 = new LeaderElectionClient(mqttClient2, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient1 = new LeaderElectionClient(applicationContext, mqttClient1, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient2 = new LeaderElectionClient(applicationContext, mqttClient2, lockId, Guid.NewGuid().ToString());
 
-        await using var stateStoreClient = new StateStoreClient(mqttClient1);
+        await using var stateStoreClient = new StateStoreClient(applicationContext, mqttClient1);
 
         // Make leaderElectionClient1 release the lock after a few seconds
         CampaignResponse response1 =
@@ -451,15 +454,16 @@ public class LeaderElectionClientIntegrationTests
     {
         await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        ApplicationContext applicationContext = new ApplicationContext();
 
         var sharedResourceName = Guid.NewGuid().ToString();
         var sharedResourceInitialValue = Guid.NewGuid().ToString();
 
         string lockId = Guid.NewGuid().ToString();
-        await using var leaderElectionClient1 = new LeaderElectionClient(mqttClient1, lockId, Guid.NewGuid().ToString());
-        await using var leaderElectionClient2 = new LeaderElectionClient(mqttClient2, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient1 = new LeaderElectionClient(applicationContext, mqttClient1, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient2 = new LeaderElectionClient(applicationContext, mqttClient2, lockId, Guid.NewGuid().ToString());
 
-        await using var stateStoreClient = new StateStoreClient(mqttClient1);
+        await using var stateStoreClient = new StateStoreClient(applicationContext, mqttClient1);
 
         // Make leaderElectionClient1 hold the lock during the entire test
         CampaignResponse response1 =

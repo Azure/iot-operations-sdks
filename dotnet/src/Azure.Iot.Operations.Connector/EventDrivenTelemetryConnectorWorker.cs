@@ -22,6 +22,7 @@ namespace Azure.Iot.Operations.Connector
     {
         protected readonly ILogger<EventDrivenTelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
+        private readonly ApplicationContext _applicationContext;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private IAssetMonitor _assetMonitor;
 

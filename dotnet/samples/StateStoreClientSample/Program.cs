@@ -18,7 +18,7 @@ if (result.ResultCode != MqttClientConnectResultCode.Success)
     throw new Exception($"Failed to connect to MQTT broker. Code: {result.ResultCode} Reason: {result.ReasonString}");
 }
 
-StateStoreClient stateStoreClient = new(mqttClient);
+StateStoreClient stateStoreClient = new(new ApplicationContext(), mqttClient);
 
 try
 {
