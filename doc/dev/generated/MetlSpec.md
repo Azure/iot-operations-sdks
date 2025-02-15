@@ -931,7 +931,7 @@ Each element of the `received-telemetries` array can have the following child ke
 | cloud-event | check | no | [ReceivedCloudEvent](#receivedcloudevent) or null | A CloudEvent expected to be associated with the Telemetry; a null value indicates no CloudEvent should be present. |
 | source-index | check | no | integer | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry. |
 
-The order of messasges in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
+The order of messages in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
 The value type for `cloud-event` is defined in the next subsection.
 
 #### ReceivedCloudEvent
@@ -1152,7 +1152,7 @@ Each element of the `published-messages` array can have the following child keys
 | source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
-The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
+The order of messages in the `published-messages` array matches the expected order in which the messages are to be published.
 
 ### TelemetrySender test actions
 

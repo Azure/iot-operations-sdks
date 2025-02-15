@@ -42,7 +42,9 @@ const (
 	ceTime            = "time"
 )
 
-var contentTypeRegex = regexp.MustCompile(`^([-a-z]+)/([-a-z0-9.]+)(?:\+([-a-z0-9.]+))?$`)
+var contentTypeRegex = regexp.MustCompile(
+	`^([-a-z]+)/([-a-z0-9.]+)(?:\+([-a-z0-9.]+))?$`,
+)
 
 var ceReserved = []string{
 	ceID,
@@ -159,9 +161,9 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 	if ce.DataSchema != nil {
 		if ce.DataSchema.Scheme == "" {
 			return &errors.Error{
-				Message:       "cloud event data schema URI not absolute",
-				Kind:          errors.ArgumentInvalid,
-				PropertyName:  "CloudEvent",
+				Message:      "cloud event data schema URI not absolute",
+				Kind:         errors.ArgumentInvalid,
+				PropertyName: "CloudEvent",
 			}
 		}
 		msg.UserProperties[ceDataSchema] = ce.DataSchema.String()
@@ -271,10 +273,10 @@ func CloudEventFromTelemetry[T any](
 		}
 		if ce.DataSchema.Scheme == "" {
 			return nil, &errors.Error{
-				Message:       "cloud event data schema URI not absolute",
-				Kind:          errors.HeaderInvalid,
-				HeaderName:    ceDataSchema,
-				HeaderValue:   ds,
+				Message:     "cloud event data schema URI not absolute",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  ceDataSchema,
+				HeaderValue: ds,
 			}
 		}
 	}
