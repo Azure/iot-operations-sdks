@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
     public abstract class TelemetrySender<T> : IAsyncDisposable
         where T : class
     {
+        private readonly ApplicationContext _applicationContext;
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
         private bool _isDisposed;
@@ -28,7 +30,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// that, if the message is successfully delivered to the MQTT broker, the message will be discarded
         /// by the broker if the broker has not managed to start onward delivery to a matching subscriber within
         /// this timeout.
-        ///
+        /// 
         /// If this value is equal to zero seconds, then the message will never expire at the broker.
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -51,8 +53,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
 
-        public TelemetrySender(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
+            _applicationContext = applicationContext;
             _mqttClient = mqttClient;
             _serializer = serializer;
             _hasBeenValidated = false;
@@ -130,6 +133,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.MajorProtocolVersion}.{TelemetryVersion.MinorProtocolVersion}");
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
+
+                // Update HLC and use as the timestamp.
+                string timestamp = await _applicationContext.UpdateNowHlcAsync();
+                applicationMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
                 MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;

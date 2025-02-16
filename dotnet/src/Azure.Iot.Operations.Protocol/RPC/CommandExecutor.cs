@@ -31,7 +31,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly Dictionary<string, string> topicTokenMap = [];
 
-        private readonly HybridLogicalClock hybridLogicalClock;
+        //private readonly HybridLogicalClock hybridLogicalClock;
+        private readonly ApplicationContext applicationContext;
         private readonly ICommandResponseCache commandResponseCache;
         private Dispatcher? dispatcher;
         private bool isRunning;
@@ -80,13 +81,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
 
-        public CommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
+        public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             if (commandName == null || commandName == string.Empty)
             {
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(commandName), string.Empty);
             }
-
+            this.applicationContext = applicationContext;
             this.mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
             this.commandName = commandName;
             this.serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
@@ -96,8 +97,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             subscriptionTopic = string.Empty;
 
             ExecutionTimeout = DefaultExecutorTimeout;
-
-            hybridLogicalClock = HybridLogicalClock.GetInstance();
 
             commandResponseCache = CommandResponseCache.GetCache();
 
@@ -181,16 +180,24 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
                     };
                     request = this.serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
-                    hybridLogicalClock.Update(requestMetadata.Timestamp);
+                    // Update application HLC against received timestamp
+                    if (requestMetadata.Timestamp != null)
+                    {
+                        await applicationContext.UpdateHlcWithOtherAsync(requestMetadata.Timestamp);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation($"No timestamp present in command request metadata.");
+                    }
                 }
                 catch (Exception ex)
                 {
                     AkriMqttException? amex = ex as AkriMqttException;
                     CommandStatusCode statusCode = amex != null ? ErrorKindToStatusCode(amex.Kind) : CommandStatusCode.InternalServerError;
 
-                    if (amex != null 
-                        && amex.Kind == AkriMqttErrorKind.HeaderInvalid 
-                        && amex.HeaderName != null 
+                    if (amex != null
+                        && amex.Kind == AkriMqttErrorKind.HeaderInvalid
+                        && amex.HeaderName != null
                         && amex.HeaderName.Equals("Content Type", StringComparison.Ordinal))
                     {
                         statusCode = CommandStatusCode.UnsupportedMediaType;
@@ -219,7 +226,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                         var serializedPayloadContext = serializer.ToBytes(extended.Response);
 
-                        MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, serializedPayloadContext.SerializedPayload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
+                        MqttApplicationMessage? responseMessage = await GenerateResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, serializedPayloadContext.SerializedPayload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await commandResponseCache.StoreAsync(
                             this.commandName,
                             sourceId,
@@ -428,7 +435,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return true;
         }
 
-        private MqttApplicationMessage GenerateResponse(
+        private async Task<MqttApplicationMessage> GenerateResponseAsync(
             DateTime commandExpirationTime,
             string topic,
             byte[] correlationData,
@@ -462,6 +469,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
 
+            // Update HLC and use as the timestamp.
+            string timestamp = await applicationContext.UpdateNowHlcAsync();
+            message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
             metadata?.MarshalTo(message);
 
             if (isAppError != null)
@@ -494,7 +505,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return message;
         }
 
-        private Task GenerateAndPublishResponse(
+        private async Task GenerateAndPublishResponse(
             DateTime commandExpirationTime,
             string topic,
             byte[] correlationData,
@@ -507,8 +518,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string? invalidPropertyValue = null,
             string? requestedProtocolVersion = null)
         {
-            MqttApplicationMessage responseMessage = GenerateResponse(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
-            return PublishResponse(topic, correlationData, responseMessage);
+            MqttApplicationMessage responseMessage = await GenerateResponseAsync(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
+            await PublishResponse(topic, correlationData, responseMessage);
         }
 
         private Task GenerateAndPublishResponse(

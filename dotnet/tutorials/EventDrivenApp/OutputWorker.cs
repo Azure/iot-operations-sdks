@@ -33,7 +33,7 @@ public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorke
     private async Task ProcessWindow(MqttSessionClient sessionClient, CancellationToken cancellationToken)
     {
         JsonSerializerOptions serializeOptions = new() { WriteIndented = true };
-        WindowTelemetrySender sender = new(sessionClient);
+        WindowTelemetrySender sender = new(new Azure.Iot.Operations.Protocol.ApplicationContext(), sessionClient);
 
         while (!cancellationToken.IsCancellationRequested)
         {
