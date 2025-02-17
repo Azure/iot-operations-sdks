@@ -1,6 +1,7 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Buffers;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -35,6 +36,9 @@ internal class PubSubJsonUtf8Serializer : IPayloadSerializer
         where T : class
     {
         var utf8JsonReader = new Utf8JsonReader(payload, _allowTrailingCommasInJsonReader);
-        return JsonSerializer.Deserialize<T>(ref utf8JsonReader, _exchangeJsonSerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<T>(ref utf8JsonReader, _exchangeJsonSerializerOptions);
+        Debug.Assert(deserialized != null, "error while deserialization");
+        
+        return deserialized;
     }
 }
