@@ -30,6 +30,7 @@ internal class ProcessControlActionServiceSingle : IAsyncDisposable
         {
             OnCommandReceived = ProcessControlAction,
             TopicNamespace = null,
+            ExecutionTimeout = TimeSpan.FromMinutes(1)
         };
         _processControlActionExecutor.TopicTokenMap["MqttCommandTopic"] = _commandTopic;
         _processControlActionExecutor.TopicTokenMap["Asset"] = _assetName;

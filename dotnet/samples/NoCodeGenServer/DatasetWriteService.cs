@@ -27,6 +27,7 @@ internal class DatasetWriteService : IAsyncDisposable
         {
             OnCommandReceived = DatasetWrite,
             TopicNamespace = null,
+            ExecutionTimeout = TimeSpan.FromMinutes(1)
         };
         _datasetWriteExecutor.TopicTokenMap["MqttCommandTopic"] = _commandTopic;
 
@@ -43,7 +44,7 @@ internal class DatasetWriteService : IAsyncDisposable
 
         var transientTokenMap = new Dictionary<string, string>
         {
-            { "executorId", clientId }
+            { "executorId", $"dataset-write-{_assetName}-{_datasetName}" }
         };
 
         await _datasetWriteExecutor.StartAsync(
