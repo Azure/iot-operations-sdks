@@ -4,9 +4,9 @@ mosquitto_pub \
 -V mqttv5 \
 -q 1 \
 -D Publish user-property "__invId" "tester" \
--D Publish user-property "__ts" "13.02.2025 14:31:55.555" \
--D Publish user-property "__ft" "13.02.2025 14:31:55.555" \
--D Publish correlation-data "7Cg1yZsNZkaBtcKrtwGynQ==" \
+-D Publish user-property "__ts" "1739781943291.0132:00001:18faead4-b3eb-4b94-80e6-0c64855c3618" \
+-D Publish user-property "__ft" "1739781943291.0132:00001:18faead4-b3eb-4b94-80e6-0c64855c3618" \
+-D Publish correlation-data "$(printf '\xEC\x28\x35\xC9\x9B\x0D\x66\x46\x81\xB5\xC2\xAB\xB7\x01\xB2\x9D')" \
 -D Publish payload-format-indicator 1 \
 -D Publish content-type "application/json" \
 -D Publish message-expiry-interval 3600 \
