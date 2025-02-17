@@ -16,6 +16,7 @@ use tokio::{
 };
 use uuid::Uuid;
 
+use crate::common::user_properties::{validate_invoker_user_properties, PARTITION_KEY};
 use crate::{
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
@@ -26,7 +27,7 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{contains_invalid_char, TopicPattern},
-        user_properties::{validate_user_properties, UserProperty},
+        user_properties::UserProperty,
     },
     parse_supported_protocol_major_versions,
     rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
@@ -103,11 +104,11 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if
-    ///     - any of `custom_user_data`'s keys or values are invalid utf-8
+    ///     - any of `custom_user_data`'s keys or values are invalid utf-8 or the key is reserved
     ///     - timeout is < 1 ms or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
-            validate_user_properties(custom_user_data)?;
+            validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
             if timeout.as_millis() < 1 {
@@ -327,6 +328,7 @@ where
         let request_topic_pattern = TopicPattern::new(
             "invoker_options.request_topic_pattern",
             &invoker_options.request_topic_pattern,
+            None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
         )?;
@@ -334,6 +336,7 @@ where
         let response_topic_pattern = TopicPattern::new(
             "response_topic_pattern",
             &response_topic_pattern,
+            None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
         )?;
@@ -560,6 +563,10 @@ where
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
             RPC_PROTOCOL_VERSION.to_string(),
+        ));
+        request.custom_user_data.push((
+            PARTITION_KEY.to_string(),
+            self.mqtt_client.client_id().to_string(),
         ));
 
         // Create MQTT Properties
