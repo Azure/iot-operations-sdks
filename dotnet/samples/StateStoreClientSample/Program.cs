@@ -12,13 +12,13 @@ var mqttClient = new MqttSessionClient();
 
 MqttConnectionSettings connectionSettings = new("localhost") { TcpPort = 1883, ClientId = "someClientId", UseTls = false };
 MqttClientConnectResult result = await mqttClient.ConnectAsync(connectionSettings);
-
+ApplicationContext applicationContext = new ApplicationContext();
 if (result.ResultCode != MqttClientConnectResultCode.Success)
 {
     throw new Exception($"Failed to connect to MQTT broker. Code: {result.ResultCode} Reason: {result.ReasonString}");
 }
 
-StateStoreClient stateStoreClient = new(mqttClient);
+StateStoreClient stateStoreClient = new(applicationContext, mqttClient);
 
 try
 {

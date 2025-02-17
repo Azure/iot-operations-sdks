@@ -422,7 +422,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.GetAsync(null!, cancellationToken: cancellationToken));
 
@@ -435,7 +435,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.GetAsync(new StateStoreKey((byte[])null!), cancellationToken: cancellationToken));
 
@@ -448,7 +448,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.SetAsync(null!, new StateStoreValue("someValue"), null, cancellationToken: cancellationToken));
 
@@ -461,7 +461,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.SetAsync(new StateStoreKey((byte[])null!), new StateStoreValue("someValue"), null, cancellationToken: cancellationToken));
 
@@ -475,7 +475,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.SetAsync(new StateStoreKey("someKey"), null!, null, cancellationToken: cancellationToken));
 
@@ -488,7 +488,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.SetAsync(new StateStoreKey("someKey"), new StateStoreValue((byte[])null!), null, cancellationToken: cancellationToken));
 
@@ -501,7 +501,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.DeleteAsync(null!, null, cancellationToken: cancellationToken));
 
@@ -514,7 +514,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.DeleteAsync(new StateStoreKey((byte[])null!), null, cancellationToken: cancellationToken));
 
@@ -680,7 +680,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.ObserveAsync((StateStoreKey)null!, new StateStoreObserveRequestOptions(), cancellationToken: cancellationToken));
 
@@ -693,7 +693,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.ObserveAsync(new StateStoreKey((byte[])null!), new StateStoreObserveRequestOptions(), cancellationToken: cancellationToken));
 
@@ -809,7 +809,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.UnobserveAsync((StateStoreKey)null!, cancellationToken: cancellationToken));
 
@@ -822,7 +822,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             var mockMqttClient = GetMockMqttClient("someClientId");
 
-            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object);
+            StateStoreClient stateStoreClient = new StateStoreClient(new ApplicationContext(), mockMqttClient.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await stateStoreClient.UnobserveAsync(new StateStoreKey((byte[])null!), cancellationToken: cancellationToken));
 

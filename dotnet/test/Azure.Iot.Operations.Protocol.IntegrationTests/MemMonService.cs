@@ -12,7 +12,7 @@ public class MemMonService : Memmon.Service
     bool enabled = false;
     int interval = 5000;
 
-    public MemMonService(IMqttPubSubClient mqttClient) : base(mqttClient)
+    public MemMonService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
         StartTelemetryCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
         StopTelemetryCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);

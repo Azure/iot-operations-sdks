@@ -14,12 +14,13 @@ public class CounterEnvoyTests
     [Fact]
     public async Task IncrementTest()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "counter-server-" + Guid.NewGuid();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
 
-        await using CounterService counterService = new CounterService(mqttExecutor);
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using CounterClient counterClient = new CounterClient(mqttInvoker);
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
 
         await counterService.StartAsync(null, CancellationToken.None);
 
@@ -51,12 +52,14 @@ public class CounterEnvoyTests
     [Fact]
     public async Task DuplicateCorrelationIDThrows()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "counter-server-" + Guid.NewGuid();
+        ApplicationContext appContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
 
-        await using CounterService counterService = new CounterService(mqttExecutor);
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using CounterClient counterClient = new CounterClient(mqttInvoker);
+        await using CounterClient counterClient = new CounterClient(appContext, mqttInvoker);
 
         await counterService.StartAsync(null, CancellationToken.None);
 
@@ -82,8 +85,9 @@ public class CounterEnvoyTests
     public async Task WrongCorrelationIDThrows()
     {
         string executorId = "counter-server-" + Guid.NewGuid();
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using CounterService counterService = new CounterService(mqttExecutor);
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
         await counterService.StartAsync(null, CancellationToken.None);
 
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("counter-client-bad");

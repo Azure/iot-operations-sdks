@@ -15,10 +15,11 @@ public class GreeterEnvoyTests
     public async Task SayHello()
     {
         string executorId = "greeter-server-" + Guid.NewGuid();
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using GreeterService greeterService = new GreeterService(mqttExecutor);
+        await using GreeterService greeterService = new GreeterService(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvoker);
+        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(applicationContext, mqttInvoker);
 
         await greeterService.StartAsync();
 
@@ -37,10 +38,11 @@ public class GreeterEnvoyTests
     public async Task SayHelloWithDelay_FromCache()
     {
         string executorId = "greeter-server-" + Guid.NewGuid();
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using GreeterService greeterService = new GreeterService(mqttExecutor);
+        await using GreeterService greeterService = new GreeterService(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvoker);
+        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(applicationContext, mqttInvoker);
 
         await greeterService.StartAsync();
 
@@ -74,10 +76,11 @@ public class GreeterEnvoyTests
     [Fact]
     public async Task SayHelloWithDelay_ExecutorTimeout()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutorClient = await ClientFactory.CreateSessionClientFromEnvAsync($"executor_{Guid.NewGuid()}");
         await using MqttSessionClient mqttInvokerClient = await ClientFactory.CreateSessionClientFromEnvAsync($"invoker_{Guid.NewGuid()}");
-        await using GreeterService greeterService = new(mqttExecutorClient);
-        await using GreeterEnvoy.Client greeterClient = new(mqttInvokerClient);
+        await using GreeterService greeterService = new(applicationContext, mqttExecutorClient);
+        await using GreeterEnvoy.Client greeterClient = new(applicationContext, mqttInvokerClient);
 
         greeterService.SetExecutorTimeout(TimeSpan.FromSeconds(5));
         await greeterService.StartAsync();
@@ -98,11 +101,12 @@ public class GreeterEnvoyTests
     [Fact]
     public async Task SayHelloWithDelayZeroThrows()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using OrderedAckMqttClient mqttExecutorClient = await ClientFactory.CreateClientAsyncFromEnvAsync($"executor_{Guid.NewGuid()}");
         await using OrderedAckMqttClient mqttInvokerClient = await ClientFactory.CreateClientAsyncFromEnvAsync($"invoker_{Guid.NewGuid()}");
 
-        await using GreeterService greeterService = new(mqttExecutorClient);
-        await using GreeterEnvoy.Client greeterClient = new(mqttInvokerClient);
+        await using GreeterService greeterService = new(applicationContext, mqttExecutorClient);
+        await using GreeterEnvoy.Client greeterClient = new(applicationContext, mqttInvokerClient);
 
         await greeterService.StartAsync();
 
@@ -124,11 +128,12 @@ public class GreeterEnvoyTests
     [Fact(Skip = "This test requires the session client which hasn't been finished yet")]
     public async Task UnacknowledgedCommandExpiresOnReconnect()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutorClient = await ClientFactory.CreateSessionClientFromEnvAsync("executor9-" + Guid.NewGuid());
         await using MqttSessionClient mqttInvokerClient = await ClientFactory.CreateSessionClientFromEnvAsync("invoker9-" + Guid.NewGuid());
 
-        await using GreeterService greeterService = new GreeterService(mqttExecutorClient);
-        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvokerClient);
+        await using GreeterService greeterService = new GreeterService(applicationContext, mqttExecutorClient);
+        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(applicationContext, mqttInvokerClient);
 
         await greeterService.StartAsync();
 
@@ -181,6 +186,7 @@ public class GreeterEnvoyTests
     [Fact]
     public async Task TestSharedSubscriptionWithTwoExecutors()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         // connects 2 command executors on one shared subscription
         // asserts that command invoked on shared topic is handled by one and only one executor
         string executorId1 = "executor-1-" + Guid.NewGuid();
@@ -188,10 +194,10 @@ public class GreeterEnvoyTests
 
         // create executors
         await using MqttSessionClient mqttExecutor1 = await ClientFactory.CreateSessionClientFromEnvAsync(executorId1);
-        await using GreeterService greeterService1 = new GreeterService(mqttExecutor1);
+        await using GreeterService greeterService1 = new GreeterService(applicationContext, mqttExecutor1);
 
         await using MqttSessionClient mqttExecutor2 = await ClientFactory.CreateSessionClientFromEnvAsync(executorId2);
-        await using GreeterService greeterService2 = new GreeterService(mqttExecutor2);
+        await using GreeterService greeterService2 = new GreeterService(applicationContext, mqttExecutor2);
 
         // add count for each executor's commands handled
         int count1 = 0;
@@ -222,7 +228,7 @@ public class GreeterEnvoyTests
 
         // create invoker
         await using MqttSessionClient mqttInvokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvokerClient);
+        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(applicationContext, mqttInvokerClient);
 
         // start services
         await greeterService1.StartAsync();
@@ -248,6 +254,8 @@ public class GreeterEnvoyTests
     [Fact(Skip = "Waiting for $partition to be ready")]
     public async Task TestMultipleExecutorsWithPartitionId()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
+
         // connects 2 command executors on one shared subscription
         // asserts that command invoked on shared topic is handled by one and only one executor
         string executorId1 = "executor-1-" + Guid.NewGuid();
@@ -255,10 +263,10 @@ public class GreeterEnvoyTests
 
         // create executors
         await using MqttSessionClient mqttExecutor1 = await ClientFactory.CreateSessionClientFromEnvAsync(executorId1);
-        await using GreeterService greeterService1 = new GreeterService(mqttExecutor1);
+        await using GreeterService greeterService1 = new GreeterService(applicationContext, mqttExecutor1);
 
         await using MqttSessionClient mqttExecutor2 = await ClientFactory.CreateSessionClientFromEnvAsync(executorId2);
-        await using GreeterService greeterService2 = new GreeterService(mqttExecutor2);
+        await using GreeterService greeterService2 = new GreeterService(applicationContext, mqttExecutor2);
 
         // add count for each executor's commands handled
         int count1 = 0;
@@ -289,7 +297,7 @@ public class GreeterEnvoyTests
 
         // create invoker
         await using MqttSessionClient mqttInvokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(mqttInvokerClient);
+        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(applicationContext, mqttInvokerClient);
 
         // start greeter services
         await greeterService1.StartAsync();

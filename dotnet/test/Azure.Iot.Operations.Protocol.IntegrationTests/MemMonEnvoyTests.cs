@@ -28,7 +28,7 @@ public class MemmonClient : Memmon.Client
 
     public List<IncomingTelemetryMetadata> ReceivedMemoryStatsTelemetryMetadata { get; set; } = new();
 
-    public MemmonClient(IMqttPubSubClient mqttClient) : base(mqttClient)
+    public MemmonClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
 
     }
@@ -63,10 +63,11 @@ public class MemMonEnvoyTests
     [Fact]
     public async Task Send_ReceiveTelemetry()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttReceiver = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemmonClient memmonClient = new(mqttReceiver);
+        await using MemmonClient memmonClient = new(applicationContext, mqttReceiver);
         await using MqttSessionClient mqttSender = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemMonService memMonService = new(mqttSender);
+        await using MemMonService memMonService = new(applicationContext, mqttSender);
 
         await memmonClient.StartAsync();
 
@@ -94,10 +95,11 @@ public class MemMonEnvoyTests
     [Fact]
     public async Task Send_ReceiveTelemetryWithMetadataAndCE()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttReceiver = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemmonClient memmonClient = new(mqttReceiver);
+        await using MemmonClient memmonClient = new(applicationContext, mqttReceiver);
         await using MqttSessionClient mqttSender = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemMonService memMonService = new(mqttSender);
+        await using MemMonService memMonService = new(applicationContext, mqttSender);
 
         await memmonClient.StartAsync();
 
@@ -205,13 +207,14 @@ public class MemMonEnvoyTests
     [Fact]
     public async Task Commands()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string invokerId = "test-invoker-" + Guid.NewGuid();
         await using MqttSessionClient mqttReceiver = await ClientFactory.CreateSessionClientFromEnvAsync(invokerId);
-        await using MemmonClient memmonClient = new(mqttReceiver);
+        await using MemmonClient memmonClient = new(applicationContext, mqttReceiver);
 
         string executorId = "test-executor-" + Guid.NewGuid();
         await using MqttSessionClient mqttSender = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using MemMonService memMonService = new(mqttSender);
+        await using MemMonService memMonService = new(applicationContext, mqttSender);
         await memmonClient.StartAsync();
         await memMonService.StartAsync();
 

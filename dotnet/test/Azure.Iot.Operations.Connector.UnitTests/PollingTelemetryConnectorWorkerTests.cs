@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -148,7 +148,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -231,7 +231,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -360,7 +360,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -423,7 +423,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -489,7 +489,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -544,7 +544,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -596,7 +596,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);
@@ -660,7 +660,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, mockAssetMonitor);
             _ = worker.StartAsync(CancellationToken.None);
             var aep = new AssetEndpointProfile("localhost", "someAuthMethod", "someEndpointProfileType");
             mockAssetMonitor.AddOrUpdateMockAssetEndpointProfile(aep);

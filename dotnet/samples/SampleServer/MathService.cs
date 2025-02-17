@@ -5,10 +5,11 @@ using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
 using TestEnvoys.Math;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleServer;
 
-public class MathService(MqttSessionClient mqttClient) : TestEnvoys.Math.Math.Service(mqttClient)
+public class MathService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : TestEnvoys.Math.Math.Service(applicationContext, mqttClient)
 {
     public override Task<ExtendedResponse<FibResponsePayload>> FibAsync(FibRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {

@@ -29,7 +29,7 @@ public class DiscoveredAssetResourcesClientIntegrationTests
     {
 
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("opcda-" + Guid.NewGuid().ToString());
-        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        await using DiscoveredAssetResourcesClient mrpcClient = new(new ApplicationContext(), _mqttClient);
         CreateDiscoveredAssetRequestPayload request = new CreateDiscoveredAssetRequestPayload
         {
             CreateDiscoveredAssetRequest = new()
@@ -93,7 +93,7 @@ public class DiscoveredAssetResourcesClientIntegrationTests
     {
 
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("onvifda-" + Guid.NewGuid().ToString());
-        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        await using DiscoveredAssetResourcesClient mrpcClient = new(new ApplicationContext(), _mqttClient);
 
         CreateDiscoveredAssetRequestPayload dReq = new CreateDiscoveredAssetRequestPayload
         {
@@ -123,7 +123,7 @@ public class DiscoveredAssetResourcesClientIntegrationTests
     public async Task CreateOpcDiscoveredAssetEndpointProfile()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("opcdaep-" + Guid.NewGuid().ToString());
-        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        await using DiscoveredAssetResourcesClient mrpcClient = new(new ApplicationContext(), _mqttClient);
 
         CreateDiscoveredAssetEndpointProfileRequestPayload dReq = new CreateDiscoveredAssetEndpointProfileRequestPayload
         {

@@ -8,7 +8,7 @@ using TestEnvoys.Greeter;
 
 namespace SampleServer;
 
-public class GreeterService(MqttSessionClient mqttClient) : GreeterEnvoy.Service(mqttClient)
+public class GreeterService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : GreeterEnvoy.Service(applicationContext, mqttClient)
 {
     public override Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHello(ExtendedRequest<GreeterEnvoy.HelloRequest> request, CancellationToken cancellationToken)
     {

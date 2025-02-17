@@ -11,14 +11,16 @@ namespace Azure.Iot.Operations.Connector
         // This semaphore protects the _sampleableAssets dictionary from concurrent modification since one thread adds to it and another thread iterates over it.
         private readonly SemaphoreSlim _assetSemaphore = new(1);
         private readonly Dictionary<string, Asset> _sampleableAssets = new Dictionary<string, Asset>();
-
+        
         private readonly ILogger<EventDrivenRestThermostatConnectorWorker> _logger;
         private readonly EventDrivenTelemetryConnectorWorker _connector;
+        private readonly ApplicationContext _applicationContext;
 
-        public EventDrivenRestThermostatConnectorWorker(ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenRestThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenRestThermostatConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
         {
+            _applicationContext = applicationContext;
             _logger = logger;
-            _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
+            _connector = new(_applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
             _connector.OnAssetAvailable += OnAssetSampleableAsync;
             _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
         }
