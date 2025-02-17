@@ -26,8 +26,8 @@ public class GreeterEnvoy
     [CommandTopic("rpc/samples/hello")]
     public class SayHelloCommandExecutor : CommandExecutor<HelloRequest, HelloResponse>
     {
-        public SayHelloCommandExecutor(IMqttPubSubClient mqttClient)
-            : base(mqttClient, "sayHello", new Utf8JsonSerializer())
+        public SayHelloCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            : base(applicationContext, mqttClient, "sayHello", new Utf8JsonSerializer())
         {
         }
     }
@@ -35,8 +35,8 @@ public class GreeterEnvoy
     [CommandTopic("rpc/samples/hello/delay")]
     public class SayHelloWithDelayCommandExecutor : CommandExecutor<HelloWithDelayRequest, HelloResponse>
     {
-        public SayHelloWithDelayCommandExecutor(IMqttPubSubClient mqttClient)
-            : base(mqttClient, "sayHelloWithDelay", new Utf8JsonSerializer())
+        public SayHelloWithDelayCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            : base(applicationContext, mqttClient, "sayHelloWithDelay", new Utf8JsonSerializer())
         {
             IsIdempotent = true;
             CacheTtl = TimeSpan.FromSeconds(10);
@@ -48,14 +48,14 @@ public class GreeterEnvoy
     {
         readonly SayHelloCommandExecutor sayHelloExecutor;
         readonly SayHelloWithDelayCommandExecutor sayHelloWithDelayExecutor;
-        public Service(IMqttPubSubClient mqttClient)
+        public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
         {
-            sayHelloExecutor = new SayHelloCommandExecutor(mqttClient)
+            sayHelloExecutor = new SayHelloCommandExecutor(applicationContext, mqttClient)
             {
                 OnCommandReceived = SayHello,
             };
 
-            sayHelloWithDelayExecutor = new SayHelloWithDelayCommandExecutor(mqttClient)
+            sayHelloWithDelayExecutor = new SayHelloWithDelayCommandExecutor(applicationContext, mqttClient)
             {
                 OnCommandReceived = SayHelloWithDelayAsync,
             };
