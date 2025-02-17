@@ -49,7 +49,7 @@ internal class ProcessControlActionServiceSingle : IAsyncDisposable
 
         var transientTokenMap = new Dictionary<string, string>
         {
-            { "executorId", clientId }
+            { "executorId", $"process-control-action-{_assetName}-{_processControlGroupName}-{_actionName}" }
         };
 
         await _processControlActionExecutor.StartAsync(
