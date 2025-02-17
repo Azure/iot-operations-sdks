@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 var logger = loggerFactory.CreateLogger("NoCodeGenServer");
 
-// load configuration 
+// load configuration
 IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables()
@@ -20,19 +20,22 @@ IConfiguration configuration = new ConfigurationBuilder()
 
 // cancellation support
 var cancellationTokenSource = new CancellationTokenSource();
-Console.CancelKeyPress += delegate {
+Console.CancelKeyPress += delegate
+{
     logger.LogInformation("SIGINT detected - closing application");
     cancellationTokenSource.Cancel();
 };
 
-var sessionClientOptions = new MqttSessionClientOptions {
+var sessionClientOptions = new MqttSessionClientOptions
+{
     EnableMqttLogging = true,
 };
 
 var mqttClient = new MqttSessionClient(sessionClientOptions);
 
 var connectionString = configuration.GetConnectionString("Default");
-if (string.IsNullOrWhiteSpace(connectionString)) {
+if (string.IsNullOrWhiteSpace(connectionString))
+{
     logger.LogError("Please provide connection string via appsettings.json, environment variable or command line argument");
     Environment.FailFast(null);
 }
@@ -43,7 +46,8 @@ var mqttConnectResult = await mqttClient.ConnectAsync(
         mqttConnectionSettings,
         cancellationTokenSource.Token).ConfigureAwait(false);
 
-if (!mqttConnectResult.IsSessionPresent) {
+if (!mqttConnectResult.IsSessionPresent)
+{
     logger.LogError($"Connection to MQTT Broker with settings: {mqttConnectionSettings} failed with {mqttConnectResult.ReasonString}");
     Environment.FailFast(null);
 
@@ -64,23 +68,63 @@ var dataSetWriteServiceUNS = new DatasetWriteService(
     "default",
     loggerFactory.CreateLogger<DatasetWriteService>());
 
+// var processControlActionDefault = new ProcessControlActionServiceMultiple(
+//         mqttClient,
+//         "AioNamespace/asset-operations/MyAssetId/ProcessControlGroup",
+//         "MyAssetId",
+//         "ProcessControlGroup",
+//         new[] { "foobar", "myAction", "demo" },
+//         loggerFactory.CreateLogger<ProcessControlActionServiceMultiple>());
+//
+var processControlActionSingleDefault = new ProcessControlActionServiceSingle(
+         mqttClient,
+         "AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar",
+         "MyAssetId",
+         "ProcessControlGroup",
+         "foobar",
+         loggerFactory.CreateLogger<ProcessControlActionServiceSingle>());
+
 var datasetWriteDefaulTask = dataSetWriteServiceDefault
     .RunAsync(cancellationTokenSource.Token)
-    .ContinueWith(t => {
-        if (t.IsFaulted) {
+    .ContinueWith(t =>
+    {
+        if (t.IsFaulted)
+        {
             logger.LogError($"DatasetWrite Server w/ default topic failed: {t.Exception}");
         }
     });
 var datasetWriteUNSTask = dataSetWriteServiceUNS
     .RunAsync(cancellationTokenSource.Token)
-    .ContinueWith(t => {
-        if (t.IsFaulted) {
+    .ContinueWith(t =>
+    {
+        if (t.IsFaulted)
+        {
             logger.LogError($"DatasetWrite Server w/ UNS topic failed: {t.Exception}");
+        }
+    });
+// var processControlTask = processControlActionDefault
+//     .RunAsync(cancellationTokenSource.Token)
+//     .ContinueWith(t =>
+//     {
+//         if (t.IsFaulted)
+//         {
+//             logger.LogError($"ProcessControlAction Server w/ default topic failed: {t.Exception}");
+//         }
+//     });
+
+var processControlActionSingleTask = processControlActionSingleDefault
+    .RunAsync(cancellationTokenSource.Token)
+    .ContinueWith(t =>
+    {
+        if (t.IsFaulted)
+        {
+            logger.LogError($"ProcessControlActionSingle Server w/ default topic failed: {t.Exception}");
         }
     });
 
 await Task.WhenAll(
     datasetWriteDefaulTask,
-    datasetWriteUNSTask).ConfigureAwait(false);
+    datasetWriteUNSTask,
+    processControlActionSingleTask).ConfigureAwait(false);
 
 logger.LogInformation("Application stopped!");

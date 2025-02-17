@@ -2,33 +2,38 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Microsoft.Extensions.Logging;
 
-internal class DatasetWriteService : IAsyncDisposable
+internal class ProcessControlActionServiceSingle : IAsyncDisposable
 {
     private readonly IMqttPubSubClient _mqttClient;
-    private readonly DatasetWriteExecutor _datasetWriteExecutor;
+    private readonly ProcessControlActionExecutorSingle _processControlActionExecutor;
     private readonly string _commandTopic;
+    private readonly string _processControlGroupName;
     private readonly string _assetName;
-    private readonly string _datasetName;
-    private readonly ILogger<DatasetWriteService> _logger;
+    private readonly string _actionName;
+    private readonly ILogger<ProcessControlActionServiceSingle> _logger;
 
-    public DatasetWriteService(
+    public ProcessControlActionServiceSingle(
             IMqttPubSubClient mqttClient,
             string mqttCommandTopic,
             string assetName,
-            string datasetName,
-            ILogger<DatasetWriteService> logger)
+            string processControlGroupName,
+            string actionName,
+            ILogger<ProcessControlActionServiceSingle> logger)
     {
         _mqttClient = mqttClient;
+        _processControlGroupName = processControlGroupName;
         _assetName = assetName;
         _commandTopic = mqttCommandTopic;
-        _datasetName = datasetName;
+        _actionName = actionName;
 
-        _datasetWriteExecutor = new DatasetWriteExecutor(mqttClient)
+        _processControlActionExecutor = new ProcessControlActionExecutorSingle(mqttClient)
         {
-            OnCommandReceived = DatasetWrite,
+            OnCommandReceived = ProcessControlAction,
             TopicNamespace = null,
         };
-        _datasetWriteExecutor.TopicTokenMap["MqttCommandTopic"] = _commandTopic;
+        _processControlActionExecutor.TopicTokenMap["MqttCommandTopic"] = _commandTopic;
+        _processControlActionExecutor.TopicTokenMap["ProcessControlGroup"] = _processControlGroupName;
+        _processControlActionExecutor.TopicTokenMap["Action"] = _actionName;
 
         _logger = logger;
     }
@@ -46,7 +51,7 @@ internal class DatasetWriteService : IAsyncDisposable
             { "executorId", clientId }
         };
 
-        await _datasetWriteExecutor.StartAsync(
+        await _processControlActionExecutor.StartAsync(
                 preferredDispatchConcurrency: null,
                 transientTokenMap,
                 cancellationToken).ConfigureAwait(false);
@@ -59,32 +64,26 @@ internal class DatasetWriteService : IAsyncDisposable
             }
         });
 
-        await _datasetWriteExecutor.StopAsync().ConfigureAwait(false);
+        await _processControlActionExecutor.StopAsync().ConfigureAwait(false);
     }
 
-    private async Task<ExtendedResponse<DatasetWriteResponse>> DatasetWrite(
-            ExtendedRequest<DatasetWriteRequest> extendedRequest,
+    private async Task<ExtendedResponse<string>> ProcessControlAction(
+            ExtendedRequest<string> extendedRequest,
             CancellationToken cancellationToken)
     {
         var request = extendedRequest.Request;
         var requestMetadata = extendedRequest.RequestMetadata;
 
         _logger.LogInformation($"Executing DatasetWrite with correlationId {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        _logger.LogDebug($"Asset {_assetName}, Dataset {_datasetName}");
-        _logger.LogTrace(request.ToString());
+        _logger.LogDebug($"Asset {_assetName}, ProcessControlGroup {_processControlGroupName}, Action {_actionName}");
+        _logger.LogDebug(request.ToString());
 
         await Task.Delay(100);
         // Simulate a successful response
-        Dictionary<string, string> writeResponse = new Dictionary<string, string>();
 
-        if (request.DataValues.ContainsKey("BadFastUInt1"))
+        return new ExtendedResponse<string>
         {
-            writeResponse.Add("BadFastUInt1", "Bad_NodeIdUnknown");
-        }
-
-        return new ExtendedResponse<DatasetWriteResponse>
-        {
-            Response = new DatasetWriteResponse(writeResponse)
+            Response = "{}",
         };
     }
 

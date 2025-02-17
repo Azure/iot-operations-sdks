@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.2" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.375.443" />
+    <!-- <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.375.443" /> -->
   </ItemGroup>
 
   <ItemGroup>
