@@ -39,8 +39,8 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="GetRandomCommandInvoker"/> class.
             /// </summary>
-            public GetRandomCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "getRandom", new ProtobufSerializer<Google.Protobuf.WellKnownTypes.Empty, GetRandomResponsePayload>())
+            public GetRandomCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "getRandom", new ProtobufSerializer<Google.Protobuf.WellKnownTypes.Empty, GetRandomResponsePayload>())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

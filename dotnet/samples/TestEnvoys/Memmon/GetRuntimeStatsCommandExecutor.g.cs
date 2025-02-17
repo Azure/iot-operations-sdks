@@ -41,8 +41,8 @@ namespace TestEnvoys.Memmon
             /// <summary>
             /// Initializes a new instance of the <see cref="GetRuntimeStatsCommandExecutor"/> class.
             /// </summary>
-            internal GetRuntimeStatsCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "getRuntimeStats", new AvroSerializer<GetRuntimeStatsRequestPayload, GetRuntimeStatsResponsePayload>())
+            internal GetRuntimeStatsCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "getRuntimeStats", new AvroSerializer<GetRuntimeStatsRequestPayload, GetRuntimeStatsResponsePayload>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

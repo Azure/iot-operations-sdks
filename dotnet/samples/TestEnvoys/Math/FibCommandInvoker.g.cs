@@ -39,8 +39,8 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="FibCommandInvoker"/> class.
             /// </summary>
-            public FibCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "fib", new ProtobufSerializer<FibRequestPayload, FibResponsePayload>())
+            public FibCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "fib", new ProtobufSerializer<FibRequestPayload, FibResponsePayload>())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

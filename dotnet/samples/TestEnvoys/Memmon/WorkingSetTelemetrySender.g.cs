@@ -38,8 +38,8 @@ namespace TestEnvoys.Memmon
             /// <summary>
             /// Initializes a new instance of the <see cref="WorkingSetTelemetrySender"/> class.
             /// </summary>
-            public WorkingSetTelemetrySender(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "workingSet", new AvroSerializer<WorkingSetTelemetry, EmptyAvro>())
+            public WorkingSetTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "workingSet", new AvroSerializer<WorkingSetTelemetry, EmptyAvro>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

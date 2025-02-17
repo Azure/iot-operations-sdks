@@ -39,8 +39,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandInvoker"/> class.
             /// </summary>
-            public GetCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "get", new Utf8JsonSerializer())
+            public GetCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "get", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
