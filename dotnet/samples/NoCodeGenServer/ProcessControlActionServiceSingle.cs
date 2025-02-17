@@ -32,6 +32,7 @@ internal class ProcessControlActionServiceSingle : IAsyncDisposable
             TopicNamespace = null,
         };
         _processControlActionExecutor.TopicTokenMap["MqttCommandTopic"] = _commandTopic;
+        _processControlActionExecutor.TopicTokenMap["Asset"] = _assetName;
         _processControlActionExecutor.TopicTokenMap["ProcessControlGroup"] = _processControlGroupName;
         _processControlActionExecutor.TopicTokenMap["Action"] = _actionName;
 

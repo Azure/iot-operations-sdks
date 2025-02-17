@@ -78,7 +78,7 @@ var dataSetWriteServiceUNS = new DatasetWriteService(
 //
 var processControlActionSingleDefault = new ProcessControlActionServiceSingle(
          mqttClient,
-         "AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar",
+         "AioNamespace/asset-operations",
          "MyAssetId",
          "ProcessControlGroup",
          "foobar",

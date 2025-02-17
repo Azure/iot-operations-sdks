@@ -2,7 +2,7 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 
-[CommandTopic("{MqttCommandTopic}/{ProcessControlGroup}/{Action}")]
+[CommandTopic("{MqttCommandTopic}/{Asset}/{ProcessControlGroup}/{Action}")]
 internal class ProcessControlActionExecutorSingle : CommandExecutor<string, string>
 {
     internal ProcessControlActionExecutorSingle(IMqttPubSubClient mqttClient)
