@@ -1,6 +1,5 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
-using System.Buffers;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
