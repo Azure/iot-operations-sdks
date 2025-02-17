@@ -8,8 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.8.0" />
-    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.8.0" />
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.8.0" /-->
+    <!-- <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.8.0" /> -->
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.2" />
