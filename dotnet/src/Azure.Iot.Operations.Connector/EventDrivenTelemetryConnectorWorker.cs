@@ -22,6 +22,7 @@ namespace Azure.Iot.Operations.Connector
     {
         protected readonly ILogger<EventDrivenTelemetryConnectorWorker> _logger;
         private IMqttClient _mqttClient;
+        private readonly ApplicationContext _applicationContext;
         private IDatasetSamplerFactory _datasetSamplerFactory;
         private IAssetMonitor _assetMonitor;
 
@@ -32,11 +33,13 @@ namespace Azure.Iot.Operations.Connector
         public EventHandler<AssetUnavailabileEventArgs>? OnAssetUnavailable;
 
         public EventDrivenTelemetryConnectorWorker(
+            ApplicationContext applicationContext,
             ILogger<EventDrivenTelemetryConnectorWorker> logger,
-            IMqttClient mqttClient, 
+            IMqttClient mqttClient,
             IDatasetSamplerFactory datasetSamplerFactory,
             IAssetMonitor assetMonitor)
         {
+            _applicationContext = applicationContext;
             _logger = logger;
             _mqttClient = mqttClient;
             _datasetSamplerFactory = datasetSamplerFactory;
@@ -110,7 +113,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                            await using LeaderElectionClient leaderElectionClient = new(_mqttClient, leadershipPositionId, candidateName);
+                            await using LeaderElectionClient leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, candidateName);
 
                             leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -227,7 +230,7 @@ namespace Azure.Iot.Operations.Connector
         {
             // Stop sampling this asset's datasets since it was deleted. Dispose all dataset samplers and timers associated with this asset
             if (_assetsDatasetSamplers.Remove(assetName, out var datasetSamplers))
-            { 
+            {
                 foreach (IDatasetSampler datasetSampler in datasetSamplers.Values)
                 {
                     await datasetSampler.DisposeAsync();
@@ -273,7 +276,7 @@ namespace Azure.Iot.Operations.Connector
                     if (datasetMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                         await schemaRegistryClient.PutAsync(
                             datasetMessageSchema.SchemaContent,
                             datasetMessageSchema.SchemaFormat,

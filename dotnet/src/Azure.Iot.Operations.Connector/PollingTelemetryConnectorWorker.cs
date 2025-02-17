@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Connector
     {
         Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
 
-        public PollingTelemetryConnectorWorker(ILogger<EventDrivenTelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor) : base(logger, mqttClient, datasetSamplerFactory, assetMonitor)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor) : base(applicationContext, logger, mqttClient, datasetSamplerFactory, assetMonitor)
         {
             base.OnAssetAvailable += OnAssetSampleableAsync;
             base.OnAssetUnavailable += OnAssetNotSampleableAsync;
