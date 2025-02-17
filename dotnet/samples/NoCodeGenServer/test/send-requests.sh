@@ -1,6 +1,33 @@
-mosquitto_pub \
+#!/bin/bash
+
+param=$1
+
+case $param in
+  write-simple)
+    topic="AioNamespace/asset-operations/MyAssetId/DatasetName"
+    payload="simple-types-request.json"
+    ;;
+  write-simple-bad)
+    topic="AioNamespace/asset-operations/MyAssetId/DatasetName"
+    payload="bad-simple-types-request.json"
+    ;;
+  write-complex)
+    topic="AioNamespace/asset-operations/MyAssetId/DatasetName"
+    payload="complex-types-request.json"
+    ;;
+  process-control)
+    topic="AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar"
+    payload="process-control-request.json"
+    ;;
+  *)
+    echo "Unknown configuration: $param"
+    exit 1
+    ;;
+esac
+
+mosquitto_pub  \
 -d \
--t "AioNamespace/asset-operations/MyAssetId/DatasetName" \
+-t $topic \
 -V mqttv5 \
 -q 1 \
 -D Publish user-property "__invId" "tester" \
@@ -11,4 +38,4 @@ mosquitto_pub \
 -D Publish content-type "application/json" \
 -D Publish message-expiry-interval 3600 \
 -D Publish response-topic "myResponseTopic" \
--f simple-types-request.json
+-f $payload
