@@ -75,10 +75,18 @@ internal class DatasetWriteService : IAsyncDisposable
         _logger.LogTrace(request.ToString());
 
         await Task.Delay(100);
+        // Simulate a successful response
+        Dictionary<string, string> writeResponse = new Dictionary<string, string>();
+
+        if (request.DataValues.ContainsKey("BadFastUInt1"))
+        {
+
+            writeResponse.Add("BadFastUInt1", "Bad_NodeIdUnknown");
+        }
 
         return new ExtendedResponse<DatasetWriteResponse>
         {
-            Response = default(DatasetWriteResponse)
+            Response = new DatasetWriteResponse(writeResponse)
         };
     }
 
