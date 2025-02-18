@@ -47,6 +47,10 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:microsoft:deviceregistry:DiscoveredAssetResources;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "createDiscoveredAsset";
             }
         }

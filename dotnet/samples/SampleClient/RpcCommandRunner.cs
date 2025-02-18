@@ -4,8 +4,6 @@
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using MQTTnet.Client;
-using MQTTnet.Server;
 using TestEnvoys.Counter;
 using TestEnvoys.Math;
 using TestEnvoys.Greeter;

@@ -3,7 +3,6 @@
 
 using System.Text;
 using Azure.Iot.Operations.Services.StateStore;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
