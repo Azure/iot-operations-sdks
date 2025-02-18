@@ -5,6 +5,12 @@ set -o pipefail
 
 echo - Installing prerequisities
 
+# install docker
+if ! which docker;
+then
+    sudo apt-get install -y docker.io
+fi
+
 # install k3d
 if ! which k3d;
 then
