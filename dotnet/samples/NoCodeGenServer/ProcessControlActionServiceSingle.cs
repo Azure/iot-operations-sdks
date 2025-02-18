@@ -81,11 +81,21 @@ internal class ProcessControlActionServiceSingle : IAsyncDisposable
         _logger.LogDebug(request.ToString());
 
         await Task.Delay(100);
-        // Simulate a successful response
+        // Simulate a response
+        string response = string.Empty;
+        if (string.IsNullOrEmpty(request))
+        {
+            //todo better report error, discussion via https://github.com/Azure/iot-operations-sdks/issues/488
+            response = "{ \"error\": \"Bad_NotWritable\"}";
+        }
+        else
+        {
+            response = "{}";
+        }
 
         return new ExtendedResponse<string>
         {
-            Response = "{}",
+            Response = response,
         };
     }
 
