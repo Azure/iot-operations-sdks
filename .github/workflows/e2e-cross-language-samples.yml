@@ -48,12 +48,18 @@ jobs:
           cd rust
           cargo build --release --config profile.release.panic=\'abort\'
 
-      - name: Setup .NET
+      - name: Setup .NET 8
         if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.301
-
+          
+      - name: Setup .NET 9
+        if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.200
+  
       - name: Setup GO
         if: matrix.server == 'go' || matrix.client == 'go'
         uses: actions/setup-go@v5
