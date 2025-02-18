@@ -13,10 +13,10 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
     private readonly MqttClientOptions _connectOptions;
     private readonly MqttClientDisconnectOptions _disconnectOptions;
 
-    private readonly MQTTnet.Client.IMqttClient _mqttClient;
+    private readonly MQTTnet.IMqttClient _mqttClient;
     private readonly MqttSessionClient? _sessionClient;
 
-    public CompositeMqttClient(MQTTnet.Client.IMqttClient mqttClient, bool includeSessionClient, string clientId)
+    public CompositeMqttClient(MQTTnet.IMqttClient mqttClient, bool includeSessionClient, string clientId)
     {
         _connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883)) { SessionExpiryInterval = 120, ClientId = clientId };
         _disconnectOptions = new MqttClientDisconnectOptions();
@@ -89,7 +89,7 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
         }
         else
         {
-            await _mqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
+            await _mqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions());
             _mqttClient.Dispose();
         }
     }

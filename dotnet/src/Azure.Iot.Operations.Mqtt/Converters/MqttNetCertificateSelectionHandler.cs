@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             _genericNetFunc = genericFunc;
         }
 
-        public X509Certificate HandleCertificateSelection(MQTTnet.Client.MqttClientCertificateSelectionEventArgs args)
+        public X509Certificate HandleCertificateSelection(MQTTnet.MqttClientCertificateSelectionEventArgs args)
         {
             return _genericNetFunc.Invoke(new MqttClientCertificateSelectionEventArgs(args.TargetHost, args.LocalCertificates, args.RemoveCertificate, args.AcceptableIssuers, MqttNetConverter.ToGeneric(args.TcpOptions)));
         }

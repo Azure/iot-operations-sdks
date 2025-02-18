@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using MQTTnet;
+using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Diagnostics;
 using MQTTnet.Formatter;
@@ -10,7 +11,7 @@ using MQTTnet.Protocol;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
-    public class MockMqttClient : MQTTnet.Client.IMqttClient
+    public class MockMqttClient : MQTTnet.IMqttClient
     {
         private string _clientId;
         private readonly MqttProtocolVersion _protocolVersion;
@@ -445,7 +446,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         // Returns a successful result only if the expected matches the actual. Throws with a human-readable error message
         // that explains the difference if there was one.
-        public static MqttClientSubscribeResult CompareExpectedSubscribeWithActual(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions expectedOptions, MQTTnet.Client.MqttClientSubscribeOptions actualOptions)
+        public static MqttClientSubscribeResult CompareExpectedSubscribeWithActual(Azure.Iot.Operations.Protocol.Models.MqttClientSubscribeOptions expectedOptions, MQTTnet.MqttClientSubscribeOptions actualOptions)
         {
             if (!int.Equals(expectedOptions.TopicFilters.Count, actualOptions.TopicFilters.Count))
             {

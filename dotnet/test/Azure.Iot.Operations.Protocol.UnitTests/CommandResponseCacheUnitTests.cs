@@ -3,6 +3,7 @@
 
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
+    using System.Buffers;
     using System.Text;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Models;
@@ -14,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             public double? CachingBenefit { get; set; }
 
-            public override double CostWeightedBenefit(byte[]? requestPayload, MqttApplicationMessage responseMessage, TimeSpan executionDuration)
+            public override double CostWeightedBenefit(ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, TimeSpan executionDuration)
             {
                 return this.CachingBenefit != null ? (double)this.CachingBenefit : base.CostWeightedBenefit(requestPayload, responseMessage, executionDuration);
             }
@@ -38,13 +39,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         private readonly byte[] _correlationData02;
         private readonly byte[] _correlationData03;
 
-        private readonly byte[] _requestPayload01;
-        private readonly byte[] _requestPayload02;
-        private readonly byte[] _requestPayload03;
+        private readonly ReadOnlySequence<byte> _requestPayload01;
+        private readonly ReadOnlySequence<byte> _requestPayload02;
+        private readonly ReadOnlySequence<byte> _requestPayload03;
 
-        private readonly byte[] _responsePayload01;
-        private readonly byte[] _responsePayload02;
-        private readonly byte[] _responsePayload03;
+        private readonly ReadOnlySequence<byte> _responsePayload01;
+        private readonly ReadOnlySequence<byte> _responsePayload02;
+        private readonly ReadOnlySequence<byte> _responsePayload03;
 
         private readonly DateTime _futureExpirationTime;
         private readonly DateTime _pastExpirationTime;
@@ -63,13 +64,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             this._correlationData02 = Encoding.UTF8.GetBytes("correlation02");
             this._correlationData03 = Encoding.UTF8.GetBytes("correlation03");
 
-            this._requestPayload01 = Encoding.UTF8.GetBytes("request payload 01");
-            this._requestPayload02 = Encoding.UTF8.GetBytes("request payload 02");
-            this._requestPayload03 = Encoding.UTF8.GetBytes("request payload 03");
+            this._requestPayload01 = new(Encoding.UTF8.GetBytes("request payload 01"));
+            this._requestPayload02 = new(Encoding.UTF8.GetBytes("request payload 02"));
+            this._requestPayload03 = new(Encoding.UTF8.GetBytes("request payload 03"));
 
-            this._responsePayload01 = Encoding.UTF8.GetBytes("response payload 01");
-            this._responsePayload02 = Encoding.UTF8.GetBytes("response payload 02");
-            this._responsePayload03 = Encoding.UTF8.GetBytes("response payload 03");
+            this._responsePayload01 = new(Encoding.UTF8.GetBytes("response payload 01"));
+            this._responsePayload02 = new(Encoding.UTF8.GetBytes("response payload 02"));
+            this._responsePayload03 = new(Encoding.UTF8.GetBytes("response payload 03"));
 
             this._futureExpirationTime = DateTime.UtcNow + TimeSpan.FromHours(1);
             this._pastExpirationTime = DateTime.UtcNow - TimeSpan.FromHours(1);

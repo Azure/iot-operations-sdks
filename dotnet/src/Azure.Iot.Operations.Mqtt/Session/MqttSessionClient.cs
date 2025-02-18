@@ -52,8 +52,8 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <param name="sessionClientOptions">The configurable options for this MQTT session client.</param>
         public MqttSessionClient(MqttSessionClientOptions? sessionClientOptions = null)
             : base(sessionClientOptions != null && sessionClientOptions.EnableMqttLogging
-                  ? new MQTTnet.MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
-                  : new MQTTnet.MqttFactory().CreateMqttClient())
+                  ? new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
+                  : new MQTTnet.MqttClientFactory().CreateMqttClient())
         {
             _sessionClientOptions = sessionClientOptions != null ? sessionClientOptions : new MqttSessionClientOptions();
             _sessionClientOptions.Validate();
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         }
 
         // For unit test purposes only
-        internal MqttSessionClient(MQTTnet.Client.IMqttClient mqttClient, MqttSessionClientOptions? sessionClientOptions = null)
+        internal MqttSessionClient(MQTTnet.IMqttClient mqttClient, MqttSessionClientOptions? sessionClientOptions = null)
             : base(mqttClient)
         {
             _sessionClientOptions = sessionClientOptions != null ? sessionClientOptions : new MqttSessionClientOptions();

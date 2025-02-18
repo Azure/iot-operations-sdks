@@ -477,7 +477,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private Task DisconnectAsync(StubMqttClient stubMqttClient)
         {
-            return stubMqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
+            return stubMqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions());
         }
 
         private Task<int> FreezeTimeAsync()

@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -141,7 +142,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(args.ApplicationMessage.ResponseTopic != null);
                 Debug.Assert(args.ApplicationMessage.CorrelationData != null);
 
-                string? clientId = this._mqttClient.ClientId;
+                string? clientId = _mqttClient.ClientId;
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
@@ -149,11 +150,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 Task<MqttApplicationMessage>? cachedResponse =
                     await _commandResponseCache.RetrieveAsync(
-                        this._commandName,
+                        _commandName,
                         sourceId,
                         args.ApplicationMessage.ResponseTopic,
                         args.ApplicationMessage.CorrelationData,
-                        args.ApplicationMessage.PayloadSegment.Array ?? [],
+                        args.ApplicationMessage.Payload,
                         isCacheable: CacheTtl > TimeSpan.Zero,
                         canReuseAcrossInvokers: !isExecutorSpecific)
                     .ConfigureAwait(false);
@@ -164,7 +165,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         async () =>
                         {
                             MqttApplicationMessage cachedMessage = await cachedResponse.ConfigureAwait(false);
-                            await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, cachedMessage.PayloadSegment, cachedMessage.UserProperties, cachedMessage.ContentType, (int)cachedMessage.PayloadFormatIndicator).ConfigureAwait(false);
+                            await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, cachedMessage.Payload, cachedMessage.UserProperties, cachedMessage.ContentType, (int)cachedMessage.PayloadFormatIndicator).ConfigureAwait(false);
                         },
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
 
@@ -180,7 +181,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
                     };
-                    request = this._serializer.FromBytes<TReq>(args.ApplicationMessage.PayloadSegment.Array, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
+                    request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     _hybridLogicalClock.Update(requestMetadata.Timestamp);
                 }
                 catch (Exception ex)
@@ -219,13 +220,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                         var serializedPayloadContext = _serializer.ToBytes(extended.Response);
 
-                        MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, serializedPayloadContext.SerializedPayload != null ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
+                        MqttApplicationMessage? responseMessage = GenerateResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, !serializedPayloadContext.SerializedPayload.IsEmpty ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await _commandResponseCache.StoreAsync(
-                            this._commandName,
+                            _commandName,
                             sourceId,
                             args.ApplicationMessage.ResponseTopic,
                             args.ApplicationMessage.CorrelationData,
-                            args.ApplicationMessage.PayloadSegment.Array,
+                            args.ApplicationMessage.Payload,
                             responseMessage,
                             IsIdempotent,
                             commandExpirationTime,
@@ -453,9 +454,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.AddUserProperty(AkriSystemProperties.StatusMessage, statusMessage);
             }
 
-            if (payloadContext != null && payloadContext.SerializedPayload != null && payloadContext.SerializedPayload.Length > 0)
+            if (payloadContext != null && !payloadContext.SerializedPayload.IsEmpty)
             {
-                message.PayloadSegment = payloadContext.SerializedPayload;
+                message.Payload = payloadContext.SerializedPayload;
                 message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
                 message.ContentType = payloadContext.ContentType;
             }
@@ -515,21 +516,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
             DateTime commandExpirationTime,
             string topic,
             byte[]? correlationData,
-            ArraySegment<byte> payloadSegment,
+            ReadOnlySequence<byte> payload,
             List<MqttUserProperty>? userProperties,
             string? contentType,
             int payloadFormatIndicator)
         {
             MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
-                CorrelationData = correlationData,
+                CorrelationData = correlationData!,
             };
 
-            if (payloadSegment.Count > 0)
+            if (!payload.IsEmpty)
             {
-                message.PayloadSegment = payloadSegment;
+                message.Payload = payload;
                 message.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadFormatIndicator;
-                message.ContentType = contentType;
+                message.ContentType = contentType!;
             }
 
             if (userProperties != null)

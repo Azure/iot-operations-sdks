@@ -143,7 +143,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             throw new NotImplementedException();
         }
 
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+        public Task SendExtendedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
         {
             return Task.CompletedTask;
         }

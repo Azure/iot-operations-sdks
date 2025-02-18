@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using Azure.Iot.Operations.Protocol.Models;
 
 namespace Azure.Iot.Operations.Protocol
@@ -23,6 +24,6 @@ namespace Azure.Iot.Operations.Protocol
         /// <param name="contentType">The content type of the MQTT message received with this payload.</param>
         /// <param name="payloadFormatIndicator">The payload format indicator of the MQTT message received with this payload.</param>
         /// <returns>The deserialized object.</returns>
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator) where T : class;
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator) where T : class;
     }
 }

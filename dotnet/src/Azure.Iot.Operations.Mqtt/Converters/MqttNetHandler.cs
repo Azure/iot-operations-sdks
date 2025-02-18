@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             _genericNetFunc = genericFunc;
         }
 
-        public Task Handle(MQTTnet.Client.MqttApplicationMessageReceivedEventArgs args)
+        public Task Handle(MQTTnet.MqttApplicationMessageReceivedEventArgs args)
         {
             var genericArgs = 
                 MqttNetConverter.ToGeneric(

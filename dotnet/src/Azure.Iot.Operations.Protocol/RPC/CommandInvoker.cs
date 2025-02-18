@@ -358,7 +358,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     CommandResponseMetadata responseMetadata;
                     try
                     {
-                        response = _serializer.FromBytes<TResp>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
+                        response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
                         responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
                     }
                     catch (Exception ex)
@@ -546,9 +546,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
                 SerializedPayloadContext payloadContext = _serializer.ToBytes(request);
-                if (payloadContext.SerializedPayload != null)
+                if (!payloadContext.SerializedPayload.IsEmpty)
                 {
-                    requestMessage.PayloadSegment = payloadContext.SerializedPayload;
+                    requestMessage.Payload = payloadContext.SerializedPayload;
                     requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
                     requestMessage.ContentType = payloadContext.ContentType;
                 }

@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,13 +11,12 @@ namespace Azure.Iot.Operations.Protocol.Models
 {
     public class MqttApplicationMessage(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
     {
-
         /// <summary>
         ///     Gets or sets the content type.
         ///     The content type must be a UTF-8 encoded string. The content type value identifies the kind of UTF-8 encoded
         ///     payload.
         /// </summary>
-        public string? ContentType { get; set; }
+        public string ContentType { get; set; }
 
         /// <summary>
         ///     Gets or sets the correlation data.
@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     published message.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public byte[]? CorrelationData { get; set; }
+        public byte[] CorrelationData { get; set; }
 
         /// <summary>
         ///     If the DUP flag is set to 0, it indicates that this is the first occasion that the Client or Server has attempted
@@ -49,9 +49,20 @@ namespace Azure.Iot.Operations.Protocol.Models
         public uint MessageExpiryInterval { get; set; }
 
         /// <summary>
-        /// Get or set ArraySegment style of Payload.
+        ///     Set an ArraySegment as Payload.
         /// </summary>
-        public ArraySegment<byte> PayloadSegment { get; set; }
+        public ArraySegment<byte> PayloadSegment
+        {
+            set { Payload = new ReadOnlySequence<byte>(value); }
+        }
+
+        /// <summary>
+        ///     Get or set ReadOnlySequence style of Payload.
+        ///     This payload type is used internally and is recommended for public use.
+        ///     It can be used in combination with a RecyclableMemoryStream to publish
+        ///     large buffered messages without allocating large chunks of memory.
+        /// </summary>
+        public ReadOnlySequence<byte> Payload { get; set; } = ReadOnlySequence<byte>.Empty;
 
         /// <summary>
         ///     Gets or sets the payload format indicator.
@@ -62,7 +73,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     If no payload format indicator is provided, the default value is 0.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; set; }
+        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; set; } = MqttPayloadFormatIndicator.Unspecified;
 
         /// <summary>
         ///     Gets or sets the quality of service level.
@@ -73,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     - At least once (1): Message gets delivered at least once (one time or more often).
         ///     - Exactly once  (2): Message gets delivered exactly once (It's ensured that the message only comes once).
         /// </summary>
-        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; } = qos;
+        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; }
 
         /// <summary>
         ///     Gets or sets the response topic.
@@ -81,7 +92,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     the request/response pattern between clients that is common in web applications.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public string? ResponseTopic { get; set; }
+        public string ResponseTopic { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the message should be retained or not.
@@ -99,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     the client when need to forward PUBLISH packets matching this subscription to this client.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<uint>? SubscriptionIdentifiers { get; set; }
+        public List<uint> SubscriptionIdentifiers { get; set; }
 
         /// <summary>
         ///     Gets or sets the MQTT topic.
@@ -108,7 +119,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The topic consists of one or more topic levels. Each topic level is separated by a forward slash (topic level
         ///     separator).
         /// </summary>
-        public string Topic { get; set; } = topic;
+        public string Topic { get; set; }
 
         /// <summary>
         ///     Gets or sets the topic alias.
@@ -128,7 +139,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The feature is very similar to the HTTP header concept.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<MqttUserProperty>? UserProperties { get; set; }
+        public List<MqttUserProperty> UserProperties { get; set; }
 
         public void AddUserProperty(string key, string value)
         {
@@ -138,11 +149,11 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public string? ConvertPayloadToString()
         {
-            return PayloadSegment == ArraySegment<byte>.Empty
+            return Payload.Length == 0
                 ? null
-                : PayloadSegment.Array == null
+                : Payload.ToArray() == null
                 ? null
-                : Encoding.UTF8.GetString(PayloadSegment.Array, PayloadSegment.Offset, PayloadSegment.Count);
+                : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
         public void AddMetadata(OutgoingTelemetryMetadata md)

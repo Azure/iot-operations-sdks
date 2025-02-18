@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Diagnostics;
 using System.Text;
 using Azure.Iot.Operations.Protocol;
@@ -59,7 +60,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             if (MqttTopicProcessor.DoesTopicMatchFilter(topic, string.Format(NotificationsTopicFilter, _clientIdHexString)))
             {
                 HybridLogicalClock? version = null;
-                if (args.ApplicationMessage == null || args.ApplicationMessage.PayloadSegment.Count == 0)
+                if (args.ApplicationMessage == null || args.ApplicationMessage.Payload.IsEmpty)
                 {
                     Trace.TraceWarning("Received a message on the key-notify topic without any payload. Ignoring it.");
                     return;
@@ -104,13 +105,13 @@ namespace Azure.Iot.Operations.Services.StateStore
                 StateStoreKeyNotification notification;
                 try
                 {
-                    if (args.ApplicationMessage.PayloadSegment.Array == null)
+                    if (args.ApplicationMessage.Payload.IsEmpty)
                     {
                         Trace.TraceWarning("Received a message on the key-notify topic with no payload. Ignoring it.");
                         return;
                     }
 
-                    notification = StateStorePayloadParser.ParseKeyNotification(args.ApplicationMessage.PayloadSegment.Array, keyBeingNotified, version);
+                    notification = StateStorePayloadParser.ParseKeyNotification(args.ApplicationMessage.Payload.ToArray(), keyBeingNotified, version);
                 }
                 catch (Exception ex)
                 {

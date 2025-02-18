@@ -308,7 +308,7 @@ public class OrderedAckMqttClientTests
                     OnReconnectComplete.TrySetResult();
                 });
 
-                return Task.FromResult(new MQTTnet.Client.MqttClientConnectResult());
+                return Task.FromResult(new MQTTnet.MqttClientConnectResult());
             };
 
             TaskCompletionSource<MQTTnet.MqttApplicationMessage> firstMessageAcknowledged = new();

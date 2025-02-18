@@ -4,7 +4,7 @@
 using System.Collections.Concurrent;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
-using MQTTnet.Client;
+using MQTTnet;
 using MQTTnet.Diagnostics;
 using MQTTnet.Exceptions;
 using MQTTnet.Formatter;
@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
-    internal class StubMqttClient : MQTTnet.Client.IMqttClient
+    internal class StubMqttClient : MQTTnet.IMqttClient
     {
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 

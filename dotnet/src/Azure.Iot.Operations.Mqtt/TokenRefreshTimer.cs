@@ -38,7 +38,7 @@ internal class TokenRefreshTimer : IDisposable
             Task.Run(async () =>
             {
                 await mqttClient.SendExtendedAuthenticationExchangeDataAsync(
-                    new MqttExtendedAuthenticationExchangeData()
+                    new MqttEnhancedAuthenticationExchangeData()
                     {
                         AuthenticationData = token,
                         ReasonCode = MqttAuthenticateReasonCode.ReAuthenticate

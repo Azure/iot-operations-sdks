@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.Logger;
 using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Mqtt;

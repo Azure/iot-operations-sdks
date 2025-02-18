@@ -5,18 +5,24 @@ using Azure.Iot.Operations.Protocol.Models;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
 {
-    internal class MqttNetMqttExtendedAuthenticationExchangeHandler : MQTTnet.Client.IMqttExtendedAuthenticationExchangeHandler
+    internal class MqttNetMqttExtendedAuthenticationExchangeHandler : MQTTnet.IMqttEnhancedAuthenticationHandler
     {
-        private IMqttExtendedAuthenticationExchangeHandler _mqttNetHandler;
+        private IMqttEnhancedAuthenticationHandler _mqttNetHandler;
 
-        public MqttNetMqttExtendedAuthenticationExchangeHandler(IMqttExtendedAuthenticationExchangeHandler mqttNetHandler)
+        public MqttNetMqttExtendedAuthenticationExchangeHandler(IMqttEnhancedAuthenticationHandler mqttNetHandler)
         {
             _mqttNetHandler = mqttNetHandler;
         }
 
-        public Task HandleRequestAsync(MQTTnet.Client.MqttExtendedAuthenticationExchangeContext context)
+        public Task HandleEnhancedAuthenticationAsync(MQTTnet.MqttEnhancedAuthenticationEventArgs eventArgs)
         {
-            return _mqttNetHandler.HandleRequestAsync(MqttNetConverter.ToGeneric(context));
+            return _mqttNetHandler.HandleEnhancedAuthenticationAsync(
+                new MqttEnhancedAuthenticationEventArgs(
+                eventArgs.AuthenticationData,
+                eventArgs.AuthenticationMethod,
+                (MqttAuthenticateReasonCode)((int)eventArgs.ReasonCode),
+                eventArgs.ReasonString,
+                MqttNetConverter.ToGeneric(eventArgs.UserProperties)));
         }
     }
 }
