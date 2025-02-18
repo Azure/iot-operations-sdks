@@ -47,7 +47,10 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:ms:aio:mq:StateStore;1";
-                base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId!;
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "invoke";
             }
         }

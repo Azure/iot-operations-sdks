@@ -47,7 +47,10 @@ namespace TestEnvoys.Math
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:rpc:samples:math;1";
-                base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId!;
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "fib";
             }
         }
