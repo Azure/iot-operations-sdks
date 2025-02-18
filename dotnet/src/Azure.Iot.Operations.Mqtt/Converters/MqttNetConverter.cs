@@ -415,7 +415,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MqttExtendedAuthenticationExchangeContext ToGeneric(MQTTnet.MqttExtendedAuthenticationExchangeContext mqttNetContext)
+        internal static MqttExtendedAuthenticationExchangeContext ToGeneric(MQTTnet.MqttEnhancedAuthenticationEventArgs mqttNetContext)
         {
             return new MqttExtendedAuthenticationExchangeContext((MqttAuthenticateReasonCode)mqttNetContext.ReasonCode)
             {
@@ -437,7 +437,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                     ReasonString = genericContext.ReasonString,
                     UserProperties = FromGeneric(genericContext.UserProperties),
                 },
-                underlyingClient. as MQTTnet.MqttClient,
+                null, //TODO won't work
                 default);
         }
 
