@@ -42,12 +42,13 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="FibCommandExecutor"/> class.
             /// </summary>
-            internal FibCommandExecutor(IMqttPubSubClient mqttClient)
+            public FibCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "fib", new ProtobufSerializer<FibRequestPayload, FibResponsePayload>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:rpc:samples:math;1";
+                base.TopicTokenMap["executorId"] = mqttClient.ClientId!;
                 base.TopicTokenMap["commandName"] = "fib";
             }
         }

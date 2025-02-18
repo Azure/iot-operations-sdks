@@ -41,12 +41,13 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="IncrementCommandExecutor"/> class.
             /// </summary>
-            internal IncrementCommandExecutor(IMqttPubSubClient mqttClient)
+            public IncrementCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "increment", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
+                base.TopicTokenMap["executorId"] = mqttClient.ClientId!;
                 base.TopicTokenMap["commandName"] = "increment";
             }
         }
