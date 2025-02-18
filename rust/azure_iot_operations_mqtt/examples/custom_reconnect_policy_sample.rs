@@ -95,7 +95,7 @@ impl ReconnectPolicy for CustomReconnectPolicy {
     fn next_reconnect_delay(
         &self,
         prev_attempts: u32,
-        _error: &azure_iot_operations_mqtt::error::ConnectionError,
+        _error: &ConnectionError,
     ) -> Option<Duration> {
         if prev_attempts < 10 {
             Some(Duration::from_secs(1))
