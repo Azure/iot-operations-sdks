@@ -69,6 +69,8 @@ var dataSetWriteServiceUNS = new DatasetWriteService(
     "default",
     loggerFactory.CreateLogger<DatasetWriteService>());
 
+// handling multiple topics in one service, requires single-level wildcard support
+// to be discussed in https://github.com/Azure/iot-operations-sdks/issues/487
 // var processControlActionDefault = new ProcessControlActionServiceMultiple(
 //         mqttClient,
 //         "AioNamespace/asset-operations/MyAssetId/ProcessControlGroup",
