@@ -51,12 +51,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <summary>
             /// Initializes a new instance of the <see cref="<#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>"/> class.
             /// </summary>
-            internal <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(IMqttPubSubClient mqttClient)
+            public <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "<#=this.commandName.AsGiven#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "<#=this.commandName.AsGiven#>";
             }
         }

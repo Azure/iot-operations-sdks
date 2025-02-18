@@ -18,6 +18,7 @@ const (
 	Caching
 	Dispatch
 	ExplicitDefault
+	MultipleSerializers
 )
 
 func (k TestFeatureKind) String() string {
@@ -52,6 +53,9 @@ func (k *TestFeatureKind) UnmarshalYAML(value *yaml.Node) error {
 		return nil
 	case "explicit-default":
 		*k = ExplicitDefault
+		return nil
+	case "multiple-serializers":
+		*k = MultipleSerializers
 		return nil
 	}
 }

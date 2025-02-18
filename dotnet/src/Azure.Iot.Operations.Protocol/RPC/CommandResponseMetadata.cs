@@ -25,7 +25,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         /// <summary>
         /// The content type of a command response received by a command invoker if a content type was provided on the MQTT message.
-
         /// </summary>
         /// <remarks>
         /// This field is only set by the command invoker when deserializing a response. It cannot be used by a command executor to change the content type of a command response.

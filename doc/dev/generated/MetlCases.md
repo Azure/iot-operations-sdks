@@ -50,7 +50,6 @@ See below for categorized tests.
 | CommandExecutor receives request with no ContentType metadata. | CommandExecutor sends response with status OK. |
 | CommandExecutor receives request with no CorrelationData. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no MessageExpiry metadata. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with no payload. | CommandExecutor sends response with status BadRequest. |
 | CommandExecutor receives request with no ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
 | CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status OK. |
 | CommandExecutor receives two requests that synchronize so that they complete in reverse order. | CommandExecutor sends responses in reverse order and acknowledges in receipt order. |
@@ -80,6 +79,7 @@ See below for categorized tests.
 
 | Normative statement | Expected behavior |
 | --- | --- |
+| CommandInvoker with no specified response-topic prefix or suffix invokes command and receives response. | CommandInvoker uses default prefix for generating response topic. |
 | CommandInvoker with executor-agnostic topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker with executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker invokes command and receives response. | CommandInvoker publication includes protocol version header with expected version value. |
@@ -117,7 +117,6 @@ See below for categorized tests.
 | CommandInvoker receives response message with status indicating the executor does not support the requested protocol version. | Invocation throws 'request version not supported' exception. |
 | CommandInvoker receives response message with invalid status property in header. | Invocation throws 'invalid header' exception. |
 | CommandInvoker receives response with payload that cannot deserialize. | Invocation throws 'invalid payload' exception. |
-| CommandInvoker receives response with no payload. | Invocation throws 'invalid payload' exception. |
 | CommandInvoker receives response message with no status property in header. | Invocation throws 'missing header' exception. |
 | CommandInvoker initialized with a response topic prefix that contains an '{executorId}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
 | CommandInvoker response topic prefix contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |

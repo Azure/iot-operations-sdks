@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -34,6 +33,7 @@ func RunTelemetryReceiverTests(t *testing.T) {
 	}
 
 	TestCaseDefaultInfo = &telemetryReceiverDefaultInfo
+	TestCaseDefaultSerializer = &telemetryReceiverDefaultInfo.Prologue.Receiver.Serializer
 
 	files, err := filepath.Glob(
 		"../../../eng/test/test-cases/Protocol/TelemetryReceiver/*.yaml",
@@ -145,7 +145,6 @@ func runOneTelemetryReceiverTest(
 		switch action.Kind {
 		case ReceiveTelemetry:
 			receiveTelemetry(
-				t,
 				action.AsReceiveTelemetry(),
 				stubBroker,
 				sourceIDs,
@@ -216,6 +215,7 @@ func getTelemetryReceiver(
 
 	receiver, err := NewTestingTelemetryReceiver(
 		sessionClient,
+		&tcr.Serializer,
 		tcr.TelemetryTopic,
 		func(
 			_ context.Context,
@@ -245,7 +245,6 @@ func getTelemetryReceiver(
 }
 
 func receiveTelemetry(
-	t *testing.T,
 	actionReceiveTelemetry *TestCaseActionReceiveTelemetry,
 	stubBroker *StubBroker,
 	sourceIDs map[int]string,
@@ -288,13 +287,7 @@ func receiveTelemetry(
 
 	var payload []byte
 	if actionReceiveTelemetry.Payload != nil {
-		if actionReceiveTelemetry.BypassSerialization {
-			payload = []byte(*actionReceiveTelemetry.Payload)
-		} else {
-			var err error
-			payload, err = json.Marshal(*actionReceiveTelemetry.Payload)
-			require.NoErrorf(t, err, "Unexpected error serializing payload: %s", err)
-		}
+		payload = []byte(*actionReceiveTelemetry.Payload)
 	}
 
 	if actionReceiveTelemetry.MessageExpiry != nil {

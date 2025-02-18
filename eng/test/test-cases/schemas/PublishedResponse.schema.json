@@ -18,6 +18,16 @@
             "type": [ "string", "null" ],
             "kind": "check"
         },
+        "content-type": {
+            "description": "The value of the ContentType header in the message.",
+            "type": "string",
+            "kind": "check"
+        },
+        "format-indicator": {
+            "description": "The value of the PayloadFormatIndicator header in the message.",
+            "type": "integer",
+            "kind": "check"
+        },
         "metadata": {
             "description": "Keys and values of header fields in the message; a null value indicates field should not be present.",
             "type": "object",

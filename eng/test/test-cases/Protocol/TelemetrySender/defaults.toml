@@ -2,6 +2,10 @@
 telemetry-name = "test"
 telemetry-topic = "mock/test"
 
+[prologue.sender.serializer]
+out-content-type = "application/json"
+indicate-character-data = true
+
 [actions.send-telemetry]
 telemetry-name = "test"
 telemetry-value = "Test_Telemetry"

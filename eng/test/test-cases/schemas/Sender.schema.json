@@ -8,6 +8,11 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
+        "serializer": {
+            "description": "Configuration settings for the test serializer associated with the sender.",
+            "$ref": "SenderSerializer.schema.json",
+            "kind": "drive"
+        },
         "telemetry-topic": {
             "description": "The MQTT topic pattern for the Telemetry.",
             "type": [ "string", "null" ],

@@ -22,6 +22,12 @@ pub struct TestCasePublishedMessage {
     #[allow(clippy::option_option)]
     pub payload: Option<Option<String>>,
 
+    #[serde(rename = "content-type")]
+    pub content_type: Option<String>,
+
+    #[serde(rename = "format-indicator")]
+    pub format_indicator: Option<u8>,
+
     #[serde(rename = "metadata")]
     #[serde(default)]
     pub metadata: HashMap<String, Option<String>>,

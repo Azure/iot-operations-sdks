@@ -29,6 +29,10 @@
         {
             "const": "explicit-default",
             "title": "The component under test uses an explicit indication (not a sentinel value) to imply a default value."
+        },
+        {
+            "const": "multiple-serializers",
+            "title": "Each component under test can have a different serializer configuration."
         }
     ]
 }

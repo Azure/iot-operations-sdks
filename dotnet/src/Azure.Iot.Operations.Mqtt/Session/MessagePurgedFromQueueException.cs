@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using System;
 
 namespace Azure.Iot.Operations.Mqtt.Session.Exceptions
 {

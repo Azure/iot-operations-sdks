@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Reflection;
-using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
-using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.Assets
 {
@@ -38,7 +35,7 @@ namespace Azure.Iot.Operations.Services.Assets
         public string? Description { get; set; }
 
         /// <summary>
-        /// A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.
+        /// A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace></ModuleCR.metadata.namespace>.
         /// </summary>
         public string? AssetEndpointProfileRef { get; set; }
 
