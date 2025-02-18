@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
@@ -76,8 +76,8 @@ public class GreeterEnvoy
             await SayHelloWithDelayCommandExecutor.DisposeAsync(disposing);
         }
 
-        public abstract Task<ExtendedResponse<HelloResponse>> SayHello(ExtendedRequest<HelloRequest> request, CancellationToken cancellationToken);
-        public abstract Task<ExtendedResponse<HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<HelloWithDelayRequest> request, CancellationToken cancellationToken);
+        public abstract Task<ExtendedResponse<HelloResponse>> SayHello(ExtendedRequest<HelloRequest> request, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken);
+        public abstract Task<ExtendedResponse<HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<HelloWithDelayRequest> request, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken);
 
         public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {

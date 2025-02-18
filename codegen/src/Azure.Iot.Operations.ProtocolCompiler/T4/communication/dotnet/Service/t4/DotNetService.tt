@@ -110,7 +110,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             }
 <# } #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            private<#=this.syncApi ? "" : " async"#> Task<ExtendedResponse<<#=this.SchemaType(cmdNameReqResp.Item3)#>>> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>(ExtendedRequest<<#=this.SchemaType(cmdNameReqResp.Item2)#>> req, CancellationToken cancellationToken)
+            private<#=this.syncApi ? "" : " async"#> Task<ExtendedResponse<<#=this.SchemaType(cmdNameReqResp.Item3)#>>> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>(ExtendedRequest<<#=this.SchemaType(cmdNameReqResp.Item2)#>> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
 <# if (this.syncApi) { #>
                 <#=this.IntLValue(cmdNameReqResp)#>this.<#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp)#>(<#=this.ReqArgs(cmdNameReqResp, "req")#>, cancellationToken);

@@ -69,12 +69,12 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     this.putCommandExecutor.StopAsync(cancellationToken),
                     this.getCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<PutResponsePayload>> PutInt(ExtendedRequest<PutRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<PutResponsePayload>> PutInt(ExtendedRequest<PutRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<PutResponsePayload> extended = await this.PutAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<PutResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<GetResponsePayload>> GetInt(ExtendedRequest<GetRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetResponsePayload>> GetInt(ExtendedRequest<GetRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetResponsePayload> extended = await this.GetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<GetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };

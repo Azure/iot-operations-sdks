@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public TimeSpan ExecutionTimeout { get; set; }
 
-        public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
+        public required Func<ExtendedRequest<TReq>, IReadOnlyDictionary<string, string>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 
@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
-            if (commandName == null || commandName == string.Empty)
+            if (string.IsNullOrEmpty(commandName))
             {
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(commandName), string.Empty);
             }
@@ -228,7 +228,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     try
                     {
-                        ExtendedResponse<TResp> extended = await Task.Run(() => OnCommandReceived(extendedRequest, commandCts.Token)).WaitAsync(ExecutionTimeout).ConfigureAwait(false);
+                        ExtendedResponse<TResp> extended = await Task.Run(() => OnCommandReceived(extendedRequest, TopicTokenMap, commandCts.Token)).WaitAsync(ExecutionTimeout).ConfigureAwait(false);
 
                         var serializedPayloadContext = _serializer.ToBytes(extended.Response);
 
@@ -388,7 +388,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (!MqttTopicProcessor.IsValidReplacement(requestMsg.ResponseTopic))
             {
-                Trace.TraceError($"Command '{this._commandName}' with CorrelationId {requestMsg.CorrelationData} specified invalid response topic '{requestMsg.ResponseTopic}'. The command response will not be published.");
+                Trace.TraceError($"Command '{_commandName}' with CorrelationId {requestMsg.CorrelationData} specified invalid response topic '{requestMsg.ResponseTopic}'. The command response will not be published.");
 
                 status = null;
                 statusMessage = null;

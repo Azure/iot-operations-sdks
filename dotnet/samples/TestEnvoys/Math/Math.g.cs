@@ -76,17 +76,17 @@ namespace TestEnvoys.Math
                     this.fibCommandExecutor.StopAsync(cancellationToken),
                     this.getRandomCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeInt(ExtendedRequest<IsPrimeRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeInt(ExtendedRequest<IsPrimeRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<IsPrimeResponsePayload> extended = await this.IsPrimeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<IsPrimeResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<FibResponsePayload>> FibInt(ExtendedRequest<FibRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<FibResponsePayload>> FibInt(ExtendedRequest<FibRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<FibResponsePayload> extended = await this.FibAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<FibResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomInt(ExtendedRequest<Google.Protobuf.WellKnownTypes.Empty> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomInt(ExtendedRequest<Google.Protobuf.WellKnownTypes.Empty> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetRandomResponsePayload> extended = await this.GetRandomAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<GetRandomResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };

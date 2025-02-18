@@ -85,17 +85,17 @@ namespace TestEnvoys.Counter
                     this.incrementCommandExecutor.StopAsync(cancellationToken),
                     this.resetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterInt(ExtendedRequest<EmptyJson> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<ReadCounterResponsePayload> extended = await this.ReadCounterAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<ReadCounterResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<IncrementResponsePayload>> IncrementInt(ExtendedRequest<IncrementRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<IncrementResponsePayload>> IncrementInt(ExtendedRequest<IncrementRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<IncrementResponsePayload> extended = await this.IncrementAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<IncrementResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<EmptyJson>> ResetInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<EmptyJson>> ResetInt(ExtendedRequest<EmptyJson> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.ResetAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<EmptyJson> { ResponseMetadata = responseMetadata };

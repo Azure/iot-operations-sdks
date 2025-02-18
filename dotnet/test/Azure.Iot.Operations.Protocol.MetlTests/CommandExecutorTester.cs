@@ -366,7 +366,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (testCaseExecutor.ResponseMetadata.Any() || testCaseExecutor.TokenMetadataPrefix != null)
                 {
-                    commandExecutor.OnCommandReceived = async (extReq, ct) =>
+                    commandExecutor.OnCommandReceived = async (extReq, topicTokenMap, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
                         string response = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
@@ -394,7 +394,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
                 else
                 {
-                    commandExecutor.OnCommandReceived = async (extReq, ct) =>
+                    commandExecutor.OnCommandReceived = async (extReq, topicTokenMap, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
                         string response = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);

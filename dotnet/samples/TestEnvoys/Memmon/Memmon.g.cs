@@ -101,17 +101,17 @@ namespace TestEnvoys.Memmon
                     this.stopTelemetryCommandExecutor.StopAsync(cancellationToken),
                     this.getRuntimeStatsCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<EmptyAvro>> StartTelemetryInt(ExtendedRequest<StartTelemetryRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<EmptyAvro>> StartTelemetryInt(ExtendedRequest<StartTelemetryRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.StartTelemetryAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<EmptyAvro> { ResponseMetadata = responseMetadata };
             }
-            private async Task<ExtendedResponse<EmptyAvro>> StopTelemetryInt(ExtendedRequest<EmptyAvro> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<EmptyAvro>> StopTelemetryInt(ExtendedRequest<EmptyAvro> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.StopTelemetryAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<EmptyAvro> { ResponseMetadata = responseMetadata };
             }
-            private async Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsInt(ExtendedRequest<GetRuntimeStatsRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsInt(ExtendedRequest<GetRuntimeStatsRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetRuntimeStatsResponsePayload> extended = await this.GetRuntimeStatsAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<GetRuntimeStatsResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };

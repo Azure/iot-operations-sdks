@@ -201,7 +201,7 @@ public class GreeterEnvoyTests
 
         // add count for each executor's commands handled
         int count1 = 0;
-        greeterService1.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
+        greeterService1.SayHelloCommandExecutor.OnCommandReceived = (req, topicTokenMap, ct) =>
         {
             count1++;
             return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
@@ -214,7 +214,7 @@ public class GreeterEnvoyTests
         };
 
         int count2 = 0;
-        greeterService2.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
+        greeterService2.SayHelloCommandExecutor.OnCommandReceived = (req, topicTokenMap, ct) =>
         {
             count2++;
             return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
@@ -270,7 +270,7 @@ public class GreeterEnvoyTests
 
         // add count for each executor's commands handled
         int count1 = 0;
-        greeterService1.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
+        greeterService1.SayHelloCommandExecutor.OnCommandReceived = (req, topicTokenMap, ct) =>
         {
             count1++;
             return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>
@@ -283,7 +283,7 @@ public class GreeterEnvoyTests
         };
 
         int count2 = 0;
-        greeterService2.SayHelloCommandExecutor.OnCommandReceived = (req, ct) =>
+        greeterService2.SayHelloCommandExecutor.OnCommandReceived = (req, topicTokenMap, ct) =>
         {
             count2++;
             return Task.FromResult(new ExtendedResponse<GreeterEnvoy.HelloResponse>

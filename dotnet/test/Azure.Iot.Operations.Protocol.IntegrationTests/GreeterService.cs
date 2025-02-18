@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.RPC;
@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class GreeterService : GreeterEnvoy.Service
 {
-    public GreeterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
+    public GreeterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
         SetExecutorTimeout(TimeSpan.FromSeconds(30));
     }
@@ -19,7 +19,7 @@ public class GreeterService : GreeterEnvoy.Service
         SayHelloWithDelayCommandExecutor.ExecutionTimeout = timeout;
     }
 
-    public override Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHello(ExtendedRequest<GreeterEnvoy.HelloRequest> request, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHello(ExtendedRequest<GreeterEnvoy.HelloRequest> request, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Greeter.SayHello with id {request.RequestMetadata.CorrelationId} for {request.RequestMetadata.InvokerClientId}");
         Console.WriteLine($"--> Executed Greeter.SayHello with id {request.RequestMetadata.CorrelationId} for {request.RequestMetadata.InvokerClientId}");
@@ -32,7 +32,7 @@ public class GreeterService : GreeterEnvoy.Service
         });
     }
 
-    public override async Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest> request, CancellationToken cancellationToken)
+    public override async Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest> request, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Greeter.SayHelloWithDelay with id {request.RequestMetadata.CorrelationId} for {request.RequestMetadata.InvokerClientId}");
         if (request.Request.Delay == TimeSpan.Zero)

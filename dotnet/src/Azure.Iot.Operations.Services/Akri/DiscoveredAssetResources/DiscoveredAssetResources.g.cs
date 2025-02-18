@@ -70,12 +70,12 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     this.createDiscoveredAssetEndpointProfileCommandExecutor.StopAsync(cancellationToken),
                     this.createDiscoveredAssetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileInt(ExtendedRequest<CreateDiscoveredAssetEndpointProfileRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileInt(ExtendedRequest<CreateDiscoveredAssetEndpointProfileRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> extended = await this.CreateDiscoveredAssetEndpointProfileAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<CreateDiscoveredAssetResponsePayload>> CreateDiscoveredAssetInt(ExtendedRequest<CreateDiscoveredAssetRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<CreateDiscoveredAssetResponsePayload>> CreateDiscoveredAssetInt(ExtendedRequest<CreateDiscoveredAssetRequestPayload> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateDiscoveredAssetResponsePayload> extended = await this.CreateDiscoveredAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<CreateDiscoveredAssetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };

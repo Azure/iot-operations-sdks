@@ -62,7 +62,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 await Task.WhenAll(
                     this.invokeCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<byte[]>> InvokeInt(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<byte[]>> InvokeInt(ExtendedRequest<byte[]> req, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
             {
                 ExtendedResponse<byte[]> extended = await this.InvokeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<byte[]> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };

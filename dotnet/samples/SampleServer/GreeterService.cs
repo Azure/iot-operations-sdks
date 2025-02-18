@@ -1,16 +1,16 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
-using TestEnvoys.Greeter;
 using Azure.Iot.Operations.Protocol;
+using TestEnvoys.Greeter;
 
 namespace SampleServer;
 
 public class GreeterService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : GreeterEnvoy.Service(applicationContext, mqttClient)
 {
-    public override Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHello(ExtendedRequest<GreeterEnvoy.HelloRequest> request, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHello(ExtendedRequest<GreeterEnvoy.HelloRequest> request, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Greeter.SayHello with id {request.RequestMetadata.CorrelationId} for {request.RequestMetadata.InvokerClientId}");
         Console.WriteLine($"--> Executed Greeter.SayHello with id {request.RequestMetadata.CorrelationId} for {request.RequestMetadata.InvokerClientId}");
@@ -23,7 +23,7 @@ public class GreeterService(ApplicationContext applicationContext, MqttSessionCl
         });
     }
 
-    public override async Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest> request, CancellationToken cancellationToken)
+    public override async Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest> request, IReadOnlyDictionary<string, string> topicTokenMap, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Greeter.SayHelloWithDelay with id {request.RequestMetadata.CorrelationId} for {request.RequestMetadata.InvokerClientId}");
         if (request.Request.Delay == TimeSpan.Zero)
