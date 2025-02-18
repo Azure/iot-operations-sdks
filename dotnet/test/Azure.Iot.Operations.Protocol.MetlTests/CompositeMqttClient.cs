@@ -10,22 +10,22 @@ namespace Azure.Iot.Operations.Protocol.MetlTests;
 
 public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
 {
-    private readonly MqttClientOptions connectOptions;
-    private readonly MqttClientDisconnectOptions disconnectOptions;
+    private readonly MqttClientOptions _connectOptions;
+    private readonly MqttClientDisconnectOptions _disconnectOptions;
 
-    private readonly MQTTnet.Client.IMqttClient mqttClient;
-    private readonly MqttSessionClient? sessionClient;
+    private readonly MQTTnet.Client.IMqttClient _mqttClient;
+    private readonly MqttSessionClient? _sessionClient;
 
     public CompositeMqttClient(MQTTnet.Client.IMqttClient mqttClient, bool includeSessionClient, string clientId)
     {
-        connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883)) { SessionExpiryInterval = 120, ClientId = clientId };
-        disconnectOptions = new MqttClientDisconnectOptions();
+        _connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883)) { SessionExpiryInterval = 120, ClientId = clientId };
+        _disconnectOptions = new MqttClientDisconnectOptions();
 
-        this.mqttClient = mqttClient;
+        this._mqttClient = mqttClient;
 
         if (includeSessionClient)
         {
-            this.sessionClient = new MqttSessionClient(mqttClient);
+            this._sessionClient = new MqttSessionClient(mqttClient);
         }
     }
 
@@ -33,64 +33,64 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
     {
         add
         {
-            if (sessionClient != null)
+            if (_sessionClient != null)
             {
-                sessionClient.ApplicationMessageReceivedAsync += value;
+                _sessionClient.ApplicationMessageReceivedAsync += value;
             }
             else
             {
-                mqttClient.ApplicationMessageReceivedAsync += MqttNetConverter.FromGeneric(value!);
+                _mqttClient.ApplicationMessageReceivedAsync += MqttNetConverter.FromGeneric(value!);
             }
         }
 
         remove
         {
-            if (sessionClient != null)
+            if (_sessionClient != null)
             {
-                sessionClient.ApplicationMessageReceivedAsync -= value;
+                _sessionClient.ApplicationMessageReceivedAsync -= value;
             }
             else
             {
-                mqttClient.ApplicationMessageReceivedAsync -= MqttNetConverter.FromGeneric(value!);
+                _mqttClient.ApplicationMessageReceivedAsync -= MqttNetConverter.FromGeneric(value!);
             }
         }
     }
 
-    public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default) => sessionClient != null ?
-        await sessionClient.PublishAsync(applicationMessage, cancellationToken) :
-        MqttNetConverter.ToGeneric(await mqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
+    public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default) => _sessionClient != null ?
+        await _sessionClient.PublishAsync(applicationMessage, cancellationToken) :
+        MqttNetConverter.ToGeneric(await _mqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
 
-    public async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default) => sessionClient != null ?
-        await sessionClient.SubscribeAsync(options, cancellationToken) :
-        MqttNetConverter.ToGeneric(await mqttClient.SubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
+    public async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default) => _sessionClient != null ?
+        await _sessionClient.SubscribeAsync(options, cancellationToken) :
+        MqttNetConverter.ToGeneric(await _mqttClient.SubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
 
-    public async Task<MqttClientUnsubscribeResult> UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default) => sessionClient != null ?
-        await sessionClient.UnsubscribeAsync(options, cancellationToken) :
-        MqttNetConverter.ToGeneric(await mqttClient.UnsubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
+    public async Task<MqttClientUnsubscribeResult> UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default) => _sessionClient != null ?
+        await _sessionClient.UnsubscribeAsync(options, cancellationToken) :
+        MqttNetConverter.ToGeneric(await _mqttClient.UnsubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
 
-    public string ClientId { get => sessionClient != null ? sessionClient.ClientId! : mqttClient.Options?.ClientId ?? string.Empty; }
+    public string ClientId { get => _sessionClient != null ? _sessionClient.ClientId! : _mqttClient.Options?.ClientId ?? string.Empty; }
 
-    public MqttProtocolVersion ProtocolVersion { get => sessionClient != null ? sessionClient.ProtocolVersion : (MqttProtocolVersion)((int) (mqttClient.Options?.ProtocolVersion ?? MQTTnet.Formatter.MqttProtocolVersion.Unknown)); }
+    public MqttProtocolVersion ProtocolVersion { get => _sessionClient != null ? _sessionClient.ProtocolVersion : (MqttProtocolVersion)((int) (_mqttClient.Options?.ProtocolVersion ?? MQTTnet.Formatter.MqttProtocolVersion.Unknown)); }
 
-    public async Task<MqttClientConnectResult> ConnectAsync(CancellationToken cancellationToken = default) => sessionClient != null ?
-        await sessionClient.ConnectAsync(connectOptions, cancellationToken) :
-        MqttNetConverter.ToGeneric(await mqttClient.ConnectAsync(MqttNetConverter.FromGeneric(connectOptions, mqttClient), cancellationToken))!;
+    public async Task<MqttClientConnectResult> ConnectAsync(CancellationToken cancellationToken = default) => _sessionClient != null ?
+        await _sessionClient.ConnectAsync(_connectOptions, cancellationToken) :
+        MqttNetConverter.ToGeneric(await _mqttClient.ConnectAsync(MqttNetConverter.FromGeneric(_connectOptions, _mqttClient), cancellationToken))!;
 
-    public Task DisconnectAsync(CancellationToken cancellationToken = default) => sessionClient != null ?
-        sessionClient.DisconnectAsync(disconnectOptions, cancellationToken) :
-        mqttClient.DisconnectAsync(MqttNetConverter.FromGeneric(disconnectOptions), cancellationToken);
+    public Task DisconnectAsync(CancellationToken cancellationToken = default) => _sessionClient != null ?
+        _sessionClient.DisconnectAsync(_disconnectOptions, cancellationToken) :
+        _mqttClient.DisconnectAsync(MqttNetConverter.FromGeneric(_disconnectOptions), cancellationToken);
 
     public async ValueTask DisposeAsync()
     {
-        if (sessionClient != null)
+        if (_sessionClient != null)
         {
-            await sessionClient.DisconnectAsync();
-            await sessionClient.DisposeAsync();
+            await _sessionClient.DisconnectAsync();
+            await _sessionClient.DisposeAsync();
         }
         else
         {
-            await mqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
-            mqttClient.Dispose();
+            await _mqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
+            _mqttClient.Dispose();
         }
     }
 

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using MQTTnet.Client;
 using MQTTnet;
 using Azure.Iot.Operations.Mqtt;
 

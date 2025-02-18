@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;

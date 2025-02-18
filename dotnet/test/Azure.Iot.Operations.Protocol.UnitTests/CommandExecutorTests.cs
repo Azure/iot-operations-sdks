@@ -3,8 +3,6 @@
 
 using System.Diagnostics;
 using System.Globalization;
-using System.Net;
-using System.Text;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
@@ -327,7 +325,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string invClientId2 = Guid.NewGuid().ToString();
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicContainsExecutorId_NotRetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
-            var CorrelationData = Guid.NewGuid().ToByteArray();
+            var correlationData = Guid.NewGuid().ToByteArray();
             var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
@@ -398,7 +396,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string invClientId2 = Guid.NewGuid().ToString();
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicWithoutExecutorId_NotRetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
-            var CorrelationData = Guid.NewGuid().ToByteArray();
+            var correlationData = Guid.NewGuid().ToByteArray();
             var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage("mock/any/echo")
             {

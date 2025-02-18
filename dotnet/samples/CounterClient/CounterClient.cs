@@ -5,7 +5,6 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Microsoft.Extensions.Logging;
 
 namespace CounterClient;
 

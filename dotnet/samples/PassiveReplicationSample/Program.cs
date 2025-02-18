@@ -3,9 +3,8 @@
 
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.StateStore;
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt.Session;
-using MQTTnet.Client;
+using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 {
