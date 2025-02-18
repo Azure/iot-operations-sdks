@@ -6,7 +6,8 @@ internal class StringSerializer : IPayloadSerializer
 {
     public SerializedPayloadContext ToBytes<T>(T? payload) where T : class
     {
-        return new SerializedPayloadContext(null, "application/text", MqttPayloadFormatIndicator.CharacterData);
+        var buffer = Encoding.UTF8.GetBytes((payload as string) ?? string.Empty);
+        return new SerializedPayloadContext(buffer, "application/text", MqttPayloadFormatIndicator.CharacterData);
     }
 
     public T FromBytes<T>(
@@ -15,7 +16,7 @@ internal class StringSerializer : IPayloadSerializer
             MqttPayloadFormatIndicator payloadFormatIndicator) 
         where T : class
     {
-        var content = Encoding.UTF8.GetString(payload);
+        var content = payload != null ? Encoding.UTF8.GetString(payload) : string.Empty;
         return content as T;
     }
 }
