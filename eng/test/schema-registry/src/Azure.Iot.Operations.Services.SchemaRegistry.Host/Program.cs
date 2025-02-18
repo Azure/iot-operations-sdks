@@ -6,7 +6,7 @@ Console.WriteLine($"{ThisAssembly.AssemblyName} {ThisAssembly.AssemblyInformatio
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Services
-    .AddSingleton<ApplicationContext>();
+    .AddSingleton<ApplicationContext>()
     .AddSingleton(MqttSessionClientFactoryProvider.MqttClientFactory)
     .AddTransient<SchemaValidator>()
     .AddTransient<SchemaRegistryService>()
