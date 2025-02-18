@@ -7,7 +7,6 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
-using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 {

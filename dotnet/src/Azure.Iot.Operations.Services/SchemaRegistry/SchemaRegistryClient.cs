@@ -17,7 +17,7 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
 
     public async Task<SchemaInfo?> GetAsync(
         string schemaId,
-        string version = "1.0.0",
+        string version = "1",
         TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -39,7 +39,7 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
         string schemaContent,
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,
-        string version = "1.0.0", 
+        string version = "1", 
         Dictionary<string, string>? tags = null, 
         TimeSpan? timeout = null, 
         CancellationToken cancellationToken = default)

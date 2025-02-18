@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using MQTTnet.Client;
-using MQTTnet.Protocol;
 using System.Collections;
 
 namespace Azure.Iot.Operations.Protocol.Session.UnitTests

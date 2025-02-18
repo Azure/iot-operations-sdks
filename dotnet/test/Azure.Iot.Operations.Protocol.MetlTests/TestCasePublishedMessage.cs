@@ -11,6 +11,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public object Payload { get; set; } = false;
 
+        public string? ContentType { get; set; }
+
+        public int? FormatIndicator { get; set; }
+
         public Dictionary<string, string?> Metadata { get; set; } = new();
 
         public object CommandStatus { get; set; } = false;

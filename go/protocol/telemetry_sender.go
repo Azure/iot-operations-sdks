@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -95,6 +96,7 @@ func NewTelemetrySender[T any](
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
+		version:  version.TelemetryProtocolString,
 		log:      logger,
 	}
 

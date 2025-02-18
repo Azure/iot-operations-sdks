@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -124,14 +125,15 @@ func NewTelemetryReceiver[T any](
 		timeout:   to,
 	}
 	tr.listener = &listener[T]{
-		app:         app,
-		client:      client,
-		encoding:    encoding,
-		topic:       tf,
-		shareName:   opts.ShareName,
-		concurrency: opts.Concurrency,
-		log:         logger,
-		handler:     tr,
+		app:              app,
+		client:           client,
+		encoding:         encoding,
+		topic:            tf,
+		shareName:        opts.ShareName,
+		concurrency:      opts.Concurrency,
+		supportedVersion: version.TelemetrySupported,
+		log:              logger,
+		handler:          tr,
 	}
 
 	tr.listener.register()

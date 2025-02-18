@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/google/uuid"
 )
 
@@ -23,6 +22,7 @@ type publisher[T any] struct {
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
 	log      log.Logger
+	version  string
 }
 
 // DefaultTimeout is the timeout applied to Invoke or Send if none is specified.
@@ -84,7 +84,7 @@ func (p *publisher[T]) build(
 	}
 	pub.UserProperties[constants.SourceID] = p.client.ID()
 	pub.UserProperties[constants.Timestamp] = ts.String()
-	pub.UserProperties[constants.ProtocolVersion] = version.ProtocolString
+	pub.UserProperties[constants.ProtocolVersion] = p.version
 
 	return pub, nil
 }

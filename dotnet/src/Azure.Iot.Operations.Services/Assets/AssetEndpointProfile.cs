@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.Assets
 {

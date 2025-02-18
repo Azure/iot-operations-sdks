@@ -222,7 +222,7 @@ namespace Azure.Iot.Operations.Protocol
             }
 
             DateTime timestamp = DateTime.UnixEpoch;
-            timestamp = double.TryParse(parts[0], out double result)
+            timestamp = double.TryParse(parts[0], CultureInfo.InvariantCulture, out double result)
                 ? timestamp.AddMilliseconds(result)
                 : throw new AkriMqttException("Malformed HLC. Could not parse first segment as an integer")
                 {

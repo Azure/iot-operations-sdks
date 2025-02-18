@@ -8,6 +8,11 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
+        "serializer": {
+            "description": "Configuration settings for the test serializer associated with the invoker.",
+            "$ref": "InvokerSerializer.schema.json",
+            "kind": "drive"
+        },
         "request-topic": {
             "description": "The MQTT topic pattern for the Command request.",
             "type": [ "string", "null" ],

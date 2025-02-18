@@ -1,6 +1,11 @@
 [prologue.receiver]
 telemetry-topic = "mock/test"
 
+[prologue.receiver.serializer]
+accept-content-types = [ "", "application/json" ]
+allow-character-data = true
+fail-deserialization = false
+
 [actions.receive-telemetry]
 topic = "mock/test"
 payload = "Test_Telemetry"

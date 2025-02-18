@@ -164,19 +164,8 @@
       <Subsection>
 
         <Paragraph>
-          The DTDL that defines request and response types for testing the `CommandExecutor` is as follows.
-        </Paragraph>
-
-        <CodeBlock language="json" source="../../../../test/test-cases/dtdl/TestModel.json" />
-
-        <Paragraph>
-          Because tests can execute concurrently, and the response cache is shared across all `CommandExecutor` instances, it is necessary to prevent test cases from interfering with each other.
-          The test engine generates a unique integer for each executing test case and populates the `testCaseIndex` field of the request payload with this value.
-          This ensures that separate test cases do not generate identical requests, which could collide in the cache.
-        </Paragraph>
-        <Paragraph>
-          In the `CommandExecutor` execution function, the test engine copies the `testCaseIndex` from the request payload to the response payload.
-          Whenever a test case indicates that a response value should be checked, the test engine also checks the `testCaseIndex` value to ensure it matches the value for the test case.
+          Request and response types of `string` are used for testing the `CommandExecutor`.
+          These are serialized to, and deserialized from, UTF8 bytes.
         </Paragraph>
 
       </Subsection>
@@ -250,7 +239,7 @@
           Each element of the `executors` array can have the following child keys:
         </Paragraph>
 
-        <ObjectPropertyTable defaults="prologue.executor" kinds="include" />
+        <ObjectPropertyTable defaults="prologue.executor" popDefaults="serializer" kinds="include" />
 
         <Paragraph>
           The value of `request-responses-map` is used to emulate a user-code command execution function.
@@ -263,6 +252,25 @@
           The value type for `cacheable-duration` and `executor-timeout` is common across classes, so it is defined towards the end of this document.
           The value types for `raise-error` and `sync` are specific to CommandExecutor and are defined in the next subsections.
         </Paragraph>
+
+      </Subsection>
+
+      <Subsection item="ExecutorSerializer">
+        <Subsubheading />
+
+        <Paragraph>
+          The 'serializer' key provides configuration settings for the test serializer associated with the executor, as in the following example:
+        </Paragraph>
+
+        <Example key="executors">
+          <Include key="serializer" />
+        </Example>
+
+        <Paragraph>
+          A CommandExecutor serializer can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.executor.serializer" kinds="include" />
 
       </Subsection>
 
@@ -464,7 +472,7 @@
 
         <Paragraph>
           Request and response types of `string` are used for testing the `CommandInvoker`.
-          There are no shared components across `CommandInvoker` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+          These are serialized to, and deserialized from, UTF8 bytes.
         </Paragraph>
 
       </Subsection>
@@ -528,7 +536,26 @@
           Each element of the `invokers` array can have the following child keys:
         </Paragraph>
 
-        <ObjectPropertyTable defaults="prologue.invoker" kinds="include" />
+        <ObjectPropertyTable defaults="prologue.invoker" popDefaults="serializer" kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="InvokerSerializer">
+        <Subsubheading />
+
+        <Paragraph>
+          The 'serializer' key provides configuration settings for the test serializer associated with the invoker, as in the following example:
+        </Paragraph>
+
+        <Example key="invokers">
+          <Include key="serializer" />
+        </Example>
+
+        <Paragraph>
+          A CommandInvoker serializer can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.invoker.serializer" kinds="include" />
 
       </Subsection>
 
@@ -706,7 +733,7 @@
 
         <Paragraph>
           A Telemetry type of `string` is used for testing the `TelemetryReceiver`.
-          There are no shared components across `TelemetryReceiver` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+          This is serialized to, and deserialized from, UTF8 bytes.
         </Paragraph>
 
       </Subsection>
@@ -770,7 +797,26 @@
           Each element of the `receivers` array can have the following child keys:
         </Paragraph>
 
-        <ObjectPropertyTable defaults="prologue.receiver" kinds="include" />
+        <ObjectPropertyTable defaults="prologue.receiver" popDefaults="serializer" kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="ReceiverSerializer">
+        <Subsubheading />
+
+        <Paragraph>
+          The 'serializer' key provides configuration settings for the test serializer associated with the receiver, as in the following example:
+        </Paragraph>
+
+        <Example key="receivers">
+          <Include key="serializer" />
+        </Example>
+
+        <Paragraph>
+          A TelemetryReceiver serializer can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.receiver.serializer" kinds="include" />
 
       </Subsection>
 
@@ -888,7 +934,7 @@
 
         <Paragraph>
           A Telemetry type of `string` is used for testing the `TelemetrySender`.
-          There are no shared components across `TelemetrySender` instances, so no special techniques are necessary to prevent test cases from interfering with each other.
+          This is serialized to, and deserialized from, UTF8 bytes.
         </Paragraph>
 
       </Subsection>
@@ -952,7 +998,26 @@
           Each element of the `senders` array can have the following child keys:
         </Paragraph>
 
-        <ObjectPropertyTable defaults="prologue.sender" kinds="include" />
+        <ObjectPropertyTable defaults="prologue.sender" popDefaults="serializer" kinds="include" />
+
+      </Subsection>
+
+      <Subsection item="SenderSerializer">
+        <Subsubheading />
+
+        <Paragraph>
+          The 'serializer' key provides configuration settings for the test serializer associated with the sender, as in the following example:
+        </Paragraph>
+
+        <Example key="senders">
+          <Include key="serializer" />
+        </Example>
+
+        <Paragraph>
+          A TelemetrySender serializer can have the following child keys:
+        </Paragraph>
+
+        <ObjectPropertyTable defaults="prologue.sender.serializer" kinds="include" />
 
       </Subsection>
 
