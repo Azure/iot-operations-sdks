@@ -22,10 +22,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var reciever = new StringTelemetryReceiver(mockClient);
 
             // Act
-            Task act() => reciever.StartAsync();
+            Task Act() => reciever.StartAsync();
 
             // Assert
-            var ex = await Assert.ThrowsAsync<AkriMqttException>(act);
+            var ex = await Assert.ThrowsAsync<AkriMqttException>(Act);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);

@@ -41,12 +41,16 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="GetRandomCommandExecutor"/> class.
             /// </summary>
-            internal GetRandomCommandExecutor(IMqttPubSubClient mqttClient)
+            public GetRandomCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "getRandom", new ProtobufSerializer<Google.Protobuf.WellKnownTypes.Empty, GetRandomResponsePayload>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:rpc:samples:math;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "getRandom";
             }
         }

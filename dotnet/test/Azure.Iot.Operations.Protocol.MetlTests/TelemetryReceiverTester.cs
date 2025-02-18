@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Globalization;
 using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
@@ -16,7 +15,6 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using System.Diagnostics;
-using Azure.Iot.Operations.Mqtt.Converters;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {

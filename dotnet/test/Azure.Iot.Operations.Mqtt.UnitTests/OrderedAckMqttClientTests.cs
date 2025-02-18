@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt;
 using MQTTnet.Exceptions;
 using System.Text;
-using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests;
 

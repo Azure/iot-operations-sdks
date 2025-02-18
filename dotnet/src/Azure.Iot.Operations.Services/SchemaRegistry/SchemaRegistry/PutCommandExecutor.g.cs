@@ -41,12 +41,16 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <summary>
             /// Initializes a new instance of the <see cref="PutCommandExecutor"/> class.
             /// </summary>
-            internal PutCommandExecutor(IMqttPubSubClient mqttClient)
+            public PutCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "put", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "put";
             }
         }

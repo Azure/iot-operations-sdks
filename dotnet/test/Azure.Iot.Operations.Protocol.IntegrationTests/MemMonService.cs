@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Protocol.Telemetry;
 using TestEnvoys.Memmon;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class MemMonService : Memmon.Service
 {
-    bool enabled = false;
-    int interval = 5000;
+    bool _enabled = false;
+    int _interval = 5000;
 
     public MemMonService(IMqttPubSubClient mqttClient) : base(mqttClient)
     {
@@ -33,8 +32,8 @@ public class MemMonService : Memmon.Service
                     { "WorkingSet", Environment.WorkingSet.ToString() },
                     { "ManagedMemory", GC.GetGCMemoryInfo().TotalCommittedBytes.ToString() },
                     { "TotalMemory", GC.GetTotalMemory(false).ToString() },
-                    { "interval", interval.ToString() },
-                    { "enabled", enabled.ToString() }
+                    { "interval", _interval.ToString() },
+                    { "enabled", _enabled.ToString() }
                 }
             }
         });
@@ -43,15 +42,15 @@ public class MemMonService : Memmon.Service
     public override Task<CommandResponseMetadata?> StartTelemetryAsync(StartTelemetryRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine("Starting Memmon.Telemetry");
-        enabled = true;
-        interval = request.Interval;
+        _enabled = true;
+        _interval = request.Interval;
         return Task.FromResult(new CommandResponseMetadata())!;
     }
 
     public override Task<CommandResponseMetadata?> StopTelemetryAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine("Stopping Memmon.Telemetry");
-        enabled = false;
+        _enabled = false;
         return Task.FromResult(new CommandResponseMetadata())!;
     }
 }

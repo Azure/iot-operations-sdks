@@ -1,17 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections;
-using System.Reflection;
 using System.Text;
 
 namespace Azure.Iot.Operations.Services.StateStore.RESP3
 {
     internal class Resp3Protocol
     {
-        // The commonly used seperator that splits ups segments of a RESP3 string. AKA "CRLF"
-        private const string Seperator = "\r\n";
+        // The commonly used separator that splits ups segments of a RESP3 string. AKA "CRLF"
+        private const string Separator = "\r\n";
 
         private static readonly byte[] Nil1 = Encoding.ASCII.GetBytes("$-1\r\n"); // returned when getting a key that does not exist
         private static readonly byte[] Nil2 = Encoding.ASCII.GetBytes(":-1\r\n"); // returned when non-fencing condition isn't met on a set request
@@ -89,16 +86,16 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: length segment could not be parsed as an integer");
             }
 
-            int totalBlobStringLength = "$".Length + blobStringLengthString.Length + Seperator.Length + declaredLength + Seperator.Length;
+            int totalBlobStringLength = "$".Length + blobStringLengthString.Length + Separator.Length + declaredLength + Separator.Length;
 
             // Parse the remaining "{length}\r\n" portion of the overall blob string
-            if (resp3BlobStringBytes.Length - remainingIndex < declaredLength + Seperator.Length)
+            if (resp3BlobStringBytes.Length - remainingIndex < declaredLength + Separator.Length)
             {
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: the blob string's actual length does not match its declared length");
             }
 
-            if (resp3BlobStringBytes[startIndex + totalBlobStringLength - 2] != Encoding.ASCII.GetBytes(Seperator)[0]
-                || resp3BlobStringBytes[startIndex + totalBlobStringLength - 1] != Encoding.ASCII.GetBytes(Seperator)[1])
+            if (resp3BlobStringBytes[startIndex + totalBlobStringLength - 2] != Encoding.ASCII.GetBytes(Separator)[0]
+                || resp3BlobStringBytes[startIndex + totalBlobStringLength - 1] != Encoding.ASCII.GetBytes(Separator)[1])
             {
                 throw new Resp3ProtocolException($"Invalid RESP3 object: missing the final \"\\r\\n\" separators");
             }
@@ -218,14 +215,14 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             //"{number}\r\n"
             string remainingNumberWithSeperator = resp3Number.Substring(1);
 
-            if (remainingNumberWithSeperator.LastIndexOf(Seperator) != remainingNumberWithSeperator.Length - Seperator.Length)
+            if (remainingNumberWithSeperator.LastIndexOf(Separator) != remainingNumberWithSeperator.Length - Separator.Length)
             {
-                throw new Resp3ProtocolException($"Invalid RESP3 number: {Seperator} missing or not at the end of the string");
+                throw new Resp3ProtocolException($"Invalid RESP3 number: {Separator} missing or not at the end of the string");
             }
 
             // Strip away the final "\r\n" characters so that all that remains is
             //"{number}"
-            string remainingNumber = remainingNumberWithSeperator.Substring(0, remainingNumberWithSeperator.Length - Seperator.Length);
+            string remainingNumber = remainingNumberWithSeperator.Substring(0, remainingNumberWithSeperator.Length - Separator.Length);
             if (!int.TryParse(remainingNumber, out int number))
             {
                 throw new Resp3ProtocolException($"Invalid RESP3 number: number contents cannot be parsed to int");
@@ -270,14 +267,14 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             //"{string}\r\n"
             string remainingStringWithSeperator = resp3SimpleString.Substring(1);
 
-            if (remainingStringWithSeperator.LastIndexOf(Seperator) != remainingStringWithSeperator.Length - Seperator.Length)
+            if (remainingStringWithSeperator.LastIndexOf(Separator) != remainingStringWithSeperator.Length - Separator.Length)
             {
-                throw new Resp3ProtocolException($"Invalid RESP3 number: {Seperator} missing or not at the end of the string");
+                throw new Resp3ProtocolException($"Invalid RESP3 number: {Separator} missing or not at the end of the string");
             }
 
             // Strip away the final "\r\n" characters so that all that remains is
             //"{string}"
-            string simpleString = remainingStringWithSeperator.Substring(0, remainingStringWithSeperator.Length - Seperator.Length);
+            string simpleString = remainingStringWithSeperator.Substring(0, remainingStringWithSeperator.Length - Separator.Length);
             return simpleString;
         }
 
@@ -301,7 +298,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             var numArgs = resp3Objects.Length;
             var arrayBuilder = new List<byte>();
 
-            arrayBuilder.AddRange(Encoding.ASCII.GetBytes($"*{numArgs}{Seperator}"));
+            arrayBuilder.AddRange(Encoding.ASCII.GetBytes($"*{numArgs}{Separator}"));
             foreach (byte[] resp3Object in resp3Objects)
             {
                 arrayBuilder.AddRange(resp3Object);
@@ -327,9 +324,9 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             List<byte> blobStringBuilder =
             [
                 .. Encoding.ASCII.GetBytes($"${value.Length}"),
-                .. Encoding.ASCII.GetBytes($"{Seperator}"),
+                .. Encoding.ASCII.GetBytes($"{Separator}"),
                 .. value,
-                .. Encoding.ASCII.GetBytes($"{Seperator}"),
+                .. Encoding.ASCII.GetBytes($"{Separator}"),
             ];
 
             return blobStringBuilder.ToArray();
@@ -367,8 +364,8 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
                 return;
             }
 
-            if (payload[payload.Length - 2] != Seperator[0]
-                || payload[payload.Length - 1] != Seperator[1])
+            if (payload[payload.Length - 2] != Separator[0]
+                || payload[payload.Length - 1] != Separator[1])
             {
                 // payload doesn't end with "\r\n", so it isn't a simple error
                 return;
@@ -384,7 +381,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             byte readByte = source[index];
             List<byte> readBytes = new List<byte>();
             // Read the byte[] until the beginning of the \r\n
-            while (readByte != Seperator[0])
+            while (readByte != Separator[0])
             {
                 readBytes.Add(readByte);
                 index++;
@@ -402,8 +399,8 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             // Check that there is a \r\n at the end
             try
             {
-                if ((source[index] != Encoding.ASCII.GetBytes(Seperator)[0])
-                    || source[++index] != Encoding.ASCII.GetBytes(Seperator)[1])
+                if ((source[index] != Encoding.ASCII.GetBytes(Separator)[0])
+                    || source[++index] != Encoding.ASCII.GetBytes(Separator)[1])
                 {
                     throw new Resp3ProtocolException($"Invalid RESP3 object: missing one or more \"\\r\\n\" separators");
                 }

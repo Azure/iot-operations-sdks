@@ -3,12 +3,8 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
 {

@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Reflection;
-using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
-using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.Assets
 {

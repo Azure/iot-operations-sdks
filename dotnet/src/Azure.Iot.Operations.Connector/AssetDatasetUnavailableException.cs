@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Runtime.Serialization;
-
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>

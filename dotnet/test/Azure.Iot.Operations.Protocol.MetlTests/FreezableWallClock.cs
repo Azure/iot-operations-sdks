@@ -9,50 +9,50 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class FreezableWallClock : IWallClock, IDisposable
     {
-        private SemaphoreSlim mutexSemaphore;
-        private int nextTicket;
-        private HashSet<int> activeTickets;
-        private bool isFrozen;
-        private TimeSpan timeOffset;
-        private DateTime frozenTime;
-        private List<IPausable> pausableSources;
+        private SemaphoreSlim _mutexSemaphore;
+        private int _nextTicket;
+        private HashSet<int> _activeTickets;
+        private bool _isFrozen;
+        private TimeSpan _timeOffset;
+        private DateTime _frozenTime;
+        private List<IPausable> _pausableSources;
 
         public DateTime UtcNow
         {
             get
             {
-                mutexSemaphore.Wait();
-                var testTime = isFrozen ? frozenTime : DateTime.UtcNow + timeOffset;
-                mutexSemaphore.Release();
+                _mutexSemaphore.Wait();
+                var testTime = _isFrozen ? _frozenTime : DateTime.UtcNow + _timeOffset;
+                _mutexSemaphore.Release();
                 return testTime;
             }
         }
 
         public FreezableWallClock()
         {
-            mutexSemaphore = new SemaphoreSlim(1);
-            nextTicket = 0;
-            activeTickets = new HashSet<int>();
-            isFrozen = false;
-            timeOffset = TimeSpan.Zero;
-            frozenTime = DateTime.UtcNow;
-            pausableSources = new List<IPausable>();
+            _mutexSemaphore = new SemaphoreSlim(1);
+            _nextTicket = 0;
+            _activeTickets = new HashSet<int>();
+            _isFrozen = false;
+            _timeOffset = TimeSpan.Zero;
+            _frozenTime = DateTime.UtcNow;
+            _pausableSources = new List<IPausable>();
         }
 
         public CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
         {
-            mutexSemaphore.Wait();
+            _mutexSemaphore.Wait();
 
             PausableCancellationTokenSource pausableCts;
 
             try
             {
-                pausableCts = new PausableCancellationTokenSource(delay, startPaused: isFrozen);
-                pausableSources.Add(pausableCts);
+                pausableCts = new PausableCancellationTokenSource(delay, startPaused: _isFrozen);
+                _pausableSources.Add(pausableCts);
             }
             finally
             {
-                mutexSemaphore.Release();
+                _mutexSemaphore.Release();
             }
 
             return pausableCts.TokenSource;
@@ -77,18 +77,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public async Task WaitForAsync(TimeSpan duration, CancellationToken cancellationToken = default)
         {
-            await mutexSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+            await _mutexSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 
             PausableTaskCompletionSource pausableTcs;
 
             try
             {
-                pausableTcs = new PausableTaskCompletionSource(duration, startPaused: isFrozen);
-                pausableSources.Add(pausableTcs);
+                pausableTcs = new PausableTaskCompletionSource(duration, startPaused: _isFrozen);
+                _pausableSources.Add(pausableTcs);
             }
             finally
             {
-                mutexSemaphore.Release();
+                _mutexSemaphore.Release();
             }
 
             await pausableTcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -101,27 +101,27 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public async Task<int> FreezeTimeAsync()
         {
-            await mutexSemaphore.WaitAsync().ConfigureAwait(false);
+            await _mutexSemaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                if (!isFrozen)
+                if (!_isFrozen)
                 {
-                    frozenTime = DateTime.UtcNow + timeOffset;
-                    isFrozen = true;
+                    _frozenTime = DateTime.UtcNow + _timeOffset;
+                    _isFrozen = true;
 
-                    foreach (IPausable source in pausableSources)
+                    foreach (IPausable source in _pausableSources)
                     {
                         await source.TryPauseAsync().ConfigureAwait(false);
                     }
 
-                    pausableSources = pausableSources.Where(p => !p.HasFired).ToList();
+                    _pausableSources = _pausableSources.Where(p => !p.HasFired).ToList();
                 }
 
-                int newTicket = nextTicket;
-                ++nextTicket;
+                int newTicket = _nextTicket;
+                ++_nextTicket;
 
-                if (!activeTickets.Add(newTicket))
+                if (!_activeTickets.Add(newTicket))
                 {
                     throw new Exception($"FreezableWallClock.Freeze(): ticket number {newTicket} already outstanding");
                 }
@@ -130,32 +130,32 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             finally
             {
-                mutexSemaphore.Release();
+                _mutexSemaphore.Release();
             }
         }
 
         public async Task UnfreezeTimeAsync(int ticket)
         {
-            await mutexSemaphore.WaitAsync().ConfigureAwait(false);
+            await _mutexSemaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                if (!isFrozen)
+                if (!_isFrozen)
                 {
                     throw new Exception($"FreezableWallClock.Unfreeze(): clock already unfrozen");
                 }
 
-                if (!activeTickets.Remove(ticket))
+                if (!_activeTickets.Remove(ticket))
                 {
                     throw new Exception($"FreezableWallClock.Unfreeze({ticket}): ticket number not outstanding");
                 }
 
-                if (activeTickets.Count == 0)
+                if (_activeTickets.Count == 0)
                 {
-                    timeOffset = frozenTime - DateTime.UtcNow;
-                    isFrozen = false;
+                    _timeOffset = _frozenTime - DateTime.UtcNow;
+                    _isFrozen = false;
 
-                    foreach (IPausable source in pausableSources)
+                    foreach (IPausable source in _pausableSources)
                     {
                         await source.ResumeAsync().ConfigureAwait(false);
                     }
@@ -163,13 +163,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
             finally
             {
-                mutexSemaphore.Release();
+                _mutexSemaphore.Release();
             }
         }
 
         public void Dispose()
         {
-            mutexSemaphore.Dispose();
+            _mutexSemaphore.Dispose();
             GC.SuppressFinalize(this);
         }
     }
