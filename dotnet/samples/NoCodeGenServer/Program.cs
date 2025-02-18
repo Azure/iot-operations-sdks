@@ -71,14 +71,14 @@ var dataSetWriteServiceUNS = new DatasetWriteService(
 
 // handling multiple topics in one service, requires single-level wildcard support
 // to be discussed in https://github.com/Azure/iot-operations-sdks/issues/487
-// var processControlActionDefault = new ProcessControlActionServiceMultiple(
-//         mqttClient,
-//         "AioNamespace/asset-operations/MyAssetId/ProcessControlGroup",
-//         "MyAssetId",
-//         "ProcessControlGroup",
-//         new[] { "foobar", "myAction", "demo" },
-//         loggerFactory.CreateLogger<ProcessControlActionServiceMultiple>());
-//
+var processControlActionDefault = new ProcessControlActionServiceMultiple(
+        mqttClient,
+        "AioNamespace/asset-operations",
+        "MyAssetId2",
+        "ProcessControlGroup2",
+        new[] { "foobar", "myAction", "demo" },
+        loggerFactory.CreateLogger<ProcessControlActionServiceMultiple>());
+
 var processControlActionSingleDefault = new ProcessControlActionServiceSingle(
          mqttClient,
          "AioNamespace/asset-operations",
@@ -96,6 +96,7 @@ var datasetWriteDefaulTask = dataSetWriteServiceDefault
             logger.LogError($"DatasetWrite Server w/ default topic failed: {t.Exception}");
         }
     });
+
 var datasetWriteUNSTask = dataSetWriteServiceUNS
     .RunAsync(cancellationTokenSource.Token)
     .ContinueWith(t =>
@@ -105,15 +106,16 @@ var datasetWriteUNSTask = dataSetWriteServiceUNS
             logger.LogError($"DatasetWrite Server w/ UNS topic failed: {t.Exception}");
         }
     });
-// var processControlTask = processControlActionDefault
-//     .RunAsync(cancellationTokenSource.Token)
-//     .ContinueWith(t =>
-//     {
-//         if (t.IsFaulted)
-//         {
-//             logger.LogError($"ProcessControlAction Server w/ default topic failed: {t.Exception}");
-//         }
-//     });
+
+var processControlActionMultipleTask = processControlActionDefault
+    .RunAsync(cancellationTokenSource.Token)
+    .ContinueWith(t =>
+    {
+        if (t.IsFaulted)
+        {
+            logger.LogError($"ProcessControlActionMultiple Server w/ default topic failed: {t.Exception}");
+        }
+    });
 
 var processControlActionSingleTask = processControlActionSingleDefault
     .RunAsync(cancellationTokenSource.Token)
@@ -128,6 +130,7 @@ var processControlActionSingleTask = processControlActionSingleDefault
 await Task.WhenAll(
     datasetWriteDefaulTask,
     datasetWriteUNSTask,
+    processControlActionMultipleTask,
     processControlActionSingleTask).ConfigureAwait(false);
 
 logger.LogInformation("Application stopped!");

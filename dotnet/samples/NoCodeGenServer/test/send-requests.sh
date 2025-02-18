@@ -19,12 +19,12 @@ case $param in
     correlation="$(printf '\xEC\x28\x35\xC9\x9B\x0D\x66\x46\x81\xB5\xC2\xAB\xB7\x01\xB2\xFE')"
     ;;
   process-control)
-    topic="AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar"
+    topic="AioNamespace/asset-operations/MyAssetId2/ProcessControlGroup2/foobar"
     payload="process-control-request.json"
     correlation="$(printf '\xEC\x28\x35\xC9\x9B\x0D\x66\x46\x81\xB5\xC2\xAB\xB7\x01\xCA\xFE')"
     ;;
   process-control-bad)
-    topic="AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar"
+    topic="AioNamespace/asset-operations/MyAssetId2/ProcessControlGroup2/foobar"
     payload="bad-process-control-request.json"
     correlation="$(printf '\xEC\x28\x35\xC9\x9B\x0D\x66\x46\x81\xB5\xC2\xAB\xB7\x01\x01\x23')"
     ;;
