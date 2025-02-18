@@ -42,12 +42,16 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="IsPrimeCommandExecutor"/> class.
             /// </summary>
-            internal IsPrimeCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public IsPrimeCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "isPrime", new ProtobufSerializer<IsPrimeRequestPayload, IsPrimeResponsePayload>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:rpc:samples:math;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "isPrime";
             }
         }

@@ -44,7 +44,10 @@ namespace TestEnvoys.Memmon
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
-                base.TopicTokenMap["senderId"] = mqttClient.ClientId!;
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["senderId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["telemetryName"] = "workingSet";
             }
         }

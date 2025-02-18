@@ -45,7 +45,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
-                base.TopicTokenMap["senderId"] = mqttClient.ClientId!;
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["senderId"] = mqttClient.ClientId;
+                }
 <# if (!this.telemetryName.IsEmpty) { #>
                 base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
 <# } #>

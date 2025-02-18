@@ -60,6 +60,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// Once set, the automatic renewal will begin after the first call to <see cref="AcquireLockAsync(TimeSpan, AcquireLockRequestOptions?, CancellationToken)"/>.
         /// </para>
         /// <para>
+        /// Automatic renewal will continue for as long as the lock can be re-acquired. If another party acquires the lock, then this party's auto-renewal
+        /// will end. In this case, users should use <see cref="AcquireLockAsync(TimeSpan, AcquireLockRequestOptions?, CancellationToken)"/> to acquire the lock
+        /// instead to avoid polling.
+        /// </para>
+        /// <para>
         /// The result of automatic renewals can be accessed via <see cref="MostRecentAcquireLockResponse"/>.
         /// </para>
         /// </remarks>
@@ -238,6 +243,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                             AutomaticRenewalOptions.LeaseTermLength,
                             options,
                             _renewalTimerCancellationToken.Token);
+
+                    if (!MostRecentAcquireLockResponse.Success)
+                    {
+                        CancelAutomaticRenewal();
+                    }
                 }
                 catch (OperationCanceledException)
                 {
