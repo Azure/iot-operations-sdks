@@ -19,6 +19,10 @@ case $param in
     topic="AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar"
     payload="process-control-request.json"
     ;;
+  process-control-bad)
+    topic="AioNamespace/asset-operations/MyAssetId/ProcessControlGroup/foobar"
+    payload="bad-process-control-request.json"
+    ;;
   *)
     echo "Unknown configuration: $param"
     exit 1
