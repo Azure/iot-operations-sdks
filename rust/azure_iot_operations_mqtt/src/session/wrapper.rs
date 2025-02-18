@@ -48,7 +48,7 @@ pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
-#[builder(pattern = "owned", setter(into))]
+#[builder(pattern = "owned")]
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
     pub connection_settings: MqttConnectionSettings,
