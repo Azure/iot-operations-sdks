@@ -138,6 +138,13 @@ public class MemMonEnvoyTests
             memmonClient.MemoryStatsTelemetryReceivedTcs.Task,
             memmonClient.ManagedMemoryTelemetryReceivedTcs.Task).WaitAsync(TimeSpan.FromSeconds(30));
 
+        Console.WriteLine("Time stamp cant be null now");
+        Trace.TraceInformation("Time stamp cant be null now");
+        Console.WriteLine(MemoryStatsTelemetryMetadata.Timestamp.ToString());
+        Trace.TraceInformation(MemoryStatsTelemetryMetadata.Timestamp.ToString());
+        Console.WriteLine(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.ToString());
+        Trace.TraceInformation(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.ToString());
+
         Assert.Single(memmonClient.ReceivedManagedMemoryTelemetry);
         Assert.Single(memmonClient.ReceivedMemoryStatsTelemetry);
         Assert.Single(memmonClient.ReceivedWorkingSetTelemetry);
@@ -162,7 +169,6 @@ public class MemMonEnvoyTests
         Assert.True(Guid.TryParse(memStatsMD.GetCloudEvent().Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, memStatsMD.SenderId);
 
-
         var ManagedMemoryMD = memmonClient.ReceivedManagedMemoryTelemetryMetadata[0];
         Assert.NotNull(ManagedMemoryMD);
         Assert.NotNull(ManagedMemoryMD.UserData);
@@ -177,16 +183,11 @@ public class MemMonEnvoyTests
         Assert.True(Guid.TryParse(ManagedMemoryMD.GetCloudEvent().Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, ManagedMemoryMD.SenderId);
 
-
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
         Assert.True(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData.ContainsKey(MemoryStatsUserDataKey));
         Assert.Equal(MemoryStatsUserDataValue, memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData[MemoryStatsUserDataKey]);
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
         Assert.Equal(0, MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!));
-
-        Trace.TraceInformation("Time stamp cant be null now");
-        Trace.TraceInformation(MemoryStatsTelemetryMetadata.Timestamp.ToString());
-        Trace.TraceInformation(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.ToString());
 
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
         Assert.False(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData.ContainsKey("dataschema"));

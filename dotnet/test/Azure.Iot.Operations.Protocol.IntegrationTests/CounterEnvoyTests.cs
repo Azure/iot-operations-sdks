@@ -114,7 +114,7 @@ public class CounterEnvoyTests
         
         foreach (var prop in userProps)
         {
-
+            Console.WriteLine($"Name: {prop.Name}, Value: {prop.Value}");
             Trace.TraceInformation($"Name: {prop.Name}, Value: {prop.Value}");
         }
 
