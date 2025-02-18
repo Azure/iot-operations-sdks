@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
-using System;
 
 namespace Azure.Iot.Operations.Mqtt.Session
 {

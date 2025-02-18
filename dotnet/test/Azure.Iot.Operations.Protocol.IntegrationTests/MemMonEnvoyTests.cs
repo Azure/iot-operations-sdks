@@ -4,7 +4,6 @@
 using TestEnvoys.Memmon;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Mqtt.Session;
-using MQTTnet.Packets;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
