@@ -41,12 +41,16 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="ReadCounterCommandExecutor"/> class.
             /// </summary>
-            internal ReadCounterCommandExecutor(IMqttPubSubClient mqttClient)
+            public ReadCounterCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "readCounter", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "readCounter";
             }
         }

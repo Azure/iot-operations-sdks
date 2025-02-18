@@ -4,21 +4,13 @@
 namespace Azure.Iot.Operations.Services.IntegrationTests;
 
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Services.Akri;
 using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 using Azure.Iot.Operations.Services.IntegrationTest;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
-using global::Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-using System.Reflection.Emit;
 
 [Trait("Category", "DiscoveredAsset")]
 public class DiscoveredAssetResourcesClientIntegrationTests

@@ -16,7 +16,7 @@ public class StringTelemetrySender(IMqttPubSubClient mqttClient)
 public class FaultyTelemetrySender(IMqttPubSubClient mqttClient) : TelemetrySender<string>(mqttClient, "test", new FaultySerializer()) { }
 
 
-public class TelemetrySenderWithCE(IMqttPubSubClient mqttClient)
+public class TelemetrySenderWithCe(IMqttPubSubClient mqttClient)
     : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
 { }
 

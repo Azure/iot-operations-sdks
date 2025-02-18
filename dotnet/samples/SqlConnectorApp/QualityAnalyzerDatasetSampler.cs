@@ -3,8 +3,6 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 using System.Data.SqlClient;
@@ -14,7 +12,7 @@ namespace SqlQualityAnalyzerConnectorApp
     internal class QualityAnalyzerDatasetSampler : IDatasetSampler
     {
         private string _connectionString;
-        private string fullConnectionString = "";
+        private string _fullConnectionString = "";
         private string _assetName;
         private AssetEndpointProfileCredentials _credentials;
 
@@ -42,7 +40,7 @@ namespace SqlQualityAnalyzerConnectorApp
                 {
                     string sqlServerUsername = _credentials.Username!;
                     byte[] sqlServerPassword = _credentials.Password!;
-                    fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
+                    _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
                 }
 
                 // In this sample, the datapoints have the different datasource, there are 2 options to get the data
@@ -50,7 +48,7 @@ namespace SqlQualityAnalyzerConnectorApp
                 // Option 1: Get the data joining tables
                 // Option 2: Get the data from each table by doing multiple queries and join them in the code
                 List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
-                using (SqlConnection connection = new SqlConnection(fullConnectionString))
+                using (SqlConnection connection = new SqlConnection(_fullConnectionString))
                 {
                     await connection.OpenAsync();
                     using (SqlCommand command = new SqlCommand(query, connection))

@@ -42,12 +42,16 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandExecutor"/> class.
             /// </summary>
-            internal GetCommandExecutor(IMqttPubSubClient mqttClient)
+            public GetCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "get", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "get";
             }
         }

@@ -47,6 +47,10 @@ namespace TestEnvoys.Counter
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "readCounter";
             }
         }
