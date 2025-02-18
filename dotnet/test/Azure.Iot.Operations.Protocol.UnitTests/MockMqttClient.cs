@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using MQTTnet;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.PacketInspection;
 using MQTTnet.Formatter;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
@@ -39,6 +40,19 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             _clientId = clientId ?? Guid.NewGuid().ToString();
             _protocolVersion = protocolVersion;
+        }
+
+        event Func<InspectMqttPacketEventArgs, Task> MQTTnet.IMqttClient.InspectPacketAsync
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
@@ -172,11 +186,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             throw new NotImplementedException();
         }
 
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
-
         public async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -304,10 +313,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             {
                 throw new InvalidOperationException("The SessionExpiryInterval value of the connect did not propagate down to the underlying mqtt client's connect request");
             }
-            else if (expectedOptions.ThrowOnNonSuccessfulConnectResponse != actualOptions.ThrowOnNonSuccessfulConnectResponse)
-            {
-                throw new InvalidOperationException("The ThrowOnNonSuccessfulConnectResponse value of the connect did not propagate down to the underlying mqtt client's connect request");
-            }
             else if (expectedOptions.Timeout.CompareTo(actualOptions.Timeout) != 0)
             {
                 throw new InvalidOperationException("The Timeout value of the connect did not propagate down to the underlying mqtt client's connect request");
@@ -376,11 +381,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public static MqttClientPublishResult CompareExpectedPublishWithActual(Azure.Iot.Operations.Protocol.Models.MqttApplicationMessage expectedMessage, MQTTnet.MqttApplicationMessage actualMessage)
         {
             // Verify that the message published by the mqtt client matches the message that the session client published
-            if (!Enumerable.SequenceEqual(actualMessage.PayloadSegment.ToArray(), expectedMessage.PayloadSegment.ToArray()))
+            if (!Enumerable.SequenceEqual(actualMessage.Payload.ToArray(), expectedMessage.Payload.ToArray()))
             {
                 throw new InvalidOperationException("The payload of the publish did not propagate down to the underlying mqtt client's publish request");
             }
-            else if (actualMessage.PayloadSegment.Count != expectedMessage.PayloadSegment.Count)
+            else if (actualMessage.Payload.Length != expectedMessage.Payload.Length)
             {
                 throw new InvalidOperationException("The size of the payload did not propagate down to the underlying mqtt client's publish request");
             }
@@ -441,7 +446,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             CompareExpectedUserPropertiesWithActual(expectedMessage.UserProperties, actualMessage.UserProperties);
 
-            return new MQTTnet.Client.MqttClientPublishResult(0, MQTTnet.Client.MqttClientPublishReasonCode.Success, "", new List<MQTTnet.Packets.MqttUserProperty>());
+            return new MQTTnet.MqttClientPublishResult(0, MQTTnet.MqttClientPublishReasonCode.Success, "", new List<MQTTnet.Packets.MqttUserProperty>());
         }
 
         // Returns a successful result only if the expected matches the actual. Throws with a human-readable error message
@@ -509,7 +514,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 }
             }
 
-            return new MQTTnet.Client.MqttClientSubscribeResult(0, results, "", new List<MQTTnet.Packets.MqttUserProperty>());
+            return new MQTTnet.MqttClientSubscribeResult(0, results, "", new List<MQTTnet.Packets.MqttUserProperty>());
         }
 
         // Returns a successful result only if the expected matches the actual. Throws with a human-readable error message
@@ -553,7 +558,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             {
                 throw new InvalidOperationException("The packet Id of the publish did not propagate up from the underlying mqtt client's publish request");
             }
-            else if (!Enumerable.SequenceEqual(actual.ApplicationMessage.PayloadSegment.ToArray(), expected.PayloadSegment.ToArray()))
+            else if (!Enumerable.SequenceEqual(actual.ApplicationMessage.Payload.ToArray(), expected.Payload.ToArray()))
             {
                 throw new InvalidOperationException("The payload of the publish did not propagate up from the underlying mqtt client's publish request");
             }
@@ -691,6 +696,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     throw new InvalidOperationException($"The user properties did not propagate down to the underlying mqtt client's request");
                 }
             }
+        }
+
+        public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

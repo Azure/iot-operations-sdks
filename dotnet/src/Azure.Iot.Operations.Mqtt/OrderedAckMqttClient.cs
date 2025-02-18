@@ -149,7 +149,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// </remarks>
     private Task ValidateMessageSize(MqttApplicationMessage message)
     {
-        if (_maximumPacketSize > 0 && message.Payload.Length > _maximumPacketSize)
+        if (_maximumPacketSize > 0 && message.PayloadSegment.Count > _maximumPacketSize)
         {
             throw new InvalidOperationException($"Message size is too large. Maximum message size is {_maximumPacketSize} bytes.");
         }
@@ -373,6 +373,6 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     public Task SendExtendedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
     {
-        return UnderlyingMqttClient.SendEnhancedAuthenticationExchangeDataAsync(MqttNetConverter.FromGeneric(data), cancellationToken);
+        return UnderlyingMqttClient.SendExtendedAuthenticationExchangeDataAsync(MqttNetConverter.FromGeneric(data), cancellationToken);
     }
 }

@@ -981,7 +981,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await Task.Delay(TimeSpan.FromSeconds(10));
 
                     // This isn't a valid returned SUBACK, but the test doesn't need it to be since this isn't checked
-                    return new MQTTnet.Client.MqttClientSubscribeResult(0, new List<MQTTnet.Client.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
+                    return new MQTTnet.MqttClientSubscribeResult(0, new List<MQTTnet.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
                 };
 
                 MqttClientSubscribeOptions subscribe = new MqttClientSubscribeOptions("some/topic");
@@ -1017,7 +1017,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await Task.Delay(TimeSpan.FromSeconds(10));
 
                     // This isn't a valid returned SUBACK, but the test doesn't need it to be since this isn't checked
-                    return new MQTTnet.Client.MqttClientSubscribeResult(0, new List<MQTTnet.Client.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
+                    return new MQTTnet.MqttClientSubscribeResult(0, new List<MQTTnet.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
                 };
 
                 MqttClientSubscribeOptions subscribe = new MqttClientSubscribeOptions("some/topic");
@@ -1218,7 +1218,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulAndUnretriableSubackCodesClassData))]
-        public async Task MqttSessionClient_SubscribeReportsNonSuccessfulSubackResultCode(MQTTnet.Client.MqttClientSubscribeResultCode reasonCode)
+        public async Task MqttSessionClient_SubscribeReportsNonSuccessfulSubackResultCode(MQTTnet.MqttClientSubscribeResultCode reasonCode)
         {
             using MockMqttClient mockClient = new MockMqttClient();
             await using MqttSessionClient sessionClient = new(mockClient);
@@ -1231,22 +1231,22 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 {
                     // The client should not actually retry here, so this logic should help catch if it does retry.
                     attemptNumber++;
-                    var subscribeResultItems = new List<MQTTnet.Client.MqttClientSubscribeResultItem>();
+                    var subscribeResultItems = new List<MQTTnet.MqttClientSubscribeResultItem>();
 
                     if (attemptNumber > 1)
                     {
                         subscribeResultItems.Add(
-                            new MQTTnet.Client.MqttClientSubscribeResultItem(
+                            new MQTTnet.MqttClientSubscribeResultItem(
                                 new MQTTnet.MqttTopicFilterBuilder()
                                     .WithTopic(args.TopicFilters.First().Topic)
                                     .WithQualityOfServiceLevel(args.TopicFilters.First().QualityOfServiceLevel)
                                     .Build(),
-                                MQTTnet.Client.MqttClientSubscribeResultCode.GrantedQoS1));
+                                MQTTnet.MqttClientSubscribeResultCode.GrantedQoS1));
                     }
                     else
                     {
                         subscribeResultItems.Add(
-                            new MQTTnet.Client.MqttClientSubscribeResultItem(
+                            new MQTTnet.MqttClientSubscribeResultItem(
                                 new MQTTnet.MqttTopicFilterBuilder()
                                     .WithTopic(args.TopicFilters.First().Topic)
                                     .WithQualityOfServiceLevel(args.TopicFilters.First().QualityOfServiceLevel)
@@ -1254,14 +1254,14 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                                 reasonCode));
                     }
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientSubscribeResult(0, subscribeResultItems, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+                    return Task.FromResult(new MQTTnet.MqttClientSubscribeResult(0, subscribeResultItems, "", new List<MQTTnet.Packets.MqttUserProperty>()));
                 };
 
                 MqttClientSubscribeOptions subscribe = new MqttClientSubscribeOptions("some/Topic", MqttQualityOfServiceLevel.AtLeastOnce);
 
                 MqttClientSubscribeResult result = await sessionClient.SubscribeAsync(subscribe).WaitAsync(TimeSpan.FromSeconds(30));
                 Assert.Single(result.Items);
-                Assert.Equal(reasonCode, (MQTTnet.Client.MqttClientSubscribeResultCode)result.Items.First().ReasonCode);
+                Assert.Equal(reasonCode, (MQTTnet.MqttClientSubscribeResultCode)result.Items.First().ReasonCode);
             }
             finally
             {
