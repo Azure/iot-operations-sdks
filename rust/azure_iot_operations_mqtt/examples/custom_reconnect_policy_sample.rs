@@ -9,8 +9,8 @@ use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::error::ConnectionError;
 use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-    reconnect_policy::ReconnectPolicy,
+    reconnect_policy::ReconnectPolicy, Session, SessionExitHandle, SessionManagedClient,
+    SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
@@ -86,14 +86,17 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
     exit_handler.try_exit().await.unwrap();
 }
 
-
 /// Custom reconnect policy for Session that will attempt to reconnect only 10 times
 /// with a 1 second delay between each attempt
 #[derive(Default)]
 struct CustomReconnectPolicy {}
 
 impl ReconnectPolicy for CustomReconnectPolicy {
-    fn next_reconnect_delay(&self, prev_attempts: u32, _error: &azure_iot_operations_mqtt::error::ConnectionError) -> Option<Duration> {
+    fn next_reconnect_delay(
+        &self,
+        prev_attempts: u32,
+        _error: &azure_iot_operations_mqtt::error::ConnectionError,
+    ) -> Option<Duration> {
         if prev_attempts < 10 {
             Some(Duration::from_secs(1))
         } else {
