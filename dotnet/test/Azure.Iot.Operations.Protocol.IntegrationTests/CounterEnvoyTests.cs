@@ -6,6 +6,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -79,8 +80,6 @@ public class CounterEnvoyTests
         Assert.Equal("Command 'increment' invocation failed due to duplicate request with same correlationId" ,exception.Message);
     } 
 
-    
-
     [Fact]
     public async Task WrongCorrelationIDThrows()
     {
@@ -112,6 +111,13 @@ public class CounterEnvoyTests
 
         MqttApplicationMessageReceivedEventArgs respMsg = await tcs.Task.WaitAsync(TimeSpan.FromMinutes(1));
         var userProps = respMsg.ApplicationMessage.UserProperties;
+        
+        foreach (var prop in userProps)
+        {
+
+            Trace.TraceInformation($"Name: {prop.Name}, Value: {prop.Value}");
+        }
+
         Assert.Equal(5, userProps!.Count);
         Assert.Equal("400", userProps.Where( p => p.Name == "__stat").First().Value);
         Assert.Equal("Correlation data bytes do not conform to a GUID.", userProps.FirstOrDefault(p => p.Name == "__stMsg")!.Value);

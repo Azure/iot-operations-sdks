@@ -4,6 +4,7 @@
 using TestEnvoys.Memmon;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Mqtt.Session;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -183,7 +184,9 @@ public class MemMonEnvoyTests
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
         Assert.Equal(0, MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!));
 
-
+        Trace.TraceInformation("Time stamp cant be null now");
+        Trace.TraceInformation(MemoryStatsTelemetryMetadata.Timestamp.ToString());
+        Trace.TraceInformation(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.ToString());
 
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
         Assert.False(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData.ContainsKey("dataschema"));
