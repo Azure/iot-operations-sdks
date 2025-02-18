@@ -37,9 +37,10 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         // For unit test purposes only
-        internal StateStoreClient(IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder)
+        internal StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder)
             : this(new ApplicationContext(), mqttClient)
         {
+            _applicationContext = applicationContext;
             _generatedClientHolder = generatedClientHolder;
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;
