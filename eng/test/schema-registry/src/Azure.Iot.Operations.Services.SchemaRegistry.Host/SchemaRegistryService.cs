@@ -5,7 +5,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Protocol
+using Azure.Iot.Operations.Protocol;
 using System.Security.Cryptography;
 using System.Text;
 using SchemaInfo = SchemaRegistry.Schema;
