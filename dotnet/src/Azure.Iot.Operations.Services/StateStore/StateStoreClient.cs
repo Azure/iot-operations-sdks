@@ -22,6 +22,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         private const string NotificationsTopicFilter = NotificationsTopicFormat + "/+";
         string _clientIdHexString = "";
         private bool _disposed = false;
+        private readonly ApplicationContext _applicationContext;
 
         internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
 
@@ -29,6 +30,7 @@ namespace Azure.Iot.Operations.Services.StateStore
 
         public StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
         {
+            _applicationContext = applicationContext;
             _generatedClientHolder = new StateStoreGeneratedClientHolder(new StateStoreGeneratedClient(applicationContext, mqttClient));
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;

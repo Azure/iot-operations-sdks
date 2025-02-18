@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// The HybridLogicalClock used by the application.
         /// </summary>
-        private HybridLogicalClock _applicationHlc;
+        public HybridLogicalClock ApplicationHlc;
 
         /// <summary>
         /// The maximum clock drift allowed for HLC validations.
@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Protocol
         public ApplicationContext(TimeSpan? maxClockDrift = null)
         {
             MaxClockDrift = maxClockDrift ?? DefaultMaxClockDrift;
-            _applicationHlc = new HybridLogicalClock();
+            ApplicationHlc = new HybridLogicalClock();
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Azure.Iot.Operations.Protocol
             await _semaphoreHlc.WaitAsync();
             try
             {
-                _applicationHlc.Update(maxClockDrift: MaxClockDrift);
-                return _applicationHlc.EncodeToString();
+                ApplicationHlc.Update(maxClockDrift: MaxClockDrift);
+                return ApplicationHlc.EncodeToString();
             }
             finally
             {
@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Protocol
             await _semaphoreHlc.WaitAsync();
             try
             {
-                _applicationHlc.Update(other, MaxClockDrift);
+                ApplicationHlc.Update(other, MaxClockDrift);
             }
             finally
             {
@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Protocol
             await _semaphoreHlc.WaitAsync();
             try
             {
-                return new HybridLogicalClock(_applicationHlc);
+                return new HybridLogicalClock(ApplicationHlc);
             }
             finally
             {

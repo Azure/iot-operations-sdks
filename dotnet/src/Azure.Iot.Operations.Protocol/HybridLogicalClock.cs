@@ -19,22 +19,6 @@ namespace Azure.Iot.Operations.Protocol
 
         private DateTime _timestamp;
 
-        private static readonly HybridLogicalClock _instance;
-
-        static HybridLogicalClock()
-        {
-            _instance = new HybridLogicalClock();
-        }
-
-        /// <summary>
-        /// Get a HybridLogicalClock instance.
-        /// </summary>
-        /// <returns>The single instantiation of HybridLogicalClock for the process.</returns>
-        public static HybridLogicalClock GetInstance()
-        {
-            return _instance;
-        }
-
         /// <summary>
         /// The current timestamp for this hybrid logical clock.
         /// </summary>

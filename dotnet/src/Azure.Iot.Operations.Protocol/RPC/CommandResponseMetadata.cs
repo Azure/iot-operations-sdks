@@ -61,7 +61,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             CorrelationId = null;
 
-            Timestamp = new HybridLogicalClock(HybridLogicalClock.GetInstance());
+            //Timestamp = new HybridLogicalClock(HybridLogicalClock.GetInstance());
+            Timestamp = null;
             UserData = [];
         }
 

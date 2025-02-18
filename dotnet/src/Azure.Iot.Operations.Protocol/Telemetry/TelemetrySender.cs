@@ -136,6 +136,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 // Update HLC and use as the timestamp.
                 string timestamp = await _applicationContext.UpdateNowHlcAsync();
+                metadata!.Timestamp = _applicationContext.ApplicationHlc;
                 applicationMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);

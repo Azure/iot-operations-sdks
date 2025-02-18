@@ -553,6 +553,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 string timestamp = await applicationContext.UpdateNowHlcAsync();
                 requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+                metadata.Timestamp = applicationContext.ApplicationHlc;
 
                 SerializedPayloadContext payloadContext = serializer.ToBytes(request);
                 if (payloadContext.SerializedPayload != null)

@@ -653,8 +653,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
-
-            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            ApplicationContext applicationContext = new ApplicationContext();
+            await using EchoWithMetadataCommandExecutor echoCommand = new(applicationContext, mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -703,9 +703,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CommandExecutor_ThrowsIfAccessedWhenDisposed()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             MockMqttPubSubClient mock = new();
             string topic = "mock/echo/unsubAckUnspecifiedError";
-            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            await using EchoCommandExecutor echoCommand = new(applicationContext, mock)
             {
                 RequestTopicPattern = topic,
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
