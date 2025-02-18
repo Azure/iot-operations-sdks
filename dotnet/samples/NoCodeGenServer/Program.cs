@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -46,12 +47,12 @@ var mqttConnectResult = await mqttClient.ConnectAsync(
         mqttConnectionSettings,
         cancellationTokenSource.Token).ConfigureAwait(false);
 
-if (!mqttConnectResult.IsSessionPresent)
+if (mqttConnectResult.ResultCode != MqttClientConnectResultCode.Success)
 {
     logger.LogError($"Connection to MQTT Broker with settings: {mqttConnectionSettings} failed with {mqttConnectResult.ReasonString}");
     Environment.FailFast(null);
-
 }
+
 logger.LogInformation("Successfully connected to MQTT Broker");
 
 var dataSetWriteServiceDefault = new DatasetWriteService(
