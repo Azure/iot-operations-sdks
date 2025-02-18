@@ -495,6 +495,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task AutomaticRenewalEndsIfItFails()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
         await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
 
@@ -502,8 +503,8 @@ public class LeaderElectionClientIntegrationTests
         var sharedResourceInitialValue = Guid.NewGuid().ToString();
 
         string lockId = Guid.NewGuid().ToString();
-        await using var leaderElectionClient1 = new LeaderElectionClient(mqttClient1, lockId, Guid.NewGuid().ToString());
-        await using var leaderElectionClient2 = new LeaderElectionClient(mqttClient2, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient1 = new LeaderElectionClient(applicationContext, mqttClient1, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient2 = new LeaderElectionClient(applicationContext, mqttClient2, lockId, Guid.NewGuid().ToString());
 
         TimeSpan electionTermLength = TimeSpan.FromSeconds(1);
         leaderElectionClient1.AutomaticRenewalOptions = new()
