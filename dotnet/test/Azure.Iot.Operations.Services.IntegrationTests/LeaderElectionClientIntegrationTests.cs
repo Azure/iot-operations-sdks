@@ -490,7 +490,61 @@ public class LeaderElectionClientIntegrationTests
         // of the shared resource should still be equal to the initial value.
         Assert.NotNull(getResponse.Value);
         Assert.Equal(sharedResourceInitialValue, getResponse.Value);
-
     }
 
+    [Fact]
+    public async Task AutomaticRenewalEndsIfItFails()
+    {
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+
+        var sharedResourceName = Guid.NewGuid().ToString();
+        var sharedResourceInitialValue = Guid.NewGuid().ToString();
+
+        string lockId = Guid.NewGuid().ToString();
+        await using var leaderElectionClient1 = new LeaderElectionClient(mqttClient1, lockId, Guid.NewGuid().ToString());
+        await using var leaderElectionClient2 = new LeaderElectionClient(mqttClient2, lockId, Guid.NewGuid().ToString());
+
+        TimeSpan electionTermLength = TimeSpan.FromSeconds(1);
+        leaderElectionClient1.AutomaticRenewalOptions = new()
+        {
+            AutomaticRenewal = true,
+            ElectionTerm = electionTermLength,
+
+            // intentionally set the renewal period such that there is time inbetween the leadership position expiring
+            // and the client trying to re-acquire it
+            RenewalPeriod = electionTermLength * 3
+        };
+
+        await leaderElectionClient1.TryCampaignAsync(electionTermLength);
+
+        Assert.NotNull(leaderElectionClient1.LastKnownCampaignResult);
+        Assert.True(leaderElectionClient1.LastKnownCampaignResult.IsLeader);
+        Assert.NotNull(leaderElectionClient1.LastKnownCampaignResult.FencingToken);
+        HybridLogicalClock firstFencingToken = leaderElectionClient1.LastKnownCampaignResult.FencingToken;
+
+        // Wait a bit so that auto-renewal happens once or twice since initially being elected leader
+        using CancellationTokenSource cts = new CancellationTokenSource();
+        cts.CancelAfter(TimeSpan.FromSeconds(30));
+        HybridLogicalClock automaticallyRenewedFencingToken = leaderElectionClient1.LastKnownCampaignResult.FencingToken;
+        while (automaticallyRenewedFencingToken.CompareTo(firstFencingToken) == 0)
+        {
+            automaticallyRenewedFencingToken = leaderElectionClient1.LastKnownCampaignResult.FencingToken;
+            await Task.Delay(TimeSpan.FromSeconds(1), cts.Token);
+        }
+
+        // Make the second client acquire the leadership position in the gap between client1's position expiring and client1's auto-renewal re-acquiring it
+        await leaderElectionClient2.CampaignAsync(electionTermLength * 3);
+
+        // Wait a bit and keep checking that client1's most recent fencing token doesn't change. If it did change, that would suggest
+        // that client1 re-acquired the leadership position via auto-renewal which should have been disabled once it failed to be elected
+        // because client2 was leader when it tried.
+        using CancellationTokenSource cts2 = new CancellationTokenSource();
+        cts2.CancelAfter(TimeSpan.FromSeconds(10));
+        automaticallyRenewedFencingToken = leaderElectionClient1.LastKnownCampaignResult.FencingToken;
+        while (automaticallyRenewedFencingToken.CompareTo(firstFencingToken) == 0 && !cts2.Token.IsCancellationRequested)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        }
+    }
 }
