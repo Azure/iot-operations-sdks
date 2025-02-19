@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The content type must be a UTF-8 encoded string. The content type value identifies the kind of UTF-8 encoded
         ///     payload.
         /// </summary>
-        public string ContentType { get; set; }
+        public string? ContentType { get; set; }
 
         /// <summary>
         ///     Gets or sets the correlation data.
@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     published message.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public byte[] CorrelationData { get; set; }
+        public byte[]? CorrelationData { get; set; }
 
         /// <summary>
         ///     If the DUP flag is set to 0, it indicates that this is the first occasion that the Client or Server has attempted
@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     - At least once (1): Message gets delivered at least once (one time or more often).
         ///     - Exactly once  (2): Message gets delivered exactly once (It's ensured that the message only comes once).
         /// </summary>
-        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; }
+        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; } = qos;
 
         /// <summary>
         ///     Gets or sets the response topic.
@@ -92,7 +92,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     the request/response pattern between clients that is common in web applications.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public string ResponseTopic { get; set; }
+        public string? ResponseTopic { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the message should be retained or not.
@@ -110,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     the client when need to forward PUBLISH packets matching this subscription to this client.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<uint> SubscriptionIdentifiers { get; set; }
+        public List<uint> SubscriptionIdentifiers { get; set; } = new();
 
         /// <summary>
         ///     Gets or sets the MQTT topic.
@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The topic consists of one or more topic levels. Each topic level is separated by a forward slash (topic level
         ///     separator).
         /// </summary>
-        public string Topic { get; set; }
+        public string Topic { get; set; } = topic;
 
         /// <summary>
         ///     Gets or sets the topic alias.
@@ -139,7 +139,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The feature is very similar to the HTTP header concept.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<MqttUserProperty> UserProperties { get; set; }
+        public List<MqttUserProperty> UserProperties { get; set; } = new();
 
         public void AddUserProperty(string key, string value)
         {
