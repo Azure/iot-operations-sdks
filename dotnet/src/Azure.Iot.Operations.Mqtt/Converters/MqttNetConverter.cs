@@ -5,6 +5,7 @@ using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Diagnostics;
 using System.Net;
+using System.Reflection;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
 {
@@ -428,6 +429,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 
         internal static MQTTnet.MqttEnhancedAuthenticationEventArgs FromGeneric(MqttExtendedAuthenticationExchangeContext genericContext, MQTTnet.IMqttClient underlyingClient)
         {
+            var hiddenField = typeof(MQTTnet.MqttClient).GetField("_adapter", BindingFlags.NonPublic | BindingFlags.Instance);
+            MQTTnet.Adapter.IMqttChannelAdapter? channelAdapter = (MQTTnet.Adapter.IMqttChannelAdapter?)hiddenField.GetValue(underlyingClient);
+
             return new MQTTnet.MqttEnhancedAuthenticationEventArgs(
                 new MQTTnet.Packets.MqttAuthPacket()
                 {
@@ -437,7 +441,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                     ReasonString = genericContext.ReasonString,
                     UserProperties = FromGeneric(genericContext.UserProperties),
                 },
-                null, //TODO won't work
+                channelAdapter,
                 default);
         }
 

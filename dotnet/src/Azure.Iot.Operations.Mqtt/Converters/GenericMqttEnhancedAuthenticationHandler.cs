@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Reflection;
 using Azure.Iot.Operations.Protocol.Models;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
@@ -18,8 +19,22 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 
         public Task HandleEnhancedAuthenticationAsync(MqttEnhancedAuthenticationEventArgs eventArgs)
         {
-            //TODO won't work
-            return _mqttNetHandler.HandleEnhancedAuthenticationAsync(null);
+            var hiddenField = typeof(MQTTnet.MqttClient).GetField("_adapter", BindingFlags.NonPublic | BindingFlags.Instance);
+            MQTTnet.Adapter.IMqttChannelAdapter? channelAdapter = (MQTTnet.Adapter.IMqttChannelAdapter?)hiddenField.GetValue(_underlyingClient);
+
+            return _mqttNetHandler.HandleEnhancedAuthenticationAsync(
+            new(
+                new()
+                {
+                    AuthenticationData = eventArgs.AuthenticationData,
+                    AuthenticationMethod = eventArgs.AuthenticationMethod,
+                    ReasonCode = (MQTTnet.Protocol.MqttAuthenticateReasonCode)(int)eventArgs.ReasonCode,
+                    ReasonString = eventArgs.ReasonString,
+                    UserProperties = MqttNetConverter.FromGeneric(eventArgs.UserProperties)
+                },
+
+                channelAdapter,
+                default));
         }
     }
 }
