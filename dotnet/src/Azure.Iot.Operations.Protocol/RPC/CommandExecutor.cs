@@ -130,6 +130,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
+                    Trace.TraceWarning($"Command '{_commandName}' header validation failed. Status message: {statusMessage}");
+
                     await GetDispatcher()(
                         status != null ? async () => { await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status, statusMessage, null, null, false, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion).ConfigureAwait(false); }
                     : null,
@@ -160,6 +162,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (cachedResponse != null)
                 {
+                    Trace.TraceInformation($"Command '{_commandName}' has a cached response. Will use cached response instead of executing the command again.");
+
                     await GetDispatcher()(
                         async () =>
                         {
@@ -185,6 +189,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
                 catch (Exception ex)
                 {
+                    Trace.TraceWarning($"Command '{_commandName}' invocation failed during response message contruction. Error message: {ex.Message}");
                     AkriMqttException? amex = ex as AkriMqttException;
                     CommandStatusCode statusCode = amex != null ? ErrorKindToStatusCode(amex.Kind) : CommandStatusCode.InternalServerError;
 
