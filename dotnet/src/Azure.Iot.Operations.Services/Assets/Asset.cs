@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Reflection;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Services.Assets
 {
@@ -184,6 +187,9 @@ namespace Azure.Iot.Operations.Services.Assets
         public string? ProvisioningState { get; set; }
     }
 
+    /// <summary>
+    /// A dataset represents data retrievable from the asset that maps to a single MQTT message. The datapoints within a dataset comprise the payload of the MQTT message.
+    /// </summary>
     public record Dataset
     {
         /// <summary>
@@ -258,6 +264,10 @@ namespace Azure.Iot.Operations.Services.Assets
         public JsonDocument? DataPointConfiguration { get; set; }
     }
 
+    /// <summary>
+    /// An event represents some data that was received from the asset (unprompted). It is similar to a dataset in that it can be forwarded to the MQTT broker
+    /// as an MQTT message.
+    /// </summary>
     public record Event
     {
         /// <summary>
