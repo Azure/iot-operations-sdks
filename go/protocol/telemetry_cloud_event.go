@@ -151,7 +151,7 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 
 	if !contentTypeRegex.MatchString(msg.ContentType) {
 		return &errors.Error{
-			Message:       "cloud event content type nonconforming",
+			Message:       "cloud event invalid content type",
 			Kind:          errors.ArgumentInvalid,
 			PropertyName:  "DataContentType",
 			PropertyValue: msg.ContentType,
