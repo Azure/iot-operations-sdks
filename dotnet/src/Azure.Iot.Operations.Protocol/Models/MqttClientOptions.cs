@@ -238,7 +238,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///         connect properly.
         ///     </remarks>
         /// </summary>
-        public bool TryPrivate { get; set; } = true;
+        public bool TryPrivate { get; set; } = false;
 
         /// <summary>
         ///     Gets or sets the user properties.
