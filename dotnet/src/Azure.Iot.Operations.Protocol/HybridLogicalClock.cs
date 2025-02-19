@@ -3,6 +3,8 @@
 
 using System;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol
 {
@@ -10,9 +12,11 @@ namespace Azure.Iot.Operations.Protocol
     // https://jaredforsyth.com/posts/hybrid-logical-clocks/
     // and
     // https://github.com/CharlieTap/hlc/blob/main/src/commonMain/kotlin/com/tap/hlc/HybridLogicalClock.kt
-    public class HybridLogicalClock
+    public class HybridLogicalClock : IAsyncDisposable
     {
         private readonly TimeSpan _defaultMaxClockDrift = TimeSpan.FromMinutes(1);
+        private readonly SemaphoreSlim _semaphoreHlc = new SemaphoreSlim(1, 1);
+        private bool _disposed;
 
         // The base to use when reading an int while encoding/decoding the HLC
         private const int _encodingBase = 10;
@@ -83,6 +87,46 @@ namespace Azure.Iot.Operations.Protocol
         }
 
         /// <summary>
+        /// Updates the application's HybridLogicalClock based on the current time and returns its string representation.
+        /// </summary>
+        /// <returns>String representation of the updated HLC.</returns>
+        /// <exception cref="ObjectDisposedException">If this instance has been disposed.</exception>
+        public async Task<string> UpdateNowAsync(TimeSpan? maxClockDrift = null)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            await _semaphoreHlc.WaitAsync();
+            try
+            {
+                Update(maxClockDrift: maxClockDrift);
+                return EncodeToString();
+            }
+            finally
+            {
+                _semaphoreHlc.Release();
+            }
+        }
+
+        /// <summary>
+        /// Updates the application's HybridLogicalClock based on another HybridLogicalClock.
+        /// </summary>
+        /// <param name="other">The other HLC to update against.</param>
+        /// <exception cref="ObjectDisposedException">If this instance has been disposed.</exception>
+        public async Task UpdateWithOtherAsync(HybridLogicalClock other, TimeSpan? maxClockDrift = null)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            await _semaphoreHlc.WaitAsync();
+            try
+            {
+                Update(other, maxClockDrift);
+            }
+            finally
+            {
+                _semaphoreHlc.Release();
+            }
+        }
+        /// <summary>
         /// Update this clock with details provided by another clock.
         /// </summary>
         /// <param name="other">The other clock.</param>
@@ -90,7 +134,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <exception cref="AkriMqttException">If the other clock has the same node Id, if
         /// the counter on this clock overflows, or if clock skew that exceeds the provided 
         /// <paramref name="maxClockDrift"/> is detected.</exception>
-        public void Update(HybridLogicalClock? other = null, TimeSpan? maxClockDrift = null)
+        private void Update(HybridLogicalClock? other = null, TimeSpan? maxClockDrift = null)
         {
             bool isLocalUpdate = false;
             if (other == null)
@@ -294,6 +338,29 @@ namespace Azure.Iot.Operations.Protocol
         public override string ToString()
         {
             return EncodeToString();
+        }
+
+        /// <summary>
+        /// Asynchronously releases the resources used by the ApplicationContext.
+        /// </summary>
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual async ValueTask DisposeAsyncCore()
+        {
+            if (!_disposed)
+            {
+                if (_semaphoreHlc != null)
+                {
+                    _semaphoreHlc.Dispose();
+                }
+                _disposed = true;
+            }
+
+            await ValueTask.CompletedTask;
         }
     }
 }

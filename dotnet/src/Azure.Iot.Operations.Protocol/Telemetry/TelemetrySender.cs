@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 // Update HLC and use as the timestamp.
-                string timestamp = await _applicationContext.UpdateNowHlcAsync();
+                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
                 metadata!.Timestamp = _applicationContext.ApplicationHlc;
                 applicationMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 

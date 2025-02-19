@@ -183,7 +183,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     // Update application HLC against received timestamp
                     if (requestMetadata.Timestamp != null)
                     {
-                        await _applicationContext.UpdateHlcWithOtherAsync(requestMetadata.Timestamp);
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(requestMetadata.Timestamp);
                     }
                     else
                     {
@@ -470,7 +470,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
 
             // Update HLC and use as the timestamp.
-            string timestamp = await _applicationContext.UpdateNowHlcAsync();
+            string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
             metadata?.MarshalTo(message);

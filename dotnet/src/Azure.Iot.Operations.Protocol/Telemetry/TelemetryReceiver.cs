@@ -118,7 +118,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     if (metadata.Timestamp != null)
                     {
                         // Update application HLC against received TS
-                        await _applicationContext.UpdateHlcWithOtherAsync(metadata.Timestamp);
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(metadata.Timestamp);
                     }
                     else
                     {
