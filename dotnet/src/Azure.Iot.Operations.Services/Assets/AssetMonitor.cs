@@ -93,7 +93,7 @@ namespace Azure.Iot.Operations.Services.Assets
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
             string aepTargetAddressFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepTargetAddressRelativeMountPath}") ?? throw new InvalidOperationException("Missing AEP target address file");
-            string aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAuthenticationMethodRelativeMountPath}") ?? throw new InvalidOperationException("Missing AEP authentication method file");
+            string? aepAuthenticationMethodFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAuthenticationMethodRelativeMountPath}");
             string endpointProfileTypeFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{EndpointProfileTypeRelativeMountPath}") ?? throw new InvalidOperationException("Missing AEP type file");
             string? aepAdditionalConfigurationFileContents = await GetMountedConfigurationValueAsStringAsync($"{GetAssetEndpointProfileConfigDirectory()}/{AepAdditionalConfigurationRelativeMountPath}");
 

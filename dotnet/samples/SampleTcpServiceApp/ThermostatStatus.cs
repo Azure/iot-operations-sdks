@@ -3,9 +3,9 @@
 
 using System.Text.Json.Serialization;
 
-namespace RestThermostatConnector
+namespace SampleTcpServiceApp
 {
-    internal class ThermostatStatus
+    public class ThermostatStatus
     {
         [JsonPropertyName("desiredTemperature")]
         public double? DesiredTemperature { get; set; }
