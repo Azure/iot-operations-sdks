@@ -3,16 +3,16 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
-using RestThermostatConnector;
+using EventDrivenTcpThermostatConnector;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ApplicationContext>();
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddHostedService<EventDrivenRestThermostatConnectorWorker>();
+        services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
+        services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();
     })
     .Build();
 

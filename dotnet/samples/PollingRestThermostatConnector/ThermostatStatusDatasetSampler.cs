@@ -9,11 +9,11 @@ using System.Text.Json;
 
 namespace RestThermostatConnector
 {
-    internal class ThermostatStatusDatasetSampler : IDatasetSampler
+    internal class ThermostatStatusDatasetSampler : IDatasetSampler, IAsyncDisposable
     {
-        private HttpClient _httpClient;
-        private string _assetName;
-        private AssetEndpointProfileCredentials? _credentials;
+        private readonly HttpClient _httpClient;
+        private readonly string _assetName;
+        private readonly AssetEndpointProfileCredentials? _credentials;
 
         public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials? credentials)
         {
@@ -53,9 +53,11 @@ namespace RestThermostatConnector
                 var currentTemperatureHttpResponse = await _httpClient.GetAsync(httpServerCurrentTemperatureRequestPath);
                 var desiredTemperatureHttpResponse = await _httpClient.GetAsync(httpServerDesiredTemperatureRequestPath);
 
-                ThermostatStatus thermostatStatus = new();
-                thermostatStatus.CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync())!).CurrentTemperature;
-                thermostatStatus.DesiredTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await desiredTemperatureHttpResponse.Content.ReadAsStreamAsync())!).DesiredTemperature;
+                ThermostatStatus thermostatStatus = new()
+                {
+                    CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync())!).CurrentTemperature,
+                    DesiredTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await desiredTemperatureHttpResponse.Content.ReadAsStreamAsync())!).DesiredTemperature
+                };
 
                 // The HTTP response payload matches the expected message schema, so return it as-is
                 return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(thermostatStatus));
@@ -64,12 +66,6 @@ namespace RestThermostatConnector
             {
                 throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
-        }
-
-        public Task<DatasetMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
-        {
-            // By returning null, no message schema will be registered for telemetry sent for this dataset.
-            return Task.FromResult((DatasetMessageSchema?)null);
         }
 
         public ValueTask DisposeAsync()
