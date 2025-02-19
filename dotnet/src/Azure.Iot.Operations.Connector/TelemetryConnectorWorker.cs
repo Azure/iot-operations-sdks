@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
@@ -15,39 +16,53 @@ using System.Text.Json;
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// Base class for a worker that samples datasets from assets and publishes the data to an MQTT broker. This worker allows implementations
-    /// to choose when to sample each dataset and notifies the implementation when an asset is/is not available to be sampled.
+    /// Base class for a connector worker that allows users to forward data samplied from datasets and forwarding of received events.
     /// </summary>
-    public class EventDrivenTelemetryConnectorWorker : ConnectorBackgroundService
+    public class TelemetryConnectorWorker : ConnectorBackgroundService
     {
-        protected readonly ILogger<EventDrivenTelemetryConnectorWorker> _logger;
-        private IMqttClient _mqttClient;
+        protected readonly ILogger<TelemetryConnectorWorker> _logger;
+        private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
-        private IDatasetSamplerFactory _datasetSamplerFactory;
-        private IAssetMonitor _assetMonitor;
+        private readonly IAssetMonitor _assetMonitor;
+        private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
+        private readonly ConcurrentDictionary<string, Asset> _assets = new();
+        private bool _isDisposed = false;
 
-        // Mapping of asset name to the mapping of dataset name to its sampler and sampling interval
-        private ConcurrentDictionary<string, ConcurrentDictionary<string, IDatasetSampler>> _assetsDatasetSamplers = new();
-
+        /// <summary>
+        /// Event handler for when an asset becomes available.
+        /// </summary>
         public EventHandler<AssetAvailabileEventArgs>? OnAssetAvailable;
-        public EventHandler<AssetUnavailabileEventArgs>? OnAssetUnavailable;
 
-        public EventDrivenTelemetryConnectorWorker(
+        /// <summary>
+        /// Event handler for when an asset becomes unavailable.
+        /// </summary>
+        public EventHandler<AssetUnavailableEventArgs>? OnAssetUnavailable;
+
+        /// <summary>
+        /// The asset endpoint profile associated with this connector. This will be null until the asset endpoint profile is first discovered.
+        /// </summary>
+        public AssetEndpointProfile? AssetEndpointProfile { get; set; }
+
+        public TelemetryConnectorWorker(
             ApplicationContext applicationContext,
-            ILogger<EventDrivenTelemetryConnectorWorker> logger,
+            ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
-            IDatasetSamplerFactory datasetSamplerFactory,
+            IMessageSchemaProvider messageSchemaProviderFactory,
             IAssetMonitor assetMonitor)
         {
             _applicationContext = applicationContext;
             _logger = logger;
             _mqttClient = mqttClient;
-            _datasetSamplerFactory = datasetSamplerFactory;
+            _messageSchemaProviderFactory = messageSchemaProviderFactory;
             _assetMonitor = assetMonitor;
         }
 
+        ///<inheritdoc/>
         public override Task RunConnectorAsync(CancellationToken cancellationToken = default)
         {
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
+
+            // This method is public to allow users to access the BackgroundService interface's ExecuteAsync method.
             return ExecuteAsync(cancellationToken);
         }
 
@@ -99,12 +114,12 @@ namespace Azure.Iot.Operations.Connector
                         _assetMonitor.ObserveAssetEndpointProfile(null, cancellationToken);
 
                         _logger.LogInformation("Waiting for asset endpoint profile to be discovered");
-                        AssetEndpointProfile assetEndpointProfile = await aepCreatedTcs.Task.WaitAsync(cancellationToken);
+                        AssetEndpointProfile = await aepCreatedTcs.Task.WaitAsync(cancellationToken);
 
                         _logger.LogInformation("Successfully discovered the asset endpoint profile");
 
-                        if (assetEndpointProfile.AdditionalConfiguration != null
-                            && assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value)
+                        if (AssetEndpointProfile.AdditionalConfiguration != null
+                            && AssetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value)
                             && value.ValueKind == JsonValueKind.String
                             && value.GetString() != null)
                         {
@@ -145,18 +160,19 @@ namespace Azure.Iot.Operations.Connector
 
                             if (args.ChangeType == ChangeType.Deleted)
                             {
-                                _ = StopSamplingAssetAsync(args.AssetName, false, cancellationToken);
+                                AssetUnavailable(args.AssetName, false);
                             }
                             else if (args.ChangeType == ChangeType.Created)
                             {
-                                _ = StartSamplingAssetAsync(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
+                                _ = AssetAvailableAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                             else
                             {
                                 // asset changes don't all necessitate re-creating the relevant dataset samplers, but there is no way to know
                                 // at this level what changes are dataset-specific nor which of those changes require a new sampler. Because
                                 // of that, this sample just assumes all asset changes require the factory requesting a new sampler.
-                                _ = StopSamplingAssetAsync(args.AssetName, true, cancellationToken).ContinueWith((task) => StartSamplingAssetAsync(assetEndpointProfile, args.Asset!, args.AssetName, cancellationToken));
+                                AssetUnavailable(args.AssetName, true);
+                                _ = AssetAvailableAsync(AssetEndpointProfile, args.Asset!, args.AssetName, cancellationToken);
                             }
                         };
 
@@ -178,7 +194,6 @@ namespace Azure.Iot.Operations.Connector
                                 {
                                     await Task.WhenAny(
                                         aepDeletedOrUpdatedTcs.Task).WaitAsync(cancellationToken);
-
                                 }
                             }
                             catch (OperationCanceledException)
@@ -208,10 +223,9 @@ namespace Azure.Iot.Operations.Connector
                         _assetMonitor.UnobserveAssets();
                         _assetMonitor.UnobserveAssetEndpointProfile();
 
-                        // Dispose of all samplers and timers
-                        foreach (string assetName in _assetsDatasetSamplers.Keys)
+                        foreach (string assetName in _assets.Keys)
                         {
-                            await StopSamplingAssetAsync(assetName, false, cancellationToken);
+                            AssetUnavailable(assetName, false);
                         }
                     }
                     catch (Exception ex)
@@ -226,7 +240,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task StopSamplingAssetAsync(string assetName, bool isRestarting, CancellationToken cancellationToken)
+        private void AssetUnavailable(string assetName, bool isRestarting)
         {
             // Stop sampling this asset's datasets since it was deleted. Dispose all dataset samplers and timers associated with this asset
             if (_assetsDatasetSamplers.Remove(assetName, out var datasetSamplers))
@@ -244,35 +258,22 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task StartSamplingAssetAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
+        private async Task AssetAvailableAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
         {
+            _assets.TryAdd(assetName, asset);
+
             if (asset.DatasetsDictionary == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
-                return;
             }
-
-            // This won't overwrite the existing asset dataset samplers if they already exist
-            _assetsDatasetSamplers.TryAdd(assetName, new());
-
-            foreach (string datasetName in asset.DatasetsDictionary!.Keys)
+            else
             {
-                Dataset dataset = asset.DatasetsDictionary![datasetName];
-
-                if (_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers))
+                foreach (string datasetName in asset.DatasetsDictionary!.Keys)
                 {
-                    // Overwrite any previous dataset sampler for this dataset
-                    if (assetDatasetSamplers.Remove(datasetName, out var oldDatasetSampler))
-                    {
-                        await oldDatasetSampler.DisposeAsync();
-                    }
+                    Dataset dataset = asset.DatasetsDictionary![datasetName];
 
-                    // Create a new dataset sampler since the old one may have been updated in some way
-                    IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(assetEndpointProfile, asset, dataset);
-
-                    _assetsDatasetSamplers[assetName].TryAdd(datasetName, datasetSampler);
-
-                    DatasetMessageSchema? datasetMessageSchema = await datasetSampler.GetMessageSchemaAsync(dataset);
+                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, datasetName, dataset);
                     if (datasetMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
@@ -293,45 +294,46 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            OnAssetAvailable?.Invoke(this, new(assetName, asset));
+            if (asset.EventsDictionary == null)
+            {
+                _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
+            }
+            else
+            {
+                foreach (string eventName in asset.EventsDictionary!.Keys)
+                {
+                    Event assetEvent = asset.EventsDictionary[eventName];
+
+                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, eventName, assetEvent);
+                    if (eventMessageSchema != null)
+                    {
+                        _logger.LogInformation($"Registering message schema for event with name {eventName} on asset with name {assetName}");
+                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                        await schemaRegistryClient.PutAsync(
+                            eventMessageSchema.SchemaContent,
+                            eventMessageSchema.SchemaFormat,
+                            eventMessageSchema.SchemaType,
+                            eventMessageSchema.Version ?? "1.0.0",
+                            eventMessageSchema.Tags,
+                            null,
+                            cancellationToken);
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"No message schema will be registered for event with name {eventName} on asset with name {assetName}");
+                    }
+                }
+            }
+
+            OnAssetAvailable?.Invoke(this, new(assetName, asset, assetEndpointProfile));
         }
 
-        /// <summary>
-        /// Sample the provided dataset on the provided asset and publish the sampled data to the MQTT broker as MQTT telemetry.
-        /// </summary>
-        /// <param name="assetName">The name of the asset to sample</param>
-        /// <param name="asset">The asset to sample</param>
-        /// <param name="datasetName">The name of the dataset to sample</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="AssetDatasetUnavailableException">Thrown if the specified asset or dataset is unavailable to be sampled currently.</exception>
-        /// <exception cref="AssetSamplingException">Thrown if connecting or getting a response from the asset fails (i.e. HTTP read timeout).</exception>
-        /// <exception cref="ConnectorException">Thrown if publishing the telemetry to the MQTT broker fails.</exception>
-        public async Task SampleDatasetAsync(string assetName, Asset asset, string datasetName, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(Asset asset, Dataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
-            Dictionary<string, Dataset>? assetDatasets = asset.DatasetsDictionary;
-            if (assetDatasets == null || !assetDatasets.TryGetValue(datasetName, out Dataset? dataset))
-            {
-                throw new AssetDatasetUnavailableException($"Could not sample the provided dataset: No dataset with the provided name ({datasetName}) was found in the provided asset ({assetName})");
-            }
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            if (!_assetsDatasetSamplers.TryGetValue(assetName, out var assetDatasetSamplers)
-                || !assetDatasetSamplers.TryGetValue(datasetName, out var datasetSampler))
-            {
-                // Should never happen, but may signal the asset was just removed.
-                throw new AssetDatasetUnavailableException($"Could not sample the provided dataset: No dataset sampler found for the provided asset ({assetName}) and dataset name ({datasetName})");
-            }
-
-            byte[] serializedPayload;
-            try
-            {
-                serializedPayload = await datasetSampler.SampleDatasetAsync(dataset);
-            }
-            catch (Exception e)
-            {
-                throw new AssetSamplingException($"Error sampling dataset with name {datasetName} in asset with name {assetName}", e);
-            }
-
-            _logger.LogInformation($"Read dataset with name {dataset.Name} from asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             Topic topic;
             if (dataset.Topic != null)
@@ -344,8 +346,7 @@ namespace Azure.Iot.Operations.Connector
             }
             else
             {
-                _logger.LogError($"Dataset with name {datasetName} in asset with name {assetName} has no configured MQTT topic to publish to. This sample won't publish the data sampled from the asset.");
-                return;
+                throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
             }
 
             var mqttMessage = new MqttApplicationMessage(topic.Path)
@@ -354,16 +355,7 @@ namespace Azure.Iot.Operations.Connector
                 Retain = topic.Retain == RetainHandling.Keep,
             };
 
-            MqttClientPublishResult puback;
-
-            try
-            {
-                puback = await _mqttClient.PublishAsync(mqttMessage);
-            }
-            catch (Exception e)
-            {
-                throw new ConnectorException("Failed to publish telemetry to the MQTT broker.", e);
-            }
+            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
             if (puback.ReasonCode == MqttClientPublishReasonCode.Success
                 || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
@@ -376,6 +368,53 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
             }
+        }
+
+        public async Task ForwardReceivedEventAsync(Asset asset, Event assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        {
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
+
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+
+            Topic topic;
+            if (assetEvent.Topic != null)
+            {
+                topic = assetEvent.Topic;
+            }
+            else if (asset.DefaultTopic != null)
+            {
+                topic = asset.DefaultTopic;
+            }
+            else
+            {
+                throw new AssetConfigurationException($"Event with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this event.");
+            }
+
+            var mqttMessage = new MqttApplicationMessage(topic.Path)
+            {
+                PayloadSegment = serializedPayload,
+                Retain = topic.Retain == RetainHandling.Keep,
+            };
+
+            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
+
+            if (puback.ReasonCode == MqttClientPublishReasonCode.Success
+                || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+            {
+                // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+            }
+            else
+            {
+                _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+            }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _isDisposed = true;
         }
     }
 }

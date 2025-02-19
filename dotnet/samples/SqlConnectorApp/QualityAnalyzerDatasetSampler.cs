@@ -79,10 +79,10 @@ namespace SqlQualityAnalyzerConnectorApp
             }
         }
 
-        public Task<DatasetMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
         {
             // By returning null, no message schema will be registered for telemetry sent for this dataset.
-            return Task.FromResult((DatasetMessageSchema?)null);
+            return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
         public ValueTask DisposeAsync()
