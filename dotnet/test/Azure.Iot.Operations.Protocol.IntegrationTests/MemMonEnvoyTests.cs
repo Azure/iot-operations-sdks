@@ -133,6 +133,9 @@ public class MemMonEnvoyTests
         ManagedMemoryTelemetryMetadata.UserData.Add(ManagedMemoryUserDataKey, ManagedMemoryUserDataValue);
         await memMonService.SendTelemetryAsync(new ManagedMemoryTelemetry() { ManagedMemory = 2 }, ManagedMemoryTelemetryMetadata);
 
+        Console.WriteLine("Application context before sending telemetry");
+        Console.WriteLine(applicationContext.ApplicationHlc);
+
         // Wait for all receivers to receive some telemetry, or time out after a while.
         await Task.WhenAll(
             memmonClient.WorkingSetTelemetryReceivedTcs.Task,
@@ -147,6 +150,8 @@ public class MemMonEnvoyTests
         Console.WriteLine($"memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp}");
         Console.WriteLine($"ManagedMemoryTelemetryMetadata.Timestamp: {ManagedMemoryTelemetryMetadata.Timestamp}");
         Console.WriteLine($"memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp}");
+        Console.WriteLine("Application context after completion of telemetry");
+        Console.WriteLine(applicationContext.ApplicationHlc);
 
         Assert.Single(memmonClient.ReceivedManagedMemoryTelemetry);
         Assert.Single(memmonClient.ReceivedMemoryStatsTelemetry);
