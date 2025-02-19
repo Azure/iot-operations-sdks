@@ -50,13 +50,11 @@ jobs:
         go-version: 1.22.4
 
     - name: Setup .NET 8
-      if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.301
         
     - name: Setup .NET 9
-      if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.200
