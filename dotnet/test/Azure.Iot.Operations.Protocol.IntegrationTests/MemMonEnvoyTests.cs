@@ -185,6 +185,8 @@ public class MemMonEnvoyTests
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
         // Assert.True(Math.Abs(MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!)) <= 1);
+        Console.WriteLine(MemoryStatsTelemetryMetadata.Timestamp);
+        Console.WriteLine(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
         Console.WriteLine($"MemoryStatsTelemetryMetadata.Timestamp: {MemoryStatsTelemetryMetadata.Timestamp}");
         Console.WriteLine($"memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp}");
         Assert.True(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.CompareTo(MemoryStatsTelemetryMetadata.Timestamp) >= 0);
