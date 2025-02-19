@@ -13,7 +13,7 @@ use tokio::sync::Mutex;
 use crate::state_store::{self, KeyObservation, SetCondition, SetOptions, StateStoreError};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 
-/// Leased Lock client state
+/// Leased Lock client struct.
 pub struct Client<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
