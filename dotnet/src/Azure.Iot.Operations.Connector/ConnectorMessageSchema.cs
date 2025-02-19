@@ -7,7 +7,7 @@ using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.S
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class DatasetMessageSchema
+    public class ConnectorMessageSchema
     {
         public string SchemaContent { get; }
         
@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Connector
         
         public Dictionary<string, string>? Tags { get; }
 
-        public DatasetMessageSchema(
+        public ConnectorMessageSchema(
             string schemaContent,
             SchemaFormat schemaFormat,
             SchemaType schemaType,

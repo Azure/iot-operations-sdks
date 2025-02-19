@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using RestThermostatConnector;
+using EventDrivenTcpThermostatConnector;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddHostedService<EventDrivenRestThermostatConnectorWorker>();
+        services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
+        services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();
     })
     .Build();
 

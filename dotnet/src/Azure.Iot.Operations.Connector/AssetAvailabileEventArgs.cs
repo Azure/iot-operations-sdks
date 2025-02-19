@@ -10,6 +10,8 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public class AssetAvailabileEventArgs : EventArgs
     {
+        public AssetEndpointProfile AssetEndpointProfile { get; }
+
         /// <summary>
         /// The name of the asset that is now available to sample.
         /// </summary>
@@ -20,10 +22,11 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public Asset Asset { get; }
 
-        internal AssetAvailabileEventArgs(string assetName, Asset asset)
+        internal AssetAvailabileEventArgs(string assetName, Asset asset, AssetEndpointProfile assetEndpointProfile)
         {
             AssetName = assetName;
             Asset = asset;
+            AssetEndpointProfile = assetEndpointProfile;
         }
     }
 }
