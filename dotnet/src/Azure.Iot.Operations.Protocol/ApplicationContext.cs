@@ -18,11 +18,11 @@ namespace Azure.Iot.Operations.Protocol
         public HybridLogicalClock ApplicationHlc { get; }
 
         /// <summary>
-        /// Creates a new ApplicationContext with HLC's default clock drift.
+        /// Creates a new ApplicationContext with a HybridLogicalClock.
         /// </summary>
-        public ApplicationContext()
+        public ApplicationContext(HybridLogicalClock? hybridLogicalClock = null)
         {
-            ApplicationHlc = new HybridLogicalClock();
+            ApplicationHlc ??= new();
         }
 
         public async ValueTask DisposeAsync()
