@@ -69,7 +69,6 @@ fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_s
             .unwrap()
             .block_on(CommandInvokerTester::<MqttDriver>::test_command_invoker(
                 test_case,
-                test_case_index,
                 mqtt_driver,
                 mqtt_hub,
             ));
@@ -105,7 +104,6 @@ fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_
             .unwrap()
             .block_on(CommandExecutorTester::<MqttDriver>::test_command_executor(
                 test_case,
-                test_case_index,
                 mqtt_driver,
                 mqtt_hub,
             ));
@@ -148,7 +146,6 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
             let _ = tokio::join!(session.run(), async move {
                 CommandInvokerTester::<SessionManagedClient<MqttDriver>>::test_command_invoker(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -195,7 +192,6 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
             let _ = tokio::join!(session.run(), async move {
                 CommandExecutorTester::<SessionManagedClient<MqttDriver>>::test_command_executor(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -242,7 +238,6 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
             let _ = tokio::join!(session.run(), async move {
                 TelemetryReceiverTester::<SessionManagedClient<MqttDriver>>::test_telemetry_receiver(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -288,7 +283,6 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
             let _ = tokio::join!(session.run(), async move {
                 TelemetrySenderTester::<SessionManagedClient<MqttDriver>>::test_telemetry_sender(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -308,6 +302,7 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
         && !requirements.contains(&TestFeatureKind::Reconnection)
         && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
+        && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }
 */
 
@@ -316,6 +311,7 @@ fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
         && !requirements.contains(&TestFeatureKind::TopicFiltering)
         && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
+        && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }
 
 fn get_client_id<T: DefaultsType + Default>(

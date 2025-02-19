@@ -4,6 +4,7 @@ package protocol
 
 type DefaultExecutor struct {
 	CommandName          *string             `toml:"command-name"`
+	Serializer           DefaultSerializer   `toml:"serializer"`
 	RequestTopic         *string             `toml:"request-topic"`
 	ExecutorID           *string             `toml:"executor-id"`
 	TopicNamespace       *string             `toml:"topic-namespace"`
@@ -20,6 +21,10 @@ func (executor *DefaultExecutor) GetCommandName() *string {
 
 	commandName := *executor.CommandName
 	return &commandName
+}
+
+func (executor *DefaultExecutor) GetSerializer() TestCaseSerializer {
+	return executor.Serializer.GetSerializer()
 }
 
 func (executor *DefaultExecutor) GetRequestTopic() *string {

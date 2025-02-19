@@ -329,6 +329,7 @@ where
         let topic_pattern = TopicPattern::new(
             "receiver_options.topic_pattern",
             &receiver_options.topic_pattern,
+            None,
             receiver_options.topic_namespace.as_deref(),
             &receiver_options.topic_token_map,
         )?;

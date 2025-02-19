@@ -8,6 +8,7 @@ import (
 
 type testCaseInvoker struct {
 	CommandName         *string             `yaml:"command-name"`
+	Serializer          TestCaseSerializer  `yaml:"serializer"`
 	RequestTopic        *string             `yaml:"request-topic"`
 	TopicNamespace      *string             `yaml:"topic-namespace"`
 	ResponseTopicPrefix *string             `yaml:"response-topic-prefix"`
@@ -24,6 +25,7 @@ func (invoker *TestCaseInvoker) UnmarshalYAML(node *yaml.Node) error {
 	*invoker = TestCaseInvoker{}
 
 	invoker.CommandName = TestCaseDefaultInfo.Prologue.Invoker.GetCommandName()
+	invoker.Serializer = TestCaseDefaultInfo.Prologue.Invoker.GetSerializer()
 	invoker.RequestTopic = TestCaseDefaultInfo.Prologue.Invoker.GetRequestTopic()
 	invoker.TopicNamespace = TestCaseDefaultInfo.Prologue.Invoker.GetTopicNamespace()
 	invoker.ResponseTopicPrefix = TestCaseDefaultInfo.Prologue.Invoker.GetResponseTopicPrefix()

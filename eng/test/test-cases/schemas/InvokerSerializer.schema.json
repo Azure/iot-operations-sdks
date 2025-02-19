@@ -1,0 +1,35 @@
+{
+    "title": "InvokerSerializer",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "out-content-type": {
+            "description": "String to use as the content type on outgoing serialized data",
+            "type": "string",
+            "kind": "drive"
+        },
+        "accept-content-types": {
+            "description": "A list of strings allowed as content types on incoming data to deserialize.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "kind": "check"
+        },
+        "indicate-character-data": {
+            "description": "Whether the outgoing serialized data should have a payload format indicator that specifies character data.",
+            "type": "boolean",
+            "kind": "drive"
+        },
+        "allow-character-data": {
+            "description": "Whether to allow a payload format indicator that specifies character data for incoming data to deserialize.",
+            "type": "boolean",
+            "kind": "check"
+        },
+        "fail-deserialization": {
+            "description": "Whether to fail the deserialization of incoming data.",
+            "type": "boolean",
+            "kind": "drive"
+        }
+    }
+}

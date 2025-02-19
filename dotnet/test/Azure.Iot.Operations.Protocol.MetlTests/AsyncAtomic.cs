@@ -9,47 +9,47 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class AsyncAtomicInt : IDisposable
     {
-        private readonly SemaphoreSlim semaphore;
-        private int value;
+        private readonly SemaphoreSlim _semaphore;
+        private int _value;
 
         public AsyncAtomicInt(int initialValue)
         {
-            semaphore = new SemaphoreSlim(1);
-            value = initialValue;
+            _semaphore = new SemaphoreSlim(1);
+            _value = initialValue;
         }
 
         public async Task<int> Increment()
         {
-            await semaphore.WaitAsync().ConfigureAwait(false);
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                value++;
-                return value;
+                _value++;
+                return _value;
             }
             finally
             {
-                semaphore.Release();
+                _semaphore.Release();
             }
         }
 
         public async Task<int> Read()
         {
-            await semaphore.WaitAsync().ConfigureAwait(false);
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                return value;
+                return _value;
             }
             finally
             {
-                semaphore.Release();
+                _semaphore.Release();
             }
         }
 
         public void Dispose()
         {
-            semaphore.Dispose();
+            _semaphore.Dispose();
             GC.SuppressFinalize(this);
         }
     }

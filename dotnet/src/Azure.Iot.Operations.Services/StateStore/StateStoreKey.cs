@@ -16,8 +16,8 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// <see cref="StateStoreResponse.Version"/>.
         /// </remarks>
         /// <remarks>
-        /// This value is read-only because you set the version of a key when you call 
-        /// <see cref="StateStoreClient.SetAsync(StateStoreKey, StateStoreValue, HybridLogicalClock, StateStoreSetRequestOptions?, CancellationToken)"/>.
+        /// This value is read-only because you set the version of a key when you call
+        /// <see cref="StateStoreClient.SetAsync( StateStoreKey, StateStoreValue, StateStoreSetRequestOptions?, TimeSpan?, CancellationToken)"/>.
         /// </remarks>
         public HybridLogicalClock? Version { get; }
 

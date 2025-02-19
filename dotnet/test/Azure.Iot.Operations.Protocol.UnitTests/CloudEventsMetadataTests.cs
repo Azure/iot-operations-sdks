@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Telemetry;
-using System;
-using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.Tests.Telemetry;
 

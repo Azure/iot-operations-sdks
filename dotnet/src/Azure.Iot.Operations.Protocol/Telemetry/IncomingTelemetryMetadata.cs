@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     /// The metadata associated with every message received by a <see cref="TelemetryReceiver{T}"/>.
     /// </summary>
     /// <remarks>
-    /// Some metadata should be expected if it was sent by a <see cref="TelemetrySender{T}"/> but may not be 
+    /// Some metadata should be expected if it was sent by a <see cref="TelemetrySender{T}"/> but may not be
     /// present if the message was sent by something else.
     /// </remarks>
     public class IncomingTelemetryMetadata
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// A timestamp attached to the telemetry message.
         /// </summary>
         /// <remarks>
-        /// This value is nullable only because a received message may not have sent it. Any message sent by 
+        /// This value is nullable only because a received message may not have sent it. Any message sent by
         /// <see cref="TelemetrySender{T}"/> will include a non-null timestamp. A message sent by anything else
         /// may or may not include this timestamp.
         /// </remarks>
@@ -34,8 +34,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public Dictionary<string, string> UserData { get; }
 
         /// <summary>
-        /// The Id of the received MQTT packet. This value can be used to acknowledge a received message via 
-        /// <see cref="TelemetryReceiver{T}.AcknowledgeAsync(uint)"/>.
+        /// The Id of the received MQTT packet.
         /// </summary>
         public uint PacketId { get; }
 

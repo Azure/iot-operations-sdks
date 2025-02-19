@@ -23,6 +23,8 @@ epilogue:
   published-messages:
   - correlation-index: 0
     topic: "response/mock/test"
+    content-type: "application/json"
+    format-indicator: 1
     metadata:
       "responseHeader": "responseValue"
       "requestHeader": "requestValue"
