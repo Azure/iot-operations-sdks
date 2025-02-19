@@ -135,6 +135,15 @@ public class MemMonEnvoyTests
             memmonClient.MemoryStatsTelemetryReceivedTcs.Task,
             memmonClient.ManagedMemoryTelemetryReceivedTcs.Task).WaitAsync(TimeSpan.FromSeconds(30));
 
+        Console.WriteLine(MemoryStatsTelemetryMetadata.Timestamp);
+        Console.WriteLine(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
+        Console.WriteLine($"MemoryStatsTelemetryMetadata.Timestamp: {MemoryStatsTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp}");
+        Console.WriteLine($"WorkingSetTelemetryMetadata.Timestamp: {WorkingSetTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp}");
+        Console.WriteLine($"ManagedMemoryTelemetryMetadata.Timestamp: {ManagedMemoryTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp}");
+
         Assert.Single(memmonClient.ReceivedManagedMemoryTelemetry);
         Assert.Single(memmonClient.ReceivedMemoryStatsTelemetry);
         Assert.Single(memmonClient.ReceivedWorkingSetTelemetry);
