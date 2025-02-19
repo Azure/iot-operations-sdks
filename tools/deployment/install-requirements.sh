@@ -11,6 +11,7 @@ if ! [[ "$SYSTEM_NAME" == *"microsoft"* && "$SYSTEM_NAME" == *"WSL"* ]]
 then
     if ! which docker;
     then
+        sudo apt-get update
         sudo apt-get install -y docker.io
     fi
 fi
