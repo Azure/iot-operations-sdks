@@ -19,7 +19,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    dss_client: Arc<Mutex<state_store::Client<C>>>,
+    state_store: Arc<Mutex<state_store::Client<C>>>,
     lock_holder_name: Vec<u8>,
 }
 
@@ -39,9 +39,9 @@ where
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new(dss_client: Arc<Mutex<state_store::Client<C>>>, lock_holder_name: Vec<u8>) -> Result<Self, StateStoreError> {
+    pub fn new(state_store: Arc<Mutex<state_store::Client<C>>>, lock_holder_name: Vec<u8>) -> Result<Self, StateStoreError> {
         Ok(Self {
-            dss_client,
+            state_store,
             lock_holder_name,
         })
     }
@@ -69,10 +69,10 @@ where
         expiration: Duration,
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
-        let cloned_dss_client = self.dss_client.clone();
-        let locked_dss_client = cloned_dss_client.lock().await;
+        let cloned_state_store = self.state_store.clone();
+        let locked_state_store = cloned_state_store.lock().await;
 
-        locked_dss_client
+        locked_state_store
             .set(
                 key,
                 self.lock_holder_name.clone(),
@@ -108,10 +108,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        let cloned_dss_client = self.dss_client.clone();
-        let locked_dss_client = cloned_dss_client.lock().await;
+        let cloned_state_store = self.state_store.clone();
+        let locked_state_store = cloned_state_store.lock().await;
 
-        locked_dss_client
+        locked_state_store
             .vdel(key.clone(), self.lock_holder_name.clone(), None, timeout)
             .await
     }
@@ -150,10 +150,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<KeyObservation>, StateStoreError> {
-        let cloned_dss_client = self.dss_client.clone();
-        let locked_dss_client = cloned_dss_client.lock().await;
+        let cloned_state_store = self.state_store.clone();
+        let locked_state_store = cloned_state_store.lock().await;
 
-        locked_dss_client.observe(key, timeout).await
+        locked_state_store.observe(key, timeout).await
     }
 
     /// Stops observation of any changes on a lock key from the State Store Service
@@ -177,10 +177,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, StateStoreError> {
-        let cloned_dss_client = self.dss_client.clone();
-        let locked_dss_client = cloned_dss_client.lock().await;
+        let cloned_state_store = self.state_store.clone();
+        let locked_state_store = cloned_state_store.lock().await;
 
-        locked_dss_client.unobserve(key, timeout).await
+        locked_state_store.unobserve(key, timeout).await
     }
 
     /// Gets the holder of a lock key in the State Store Service
@@ -205,10 +205,10 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<state_store::Response<Option<Vec<u8>>>, StateStoreError> {
-        let cloned_dss_client = self.dss_client.clone();
-        let locked_dss_client = cloned_dss_client.lock().await;
+        let cloned_state_store = self.state_store.clone();
+        let locked_state_store = cloned_state_store.lock().await;
 
-        locked_dss_client.get(key.clone(), timeout).await
+        locked_state_store.get(key.clone(), timeout).await
     }
 
     /// Enables the auto-renewal of the lock duration.
@@ -234,9 +234,9 @@ where
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), StateStoreError> {
-        let cloned_dss_client = self.dss_client.clone();
-        let locked_dss_client = cloned_dss_client.lock().await;
+        let cloned_state_store = self.state_store.clone();
+        let locked_state_store = cloned_state_store.lock().await;
 
-        locked_dss_client.shutdown().await
+        locked_state_store.shutdown().await
     }
 }
