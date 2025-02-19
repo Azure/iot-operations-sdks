@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.SchemaRegistry;
 using SampleReadCloudEvents;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);

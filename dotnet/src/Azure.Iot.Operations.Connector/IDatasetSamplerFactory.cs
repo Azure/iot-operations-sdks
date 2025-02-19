@@ -17,6 +17,6 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="asset">The asset that this dataset belongs to.</param>
         /// <param name="dataset">The dataset that the returned sampler will sample.</param>
         /// <returns>The dataset sampler that will be used everytime this dataset needs to be sampled.</returns>
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset);
+        IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset);
     }
 }

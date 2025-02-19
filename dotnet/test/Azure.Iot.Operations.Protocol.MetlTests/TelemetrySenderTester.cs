@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Concurrent;
 using System.Text;
 using Azure.Iot.Operations.Mqtt.Converters;
 using Azure.Iot.Operations.Protocol.Models;
