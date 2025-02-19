@@ -6,6 +6,7 @@
 namespace TestEnvoys
 {
     using System;
+    using System.Buffers;
     using System.IO;
     using Avro;
     using Avro.IO;
@@ -38,7 +39,7 @@ namespace TestEnvoys
 
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             if (contentType != null && contentType != ContentType)
@@ -56,7 +57,7 @@ namespace TestEnvoys
 
             try
             {
-                if (payload == null)
+                if (payload.IsEmpty)
                 {
                     if (typeof(T) != typeof(EmptyAvro))
                     {
@@ -66,7 +67,7 @@ namespace TestEnvoys
                     return (new EmptyAvro() as T)!;
                 }
 
-                using (var stream = new MemoryStream(payload))
+                using (var stream = new MemoryStream(payload.ToArray()))
                 {
                     var avroDecoder = new BinaryDecoder(stream);
 
@@ -101,7 +102,7 @@ namespace TestEnvoys
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return new(null, null, 0);
+                    return new(ReadOnlySequence<byte>.Empty, null, 0);
                 }
 
                 using (var stream = new MemoryStream())
@@ -118,7 +119,7 @@ namespace TestEnvoys
                     }
                     else
                     {
-                        return new(Array.Empty<byte>(), null, 0);
+                        return new(ReadOnlySequence<byte>.Empty, null, 0);
                     }
 
                     stream.Flush();
@@ -127,7 +128,7 @@ namespace TestEnvoys
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return new(buffer, ContentType, PayloadFormatIndicator);
+                    return new(new(buffer), ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)

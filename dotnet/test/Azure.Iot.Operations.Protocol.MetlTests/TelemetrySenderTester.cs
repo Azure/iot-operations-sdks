@@ -363,12 +363,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.Payload == null)
             {
-                Assert.Null(appMsg.PayloadSegment.Array);
+                Assert.True(appMsg.Payload.IsEmpty);
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.NotNull(appMsg.PayloadSegment.Array);
-                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
+                Assert.False(appMsg.Payload.IsEmpty);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.Payload));
             }
 
             if (publishedMessage.ContentType != null)

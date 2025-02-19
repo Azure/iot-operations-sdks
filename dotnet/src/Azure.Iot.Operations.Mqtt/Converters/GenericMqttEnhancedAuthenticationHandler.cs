@@ -18,7 +18,8 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 
         public Task HandleEnhancedAuthenticationAsync(MqttEnhancedAuthenticationEventArgs eventArgs)
         {
-            return _mqttNetHandler.HandleRequestAsync(MqttNetConverter.FromGeneric(eventArgs, _underlyingClient));
+            //TODO won't work
+            return _mqttNetHandler.HandleEnhancedAuthenticationAsync(null);
         }
     }
 }
