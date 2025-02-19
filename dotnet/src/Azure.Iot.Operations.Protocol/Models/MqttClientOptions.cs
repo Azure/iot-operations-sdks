@@ -238,6 +238,9 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///         connect properly.
         ///     </remarks>
         /// </summary>
+        /// <remarks>
+        /// This feature is not supported in MQTT5
+        /// </remarks>
         public bool TryPrivate { get; set; }
 
         /// <summary>
