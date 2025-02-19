@@ -119,7 +119,7 @@ jobs:
 
       - name: Run Counter Server dotnet
         if: matrix.server == 'dotnet'
-        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
+        run: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
 
       - name: Run Counter Server go
         if: matrix.server == 'go'
@@ -131,7 +131,7 @@ jobs:
 
       - name: Run Counter Client dotnet
         if: matrix.client == 'dotnet'
-        run: dotnet/samples/CounterClient/bin/Release/net8.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.server }}
+        run: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.server }}
 
       - name: Run Counter Client go
         if: matrix.client == 'go'
