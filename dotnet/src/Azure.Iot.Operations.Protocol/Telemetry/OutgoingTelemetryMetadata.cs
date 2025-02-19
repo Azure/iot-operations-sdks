@@ -38,9 +38,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         public OutgoingTelemetryMetadata()
         {
-            //HybridLogicalClock localClock = HybridLogicalClock.GetInstance();
-            //localClock.Update();
-            //Timestamp = new HybridLogicalClock();
             UserData = [];
             Timestamp = null;
         }

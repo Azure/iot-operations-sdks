@@ -184,7 +184,8 @@ public class MemMonEnvoyTests
         /*The sender updates the HLC using UpdateNowHlcAsync() and stores this value in the metadata
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
-        Assert.True(Math.Abs(MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!)) <= 1);
+        // Assert.True(Math.Abs(MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!)) <= 1);
+        Assert.True(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.CompareTo(MemoryStatsTelemetryMetadata.Timestamp) >= 0);
 
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
         Assert.False(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData.ContainsKey("dataschema"));
@@ -194,11 +195,11 @@ public class MemMonEnvoyTests
         Assert.True(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].UserData.ContainsKey(WorkingSetUserDataKey));
         Assert.Equal(WorkingSetUserDataValue, memmonClient.ReceivedWorkingSetTelemetryMetadata[0].UserData[WorkingSetUserDataKey]);
         Assert.NotNull(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp);
-        //Assert.Equal(0, WorkingSetTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!));
         /*The sender updates the HLC using UpdateNowHlcAsync() and stores this value in the metadata
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
-        Assert.True(Math.Abs(WorkingSetTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!)) <= 1);
+        // Assert.True(Math.Abs(WorkingSetTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!)) <= 1);
+        Assert.True(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!.CompareTo(WorkingSetTelemetryMetadata.Timestamp) >= 0);
 
         Assert.NotNull(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData);
         Assert.True(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData.ContainsKey(ManagedMemoryUserDataKey));
@@ -207,7 +208,8 @@ public class MemMonEnvoyTests
         /*The sender updates the HLC using UpdateNowHlcAsync() and stores this value in the metadata
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
-        Assert.True(Math.Abs(ManagedMemoryTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!)) <= 1);
+        // Assert.True(Math.Abs(ManagedMemoryTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!)) <= 1);
+        Assert.True(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!.CompareTo(ManagedMemoryTelemetryMetadata.Timestamp) >= 0);
     }
 
     [Fact]

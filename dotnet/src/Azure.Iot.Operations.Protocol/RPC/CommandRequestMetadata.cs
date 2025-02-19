@@ -72,13 +72,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public CommandRequestMetadata()
         {
-            //HybridLogicalClock localClock = HybridLogicalClock.GetInstance();
-            //localClock.Update();
-
             CorrelationId = Guid.NewGuid();
             InvokerClientId = null;
 
-            //Timestamp = new HybridLogicalClock(localClock); // TODO This looks like some other update is happening which is not needed
             UserData = [];
             Timestamp = null;
         }
