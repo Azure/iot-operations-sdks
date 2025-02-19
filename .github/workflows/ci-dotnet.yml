@@ -90,7 +90,10 @@ jobs:
       run: |
         dotnet new install dotnet/templates/EventDrivenTelemetryConnector
         dotnet new install dotnet/templates/PollingTelemetryConnector
-
+ 
+    - name: Build Faultable MQTT Broker
+      run: dotnet build eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj
+   
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
