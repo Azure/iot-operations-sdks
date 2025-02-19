@@ -242,14 +242,7 @@ namespace Azure.Iot.Operations.Connector
 
         private void AssetUnavailable(string assetName, bool isRestarting)
         {
-            // Stop sampling this asset's datasets since it was deleted. Dispose all dataset samplers and timers associated with this asset
-            if (_assetsDatasetSamplers.Remove(assetName, out var datasetSamplers))
-            {
-                foreach (IDatasetSampler datasetSampler in datasetSamplers.Values)
-                {
-                    await datasetSampler.DisposeAsync();
-                }
-            }
+            _assets.Remove(assetName, out Asset? _);
 
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isRestarting)
@@ -309,7 +302,7 @@ namespace Azure.Iot.Operations.Connector
                     if (eventMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for event with name {eventName} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                         await schemaRegistryClient.PutAsync(
                             eventMessageSchema.SchemaContent,
                             eventMessageSchema.SchemaFormat,

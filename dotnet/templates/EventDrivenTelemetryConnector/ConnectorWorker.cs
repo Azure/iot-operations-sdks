@@ -21,6 +21,7 @@ namespace EventDrivenTelemetryConnector
         /// <param name="messageSchemaProviderFactory">The provider for any message schemas to associate with events forwarded as telemetry messages to the MQTT broker</param>
         /// <param name="assetMonitor">The asset monitor.</param>
         public ConnectorWorker(
+            ApplicationContext applicationContext,
             ILogger<ConnectorWorker> logger,
             ILogger<TelemetryConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
@@ -28,7 +29,7 @@ namespace EventDrivenTelemetryConnector
             IAssetMonitor assetMonitor)
         {
             _logger = logger;
-            _connector = new(connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
+            _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
             _connector.OnAssetAvailable += OnAssetAvailableAsync;
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
