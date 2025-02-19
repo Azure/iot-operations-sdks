@@ -152,10 +152,10 @@ namespace Azure.Iot.Operations.Protocol.Models
                 return;
             }
 
-            if (md.Timestamp != default)
-            {
-                AddUserProperty(AkriSystemProperties.Timestamp, md.Timestamp.EncodeToString());
-            }
+            //if (md.Timestamp != default)
+            //{
+            //    AddUserProperty(AkriSystemProperties.Timestamp, md.Timestamp.EncodeToString());
+            //}
 
             if (md.CloudEvent is not null)
             {

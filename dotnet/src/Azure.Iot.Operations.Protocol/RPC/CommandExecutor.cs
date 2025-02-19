@@ -142,7 +142,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(args.ApplicationMessage.ResponseTopic != null);
                 Debug.Assert(args.ApplicationMessage.CorrelationData != null);
 
-                string? clientId = this._mqttClient.ClientId;
+                string? clientId = _mqttClient.ClientId;
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);

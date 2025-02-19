@@ -126,6 +126,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
                 }
 
+                // Update HLC and use as the timestamp.
+                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
+                metadata!.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
+                applicationMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+
                 if (metadata != null)
                 {
                     applicationMessage.AddMetadata(metadata);
@@ -133,11 +138,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.MajorProtocolVersion}.{TelemetryVersion.MinorProtocolVersion}");
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
-
-                // Update HLC and use as the timestamp.
-                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
-                metadata!.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
-                applicationMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
                 MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;

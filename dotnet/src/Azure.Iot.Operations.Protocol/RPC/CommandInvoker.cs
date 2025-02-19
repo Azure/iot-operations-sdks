@@ -87,12 +87,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        private readonly ApplicationContext applicationContext;
+        private readonly ApplicationContext _applicationContext;
         public CommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            this.applicationContext = applicationContext;
+            this._applicationContext = applicationContext;
             if (commandName == null || commandName == string.Empty)
             {
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(commandName), string.Empty);
@@ -371,7 +371,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     if (responseMetadata.Timestamp != null)
                     {
-                        await applicationContext.ApplicationHlc.UpdateWithOtherAsync(responseMetadata.Timestamp);
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(responseMetadata.Timestamp);
                     }
                     else
                     {
@@ -551,11 +551,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                string timestamp = await applicationContext.ApplicationHlc.UpdateNowAsync();
+                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
                 if (metadata != null)
                 {
-                    metadata.Timestamp = applicationContext.ApplicationHlc;
+                    metadata.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
                 }
                 SerializedPayloadContext payloadContext = _serializer.ToBytes(request);
                 if (payloadContext.SerializedPayload != null)
