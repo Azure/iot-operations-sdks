@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
             else if (typeof(T) == typeof(byte[]))
             {
-                return (payload as T)!;
+                return (payload.ToArray() as T)!;
             }
             else
             {
