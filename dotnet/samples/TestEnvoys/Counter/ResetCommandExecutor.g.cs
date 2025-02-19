@@ -41,12 +41,16 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="ResetCommandExecutor"/> class.
             /// </summary>
-            internal ResetCommandExecutor(IMqttPubSubClient mqttClient)
+            public ResetCommandExecutor(IMqttPubSubClient mqttClient)
                 : base(mqttClient, "reset", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["executorId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "reset";
             }
         }

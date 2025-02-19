@@ -9,9 +9,9 @@ namespace Azure.Iot.Operations.Protocol
 {
     internal class ExecutionDispatcherCollection : IDisposable
     {
-        private readonly SemaphoreSlim mapSemaphore;
-        private readonly Dictionary<string, Dispatcher> clientIdCommandDispatcherMap;
-        private readonly Func<int?, Dispatcher> commandDispatcherFactory;
+        private readonly SemaphoreSlim _mapSemaphore;
+        private readonly Dictionary<string, Dispatcher> _clientIdCommandDispatcherMap;
+        private readonly Func<int?, Dispatcher> _commandDispatcherFactory;
 
         private static readonly ExecutionDispatcherCollection instance;
 
@@ -29,21 +29,21 @@ namespace Azure.Iot.Operations.Protocol
 
         internal ExecutionDispatcherCollection()
         {
-            mapSemaphore = new SemaphoreSlim(1);
-            clientIdCommandDispatcherMap = [];
-            commandDispatcherFactory = (int? preferredDispatchConcurrency) => new ExecutionDispatcher(preferredDispatchConcurrency ?? DefaultDispatchConcurrency).SubmitAsync;
+            _mapSemaphore = new SemaphoreSlim(1);
+            _clientIdCommandDispatcherMap = [];
+            _commandDispatcherFactory = (int? preferredDispatchConcurrency) => new ExecutionDispatcher(preferredDispatchConcurrency ?? DefaultDispatchConcurrency).SubmitAsync;
         }
 
         internal Dispatcher GetDispatcher(string mqttClientId, int? preferredDispatchConcurrency = null)
         {
-            mapSemaphore.Wait();
-            if (!clientIdCommandDispatcherMap.TryGetValue(mqttClientId, out Dispatcher? dispatchCommand))
+            _mapSemaphore.Wait();
+            if (!_clientIdCommandDispatcherMap.TryGetValue(mqttClientId, out Dispatcher? dispatchCommand))
             {
-                dispatchCommand = commandDispatcherFactory(preferredDispatchConcurrency);
-                clientIdCommandDispatcherMap[mqttClientId] = dispatchCommand;
+                dispatchCommand = _commandDispatcherFactory(preferredDispatchConcurrency);
+                _clientIdCommandDispatcherMap[mqttClientId] = dispatchCommand;
             }
 
-            mapSemaphore.Release();
+            _mapSemaphore.Release();
             return dispatchCommand;
         }
 
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol
         {
             if (disposing)
             {
-                mapSemaphore.Dispose();
+                _mapSemaphore.Dispose();
             }
         }
     }
