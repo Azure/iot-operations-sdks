@@ -643,7 +643,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
-            Assert.Null(mock.MessagePublished.Payload.ToArray());
+            Assert.True(mock.MessagePublished.Payload.IsEmpty);
             Assert.Equal(cid.ToByteArray(), mock.MessagePublished.CorrelationData);
         }
 
@@ -695,7 +695,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
-            Assert.Equal(payloadSerializer.ToBytes(payload + payload).SerializedPayload, mock.MessagePublished.Payload);
+            Assert.True(Enumerable.SequenceEqual(payloadSerializer.ToBytes(payload + payload).SerializedPayload.ToArray(), mock.MessagePublished.Payload.ToArray()));
             Assert.Equal(cid.ToByteArray(), mock.MessagePublished.CorrelationData);
         }
 

@@ -110,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     the client when need to forward PUBLISH packets matching this subscription to this client.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<uint> SubscriptionIdentifiers { get; set; } = new();
+        public List<uint>? SubscriptionIdentifiers { get; set; }
 
         /// <summary>
         ///     Gets or sets the MQTT topic.
@@ -139,7 +139,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The feature is very similar to the HTTP header concept.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<MqttUserProperty> UserProperties { get; set; } = new();
+        public List<MqttUserProperty>? UserProperties { get; set; }
 
         public void AddUserProperty(string key, string value)
         {
