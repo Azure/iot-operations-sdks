@@ -89,13 +89,17 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// Updates the application's HybridLogicalClock based on the current time and returns its string representation.
         /// </summary>
+        /// <param name="maxClockDrift">Maximum allowed clock drift. Defaults to 1 minute if not specified.</param>
+        /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>String representation of the updated HLC.</returns>
         /// <exception cref="ObjectDisposedException">If this instance has been disposed.</exception>
-        public async Task<string> UpdateNowAsync(TimeSpan? maxClockDrift = null)
+        /// <exception cref="OperationCanceledException">If the operation is canceled.</exception>
+        public async Task<string> UpdateNowAsync(TimeSpan? maxClockDrift = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
+            cancellationToken.ThrowIfCancellationRequested();
 
-            await _semaphoreHlc.WaitAsync();
+            await _semaphoreHlc.WaitAsync(cancellationToken);
             try
             {
                 Update(maxClockDrift: maxClockDrift);
@@ -111,12 +115,16 @@ namespace Azure.Iot.Operations.Protocol
         /// Updates the application's HybridLogicalClock based on another HybridLogicalClock.
         /// </summary>
         /// <param name="other">The other HLC to update against.</param>
+        /// <param name="maxClockDrift">Maximum allowed clock drift. Defaults to 1 minute if not specified.</param>
+        /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <exception cref="ObjectDisposedException">If this instance has been disposed.</exception>
-        public async Task UpdateWithOtherAsync(HybridLogicalClock other, TimeSpan? maxClockDrift = null)
+        /// <exception cref="OperationCanceledException">If the operation is canceled.</exception>
+        public async Task UpdateWithOtherAsync(HybridLogicalClock other, TimeSpan? maxClockDrift = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
+            cancellationToken.ThrowIfCancellationRequested();
 
-            await _semaphoreHlc.WaitAsync();
+            await _semaphoreHlc.WaitAsync(cancellationToken);
             try
             {
                 Update(other, maxClockDrift);
@@ -126,6 +134,7 @@ namespace Azure.Iot.Operations.Protocol
                 _semaphoreHlc.Release();
             }
         }
+
         /// <summary>
         /// Update this clock with details provided by another clock.
         /// </summary>
