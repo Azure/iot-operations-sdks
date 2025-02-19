@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
 
-namespace ConnectorApp
+namespace PollingTelemetryConnector
 {
     internal class DatasetSampler : IDatasetSampler
     {
@@ -16,18 +16,6 @@ namespace ConnectorApp
             // If you have multiple assets or multiple datasets per asset, then you may want to write multiple implementations of this
             // method.
             throw new NotImplementedException();
-        }
-
-        public Task<DatasetMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
-        {
-            // By returning null, no message schema will be registered for telemetry sent for this dataset.
-            return Task.FromResult((DatasetMessageSchema?) null);
-        }
-
-        public ValueTask DisposeAsync()
-        {
-            // Nothing to dispose yet
-            return ValueTask.CompletedTask;
         }
     }
 }
