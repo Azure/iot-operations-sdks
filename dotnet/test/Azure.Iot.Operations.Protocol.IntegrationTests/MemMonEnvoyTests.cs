@@ -185,6 +185,8 @@ public class MemMonEnvoyTests
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
         // Assert.True(Math.Abs(MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!)) <= 1);
+        Console.WriteLine($"MemoryStatsTelemetryMetadata.Timestamp: {MemoryStatsTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp}");
         Assert.True(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!.CompareTo(MemoryStatsTelemetryMetadata.Timestamp) >= 0);
 
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
@@ -199,6 +201,8 @@ public class MemMonEnvoyTests
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
         // Assert.True(Math.Abs(WorkingSetTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!)) <= 1);
+        Console.WriteLine($"WorkingSetTelemetryMetadata.Timestamp: {WorkingSetTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp}");
         Assert.True(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!.CompareTo(WorkingSetTelemetryMetadata.Timestamp) >= 0);
 
         Assert.NotNull(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData);
@@ -209,6 +213,8 @@ public class MemMonEnvoyTests
         When the message travels through the broker, there's a time delay
         The receiver then tries to update its HLC using UpdateHlcWithOtherAsync() with the received timestamp*/
         // Assert.True(Math.Abs(ManagedMemoryTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!)) <= 1);
+        Console.WriteLine($"ManagedMemoryTelemetryMetadata.Timestamp: {ManagedMemoryTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp}"); 
         Assert.True(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!.CompareTo(ManagedMemoryTelemetryMetadata.Timestamp) >= 0);
     }
 
