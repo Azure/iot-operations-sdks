@@ -25,7 +25,7 @@ namespace TestEnvoys
             }
             else if (typeof(T) == typeof(byte[]))
             {
-                return (payload as T)!;
+                return (payload.ToArray() as T)!;
             }
             else
             {
