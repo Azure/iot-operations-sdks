@@ -52,7 +52,7 @@ where
     /// waiting for a `Set` response from the Service. This value is not linked
     /// to the key in the State Store.
     ///
-    /// Returns `true` if completed successfully, or `false` if lock key not set.
+    /// Returns `true` if completed successfully, or `false` if lock key not acquired.
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
