@@ -4,6 +4,8 @@
 using TestEnvoys.Memmon;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Mqtt.Session;
+using System.Diagnostics;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -27,7 +29,7 @@ public class MemmonClient : Memmon.Client
 
     public List<IncomingTelemetryMetadata> ReceivedMemoryStatsTelemetryMetadata { get; set; } = new();
 
-    public MemmonClient(IMqttPubSubClient mqttClient) : base(mqttClient)
+    public MemmonClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
 
     }
@@ -62,10 +64,11 @@ public class MemMonEnvoyTests
     [Fact]
     public async Task Send_ReceiveTelemetry()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttReceiver = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemmonClient memmonClient = new(mqttReceiver);
+        await using MemmonClient memmonClient = new(applicationContext, mqttReceiver);
         await using MqttSessionClient mqttSender = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemMonService memMonService = new(mqttSender);
+        await using MemMonService memMonService = new(applicationContext, mqttSender);
 
         await memmonClient.StartAsync();
 
@@ -93,10 +96,11 @@ public class MemMonEnvoyTests
     [Fact]
     public async Task Send_ReceiveTelemetryWithMetadataAndCE()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttReceiver = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemmonClient memmonClient = new(mqttReceiver);
+        await using MemmonClient memmonClient = new(applicationContext, mqttReceiver);
         await using MqttSessionClient mqttSender = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MemMonService memMonService = new(mqttSender);
+        await using MemMonService memMonService = new(applicationContext, mqttSender);
 
         await memmonClient.StartAsync();
 
@@ -129,11 +133,25 @@ public class MemMonEnvoyTests
         ManagedMemoryTelemetryMetadata.UserData.Add(ManagedMemoryUserDataKey, ManagedMemoryUserDataValue);
         await memMonService.SendTelemetryAsync(new ManagedMemoryTelemetry() { ManagedMemory = 2 }, ManagedMemoryTelemetryMetadata);
 
+        Console.WriteLine("Application context before sending telemetry");
+        Console.WriteLine(applicationContext.ApplicationHlc);
+
         // Wait for all receivers to receive some telemetry, or time out after a while.
         await Task.WhenAll(
             memmonClient.WorkingSetTelemetryReceivedTcs.Task,
             memmonClient.MemoryStatsTelemetryReceivedTcs.Task,
             memmonClient.ManagedMemoryTelemetryReceivedTcs.Task).WaitAsync(TimeSpan.FromSeconds(30));
+
+        Console.WriteLine(MemoryStatsTelemetryMetadata.Timestamp);
+        Console.WriteLine(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
+        Console.WriteLine($"MemoryStatsTelemetryMetadata.Timestamp: {MemoryStatsTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp}");
+        Console.WriteLine($"WorkingSetTelemetryMetadata.Timestamp: {WorkingSetTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp}");
+        Console.WriteLine($"ManagedMemoryTelemetryMetadata.Timestamp: {ManagedMemoryTelemetryMetadata.Timestamp}");
+        Console.WriteLine($"memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp: {memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp}");
+        Console.WriteLine("Application context after completion of telemetry");
+        Console.WriteLine(applicationContext.ApplicationHlc);
 
         Assert.Single(memmonClient.ReceivedManagedMemoryTelemetry);
         Assert.Single(memmonClient.ReceivedMemoryStatsTelemetry);
@@ -159,7 +177,6 @@ public class MemMonEnvoyTests
         Assert.True(Guid.TryParse(memStatsMD.GetCloudEvent().Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, memStatsMD.SenderId);
 
-
         var ManagedMemoryMD = memmonClient.ReceivedManagedMemoryTelemetryMetadata[0];
         Assert.NotNull(ManagedMemoryMD);
         Assert.NotNull(ManagedMemoryMD.UserData);
@@ -174,19 +191,15 @@ public class MemMonEnvoyTests
         Assert.True(Guid.TryParse(ManagedMemoryMD.GetCloudEvent().Id, out Guid _));
         Assert.Equal(mqttSender.ClientId, ManagedMemoryMD.SenderId);
 
-
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
         Assert.True(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData.ContainsKey(MemoryStatsUserDataKey));
         Assert.Equal(MemoryStatsUserDataValue, memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData[MemoryStatsUserDataKey]);
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
         Assert.Equal(0, MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!));
 
-
-
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
         Assert.False(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData.ContainsKey("dataschema"));
         //Assert.Equal("TODO", memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData["dataschema"]);
-
 
         Assert.NotNull(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].UserData);
         Assert.True(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].UserData.ContainsKey(WorkingSetUserDataKey));
@@ -204,13 +217,14 @@ public class MemMonEnvoyTests
     [Fact]
     public async Task Commands()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string invokerId = "test-invoker-" + Guid.NewGuid();
         await using MqttSessionClient mqttReceiver = await ClientFactory.CreateSessionClientFromEnvAsync(invokerId);
-        await using MemmonClient memmonClient = new(mqttReceiver);
+        await using MemmonClient memmonClient = new(applicationContext, mqttReceiver);
 
         string executorId = "test-executor-" + Guid.NewGuid();
         await using MqttSessionClient mqttSender = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using MemMonService memMonService = new(mqttSender);
+        await using MemMonService memMonService = new(applicationContext, mqttSender);
         await memmonClient.StartAsync();
         await memMonService.StartAsync();
 

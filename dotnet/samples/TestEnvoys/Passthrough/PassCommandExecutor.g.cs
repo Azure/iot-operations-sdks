@@ -41,8 +41,8 @@ namespace TestEnvoys.Passthrough
             /// <summary>
             /// Initializes a new instance of the <see cref="PassCommandExecutor"/> class.
             /// </summary>
-            public PassCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "pass", new PassthroughSerializer())
+            public PassCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "pass", new PassthroughSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

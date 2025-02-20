@@ -239,7 +239,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestSerializer testSerializer = new TestSerializer(testCaseSender.Serializer);
 
-                TestTelemetrySender telemetrySender = new TestTelemetrySender(mqttClient, testCaseSender.TelemetryName!, testSerializer)
+                TestTelemetrySender telemetrySender = new TestTelemetrySender(new ApplicationContext(), mqttClient, testCaseSender.TelemetryName!, testSerializer)
                 {
                     TopicPattern = testCaseSender.TelemetryTopic!,
                     TopicNamespace = testCaseSender.TopicNamespace,

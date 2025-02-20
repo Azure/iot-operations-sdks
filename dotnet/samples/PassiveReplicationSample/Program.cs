@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 {
@@ -15,12 +16,12 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
         {
             // When this code runs in a pod, this environment variable usually contains the pod's name
             string nodeId = Environment.GetEnvironmentVariable("HOSTNAME") ?? Guid.NewGuid().ToString();
-
+            ApplicationContext applicationContext = new ApplicationContext();
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
             builder.Services
                 .AddSingleton(MqttClientFactoryProvider.MqttClientFactory)
-                .AddTransient<StateStoreClient>(serviceProvider => new StateStoreClient(serviceProvider.GetService<MqttSessionClient>()!))
-                .AddTransient<LeaderElectionClient>(serviceProvider => new LeaderElectionClient(serviceProvider.GetService<MqttSessionClient>()!, leadershipPositionId, nodeId))
+                .AddTransient<StateStoreClient>(serviceProvider => new StateStoreClient(applicationContext, serviceProvider.GetService<MqttSessionClient>()!))
+                .AddTransient<LeaderElectionClient>(serviceProvider => new LeaderElectionClient(applicationContext, serviceProvider.GetService<MqttSessionClient>()!, leadershipPositionId, nodeId))
                 .AddHostedService<PassiveReplicationNode>();
 
             IHost host = builder.Build();

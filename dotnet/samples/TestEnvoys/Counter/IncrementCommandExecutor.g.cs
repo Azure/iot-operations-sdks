@@ -41,8 +41,8 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="IncrementCommandExecutor"/> class.
             /// </summary>
-            public IncrementCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "increment", new Utf8JsonSerializer())
+            public IncrementCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "increment", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

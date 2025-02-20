@@ -42,8 +42,8 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="IsPrimeCommandExecutor"/> class.
             /// </summary>
-            public IsPrimeCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "isPrime", new ProtobufSerializer<IsPrimeRequestPayload, IsPrimeResponsePayload>())
+            public IsPrimeCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "isPrime", new ProtobufSerializer<IsPrimeRequestPayload, IsPrimeResponsePayload>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

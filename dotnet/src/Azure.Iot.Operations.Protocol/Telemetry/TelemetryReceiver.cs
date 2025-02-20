@@ -16,6 +16,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
+        private readonly ApplicationContext _applicationContext;
         private readonly int[] _supportedMajorProtocolVersions = [TelemetryVersion.MajorProtocolVersion];
 
         private static readonly int PreferredDispatchConcurrency = 10;
@@ -54,10 +55,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        public TelemetryReceiver(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
-            this._mqttClient = mqttClient;
-            this._serializer = serializer;
+            _applicationContext = applicationContext;
+            _mqttClient = mqttClient;
+            _serializer = serializer;
 
             _isRunning = false;
 
@@ -109,13 +111,18 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 try
                 {
-                    T serializedPayload = this._serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
+                    T serializedPayload = _serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
 
                     IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
 
                     if (metadata.Timestamp != null)
                     {
-                        HybridLogicalClock.GetInstance().Update(metadata.Timestamp);
+                        // Update application HLC against received TS
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(metadata.Timestamp);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation($"No timestamp present in telemetry received metadata.");
                     }
 
                     async Task TelemFunc()

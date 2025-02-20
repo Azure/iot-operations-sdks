@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.StateStore;
 using System.Text.Json;
 
 namespace EventDrivenApp;
 
-public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorker> logger) : BackgroundService
+public class OutputWorker(ApplicationContext applicationContext, SessionClientFactory clientFactory, ILogger<InputWorker> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
@@ -33,7 +34,7 @@ public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorke
     private async Task ProcessWindow(MqttSessionClient sessionClient, CancellationToken cancellationToken)
     {
         JsonSerializerOptions serializeOptions = new() { WriteIndented = true };
-        WindowTelemetrySender sender = new(sessionClient);
+        WindowTelemetrySender sender = new(applicationContext, sessionClient);
 
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -47,7 +48,7 @@ public class OutputWorker(SessionClientFactory clientFactory, ILogger<InputWorke
                 // Wait before processing the next window
                 await Task.Delay(Constants.PublishInterval * 1000, cancellationToken);
 
-                await using StateStoreClient stateStoreClient = new(sessionClient);
+                await using StateStoreClient stateStoreClient = new(applicationContext, sessionClient);
                 {
                     // Fetch the past sensor data from the state store
                     StateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey);

@@ -41,8 +41,8 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="ReadCounterCommandExecutor"/> class.
             /// </summary>
-            public ReadCounterCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "readCounter", new Utf8JsonSerializer())
+            public ReadCounterCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "readCounter", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
