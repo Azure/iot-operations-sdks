@@ -53,13 +53,30 @@
             {
                 try
                 {
-                    Console.WriteLine($"cargo fmt {outDir.FullName}");
-                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
+                    RunCargo($"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}", display: true);
                 }
                 catch (Win32Exception)
                 {
                     Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
                 }
+            }
+        }
+
+        private static void RunCargo(string args, bool display)
+        {
+            if (display)
+            {
+                Console.WriteLine($"cargo {args}");
+            }
+
+            using (Process cargo = new Process())
+            {
+                cargo.StartInfo.FileName = "cargo";
+                cargo.StartInfo.Arguments = args;
+                cargo.StartInfo.UseShellExecute = false;
+                cargo.StartInfo.RedirectStandardOutput = true;
+                cargo.Start();
+                cargo.WaitForExit();
             }
         }
     }
