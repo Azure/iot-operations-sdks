@@ -9,7 +9,7 @@ using System.Diagnostics;
 internal static class MqttClientFactoryProvider
 {
 
-    public static Func<IServiceProvider, StateStoreClient> StateStoreClientFactory = service => new StateStoreClient(service.GetService<OrderedAckMqttClient>()!);
+    public static Func<IServiceProvider, StateStoreClient> StateStoreClientFactory = service => new StateStoreClient(service.GetRequiredService<ApplicationContext>(), service.GetService<OrderedAckMqttClient>()!);
 
     public static Func<IServiceProvider, OrderedAckMqttClient> MqttClientFactory = service =>
     {

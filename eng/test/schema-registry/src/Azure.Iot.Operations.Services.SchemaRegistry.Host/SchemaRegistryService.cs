@@ -5,19 +5,20 @@ using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
+using Azure.Iot.Operations.Protocol;
 using System.Security.Cryptography;
 using System.Text;
 using SchemaInfo = SchemaRegistry.Schema;
 
 
-internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator) 
-    : SchemaRegistry.Service(mqttClient)
+internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator) 
+    : SchemaRegistry.Service(applicationContext, mqttClient)
 {
     readonly Utf8JsonSerializer _jsonSerializer = new();
     
     public override async Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
-        await using StateStoreClient _stateStoreClient = new(mqttClient);
+        await using StateStoreClient _stateStoreClient = new(applicationContext, mqttClient);
         logger.LogInformation("RegisterSchema request");
 
         if (!schemaValidator.ValidateSchema(request.PutSchemaRequest.SchemaContent, request.PutSchemaRequest.Format.ToString()!))
@@ -66,7 +67,7 @@ internal class SchemaRegistryService(MqttSessionClient mqttClient, ILogger<Schem
 
     public override async Task<ExtendedResponse<GetResponsePayload>> GetAsync(GetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
-        await using StateStoreClient _stateStoreClient = new(mqttClient);
+        await using StateStoreClient _stateStoreClient = new(applicationContext, mqttClient);
         logger.LogInformation("Get request {req}", request.GetSchemaRequest.Name);
         StateStoreGetResponse resp = await _stateStoreClient.GetAsync(request.GetSchemaRequest.Name!, cancellationToken: cancellationToken);
         logger.LogInformation("Schema found {found}", resp.Value != null);

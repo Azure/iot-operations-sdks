@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// If no prefix or suffix is specified, and no value is provided in <see cref="GetResponseTopic"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
-        ///
+        /// 
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
-        ///
+        /// 
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -87,10 +87,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        public CommandInvoker(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
+        private readonly ApplicationContext _applicationContext;
+        public CommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
+            this._applicationContext = applicationContext;
             if (commandName == null || commandName == string.Empty)
             {
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(commandName), string.Empty);
@@ -185,7 +187,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="responseTopicFilter"></param>
         /// <param name="cancellationToken"></param>
@@ -223,7 +225,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{this._commandName}'");
         }
 
-        private Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
+        private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
             if (args.ApplicationMessage.CorrelationData != null && GuidExtensions.TryParseBytes(args.ApplicationMessage.CorrelationData, out Guid? requestGuid))
             {
@@ -233,7 +235,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     if (!_requestIdMap.TryGetValue(requestGuidString, out responsePromise))
                     {
-                        return Task.CompletedTask;
+                        return;
                     }
                 }
 
@@ -257,7 +259,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         };
 
                         SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     if (!_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
@@ -275,7 +277,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         };
 
                         SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     MqttUserProperty? statusProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.Status);
@@ -295,7 +297,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         };
 
                         SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     int statusCode = int.Parse(statusProperty!.Value, CultureInfo.InvariantCulture);
@@ -351,7 +353,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         }
 
                         SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     TResp response;
@@ -364,12 +366,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     catch (Exception ex)
                     {
                         SetExceptionSafe(responsePromise.CompletionSource, ex);
-                        return Task.CompletedTask;
+                        return;
                     }
 
                     if (responseMetadata.Timestamp != null)
                     {
-                        HybridLogicalClock.GetInstance().Update(responseMetadata.Timestamp);
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(responseMetadata.Timestamp);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation($"No timestamp present in command response metadata.");
                     }
 
                     ExtendedResponse<TResp> extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
@@ -381,7 +387,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
             }
 
-            return Task.CompletedTask;
+            return;
         }
 
         private static bool TryValidateResponseHeaders(
@@ -545,6 +551,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
+                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
+                requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+                if (metadata != null)
+                {
+                    metadata.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
+                }
                 SerializedPayloadContext payloadContext = _serializer.ToBytes(request);
                 if (payloadContext.SerializedPayload != null)
                 {
@@ -684,7 +696,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Dispose this object and choose whether to dispose the underlying mqtt client as well.
         /// </summary>
         /// <param name="disposing">
-        /// If true, this call will dispose the underlying mqtt client. If false, this call will
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will 
         /// not dispose the underlying mqtt client.
         /// </param>
         public async ValueTask DisposeAsync(bool disposing)

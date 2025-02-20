@@ -9,9 +9,9 @@ using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 using AssetEndpointProfileResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetEndpointProfileResponseSchema;
 using AssetResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetResponseSchema;
 
-public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
+public class DiscoveredAssetResourcesClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
 {
-    private readonly DiscoveredAssetResourcesClientStub _clientStub = new(pubSubClient);
+    private readonly DiscoveredAssetResourcesClientStub _clientStub = new(applicationContext, pubSubClient);
     private bool _disposed;
 
     public async Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(

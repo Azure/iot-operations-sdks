@@ -39,8 +39,8 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="IsPrimeCommandInvoker"/> class.
             /// </summary>
-            public IsPrimeCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "isPrime", new ProtobufSerializer<IsPrimeRequestPayload, IsPrimeResponsePayload>())
+            public IsPrimeCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "isPrime", new ProtobufSerializer<IsPrimeRequestPayload, IsPrimeResponsePayload>())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

@@ -39,8 +39,8 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="ReadCounterCommandInvoker"/> class.
             /// </summary>
-            public ReadCounterCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "readCounter", new Utf8JsonSerializer())
+            public ReadCounterCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "readCounter", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

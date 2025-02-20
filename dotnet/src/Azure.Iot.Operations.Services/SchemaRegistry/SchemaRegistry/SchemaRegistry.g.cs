@@ -21,17 +21,19 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly PutCommandExecutor putCommandExecutor;
             private readonly GetCommandExecutor getCommandExecutor;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.putCommandExecutor = new PutCommandExecutor(mqttClient) { OnCommandReceived = PutInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getCommandExecutor = new GetCommandExecutor(mqttClient) { OnCommandReceived = GetInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }
@@ -93,17 +95,19 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly PutCommandInvoker putCommandInvoker;
             private readonly GetCommandInvoker getCommandInvoker;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.putCommandInvoker = new PutCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getCommandInvoker = new GetCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.putCommandInvoker = new PutCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public PutCommandInvoker PutCommandInvoker { get => this.putCommandInvoker; }

@@ -329,10 +329,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
+                ApplicationContext applicationContext = new ApplicationContext();
                 TestSerializer testSerializer = new TestSerializer(testCaseExecutor.Serializer);
 
                 TestCommandExecutor commandExecutor = testCaseExecutor.CacheTtl != null ?
-                    new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!, testSerializer)
+                    new TestCommandExecutor(applicationContext, mqttClient, testCaseExecutor.CommandName!, testSerializer)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
@@ -341,7 +342,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         CacheTtl = testCaseExecutor.CacheTtl.ToTimeSpan(),
                         OnCommandReceived = null!,
                     } :
-                    new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!, testSerializer)
+                    new TestCommandExecutor(applicationContext, mqttClient, testCaseExecutor.CommandName!, testSerializer)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,

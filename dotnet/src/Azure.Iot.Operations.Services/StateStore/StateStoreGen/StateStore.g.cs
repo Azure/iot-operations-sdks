@@ -21,15 +21,17 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
     {
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly InvokeCommandExecutor invokeCommandExecutor;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.invokeCommandExecutor = new InvokeCommandExecutor(mqttClient) { OnCommandReceived = InvokeInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.invokeCommandExecutor = new InvokeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = InvokeInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public InvokeCommandExecutor InvokeCommandExecutor { get => this.invokeCommandExecutor; }
@@ -79,15 +81,17 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly InvokeCommandInvoker invokeCommandInvoker;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.invokeCommandInvoker = new InvokeCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.invokeCommandInvoker = new InvokeCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public InvokeCommandInvoker InvokeCommandInvoker { get => this.invokeCommandInvoker; }

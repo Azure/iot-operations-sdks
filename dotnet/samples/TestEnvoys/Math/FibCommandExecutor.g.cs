@@ -42,8 +42,8 @@ namespace TestEnvoys.Math
             /// <summary>
             /// Initializes a new instance of the <see cref="FibCommandExecutor"/> class.
             /// </summary>
-            public FibCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "fib", new ProtobufSerializer<FibRequestPayload, FibResponsePayload>())
+            public FibCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "fib", new ProtobufSerializer<FibRequestPayload, FibResponsePayload>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

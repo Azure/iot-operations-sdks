@@ -23,12 +23,12 @@ namespace SampleCloudEvents.dtmi_akri_samples_oven__1
             private IMqttPubSubClient mqttClient;
             private readonly TelemetryCollectionSender telemetryCollectionSender;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.telemetryCollectionSender = new TelemetryCollectionSender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionSender = new TelemetryCollectionSender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public TelemetryCollectionSender TelemetryCollectionSender { get => this.telemetryCollectionSender; }
@@ -51,46 +51,46 @@ namespace SampleCloudEvents.dtmi_akri_samples_oven__1
             }
         }
 
-        public abstract partial class Client
-        {
-            private IMqttPubSubClient mqttClient;
-            private readonly TelemetryCollectionReceiver telemetryCollectionReceiver;
+        //public abstract partial class Client
+        //{
+        //    private IMqttPubSubClient mqttClient;
+        //    private readonly TelemetryCollectionReceiver telemetryCollectionReceiver;
 
-            public Client(IMqttPubSubClient mqttClient)
-            {
-                this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
+        //    public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+        //    {
+        //        this.mqttClient = mqttClient;
+        //        this.CustomTopicTokenMap = new();
 
-                this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
-            }
+        //        this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+        //    }
 
-            public TelemetryCollectionReceiver TelemetryCollectionReceiver { get => this.telemetryCollectionReceiver; }
+        //    public TelemetryCollectionReceiver TelemetryCollectionReceiver { get => this.telemetryCollectionReceiver; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
+        //    public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
-            public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
+        //    public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 
-            public async Task StartAsync(CancellationToken cancellationToken = default)
-            {
-                await Task.WhenAll(
-                    this.telemetryCollectionReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
-            }
+        //    public async Task StartAsync(CancellationToken cancellationToken = default)
+        //    {
+        //        await Task.WhenAll(
+        //            this.telemetryCollectionReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
+        //    }
 
-            public async Task StopAsync(CancellationToken cancellationToken = default)
-            {
-                await Task.WhenAll(
-                    this.telemetryCollectionReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
-            }
+        //    public async Task StopAsync(CancellationToken cancellationToken = default)
+        //    {
+        //        await Task.WhenAll(
+        //            this.telemetryCollectionReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+        //    }
 
-            public async ValueTask DisposeAsync()
-            {
-                await this.telemetryCollectionReceiver.DisposeAsync().ConfigureAwait(false);
-            }
+        //    public async ValueTask DisposeAsync()
+        //    {
+        //        await this.telemetryCollectionReceiver.DisposeAsync().ConfigureAwait(false);
+        //    }
 
-            public async ValueTask DisposeAsync(bool disposing)
-            {
-                await this.telemetryCollectionReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-            }
-        }
+        //    public async ValueTask DisposeAsync(bool disposing)
+        //    {
+        //        await this.telemetryCollectionReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+        //    }
+        //}
     }
 }

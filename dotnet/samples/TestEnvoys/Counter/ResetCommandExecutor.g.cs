@@ -41,8 +41,8 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="ResetCommandExecutor"/> class.
             /// </summary>
-            public ResetCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "reset", new Utf8JsonSerializer())
+            public ResetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "reset", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

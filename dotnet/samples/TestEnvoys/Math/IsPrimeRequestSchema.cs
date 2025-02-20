@@ -39,6 +39,7 @@ namespace TestEnvoys.Math {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class IsPrimeRequestSchema : pb::IMessage<IsPrimeRequestSchema>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
