@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -112,14 +112,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializedPayloadContext.PayloadFormatIndicator,
                     ContentType = serializedPayloadContext.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
-                    Payload = serializedPayloadContext.SerializedPayload,
+                    PayloadSegment = serializedPayloadContext.SerializedPayload ?? [],
                 };
 
                 if (metadata?.CloudEvent is not null)
                 {
-                    metadata.CloudEvent.Id = Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time = DateTime.UtcNow;
-                    metadata.CloudEvent.Subject = telemTopic.ToString();
+                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
+                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
+                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
                     metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
                 }
 
