@@ -49,22 +49,26 @@ func NewTestingCommandInvoker(
 	var err error
 
 	if commandName == nil {
-		return nil, &errors.Error{
-			Message:       "commandName is nil",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "commandName",
-			PropertyValue: nil,
-			IsShallow:     true,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "commandName is nil",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "commandName",
+				PropertyValue: nil,
+			},
+			IsShallow: true,
 		}
 	}
 
 	if requestTopic == nil {
-		return nil, &errors.Error{
-			Message:       "requestTopic is nil",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "requesttopicpattern",
-			PropertyValue: nil,
-			IsShallow:     true,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "requestTopic is nil",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "requesttopicpattern",
+				PropertyValue: nil,
+			},
+			IsShallow: true,
 		}
 	}
 
@@ -98,22 +102,26 @@ func NewTestingCommandExecutor(
 	var err error
 
 	if commandName == nil {
-		return nil, &errors.Error{
-			Message:       "commandName is nil",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "commandName",
-			PropertyValue: nil,
-			IsShallow:     true,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "commandName is nil",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "commandName",
+				PropertyValue: nil,
+			},
+			IsShallow: true,
 		}
 	}
 
 	if requestTopic == nil {
-		return nil, &errors.Error{
-			Message:       "requestTopic is nil",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "requesttopicpattern",
-			PropertyValue: nil,
-			IsShallow:     true,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "requestTopic is nil",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "requesttopicpattern",
+				PropertyValue: nil,
+			},
+			IsShallow: true,
 		}
 	}
 
@@ -150,12 +158,14 @@ func NewTestingTelemetrySender(
 	var err error
 
 	if telemetryTopic == nil {
-		return nil, &errors.Error{
-			Message:       "telemetryTopic is nil",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "topicpattern",
-			PropertyValue: nil,
-			IsShallow:     true,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "telemetryTopic is nil",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "topicpattern",
+				PropertyValue: nil,
+			},
+			IsShallow: true,
 		}
 	}
 
@@ -187,12 +197,14 @@ func NewTestingTelemetryReceiver(
 	var err error
 
 	if telemetryTopic == nil {
-		return nil, &errors.Error{
-			Message:       "telemetryTopic is nil",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "topicpattern",
-			PropertyValue: nil,
-			IsShallow:     true,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "telemetryTopic is nil",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "topicpattern",
+				PropertyValue: nil,
+			},
+			IsShallow: true,
 		}
 	}
 

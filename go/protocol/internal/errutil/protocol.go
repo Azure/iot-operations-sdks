@@ -14,7 +14,7 @@ import (
 
 type result struct {
 	status           int
-	error            *errors.Error
+	error            *errors.RemoteError
 	name             string
 	value            any
 	version          string
@@ -26,13 +26,15 @@ func ToUserProp(err error) map[string]string {
 		return (&result{status: 200}).props()
 	}
 
-	e, ok := err.(*errors.Error)
+	e, ok := err.(*errors.RemoteError)
 	if !ok {
 		return (&result{
 			status: 500,
-			error: &errors.Error{
-				Message: "invalid error",
-				Kind:    errors.InternalLogicError,
+			error: &errors.RemoteError{
+				BaseError: errors.BaseError{
+					Message: "invalid error",
+					Kind:    errors.InternalLogicError,
+				},
 			},
 			name: "Error",
 		}).props()
@@ -78,9 +80,11 @@ func ToUserProp(err error) map[string]string {
 		// This can happen e.g. for invalid header names.
 		return (&result{
 			status: 500,
-			error: &errors.Error{
-				Message:       e.Message,
-				Kind:          errors.ExecutionException,
+			error: &errors.RemoteError{
+				BaseError: errors.BaseError{
+					Message: e.Message,
+					Kind:    errors.ExecutionException,
+				},
 				InApplication: true,
 			},
 			name:  e.PropertyName,
@@ -128,9 +132,11 @@ func ToUserProp(err error) map[string]string {
 	default:
 		return (&result{
 			status: 500,
-			error: &errors.Error{
-				Message: "invalid error kind",
-				Kind:    errors.InternalLogicError,
+			error: &errors.RemoteError{
+				BaseError: errors.BaseError{
+					Message: "invalid error kind",
+					Kind:    errors.InternalLogicError,
+				},
 			},
 			name: "Kind",
 		}).props()
@@ -146,20 +152,24 @@ func FromUserProp(user map[string]string) error {
 	supportedVersions := user[constants.SupportedProtocolMajorVersion]
 
 	if status == "" {
-		return &errors.Error{
-			Message:    "status missing",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.Status,
+		return &errors.RemoteError{
+			BaseError: errors.BaseError{
+				Message:    "status missing",
+				Kind:       errors.HeaderMissing,
+				HeaderName: constants.Status,
+			},
 		}
 	}
 
 	code, err := strconv.ParseInt(status, 10, 32)
 	if err != nil {
-		return &errors.Error{
-			Message:     "status is not a valid integer",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.Status,
-			HeaderValue: status,
+		return &errors.RemoteError{
+			BaseError: errors.BaseError{
+				Message:     "status is not a valid integer",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  constants.Status,
+				HeaderValue: status,
+			},
 		}
 	}
 
@@ -168,9 +178,10 @@ func FromUserProp(user map[string]string) error {
 		return nil
 	}
 
-	e := &errors.Error{
-		Message:        statusMessage,
-		IsRemote:       true,
+	e := &errors.RemoteError{
+		BaseError: errors.BaseError{
+			Message: statusMessage,
+		},
 		HTTPStatusCode: int(code),
 	}
 
@@ -194,11 +205,13 @@ func FromUserProp(user map[string]string) error {
 	case 408:
 		to, err := duration.Parse(propertyValue)
 		if err != nil {
-			return &errors.Error{
-				Message:     "invalid timeout value",
-				Kind:        errors.HeaderInvalid,
-				HeaderName:  constants.InvalidPropertyValue,
-				HeaderValue: propertyValue,
+			return &errors.RemoteError{
+				BaseError: errors.BaseError{
+					Message:     "invalid timeout value",
+					Kind:        errors.HeaderInvalid,
+					HeaderName:  constants.InvalidPropertyValue,
+					HeaderValue: propertyValue,
+				},
 			}
 		}
 		e.Kind = errors.Timeout

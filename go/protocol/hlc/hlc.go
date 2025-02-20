@@ -185,17 +185,21 @@ func (hlc *HybridLogicalClock) validate(
 ) error {
 	switch {
 	case hlc.counter == math.MaxUint64:
-		return &errors.Error{
-			Message:      "integer overflow in HLC counter",
-			Kind:         errors.InternalLogicError,
-			PropertyName: "Counter",
+		return &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:      "integer overflow in HLC counter",
+				Kind:         errors.InternalLogicError,
+				PropertyName: "Counter",
+			},
 		}
 
 	case hlc.timestamp.Sub(wall) > opt.MaxClockDrift:
-		return &errors.Error{
-			Message:      "clock drift exceeds maximum",
-			Kind:         errors.StateInvalid,
-			PropertyName: "MaxClockDrift",
+		return &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:      "clock drift exceeds maximum",
+				Kind:         errors.StateInvalid,
+				PropertyName: "MaxClockDrift",
+			},
 		}
 
 	default:
@@ -212,31 +216,37 @@ func now() time.Time {
 func (g *Global) Parse(name, value string) (HybridLogicalClock, error) {
 	parts := strings.Split(value, ":")
 	if len(parts) != 3 {
-		return HybridLogicalClock{}, &errors.Error{
-			Message:     "HLC must contain three segments separated by ':'",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  name,
-			HeaderValue: value,
+		return HybridLogicalClock{}, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:     "HLC must contain three segments separated by ':'",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  name,
+				HeaderValue: value,
+			},
 		}
 	}
 
 	timestamp, err := strconv.ParseInt(parts[0], 10, 64)
 	if err != nil {
-		return HybridLogicalClock{}, &errors.Error{
-			Message:     "first HLC segment is not a valid integer",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  name,
-			HeaderValue: value,
+		return HybridLogicalClock{}, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:     "first HLC segment is not a valid integer",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  name,
+				HeaderValue: value,
+			},
 		}
 	}
 
 	count, err := strconv.ParseUint(parts[1], 10, 64)
 	if err != nil {
-		return HybridLogicalClock{}, &errors.Error{
-			Message:     "second HLC segment is not a valid integer",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  name,
-			HeaderValue: value,
+		return HybridLogicalClock{}, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:     "second HLC segment is not a valid integer",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  name,
+				HeaderValue: value,
+			},
 		}
 	}
 

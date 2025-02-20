@@ -4,59 +4,66 @@ package errors
 
 import "time"
 
-type (
-	// Error represents a structured protocol error.
-	Error struct {
-		Message string
-		Kind    Kind
+type Kind int
 
-		NestedError error
+// common fields for both client-side and remote errors
+type BaseError struct {
+	Message string
+	Kind    Kind
 
-		HeaderName  string
-		HeaderValue string
+	PropertyName  string
+	PropertyValue any
+	NestedError   error
 
-		TimeoutName  string
-		TimeoutValue time.Duration
+	TimeoutName  string
+	TimeoutValue time.Duration
 
-		PropertyName  string
-		PropertyValue any
+	HeaderName  string
+	HeaderValue string
+}
 
-		ProtocolVersion                string
-		SupportedMajorProtocolVersions []int
+// purely client-side errors that are never sent over the wire
+type ClientError struct {
+	BaseError
+	IsShallow bool
+}
 
-		// The following will be set automatically by the library and should not
-		// be updated manually.
+// errors that can be sent between services over the wire
+type RemoteError struct {
+	BaseError
+	HTTPStatusCode                 int
+	ProtocolVersion                string
+	SupportedMajorProtocolVersions []int
+	InApplication                  bool
+}
 
-		InApplication  bool
-		IsShallow      bool
-		IsRemote       bool
-		HTTPStatusCode int
-	}
-
-	// Kind defines the type of error being thrown.
-	Kind int
-)
-
-// The following are the defined error kinds.
+// client side
 const (
-	HeaderMissing Kind = iota
-	HeaderInvalid
-	PayloadInvalid
-	Timeout
+	Timeout Kind = iota
 	Cancellation
 	ConfigurationInvalid
 	ArgumentInvalid
+	MqttError
+)
+
+// remote
+const (
+	HeaderMissing Kind = iota + 100
+	HeaderInvalid
+	PayloadInvalid
 	StateInvalid
 	InternalLogicError
 	UnknownError
 	InvocationException
 	ExecutionException
-	MqttError
 	UnsupportedRequestVersion
 	UnsupportedResponseVersion
 )
 
-// Error returns the error as a string.
-func (e *Error) Error() string {
+func (e *ClientError) Error() string {
+	return e.Message
+}
+
+func (e *RemoteError) Error() string {
 	return e.Message
 }
