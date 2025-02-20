@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class GenericCertificateValidationHandler
     {
-        private Func<MQTTnet.MqttClientCertificateValidationEventArgs, bool> _mqttNetFunc;
+        private readonly Func<MQTTnet.MqttClientCertificateValidationEventArgs, bool> _mqttNetFunc;
 
         public GenericCertificateValidationHandler(Func<MQTTnet.MqttClientCertificateValidationEventArgs, bool> mqttNetFunc)
         {

@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class GenericCertificateSelectionHandler
     {
-        private Func<MQTTnet.MqttClientCertificateSelectionEventArgs, X509Certificate> _mqttNetFunc;
+        private readonly Func<MQTTnet.MqttClientCertificateSelectionEventArgs, X509Certificate> _mqttNetFunc;
 
         public GenericCertificateSelectionHandler(Func<MQTTnet.MqttClientCertificateSelectionEventArgs, X509Certificate> mqttNetFunc)
         {

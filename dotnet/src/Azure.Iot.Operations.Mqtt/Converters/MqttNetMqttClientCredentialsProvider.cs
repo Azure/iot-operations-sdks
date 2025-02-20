@@ -7,8 +7,8 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class MqttNetMqttClientCredentialsProvider : MQTTnet.IMqttClientCredentialsProvider
     {
-        private IMqttClientCredentialsProvider _mqttNetCredentialsProvider;
-        private MQTTnet.IMqttClient _underlyingClient;
+        private readonly IMqttClientCredentialsProvider _mqttNetCredentialsProvider;
+        private readonly MQTTnet.IMqttClient _underlyingClient;
 
         public MqttNetMqttClientCredentialsProvider(IMqttClientCredentialsProvider mqttNetCredentialsProvider, MQTTnet.IMqttClient underlyingClient)
         {

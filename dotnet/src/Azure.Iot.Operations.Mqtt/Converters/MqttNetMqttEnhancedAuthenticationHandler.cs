@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class MqttNetMqttEnhancedAuthenticationHandler : MQTTnet.IMqttEnhancedAuthenticationHandler
     {
-        private IMqttEnhancedAuthenticationHandler _mqttNetHandler;
+        private readonly IMqttEnhancedAuthenticationHandler _mqttNetHandler;
 
         public MqttNetMqttEnhancedAuthenticationHandler(IMqttEnhancedAuthenticationHandler mqttNetHandler)
         {

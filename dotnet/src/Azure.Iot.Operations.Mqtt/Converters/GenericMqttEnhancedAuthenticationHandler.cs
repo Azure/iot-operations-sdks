@@ -8,8 +8,8 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class GenericMqttExtendedAuthenticationExchangeHandler : IMqttEnhancedAuthenticationHandler
     {
-        private MQTTnet.IMqttEnhancedAuthenticationHandler _mqttNetHandler;
-        private MQTTnet.IMqttClient _underlyingClient;
+        private readonly MQTTnet.IMqttEnhancedAuthenticationHandler _mqttNetHandler;
+        private readonly MQTTnet.IMqttClient _underlyingClient;
 
         public GenericMqttExtendedAuthenticationExchangeHandler(MQTTnet.IMqttEnhancedAuthenticationHandler mqttNetHandler, MQTTnet.IMqttClient underlyingClient)
         {

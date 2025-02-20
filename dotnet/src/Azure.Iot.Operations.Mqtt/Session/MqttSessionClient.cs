@@ -55,7 +55,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                   ? new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
                   : new MQTTnet.MqttClientFactory().CreateMqttClient())
         {
-            _sessionClientOptions = sessionClientOptions != null ? sessionClientOptions : new MqttSessionClientOptions();
+            _sessionClientOptions = sessionClientOptions ?? new MqttSessionClientOptions();
             _sessionClientOptions.Validate();
 
             DisconnectedAsync += InternalDisconnectedAsync;
