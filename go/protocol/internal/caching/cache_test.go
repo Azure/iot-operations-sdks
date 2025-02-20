@@ -56,7 +56,7 @@ func TestDuplicateCacheProcessing(t *testing.T) {
 	msg1.testCacheHit(t, &clock, c, true)
 }
 
-func (tc *test) messages() (*mqtt.Message, *mqtt.Message) {
+func (tc *test) messages() (req, res *mqtt.Message) {
 	opts := mqtt.PublishOptions{
 		CorrelationData: []byte{1, 2, 3, 4, tc.num},
 		MessageExpiry:   uint32(tc.exp.Seconds()),
@@ -64,8 +64,7 @@ func (tc *test) messages() (*mqtt.Message, *mqtt.Message) {
 			constants.SourceID: "client",
 		},
 	}
-	req := &mqtt.Message{Payload: []byte(tc.req), PublishOptions: opts}
-	var res *mqtt.Message
+	req = &mqtt.Message{Payload: []byte(tc.req), PublishOptions: opts}
 	if tc.err == nil {
 		res = &mqtt.Message{Payload: []byte(tc.res), PublishOptions: opts}
 	}

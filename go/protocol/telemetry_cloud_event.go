@@ -5,6 +5,7 @@ package protocol
 import (
 	"log/slog"
 	"net/url"
+	"regexp"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
@@ -39,6 +40,10 @@ const (
 	ceDataSchema      = "dataschema"
 	ceSubject         = "subject"
 	ceTime            = "time"
+)
+
+var contentTypeRegex = regexp.MustCompile(
+	`^([-a-z]+)/([-a-z0-9.]+)(?:\+([-a-z0-9.]+))?$`,
 )
 
 var ceReserved = []string{
@@ -150,7 +155,23 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 		}
 	}
 
+	if !contentTypeRegex.MatchString(msg.ContentType) {
+		return &errors.Error{
+			Message:       "cloud event invalid content type",
+			Kind:          errors.ArgumentInvalid,
+			PropertyName:  "DataContentType",
+			PropertyValue: msg.ContentType,
+		}
+	}
+
 	if ce.DataSchema != nil {
+		if ce.DataSchema.Scheme == "" {
+			return &errors.Error{
+				Message:      "cloud event data schema URI not absolute",
+				Kind:         errors.ArgumentInvalid,
+				PropertyName: "CloudEvent",
+			}
+		}
 		msg.UserProperties[ceDataSchema] = ce.DataSchema.String()
 	}
 
@@ -246,6 +267,16 @@ func CloudEventFromTelemetry[T any](
 
 	// Don't fail for missing optional properties, but do fail for optional
 	// properties that don't parse.
+
+	if !contentTypeRegex.MatchString(msg.ContentType) {
+		return nil, &errors.Error{
+			Message:       "cloud event content type nonconforming",
+			Kind:          errors.HeaderInvalid,
+			PropertyName:  ceDataContentType,
+			PropertyValue: msg.ContentType,
+		}
+	}
+
 	ce.DataContentType = msg.ContentType
 
 	if ds, ok := msg.Metadata[ceDataSchema]; ok {
@@ -258,6 +289,14 @@ func CloudEventFromTelemetry[T any](
 					HeaderName:  ceDataSchema,
 					HeaderValue: ds,
 				},
+			}
+		}
+		if ce.DataSchema.Scheme == "" {
+			return nil, &errors.Error{
+				Message:     "cloud event data schema URI not absolute",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  ceDataSchema,
+				HeaderValue: ds,
 			}
 		}
 	}

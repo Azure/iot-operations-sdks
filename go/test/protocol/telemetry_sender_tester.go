@@ -14,7 +14,9 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/BurntSushi/toml"
+	"github.com/relvacode/iso8601"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
@@ -246,20 +248,54 @@ func sendTelemetry(
 	}
 
 	if actionSendTelemetry.CloudEvent != nil {
-		sourceURL, _ := url.Parse(*actionSendTelemetry.CloudEvent.Source)
-		dataSchemaURL, _ := url.Parse(
-			*actionSendTelemetry.CloudEvent.DataSchema,
-		)
+		cloudEvent := protocol.CloudEvent{}
+
+		if actionSendTelemetry.CloudEvent.Source != nil {
+			source, err := url.Parse(*actionSendTelemetry.CloudEvent.Source)
+			if err != nil {
+				go func() { sendChan <- getCloudEventError("Source", *actionSendTelemetry.CloudEvent.Source, "URL", err) }()
+				return
+			}
+			cloudEvent.Source = source
+		}
+
+		if actionSendTelemetry.CloudEvent.SpecVersion != nil {
+			cloudEvent.SpecVersion = *actionSendTelemetry.CloudEvent.SpecVersion
+		}
+
+		if actionSendTelemetry.CloudEvent.Type != nil {
+			cloudEvent.Type = *actionSendTelemetry.CloudEvent.Type
+		}
+
+		if actionSendTelemetry.CloudEvent.ID != nil {
+			cloudEvent.ID = *actionSendTelemetry.CloudEvent.ID
+		}
+
+		if time, ok := actionSendTelemetry.CloudEvent.Time.(string); ok {
+			isoTime, err := iso8601.ParseString(time)
+			if err != nil {
+				go func() { sendChan <- getCloudEventError("Time", time, "ISO 8601", err) }()
+				return
+			}
+			cloudEvent.Time = isoTime
+		}
+
+		if subject, ok := actionSendTelemetry.CloudEvent.Subject.(string); ok {
+			cloudEvent.Subject = subject
+		}
+
+		if dataSchema, ok := actionSendTelemetry.CloudEvent.DataSchema.(string); ok {
+			dataSchemaURL, err := url.Parse(dataSchema)
+			if err != nil {
+				go func() { sendChan <- getCloudEventError("DataSchema", dataSchema, "URL", err) }()
+				return
+			}
+			cloudEvent.DataSchema = dataSchemaURL
+		}
+
 		options = append(
 			options,
-			protocol.WithCloudEvent(
-				&protocol.CloudEvent{
-					Source:      sourceURL,
-					SpecVersion: *actionSendTelemetry.CloudEvent.SpecVersion,
-					Type:        *actionSendTelemetry.CloudEvent.Type,
-					DataSchema:  dataSchemaURL,
-				},
-			),
+			protocol.WithCloudEvent(&cloudEvent),
 		)
 	}
 
@@ -359,5 +395,27 @@ func checkPublishedTelemetry(
 			*publishedMessage.Expiry,
 			*msg.Properties.MessageExpiry,
 		)
+	}
+}
+
+func getCloudEventError(
+	fieldName string,
+	propValue string,
+	parseType string,
+	err error,
+) error {
+	return &errors.Error{
+		Message: fmt.Sprintf(
+			"cloud event %s not parsable as %s",
+			fieldName,
+			parseType,
+		),
+		Kind:          errors.ArgumentInvalid,
+		NestedError:   err,
+		PropertyName:  "CloudEvent",
+		PropertyValue: propValue,
+		InApplication: false,
+		IsShallow:     true,
+		IsRemote:      false,
 	}
 }
