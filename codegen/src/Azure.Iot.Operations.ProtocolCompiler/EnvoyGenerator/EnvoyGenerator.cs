@@ -54,6 +54,12 @@
                 {
                     Console.WriteLine($"cargo fmt {outDir.FullName}");
                     Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
+
+                    Console.WriteLine($"cargo install machete");
+                    Process.Start("cargo", "install cargo-machete");
+
+                    Console.WriteLine($"cargo machete --fix");
+                    Process.Start("cargo", "machete --fix");
                 }
                 catch (Win32Exception)
                 {
