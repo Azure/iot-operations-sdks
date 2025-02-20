@@ -236,7 +236,7 @@ func (o *ApplicationOptions) Apply(opts []ApplicationOption, rest ...Application
 Apply resolves the provided list of options.
 
 <a name="CloudEvent"></a>
-## type [CloudEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L18-L28>)
+## type [CloudEvent](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L19-L29>)
 
 CloudEvent provides an implementation of the CloudEvents 1.0 spec; see: https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md
 
@@ -255,7 +255,7 @@ type CloudEvent struct {
 ```
 
 <a name="CloudEventFromTelemetry"></a>
-### func [CloudEventFromTelemetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L169-L171>)
+### func [CloudEventFromTelemetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L190-L192>)
 
 ```go
 func CloudEventFromTelemetry[T any](msg *TelemetryMessage[T]) (*CloudEvent, error)
@@ -264,7 +264,7 @@ func CloudEventFromTelemetry[T any](msg *TelemetryMessage[T]) (*CloudEvent, erro
 CloudEventFromTelemetry extracts cloud event data from the given telemetry message. It will return an error if any required properties are missing or any properties do not match the expected schema.
 
 <a name="CloudEvent.Attrs"></a>
-### func \(\*CloudEvent\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L56>)
+### func \(\*CloudEvent\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/telemetry_cloud_event.go#L61>)
 
 ```go
 func (ce *CloudEvent) Attrs() []slog.Attr

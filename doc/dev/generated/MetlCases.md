@@ -93,7 +93,7 @@ See below for categorized tests.
 | CommandInvoker initialized with no request topic string. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker invokes command but receives no response message. | Invocation throws 'timeout' exception. |
 | CommandInvoker initialized with null command name. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker invokes command but ACK dropped when publishing request. | Connection automatically re-established, publication retried, success. |
+| CommandInvoker invokes command but the MQTT connection is dropped after publishing the packet but before the command invoker receives the ACK. | Connection automatically re-established by the session client, the session client re-publishes the command invocation, success. |
 | CommandInvoker invokes command but ACK fails when publishing request, then repeats invocation. | Invocation throws 'mqtt error' exception, then reinvocation succeeds. |
 | CommandInvoker invokes command but ACK fails when publishing request. | Invocation throws 'mqtt error' exception. |
 | CommandInvoker with redundantly executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
