@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandRequestMetadata is constructed by user code that will invoke a command, the Timestamp is set from the updated HybridLogicalClock of the CommandInvoker.
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the Timestamp is set from the request message; this will be null if the message contains no timestamp header.
         /// </summary>
-        public HybridLogicalClock? Timestamp { get; set; }
+        public HybridLogicalClock? Timestamp { get; internal set; }
 
         /// <summary>
         /// A dictionary of user properties that are sent along with the request from the CommandInvoker to the CommandExecutor.
