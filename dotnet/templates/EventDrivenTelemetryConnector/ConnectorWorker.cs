@@ -15,6 +15,7 @@ namespace EventDrivenTelemetryConnector
         /// <summary>
         /// Construct a new event-driven connector worker.
         /// </summary>
+        /// <param name="applicationContext">The per session application context containing shared resources.</param>
         /// <param name="logger">The logger to use in this layer.</param>
         /// <param name="connectorLogger">The logger to use in the connector layer.</param>
         /// <param name="mqttClient">The MQTT client that the connector layer will use to connect to the broker and forward telemetry.</param>

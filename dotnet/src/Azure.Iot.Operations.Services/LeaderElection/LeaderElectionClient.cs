@@ -119,6 +119,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <summary>
         /// Construct a new leader election client.
         /// </summary>
+        /// <param name="applicationContext">The application context containing shared resources.</param>
         /// <param name="mqttClient">The mqtt client to use for I/O.</param>
         /// <param name="leadershipPositionId">
         /// The identifier of the leadership position that this client can campaign for. Each client that will

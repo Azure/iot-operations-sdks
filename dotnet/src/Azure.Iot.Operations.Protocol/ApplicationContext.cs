@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         public ApplicationContext(HybridLogicalClock? hybridLogicalClock = null)
         {
-            ApplicationHlc ??= new();
+            ApplicationHlc = hybridLogicalClock ?? new();
         }
 
         public async ValueTask DisposeAsync()

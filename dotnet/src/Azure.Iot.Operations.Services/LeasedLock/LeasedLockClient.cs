@@ -101,6 +101,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Construct a new leased lock client.
         /// </summary>
+        /// <param name="applicationContext">The application context containing shared resources.</param>
         /// <param name="mqttClient">The client to use for I/O operations.</param>
         /// <param name="lockName">The name of the lock to acquire/release.</param>
         /// <param name="lockHolderName">The name for this client that will hold a lock. Other processes

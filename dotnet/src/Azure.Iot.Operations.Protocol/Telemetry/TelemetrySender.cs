@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Diagnostics;
-using System.Runtime.Intrinsics.X86;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
