@@ -9,12 +9,12 @@
 
     internal class EnvoyGenerator
     {
-        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool generateProject, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool defaultImpl, bool generateProject, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
         {
             string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(outDir.FullName, sdkPath);
             using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace.GetFolderName(TargetLanguage.Independent), annexFileName)).ReadToEnd()))
             {
-                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, sourceFilePaths, distinctSchemaKinds, genRoot, generateProject))
+                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, defaultImpl, sourceFilePaths, distinctSchemaKinds, genRoot, generateProject))
                 {
                     string envoyFilePath = Path.Combine(genRoot, templateTransform.FolderPath, templateTransform.FileName);
                     if (templateTransform is IUpdatingTransform updatingTransform)
@@ -53,13 +53,30 @@
             {
                 try
                 {
-                    Console.WriteLine($"cargo fmt {outDir.FullName}");
-                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
+                    RunCargo($"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}", display: true);
                 }
                 catch (Win32Exception)
                 {
                     Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
                 }
+            }
+        }
+
+        private static void RunCargo(string args, bool display)
+        {
+            if (display)
+            {
+                Console.WriteLine($"cargo {args}");
+            }
+
+            using (Process cargo = new Process())
+            {
+                cargo.StartInfo.FileName = "cargo";
+                cargo.StartInfo.Arguments = args;
+                cargo.StartInfo.UseShellExecute = false;
+                cargo.StartInfo.RedirectStandardOutput = true;
+                cargo.Start();
+                cargo.WaitForExit();
             }
         }
     }

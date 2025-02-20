@@ -22,6 +22,7 @@
         private readonly Option<bool> clientOnly;
         private readonly Option<bool> serverOnly;
         private readonly Option<bool> noProj;
+        private readonly Option<bool> defaultImpl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgBinder"/> class.
@@ -51,7 +52,8 @@
             Option<string> lang,
             Option<bool> clientOnly,
             Option<bool> serverOnly,
-            Option<bool> noProj)
+            Option<bool> noProj,
+            Option<bool> defaultImpl)
         {
             this.modelFile = modelFile;
             this.modelId = modelId;
@@ -66,6 +68,7 @@
             this.clientOnly = clientOnly;
             this.serverOnly = serverOnly;
             this.noProj = noProj;
+            this.defaultImpl = defaultImpl;
         }
 
         /// <inheritdoc/>
@@ -88,6 +91,7 @@
                 ClientOnly = bindingContext.ParseResult.GetValueForOption(this.clientOnly),
                 ServerOnly = bindingContext.ParseResult.GetValueForOption(this.serverOnly),
                 NoProj = bindingContext.ParseResult.GetValueForOption(this.noProj),
+                DefaultImpl = bindingContext.ParseResult.GetValueForOption(this.defaultImpl),
             };
     }
 }

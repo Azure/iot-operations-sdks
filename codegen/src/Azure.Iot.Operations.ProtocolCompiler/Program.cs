@@ -66,6 +66,10 @@ internal class Program
             name: "--noProj",
             description: "Do not generate code in a project");
 
+        var defaultImplOption = new Option<bool>(
+            name: "--defaultImpl",
+            description: "Generate default implementations of user-level callbacks");
+
         var rootCommand = new RootCommand("Akri MQTT code generation tool for DTDL models")
         {
             modelFileOption,
@@ -81,6 +85,7 @@ internal class Program
             clientOnlyOption,
             serverOnlyOption,
             noProjOption,
+            defaultImplOption,
         };
 
         ArgBinder argBinder = new ArgBinder(
@@ -96,7 +101,8 @@ internal class Program
             langOption,
             clientOnlyOption,
             serverOnlyOption,
-            noProjOption);
+            noProjOption,
+            defaultImplOption);
 
         rootCommand.SetHandler(
             async (OptionContainer options) => { Environment.ExitCode = await CommandHandler.GenerateCode(options); },

@@ -66,7 +66,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
-            public abstract <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, this.syncApi ? null : "async")#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public <#=this.defaultImpl ? "virtual" : "abstract"#> <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, this.syncApi ? null : "async")#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)<#=this.defaultImpl ? "" : ";"#>
+<# if (this.defaultImpl) { #>
+            {
+                return <#=this.EmptyResp(cmdNameReqResp, asTask: !this.syncApi)#>;
+            }
+<# } #>
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
@@ -180,7 +185,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public abstract Task <#=this.TelemMethodName(telemNameSchema, "receive")#>(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata);
+            public <#=this.defaultImpl ? "virtual" : "abstract"#> Task <#=this.TelemMethodName(telemNameSchema, "receive")#>(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata)<#=this.defaultImpl ? "" : ";"#>
+<# if (this.defaultImpl) { #>
+            {
+                return Task.CompletedTask;
+            }
+<# } #>
 <# } #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
@@ -255,7 +265,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
     private string ExtRespType((CodeName, ITypeName, ITypeName) cmdNameReqResp, bool asTask) => this.CondWrap(cmdNameReqResp.Item3 != null ? $"ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}>" : "CommandResponseMetadata?", asTask);
 
+    private string EmptyResp((CodeName, ITypeName, ITypeName) cmdNameReqResp, bool asTask) => this.CondFrom(cmdNameReqResp.Item3 != null ? $"new ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}> {{ Response = new {this.SchemaType(cmdNameReqResp.Item3)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()", asTask);
+
     private string CondWrap(string type, bool asTask) => asTask ? $"Task<{type}>" : type;
+
+    private string CondFrom(string res, bool asTask) => asTask ? $"Task.FromResult({res})" : res;
 
     private string ReqParam((CodeName, ITypeName, ITypeName) cmdNameReqResp) => cmdNameReqResp.Item2 != null ? $"{this.SchemaType(cmdNameReqResp.Item2)} request, " : "";
 
