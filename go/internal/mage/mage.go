@@ -25,7 +25,7 @@ var (
 	))
 	linter = bintool.Must(bintool.New(
 		"golangci-lint{{.BinExt}}",
-		"1.61.0",
+		"1.64.5",
 		"https://github.com/golangci/golangci-lint/releases/download/v{{.Version}}/golangci-lint-{{.Version}}-{{.GOOS}}-{{.GOARCH}}{{.ArchiveExt}}",
 	))
 	documenter = bintool.Must(bintool.New(

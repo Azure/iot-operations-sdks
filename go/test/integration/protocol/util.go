@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -82,7 +83,7 @@ func SayHelloWithDelay(
 	)
 
 	if req.Payload.Delay == 0 {
-		return nil, fmt.Errorf("delay cannot be zero")
+		return nil, errors.New("delay cannot be zero")
 	}
 
 	select {
