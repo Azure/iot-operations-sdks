@@ -258,7 +258,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestSerializer testSerializer = new TestSerializer(testCaseInvoker.Serializer);
 
-                TestCommandInvoker commandInvoker = new TestCommandInvoker(mqttClient, testCaseInvoker.CommandName!, testSerializer)
+                TestCommandInvoker commandInvoker = new TestCommandInvoker(new ApplicationContext(), mqttClient, testCaseInvoker.CommandName!, testSerializer)
                 {
                     RequestTopicPattern = testCaseInvoker.RequestTopic!,
                     TopicNamespace = testCaseInvoker.TopicNamespace,

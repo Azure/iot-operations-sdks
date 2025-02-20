@@ -39,8 +39,8 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateDiscoveredAssetCommandInvoker"/> class.
             /// </summary>
-            public CreateDiscoveredAssetCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "createDiscoveredAsset", new Utf8JsonSerializer())
+            public CreateDiscoveredAssetCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "createDiscoveredAsset", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

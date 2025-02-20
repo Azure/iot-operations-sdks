@@ -41,8 +41,8 @@ namespace TestEnvoys.Memmon
             /// <summary>
             /// Initializes a new instance of the <see cref="StartTelemetryCommandExecutor"/> class.
             /// </summary>
-            public StartTelemetryCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "startTelemetry", new AvroSerializer<StartTelemetryRequestPayload, EmptyAvro>())
+            public StartTelemetryCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "startTelemetry", new AvroSerializer<StartTelemetryRequestPayload, EmptyAvro>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

@@ -239,7 +239,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestSerializer testSerializer = new TestSerializer(testCaseSender.Serializer);
 
-                TestTelemetrySender telemetrySender = new TestTelemetrySender(mqttClient, testCaseSender.TelemetryName!, testSerializer)
+                TestTelemetrySender telemetrySender = new TestTelemetrySender(new ApplicationContext(), mqttClient, testCaseSender.TelemetryName!, testSerializer)
                 {
                     TopicPattern = testCaseSender.TelemetryTopic!,
                     TopicNamespace = testCaseSender.TopicNamespace,
@@ -382,7 +382,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private Task DisconnectAsync(StubMqttClient stubMqttClient)
         {
-            return stubMqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions());
+            return stubMqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
         }
 
         private void CheckPublishedMessage(int sequenceIndex, TestCasePublishedMessage publishedMessage, StubMqttClient stubMqttClient)
@@ -397,12 +397,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.Payload == null)
             {
-                Assert.True(appMsg.Payload.IsEmpty);
+                Assert.Null(appMsg.PayloadSegment.Array);
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.False(appMsg.Payload.IsEmpty);
-                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.Payload));
+                Assert.NotNull(appMsg.PayloadSegment.Array);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
             }
 
             if (publishedMessage.ContentType != null)

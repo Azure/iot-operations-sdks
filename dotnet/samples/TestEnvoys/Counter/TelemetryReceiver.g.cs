@@ -39,8 +39,8 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="TelemetryReceiver"/> class.
             /// </summary>
-            public TelemetryReceiver(IMqttPubSubClient mqttClient)
-                : base(mqttClient, null, new Utf8JsonSerializer())
+            public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, null, new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

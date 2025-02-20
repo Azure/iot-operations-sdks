@@ -15,8 +15,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return await _executionCount.Read().ConfigureAwait(false);
         }
 
-        internal TestCommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
-            : base(mqttClient, commandName, payloadSerializer)
+        internal TestCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
+            : base(applicationContext, mqttClient, commandName, payloadSerializer)
         {
             _executionCount = new(0);
         }

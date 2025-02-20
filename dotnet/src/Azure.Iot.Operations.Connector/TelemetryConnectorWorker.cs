@@ -22,6 +22,7 @@ namespace Azure.Iot.Operations.Connector
     {
         protected readonly ILogger<TelemetryConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
+        private readonly ApplicationContext _applicationContext;
         private readonly IAssetMonitor _assetMonitor;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private readonly ConcurrentDictionary<string, Asset> _assets = new();
@@ -40,14 +41,16 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// The asset endpoint profile associated with this connector. This will be null until the asset endpoint profile is first discovered.
         /// </summary>
-        public AssetEndpointProfile? AssetEndpointProfile {  get; set; }
+        public AssetEndpointProfile? AssetEndpointProfile { get; set; }
 
         public TelemetryConnectorWorker(
+            ApplicationContext applicationContext,
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
             IAssetMonitor assetMonitor)
         {
+            _applicationContext = applicationContext;
             _logger = logger;
             _mqttClient = mqttClient;
             _messageSchemaProviderFactory = messageSchemaProviderFactory;
@@ -58,7 +61,7 @@ namespace Azure.Iot.Operations.Connector
         public override Task RunConnectorAsync(CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            
+
             // This method is public to allow users to access the BackgroundService interface's ExecuteAsync method.
             return ExecuteAsync(cancellationToken);
         }
@@ -125,7 +128,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                            await using LeaderElectionClient leaderElectionClient = new(_mqttClient, leadershipPositionId, candidateName);
+                            await using LeaderElectionClient leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, candidateName);
 
                             leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -251,7 +254,7 @@ namespace Azure.Iot.Operations.Connector
         private async Task AssetAvailableAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
         {
             _assets.TryAdd(assetName, asset);
-            
+
             if (asset.DatasetsDictionary == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
@@ -267,7 +270,7 @@ namespace Azure.Iot.Operations.Connector
                     if (datasetMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for dataset with name {datasetName} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                         await schemaRegistryClient.PutAsync(
                             datasetMessageSchema.SchemaContent,
                             datasetMessageSchema.SchemaFormat,
@@ -299,7 +302,7 @@ namespace Azure.Iot.Operations.Connector
                     if (eventMessageSchema != null)
                     {
                         _logger.LogInformation($"Registering message schema for event with name {eventName} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_mqttClient);
+                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                         await schemaRegistryClient.PutAsync(
                             eventMessageSchema.SchemaContent,
                             eventMessageSchema.SchemaFormat,
@@ -322,7 +325,7 @@ namespace Azure.Iot.Operations.Connector
         public async Task ForwardSampledDatasetAsync(Asset asset, Dataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            
+
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             Topic topic;

@@ -1,5 +1,6 @@
 using Azure.Iot.Operations.Services.StateStore;
 using System.Reflection;
+using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.DssCli;
 
@@ -15,6 +16,7 @@ public class Program
             .AddCommandLine(args)
             .AddEnvironmentVariables();
         builder.Services
+            .AddSingleton<ApplicationContext>()
             .AddSingleton(MqttClientFactoryProvider.MqttClientFactory)
             .AddTransient(MqttClientFactoryProvider.StateStoreClientFactory)
             .AddHostedService<DssClientService>();

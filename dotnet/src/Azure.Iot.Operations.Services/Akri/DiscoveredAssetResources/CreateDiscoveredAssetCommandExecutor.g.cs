@@ -41,8 +41,8 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateDiscoveredAssetCommandExecutor"/> class.
             /// </summary>
-            public CreateDiscoveredAssetCommandExecutor(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "createDiscoveredAsset", new Utf8JsonSerializer())
+            public CreateDiscoveredAssetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "createDiscoveredAsset", new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

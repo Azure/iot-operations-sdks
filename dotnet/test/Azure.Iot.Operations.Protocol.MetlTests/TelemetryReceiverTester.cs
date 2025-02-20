@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
+using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
@@ -303,7 +304,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestSerializer testSerializer = new TestSerializer(testCaseReceiver.Serializer);
 
-                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient, testSerializer)
+                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(new ApplicationContext(), mqttClient, testSerializer)
                 {
                     TopicPattern = testCaseReceiver.TelemetryTopic!,
                     TopicNamespace = testCaseReceiver.TopicNamespace,
