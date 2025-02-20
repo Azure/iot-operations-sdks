@@ -52,42 +52,32 @@
             {
                 try
                 {
-                    Console.WriteLine($"cargo fmt {outDir.FullName}");
-                    using (Process cargo = new Process())
-                    {
-                        cargo.StartInfo.FileName = "cargo";
-                        cargo.StartInfo.Arguments = $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}";
-                        cargo.StartInfo.UseShellExecute = false;
-                        cargo.StartInfo.RedirectStandardOutput = true;
-                        cargo.Start();
-                        cargo.WaitForExit();
-                    }
-
-                    using (Process cargo = new Process())
-                    {
-                        cargo.StartInfo.FileName = "cargo";
-                        cargo.StartInfo.Arguments = "install --locked cargo-machete";
-                        cargo.StartInfo.UseShellExecute = false;
-                        cargo.StartInfo.RedirectStandardOutput = true;
-                        cargo.Start();
-                        cargo.WaitForExit();
-                    }
-
-                    Console.WriteLine($"cargo machete --fix {outDir.FullName}");
-                    using (Process cargo = new Process())
-                    {
-                        cargo.StartInfo.FileName = "cargo";
-                        cargo.StartInfo.Arguments = $"machete --fix {outDir.FullName}";
-                        cargo.StartInfo.UseShellExecute = false;
-                        cargo.StartInfo.RedirectStandardOutput = true;
-                        cargo.Start();
-                        cargo.WaitForExit();
-                    }
+                    RunCargo($"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}", display: true);
+                    RunCargo("install --locked cargo-machete", display: false);
+                    RunCargo($"machete --fix {outDir.FullName}", display: true);
                 }
                 catch (Win32Exception)
                 {
                     Console.WriteLine("cargo tool not found; install per instructions: https://doc.rust-lang.org/cargo/getting-started/installation.html");
                 }
+            }
+        }
+
+        private static void RunCargo(string args, bool display)
+        {
+            if (display)
+            {
+                Console.WriteLine($"cargo {args}");
+            }
+
+            using (Process cargo = new Process())
+            {
+                cargo.StartInfo.FileName = "cargo";
+                cargo.StartInfo.Arguments = args;
+                cargo.StartInfo.UseShellExecute = false;
+                cargo.StartInfo.RedirectStandardOutput = true;
+                cargo.Start();
+                cargo.WaitForExit();
             }
         }
     }
