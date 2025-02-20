@@ -40,7 +40,7 @@ internal class Program
         var namespaceOption = new Option<string?>(
             name: "--namespace",
 #if DEBUG
-            description: "Namespace for generated code (overrides namespace from model or annex file; required if no model or annex file)")
+            description: "Namespace for generated code (overrides namespace from model or annex file; required if no model)")
 #else
             description: "Namespace for generated code (overrides namespace from model)")
 #endif
