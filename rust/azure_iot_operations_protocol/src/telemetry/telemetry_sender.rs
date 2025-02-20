@@ -9,7 +9,7 @@ use std::{collections::HashMap, marker::PhantomData, time::Duration};
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use bytes::Bytes;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
 
 use crate::{
@@ -144,7 +144,10 @@ impl CloudEvent {
             CloudEventSubject::None => {}
         }
         if let Some(time) = self.time {
-            headers.push((CloudEventFields::Time.to_string(), time.to_rfc3339()));
+            headers.push((
+                CloudEventFields::Time.to_string(),
+                time.to_rfc3339_opts(SecondsFormat::Secs, true),
+            ));
         }
         if let Some(data_schema) = self.data_schema {
             headers.push((

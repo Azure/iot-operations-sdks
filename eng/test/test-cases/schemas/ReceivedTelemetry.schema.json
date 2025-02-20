@@ -17,8 +17,11 @@
             "kind": "check"
         },
         "cloud-event": {
-            "description": "A CloudEvent expected to be associated with the Telemetry.",
-            "$ref": "ReceivedCloudEvent.schema.json",
+            "description": "A CloudEvent expected to be associated with the Telemetry; a null value indicates no CloudEvent should be present.",
+            "anyOf": [
+                { "$ref": "ReceivedCloudEvent.schema.json" },
+                { "type": "null" }
+            ],
             "kind": "check"
         },
         "source-index": {

@@ -12,6 +12,7 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/BurntSushi/toml"
@@ -58,7 +59,10 @@ func runOneTelemetryReceiverTest(
 	testName string,
 	fileName string,
 ) {
-	pendingTestCases := []string{}
+	pendingTestCases := []string{
+		"TelemetryReceiverReceivesWithCloudEventIdEmpty_NoCloudEvent",
+		"TelemetryReceiverReceivesWithCloudEventTypeEmpty_NoCloudEvent",
+	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
 	if err != nil {
@@ -344,51 +348,70 @@ func checkReceivedTelemetry(
 		}
 	}
 
-	if telem.CloudEvent != nil {
-		require.NotNil(t, rcvTelem.CloudEvent)
+	if telem.Capsule != nil {
+		if telem.Capsule.CloudEvent == nil {
+			require.Nil(t, rcvTelem.CloudEvent)
+		} else {
+			require.NotNil(t, rcvTelem.CloudEvent)
 
-		if telem.CloudEvent.Source != nil {
-			require.Equal(
-				t,
-				*telem.CloudEvent.Source,
-				rcvTelem.CloudEvent.Source.String(),
-			)
-		}
+			if telem.Capsule.CloudEvent.Source != nil {
+				require.Equal(
+					t,
+					*telem.Capsule.CloudEvent.Source,
+					rcvTelem.CloudEvent.Source.String(),
+				)
+			}
 
-		if telem.CloudEvent.Type != nil {
-			require.Equal(t, *telem.CloudEvent.Type, rcvTelem.CloudEvent.Type)
-		}
+			if telem.Capsule.CloudEvent.Type != nil {
+				require.Equal(t, *telem.Capsule.CloudEvent.Type, rcvTelem.CloudEvent.Type)
+			}
 
-		if telem.CloudEvent.SpecVersion != nil {
-			require.Equal(
-				t,
-				*telem.CloudEvent.SpecVersion,
-				rcvTelem.CloudEvent.SpecVersion,
-			)
-		}
+			if telem.Capsule.CloudEvent.ID != nil {
+				require.Equal(t, *telem.Capsule.CloudEvent.ID, rcvTelem.CloudEvent.ID)
+			}
 
-		if telem.CloudEvent.DataContentType != nil {
-			require.Equal(
-				t,
-				*telem.CloudEvent.DataContentType,
-				rcvTelem.CloudEvent.DataContentType,
-			)
-		}
+			if telem.Capsule.CloudEvent.Time == nil {
+				require.True(t, rcvTelem.CloudEvent.Time.IsZero())
+			} else if eventTime, ok := telem.Capsule.CloudEvent.Time.(string); ok {
+				require.Equal(t, eventTime, rcvTelem.CloudEvent.Time.Format(time.RFC3339))
+			}
 
-		if telem.CloudEvent.Subject != nil {
-			require.Equal(
-				t,
-				*telem.CloudEvent.Subject,
-				rcvTelem.CloudEvent.Subject,
-			)
-		}
+			if telem.Capsule.CloudEvent.SpecVersion != nil {
+				require.Equal(
+					t,
+					*telem.Capsule.CloudEvent.SpecVersion,
+					rcvTelem.CloudEvent.SpecVersion,
+				)
+			}
 
-		if telem.CloudEvent.DataSchema != nil {
-			require.Equal(
-				t,
-				*telem.CloudEvent.DataSchema,
-				rcvTelem.CloudEvent.DataSchema.String(),
-			)
+			if telem.Capsule.CloudEvent.DataContentType != nil {
+				require.Equal(
+					t,
+					*telem.Capsule.CloudEvent.DataContentType,
+					rcvTelem.CloudEvent.DataContentType,
+				)
+			}
+
+			if telem.Capsule.CloudEvent.Subject == nil {
+				require.Empty(t, rcvTelem.CloudEvent.Subject)
+			} else if subject, ok := telem.Capsule.CloudEvent.Subject.(string); ok {
+				require.Equal(
+					t,
+					subject,
+					rcvTelem.CloudEvent.Subject,
+				)
+			}
+
+			if telem.Capsule.CloudEvent.DataSchema == nil {
+				require.Empty(t, rcvTelem.CloudEvent.DataSchema)
+			} else if dataSchema, ok := telem.Capsule.CloudEvent.DataSchema.(string); ok {
+				require.NotNil(t, rcvTelem.CloudEvent.DataSchema)
+				require.Equal(
+					t,
+					dataSchema,
+					rcvTelem.CloudEvent.DataSchema.String(),
+				)
+			}
 		}
 	}
 

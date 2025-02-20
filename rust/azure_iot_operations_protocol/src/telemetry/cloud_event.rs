@@ -106,7 +106,7 @@ impl CloudEventFields {
                 }
                 CloudEventFields::DataContentType => {
                     let rfc_2045_regex =
-                        Regex::new(r"^([-a-z]+)/([-a-z0-9\.\-]+)(?:\+([a-z0-9\.\-]+))?$")
+                        Regex::new(r"^([-a-z]+)/([-a-z0-9.]+)(?:\+([-a-z0-9.]+))?$")
                             .expect("Static regex string should not fail");
 
                     if !rfc_2045_regex.is_match(value) {
