@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializedPayloadContext.PayloadFormatIndicator,
                     ContentType = serializedPayloadContext.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
-                    PayloadSegment = serializedPayloadContext.SerializedPayload ?? [],
+                    Payload = serializedPayloadContext.SerializedPayload,
                 };
 
                 if (metadata?.CloudEvent is not null)

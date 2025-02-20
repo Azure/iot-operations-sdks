@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
