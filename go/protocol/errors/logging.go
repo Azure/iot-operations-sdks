@@ -4,7 +4,7 @@ package errors
 
 import "log/slog"
 
-// client errors
+// client errors.
 func (e *ClientError) Attrs() []slog.Attr {
 	a := baseAttrs(&e.BaseError)
 
@@ -15,7 +15,7 @@ func (e *ClientError) Attrs() []slog.Attr {
 	return a
 }
 
-// remote errors
+// remote errors.
 func (e *RemoteError) Attrs() []slog.Attr {
 	a := baseAttrs(&e.BaseError)
 
@@ -44,7 +44,7 @@ func (e *RemoteError) Attrs() []slog.Attr {
 	return a
 }
 
-// get attributes from BaseError
+// get attributes from BaseError.
 func baseAttrs(e *BaseError) []slog.Attr {
 	a := make([]slog.Attr, 0, 8)
 

@@ -6,7 +6,7 @@ import "time"
 
 type Kind int
 
-// common fields for both client-side and remote errors
+// common fields for both client-side and remote errors.
 type BaseError struct {
 	Message string
 	Kind    Kind
@@ -22,13 +22,13 @@ type BaseError struct {
 	HeaderValue string
 }
 
-// purely client-side errors that are never sent over the wire
+// purely client-side errors that are never sent over the wire.
 type ClientError struct {
 	BaseError
 	IsShallow bool
 }
 
-// errors that can be sent between services over the wire
+// errors that can be sent between services over the wire.
 type RemoteError struct {
 	BaseError
 	HTTPStatusCode                 int
@@ -37,7 +37,7 @@ type RemoteError struct {
 	InApplication                  bool
 }
 
-// client side
+// client side.
 const (
 	Timeout Kind = iota
 	Cancellation
@@ -46,7 +46,7 @@ const (
 	MqttError
 )
 
-// remote
+// remote.
 const (
 	HeaderMissing Kind = iota + 100
 	HeaderInvalid

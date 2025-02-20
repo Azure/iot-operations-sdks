@@ -156,20 +156,24 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 	}
 
 	if !contentTypeRegex.MatchString(msg.ContentType) {
-		return &errors.Error{
-			Message:       "cloud event invalid content type",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  "DataContentType",
-			PropertyValue: msg.ContentType,
+		return &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "cloud event invalid content type",
+				Kind:          errors.ArgumentInvalid,
+				PropertyName:  "DataContentType",
+				PropertyValue: msg.ContentType,
+			},
 		}
 	}
 
 	if ce.DataSchema != nil {
 		if ce.DataSchema.Scheme == "" {
-			return &errors.Error{
-				Message:      "cloud event data schema URI not absolute",
-				Kind:         errors.ArgumentInvalid,
-				PropertyName: "CloudEvent",
+			return &errors.ClientError{
+				BaseError: errors.BaseError{
+					Message:      "cloud event data schema URI not absolute",
+					Kind:         errors.ArgumentInvalid,
+					PropertyName: "CloudEvent",
+				},
 			}
 		}
 		msg.UserProperties[ceDataSchema] = ce.DataSchema.String()
@@ -269,11 +273,13 @@ func CloudEventFromTelemetry[T any](
 	// properties that don't parse.
 
 	if !contentTypeRegex.MatchString(msg.ContentType) {
-		return nil, &errors.Error{
-			Message:       "cloud event content type nonconforming",
-			Kind:          errors.HeaderInvalid,
-			PropertyName:  ceDataContentType,
-			PropertyValue: msg.ContentType,
+		return nil, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:       "cloud event content type nonconforming",
+				Kind:          errors.HeaderInvalid,
+				PropertyName:  ceDataContentType,
+				PropertyValue: msg.ContentType,
+			},
 		}
 	}
 
@@ -292,11 +298,13 @@ func CloudEventFromTelemetry[T any](
 			}
 		}
 		if ce.DataSchema.Scheme == "" {
-			return nil, &errors.Error{
-				Message:     "cloud event data schema URI not absolute",
-				Kind:        errors.HeaderInvalid,
-				HeaderName:  ceDataSchema,
-				HeaderValue: ds,
+			return nil, &errors.ClientError{
+				BaseError: errors.BaseError{
+					Message:     "cloud event data schema URI not absolute",
+					Kind:        errors.HeaderInvalid,
+					HeaderName:  ceDataSchema,
+					HeaderValue: ds,
+				},
 			}
 		}
 	}
