@@ -2,6 +2,7 @@
 using Azure.Iot.Operations.Mqtt;
 using MQTTnet;
 using System.Diagnostics;
+using Azure.Iot.Operations.Protocol;
 
 internal static class MqttClientFactoryProvider
 {
