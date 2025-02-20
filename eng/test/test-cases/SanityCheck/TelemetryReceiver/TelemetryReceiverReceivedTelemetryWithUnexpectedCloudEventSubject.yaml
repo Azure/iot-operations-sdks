@@ -1,0 +1,31 @@
+---
+test-name: TelemetryReceiverReceivedTelemetryWithUnexpectedCloudEventSubject
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry with attached CloudEvent info including a subject.
+  expect: >-
+    Erroneous test case expects a Telemetry with CloudEvent that has no subject value.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  metadata:
+    "id": "dtmi:test:someAssignedId;1"
+    "source": "dtmi:test:myEventSource;1"
+    "type": "test-type"
+    "specversion": "1.0"
+    "time": "1955-11-12T22:04:00Z"
+    "subject": "mock/test"
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  received-telemetries:
+  - cloud-event:
+      subject: # not present
+...

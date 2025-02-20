@@ -5,6 +5,17 @@ set -o pipefail
 
 echo - Installing prerequisities
 
+# install docker
+SYSTEM_NAME=$(uname -r)
+if ! [[ "$SYSTEM_NAME" == *"microsoft"* && "$SYSTEM_NAME" == *"WSL"* ]]
+then
+    if ! which docker;
+    then
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+    fi
+fi
+
 # install k3d
 if ! which k3d;
 then

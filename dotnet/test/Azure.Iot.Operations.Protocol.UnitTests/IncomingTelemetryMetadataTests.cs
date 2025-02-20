@@ -16,6 +16,7 @@ public class IncomingTelemetryMetadataTests
         var message = new MqttApplicationMessage("someTopic")
         {
             CorrelationData = Guid.NewGuid().ToByteArray(),
+            ContentType = "application/json",
             UserProperties = new List<MqttUserProperty>
             {
                 new MqttUserProperty(nameof(CloudEvent.SpecVersion).ToLowerInvariant(), "1.0"),
@@ -23,7 +24,6 @@ public class IncomingTelemetryMetadataTests
                 new MqttUserProperty(nameof(CloudEvent.Source).ToLowerInvariant(), "my://source"),
                 new MqttUserProperty(nameof(CloudEvent.Subject).ToLowerInvariant(), "eventSubject"),
                 new MqttUserProperty(nameof(CloudEvent.DataSchema).ToLowerInvariant(), "eventSchema"),
-                new MqttUserProperty(nameof(CloudEvent.DataContentType).ToLowerInvariant(), "application/json"),
                 new MqttUserProperty(nameof(CloudEvent.Id).ToLowerInvariant(), id),
                 new MqttUserProperty(nameof(CloudEvent.Time).ToLowerInvariant(), time.ToString("O")),
                 new MqttUserProperty("customProperty", "customValue")

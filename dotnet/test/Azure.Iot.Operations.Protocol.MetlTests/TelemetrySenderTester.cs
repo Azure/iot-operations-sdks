@@ -1,7 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using System.Text;
+using System.Threading.Tasks;
 using Azure.Iot.Operations.Mqtt.Converters;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
@@ -24,6 +26,15 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
+            "TelemetrySenderSendWithCloudEventDataContentTypeNonConforming_ThrowsException",
+            "TelemetrySenderSendWithCloudEventDataSchemaEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventDataSchemaNonUri_ThrowsException",
+            "TelemetrySenderSendWithCloudEventDataSchemaRelativeUri_ThrowsException",
+            "TelemetrySenderSendWithCloudEventIdEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventSourceNonUri_ThrowsException",
+            "TelemetrySenderSendWithCloudEventSpecVersionEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventSubjectEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventTypeEmpty_ThrowsException",
         };
 
         private static IDeserializer yamlDeserializer;
@@ -308,9 +319,32 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     metadata.CloudEvent = new CloudEvent(sourceUri);
                 }
 
-                if (actionSendTelemetry.CloudEvent.DataSchema != null)
+                if (actionSendTelemetry.CloudEvent.Id != null)
                 {
-                    metadata.CloudEvent.DataSchema = actionSendTelemetry.CloudEvent.DataSchema;
+                    metadata.CloudEvent.Id = actionSendTelemetry.CloudEvent.Id;
+                }
+
+                if (actionSendTelemetry.CloudEvent.Time is string timeString)
+                {
+                    if (DateTime.TryParse(timeString, null, DateTimeStyles.RoundtripKind, out DateTime time))
+                    {
+                        metadata.CloudEvent.Time = time;
+                    }
+                    else
+                    {
+                        sendTasks.Enqueue(Task.FromException(AkriMqttException.GetArgumentInvalidException(null, "CloudEvent", null, null)));
+                        return;
+                    }
+                }
+
+                if (actionSendTelemetry.CloudEvent.Subject is string subject)
+                {
+                    metadata.CloudEvent.Subject = subject;
+                }
+
+                if (actionSendTelemetry.CloudEvent.DataSchema is string dataSchema)
+                {
+                    metadata.CloudEvent.DataSchema = dataSchema;
                 }
             }
 

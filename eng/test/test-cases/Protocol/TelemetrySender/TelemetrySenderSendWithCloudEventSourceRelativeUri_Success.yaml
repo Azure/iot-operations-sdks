@@ -1,0 +1,29 @@
+---
+test-name: TelemetrySenderSendWithCloudEventDefaults_Success
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry with CloudEvent info with a source value that is a relative URI.
+  expect: >-
+    TelemetrySender performs send and embeds CloudEvent info (including defaults) in Telemetry metadata.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  cloud-event:
+    source: "myEventSource"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "source": "myEventSource"
+      "type": "ms.aio.telemetry"
+      "specversion": "1.0"
+      "subject": "mock/test"
+...

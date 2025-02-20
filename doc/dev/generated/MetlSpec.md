@@ -928,10 +928,10 @@ Each element of the `received-telemetries` array can have the following child ke
 | --- | --- | --- | --- | --- |
 | telemetry-value | check | no | string or null | A UTF8 string (or null) value expected for the Telemetry content. |
 | metadata | check | no | map from string to string or null | Keys and values of expected metadata; a null value indicates key should not be present. |
-| cloud-event | check | no | [ReceivedCloudEvent](#receivedcloudevent) | A CloudEvent expected to be associated with the Telemetry. |
+| cloud-event | check | no | [ReceivedCloudEvent](#receivedcloudevent) or null | A CloudEvent expected to be associated with the Telemetry; a null value indicates no CloudEvent should be present. |
 | source-index | check | no | integer | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry. |
 
-The order of messasges in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
+The order of messages in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
 The value type for `cloud-event` is defined in the next subsection.
 
 #### ReceivedCloudEvent
@@ -943,9 +943,11 @@ The cloud event can have the following child keys:
 | source | check | no | string | URI that identifies the context in which an event happened. |
 | type | check | no | string | The type of event related to the originating occurrence. |
 | spec-version | check | no | string | The version of the CloudEvents specification which the event uses. |
+| id | check | no | string | A string that identifies the event. |
+| time | check | no | string or null | Timestamp of when the occurrence happened, or null if no value. |
 | data-content-type | check | no | string | The content type of the data value. |
-| subject | check | no | string | The subject of the event in the context of the event producer. |
-| data-schema | check | no | string | URI that identifies the schema the data adheres to. |
+| subject | check | no | string or null | The subject of the event in the context of the event producer, or null if no value. |
+| data-schema | check | no | string or null | URI that identifies the schema the data adheres to, or null if no value. |
 
 ### TelemetryReceiver test actions
 
@@ -991,8 +993,9 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
+    "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
-    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+    "dataschema": ""
   packet-index: 0
 ```
 
@@ -1090,7 +1093,11 @@ Each element of the `senders` array can have the following child keys:
 
 The 'serializer' key provides configuration settings for the test serializer associated with the sender, as in the following example:
 
-> **No available example in suite TelemetrySender for key 'senders' with subkey 'serializer'**
+```yaml
+  senders:
+  - serializer:
+      out-content-type: "non.conforming"
+```
 
 A TelemetrySender serializer can have the following child keys:
 
@@ -1114,10 +1121,10 @@ epilogue:
     payload: "Test_Telemetry"
     metadata:
       "source": "dtmi:test:myEventSource;1"
-      "type": "test-type"
+      "type": "ms.aio.telemetry"
       "specversion": "1.0"
       "subject": "mock/test"
-      "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+      "dataschema": # not present
 ```
 
 #### SenderEpilogue
@@ -1145,7 +1152,7 @@ Each element of the `published-messages` array can have the following child keys
 | source-id | check | no | string | The source ID header property in the message. |
 | expiry | check | no | integer | The message expiry in seconds. |
 
-The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
+The order of messages in the `published-messages` array matches the expected order in which the messages are to be published.
 
 ### TelemetrySender test actions
 
@@ -1155,12 +1162,13 @@ Following is an example TelemetrySender actions array:
 ```yaml
 actions:
 - action: send telemetry
-- action: await publish
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
 - action: await send
   catch:
-    error-kind: mqtt error
+    error-kind: invalid argument
     in-application: !!bool false
-    is-shallow: !!bool false
+    is-shallow: !!bool true
     is-remote: !!bool false
 ```
 
@@ -1188,6 +1196,9 @@ A `send telemetry` action causes the TelemetrySender to send a telemetry without
     source: "dtmi:test:myEventSource;1"
     type: "test-type"
     spec-version: "1.0"
+    id: "TheEventInQuestion"
+    time: "1955-11-12T22:04:00Z"
+    subject: "TheEventSubject"
     data-schema: "dtmi:test:MyModel:_contents:__test;1"
 ```
 
@@ -1214,6 +1225,9 @@ The cloud event can have the following child keys:
 | source | drive | yes | string | URI that identifies the context in which an event happened. |
 | type | drive | no | string | The type of event related to the originating occurrence. |
 | spec-version | drive | no | string | The version of the CloudEvents specification which the event uses. |
+| id | drive | no | string | A string that identifies the event. |
+| time | drive | no | string | Timestamp of when the occurrence happened. |
+| subject | drive | no | string | The subject of the event in the context of the event producer. |
 | data-schema | drive | no | string | URI that identifies the schema the data adheres to. |
 
 #### ActionAwaitSend
@@ -1223,10 +1237,12 @@ An `await send` action causes the test system to wait for a telemetry send to co
 ```yaml
 - action: await send
   catch:
-    error-kind: mqtt error
+    error-kind: invalid argument
     in-application: !!bool false
-    is-shallow: !!bool false
+    is-shallow: !!bool true
     is-remote: !!bool false
+    supplemental:
+      property-name: 'cloudevent'
 ```
 
 When the value of the `action` key is `await send`, the following sibling keys are also available:

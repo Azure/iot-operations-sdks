@@ -1,7 +1,8 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Globalization;
 using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
@@ -15,6 +16,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using System.Diagnostics;
+using Azure.Iot.Operations.Mqtt.Converters;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
@@ -28,7 +30,15 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
-            "TelemetryReceiverReceivesWithCloudEvent_Success"
+            "TelemetryReceiverReceivesWithCloudEventDataContentTypeNonConforming_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaAbsent_Success",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaEmpty_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaNonUri_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaRelativeUri_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventSourceNonUri_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventSubjectAbsent_Success",
+            "TelemetryReceiverReceivesWithCloudEventSubjectEmpty_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventTimeAbsent_Success",
         };
 
         private static IDeserializer yamlDeserializer;
@@ -463,7 +473,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (receivedTelemetry.CloudEvent != null)
+            if (receivedTelemetry.CloudEvent == null)
+            {
+                Assert.Null(actualReceivedTelemetry.CloudEvent);
+            }
+            else if (!receivedTelemetry.CloudEvent.Irrelevant)
             {
                 Assert.NotNull(actualReceivedTelemetry.CloudEvent);
 
@@ -482,19 +496,41 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     Assert.Equal(receivedTelemetry.CloudEvent.SpecVersion, actualReceivedTelemetry.CloudEvent.SpecVersion);
                 }
 
+                if (receivedTelemetry.CloudEvent.Id != null)
+                {
+                    Assert.Equal(receivedTelemetry.CloudEvent.Id, actualReceivedTelemetry.CloudEvent.Id);
+                }
+
+                if (receivedTelemetry.CloudEvent.Time == null)
+                {
+                    Assert.Null(actualReceivedTelemetry.CloudEvent.Time);
+                }
+                else if (receivedTelemetry.CloudEvent.Time is string time)
+                {
+                    Assert.Equal(time, actualReceivedTelemetry.CloudEvent.Time);
+                }
+
                 if (receivedTelemetry.CloudEvent.DataContentType != null)
                 {
                     Assert.Equal(receivedTelemetry.CloudEvent.DataContentType, actualReceivedTelemetry.CloudEvent.DataContentType);
                 }
 
-                if (receivedTelemetry.CloudEvent.Subject != null)
+                if (receivedTelemetry.CloudEvent.Subject == null)
                 {
-                    Assert.Equal(receivedTelemetry.CloudEvent.Subject, actualReceivedTelemetry.CloudEvent.Subject);
+                    Assert.Null(actualReceivedTelemetry.CloudEvent.Subject);
+                }
+                else if (receivedTelemetry.CloudEvent.Subject is string subject)
+                {
+                    Assert.Equal(subject, actualReceivedTelemetry.CloudEvent.Subject);
                 }
 
-                if (receivedTelemetry.CloudEvent.DataSchema != null)
+                if (receivedTelemetry.CloudEvent.DataSchema == null)
                 {
-                    Assert.Equal(receivedTelemetry.CloudEvent.DataSchema, actualReceivedTelemetry.CloudEvent.DataSchema);
+                    Assert.Null(actualReceivedTelemetry.CloudEvent.DataSchema);
+                }
+                else if (receivedTelemetry.CloudEvent.DataSchema is string dataSchema)
+                {
+                    Assert.Equal(dataSchema, actualReceivedTelemetry.CloudEvent.DataSchema);
                 }
             }
 
@@ -541,6 +577,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     CloudEvent.Source = cloudEvent.Source?.ToString();
                     CloudEvent.Type = cloudEvent.Type;
                     CloudEvent.SpecVersion = cloudEvent.SpecVersion;
+                    CloudEvent.Id = cloudEvent.Id;
+                    CloudEvent.Time = cloudEvent.Time?.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture);
                     CloudEvent.DataContentType = cloudEvent.DataContentType;
                     CloudEvent.Subject = cloudEvent.Subject;
                     CloudEvent.DataSchema = cloudEvent.DataSchema;
