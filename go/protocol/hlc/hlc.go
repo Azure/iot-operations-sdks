@@ -142,17 +142,21 @@ func (hlc HybridLogicalClock) Update(
 	// Since the unsigned counter was incremented by 1, a value of 0 here
 	// indicates integer overflow.
 	case updated.counter == 0:
-		return HybridLogicalClock{}, &errors.Error{
-			Message:      "integer overflow in HLC counter",
-			Kind:         errors.InternalLogicError,
-			PropertyName: "Counter",
+		return HybridLogicalClock{}, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:      "integer overflow in HLC counter",
+				Kind:         errors.InternalLogicError,
+				PropertyName: "Counter",
+			},
 		}
 
 	case updated.timestamp.Sub(wall) > updated.opt.MaxClockDrift:
-		return HybridLogicalClock{}, &errors.Error{
-			Message:      "clock drift exceeds maximum",
-			Kind:         errors.StateInvalid,
-			PropertyName: "MaxClockDrift",
+		return HybridLogicalClock{}, &errors.ClientError{
+			BaseError: errors.BaseError{
+				Message:      "clock drift exceeds maximum",
+				Kind:         errors.StateInvalid,
+				PropertyName: "MaxClockDrift",
+			},
 		}
 
 	default:
