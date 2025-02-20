@@ -56,7 +56,7 @@
                     Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
 
                     Console.WriteLine($"cargo install machete");
-                    Process.Start("cargo", "install cargo-machete");
+                    Process.Start("cargo", "install --locked cargo-machete");
 
                     Console.WriteLine($"cargo machete --fix");
                     Process.Start("cargo", "machete --fix");
