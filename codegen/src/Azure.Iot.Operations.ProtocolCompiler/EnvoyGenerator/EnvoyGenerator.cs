@@ -53,13 +53,36 @@
                 try
                 {
                     Console.WriteLine($"cargo fmt {outDir.FullName}");
-                    Process.Start("cargo", $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}");
+                    using (Process cargo = new Process())
+                    {
+                        cargo.StartInfo.FileName = "cargo";
+                        cargo.StartInfo.Arguments = $"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}";
+                        cargo.StartInfo.UseShellExecute = false;
+                        cargo.StartInfo.RedirectStandardOutput = true;
+                        cargo.Start();
+                        cargo.WaitForExit();
+                    }
 
-                    Console.WriteLine($"cargo install machete");
-                    Process.Start("cargo", "install --locked cargo-machete");
+                    using (Process cargo = new Process())
+                    {
+                        cargo.StartInfo.FileName = "cargo";
+                        cargo.StartInfo.Arguments = "install --locked cargo-machete";
+                        cargo.StartInfo.UseShellExecute = false;
+                        cargo.StartInfo.RedirectStandardOutput = true;
+                        cargo.Start();
+                        cargo.WaitForExit();
+                    }
 
-                    Console.WriteLine($"cargo machete --fix");
-                    Process.Start("cargo", "machete --fix");
+                    Console.WriteLine($"cargo machete --fix {outDir.FullName}");
+                    using (Process cargo = new Process())
+                    {
+                        cargo.StartInfo.FileName = "cargo";
+                        cargo.StartInfo.Arguments = $"machete --fix {outDir.FullName}";
+                        cargo.StartInfo.UseShellExecute = false;
+                        cargo.StartInfo.RedirectStandardOutput = true;
+                        cargo.Start();
+                        cargo.WaitForExit();
+                    }
                 }
                 catch (Win32Exception)
                 {
