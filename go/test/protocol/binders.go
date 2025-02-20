@@ -42,6 +42,7 @@ var app = protocol.Must(protocol.NewApplication())
 func NewTestingCommandInvoker(
 	client protocol.MqttClient,
 	commandName *string,
+	serializer *TestCaseSerializer,
 	requestTopic *string,
 	opt ...protocol.CommandInvokerOption,
 ) (*TestingCommandInvoker, error) {
@@ -80,8 +81,8 @@ func NewTestingCommandInvoker(
 	invoker.base, err = protocol.NewCommandInvoker(
 		app,
 		client,
-		protocol.JSON[string]{},
-		protocol.JSON[string]{},
+		serializer,
+		serializer,
 		*requestTopic,
 		&opts,
 	)
@@ -92,6 +93,7 @@ func NewTestingCommandInvoker(
 func NewTestingCommandExecutor(
 	client protocol.MqttClient,
 	commandName *string,
+	serializer *TestCaseSerializer,
 	requestTopic *string,
 	handler func(context.Context, *protocol.CommandRequest[string], *sync.Map) (*protocol.CommandResponse[string], error),
 	opt ...protocol.CommandExecutorOption,
@@ -133,8 +135,8 @@ func NewTestingCommandExecutor(
 	executor.base, err = protocol.NewCommandExecutor(
 		app,
 		client,
-		protocol.JSON[string]{},
-		protocol.JSON[string]{},
+		serializer,
+		serializer,
 		*requestTopic,
 		func(
 			ctx context.Context,
@@ -151,6 +153,7 @@ func NewTestingCommandExecutor(
 
 func NewTestingTelemetrySender(
 	client protocol.MqttClient,
+	serializer *TestCaseSerializer,
 	telemetryTopic *string,
 	opt ...protocol.TelemetrySenderOption,
 ) (*TestingTelemetrySender, error) {
@@ -177,7 +180,7 @@ func NewTestingTelemetrySender(
 	sender.base, err = protocol.NewTelemetrySender(
 		app,
 		client,
-		protocol.JSON[string]{},
+		serializer,
 		*telemetryTopic,
 		&opts,
 	)
@@ -187,6 +190,7 @@ func NewTestingTelemetrySender(
 
 func NewTestingTelemetryReceiver(
 	client protocol.MqttClient,
+	serializer *TestCaseSerializer,
 	telemetryTopic *string,
 	handler func(context.Context, *protocol.TelemetryMessage[string]) error,
 	opt ...protocol.TelemetryReceiverOption,
@@ -216,7 +220,7 @@ func NewTestingTelemetryReceiver(
 	receiver.base, err = protocol.NewTelemetryReceiver(
 		app,
 		client,
-		protocol.JSON[string]{},
+		serializer,
 		*telemetryTopic,
 		func(
 			ctx context.Context,

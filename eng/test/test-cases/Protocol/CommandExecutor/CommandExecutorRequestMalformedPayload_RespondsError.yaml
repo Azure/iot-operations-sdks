@@ -8,12 +8,11 @@ description:
 
 prologue:
   executors:
-  - { }
+  - serializer:
+      fail-deserialization: true
 
 actions:
 - action: receive request
-  payload: '{ "invalid" "json" }'
-  bypass-serialization: true
   correlation-index: 0
   packet-index: 0
 - action: await acknowledgement

@@ -42,11 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Azure.Iot.Operations.Protocol.UnitTests\Serializers\common\*.cs" />
-    <Compile Include="..\Azure.Iot.Operations.Protocol.UnitTests\Serializers\JSON\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Connection\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

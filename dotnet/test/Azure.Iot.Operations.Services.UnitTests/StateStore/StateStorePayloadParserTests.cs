@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using System.Text;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.Test.Unit.StateStore

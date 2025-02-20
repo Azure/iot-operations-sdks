@@ -3,7 +3,6 @@
 
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.Assets.UnitTests
