@@ -127,12 +127,12 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
 
                 // Update HLC and use as the timestamp.
-                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
+                await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 metadata!.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
-                applicationMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
                 if (metadata != null)
                 {
+                    // The addition of the timestamp on to user properties happen below.
                     applicationMessage.AddMetadata(metadata);
                 }
 
