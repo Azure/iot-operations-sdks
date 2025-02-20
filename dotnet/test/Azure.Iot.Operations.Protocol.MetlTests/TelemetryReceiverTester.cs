@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
@@ -16,7 +15,6 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using System.Diagnostics;
-using Azure.Iot.Operations.Mqtt.Converters;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {

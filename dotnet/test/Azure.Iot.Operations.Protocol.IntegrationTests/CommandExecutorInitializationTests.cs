@@ -11,7 +11,7 @@ public  class CommandExecutorInitializationTests
     [Fact]
     public async Task ExecutorCanBeInitializedWithoutAValidConnection()
     {
-        MQTTnet.Client.IMqttClient mqttClient = new MqttFactory().CreateMqttClient();
+        MQTTnet.IMqttClient mqttClient = new MqttClientFactory().CreateMqttClient();
         await using var orderedAckClient = new OrderedAckMqttClient(mqttClient);
         ApplicationContext applicationContext = new ApplicationContext();
         GreeterService greeterService = new(applicationContext, orderedAckClient);
