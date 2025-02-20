@@ -37,6 +37,15 @@ internal class Program
             description: "Directory for receiving generated code")
             { ArgumentHelpName = "DIRPATH" };
 
+        var namespaceOption = new Option<string?>(
+            name: "--namespace",
+#if DEBUG
+            description: "Namespace for generated code (overrides namespace from model or annex file; required if no model or annex file)")
+#else
+            description: "Namespace for generated code (overrides namespace from model)")
+#endif
+        { ArgumentHelpName = "NAMESPACE" };
+
 #if DEBUG
         var syncOption = new Option<bool>(
             name: "--sync",
@@ -73,6 +82,7 @@ internal class Program
             dmrRootOption,
             workingDirOption,
             outDirOption,
+            namespaceOption,
 #if DEBUG
             syncOption,
             sdkPathOption,
@@ -89,6 +99,7 @@ internal class Program
             dmrRootOption,
             workingDirOption,
             outDirOption,
+            namespaceOption,
 #if DEBUG
             syncOption,
             sdkPathOption,

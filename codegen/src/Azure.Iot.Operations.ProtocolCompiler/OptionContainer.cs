@@ -28,6 +28,9 @@
         /// <summary>Gets or sets an indication of whether to generate synchronous API.</summary>
         public bool Sync { get; set; }
 
+        /// <summary>Gets or sets a namespace for generated code.</summary>
+        public string? GenNamespace { get; set; }
+
         /// <summary>Gets or sets a local path or feed URL for Azure.Iot.Operations.Protocol SDK.</summary>
         public string? SdkPath { get; set; }
 
