@@ -5,10 +5,11 @@ using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.Telemetry;
+using Azure.Iot.Operations.Protocol;
 
 namespace CounterServer;
 
-public class CounterService(MqttSessionClient mqttClient, ILogger<CounterService> logger) : Counter.Service(mqttClient)
+public class CounterService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<CounterService> logger) : Counter.Service(applicationContext, mqttClient)
 {
     int counter = 0;
 

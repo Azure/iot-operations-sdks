@@ -48,11 +48,12 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: 1.22.4
-
-    - name: Setup .NET
+        
+    # This pipeline builds and runs the faultable MQTT broker project which is written in .NET
+    - name: Setup .NET 9
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.301
+        dotnet-version: 9.0.200
 
     - name: Setup cluster
       run: |

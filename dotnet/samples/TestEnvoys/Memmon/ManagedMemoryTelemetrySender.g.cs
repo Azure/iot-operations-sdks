@@ -38,8 +38,8 @@ namespace TestEnvoys.Memmon
             /// <summary>
             /// Initializes a new instance of the <see cref="ManagedMemoryTelemetrySender"/> class.
             /// </summary>
-            public ManagedMemoryTelemetrySender(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "managedMemory", new AvroSerializer<ManagedMemoryTelemetry, EmptyAvro>())
+            public ManagedMemoryTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "managedMemory", new AvroSerializer<ManagedMemoryTelemetry, EmptyAvro>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

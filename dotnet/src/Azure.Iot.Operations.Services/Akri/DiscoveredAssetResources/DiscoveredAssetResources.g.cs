@@ -22,17 +22,19 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         [ServiceGroupId("MyServiceGroup")]
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly CreateDiscoveredAssetEndpointProfileCommandExecutor createDiscoveredAssetEndpointProfileCommandExecutor;
             private readonly CreateDiscoveredAssetCommandExecutor createDiscoveredAssetCommandExecutor;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }
@@ -94,17 +96,19 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
 
         public abstract partial class Client : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly CreateDiscoveredAssetEndpointProfileCommandInvoker createDiscoveredAssetEndpointProfileCommandInvoker;
             private readonly CreateDiscoveredAssetCommandInvoker createDiscoveredAssetCommandInvoker;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandInvoker CreateDiscoveredAssetEndpointProfileCommandInvoker { get => this.createDiscoveredAssetEndpointProfileCommandInvoker; }

@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private Task _expiryTask;
         private bool _isMaintenanceActive;
 
-        private int _aggregateStorageSize;
+        private long _aggregateStorageSize;
         private readonly Dictionary<FullCorrelationId, RequestResponse> _requestResponseCache;
         private readonly PriorityQueue<FullCorrelationId, double> _costBenefitQueue; // may refer to entries that have already been removed via expiry
         private readonly PriorityQueue<FullCorrelationId, DateTime> _dedupQueue; // may refer to entries that have already been removed via eviction
@@ -63,14 +64,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public int FixedProcessingOverheadMillis { get; set; } = 10;
 
-        public virtual double CostWeightedBenefit(byte[]? requestPayload, MqttApplicationMessage responseMessage, TimeSpan executionDuration)
+        public virtual double CostWeightedBenefit(ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, TimeSpan executionDuration)
         {
             double executionBypassBenefit = FixedProcessingOverheadMillis + executionDuration.TotalMilliseconds;
-            double storageCost = UnitStorageOverheadBytes + (requestPayload?.Length ?? 0) + (responseMessage.PayloadSegment.Array?.Length ?? 0);
+            double storageCost = UnitStorageOverheadBytes + (requestPayload.Length) + (responseMessage.Payload.Length);
             return executionBypassBenefit / storageCost;
         }
 
-        public async Task StoreAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
+        public async Task StoreAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
         {
             if (!_isMaintenanceActive)
             {
@@ -108,7 +109,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             bool isDedupMandatory = !isIdempotent;
-            double dedupBenefit = CostWeightedBenefit(null, responseMessage, executionDuration);
+            double dedupBenefit = CostWeightedBenefit(ReadOnlySequence<byte>.Empty, responseMessage, executionDuration);
             double reuseBenefit = CostWeightedBenefit(requestPayload, responseMessage, executionDuration);
 
             double effectiveBenefit = dedupBenefit;
@@ -133,7 +134,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             _expireEvent.Set();
         }
 
-        public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
+        public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
         {
             Task<MqttApplicationMessage>? responseTask = null;
             await _semaphore.WaitAsync().ConfigureAwait(false);
@@ -282,19 +283,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private class FullRequest(string commandName, string invokerId, byte[] payload)
+        private class FullRequest(string commandName, string invokerId, ReadOnlySequence<byte> payload)
         {
             public string CommandName = commandName;
 
             public string InvokerId = invokerId;
 
-            public byte[] Payload = payload ?? [];
+            public ReadOnlySequence<byte> Payload = payload;
 
             public override bool Equals(object? obj)
             {
                 return obj != null
-&& obj is FullRequest other
-&& CommandName == other.CommandName && InvokerId == other.InvokerId && Payload.SequenceEqual(other.Payload);
+                    && obj is FullRequest other
+                    && CommandName == other.CommandName && InvokerId == other.InvokerId && Payload.ToArray().SequenceEqual(other.Payload.ToArray());
             }
 
             public override int GetHashCode()
@@ -304,12 +305,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     int hash = 0;
                     hash = 131 * hash + CommandName.GetHashCode();
                     hash = 131 * hash + InvokerId.GetHashCode();
-                    hash = 131 * hash + ((IStructuralEquatable)Payload).GetHashCode(EqualityComparer<byte>.Default);
+                    hash = 131 * hash + ((IStructuralEquatable)Payload.ToArray()).GetHashCode(EqualityComparer<byte>.Default);
                     return hash;
                 }
             }
 
-            public int Size => CommandName.Length + InvokerId.Length + Payload.Length;
+            public long Size => CommandName.Length + InvokerId.Length + Payload.Length;
         }
 
         private record RequestResponse
@@ -326,7 +327,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             public double DeferredBenefit { get; set; }
 
-            public int Size => Response.Task.Status == TaskStatus.RanToCompletion ? (FullRequest?.Size ?? 0) + (Response.Task.Result.PayloadSegment.Array?.Length ?? 0) : 0;
+            public long Size => Response.Task.Status == TaskStatus.RanToCompletion ? (FullRequest?.Size ?? 0) + (Response.Task.Result.Payload.Length) : 0;
         }
 
         private record ReuseReference

@@ -14,6 +14,7 @@
         private readonly Option<string?> dmrRoot;
         private readonly Option<string?> workingDir;
         private readonly Option<DirectoryInfo> outDir;
+        private readonly Option<string?> genNamespace;
 #if DEBUG
         private readonly Option<bool> sync;
         private readonly Option<string?> sdkPath;
@@ -22,6 +23,7 @@
         private readonly Option<bool> clientOnly;
         private readonly Option<bool> serverOnly;
         private readonly Option<bool> noProj;
+        private readonly Option<bool> defaultImpl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgBinder"/> class.
@@ -44,6 +46,7 @@
             Option<string?> dmrRoot,
             Option<string?> workingDir,
             Option<DirectoryInfo> outDir,
+            Option<string?> genNamespace,
 #if DEBUG
             Option<bool> sync,
             Option<string?> sdkPath,
@@ -51,13 +54,15 @@
             Option<string> lang,
             Option<bool> clientOnly,
             Option<bool> serverOnly,
-            Option<bool> noProj)
+            Option<bool> noProj,
+            Option<bool> defaultImpl)
         {
             this.modelFile = modelFile;
             this.modelId = modelId;
             this.dmrRoot = dmrRoot;
             this.workingDir = workingDir;
             this.outDir = outDir;
+            this.genNamespace = genNamespace;
 #if DEBUG
             this.sync = sync;
             this.sdkPath = sdkPath;
@@ -66,6 +71,7 @@
             this.clientOnly = clientOnly;
             this.serverOnly = serverOnly;
             this.noProj = noProj;
+            this.defaultImpl = defaultImpl;
         }
 
         /// <inheritdoc/>
@@ -77,6 +83,7 @@
                 DmrRoot = bindingContext.ParseResult.GetValueForOption(this.dmrRoot),
                 WorkingDir = bindingContext.ParseResult.GetValueForOption(this.workingDir),
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
+                GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
 #if DEBUG
                 Sync = bindingContext.ParseResult.GetValueForOption(this.sync),
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),
@@ -88,6 +95,7 @@
                 ClientOnly = bindingContext.ParseResult.GetValueForOption(this.clientOnly),
                 ServerOnly = bindingContext.ParseResult.GetValueForOption(this.serverOnly),
                 NoProj = bindingContext.ParseResult.GetValueForOption(this.noProj),
+                DefaultImpl = bindingContext.ParseResult.GetValueForOption(this.defaultImpl),
             };
     }
 }

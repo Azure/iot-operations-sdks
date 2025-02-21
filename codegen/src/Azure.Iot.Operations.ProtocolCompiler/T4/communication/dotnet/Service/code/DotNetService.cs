@@ -20,6 +20,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly bool syncApi;
         private readonly bool generateClient;
         private readonly bool generateServer;
+        private readonly bool defaultImpl;
 
         public DotNetService(
             string projectName,
@@ -38,7 +39,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             bool doesTelemetryTargetService,
             bool syncApi,
             bool generateClient,
-            bool generateServer)
+            bool generateServer,
+            bool defaultImpl)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -57,6 +59,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.syncApi = syncApi;
             this.generateClient = generateClient;
             this.generateServer = generateServer;
+            this.defaultImpl = defaultImpl;
         }
 
         public string FileName { get => $"{this.serviceName.GetFileName(TargetLanguage.CSharp)}.g.cs"; }

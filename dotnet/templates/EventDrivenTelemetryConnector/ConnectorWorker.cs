@@ -15,12 +15,14 @@ namespace EventDrivenTelemetryConnector
         /// <summary>
         /// Construct a new event-driven connector worker.
         /// </summary>
+        /// <param name="applicationContext">The per session application context containing shared resources.</param>
         /// <param name="logger">The logger to use in this layer.</param>
         /// <param name="connectorLogger">The logger to use in the connector layer.</param>
         /// <param name="mqttClient">The MQTT client that the connector layer will use to connect to the broker and forward telemetry.</param>
         /// <param name="messageSchemaProviderFactory">The provider for any message schemas to associate with events forwarded as telemetry messages to the MQTT broker</param>
         /// <param name="assetMonitor">The asset monitor.</param>
         public ConnectorWorker(
+            ApplicationContext applicationContext,
             ILogger<ConnectorWorker> logger,
             ILogger<TelemetryConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
@@ -28,7 +30,7 @@ namespace EventDrivenTelemetryConnector
             IAssetMonitor assetMonitor)
         {
             _logger = logger;
-            _connector = new(connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
+            _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
             _connector.OnAssetAvailable += OnAssetAvailableAsync;
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }

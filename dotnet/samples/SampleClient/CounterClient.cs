@@ -8,9 +8,9 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 
 namespace SampleClient;
 
-internal class CounterClient(IMqttPubSubClient mqttClient) : Counter.Client(mqttClient)
+internal class CounterClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : Counter.Client(applicationContext, mqttClient)
 {
-    public static Func<IServiceProvider, CounterClient> Factory = service => new CounterClient(service.GetService<MqttSessionClient>()!);
+    public static Func<IServiceProvider, CounterClient> Factory = service => new CounterClient(service.GetRequiredService<ApplicationContext>(), service.GetService<MqttSessionClient>()!);
 
     public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
