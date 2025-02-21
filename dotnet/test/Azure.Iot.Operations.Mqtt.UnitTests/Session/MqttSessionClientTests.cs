@@ -41,11 +41,11 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                             ReasonCode = unsuccessfulConnectReasonCode,
                         };
 
-                        return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                        return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
                     }
                     else
                     {
-                        return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                        return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                     }
                 };
 
@@ -75,11 +75,11 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         ReasonCode = unsuccessfulConnectReasonCode,
                     };
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -104,7 +104,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulButRetriableDisconnectReasons))]
-        public async Task MqttSessionClient_DisconnectHandlerRetriesOnExpectedUnsuccessfulDisconnectReasons(MQTTnet.Client.MqttClientDisconnectReason disconnectReason)
+        public async Task MqttSessionClient_DisconnectHandlerRetriesOnExpectedUnsuccessfulDisconnectReasons(MQTTnet.MqttClientDisconnectReason disconnectReason)
         {
             using MockMqttClient mockClient = new MockMqttClient();
 
@@ -113,12 +113,12 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             {
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
                     onReconnected.TrySetResult();
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -146,9 +146,9 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulAndUnretriableDisconnectReasons))]
-        public async Task MqttSessionClient_DisconnectHandlerDoesNotRetryOnFatalDisconnectReasons(MQTTnet.Client.MqttClientDisconnectReason disconnectReason)
+        public async Task MqttSessionClient_DisconnectHandlerDoesNotRetryOnFatalDisconnectReasons(MQTTnet.MqttClientDisconnectReason disconnectReason)
         {
-            if (disconnectReason == MQTTnet.Client.MqttClientDisconnectReason.BadAuthenticationMethod)
+            if (disconnectReason == MQTTnet.MqttClientDisconnectReason.BadAuthenticationMethod)
             {
                 // MQTTnet erroneously defines this as a disconnect code even though it is only a connect code. Our SDK
                 // doesn't handle this erroneous disconnect code, so skip this test
@@ -162,12 +162,12 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             {
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
                     reconnectionAttempted = true;
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -204,7 +204,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             {
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
@@ -230,7 +230,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     }
 
                     onReconnected.TrySetResult();
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -245,7 +245,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             try
             {
                 await sessionClient.ConnectAsync(GetClientOptions());
-                await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception("Some transient network error"), MQTTnet.Client.MqttClientDisconnectReason.NormalDisconnection);
+                await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception("Some transient network error"), MQTTnet.MqttClientDisconnectReason.NormalDisconnection);
 
                 await onReconnected.Task.WaitAsync(TimeSpan.FromSeconds(30));
                 Assert.False(sessionLost);
@@ -268,7 +268,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 // Allow the initial connect to succeed but reject any reconnection attempts
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
@@ -291,7 +291,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             await using MqttSessionClient sessionClient = new(mockClient);
 
             await sessionClient.ConnectAsync(GetClientOptions());
-            await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception("Some transient network error"), MQTTnet.Client.MqttClientDisconnectReason.NormalDisconnection);
+            await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception("Some transient network error"), MQTTnet.MqttClientDisconnectReason.NormalDisconnection);
             await sessionClient.DisconnectAsync();
 
             // It may take a second or two for the last retry attempt to be cancelled, so don't start
@@ -760,7 +760,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         OnReconnectComplete.TrySetResult();
                     });
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResult());
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResult());
                 };
 
                 MQTTnet.MqttApplicationMessage message = new MQTTnet.MqttApplicationMessageBuilder()
@@ -841,7 +841,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         OnReconnectComplete.TrySetResult();
                     });
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResult());
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResult());
                 };
 
                 MQTTnet.MqttApplicationMessage message1 = new MQTTnet.MqttApplicationMessageBuilder()
@@ -910,7 +910,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 mockClient.OnPublishAttempt += async (args) =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(10));
-                    return new MQTTnet.Client.MqttClientPublishResult(0, MQTTnet.Client.MqttClientPublishReasonCode.Success, string.Empty, null);
+                    return new MQTTnet.MqttClientPublishResult(0, MQTTnet.MqttClientPublishReasonCode.Success, string.Empty, null);
                 };
 
                 MqttApplicationMessage msg = new MqttApplicationMessage("some/topic");
@@ -944,7 +944,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 mockClient.OnPublishAttempt += async (args) =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(10));
-                    return new MQTTnet.Client.MqttClientPublishResult(0, MQTTnet.Client.MqttClientPublishReasonCode.Success, string.Empty, null);
+                    return new MQTTnet.MqttClientPublishResult(0, MQTTnet.MqttClientPublishReasonCode.Success, string.Empty, null);
                 };
 
                 MqttApplicationMessage msg = new MqttApplicationMessage("some/topic");
@@ -981,7 +981,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await Task.Delay(TimeSpan.FromSeconds(10));
 
                     // This isn't a valid returned SUBACK, but the test doesn't need it to be since this isn't checked
-                    return new MQTTnet.Client.MqttClientSubscribeResult(0, new List<MQTTnet.Client.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
+                    return new MQTTnet.MqttClientSubscribeResult(0, new List<MQTTnet.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
                 };
 
                 MqttClientSubscribeOptions subscribe = new MqttClientSubscribeOptions("some/topic");
@@ -1017,7 +1017,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await Task.Delay(TimeSpan.FromSeconds(10));
 
                     // This isn't a valid returned SUBACK, but the test doesn't need it to be since this isn't checked
-                    return new MQTTnet.Client.MqttClientSubscribeResult(0, new List<MQTTnet.Client.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
+                    return new MQTTnet.MqttClientSubscribeResult(0, new List<MQTTnet.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
                 };
 
                 MqttClientSubscribeOptions subscribe = new MqttClientSubscribeOptions("some/topic");
@@ -1054,7 +1054,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await Task.Delay(TimeSpan.FromSeconds(10));
 
                     // This isn't a valid returned UNSUBACK, but the test doesn't need it to be since this isn't checked
-                    return new MQTTnet.Client.MqttClientUnsubscribeResult(0, new List<MQTTnet.Client.MqttClientUnsubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
+                    return new MQTTnet.MqttClientUnsubscribeResult(0, new List<MQTTnet.MqttClientUnsubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
                 };
 
                 MqttClientUnsubscribeOptions unsubscribe = new MqttClientUnsubscribeOptions("some/topic");
@@ -1090,7 +1090,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await Task.Delay(TimeSpan.FromSeconds(10));
 
                     // This isn't a valid returned UNSUBACK, but the test doesn't need it to be since this isn't checked
-                    return new MQTTnet.Client.MqttClientUnsubscribeResult(0, new List<MQTTnet.Client.MqttClientUnsubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
+                    return new MQTTnet.MqttClientUnsubscribeResult(0, new List<MQTTnet.MqttClientUnsubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>());
                 };
 
                 MqttClientUnsubscribeOptions unsubscribe = new MqttClientUnsubscribeOptions("some/topic");
@@ -1182,7 +1182,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulAndUnretriablePubackCodesClassData))]
-        public async Task MqttSessionClient_PublishReportsNonSuccessfulPubackResultCode(MQTTnet.Client.MqttClientPublishReasonCode reasonCode)
+        public async Task MqttSessionClient_PublishReportsNonSuccessfulPubackResultCode(MQTTnet.MqttClientPublishReasonCode reasonCode)
         {
             using MockMqttClient mockClient = new MockMqttClient();
             await using MqttSessionClient sessionClient = new(mockClient);
@@ -1197,18 +1197,18 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     attemptNumber++;
                     if (attemptNumber > 1)
                     {
-                        return Task.FromResult(new MQTTnet.Client.MqttClientPublishResult(0, MQTTnet.Client.MqttClientPublishReasonCode.Success, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+                        return Task.FromResult(new MQTTnet.MqttClientPublishResult(0, MQTTnet.MqttClientPublishReasonCode.Success, "", new List<MQTTnet.Packets.MqttUserProperty>()));
                     }
                     else
                     {
-                        return Task.FromResult(new MQTTnet.Client.MqttClientPublishResult(0, reasonCode, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+                        return Task.FromResult(new MQTTnet.MqttClientPublishResult(0, reasonCode, "", new List<MQTTnet.Packets.MqttUserProperty>()));
                     }
                 };
 
                 MqttApplicationMessage msg = new MqttApplicationMessage("some/topic");
 
                 MqttClientPublishResult result = await sessionClient.PublishAsync(msg).WaitAsync(TimeSpan.FromSeconds(30));
-                Assert.Equal(reasonCode, (MQTTnet.Client.MqttClientPublishReasonCode)result.ReasonCode);
+                Assert.Equal(reasonCode, (MQTTnet.MqttClientPublishReasonCode)result.ReasonCode);
             }
             finally
             {
@@ -1218,7 +1218,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulAndUnretriableSubackCodesClassData))]
-        public async Task MqttSessionClient_SubscribeReportsNonSuccessfulSubackResultCode(MQTTnet.Client.MqttClientSubscribeResultCode reasonCode)
+        public async Task MqttSessionClient_SubscribeReportsNonSuccessfulSubackResultCode(MQTTnet.MqttClientSubscribeResultCode reasonCode)
         {
             using MockMqttClient mockClient = new MockMqttClient();
             await using MqttSessionClient sessionClient = new(mockClient);
@@ -1231,22 +1231,22 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 {
                     // The client should not actually retry here, so this logic should help catch if it does retry.
                     attemptNumber++;
-                    var subscribeResultItems = new List<MQTTnet.Client.MqttClientSubscribeResultItem>();
+                    var subscribeResultItems = new List<MQTTnet.MqttClientSubscribeResultItem>();
 
                     if (attemptNumber > 1)
                     {
                         subscribeResultItems.Add(
-                            new MQTTnet.Client.MqttClientSubscribeResultItem(
+                            new MQTTnet.MqttClientSubscribeResultItem(
                                 new MQTTnet.MqttTopicFilterBuilder()
                                     .WithTopic(args.TopicFilters.First().Topic)
                                     .WithQualityOfServiceLevel(args.TopicFilters.First().QualityOfServiceLevel)
                                     .Build(),
-                                MQTTnet.Client.MqttClientSubscribeResultCode.GrantedQoS1));
+                                MQTTnet.MqttClientSubscribeResultCode.GrantedQoS1));
                     }
                     else
                     {
                         subscribeResultItems.Add(
-                            new MQTTnet.Client.MqttClientSubscribeResultItem(
+                            new MQTTnet.MqttClientSubscribeResultItem(
                                 new MQTTnet.MqttTopicFilterBuilder()
                                     .WithTopic(args.TopicFilters.First().Topic)
                                     .WithQualityOfServiceLevel(args.TopicFilters.First().QualityOfServiceLevel)
@@ -1254,14 +1254,14 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                                 reasonCode));
                     }
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientSubscribeResult(0, subscribeResultItems, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+                    return Task.FromResult(new MQTTnet.MqttClientSubscribeResult(0, subscribeResultItems, "", new List<MQTTnet.Packets.MqttUserProperty>()));
                 };
 
                 MqttClientSubscribeOptions subscribe = new MqttClientSubscribeOptions("some/Topic", MqttQualityOfServiceLevel.AtLeastOnce);
 
                 MqttClientSubscribeResult result = await sessionClient.SubscribeAsync(subscribe).WaitAsync(TimeSpan.FromSeconds(30));
                 Assert.Single(result.Items);
-                Assert.Equal(reasonCode, (MQTTnet.Client.MqttClientSubscribeResultCode)result.Items.First().ReasonCode);
+                Assert.Equal(reasonCode, (MQTTnet.MqttClientSubscribeResultCode)result.Items.First().ReasonCode);
             }
             finally
             {
@@ -1271,7 +1271,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulAndUnretriableUnsubackCodesClassData))]
-        public async Task MqttSessionClient_UnubscribeReportsNonSuccessfulUnsubackResultCode(MQTTnet.Client.MqttClientUnsubscribeResultCode reasonCode)
+        public async Task MqttSessionClient_UnubscribeReportsNonSuccessfulUnsubackResultCode(MQTTnet.MqttClientUnsubscribeResultCode reasonCode)
         {
             using MockMqttClient mockClient = new MockMqttClient();
             await using MqttSessionClient sessionClient = new(mockClient);
@@ -1284,27 +1284,27 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 {
                     // The client should not actually retry here, so this logic should help catch if it does retry.
                     attemptNumber++;
-                    var unsubscribeResultItems = new List<MQTTnet.Client.MqttClientUnsubscribeResultItem>();
+                    var unsubscribeResultItems = new List<MQTTnet.MqttClientUnsubscribeResultItem>();
 
                     if (attemptNumber > 1)
                     {
                         unsubscribeResultItems.Add(
-                            new MQTTnet.Client.MqttClientUnsubscribeResultItem(args.TopicFilters.First(), MQTTnet.Client.MqttClientUnsubscribeResultCode.Success));
+                            new MQTTnet.MqttClientUnsubscribeResultItem(args.TopicFilters.First(), MQTTnet.MqttClientUnsubscribeResultCode.Success));
                     }
                     else
                     {
                         unsubscribeResultItems.Add(
-                            new MQTTnet.Client.MqttClientUnsubscribeResultItem(args.TopicFilters.First(), reasonCode));
+                            new MQTTnet.MqttClientUnsubscribeResultItem(args.TopicFilters.First(), reasonCode));
                     }
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientUnsubscribeResult(0, unsubscribeResultItems, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+                    return Task.FromResult(new MQTTnet.MqttClientUnsubscribeResult(0, unsubscribeResultItems, "", new List<MQTTnet.Packets.MqttUserProperty>()));
                 };
 
                 MqttClientUnsubscribeOptions unsubscribe = new MqttClientUnsubscribeOptions("some/Topic");
 
                 MqttClientUnsubscribeResult result = await sessionClient.UnsubscribeAsync(unsubscribe).WaitAsync(TimeSpan.FromSeconds(30));
                 Assert.Single(result.Items);
-                Assert.Equal(reasonCode, (MQTTnet.Client.MqttClientUnsubscribeResultCode)result.Items.First().ReasonCode);
+                Assert.Equal(reasonCode, (MQTTnet.MqttClientUnsubscribeResultCode)result.Items.First().ReasonCode);
             }
             finally
             {
@@ -1338,7 +1338,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 mockClient.OnConnectAttempt += (args) =>
                 {
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -1385,7 +1385,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 {
                     connectAttemptsMade++;
                     // All reconnect attempts will result in an unsuccessful CONNACK so that the retry policy eventually ends
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 TaskCompletionSource<MqttClientDisconnectedEventArgs> disconnectArgsTcs = new();
@@ -1530,7 +1530,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         cts.Cancel();
                     }
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 await Assert.ThrowsAsync<OperationCanceledException>(
@@ -1587,7 +1587,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         reconnectOccurred.TrySetResult();
                     }
 
-                    return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 var certificateProvider = new TestCertificateProvider(mockCertificate1);
@@ -1745,7 +1745,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     AssignedClientIdentifier = expectedClientId,
                 };
 
-                return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
             };
 
             try
@@ -1800,7 +1800,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await requestEnqueued.Task;
 
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
+                    return new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -1875,7 +1875,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await requestEnqueued.Task;
 
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
+                    return new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -1950,7 +1950,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await requestEnqueued.Task;
 
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
+                    return new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -2306,12 +2306,12 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             mockMqttClient.OnConnectAttempt += (actualConnect) =>
             {
                 reconnectAttemptNumber++;
-                return Task.FromResult(new MQTTnet.Client.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
             };
 
             Exception someDisconnectException = new();
-            _ = mockMqttClient.SimulateServerInitiatedDisconnectAsync(someDisconnectException, MQTTnet.Client.MqttClientDisconnectReason.UnspecifiedError);
-            _ = mockMqttClient.SimulateServerInitiatedDisconnectAsync(someDisconnectException, MQTTnet.Client.MqttClientDisconnectReason.UnspecifiedError);
+            _ = mockMqttClient.SimulateServerInitiatedDisconnectAsync(someDisconnectException, MQTTnet.MqttClientDisconnectReason.UnspecifiedError);
+            _ = mockMqttClient.SimulateServerInitiatedDisconnectAsync(someDisconnectException, MQTTnet.MqttClientDisconnectReason.UnspecifiedError);
 
             // Once this returns, the reconnection should have finished
             await sessionClient.PublishAsync(new MqttApplicationMessage("some/topic")).WaitAsync(TimeSpan.FromSeconds(30));

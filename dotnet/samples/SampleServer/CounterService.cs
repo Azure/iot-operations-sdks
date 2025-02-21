@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.Counter;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleServer;
 
@@ -11,7 +12,7 @@ public class CounterService : Counter.Service
 {
     int _counter = 0;
 
-    public CounterService(MqttSessionClient mqttClient) : base(mqttClient) { }
+    public CounterService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient) { }
 
     public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {

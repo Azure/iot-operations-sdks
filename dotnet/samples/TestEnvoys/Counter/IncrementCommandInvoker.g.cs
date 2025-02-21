@@ -39,8 +39,8 @@ namespace TestEnvoys.Counter
             /// <summary>
             /// Initializes a new instance of the <see cref="IncrementCommandInvoker"/> class.
             /// </summary>
-            public IncrementCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "increment", new Utf8JsonSerializer())
+            public IncrementCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "increment", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

@@ -6,6 +6,7 @@
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 {
     using System;
+    using System.Buffers;
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Protocol;
@@ -31,7 +32,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             if (contentType != null && contentType != ContentType)
@@ -49,7 +50,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
 
             try
             {
-                if (payload == null || payload.Length == 0)
+                if (payload.IsEmpty)
                 {
                     if (typeof(T) != typeof(EmptyJson))
                     {
@@ -75,10 +76,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return new(null, null, 0);
+                    return new(ReadOnlySequence<byte>.Empty, null, 0);
                 }
 
-                return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);
+                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {

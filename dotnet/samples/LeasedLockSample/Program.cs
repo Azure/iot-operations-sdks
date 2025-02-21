@@ -16,7 +16,7 @@ internal sealed class Program
     private static void Main()
     {
         using CancellationTokenSource cts = new CancellationTokenSource();
-
+        ApplicationContext applicationContext = new ApplicationContext();
         Task.Run(
             () =>
             {
@@ -32,16 +32,16 @@ internal sealed class Program
             }
         );
 
-        RunSampleAsync(cts.Token).Wait();
+        RunSampleAsync(applicationContext, cts.Token).Wait();
     }
 
-    private static async Task RunSampleAsync(CancellationToken cancellationToken)
+    private static async Task RunSampleAsync(ApplicationContext applicationContext, CancellationToken cancellationToken)
     {
         await using MqttSessionClient mqttClient = new MqttSessionClient();
         await mqttClient.ConnectAsync(new MqttConnectionSettings("localhost") { TcpPort = 1883, UseTls = false, ClientId = "someClientId" });
 
-        await using LeasedLockClient leasedLockClient = new LeasedLockClient(mqttClient, "someLock");
-        await using StateStoreClient stateStoreClient = new StateStoreClient(mqttClient);
+        await using LeasedLockClient leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, "someLock");
+        await using StateStoreClient stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
 
         bool sharedResourceChanged = false;
         while (!sharedResourceChanged)

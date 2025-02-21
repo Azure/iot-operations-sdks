@@ -6,6 +6,7 @@
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
 {
     using System;
+    using System.Buffers;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Models;
 
@@ -15,16 +16,16 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
 
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
-            if (payload == null)
+            if (payload.IsEmpty)
             {
                 return (Array.Empty<byte>() as T)!;
             }
             else if (typeof(T) == typeof(byte[]))
             {
-                return (payload as T)!;
+                return (payload.ToArray() as T)!;
             }
             else
             {
@@ -37,11 +38,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.raw
         {
             if (payload is byte[] payload1)
             {
-                return new(payload1, ContentType, PayloadFormatIndicator);
+                return new(new(payload1), ContentType, PayloadFormatIndicator);
             }
             else
             {
-                return new(Array.Empty<byte>(), ContentType, PayloadFormatIndicator);
+                return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
             }
         }
     }
