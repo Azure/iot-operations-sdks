@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 using MQTTnet;
-using MQTTnet;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Tomlyn;

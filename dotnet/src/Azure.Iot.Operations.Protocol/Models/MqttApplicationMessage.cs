@@ -150,9 +150,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public string? ConvertPayloadToString()
         {
-            return Payload.Length == 0
-                ? null
-                : Payload.ToArray() == null
+            return Payload.IsEmpty
                 ? null
                 : Encoding.UTF8.GetString(Payload.ToArray());
         }

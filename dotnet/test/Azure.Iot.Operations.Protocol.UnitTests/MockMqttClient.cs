@@ -3,8 +3,6 @@
 
 using System.Buffers;
 using MQTTnet;
-using MQTTnet;
-using MQTTnet.Diagnostics;
 using MQTTnet.Diagnostics.PacketInspection;
 using MQTTnet.Formatter;
 using MQTTnet.Packets;

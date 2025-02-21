@@ -48,7 +48,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public MQTTnet.IMqttClient UnderlyingMqttClient { get; }
 
     /// <inheritdoc/>
-    public string? ClientId => UnderlyingMqttClient.Options == null ? null : UnderlyingMqttClient.Options.ClientId;
+    public string? ClientId => UnderlyingMqttClient.Options?.ClientId;
 
     /// <inheritdoc/>
     public MqttProtocolVersion ProtocolVersion => (MqttProtocolVersion)((int) UnderlyingMqttClient.Options.ProtocolVersion);
