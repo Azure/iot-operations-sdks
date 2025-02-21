@@ -38,7 +38,7 @@ impl CountdownEventMap {
     pub async fn wait_timeout(&self, key: &str, deadline: Duration) -> Result<(), ()> {
         let (_, notify) = &*self.events.get(key).unwrap().clone();
 
-        if let Err(_) = timeout(deadline, notify.notified()).await {
+        if timeout(deadline, notify.notified()).await.is_err() {
             return Err(());
         }
 
