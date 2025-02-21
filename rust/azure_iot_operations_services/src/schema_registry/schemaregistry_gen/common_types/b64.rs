@@ -6,7 +6,7 @@ use base64::prelude::*;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 
 #[derive(Clone, Debug)]
-pub struct Bytes(Vec<u8>);
+pub struct Bytes(pub Vec<u8>);
 
 impl Deref for Bytes {
     type Target = Vec<u8>;
