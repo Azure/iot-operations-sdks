@@ -114,7 +114,7 @@
                     TypesGenerator.GenerateType(options.Lang, LanguageInfos[options.Lang].Language, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, options.OutDir, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, !options.NoProj, sourceFilePaths, distinctSchemaKinds);
+                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, options.OutDir, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, options.DefaultImpl, !options.NoProj, sourceFilePaths, distinctSchemaKinds);
             }
             catch (Exception ex)
             {
