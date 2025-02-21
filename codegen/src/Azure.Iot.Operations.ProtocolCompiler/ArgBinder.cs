@@ -14,6 +14,7 @@
         private readonly Option<string?> dmrRoot;
         private readonly Option<string?> workingDir;
         private readonly Option<DirectoryInfo> outDir;
+        private readonly Option<string?> genNamespace;
 #if DEBUG
         private readonly Option<bool> sync;
         private readonly Option<string?> sdkPath;
@@ -45,6 +46,7 @@
             Option<string?> dmrRoot,
             Option<string?> workingDir,
             Option<DirectoryInfo> outDir,
+            Option<string?> genNamespace,
 #if DEBUG
             Option<bool> sync,
             Option<string?> sdkPath,
@@ -60,6 +62,7 @@
             this.dmrRoot = dmrRoot;
             this.workingDir = workingDir;
             this.outDir = outDir;
+            this.genNamespace = genNamespace;
 #if DEBUG
             this.sync = sync;
             this.sdkPath = sdkPath;
@@ -80,6 +83,7 @@
                 DmrRoot = bindingContext.ParseResult.GetValueForOption(this.dmrRoot),
                 WorkingDir = bindingContext.ParseResult.GetValueForOption(this.workingDir),
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
+                GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
 #if DEBUG
                 Sync = bindingContext.ParseResult.GetValueForOption(this.sync),
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),

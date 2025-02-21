@@ -9,12 +9,12 @@
 
     internal class EnvoyGenerator
     {
-        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool defaultImpl, bool generateProject, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateEnvoys(string language, string projectName, string annexFileName, DirectoryInfo outDir, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool defaultImpl, bool generateProject)
         {
             string? relativeSdkPath = sdkPath == null || sdkPath.StartsWith("http://") || sdkPath.StartsWith("https://") ? sdkPath : Path.GetRelativePath(outDir.FullName, sdkPath);
             using (JsonDocument annexDoc = JsonDocument.Parse(File.OpenText(Path.Combine(workingDir.FullName, genNamespace.GetFolderName(TargetLanguage.Independent), annexFileName)).ReadToEnd()))
             {
-                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, defaultImpl, sourceFilePaths, distinctSchemaKinds, genRoot, generateProject))
+                foreach (ITemplateTransform templateTransform in EnvoyTransformFactory.GetTransforms(language, projectName, annexDoc, workingDir.FullName, relativeSdkPath, syncApi, generateClient, generateServer, defaultImpl, genRoot, generateProject))
                 {
                     string envoyFilePath = Path.Combine(genRoot, templateTransform.FolderPath, templateTransform.FileName);
                     if (templateTransform is IUpdatingTransform updatingTransform)
@@ -45,7 +45,6 @@
 
                     File.WriteAllText(envoyFilePath, templateTransform.TransformText());
                     Console.WriteLine($"  generated {envoyFilePath}");
-                    sourceFilePaths.Add(envoyFilePath);
                 }
             }
 
@@ -54,6 +53,8 @@
                 try
                 {
                     RunCargo($"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}", display: true);
+                    RunCargo("install --locked cargo-machete", display: false);
+                    RunCargo($"machete --fix {outDir.FullName}", display: true);
                 }
                 catch (Win32Exception)
                 {
