@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -50,6 +51,7 @@ namespace Server
 
             TimeSpan interval = TimeSpan.FromSeconds(args.Length > 2 ? int.Parse(args[2], CultureInfo.InvariantCulture) : 1);
 
+            ApplicationContext appContext = new();
             MqttSessionClient mqttSessionClient = new();
 
             Console.Write($"Connecting to MQTT broker as {serverId} ... ");
@@ -62,16 +64,16 @@ namespace Server
             switch (format)
             {
                 case CommFormat.Avro:
-                    await SendAvro(mqttSessionClient, iterations, interval);
+                    await SendAvro(appContext, mqttSessionClient, iterations, interval);
                     break;
                 case CommFormat.Json:
-                    await SendJson(mqttSessionClient, iterations, interval);
+                    await SendJson(appContext, mqttSessionClient, iterations, interval);
                     break;
                 case CommFormat.Raw:
-                    await SendRaw(mqttSessionClient, iterations, interval);
+                    await SendRaw(appContext, mqttSessionClient, iterations, interval);
                     break;
                 case CommFormat.Custom:
-                    await SendCustom(mqttSessionClient, iterations, interval);
+                    await SendCustom(appContext, mqttSessionClient, iterations, interval);
                     break;
             }
 
@@ -79,9 +81,9 @@ namespace Server
             Console.WriteLine("Stopping send loop");
         }
 
-        private static async Task SendAvro(MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
+        private static async Task SendAvro(ApplicationContext appContext, MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
         {
-            AvroComm.AvroModel.AvroModel.TelemetrySender telemetrySender = new(mqttSessionClient);
+            AvroComm.AvroModel.AvroModel.TelemetrySender telemetrySender = new(appContext, mqttSessionClient);
 
             for (int i = 0; i < iterations; i++)
             {
@@ -96,16 +98,17 @@ namespace Server
                     {
                         Course = "Math",
                         Credit = new TimeSpan(i + 2, i + 1, i).ToString(),
-                    }
+                    },
+                    Data = Encoding.UTF8.GetBytes($"Sample data {i}")
                 });
 
                 await Task.Delay(interval);
             }
         }
 
-        private static async Task SendJson(MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
+        private static async Task SendJson(ApplicationContext appContext, MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
         {
-            JsonComm.JsonModel.JsonModel.TelemetrySender telemetrySender = new(mqttSessionClient);
+            JsonComm.JsonModel.JsonModel.TelemetrySender telemetrySender = new(appContext, mqttSessionClient);
 
             for (int i = 0; i < iterations; i++)
             {
@@ -120,16 +123,17 @@ namespace Server
                     {
                         Course = "Math",
                         Credit = new TimeSpan(i + 2, i + 1, i),
-                    }
+                    },
+                    Data = Encoding.UTF8.GetBytes($"Sample data {i}")
                 });
 
                 await Task.Delay(interval);
             }
         }
 
-        private static async Task SendRaw(MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
+        private static async Task SendRaw(ApplicationContext appContext, MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
         {
-            RawComm.RawModel.RawModel.TelemetrySender telemetrySender = new(mqttSessionClient);
+            RawComm.RawModel.RawModel.TelemetrySender telemetrySender = new(appContext, mqttSessionClient);
 
             for (int i = 0; i < iterations; i++)
             {
@@ -141,14 +145,14 @@ namespace Server
             }
         }
 
-        private static async Task SendCustom(MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
+        private static async Task SendCustom(ApplicationContext appContext, MqttSessionClient mqttSessionClient, int iterations, TimeSpan interval)
         {
-            CustomComm.CustomModel.CustomModel.TelemetrySender telemetrySender = new(mqttSessionClient);
+            CustomComm.CustomModel.CustomModel.TelemetrySender telemetrySender = new(appContext, mqttSessionClient);
 
             for (int i = 0; i < iterations; i++)
             {
                 Console.WriteLine($"  Sending iteration {i}");
-                byte[] payload = Encoding.UTF8.GetBytes($"Sample data {i}");
+                var payload = new ReadOnlySequence<byte>(Encoding.UTF8.GetBytes($"Sample data {i}"));
                 await telemetrySender.SendTelemetryAsync(new CustomPayload(payload, "text/csv", MqttPayloadFormatIndicator.CharacterData));
 
                 await Task.Delay(interval);
