@@ -168,7 +168,7 @@
 
         private static string LegalizeName(string fsName)
         {
-            return (char.IsNumber(fsName[0]) ? "_" : "") + Regex.Replace(fsName, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant);
+            return string.Join('.', fsName.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(s => (char.IsNumber(s[0]) ? "_" : "") + Regex.Replace(s, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant)));
         }
 
         private static void WarnOnSuspiciousOption(string optionName, string? pathName)
