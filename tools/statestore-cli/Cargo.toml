@@ -14,7 +14,7 @@ publish = true
 [dependencies]
 azure_iot_operations_protocol = { version = "0.8", path = "../../rust/azure_iot_operations_protocol", registry = "aio-sdks" }
 azure_iot_operations_mqtt = { version = "0.8", path = "../../rust/azure_iot_operations_mqtt", registry = "aio-sdks" }
-azure_iot_operations_services = { version = "0.8", path = "../../rust/azure_iot_operations_services", registry = "aio-sdks", features = ["state_store"]}
+azure_iot_operations_services = { version = "0.7", path = "../../rust/azure_iot_operations_services", registry = "aio-sdks", features = ["state_store"]}
 log = "0.4.21"
 tokio = { version = "1.41", features = ["rt", "time", "sync"] }
 clap = { version = "4.0", features = ["derive"] }
