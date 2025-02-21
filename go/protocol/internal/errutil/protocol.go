@@ -36,7 +36,8 @@ func ToUserProp(err error) map[string]string {
 					Kind:    errors.InternalLogicError,
 				},
 			},
-			name: "Error",
+			name:  e.PropertyName,
+			value: e.PropertyValue,
 		}).props()
 	}
 
