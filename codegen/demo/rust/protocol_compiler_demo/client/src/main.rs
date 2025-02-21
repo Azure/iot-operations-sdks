@@ -126,6 +126,10 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
                     println!("  Proximity: {proximity:?}");
                 }
 
+                if let Some(data) = message.payload.data {
+                    println!("  Data: {}", str::from_utf8(&data).unwrap());
+                }
+
                 println!();
             }
             Err(e) => {
@@ -182,6 +186,10 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
 
                 if let Some(proximity) = message.payload.proximity {
                     println!("  Proximity: {proximity:?}");
+                }
+
+                if let Some(data) = message.payload.data {
+                    println!("  Data: {}", str::from_utf8(&data).unwrap());
                 }
 
                 println!();
