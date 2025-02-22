@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public interface IMqttExtendedAuthenticationExchangeHandler
+    public interface IMqttEnhancedAuthenticationHandler
     {
-        Task HandleRequestAsync(MqttExtendedAuthenticationExchangeContext context);
+        Task HandleEnhancedAuthenticationAsync(MqttEnhancedAuthenticationEventArgs eventArgs);
     }
 }

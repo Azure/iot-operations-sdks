@@ -14,10 +14,10 @@ public class OrderedAckMqttClientTests
     [Fact]
     public async Task CreateWithFactoryExtension()
     {
-        await using OrderedAckMqttClient clientNoLogger = new OrderedAckMqttClient(new MQTTnet.MqttFactory().CreateMqttClient());
+        await using OrderedAckMqttClient clientNoLogger = new OrderedAckMqttClient(new MQTTnet.MqttClientFactory().CreateMqttClient());
         Assert.NotNull(clientNoLogger);
 
-        await using OrderedAckMqttClient clientWithLogger = new OrderedAckMqttClient(new MQTTnet.MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger()));
+        await using OrderedAckMqttClient clientWithLogger = new OrderedAckMqttClient(new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger()));
         Assert.NotNull(clientWithLogger);
     }
 
@@ -308,7 +308,7 @@ public class OrderedAckMqttClientTests
                     OnReconnectComplete.TrySetResult();
                 });
 
-                return Task.FromResult(new MQTTnet.Client.MqttClientConnectResult());
+                return Task.FromResult(new MQTTnet.MqttClientConnectResult());
             };
 
             TaskCompletionSource<MQTTnet.MqttApplicationMessage> firstMessageAcknowledged = new();

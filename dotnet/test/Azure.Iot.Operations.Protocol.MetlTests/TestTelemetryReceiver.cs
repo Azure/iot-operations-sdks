@@ -15,8 +15,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return await _telemetryCount.Read().ConfigureAwait(false);
         }
 
-        internal TestTelemetryReceiver(IMqttPubSubClient mqttClient, IPayloadSerializer payloadSerializer)
-            : base(mqttClient, null, payloadSerializer)
+        internal TestTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer payloadSerializer)
+            : base(applicationContext, mqttClient, null, payloadSerializer)
         {
             _telemetryCount = new(0);
         }

@@ -9,15 +9,15 @@ using System.Runtime.Serialization;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests;
 
-public class StringTelemetrySender(IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
+public class StringTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    : TelemetrySender<string>(applicationContext, mqttClient, "test", new Utf8JsonSerializer())
 { }
 
-public class FaultyTelemetrySender(IMqttPubSubClient mqttClient) : TelemetrySender<string>(mqttClient, "test", new FaultySerializer()) { }
+public class FaultyTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : TelemetrySender<string>(applicationContext, mqttClient, "test", new FaultySerializer()) { }
 
 
-public class TelemetrySenderWithCe(IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
+public class TelemetrySenderWithCE(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    : TelemetrySender<string>(applicationContext, mqttClient, "test", new Utf8JsonSerializer())
 { }
 
 public class TelemetrySenderTests
@@ -26,7 +26,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_FailsWithWrongMqttVersion()
     {
         MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V310);
-        StringTelemetrySender sender = new(mockClient)
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern"
         };
@@ -49,7 +49,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_MalformedPayloadThrowsException()
     {
         MockMqttPubSubClient mockClient = new();
-        FaultyTelemetrySender sender = new(mockClient)
+        FaultyTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern"
         };
@@ -70,7 +70,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_PubAckDropped()
     {
         MockMqttPubSubClient mockClient = new();
-        StringTelemetrySender sender = new(mockClient)
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern/dropPubAck"
         };
@@ -93,7 +93,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_ChecksCancellationToken()
     {
         MockMqttPubSubClient mockClient = new();
-        StringTelemetrySender sender = new(mockClient)
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern"
         };

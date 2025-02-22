@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Tomlyn;
@@ -15,6 +14,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Converters;
+using System.Buffers;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
@@ -329,10 +329,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
+                ApplicationContext applicationContext = new ApplicationContext();
                 TestSerializer testSerializer = new TestSerializer(testCaseExecutor.Serializer);
 
                 TestCommandExecutor commandExecutor = testCaseExecutor.CacheTtl != null ?
-                    new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!, testSerializer)
+                    new TestCommandExecutor(applicationContext, mqttClient, testCaseExecutor.CommandName!, testSerializer)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
@@ -341,7 +342,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         CacheTtl = testCaseExecutor.CacheTtl.ToTimeSpan(),
                         OnCommandReceived = null!,
                     } :
-                    new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!, testSerializer)
+                    new TestCommandExecutor(applicationContext, mqttClient, testCaseExecutor.CommandName!, testSerializer)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
@@ -575,12 +576,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.Payload == null)
             {
-                Assert.Null(appMsg.PayloadSegment.Array);
+                Assert.False(appMsg.Payload.IsEmpty);
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.NotNull(appMsg.PayloadSegment.Array);
-                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
+                Assert.False(appMsg.Payload.IsEmpty);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.Payload.ToArray()));
             }
 
             if (publishedMessage.ContentType != null)

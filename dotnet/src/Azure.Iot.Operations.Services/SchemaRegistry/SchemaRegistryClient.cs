@@ -9,10 +9,10 @@ using SchemaInfo = SchemaRegistry.Schema;
 using SchemaFormat = SchemaRegistry.Format;
 using SchemaType = SchemaRegistry.SchemaType;
 
-public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
+public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
 {
     private static readonly TimeSpan s_DefaultCommandTimeout = TimeSpan.FromSeconds(10);
-    private readonly SchemaRegistryClientStub _clientStub = new (pubSubClient);
+    private readonly SchemaRegistryClientStub _clientStub = new(applicationContext, pubSubClient);
     private bool _disposed;
 
     public async Task<SchemaInfo?> GetAsync(
@@ -39,9 +39,9 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
         string schemaContent,
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,
-        string version = "1", 
-        Dictionary<string, string>? tags = null, 
-        TimeSpan? timeout = null, 
+        string version = "1",
+        Dictionary<string, string>? tags = null,
+        TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

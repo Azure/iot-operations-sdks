@@ -77,6 +77,8 @@
                     return new LongType();
                 case "string":
                     return new StringType();
+                case "bytes":
+                    return new BytesType();
                 default:
                     throw new Exception("unrecognized schema");
             }

@@ -7,14 +7,14 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class MqttNetHandler
     {
-        private Func<MqttApplicationMessageReceivedEventArgs, Task> _genericNetFunc;
+        private readonly Func<MqttApplicationMessageReceivedEventArgs, Task> _genericNetFunc;
 
         public MqttNetHandler(Func<MqttApplicationMessageReceivedEventArgs, Task> genericFunc)
         {
             _genericNetFunc = genericFunc;
         }
 
-        public Task Handle(MQTTnet.Client.MqttApplicationMessageReceivedEventArgs args)
+        public Task Handle(MQTTnet.MqttApplicationMessageReceivedEventArgs args)
         {
             var genericArgs = 
                 MqttNetConverter.ToGeneric(
