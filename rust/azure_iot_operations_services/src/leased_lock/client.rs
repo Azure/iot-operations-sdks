@@ -18,6 +18,7 @@ use crate::state_store::{
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use crate::leased_lock::{
     Error,
+    ErrorKind,
     Response,
     LockObservation
 };
@@ -55,60 +56,80 @@ where
         })
     }
 
-    /// Attempts to set a lock key in the State Store Service
-    ///
-    /// Note: timeout refers to the duration until the State Store Client stops
-    /// waiting for a `Set` response from the Service. This value is not linked
-    /// to the key in the State Store.
-    ///
-    /// Returns `true` if completed successfully, or `false` if lock key not acquired.
+    /// Attempts to acquire a lock, returning immediately if it cannot be acquired.
+    /// 
+    /// Returns `true` if completed successfully, or `false` if lock is not acquired.
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
-    pub async fn acquire_lock(
+    ///
+    /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
+    pub async fn try_acquire_lock(
         &self,
         lock: Vec<u8>,
-        expiration: Duration,
-        timeout: Duration,
+        lock_expiration: Duration,
+        request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
-        let cloned_state_store = self.state_store.clone();
-        let locked_state_store = cloned_state_store.lock().await;
+        let locked_state_store = self.state_store.lock().await;
 
         match locked_state_store
             .set(
                 lock,
                 self.lock_holder_name.clone(),
-                timeout,
+                request_timeout,
                 None,
                 SetOptions {
                     set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-                    expires: Some(expiration)
+                    expires: Some(lock_expiration)
                 },
             )
             .await {
-                Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
+                Ok(state_store_response) => match state_store_response.response {
+                    true => Ok(Response::from_response(state_store_response)),
+                    false => Err(Error(ErrorKind::LockAlreadyInUse))
+                },
                 Err(state_store_error) => Err(state_store_error.into())
             }
     }
 
-    /// Deletes a lock key from the State Store Service if and only if requested by the lock holder (same client id).
+    /// Attempts to acquire a lock, returning immediately if it cannot be acquired.
     ///
-    /// Note: timeout refers to the duration until the State Store Client stops
-    /// waiting for the response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// Returns `true` if completed successfully, or `false` if lock is not acquired.
+    /// # Errors
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
+    ///
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    ///
+    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    ///
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    ///
+    /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
+    pub async fn acquire_lock(
+        &self,
+        _lock: Vec<u8>,
+        _lock_expiration: Duration,
+        _request_timeout: Duration,
+    ) -> Result<Response<bool>, Error> {
+        unimplemented!();
+    }
+
+    /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -118,13 +139,12 @@ where
     pub async fn release_lock(
         &self,
         key: Vec<u8>,
-        timeout: Duration,
+        request_timeout: Duration,
     ) -> Result<Response<i64>, Error> { // TODO: change this to bool? Look into how other languages are doing it.
-        let cloned_state_store = self.state_store.clone();
-        let locked_state_store = cloned_state_store.lock().await;
+        let locked_state_store = self.state_store.lock().await;
 
         let vdel_result = locked_state_store
-            .vdel(key.clone(), self.lock_holder_name.clone(), None, timeout)
+            .vdel(key.clone(), self.lock_holder_name.clone(), None, request_timeout)
             .await;
 
         match vdel_result  {
@@ -140,12 +160,7 @@ where
     ///
     /// <div class="warning">
     ///
-    /// If a client disconnects, it must resend the Observe for any keys
-    /// it needs to continue monitoring. Unlike MQTT subscriptions, which can be
-    /// persisted across a nonclean session, the state store internally removes
-    /// any key observations when a given client disconnects. This is a known
-    /// limitation of the service, see [here](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#keynotify-notification-topics-and-lifecycle)
-    /// for more information
+    /// If a client disconnects, `observe_lock` must be called again by the user.
     ///
     /// </div>
     ///
@@ -154,7 +169,7 @@ where
     /// - the `key` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// - the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -165,12 +180,11 @@ where
     pub async fn observe_lock(
         &self,
         key: Vec<u8>,
-        timeout: Duration,
+        request_timeout: Duration,
     ) -> Result<Response<LockObservation>, Error> {
-        let cloned_state_store = self.state_store.clone();
-        let locked_state_store = cloned_state_store.lock().await;
+        let locked_state_store = self.state_store.lock().await;
 
-        let observe_result = locked_state_store.observe(key, timeout).await;
+        let observe_result = locked_state_store.observe(key, request_timeout).await;
 
         match observe_result  {
             Ok(state_store_response) => Ok(state_store_response.into()),
@@ -178,7 +192,7 @@ where
         }
     }
 
-    /// Stops observation of any changes on a lock key from the State Store Service
+    /// Stops observation of any changes on a lock.
     ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
@@ -186,7 +200,7 @@ where
     /// - the `key` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// - the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -197,12 +211,11 @@ where
     pub async fn unobserve_lock(
         &self,
         key: Vec<u8>,
-        timeout: Duration,
+        request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
-        let cloned_state_store = self.state_store.clone();
-        let locked_state_store = cloned_state_store.lock().await;
+        let locked_state_store = self.state_store.lock().await;
 
-        let unobserve_result = locked_state_store.unobserve(key, timeout).await;
+        let unobserve_result = locked_state_store.unobserve(key, request_timeout).await;
 
         match unobserve_result  {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
@@ -210,17 +223,13 @@ where
         }
     }
 
-    /// Gets the holder of a lock key in the State Store Service
-    ///
-    /// Note: timeout refers to the duration until the State Store Client stops
-    /// waiting for a `Get` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// Gets the name of the holder of a lock
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -232,8 +241,7 @@ where
         key: Vec<u8>,
         timeout: Duration,
     ) -> Result<Response<Option<Vec<u8>>>, Error> {
-        let cloned_state_store = self.state_store.clone();
-        let locked_state_store = cloned_state_store.lock().await;
+        let locked_state_store = self.state_store.lock().await;
 
         let get_result = locked_state_store.get(key.clone(), timeout).await;
 
@@ -255,25 +263,5 @@ where
     /* -> Result<leased_lock::Response<bool>, Error> */
     {
         unimplemented!();
-    }
-
-    /// Shutdown the [`leased_lock::Client`]. Shuts down the underlying `state_store` client.
-    ///
-    /// Note: If this method is called, the [`leased_lock::Client`] should not be used again.
-    /// If the method returns an error, it may be called again to attempt the unsubscribe again.
-    ///
-    /// Returns Ok(()) on success, otherwise returns [`Error`].
-    /// # Errors
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&self) -> Result<(), Error> {
-        let cloned_state_store = self.state_store.clone();
-        let locked_state_store = cloned_state_store.lock().await;
-
-        let shutdown_result = locked_state_store.shutdown().await;
-
-        match shutdown_result  {
-            Ok(()) => Ok(()),
-            Err(state_store_error) => Err(state_store_error.into())
-        }
     }
 }

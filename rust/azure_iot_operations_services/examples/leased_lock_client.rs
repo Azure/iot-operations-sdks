@@ -42,33 +42,33 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let dss_client = state_store::Client::new(
+    let state_store = state_store::Client::new(
         application_context,
         session.create_managed_client(),
         crate::state_store::ClientOptionsBuilder::default().build().unwrap(),
     )
     .unwrap();
 
-    let rc_dss_client = Arc::new(Mutex::new(dss_client));
+    let rc_state_store = Arc::new(Mutex::new(state_store));
 
     tokio::task::spawn(leased_lock_operations(
-        rc_dss_client,
+        rc_state_store,
         session.create_exit_handle(),
     ));
 
     session.run().await.unwrap();
 }
 
-async fn leased_lock_operations(dss_client: Arc<Mutex<state_store::Client<SessionManagedClient>>>, exit_handle: SessionExitHandle) {
+async fn leased_lock_operations(state_store: Arc<Mutex<state_store::Client<SessionManagedClient>>>, exit_handle: SessionExitHandle) {
     let lock_holder = b"lockHolder";
-    let lock_key = b"lockKey1";
+    let lock_name = b"someLock";
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(10);
 
-    let leased_lock_client = leased_lock::Client::new(dss_client, lock_holder.to_vec()).unwrap();
+    let leased_lock_client = leased_lock::Client::new(state_store.clone(), lock_holder.to_vec()).unwrap();
 
     match leased_lock_client
-        .acquire_lock(lock_key.to_vec(), lock_expiry, request_timeout)
+        .try_acquire_lock(lock_name.to_vec(), lock_expiry, request_timeout)
         .await
     {
         Ok(acquire_lock_response) => {
@@ -86,7 +86,7 @@ async fn leased_lock_operations(dss_client: Arc<Mutex<state_store::Client<Sessio
     };
 
     match leased_lock_client
-        .observe_lock(lock_key.to_vec(), request_timeout)
+        .observe_lock(lock_name.to_vec(), request_timeout)
         .await
     {
         Ok(_observe_lock_response) => {
@@ -98,10 +98,10 @@ async fn leased_lock_operations(dss_client: Arc<Mutex<state_store::Client<Sessio
         }
     };
 
-    get_lock_holder(&leased_lock_client, lock_key.to_vec(), request_timeout).await;
+    get_lock_holder(&leased_lock_client, lock_name.to_vec(), request_timeout).await;
 
     match leased_lock_client
-        .release_lock(lock_key.to_vec(), request_timeout)
+        .release_lock(lock_name.to_vec(), request_timeout)
         .await
     {
         Ok(release_lock_response) => {
@@ -118,10 +118,10 @@ async fn leased_lock_operations(dss_client: Arc<Mutex<state_store::Client<Sessio
         }
     };
 
-    get_lock_holder(&leased_lock_client, lock_key.to_vec(), request_timeout).await;
+    get_lock_holder(&leased_lock_client, lock_name.to_vec(), request_timeout).await;
 
     match leased_lock_client
-        .unobserve_lock(lock_key.to_vec(), request_timeout)
+        .unobserve_lock(lock_name.to_vec(), request_timeout)
         .await
     {
         Ok(unobserve_lock_response) => {
@@ -138,18 +138,20 @@ async fn leased_lock_operations(dss_client: Arc<Mutex<state_store::Client<Sessio
         }
     };
 
-    leased_lock_client.shutdown().await.unwrap();
+    let locked_state_store = state_store.lock().await;
+    locked_state_store.shutdown().await.unwrap();
+    drop(locked_state_store);
 
     exit_handle.try_exit().await.unwrap();
 }
 
 async fn get_lock_holder(
     leased_lock_client: &azure_iot_operations_services::leased_lock::Client<SessionManagedClient>,
-    lock_key: Vec<u8>,
+    lock_name: Vec<u8>,
     request_timeout: Duration,
 ) {
     match leased_lock_client
-        .get_lock_holder(lock_key, request_timeout)
+        .get_lock_holder(lock_name, request_timeout)
         .await
     {
         Ok(lock_holder_response) => match lock_holder_response.response {

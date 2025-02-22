@@ -18,11 +18,9 @@ use crate::state_store::{
     StateStoreErrorKind,
     ServiceError as StateStoreServiceError,
     Response as StateStoreResponse,
-    KeyNotification,
     KeyObservation
 };
 
-type LockNotification = KeyNotification;
 type LockObservation = KeyObservation;
 
 /// Leased Lock Client implementation
@@ -53,6 +51,9 @@ impl From<StateStoreError> for Error {
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
+    /// The lock is already in use by another holder.
+    #[error("lock is already in use by another holder")]
+    LockAlreadyInUse,
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
@@ -148,6 +149,7 @@ where
 }
 
 impl<T: Debug> Response<T> {
+    /// Creates a new instance of Response<T>.
     pub fn new(response: T, version: Option<HybridLogicalClock>) -> Response<T> {
         Self {
             version,
@@ -155,17 +157,11 @@ impl<T: Debug> Response<T> {
         }
     }
 
+    /// Creates a new instance of Response<T> out of the `response` and `version` of a state_store::Response<T>.
     pub fn from_response(state_store_response: StateStoreResponse<T>) -> Response<T> {
         Self {
             version: state_store_response.version,
             response: state_store_response.response
-        }
-    }
-
-    pub fn with_version(response: T, state_store_response: StateStoreResponse<T>) -> Response<T> {
-        Self {
-            version: state_store_response.version,
-            response: response
         }
     }
 }
