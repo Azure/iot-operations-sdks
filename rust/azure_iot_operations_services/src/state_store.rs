@@ -14,7 +14,7 @@ use thiserror::Error;
 /// State Store Client implementation
 mod client;
 /// Serialization and deserialization implementations for resp3 state store payloads
-mod resp3;
+pub mod resp3;
 
 pub use client::{Client, ClientOptions, ClientOptionsBuilder, KeyObservation};
 pub use resp3::{Operation, SetCondition, SetOptions};
