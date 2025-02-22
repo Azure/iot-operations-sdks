@@ -26,7 +26,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     private object _ctsLockObj = new object();
 
-    internal bool _disposed;
+    internal bool Disposed;
 
     public OrderedAckMqttClient(MQTTnet.IMqttClient mqttNetClient)
     {
@@ -70,7 +70,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public virtual async Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(Disposed, this);
 
         _maximumPacketSize = options.MaximumPacketSize;
         MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(MqttNetConverter.FromGeneric(options, UnderlyingMqttClient), cancellationToken).ConfigureAwait(false));
@@ -108,7 +108,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public virtual Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(Disposed, this);
         return ConnectAsync(new MqttClientOptions(settings), cancellationToken);
     }
 
@@ -130,7 +130,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public virtual Task DisconnectAsync(MqttClientDisconnectOptions? options = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(Disposed, this);
 
         lock (_ctsLockObj)
         {
@@ -160,7 +160,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public virtual async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(Disposed, this);
 
         await ValidateMessageSize(applicationMessage);
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
@@ -170,7 +170,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public virtual async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(Disposed, this);
 
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.SubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
     }
@@ -179,7 +179,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     public virtual async Task<MqttClientUnsubscribeResult> UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(Disposed, this);
 
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.UnsubscribeAsync(MqttNetConverter.FromGeneric(options), cancellationToken));
     }
@@ -315,7 +315,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     private void StartAcknowledgingReceivedMessages()
     {
-        if (!_disposed && _acknowledgementSenderTask == null)
+        if (!Disposed && _acknowledgementSenderTask == null)
         {
             _acknowledgementSenderTask = Task.Run(() => PublishAcknowledgementsAsync(_acknowledgementSenderTaskCancellationTokenSource.Token), _acknowledgementSenderTaskCancellationTokenSource.Token);
         }
@@ -343,7 +343,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     private async ValueTask DisposeAsyncCore(bool disposing)
     {
-        if (!_disposed)
+        if (!Disposed)
         {
             UnderlyingMqttClient.DisconnectedAsync -= OnDisconnectedAsync;
             UnderlyingMqttClient.ConnectedAsync -= OnConnectedAsync;
@@ -367,7 +367,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
             UnderlyingMqttClient.Dispose();
             _acknowledgementSenderTaskCancellationTokenSource.Dispose();
-            _disposed = true;
+            Disposed = true;
         }
     }
 

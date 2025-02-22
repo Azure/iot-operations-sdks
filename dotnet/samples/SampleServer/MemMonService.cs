@@ -11,8 +11,8 @@ namespace SampleServer;
 public class MemMonService : Memmon.Service
 {
     private readonly Timer _telemetryTimer;
-    private bool enabled = false;
-    private int interval = 5000;
+    private bool _enabled = false;
+    private int _interval = 5000;
 
     private readonly CloudEvent _ceMemStats = new (new Uri("aio://test")) { DataSchema = "123" };
     private readonly CloudEvent _ceWorkingSet = new (new Uri("aio://test")) { DataSchema = "234" };
@@ -27,7 +27,7 @@ public class MemMonService : Memmon.Service
     {
         Task.Run(async () =>
         {
-            if (enabled)
+            if (_enabled)
             {
                 await SendMemStats();
                 await SendTelemetryWorkingSet();
@@ -55,7 +55,7 @@ public class MemMonService : Memmon.Service
                     ManagedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
                     WorkingSet = Environment.WorkingSet
                 }
-            }, 
+            },
             new OutgoingTelemetryMetadata() { CloudEvent = _ceMemStats });
 
     public override Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
@@ -72,8 +72,8 @@ public class MemMonService : Memmon.Service
                     { "WorkingSet", Environment.WorkingSet.ToString() },
                     { "ManagedMemory", GC.GetGCMemoryInfo().TotalCommittedBytes.ToString() },
                     { "TotalMemory", GC.GetTotalMemory(false).ToString() },
-                    { "interval", interval.ToString() },
-                    { "enabled", enabled.ToString() }
+                    { "interval", _interval.ToString() },
+                    { "enabled", _enabled.ToString() }
                 }
             }
         });
@@ -82,16 +82,16 @@ public class MemMonService : Memmon.Service
     public override Task<CommandResponseMetadata?> StartTelemetryAsync(StartTelemetryRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine("Starting Memmon.Telemetry");
-        enabled = true;
-        interval = request.Interval;
-        _telemetryTimer.Change(0, interval * 1000);
+        _enabled = true;
+        _interval = request.Interval;
+        _telemetryTimer.Change(0, _interval * 1000);
         return Task.FromResult(new CommandResponseMetadata())!;
     }
 
     public override Task<CommandResponseMetadata?> StopTelemetryAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine("Stopping Memmon.Telemetry");
-        enabled = false;
+        _enabled = false;
         _telemetryTimer.Change(Timeout.Infinite, 0);
         return Task.FromResult(new CommandResponseMetadata())!;
     }

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+namespace EventDrivenApp;
+
 public static class Constants
 {
     public const int WindowSize = 60;

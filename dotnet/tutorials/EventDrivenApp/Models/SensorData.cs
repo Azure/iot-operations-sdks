@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace EventDrivenApp;
+namespace EventDrivenApp.Models;
 
 public class SensorData
 {

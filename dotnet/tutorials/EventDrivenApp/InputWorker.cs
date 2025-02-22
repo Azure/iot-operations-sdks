@@ -7,12 +7,14 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using System.Text.Json;
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
+using EventDrivenApp.Models;
+using EventDrivenApp.Telemetry;
 
 namespace EventDrivenApp;
 
 public class InputWorker(ApplicationContext applicationContext, SessionClientFactory clientFactory, ILogger<InputWorker> logger) : BackgroundService
 {
-    private readonly BlockingCollection<SensorData> incomingSensorData = [];
+    private readonly BlockingCollection<SensorData> _incomingSensorData = [];
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
@@ -45,7 +47,7 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
     {
         logger.LogInformation($"Received sensor data");
 
-        incomingSensorData.Add(sensor);
+        _incomingSensorData.Add(sensor);
 
         return Task.CompletedTask;
     }
@@ -54,7 +56,7 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            SensorData sensor = incomingSensorData.Take(cancellationToken);
+            SensorData sensor = _incomingSensorData.Take(cancellationToken);
 
             logger.LogInformation("Processing sensor data");
 
@@ -91,7 +93,7 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
                     do
                     {
                         data.Add(sensor);
-                    } while (incomingSensorData.TryTake(out sensor!));
+                    } while (_incomingSensorData.TryTake(out sensor!));
 
                     // Push the sensor data back to the state store
                     await stateStoreClient.SetAsync(Constants.StateStoreSensorKey, JsonSerializer.Serialize(data), null, null, cancellationToken);

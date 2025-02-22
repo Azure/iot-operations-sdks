@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 {
     public class PassiveReplicationNode : BackgroundService, IAsyncDisposable
     {
-        private readonly StateStoreKey SharedResourceKeyToUpdate = new("someKeyToUpdate");
+        private readonly StateStoreKey _sharedResourceKeyToUpdate = new("someKeyToUpdate");
         private static TimeSpan _electionTerm = TimeSpan.FromSeconds(1);
         private string? _lastKnownLeader;
 
@@ -147,7 +147,7 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
                 // and try to alter a shared resource. By that point, another node will have acquired the lock and
                 // a newer fencing token will have been created.
                 StateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(
-                    SharedResourceKeyToUpdate,
+                    _sharedResourceKeyToUpdate,
                     new StateStoreValue(Guid.NewGuid().ToString()),
                     new StateStoreSetRequestOptions()
                     {

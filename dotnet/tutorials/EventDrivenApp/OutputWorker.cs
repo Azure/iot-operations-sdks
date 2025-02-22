@@ -6,6 +6,8 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.StateStore;
 using System.Text.Json;
+using EventDrivenApp.Models;
+using EventDrivenApp.Telemetry;
 
 namespace EventDrivenApp;
 

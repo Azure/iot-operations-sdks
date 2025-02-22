@@ -22,13 +22,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
         // publish/subscribe/unsubscribe requests that haven't been fulfilled yet. Some may be in flight, though.
         private readonly BlockingConcurrentList _outgoingRequestList;
 
-        private object ctsLockObj = new();
+        private object _ctsLockObj = new();
 
         private bool _isDesiredConnected;
         private bool _isClosing;
         private CancellationTokenSource? _reconnectionCancellationToken;
 
-        private SemaphoreSlim disconnectedEventLock = new(1);
+        private SemaphoreSlim _disconnectedEventLock = new(1);
 
         public event Func<MqttClientDisconnectedEventArgs, Task>? SessionLostAsync;
 
@@ -83,7 +83,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The CONNACK received from the MQTT broker.</returns>
         /// <remarks>
-        /// This operation does not retry by default, but can be configured to retry. To do so, set the 
+        /// This operation does not retry by default, but can be configured to retry. To do so, set the
         /// <see cref="MqttSessionClientOptions.RetryOnFirstConnect"/> flag and optionally configure the retry policy
         /// via <see cref="MqttSessionClientOptions.ConnectionRetryPolicy"/>.
         /// </remarks>
@@ -93,7 +93,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             //TODO once the session client is fully integrated into RPC/Telemetry tests, the default session expiry interval should be 0
             // so that non-session client applications don't create sessions unknowingly.
 
-            ObjectDisposedException.ThrowIf(_disposed, this);
+            ObjectDisposedException.ThrowIf(Disposed, this);
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The CONNACK received from the MQTT broker.</returns>
         /// <remarks>
-        /// This operation does not retry by default, but can be configured to retry. To do so, set the 
+        /// This operation does not retry by default, but can be configured to retry. To do so, set the
         /// <see cref="MqttSessionClientOptions.RetryOnFirstConnect"/> flag and optionally configure the retry policy
         /// via <see cref="MqttSessionClientOptions.ConnectionRetryPolicy"/>.
         /// </remarks>
@@ -147,7 +147,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <param name="cancellationToken">The cancellation token.</param>
         public override async Task DisconnectAsync(MqttClientDisconnectOptions? options = null, CancellationToken cancellationToken = default)
         {
-            ObjectDisposedException.ThrowIf(_disposed, this);
+            ObjectDisposedException.ThrowIf(Disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
             if (options != null && options.SessionExpiryInterval != 0)
@@ -187,13 +187,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <remarks>
         /// If this operation is interrupted by a connection loss, this client will automatically re-send it once
         /// the client has recovered the connection.
-        /// 
+        ///
         /// This method may be called even when this client is not connected. The request will be sent once the
         /// connection is established.
         /// </remarks>
         public override async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
         {
-            ObjectDisposedException.ThrowIf(_disposed, this);
+            ObjectDisposedException.ThrowIf(Disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
             TaskCompletionSource<MqttClientPublishResult> tcs = new TaskCompletionSource<MqttClientPublishResult>();
@@ -231,13 +231,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <remarks>
         /// If this operation is interrupted by a connection loss, this client will automatically re-send it once
         /// the client has recovered the connection.
-        /// 
+        ///
         /// This method may be called even when this client is not connected. The request will be sent once the
         /// connection is established.
         /// </remarks>
         public override async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
         {
-            ObjectDisposedException.ThrowIf(_disposed, this);
+            ObjectDisposedException.ThrowIf(Disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
             TaskCompletionSource<MqttClientSubscribeResult> tcs = new TaskCompletionSource<MqttClientSubscribeResult>();
@@ -274,13 +274,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <remarks>
         /// If this operation is interrupted by a connection loss, this client will automatically re-send it once
         /// the client has recovered the connection.
-        /// 
+        ///
         /// This method may be called even when this client is not connected. The request will be sent once the
         /// connection is established.
         /// </remarks>
         public override async Task<MqttClientUnsubscribeResult> UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default)
         {
-            ObjectDisposedException.ThrowIf(_disposed, this);
+            ObjectDisposedException.ThrowIf(Disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
             TaskCompletionSource<MqttClientUnsubscribeResult> tcs = new TaskCompletionSource<MqttClientUnsubscribeResult>();
@@ -310,7 +310,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         public override async ValueTask DisposeAsync()
         {
-            if (!_disposed)
+            if (!Disposed)
             {
                 DisconnectedAsync -= InternalDisconnectedAsync;
 
@@ -328,12 +328,12 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
                 _workerThreadsTaskCancellationTokenSource?.Dispose();
                 _reconnectionCancellationToken?.Dispose();
-                disconnectedEventLock.Dispose();
+                _disconnectedEventLock.Dispose();
                 _outgoingRequestList.Dispose();
             }
 
             _workerThreadsTaskCancellationTokenSource?.Dispose();
-            disconnectedEventLock.Dispose();
+            _disconnectedEventLock.Dispose();
             _outgoingRequestList.Dispose();
 
             // The underlying client has an MQTT client as a managed resource that no other client has access to, so always dispose it
@@ -347,7 +347,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         private async Task InternalDisconnectedAsync(MqttClientDisconnectedEventArgs args)
         {
             // MQTTNet's client often triggers the same "OnDisconnect" callback more times than expected, so only start reconnection once
-            await disconnectedEventLock.WaitAsync();
+            await _disconnectedEventLock.WaitAsync();
 
             try
             {
@@ -389,7 +389,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             finally
             {
-                disconnectedEventLock.Release();
+                _disconnectedEventLock.Release();
             }
         }
 
@@ -583,9 +583,9 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         private void StartPublishingSubscribingAndUnsubscribing()
         {
-            lock (ctsLockObj)
+            lock (_ctsLockObj)
             {
-                if (!_disposed)
+                if (!Disposed)
                 {
                     Trace.TraceInformation("Starting the session client's worker thread");
                     _ = Task.Run(() => ExecuteQueuedItemsAsync(_workerThreadsTaskCancellationTokenSource.Token), _workerThreadsTaskCancellationTokenSource.Token);
@@ -595,7 +595,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         private void StopPublishingSubscribingAndUnsubscribing()
         {
-            lock (ctsLockObj)
+            lock (_ctsLockObj)
             {
                 try
                 {
