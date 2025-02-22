@@ -6,6 +6,7 @@
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using System;
+    using System.Buffers;
     using System.Text;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Models;
@@ -27,7 +28,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             this._failDeserialization = testCaseSerializer.FailDeserialization;
         }
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             if (contentType != null && !_acceptContentTypes.Contains(contentType))
@@ -63,7 +64,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (typeof(T) == typeof(string))
             {
-                if (payload == null)
+                if (payload.IsEmpty)
                 {
                     return (null as T)!;
                 }
@@ -91,20 +92,20 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (payloadString == null)
                 {
-                    return new(null, null, MqttPayloadFormatIndicator.Unspecified);
+                    return new(ReadOnlySequence<byte>.Empty, null, MqttPayloadFormatIndicator.Unspecified);
                 }
                 else if (payloadString.Length == 0)
                 {
-                    return new(Array.Empty<byte>(), _outContentType, _outPayloadFormat);
+                    return new(ReadOnlySequence<byte>.Empty, _outContentType, _outPayloadFormat);
                 }
                 else
                 {
-                    return new(Encoding.UTF8.GetBytes(payloadString), _outContentType, _outPayloadFormat);
+                    return new(new(Encoding.UTF8.GetBytes(payloadString)), _outContentType, _outPayloadFormat);
                 }
             }
             else
             {
-                return new(null, null, MqttPayloadFormatIndicator.Unspecified);
+                return new(ReadOnlySequence<byte>.Empty, null, MqttPayloadFormatIndicator.Unspecified);
             }
         }
     }

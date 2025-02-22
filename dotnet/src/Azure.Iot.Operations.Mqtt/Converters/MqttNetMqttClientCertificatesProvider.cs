@@ -6,9 +6,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
 {
-    internal class MqttNetMqttClientCertificatesProvider : MQTTnet.Client.IMqttClientCertificatesProvider
+    internal class MqttNetMqttClientCertificatesProvider : MQTTnet.IMqttClientCertificatesProvider
     {
-        IMqttClientCertificatesProvider _genericCertificatesProvider;
+        private readonly IMqttClientCertificatesProvider _genericCertificatesProvider;
 
         internal MqttNetMqttClientCertificatesProvider(IMqttClientCertificatesProvider mqttNetCertificatesProvider)
         {

@@ -4,8 +4,7 @@
 using System.Collections.Concurrent;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.PacketInspection;
 using MQTTnet.Exceptions;
 using MQTTnet.Formatter;
 using MQTTnet.Packets;
@@ -14,7 +13,7 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
-    internal class StubMqttClient : MQTTnet.Client.IMqttClient
+    internal class StubMqttClient : MQTTnet.IMqttClient
     {
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
@@ -58,6 +57,19 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             _subscribedTopics = new();
             _publishedMessages = new();
             _publishedMessageSeq = new();
+        }
+
+        event Func<InspectMqttPacketEventArgs, Task> MQTTnet.IMqttClient.InspectPacketAsync
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
@@ -141,11 +153,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Assert.Fail($"unrecognized {nameof(TestAckKind)}: {ackKind}");
                 return null!;
             }
-        }
-
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
         }
 
         public Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
@@ -276,6 +283,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public ValueTask DisposeAsync()
         {
             return new ValueTask();
+        }
+
+        public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

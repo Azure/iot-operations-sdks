@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Text;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.common;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
@@ -38,19 +39,18 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void DeserializeEmtpyAndNull()
         {
-            byte[]? nullBytes = _ser.ToBytes(new EmptyJson()).SerializedPayload;
-            Assert.Null(nullBytes);
+            ReadOnlySequence<byte> nullBytes = _ser.ToBytes(new EmptyJson()).SerializedPayload;
             EmptyJson? empty = _ser.FromBytes<EmptyJson>(nullBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
 
-            EmptyJson? empty2 = _ser.FromBytes<EmptyJson>(Array.Empty<byte>(), null, Models.MqttPayloadFormatIndicator.Unspecified);
+            EmptyJson? empty2 = _ser.FromBytes<EmptyJson>(ReadOnlySequence<byte>.Empty, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty2);
         }
 
         [Fact]
         public void DeserializeNullToNonEmptyThrows()
         {
-            Assert.Throws<AkriMqttException>(() => { _ser.FromBytes<MyJsonType>(null, null, Models.MqttPayloadFormatIndicator.Unspecified); });
+            Assert.Throws<AkriMqttException>(() => { _ser.FromBytes<MyJsonType>(ReadOnlySequence<byte>.Empty, null, Models.MqttPayloadFormatIndicator.Unspecified); });
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                             "MyDecimalProperty": "0"
                         }
                         """;
-            var jsonBytes = Encoding.UTF8.GetBytes(json);
+            var jsonBytes = new ReadOnlySequence<byte>(Encoding.UTF8.GetBytes(json));
             var fromBytes = _ser.FromBytes<MyJsonType>(jsonBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);
@@ -124,7 +124,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
                         {
                         }
                         """;
-            var jsonBytes = Encoding.UTF8.GetBytes(json);
+            var jsonBytes = new ReadOnlySequence<byte>(Encoding.UTF8.GetBytes(json));
             var fromBytes = _ser.FromBytes<MyJsonType>(jsonBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(default, fromBytes.MyIntProperty);
             Assert.Equal("", fromBytes.MyStringProperty);

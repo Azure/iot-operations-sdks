@@ -18,19 +18,29 @@
             "type": "string",
             "kind": "check"
         },
+        "id": {
+            "description": "A string that identifies the event.",
+            "type": "string",
+            "kind": "check"
+        },
+        "time": {
+            "description": "Timestamp of when the occurrence happened, or null if no value.",
+            "type": [ "string", "null" ],
+            "kind": "check"
+        },
         "data-content-type": {
             "description": "The content type of the data value.",
             "type": "string",
             "kind": "check"
         },
         "subject": {
-            "description": "The subject of the event in the context of the event producer.",
-            "type": "string",
+            "description": "The subject of the event in the context of the event producer, or null if no value.",
+            "type": [ "string", "null" ],
             "kind": "check"
         },
         "data-schema": {
-            "description": "URI that identifies the schema the data adheres to.",
-            "type": "string",
+            "description": "URI that identifies the schema the data adheres to, or null if no value.",
+            "type": [ "string", "null" ],
             "kind": "check"
         }
     }

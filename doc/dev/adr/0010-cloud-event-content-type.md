@@ -65,7 +65,7 @@ All SDKs will perform the following validations of Cloud Event fields, which wil
 * `dataschema`, if present, is a [URI](https://www.rfc-editor.org/rfc/rfc3986#appendix-A)
 * `id` is non-empty
 * `subject`, if present, is a non-empty string
-* `datacontenttype` conforms to regex `^([-a-z]+)/([-a-z0-9\.\-]+)(?:\+([a-z0-9\.\-]+))?$`, in accordance with the BNF defined in [RFC2045](https://datatracker.ietf.org/doc/html/rfc2045)
+* `datacontenttype` conforms to regex `^([-a-z]+)/([-a-z0-9.]+)(?:\+([-a-z0-9.]+))?$`, in accordance with the BNF defined in [RFC2045](https://datatracker.ietf.org/doc/html/rfc2045)
 * `time`, if present, is a time that will serialize per [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)
 
 A set of METL test cases will be written to ensure that the above behaviors are implemented consistently across SDKs.

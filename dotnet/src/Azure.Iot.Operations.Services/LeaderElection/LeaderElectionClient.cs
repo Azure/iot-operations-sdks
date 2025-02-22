@@ -119,6 +119,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <summary>
         /// Construct a new leader election client.
         /// </summary>
+        /// <param name="applicationContext">The application context containing shared resources.</param>
         /// <param name="mqttClient">The mqtt client to use for I/O.</param>
         /// <param name="leadershipPositionId">
         /// The identifier of the leadership position that this client can campaign for. Each client that will
@@ -126,14 +127,14 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// </param>
         /// <param name="candidateName">The name to represent this client. Other clients can look up the current
         /// leader's name.</param>
-        public LeaderElectionClient(IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null)
+        public LeaderElectionClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null)
         {
             if (string.IsNullOrEmpty(leadershipPositionId))
             {
                 throw new ArgumentException("Must provide a non-null, non-empty leadership position id.");
             }
 
-            _leasedLockClient = new LeasedLockClient(mqttClient, leadershipPositionId, candidateName);
+            _leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, leadershipPositionId, candidateName);
             _leasedLockClient.LockChangeEventReceivedAsync += LockChangeEventCallback;
         }
 

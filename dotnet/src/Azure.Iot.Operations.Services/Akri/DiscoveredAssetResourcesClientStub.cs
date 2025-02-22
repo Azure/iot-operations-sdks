@@ -5,6 +5,6 @@ using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.Akri;
 
-internal class DiscoveredAssetResourcesClientStub(IMqttPubSubClient mqttClient) : DiscoveredAssetResources.DiscoveredAssetResources.Client(mqttClient)
+internal class DiscoveredAssetResourcesClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : DiscoveredAssetResources.DiscoveredAssetResources.Client(applicationContext, mqttClient)
 {
 }

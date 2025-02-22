@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -15,6 +15,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetrySender<T> : IAsyncDisposable
         where T : class
     {
+        private readonly ApplicationContext _applicationContext;
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
         private bool _isDisposed;
@@ -28,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// that, if the message is successfully delivered to the MQTT broker, the message will be discarded
         /// by the broker if the broker has not managed to start onward delivery to a matching subscriber within
         /// this timeout.
-        ///
+        /// 
         /// If this value is equal to zero seconds, then the message will never expire at the broker.
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -51,8 +52,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        public TelemetrySender(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
+            _applicationContext = applicationContext;
             _mqttClient = mqttClient;
             _serializer = serializer;
             _hasBeenValidated = false;
@@ -112,19 +114,24 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializedPayloadContext.PayloadFormatIndicator,
                     ContentType = serializedPayloadContext.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
-                    PayloadSegment = serializedPayloadContext.SerializedPayload ?? [],
+                    Payload = serializedPayloadContext.SerializedPayload,
                 };
 
                 if (metadata?.CloudEvent is not null)
                 {
-                    metadata.CloudEvent.Id = Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time = DateTime.UtcNow;
-                    metadata.CloudEvent.Subject = telemTopic.ToString();
+                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
+                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
+                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
                     metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
                 }
 
+                // Update HLC and use as the timestamp.
+                await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
+                metadata!.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
+
                 if (metadata != null)
                 {
+                    // The addition of the timestamp on to user properties happen below.
                     applicationMessage.AddMetadata(metadata);
                 }
 

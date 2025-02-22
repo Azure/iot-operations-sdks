@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         /// <summary>
         /// If true, this client will use the same retry policy when first connecting as it would during a reconnection.
-        /// If false, this client will only make one attempt to connect when calling <see cref="MqttSessionClient.ConnectAsync(MQTTnet.Client.MqttClientOptions, CancellationToken)"/>.
+        /// If false, this client will only make one attempt to connect when calling <see cref="MqttSessionClient.ConnectAsync(MQTTnet.MqttClientOptions, CancellationToken)"/>.
         /// </summary>
         /// <remarks>
         /// Generally, this field should be set to true since you can expect mostly the same set of errors when initially connecting 

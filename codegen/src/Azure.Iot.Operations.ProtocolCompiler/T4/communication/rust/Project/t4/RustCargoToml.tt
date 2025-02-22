@@ -16,22 +16,17 @@ Add these dependencies to your project's `Cargo.toml` file:
 <# } #>
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
-<# if (this.usesIntEnum) { #>
+serde_bytes = "0.11.15"
 serde_repr = "0.1"
-<# } #>
 <# foreach (var packageVersion in this.packageVersions) { #>
 <#=packageVersion.Item1#> = "<#=packageVersion.Item2#>"
 <# } #>
 chrono = { version = "0.4.31", features = ["serde", "alloc"] }
-<# if (this.usesAnySchemas) { #>
 iso8601-duration = { version = "0.2", features = ["serde", "chrono"] }
-<# } #>
 base64 = "0.22.1"
 bigdecimal = "0.4.5"
 time = { version = "0.3", features = ["serde", "formatting", "parsing"] }
-<# if (this.usesAnySchemas) { #>
 uuid = { version = "1.8.0", features = ["serde", "v4"] }
-<# } #>
 derive_builder = "0.20"
 <# if (this.sdkPath != null) { #>
 azure_iot_operations_mqtt = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_mqtt")#>" }

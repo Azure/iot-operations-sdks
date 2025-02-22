@@ -13,9 +13,11 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEventBuilder, CloudEventSubject, TelemetryMessageBuilder, TelemetryMessageBuilderError,
-    TelemetrySender, TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
+    CloudEventBuilder, CloudEventBuilderError, CloudEventSubject, TelemetryMessageBuilder,
+    TelemetryMessageBuilderError, TelemetrySender, TelemetrySenderOptionsBuilder,
+    TelemetrySenderOptionsBuilderError,
 };
+use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
 use tokio::time;
 
@@ -333,15 +335,49 @@ where
                     cloud_event_builder.spec_version(spec_version);
                 }
 
-                if let Some(data_schema) = &cloud_event.data_schema {
+                if let Some(id) = &cloud_event.id {
+                    cloud_event_builder.id(id);
+                }
+
+                if let Some(Some(time)) = &cloud_event.time {
+                    match DateTime::parse_from_rfc3339(time) {
+                        Ok(time) => {
+                            cloud_event_builder.time(time.with_timezone(&Utc));
+                        }
+                        Err(error) => {
+                            let (response_tx, response_rx) = oneshot::channel();
+                            send_chans.push_back(response_rx);
+                            response_tx
+                                .send(Err(Self::from_cloud_event_builder_error(
+                                    CloudEventBuilderError::ValidationError(error.to_string()),
+                                )))
+                                .unwrap();
+                            return;
+                        }
+                    }
+                }
+
+                if let Some(Some(data_schema)) = &cloud_event.data_schema {
                     cloud_event_builder.data_schema(data_schema.clone());
                 }
 
-                if let Some(subject) = &cloud_event.subject {
+                if let Some(Some(subject)) = &cloud_event.subject {
                     cloud_event_builder.subject(CloudEventSubject::Custom(subject.to_string()));
                 }
 
-                telemetry_message_builder.cloud_event(cloud_event_builder.build().unwrap());
+                match cloud_event_builder.build() {
+                    Ok(cloud_event) => {
+                        telemetry_message_builder.cloud_event(cloud_event);
+                    }
+                    Err(error) => {
+                        let (response_tx, response_rx) = oneshot::channel();
+                        send_chans.push_back(response_rx);
+                        response_tx
+                            .send(Err(Self::from_cloud_event_builder_error(error)))
+                            .unwrap();
+                        return;
+                    }
+                }
             }
 
             if let Some(telemetry_name) = &telemetry_name {
@@ -557,6 +593,35 @@ where
         let mut protocol_error = AIOProtocolError {
             message: None,
             kind: AIOProtocolErrorKind::ConfigurationInvalid,
+            in_application: false,
+            is_shallow: true,
+            is_remote: false,
+            nested_error: Some(Box::new(builder_error)),
+            http_status_code: None,
+            header_name: None,
+            header_value: None,
+            timeout_name: None,
+            timeout_value: None,
+            property_name,
+            property_value: None,
+            command_name: None,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
+        };
+
+        protocol_error.ensure_error_message();
+        protocol_error
+    }
+
+    fn from_cloud_event_builder_error(builder_error: CloudEventBuilderError) -> AIOProtocolError {
+        let property_name = match builder_error {
+            CloudEventBuilderError::UninitializedField(field_name) => Some(field_name.to_string()),
+            _ => Some("cloud_event".to_string()),
+        };
+
+        let mut protocol_error = AIOProtocolError {
+            message: None,
+            kind: AIOProtocolErrorKind::ArgumentInvalid,
             in_application: false,
             is_shallow: true,
             is_remote: false,

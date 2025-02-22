@@ -21,7 +21,7 @@
             { "rust", new RustTypeGenerator() },
         };
 
-        public static void GenerateType(string langName, TargetLanguage lang, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, CodeName genNamespace, HashSet<string> sourceFilePaths, HashSet<SchemaKind> distinctSchemaKinds)
+        public static void GenerateType(string langName, TargetLanguage lang, string projectName, string schemaFileName, DirectoryInfo workingDir, string genRoot, CodeName genNamespace)
         {
             string schemaFileFolder = Path.Combine(workingDir.FullName, genNamespace.GetFolderName(TargetLanguage.Independent));
             string schemaFilePath = Path.Combine(schemaFileFolder, schemaFileName);
@@ -51,13 +51,8 @@
 
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
                 {
-                    distinctSchemaKinds.Add(schemaType.Kind);
-                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, schemaStandardizer.SerializationFormat, genRoot, sourceFilePaths);
+                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, schemaStandardizer.SerializationFormat, genRoot);
                 }
-            }
-            else
-            {
-                throw new Exception($"Unable to process schema file \"{schemaFilePath}\" because file extension is not recognized");
             }
         }
     }

@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -177,7 +178,7 @@ func TestSayHelloWithDelayZeroThrows(t *testing.T) {
 				cr.ClientID,
 			)
 			if cr.Payload.Delay == 0 {
-				return nil, fmt.Errorf("Delay cannot be Zero")
+				return nil, errors.New("Delay cannot be Zero")
 			}
 			response := envoy.HelloResponse{
 				Message: fmt.Sprintf(

@@ -15,4 +15,3 @@ custom_comm = { path = "../custom_comm" }
 json_comm = { path = "../json_comm" }
 raw_comm = { path = "../raw_comm" }
 tokio = { version = "1.36", features = ["full"] }
-tokio-util = "0.7.11"
