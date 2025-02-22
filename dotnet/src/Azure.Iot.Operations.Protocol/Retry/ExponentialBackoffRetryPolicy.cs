@@ -55,13 +55,6 @@ namespace Azure.Iot.Operations.Protocol.Retry
                 exponent = Math.Min(MaxExponent, exponent);
             }
 
-            // Avoid integer overflow and clamp max delay.
-            // if currentRetryCount  is near uint.MaxValue, adding min exponent would just wrap around safely
-            // Result: The delay suddenly becomes very small instead of staying at maximum
-            //uint exponent = currentRetryCount + MinExponent;
-            //exponent = Math.Min(MaxExponent, exponent);
-
-
             // 2 to the power of the retry count gives us exponential back-off.
             double exponentialIntervalMs = Math.Pow(2.0, exponent);
 
