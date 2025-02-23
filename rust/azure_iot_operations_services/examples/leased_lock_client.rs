@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::{
-    time::Duration,
-    sync::Arc
-};
+use std::{sync::Arc, time::Duration};
 
 use tokio::sync::Mutex;
 
@@ -12,9 +9,9 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{ApplicationContextBuilder};
-use azure_iot_operations_services::state_store::{self};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{self};
+use azure_iot_operations_services::state_store::{self};
 use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
@@ -45,7 +42,9 @@ async fn main() {
     let state_store = state_store::Client::new(
         application_context,
         session.create_managed_client(),
-        crate::state_store::ClientOptionsBuilder::default().build().unwrap(),
+        crate::state_store::ClientOptionsBuilder::default()
+            .build()
+            .unwrap(),
     )
     .unwrap();
 
@@ -59,13 +58,17 @@ async fn main() {
     session.run().await.unwrap();
 }
 
-async fn leased_lock_operations(state_store: Arc<Mutex<state_store::Client<SessionManagedClient>>>, exit_handle: SessionExitHandle) {
+async fn leased_lock_operations(
+    state_store: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
+    exit_handle: SessionExitHandle,
+) {
     let lock_holder = b"lockHolder";
     let lock_name = b"someLock";
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(10);
 
-    let leased_lock_client = leased_lock::Client::new(state_store.clone(), lock_holder.to_vec()).unwrap();
+    let leased_lock_client =
+        leased_lock::Client::new(state_store.clone(), lock_holder.to_vec()).unwrap();
 
     match leased_lock_client
         .try_acquire_lock(lock_name.to_vec(), lock_expiry, request_timeout)

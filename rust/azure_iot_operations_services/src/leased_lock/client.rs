@@ -3,25 +3,13 @@
 
 //! Client for Lease Lock operations.
 
-use std:: {
-    time::Duration,
-    sync::Arc
-};
+use std::{sync::Arc, time::Duration};
 
 use tokio::sync::Mutex;
 
-use crate::state_store::{
-    self,
-    SetCondition,
-    SetOptions 
-};
+use crate::leased_lock::{Error, ErrorKind, LockObservation, Response};
+use crate::state_store::{self, SetCondition, SetOptions};
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use crate::leased_lock::{
-    Error,
-    ErrorKind,
-    Response,
-    LockObservation
-};
 
 /// Leased Lock client struct.
 pub struct Client<C>
@@ -49,7 +37,10 @@ where
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new(state_store: Arc<Mutex<state_store::Client<C>>>, lock_holder_name: Vec<u8>) -> Result<Self, Error> {
+    pub fn new(
+        state_store: Arc<Mutex<state_store::Client<C>>>,
+        lock_holder_name: Vec<u8>,
+    ) -> Result<Self, Error> {
         Ok(Self {
             state_store,
             lock_holder_name,
@@ -57,7 +48,7 @@ where
     }
 
     /// Attempts to acquire a lock, returning immediately if it cannot be acquired.
-    /// 
+    ///
     /// Returns `true` if completed successfully, or `false` if lock is not acquired.
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
@@ -87,16 +78,17 @@ where
                 None,
                 SetOptions {
                     set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-                    expires: Some(lock_expiration)
+                    expires: Some(lock_expiration),
                 },
             )
-            .await {
-                Ok(state_store_response) => match state_store_response.response {
-                    true => Ok(Response::from_response(state_store_response)),
-                    false => Err(Error(ErrorKind::LockAlreadyInUse))
-                },
-                Err(state_store_error) => Err(state_store_error.into())
-            }
+            .await
+        {
+            Ok(state_store_response) => match state_store_response.response {
+                true => Ok(Response::from_response(state_store_response)),
+                false => Err(Error(ErrorKind::LockAlreadyInUse)),
+            },
+            Err(state_store_error) => Err(state_store_error.into()),
+        }
     }
 
     /// Attempts to acquire a lock, returning immediately if it cannot be acquired.
@@ -140,16 +132,22 @@ where
         &self,
         key: Vec<u8>,
         request_timeout: Duration,
-    ) -> Result<Response<i64>, Error> { // TODO: change this to bool? Look into how other languages are doing it.
+    ) -> Result<Response<i64>, Error> {
+        // TODO: change this to bool? Look into how other languages are doing it.
         let locked_state_store = self.state_store.lock().await;
 
         let vdel_result = locked_state_store
-            .vdel(key.clone(), self.lock_holder_name.clone(), None, request_timeout)
+            .vdel(
+                key.clone(),
+                self.lock_holder_name.clone(),
+                None,
+                request_timeout,
+            )
             .await;
 
-        match vdel_result  {
+        match vdel_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
-            Err(state_store_error) => Err(state_store_error.into())
+            Err(state_store_error) => Err(state_store_error.into()),
         }
     }
 
@@ -186,9 +184,9 @@ where
 
         let observe_result = locked_state_store.observe(key, request_timeout).await;
 
-        match observe_result  {
+        match observe_result {
             Ok(state_store_response) => Ok(state_store_response.into()),
-            Err(state_store_error) => Err(state_store_error.into())
+            Err(state_store_error) => Err(state_store_error.into()),
         }
     }
 
@@ -217,9 +215,9 @@ where
 
         let unobserve_result = locked_state_store.unobserve(key, request_timeout).await;
 
-        match unobserve_result  {
+        match unobserve_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
-            Err(state_store_error) => Err(state_store_error.into())
+            Err(state_store_error) => Err(state_store_error.into()),
         }
     }
 
@@ -245,9 +243,9 @@ where
 
         let get_result = locked_state_store.get(key.clone(), timeout).await;
 
-        match get_result  {
+        match get_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
-            Err(state_store_error) => Err(state_store_error.into())
+            Err(state_store_error) => Err(state_store_error.into()),
         }
     }
 

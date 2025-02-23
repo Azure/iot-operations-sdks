@@ -7,18 +7,15 @@ use core::fmt::Debug;
 
 use thiserror::Error;
 
-use azure_iot_operations_protocol::{
-    common::{aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock}
+use azure_iot_operations_protocol::common::{
+    aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock,
 };
 
-pub use crate::state_store::resp3::{Operation};
+pub use crate::state_store::resp3::Operation;
 
 use crate::state_store::{
-    StateStoreError,
-    StateStoreErrorKind,
-    ServiceError as StateStoreServiceError,
-    Response as StateStoreResponse,
-    KeyObservation
+    KeyObservation, Response as StateStoreResponse, ServiceError as StateStoreServiceError,
+    StateStoreError, StateStoreErrorKind,
 };
 
 type LockObservation = KeyObservation;
@@ -131,7 +128,7 @@ impl From<StateStoreServiceError> for ServiceError {
     fn from(error: StateStoreServiceError) -> Self {
         match error {
             StateStoreServiceError::KeyLengthZero => ServiceError::LockNameLengthZero,
-            _ => error.into()
+            _ => error.into(),
         }
     }
 }
@@ -151,23 +148,23 @@ where
 impl<T: Debug> Response<T> {
     /// Creates a new instance of Response<T>.
     pub fn new(response: T, version: Option<HybridLogicalClock>) -> Response<T> {
-        Self {
-            version,
-            response
-        }
+        Self { version, response }
     }
 
     /// Creates a new instance of Response<T> out of the `response` and `version` of a state_store::Response<T>.
     pub fn from_response(state_store_response: StateStoreResponse<T>) -> Response<T> {
         Self {
             version: state_store_response.version,
-            response: state_store_response.response
+            response: state_store_response.response,
         }
     }
 }
 
 impl From<StateStoreResponse<KeyObservation>> for Response<LockObservation> {
     fn from(state_store_response: StateStoreResponse<KeyObservation>) -> Self {
-        Response::new(state_store_response.response.into(), state_store_response.version)
+        Response::new(
+            state_store_response.response.into(),
+            state_store_response.version,
+        )
     }
 }
