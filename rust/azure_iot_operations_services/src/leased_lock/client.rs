@@ -143,8 +143,8 @@ where
 
             match acquire_result {
                 Ok(ref acquire_response) => match acquire_response.response {
-                    true => break,     // Lock acquired.
-                    false => {}, // Lock being held by another client.
+                    true => break, // Lock acquired.
+                    false => {}    // Lock being held by another client.
                 },
                 Err(_) => break,
             };
