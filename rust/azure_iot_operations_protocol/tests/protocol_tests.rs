@@ -30,7 +30,6 @@ static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorRequest_TimeoutPropagated",
     "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
-    "CommandExecutorRequestsCompleteOutOfOrder_RequestAckedInOrder",
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandExecutorUserCodeRaisesContentError_RespondsError",
     "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
