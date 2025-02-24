@@ -137,14 +137,6 @@ where
         let mut acquire_result;
 
         loop {
-            if let Ok(ref mut response) = observe_result {
-                while let Some((notification, _)) = response.response.recv_notification().await {
-                    if notification.operation == state_store::Operation::Del {
-                        break;
-                    }
-                }
-            }
-
             acquire_result = self
                 .try_acquire_lock(lock.clone(), lock_expiration, request_timeout)
                 .await;
@@ -152,10 +144,18 @@ where
             match acquire_result {
                 Ok(ref acquire_response) => match acquire_response.response {
                     true => break,     // Lock acquired.
-                    false => continue, // Lock being held by another client.
+                    false => {}, // Lock being held by another client.
                 },
                 Err(_) => break,
             };
+
+            if let Ok(ref mut response) = observe_result {
+                while let Some((notification, _)) = response.response.recv_notification().await {
+                    if notification.operation == state_store::Operation::Del {
+                        break;
+                    }
+                }
+            }
         }
 
         let _ = self.unobserve_lock(lock.clone(), request_timeout).await;

@@ -71,7 +71,7 @@ async fn leased_lock_operations(
         leased_lock::Client::new(state_store.clone(), lock_holder.to_vec()).unwrap();
 
     match leased_lock_client
-        .try_acquire_lock(lock_name.to_vec(), lock_expiry, request_timeout)
+        .acquire_lock(lock_name.to_vec(), lock_expiry, request_timeout)
         .await
     {
         Ok(acquire_lock_response) => {
