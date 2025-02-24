@@ -51,11 +51,15 @@ jobs:
     - name: dotnet info
       run: dotnet --info
 
-    - name: Setup Cluster
-      run: |
-        tools/deployment/initialize-cluster.sh
-        tools/deployment/deploy-aio.sh nightly
-        
+    - name: Create cluster
+      run: tools/deployment/initialize-cluster.sh
+
+    - name: Install AIO
+      uses: azure/iot-operations-sdks-action
+
+    - name: Deploy AIO
+      run: tools/deployment/deploy-aio.sh nightly
+
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
 

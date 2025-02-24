@@ -42,6 +42,10 @@ then
     az aks install-cli
 fi
 
+# install/upgrade extensions
+az extension add --upgrade --name azure-iot-ops
+az extension add --upgrade --name connectedk8s
+
 # install k9s
 if ! which k9s;
 then
