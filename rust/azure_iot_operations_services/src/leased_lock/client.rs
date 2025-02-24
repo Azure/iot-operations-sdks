@@ -29,6 +29,8 @@ where
 {
     /// Create a new Leased Lock Client
     ///
+    /// Note: `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings. 
+    ///
     /// # Errors
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) is possible if
     ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen.
@@ -119,7 +121,7 @@ where
         // Logic:
         // If user already observing lock, unobserve it.
         // Start observing lock within this function.
-        // If succeeds, wait for observe notification until key deleted
+        // If succeeds, wait for observe notification until lock deleted
         // try acquire again, repeat while error is retriable (?); exit loop once acquire succeeds.
         // Unobserve lock before exiting.
 
@@ -164,9 +166,9 @@ where
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
-    /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
+    /// Returns the number of locks deleted. Will be `0` if the lock was not found, `-1` if this is not the current holder, otherwise `1`
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `key` is empty
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
@@ -177,14 +179,14 @@ where
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn release_lock(
         &self,
-        key: Vec<u8>,
+        lock: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<i64>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
         let vdel_result = locked_state_store
             .vdel(
-                key.clone(),
+                lock.clone(),
                 self.lock_holder_name.clone(),
                 None,
                 request_timeout,
@@ -269,9 +271,9 @@ where
 
     /// Gets the name of the holder of a lock
     ///
-    /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
+    /// Returns `Some(<holder of the lock>)` if the lock is found or `None` if the lock was not found
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `key` is empty
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
@@ -282,12 +284,12 @@ where
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn get_lock_holder(
         &self,
-        key: Vec<u8>,
+        lock: Vec<u8>,
         timeout: Duration,
     ) -> Result<Response<Option<Vec<u8>>>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let get_result = locked_state_store.get(key.clone(), timeout).await;
+        let get_result = locked_state_store.get(lock.clone(), timeout).await;
 
         match get_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
