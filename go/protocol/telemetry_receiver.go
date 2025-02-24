@@ -259,7 +259,7 @@ func (tr *TelemetryReceiver[T]) handle(
 						Message:       e.Message,
 						Kind:          errors.InvocationException,
 						PropertyName:  e.PropertyName,
-						PropertyValue: e.PropertyValue,
+						PropertyValue: fmt.Sprint(e.PropertyValue),
 					},
 					InApplication: true,
 				}

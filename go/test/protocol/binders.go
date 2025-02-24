@@ -55,7 +55,7 @@ func NewTestingCommandInvoker(
 				Message:       "commandName is nil",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "commandName",
-				PropertyValue: nil,
+				PropertyValue: "",
 			},
 			IsShallow: true,
 		}
@@ -67,7 +67,7 @@ func NewTestingCommandInvoker(
 				Message:       "requestTopic is nil",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "requesttopicpattern",
-				PropertyValue: nil,
+				PropertyValue: "",
 			},
 			IsShallow: true,
 		}
@@ -109,7 +109,7 @@ func NewTestingCommandExecutor(
 				Message:       "commandName is nil",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "commandName",
-				PropertyValue: nil,
+				PropertyValue: "",
 			},
 			IsShallow: true,
 		}
@@ -121,7 +121,7 @@ func NewTestingCommandExecutor(
 				Message:       "requestTopic is nil",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "requesttopicpattern",
-				PropertyValue: nil,
+				PropertyValue: "",
 			},
 			IsShallow: true,
 		}
@@ -166,7 +166,7 @@ func NewTestingTelemetrySender(
 				Message:       "telemetryTopic is nil",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "topicpattern",
-				PropertyValue: nil,
+				PropertyValue: "",
 			},
 			IsShallow: true,
 		}
@@ -206,7 +206,7 @@ func NewTestingTelemetryReceiver(
 				Message:       "telemetryTopic is nil",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "topicpattern",
-				PropertyValue: nil,
+				PropertyValue: "",
 			},
 			IsShallow: true,
 		}

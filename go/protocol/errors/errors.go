@@ -12,7 +12,7 @@ type BaseError struct {
 	Kind    Kind
 
 	PropertyName  string
-	PropertyValue any
+	PropertyValue string
 	NestedError   error
 
 	TimeoutName  string

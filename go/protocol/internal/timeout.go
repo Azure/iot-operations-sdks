@@ -27,7 +27,7 @@ func (to *Timeout) Validate(kind errors.Kind) error {
 				Message:       "timeout cannot be negative",
 				Kind:          kind,
 				PropertyName:  "Timeout",
-				PropertyValue: to,
+				PropertyValue: fmt.Sprint(to.Duration),
 			},
 		}
 
@@ -37,7 +37,7 @@ func (to *Timeout) Validate(kind errors.Kind) error {
 				Message:       "timeout too large",
 				Kind:          kind,
 				PropertyName:  "Timeout",
-				PropertyValue: to,
+				PropertyValue: fmt.Sprint(to.Duration),
 			},
 		}
 

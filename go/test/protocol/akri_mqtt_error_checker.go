@@ -3,7 +3,6 @@
 package protocol
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
@@ -102,7 +101,7 @@ func checkCommonFields(
 		if propertyValue == nil {
 			require.Empty(t, baseErr.PropertyValue)
 		} else {
-			val := fmt.Sprintf("%v", baseErr.PropertyValue)
+			val := baseErr.PropertyValue
 			require.Equal(t, *propertyValue, val)
 		}
 	}

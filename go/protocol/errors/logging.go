@@ -74,7 +74,7 @@ func baseAttrs(e *BaseError) []slog.Attr {
 		)
 	case StateInvalid:
 		a = append(a, slog.String("property_name", e.PropertyName))
-		if e.PropertyValue != nil {
+		if e.PropertyValue != "" {
 			a = append(a, slog.Any("property_value", e.PropertyValue))
 		}
 	case InternalLogicError:
@@ -83,7 +83,7 @@ func baseAttrs(e *BaseError) []slog.Attr {
 		if e.PropertyName != "" {
 			a = append(a, slog.String("property_name", e.PropertyName))
 		}
-		if e.PropertyValue != nil {
+		if e.PropertyValue != "" {
 			a = append(a, slog.Any("property_value", e.PropertyValue))
 		}
 	case ExecutionException:

@@ -29,15 +29,13 @@ func ToUserProp(err error) map[string]string {
 	e, ok := err.(*errors.RemoteError)
 	if !ok {
 		return (&result{
-			status: 500,
+			status: 400,
 			error: &errors.RemoteError{
 				BaseError: errors.BaseError{
-					Message: "invalid error",
-					Kind:    errors.InternalLogicError,
+					Message: "invalid payload",
+					Kind:    errors.PayloadInvalid,
 				},
 			},
-			name:  e.PropertyName,
-			value: e.PropertyValue,
 		}).props()
 	}
 
