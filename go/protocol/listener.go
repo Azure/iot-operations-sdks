@@ -165,7 +165,14 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		var err error
 		msg.Timestamp, err = l.app.hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
-			l.error(ctx, msg.Mqtt, err)
+			l.error(ctx, msg.Mqtt, &errors.RemoteError{
+				BaseError: errors.BaseError{
+					Message:     "timestamp is not a valid RFC3339 timestamp",
+					Kind:        errors.HeaderInvalid,
+					HeaderName:  constants.Timestamp,
+					HeaderValue: ts,
+				},
+			})
 			return
 		}
 		if err = l.app.hlc.Set(msg.Timestamp); err != nil {
