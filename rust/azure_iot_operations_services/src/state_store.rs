@@ -33,6 +33,11 @@ impl StateStoreError {
     pub fn kind(&self) -> &StateStoreErrorKind {
         &self.0
     }
+
+    #[must_use]
+    pub(crate) fn consuming_kind(self) -> StateStoreErrorKind {
+        self.0
+    }
 }
 
 /// Represents the kinds of errors that occur in the Azure IoT Operations State Store implementation.
@@ -126,28 +131,6 @@ impl From<Vec<u8>> for ServiceError {
         }
     }
 }
-
-// impl Copy for ServiceError { }
-
-// impl Clone for ServiceError {
-//     fn clone(&self) -> ServiceError {
-//         match self {
-//             ServiceError::TimestampSkew => ServiceError::TimestampSkew,
-//             ServiceError::MissingFencingToken => ServiceError::MissingFencingToken,
-//             ServiceError::FencingTokenSkew => ServiceError::FencingTokenSkew,
-//             ServiceError::FencingTokenLowerVersion => ServiceError::FencingTokenLowerVersion,
-//             ServiceError::KeyQuotaExceeded => ServiceError::KeyQuotaExceeded,
-//             ServiceError::SyntaxError => ServiceError::SyntaxError,
-//             ServiceError::NotAuthorized => ServiceError::NotAuthorized,
-//             ServiceError::UnknownCommand => ServiceError::UnknownCommand,
-//             ServiceError::WrongNumberOfArguments => ServiceError::WrongNumberOfArguments,
-//             ServiceError::TimestampMissing => ServiceError::TimestampMissing,
-//             ServiceError::TimestampMalformed => ServiceError::TimestampMalformed,
-//             ServiceError::KeyLengthZero => ServiceError::KeyLengthZero,
-//             ServiceError::Unknown(error_string) => ServiceError::Unknown(error_string.to_string())
-//         }
-//     }
-// }
 
 /// State Store Operation Response struct.
 #[derive(Debug)]

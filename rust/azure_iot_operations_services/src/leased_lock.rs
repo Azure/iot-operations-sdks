@@ -19,6 +19,7 @@ use crate::state_store::{
 };
 
 type LockObservation = KeyObservation;
+type ServiceError = StateStoreServiceError;
 
 /// Leased Lock Client implementation
 mod client;
@@ -40,26 +41,8 @@ impl Error {
 
 impl From<StateStoreError> for Error {
     fn from(error: StateStoreError) -> Self {
-
-        //error.kind()?
-        Error(error.kind().into())
-
-        // match error.kind() {
-
-
-
-        //     StateStoreErrorKind::AIOProtocolError(protocol_error) => Error(ErrorKind::AIOProtocolError((*protocol_error).clone().into())),
-        //     StateStoreErrorKind::ServiceError(service_error) => Error(service_error.clone().into()),
-        //     StateStoreErrorKind::KeyLengthZero => Error(ErrorKind::LockNameLengthZero),
-        //     StateStoreErrorKind::SerializationError(error_string) => {
-        //         Error(ErrorKind::SerializationError(error_string.to_string()))
-        //     }
-        //     StateStoreErrorKind::InvalidArgument(argument) => Error(ErrorKind::InvalidArgument(argument.to_string())),
-        //     StateStoreErrorKind::UnexpectedPayload(payload) => {
-        //         Error(ErrorKind::UnexpectedPayload(payload.to_string()))
-        //     }
-        //     StateStoreErrorKind::DuplicateObserve => Error(ErrorKind::DuplicateObserve),
-        // }
+        let kind: ErrorKind = (error.consuming_kind()).into();
+        kind.into()
     }
 }
 
@@ -108,78 +91,6 @@ impl From<StateStoreErrorKind> for ErrorKind {
             }
             StateStoreErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve,
         }
-    }
-}
-
-/// Represents the errors that occur in the Azure IoT Operations State Store Service.
-#[derive(Error, Debug)]
-pub enum ServiceError {
-    /// the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
-    TimestampSkew,
-    /// A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it
-    #[error("a fencing token is required for this request")]
-    MissingFencingToken,
-    /// the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
-    FencingTokenSkew,
-    /// The request fencing token is a lower version than the fencing token protecting the resource.
-    #[error("the request fencing token is a lower version than the fencing token protecting the resource")]
-    FencingTokenLowerVersion,
-    /// The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
-    #[error("the quota has been exceeded")]
-    LockQuotaExceeded,
-    /// The payload sent does not conform to state store's definition.
-    #[error("syntax error")]
-    SyntaxError,
-    /// The client is not authorized to perform the operation.
-    #[error("not authorized")]
-    NotAuthorized,
-    /// The command sent is not recognized by the state store.
-    #[error("unknown command")]
-    UnknownCommand,
-    /// The number of arguments sent in the command is incorrect.
-    #[error("wrong number of arguments")]
-    WrongNumberOfArguments,
-    /// The timestamp is missing on the request.
-    #[error("missing timestamp")]
-    TimestampMissing,
-    /// The timestamp or fencing token is malformed.
-    #[error("malformed timestamp")]
-    TimestampMalformed,
-    /// The key length is zero.
-    #[error("the lock name length is zero")]
-    LockNameLengthZero,
-    /// An unknown error was received from the State Store Service.
-    #[error("{0}")]
-    Unknown(String),
-}
-
-impl From<StateStoreServiceError> for ServiceError {
-    fn from(error: StateStoreServiceError) -> Self {
-        match error {
-            StateStoreServiceError::TimestampSkew => ServiceError::TimestampSkew,
-            StateStoreServiceError::MissingFencingToken => ServiceError::MissingFencingToken,
-            StateStoreServiceError::FencingTokenSkew => ServiceError::FencingTokenSkew,
-            StateStoreServiceError::FencingTokenLowerVersion => {
-                ServiceError::FencingTokenLowerVersion
-            }
-            StateStoreServiceError::KeyQuotaExceeded => ServiceError::LockQuotaExceeded,
-            StateStoreServiceError::SyntaxError => ServiceError::SyntaxError,
-            StateStoreServiceError::NotAuthorized => ServiceError::NotAuthorized,
-            StateStoreServiceError::UnknownCommand => ServiceError::UnknownCommand,
-            StateStoreServiceError::WrongNumberOfArguments => ServiceError::WrongNumberOfArguments,
-            StateStoreServiceError::TimestampMissing => ServiceError::TimestampMissing,
-            StateStoreServiceError::TimestampMalformed => ServiceError::TimestampMalformed,
-            StateStoreServiceError::KeyLengthZero => ServiceError::LockNameLengthZero,
-            StateStoreServiceError::Unknown(error_string) => ServiceError::Unknown(error_string),
-        }
-    }
-}
-
-impl From<StateStoreServiceError> for ErrorKind {
-    fn from(error: StateStoreServiceError) -> Self {
-        ErrorKind::ServiceError(error.into())
     }
 }
 

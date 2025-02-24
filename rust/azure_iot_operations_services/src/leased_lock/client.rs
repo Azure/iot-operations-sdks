@@ -18,6 +18,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     state_store: Arc<Mutex<state_store::Client<C>>>,
+    lock_name: Vec<u8>,
     lock_holder_name: Vec<u8>,
 }
 
@@ -41,10 +42,12 @@ where
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         state_store: Arc<Mutex<state_store::Client<C>>>,
+        lock_name: Vec<u8>,
         lock_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
         Ok(Self {
             state_store,
+            lock_name,
             lock_holder_name,
         })
     }
@@ -66,7 +69,6 @@ where
     /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
     pub async fn try_acquire_lock(
         &self,
-        lock: Vec<u8>,
         lock_expiration: Duration,
         request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
@@ -74,7 +76,7 @@ where
 
         match locked_state_store
             .set(
-                lock,
+                self.lock_name.clone(),
                 self.lock_holder_name.clone(),
                 request_timeout,
                 None,
@@ -113,22 +115,20 @@ where
     /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
     pub async fn acquire_lock(
         &self,
-        lock: Vec<u8>,
         lock_expiration: Duration,
         request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
-        if lock.is_empty() {
+        if self.lock_name.is_empty() {
             return Err(Error(ErrorKind::LockNameLengthZero));
         }
 
         // Logic:
-        // If user already observing lock, unobserve it.
         // Start observing lock within this function.
         // If succeeds, wait for observe notification until lock deleted
         // try acquire again, repeat while error is retriable (?); exit loop once acquire succeeds.
         // Unobserve lock before exiting.
 
-        let mut observe_result = self.observe_lock(lock.clone(), request_timeout).await;
+        let mut observe_result = self.observe_lock(request_timeout).await;
 
         match observe_result {
             Ok(_) => {}
@@ -141,11 +141,12 @@ where
 
         loop {
             acquire_result = self
-                .try_acquire_lock(lock.clone(), lock_expiration, request_timeout)
+                .try_acquire_lock(lock_expiration, request_timeout)
                 .await;
 
             match acquire_result {
                 Ok(ref acquire_response) => if acquire_response.response { break /* Lock acquired */ },
+                // TODO: if LockAlreadyInUse, move to observing.
                 Err(_) => break,
             };
 
@@ -159,10 +160,12 @@ where
             }
         }
 
-        let _ = self.unobserve_lock(lock.clone(), request_timeout).await;
+        let _ = self.unobserve_lock(request_timeout).await;
 
         acquire_result
     }
+
+// TODO: AcquireLockAndUpdateValueAsync
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
@@ -179,14 +182,13 @@ where
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn release_lock(
         &self,
-        lock: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<i64>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
         let vdel_result = locked_state_store
             .vdel(
-                lock.clone(),
+                self.lock_name.clone(),
                 self.lock_holder_name.clone(),
                 None,
                 request_timeout,
@@ -225,12 +227,11 @@ where
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn observe_lock(
         &self,
-        lock: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<LockObservation>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let observe_result = locked_state_store.observe(lock, request_timeout).await;
+        let observe_result = locked_state_store.observe(self.lock_name.clone(), request_timeout).await;
 
         match observe_result {
             Ok(state_store_response) => Ok(state_store_response.into()),
@@ -256,12 +257,11 @@ where
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn unobserve_lock(
         &self,
-        lock: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let unobserve_result = locked_state_store.unobserve(lock, request_timeout).await;
+        let unobserve_result = locked_state_store.unobserve(self.lock_name.clone(), request_timeout).await;
 
         match unobserve_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
