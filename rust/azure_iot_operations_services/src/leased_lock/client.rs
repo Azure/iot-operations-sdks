@@ -85,9 +85,12 @@ where
             )
             .await
         {
-            Ok(state_store_response) => match state_store_response.response {
-                true => Ok(Response::from_response(state_store_response)),
-                false => Err(Error(ErrorKind::LockAlreadyInUse)),
+            Ok(state_store_response) => {
+                if state_store_response.response {
+                    Ok(Response::from_response(state_store_response))
+                } else {
+                    Err(Error(ErrorKind::LockAlreadyInUse))
+                }
             },
             Err(state_store_error) => Err(state_store_error.into()),
         }
@@ -115,7 +118,7 @@ where
         request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
         if lock.is_empty() {
-            Error(ErrorKind::LockNameLengthZero);
+            return Err(Error(ErrorKind::LockNameLengthZero));
         }
 
         // Logic:
@@ -130,7 +133,7 @@ where
         match observe_result {
             Ok(_) => {}
             Err(observe_error) => {
-                return Err(observe_error.into());
+                return Err(observe_error);
             }
         }
 
@@ -142,13 +145,11 @@ where
                 .await;
 
             match acquire_result {
-                Ok(ref acquire_response) => match acquire_response.response {
-                    true => break, // Lock acquired.
-                    false => {}    // Lock being held by another client.
-                },
+                Ok(ref acquire_response) => if acquire_response.response { break /* Lock acquired */ },
                 Err(_) => break,
             };
 
+            // Lock being held by another client. Wait for delete notification.
             if let Ok(ref mut response) = observe_result {
                 while let Some((notification, _)) = response.response.recv_notification().await {
                     if notification.operation == state_store::Operation::Del {

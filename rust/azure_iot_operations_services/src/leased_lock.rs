@@ -40,7 +40,21 @@ impl Error {
 
 impl From<StateStoreError> for Error {
     fn from(error: StateStoreError) -> Self {
-        error.into() // TODO: this leads to a recursive conversion. Needs to be fixed.
+        match error.kind() {
+            // StateStoreErrorKind::AIOProtocolError(_) | StateStoreErrorKind::ServiceError(_) => Error((*error.kind()).into()), // TODO: is this (for AIOProtocolError(_)) an infinite recurse?
+            StateStoreErrorKind::AIOProtocolError(protocol_error) => Error(ErrorKind::AIOProtocolError((*protocol_error).clone().into())),
+            // StateStoreErrorKind::ServiceError(service_error) => Error(ErrorKind::ServiceError((*service_error).into())),
+            StateStoreErrorKind::ServiceError(service_error) => Error(service_error.clone().into()),
+            StateStoreErrorKind::KeyLengthZero => Error(ErrorKind::LockNameLengthZero),
+            StateStoreErrorKind::SerializationError(error_string) => {
+                Error(ErrorKind::SerializationError(error_string.to_string()))
+            }
+            StateStoreErrorKind::InvalidArgument(argument) => Error(ErrorKind::InvalidArgument(argument.to_string())),
+            StateStoreErrorKind::UnexpectedPayload(payload) => {
+                Error(ErrorKind::UnexpectedPayload(payload.to_string()))
+            }
+            StateStoreErrorKind::DuplicateObserve => Error(ErrorKind::DuplicateObserve),
+        }
     }
 }
 
@@ -77,8 +91,7 @@ pub enum ErrorKind {
 impl From<StateStoreErrorKind> for ErrorKind {
     fn from(error: StateStoreErrorKind) -> Self {
         match error {
-            StateStoreErrorKind::AIOProtocolError(_) => error.into(), // TODO: is this an infinite recurse?
-            StateStoreErrorKind::ServiceError(_) => error.into(),
+            StateStoreErrorKind::AIOProtocolError(_) | StateStoreErrorKind::ServiceError(_) => error.into(), // TODO: is this (for AIOProtocolError(_)) an infinite recurse?
             StateStoreErrorKind::KeyLengthZero => ErrorKind::LockNameLengthZero,
             StateStoreErrorKind::SerializationError(error_string) => {
                 ErrorKind::SerializationError(error_string)
@@ -158,6 +171,12 @@ impl From<StateStoreServiceError> for ServiceError {
     }
 }
 
+impl From<StateStoreServiceError> for ErrorKind {
+    fn from(error: StateStoreServiceError) -> Self {
+        ErrorKind::ServiceError(error.into())
+    }
+}
+
 /// Leased Lock Operation Response struct.
 #[derive(Debug)]
 pub struct Response<T>
@@ -176,7 +195,7 @@ impl<T: Debug> Response<T> {
         Self { version, response }
     }
 
-    /// Creates a new instance of Response<T> out of the `response` and `version` of a state_store::Response<T>.
+    /// Creates a new instance of Response<T> out of the `response` and `version` of a `state_store::Response<T>`.
     pub fn from_response(state_store_response: StateStoreResponse<T>) -> Response<T> {
         Self {
             version: state_store_response.version,
@@ -188,7 +207,7 @@ impl<T: Debug> Response<T> {
 impl From<StateStoreResponse<KeyObservation>> for Response<LockObservation> {
     fn from(state_store_response: StateStoreResponse<KeyObservation>) -> Self {
         Response::new(
-            state_store_response.response.into(),
+            state_store_response.response,
             state_store_response.version,
         )
     }

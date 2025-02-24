@@ -6,7 +6,7 @@ use std::fmt;
 use std::time::Duration;
 
 /// Represents the kind of error that occurs in an Azure IoT Operations Protocol
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum AIOProtocolErrorKind {
     /// A required MQTT header property is missing on a received message
     HeaderMissing,
@@ -41,7 +41,7 @@ pub enum AIOProtocolErrorKind {
 }
 
 /// Represents the possible types of the value of a property
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Value {
     /// A 32-bit integer value
     Integer(i32),
@@ -54,7 +54,7 @@ pub enum Value {
 }
 
 /// Represents an error that occurred in the Azure IoT Operations Protocol
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AIOProtocolError {
     /// The error message
     pub message: Option<String>,
