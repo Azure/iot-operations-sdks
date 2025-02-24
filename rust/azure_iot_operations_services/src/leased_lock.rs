@@ -40,21 +40,26 @@ impl Error {
 
 impl From<StateStoreError> for Error {
     fn from(error: StateStoreError) -> Self {
-        match error.kind() {
-            // StateStoreErrorKind::AIOProtocolError(_) | StateStoreErrorKind::ServiceError(_) => Error((*error.kind()).into()), // TODO: is this (for AIOProtocolError(_)) an infinite recurse?
-            StateStoreErrorKind::AIOProtocolError(protocol_error) => Error(ErrorKind::AIOProtocolError((*protocol_error).clone().into())),
-            // StateStoreErrorKind::ServiceError(service_error) => Error(ErrorKind::ServiceError((*service_error).into())),
-            StateStoreErrorKind::ServiceError(service_error) => Error(service_error.clone().into()),
-            StateStoreErrorKind::KeyLengthZero => Error(ErrorKind::LockNameLengthZero),
-            StateStoreErrorKind::SerializationError(error_string) => {
-                Error(ErrorKind::SerializationError(error_string.to_string()))
-            }
-            StateStoreErrorKind::InvalidArgument(argument) => Error(ErrorKind::InvalidArgument(argument.to_string())),
-            StateStoreErrorKind::UnexpectedPayload(payload) => {
-                Error(ErrorKind::UnexpectedPayload(payload.to_string()))
-            }
-            StateStoreErrorKind::DuplicateObserve => Error(ErrorKind::DuplicateObserve),
-        }
+
+        //error.kind()?
+        Error(error.kind().into())
+
+        // match error.kind() {
+
+
+
+        //     StateStoreErrorKind::AIOProtocolError(protocol_error) => Error(ErrorKind::AIOProtocolError((*protocol_error).clone().into())),
+        //     StateStoreErrorKind::ServiceError(service_error) => Error(service_error.clone().into()),
+        //     StateStoreErrorKind::KeyLengthZero => Error(ErrorKind::LockNameLengthZero),
+        //     StateStoreErrorKind::SerializationError(error_string) => {
+        //         Error(ErrorKind::SerializationError(error_string.to_string()))
+        //     }
+        //     StateStoreErrorKind::InvalidArgument(argument) => Error(ErrorKind::InvalidArgument(argument.to_string())),
+        //     StateStoreErrorKind::UnexpectedPayload(payload) => {
+        //         Error(ErrorKind::UnexpectedPayload(payload.to_string()))
+        //     }
+        //     StateStoreErrorKind::DuplicateObserve => Error(ErrorKind::DuplicateObserve),
+        // }
     }
 }
 
@@ -89,9 +94,10 @@ pub enum ErrorKind {
 }
 
 impl From<StateStoreErrorKind> for ErrorKind {
-    fn from(error: StateStoreErrorKind) -> Self {
-        match error {
-            StateStoreErrorKind::AIOProtocolError(_) | StateStoreErrorKind::ServiceError(_) => error.into(), // TODO: is this (for AIOProtocolError(_)) an infinite recurse?
+    fn from(kind: StateStoreErrorKind) -> Self {
+        match kind {
+            StateStoreErrorKind::AIOProtocolError(protocol_error) => ErrorKind::AIOProtocolError(protocol_error),
+            StateStoreErrorKind::ServiceError(service_error) => ErrorKind::ServiceError(service_error),
             StateStoreErrorKind::KeyLengthZero => ErrorKind::LockNameLengthZero,
             StateStoreErrorKind::SerializationError(error_string) => {
                 ErrorKind::SerializationError(error_string)
