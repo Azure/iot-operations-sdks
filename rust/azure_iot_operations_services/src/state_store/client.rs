@@ -577,11 +577,8 @@ where
         }
     }
 
-    /// Indicates if a key is currently being observed. 
-    pub async fn is_key_observed(
-        &self,
-        key: Vec<u8>
-    ) -> Result<bool, StateStoreError> {
+    /// Indicates if a key is currently being observed.
+    pub async fn is_key_observed(&self, key: Vec<u8>) -> Result<bool, StateStoreError> {
         if key.is_empty() {
             return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
         }

@@ -18,7 +18,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     state_store: Arc<Mutex<state_store::Client<C>>>,
-    lock_holder_name: Vec<u8>
+    lock_holder_name: Vec<u8>,
 }
 
 /// Leased Lock client implementation
@@ -29,7 +29,7 @@ where
 {
     /// Create a new Leased Lock Client
     ///
-    /// Note: `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings. 
+    /// Note: `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings.
     ///
     /// # Errors
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) is possible if
@@ -45,7 +45,7 @@ where
     ) -> Result<Self, Error> {
         Ok(Self {
             state_store,
-            lock_holder_name
+            lock_holder_name,
         })
     }
 
@@ -125,10 +125,7 @@ where
         // try acquire again, repeat while error is retriable (?); exit loop once acquire succeeds.
         // Unobserve lock before exiting.
 
-        let mut observe_result = self.observe_lock(
-            lock.clone(),
-            request_timeout
-        ).await;
+        let mut observe_result = self.observe_lock(lock.clone(), request_timeout).await;
 
         match observe_result {
             Ok(_) => {}
@@ -147,15 +144,17 @@ where
                     }
                 }
             }
-            
-            acquire_result = self.try_acquire_lock(lock.clone(), lock_expiration, request_timeout).await;
+
+            acquire_result = self
+                .try_acquire_lock(lock.clone(), lock_expiration, request_timeout)
+                .await;
 
             match acquire_result {
                 Ok(ref acquire_response) => match acquire_response.response {
-                    true => break, // Lock acquired.
+                    true => break,     // Lock acquired.
                     false => continue, // Lock being held by another client.
                 },
-                Err(_) => break
+                Err(_) => break,
             };
         }
 

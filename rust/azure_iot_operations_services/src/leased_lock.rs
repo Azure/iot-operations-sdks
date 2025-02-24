@@ -77,14 +77,17 @@ pub enum ErrorKind {
 impl From<StateStoreErrorKind> for ErrorKind {
     fn from(error: StateStoreErrorKind) -> Self {
         match error {
-            
             StateStoreErrorKind::AIOProtocolError(_) => error.into(), // TODO: is this an infinite recurse?
             StateStoreErrorKind::ServiceError(_) => error.into(),
             StateStoreErrorKind::KeyLengthZero => ErrorKind::LockNameLengthZero,
-            StateStoreErrorKind::SerializationError(error_string) => ErrorKind::SerializationError(error_string),
+            StateStoreErrorKind::SerializationError(error_string) => {
+                ErrorKind::SerializationError(error_string)
+            }
             StateStoreErrorKind::InvalidArgument(argument) => ErrorKind::InvalidArgument(argument),
-            StateStoreErrorKind::UnexpectedPayload(payload) => ErrorKind::UnexpectedPayload(payload),
-            StateStoreErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve
+            StateStoreErrorKind::UnexpectedPayload(payload) => {
+                ErrorKind::UnexpectedPayload(payload)
+            }
+            StateStoreErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve,
         }
     }
 }
@@ -139,7 +142,9 @@ impl From<StateStoreServiceError> for ServiceError {
             StateStoreServiceError::TimestampSkew => ServiceError::TimestampSkew,
             StateStoreServiceError::MissingFencingToken => ServiceError::MissingFencingToken,
             StateStoreServiceError::FencingTokenSkew => ServiceError::FencingTokenSkew,
-            StateStoreServiceError::FencingTokenLowerVersion => ServiceError::FencingTokenLowerVersion,
+            StateStoreServiceError::FencingTokenLowerVersion => {
+                ServiceError::FencingTokenLowerVersion
+            }
             StateStoreServiceError::KeyQuotaExceeded => ServiceError::LockQuotaExceeded,
             StateStoreServiceError::SyntaxError => ServiceError::SyntaxError,
             StateStoreServiceError::NotAuthorized => ServiceError::NotAuthorized,
