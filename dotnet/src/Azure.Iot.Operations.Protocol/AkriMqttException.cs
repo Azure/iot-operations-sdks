@@ -36,11 +36,6 @@ namespace Azure.Iot.Operations.Protocol
         public required bool IsRemote { get; init; }
 
         /// <summary>
-        /// An HTTP status code received from a remote service that caused the Azure.Iot.Operations.Protocol error being reported
-        /// </summary>
-        public int? HttpStatusCode { get; internal init; }
-
-        /// <summary>
         /// The correlation data used to connect a command response to a command request.
         /// </summary>
         public Guid? CorrelationId { get; internal init; }

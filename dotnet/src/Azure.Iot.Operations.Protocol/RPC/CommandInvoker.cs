@@ -316,7 +316,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             InApplication = isApplicationError,
                             IsShallow = false,
                             IsRemote = true,
-                            HttpStatusCode = statusCode,
                             HeaderName = UseHeaderFields(errorKind) ? invalidNameProperty?.Value : null,
                             HeaderValue = UseHeaderFields(errorKind) ? invalidValueProperty?.Value : null,
                             PropertyName = UsePropertyFields(errorKind) ? invalidNameProperty?.Value : null,
