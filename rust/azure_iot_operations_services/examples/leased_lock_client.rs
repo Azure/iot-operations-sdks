@@ -62,16 +62,16 @@ async fn leased_lock_operations(
     state_store: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
     exit_handle: SessionExitHandle,
 ) {
-    let lock_holder = b"lockHolder";
     let lock_name = b"someLock";
+    let lock_holder = b"lockHolder";
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(10);
 
     let leased_lock_client =
-        leased_lock::Client::new(state_store.clone(), lock_holder.to_vec()).unwrap();
+        leased_lock::Client::new(state_store.clone(), lock_name.to_vec(), lock_holder.to_vec()).unwrap();
 
     match leased_lock_client
-        .acquire_lock(lock_name.to_vec(), lock_expiry, request_timeout)
+        .acquire_lock(lock_expiry, request_timeout)
         .await
     {
         Ok(acquire_lock_response) => {
@@ -89,7 +89,7 @@ async fn leased_lock_operations(
     };
 
     match leased_lock_client
-        .observe_lock(lock_name.to_vec(), request_timeout)
+        .observe_lock(request_timeout)
         .await
     {
         Ok(_observe_lock_response) => {
@@ -104,7 +104,7 @@ async fn leased_lock_operations(
     get_lock_holder(&leased_lock_client, lock_name.to_vec(), request_timeout).await;
 
     match leased_lock_client
-        .release_lock(lock_name.to_vec(), request_timeout)
+        .release_lock(request_timeout)
         .await
     {
         Ok(release_lock_response) => {
@@ -124,7 +124,7 @@ async fn leased_lock_operations(
     get_lock_holder(&leased_lock_client, lock_name.to_vec(), request_timeout).await;
 
     match leased_lock_client
-        .unobserve_lock(lock_name.to_vec(), request_timeout)
+        .unobserve_lock(request_timeout)
         .await
     {
         Ok(unobserve_lock_response) => {
