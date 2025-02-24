@@ -55,7 +55,7 @@ jobs:
       run: tools/deployment/initialize-cluster.sh
 
     - name: Install AIO
-      uses: azure/iot-operations-sdks-action
+      uses: azure/iot-operations-sdks-action@v0.1
 
     - name: Deploy AIO
       run: tools/deployment/deploy-aio.sh nightly
