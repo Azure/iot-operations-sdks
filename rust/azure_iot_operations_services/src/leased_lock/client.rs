@@ -18,7 +18,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     state_store: Arc<Mutex<state_store::Client<C>>>,
-    lock_holder_name: Vec<u8>,
+    lock_holder_name: Vec<u8>
 }
 
 /// Leased Lock client implementation
@@ -43,7 +43,7 @@ where
     ) -> Result<Self, Error> {
         Ok(Self {
             state_store,
-            lock_holder_name,
+            lock_holder_name
         })
     }
 
@@ -91,7 +91,7 @@ where
         }
     }
 
-    /// Attempts to acquire a lock, returning immediately if it cannot be acquired.
+    /// Waits until a lock is available (if not already) and attempts to acquire it.
     ///
     /// Returns `true` if completed successfully, or `false` if lock is not acquired.
     /// # Errors
@@ -108,11 +108,58 @@ where
     /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
     pub async fn acquire_lock(
         &self,
-        _lock: Vec<u8>,
-        _lock_expiration: Duration,
-        _request_timeout: Duration,
+        lock: Vec<u8>,
+        lock_expiration: Duration,
+        request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
-        unimplemented!();
+        if lock.is_empty() {
+            Error(ErrorKind::LockNameLengthZero);
+        }
+
+        // Logic:
+        // If user already observing lock, unobserve it.
+        // Start observing lock within this function.
+        // If succeeds, wait for observe notification until key deleted
+        // try acquire again, repeat while error is retriable (?); exit loop once acquire succeeds.
+        // Unobserve lock before exiting.
+
+        let mut observe_result = self.observe_lock(
+            lock.clone(),
+            request_timeout
+        ).await;
+
+        match observe_result {
+            Ok(_) => {}
+            Err(observe_error) => {
+                return Err(observe_error.into());
+            }
+        }
+
+        let mut acquire_result;
+
+        loop {
+            if let Ok(ref mut response) = observe_result {
+                while let Some((notification, _)) = response.response.recv_notification().await {
+                    if notification.operation == state_store::Operation::Del {
+                        break;
+                    }
+                }
+            }
+            
+            acquire_result = self.try_acquire_lock(lock.clone(), lock_expiration, request_timeout).await;
+
+            match acquire_result {
+                Ok(ref acquire_response) => match acquire_response.response {
+                    true => break, // Lock acquired.
+                    false => continue, // Lock being held by another client.
+                },
+                Err(_) => break
+            };
+        }
+
+        let _ = self.unobserve_lock(lock.clone(), request_timeout).await;
+
+        acquire_result
     }
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
@@ -133,7 +180,6 @@ where
         key: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<i64>, Error> {
-        // TODO: change this to bool? Look into how other languages are doing it.
         let locked_state_store = self.state_store.lock().await;
 
         let vdel_result = locked_state_store
@@ -154,7 +200,7 @@ where
     /// Starts observation of any changes on a lock
     ///
     /// Returns OK([`leased_lock::Response<LockObservation>`]) if the lock is now being observed.
-    /// The [`LockObservation`] can be used to receive key notifications for this key
+    /// The [`LockObservation`] can be used to receive lock notifications for this lock
     ///
     /// <div class="warning">
     ///
@@ -164,7 +210,7 @@ where
     ///
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if
-    /// - the `key` is empty
+    /// - the `lock` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `request_timeout` is < 1 ms or > `u32::max`
@@ -177,12 +223,12 @@ where
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn observe_lock(
         &self,
-        key: Vec<u8>,
+        lock: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<LockObservation>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let observe_result = locked_state_store.observe(key, request_timeout).await;
+        let observe_result = locked_state_store.observe(lock, request_timeout).await;
 
         match observe_result {
             Ok(state_store_response) => Ok(state_store_response.into()),
@@ -192,10 +238,10 @@ where
 
     /// Stops observation of any changes on a lock.
     ///
-    /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
+    /// Returns `true` if the lock is no longer being observed or `false` if the lock wasn't being observed
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if
-    /// - the `key` is empty
+    /// - the `lock` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `request_timeout` is < 1 ms or > `u32::max`
@@ -208,12 +254,12 @@ where
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn unobserve_lock(
         &self,
-        key: Vec<u8>,
+        lock: Vec<u8>,
         request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let unobserve_result = locked_state_store.unobserve(key, request_timeout).await;
+        let unobserve_result = locked_state_store.unobserve(lock, request_timeout).await;
 
         match unobserve_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
@@ -247,19 +293,5 @@ where
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }
-    }
-
-    /// Enables the auto-renewal of the lock duration.
-    pub fn enable_auto_renewal(&self, _key: &[u8])
-    /* -> Result<leased_lock::Response<bool>, Error> */
-    {
-        unimplemented!();
-    }
-
-    /// Disables the auto-renewal of the lock duration.
-    pub fn disable_auto_renewal(&self, _key: &[u8])
-    /* -> Result<leased_lock::Response<bool>, Error> */
-    {
-        unimplemented!();
     }
 }
