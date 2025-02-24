@@ -145,9 +145,11 @@ where
                 .await;
 
             match acquire_result {
-                Ok(ref acquire_response) => if acquire_response.response { break /* Lock acquired */ },
-                // TODO: if LockAlreadyInUse, move to observing.
-                Err(_) => break,
+                Ok(ref acquire_response) => if acquire_response.response { break; /* Lock acquired */ },
+                Err(ref acquire_error) => match acquire_error.kind() {
+                    ErrorKind::LockAlreadyInUse => { /* Must wait for lock to be released. */ },
+                    _ => { break; }
+                }
             };
 
             // Lock being held by another client. Wait for delete notification.
