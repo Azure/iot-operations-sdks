@@ -11,7 +11,7 @@
         {
             ITemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new RustObject(genNamespace, objectType, GetReferencedSchemaNames(objectType)),
+                ObjectType objectType => new RustObject(genNamespace, objectType, GetReferencedSchemaNames(objectType), allowSkipping: serFormat == SerializationFormat.Json),
                 EnumType enumType =>
                     enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new RustStringEnum(genNamespace, enumType) :
                     enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new RustIntegerEnum(genNamespace, enumType) :
