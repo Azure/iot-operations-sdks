@@ -23,6 +23,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public bool? IsRemote { get; set; }
 
+        public object StatusCode { get; set; } = false;
+
         public string? Message { get; set; }
 
         public Dictionary<string, string?> Supplemental { get; set; } = new();
