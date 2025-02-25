@@ -36,7 +36,13 @@ This parameter value will be used as the output folder name with no modification
 
 The output folder name may directly determine other names.
 The .NET project name and the Rust package name both conventionally match the name of the folder containing the project/package.
-This convention will be respected by the ProtocolCompiler.
+This convention will largely be respected by the ProtocolCompiler; however, changes will be made to ensure that the project/package name is generally legal when used as a hierarchical name in source files.
+In particular, for each dot-delimeted segment, the character set will be restricted to alphanumerics and underscore, and the first character must be non-numeric.
+Thus:
+
+* All non-alphanumeric characters will be mapped to underscore.
+* Multiple underscores in sequence will be shortened to a single underscore.
+* If the first character is numeric, it will be preceded by an underscore.
 
 **Third**, all remaining names will derive from the DTDL model.
 Names derived from the model's DTMI will use only the final label.

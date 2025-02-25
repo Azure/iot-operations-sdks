@@ -6,6 +6,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using DTDLParser;
 
     internal class CommandHandler
@@ -60,7 +61,7 @@
                 CodeName? genNamespace = options.GenNamespace != null ? new(options.GenNamespace) : null;
 
                 string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
-                string projectName = options.OutDir.Name;
+                string projectName = LegalizeName(options.OutDir.Name);
 
                 string workingPathResolved =
                     options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, LanguageInfos[options.Lang].DefaultWorkingPath) :
@@ -164,6 +165,11 @@
         }
 
         private record LanguageInfo(TargetLanguage Language, string DefaultWorkingPath, string GenSubdir);
+
+        private static string LegalizeName(string fsName)
+        {
+            return string.Join('.', fsName.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(s => (char.IsNumber(s[0]) ? "_" : "") + Regex.Replace(s, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant)));
+        }
 
         private static void WarnOnSuspiciousOption(string optionName, string? pathName)
         {
