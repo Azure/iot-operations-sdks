@@ -17,11 +17,11 @@ internal static class MqttClientFactoryProvider
         if (mqttDiag)
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
-            return new OrderedAckMqttClient(new MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger()));
+            return new OrderedAckMqttClient(new MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger()));
         }
         else
         {
-            return new OrderedAckMqttClient(new MqttFactory().CreateMqttClient());
+            return new OrderedAckMqttClient(new MqttClientFactory().CreateMqttClient());
         }
     };
 }

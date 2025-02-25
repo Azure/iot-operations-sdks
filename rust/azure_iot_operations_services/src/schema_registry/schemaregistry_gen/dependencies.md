@@ -5,6 +5,8 @@ Add these dependencies to your project's `Cargo.toml` file:
 ``` toml
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
+serde_bytes = "0.11.15"
+serde_repr = "0.1"
 serde_json = "1.0.105"
 chrono = { version = "0.4.31", features = ["serde", "alloc"] }
 iso8601-duration = { version = "0.2", features = ["serde", "chrono"] }

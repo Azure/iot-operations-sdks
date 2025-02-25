@@ -10,7 +10,7 @@ public class CounterService : Counter.Service
 {
     int _counter = 0;
 
-    public CounterService(IMqttPubSubClient mqttClient) : base(mqttClient)
+    public CounterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {
         ReadCounterCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
         IncrementCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);

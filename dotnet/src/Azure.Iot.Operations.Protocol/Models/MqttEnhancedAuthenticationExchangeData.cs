@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttExtendedAuthenticationExchangeData
+    public class MqttEnhancedAuthenticationExchangeData
     {
         /// <summary>
         /// Gets or sets the reason code.

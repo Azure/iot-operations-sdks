@@ -16,22 +16,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Custom, new List<(string, string)> { } },
         };
 
-        private readonly string genRoot;
         private readonly bool generateProject;
         private readonly string projectName;
         private readonly string? sdkPath;
-        private readonly bool usesAnySchemas;
-        private readonly bool usesIntEnum;
         private readonly List<(string, string)> packageVersions;
 
-        public RustCargoToml(string projectName, string genFormat, string? sdkPath, HashSet<SchemaKind> distinctSchemaKinds, string genRoot, bool generateProject)
+        public RustCargoToml(string projectName, string genFormat, string? sdkPath, bool generateProject)
         {
-            this.genRoot = genRoot;
             this.generateProject = generateProject;
             this.projectName = projectName;
             this.sdkPath = sdkPath?.Replace('\\', '/');
-            this.usesAnySchemas = distinctSchemaKinds.Any();
-            this.usesIntEnum = distinctSchemaKinds.Contains(SchemaKind.EnumInt);
 
             packageVersions = serializerPackageVersions[genFormat];
         }
