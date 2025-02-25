@@ -228,6 +228,7 @@ func sendTelemetry(
 	options = append(
 		options,
 		protocol.WithTimeout(actionSendTelemetry.Timeout.ToDuration()),
+		protocol.WithTopicTokens(actionSendTelemetry.TopicTokenMap),
 	)
 
 	if actionSendTelemetry.Qos != nil && *actionSendTelemetry.Qos != 1 {

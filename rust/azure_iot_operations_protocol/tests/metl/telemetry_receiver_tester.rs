@@ -41,6 +41,7 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 struct ReceivedTelemetry {
     telemetry_value: Option<String>,
     metadata: HashMap<String, String>,
+    topic_tokens: HashMap<String, String>,
     cloud_event: Option<TestCaseCloudEvent>,
     source_id: Option<String>,
 }
@@ -225,6 +226,7 @@ where
                         .send(ReceivedTelemetry {
                             telemetry_value: telemetry.payload.payload,
                             metadata,
+                            topic_tokens: telemetry.topic_tokens.clone(),
                             cloud_event,
                             source_id: telemetry.sender_id,
                         })
@@ -481,6 +483,17 @@ where
                 value.as_ref(),
                 received_telemetry.metadata.get(key),
                 "metadata key {key} expected {value:?}"
+            );
+        }
+
+        for (key, value) in &expected_telemetry.topic_tokens {
+            assert_eq!(
+                &value,
+                &received_telemetry
+                    .topic_tokens
+                    .get(key)
+                    .expect("expected telemetry topic token {key}"),
+                "topic token {key} expected replacement {value:?}"
             );
         }
 

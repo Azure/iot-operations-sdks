@@ -46,6 +46,8 @@ pub(crate) fn is_valid_replacement(s: &str) -> bool {
 /// Represents a topic pattern for Azure IoT Operations Protocol topics
 #[derive(Debug)]
 pub struct TopicPattern {
+    /// The topic pattern before the initial replacements have been made
+    static_pattern: String,
     /// The topic pattern after the initial replacements have been made
     dynamic_pattern: String,
     /// The regex pattern to match tokens in the topic pattern
@@ -252,6 +254,7 @@ impl TopicPattern {
         acc_pattern.push_str(acc);
 
         Ok(TopicPattern {
+            static_pattern: pattern.to_string(),
             dynamic_pattern: acc_pattern,
             pattern_regex,
             share_name,
@@ -358,7 +361,7 @@ impl TopicPattern {
         let mut last_token_end = 0;
 
         // Find all the tokens in the pattern
-        for find in self.pattern_regex.find_iter(&self.dynamic_pattern) {
+        for find in self.pattern_regex.find_iter(&self.static_pattern) {
             // Get the start and end indices of the current match
             let token_start = find.start();
             let token_end = find.end();
