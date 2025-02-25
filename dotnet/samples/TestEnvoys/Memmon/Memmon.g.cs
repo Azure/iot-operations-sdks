@@ -60,19 +60,19 @@ namespace TestEnvoys.Memmon
 
             public abstract Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)

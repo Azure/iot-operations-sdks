@@ -179,4 +179,25 @@ public class IncomingTelemetryMetadataTests
         Assert.Equal("test", metadata.GetCloudEvent().Type);
     }
 
+    [Fact]
+    public void WithTopicTokens()
+    {
+        var message = new MqttApplicationMessage("actual/topic/on/which/message/was/published")
+        {
+            CorrelationData = Guid.NewGuid().ToByteArray(),
+            UserProperties = null
+        };
+        uint packetId = 123;
+
+        string pattern = "{adverb}/topic/{preposition}/{relativePronoun}/{noun}/{auxiliary}/{verb}";
+
+        var metadata = new IncomingTelemetryMetadata(message, packetId, pattern);
+
+        Assert.Equal("actual", metadata.TopicTokens["adverb"]);
+        Assert.Equal("on", metadata.TopicTokens["preposition"]);
+        Assert.Equal("which", metadata.TopicTokens["relativePronoun"]);
+        Assert.Equal("message", metadata.TopicTokens["noun"]);
+        Assert.Equal("was", metadata.TopicTokens["auxiliary"]);
+        Assert.Equal("published", metadata.TopicTokens["verb"]);
+    }
 }

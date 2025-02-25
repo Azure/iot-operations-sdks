@@ -242,6 +242,7 @@ Each element of the `executors` array can have the following child keys:
 | execution-timeout | drive | no | [Duration](#duration) or null | { "seconds": 10 } | Maximum duration to permit a Command to execute before aborting the execution. |
 | request-responses-map | drive | no | map from string to array of string | { "Test_Request": [ "Test_Response" ] } | A map from received request value to an array of response values to be used sequentially. |
 | response-metadata | drive | no | map from string to string or null | { } | Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request. |
+| token-metadata-prefix | drive | no | string |  | When present, indicates that resolved topic tokens should be copied into response metadata, with keys prepended by the indicated prefix. |
 | execution-concurrency | drive | no | integer or null | null | A limit on the count of concurrent executions to reqest from the command dispatcher. |
 | raise-error | drive | no | [Error](#error) |  | Raise an error from the Command execution function. |
 | sync | drive | no | array of [Sync](#sync) | [ ] | A sequence of synchronization operations to perform during execution of the Command. |
@@ -895,14 +896,15 @@ Following is an example TelemetryReceiver epilogue:
 
 ```yaml
 epilogue:
-  telemetry-count: 3
+  telemetry-count: 1
   subscribed-topics:
-  - "mock/test"
-  acknowledgement-count: 3
+  - "mock/dtmi:test:MyModel;1/test/+"
+  acknowledgement-count: 1
   received-telemetries:
   - telemetry-value: "Test_Telemetry"
-  - telemetry-value: "Test_Telemetry"
-  - telemetry-value: "Test_Telemetry"
+    topic-tokens:
+      "modelId": "dtmi:test:MyModel;1"
+      "ex:foobar": "MyValue"
 ```
 
 #### ReceiverEpilogue
@@ -928,6 +930,7 @@ Each element of the `received-telemetries` array can have the following child ke
 | --- | --- | --- | --- | --- |
 | telemetry-value | check | no | string or null | A UTF8 string (or null) value expected for the Telemetry content. |
 | metadata | check | no | map from string to string or null | Keys and values of expected metadata; a null value indicates key should not be present. |
+| topic-tokens | check | no | map from string to string | Keys and values of topic tokens and their expected replaced values. |
 | cloud-event | check | no | [ReceivedCloudEvent](#receivedcloudevent) or null | A CloudEvent expected to be associated with the Telemetry; a null value indicates no CloudEvent should be present. |
 | source-index | check | no | integer | An arbitrary numeric value used to identify the TelemetrySender that sent the telemetry. |
 
@@ -1208,6 +1211,7 @@ When the value of the `action` key is `send telemetry`, the following sibling ke
 | --- | --- | --- | --- | --- | --- | --- |
 | action |  | yes | string | "send telemetry" |  | Send a Telemetry without waiting for its completion. |
 | telemetry-name | drive | no | string |  | "test" | The name of the Telemetry. |
+| topic-token-map | drive | no | map from string to string |  | { } | A map from topic tokens to replacement values. |
 | timeout | drive | no | [Duration](#duration) or null |  | { "minutes": 1 } | Telemetry timeout duration. |
 | telemetry-value | drive | no | string or null |  | "Test_Telemetry" | A UTF8 string (or null) value for the Telemetry content. |
 | metadata | drive | no | map from string to string |  | { } | Keys and values for user metadata. |

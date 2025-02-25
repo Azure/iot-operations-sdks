@@ -348,6 +348,14 @@ func checkReceivedTelemetry(
 		}
 	}
 
+	if telem.TopicTokens != nil {
+		for key, val := range *telem.TopicTokens {
+			propVal, ok := rcvTelem.TopicTokens[key]
+			require.True(t, ok)
+			require.Equal(t, val, propVal)
+		}
+	}
+
 	if telem.Capsule != nil {
 		if telem.Capsule.CloudEvent == nil {
 			require.Nil(t, rcvTelem.CloudEvent)
@@ -455,6 +463,7 @@ func processTelemetry(
 	receivedTelemetries <- receivedTelemetry{
 		TelemetryValue: msg.Message.Payload,
 		Metadata:       msg.Message.Metadata,
+		TopicTokens:    msg.TopicTokens,
 		CloudEvent:     cloudEvent,
 		SourceID:       msg.ClientID,
 	}
@@ -465,6 +474,7 @@ func processTelemetry(
 type receivedTelemetry struct {
 	TelemetryValue string
 	Metadata       map[string]string
+	TopicTokens    map[string]string
 	CloudEvent     *protocol.CloudEvent
 	SourceID       string
 }

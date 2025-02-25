@@ -17,6 +17,7 @@ type testCaseExecutor struct {
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `yaml:"request-responses-map"`
 	ResponseMetadata     map[string]*string  `yaml:"response-metadata"`
+	TokenMetadataPrefix  *string             `yaml:"token-metadata-prefix"`
 	ExecutionConcurrency *uint               `yaml:"execution-concurrency"`
 	RaiseError           TestCaseError       `yaml:"raise-error"`
 	Sync                 []TestCaseSync      `yaml:"sync"`

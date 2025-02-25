@@ -471,6 +471,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
+            foreach (KeyValuePair<string, string> kvp in receivedTelemetry.TopicTokens)
+            {
+                Assert.True(actualReceivedTelemetry.TopicTokens.TryGetValue(kvp.Key, out string? value));
+                Assert.Equal(kvp.Value, value);
+            }
+
             if (receivedTelemetry.CloudEvent == null)
             {
                 Assert.Null(actualReceivedTelemetry.CloudEvent);
@@ -558,15 +564,16 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 // it wasn't a cloud event, ignore this error
             }
 
-            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, cloudEvent, sourceId));
+            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.TopicTokens, cloudEvent, sourceId));
         }
 
         private record ReceivedTelemetry
         {
-            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, CloudEvent? cloudEvent, string sourceId)
+            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, Dictionary<string, string> topicTokens, CloudEvent? cloudEvent, string sourceId)
             {
                 TelemetryValue = telemetryValue;
                 Metadata = metadata;
+                TopicTokens = topicTokens;
                 SourceId = sourceId;
 
                 if (cloudEvent != null)
@@ -586,6 +593,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             public string TelemetryValue { get; }
 
             public Dictionary<string, string> Metadata { get; }
+
+            public Dictionary<string, string> TopicTokens { get; }
 
             public TestCaseCloudEvent? CloudEvent { get; }
 
