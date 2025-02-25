@@ -1,4 +1,4 @@
-name: Cross language
+name: Run Codegen
 permissions:
   contents: write
 on:
