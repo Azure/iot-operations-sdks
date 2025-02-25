@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// 
         /// This value cannot be null.
         /// </remarks>
-        public IRetryPolicy ConnectionRetryPolicy { get; set; } = new ExponentialBackoffRetryPolicy(12, TimeSpan.MaxValue);
+        public IRetryPolicy ConnectionRetryPolicy { get; set; } = new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromSeconds(60));
 
         /// <summary>
         /// True if you want the session client to enable MQTT-level logs. False if you do not want these logs.
