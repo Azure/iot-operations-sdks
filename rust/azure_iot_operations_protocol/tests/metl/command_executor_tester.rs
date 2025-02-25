@@ -134,7 +134,7 @@ where
                         .await;
                 }
                 action_sync @ TestCaseAction::Sync { .. } => {
-                    Self::sync(action_sync, &countdown_events);
+                    Self::sync(action_sync, &countdown_events).await;
                 }
                 action_sleep @ TestCaseAction::Sleep { .. } => {
                     Self::sleep(action_sleep).await;
@@ -214,6 +214,7 @@ where
                     if let Some(wait_event) = &test_case_sync.wait_event {
                         countdown_events
                             .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
+                            .await
                             .expect("test timeout in countdown_event.wait");
                     }
 
@@ -538,7 +539,7 @@ where
         }
     }
 
-    fn sync(action: &TestCaseAction<ExecutorDefaults>, countdown_events: &CountdownEventMap) {
+    async fn sync(action: &TestCaseAction<ExecutorDefaults>, countdown_events: &CountdownEventMap) {
         if let TestCaseAction::Sync {
             defaults_type: _,
             signal_event,
@@ -548,6 +549,7 @@ where
             if let Some(wait_event) = wait_event {
                 countdown_events
                     .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
+                    .await
                     .expect("test timeout in countdown_event.wait");
             }
 
