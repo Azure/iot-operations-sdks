@@ -364,7 +364,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     commandExecutor.ExecutionTimeout = testCaseExecutor.ExecutionTimeout.ToTimeSpan();
                 }
 
-                if (testCaseExecutor.ResponseMetadata.Any())
+                if (testCaseExecutor.ResponseMetadata.Any() || testCaseExecutor.TokenMetadataPrefix != null)
                 {
                     commandExecutor.OnCommandReceived = async (extReq, ct) =>
                     {
@@ -375,6 +375,14 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         foreach (KeyValuePair<string, string?> kvp in testCaseExecutor.ResponseMetadata)
                         {
                             responseMetadata.UserData[kvp.Key] = kvp.Value ?? extReq.RequestMetadata.UserData[kvp.Key];
+                        }
+
+                        if (testCaseExecutor.TokenMetadataPrefix != null)
+                        {
+                            foreach (KeyValuePair<string, string> kvp in extReq.RequestMetadata.TopicTokens)
+                            {
+                                responseMetadata.UserData[testCaseExecutor.TokenMetadataPrefix + kvp.Key] = kvp.Value;
+                            }
                         }
 
                         return new ExtendedResponse<string>()

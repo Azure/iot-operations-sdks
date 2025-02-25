@@ -64,13 +64,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), qos, telemetryTimeout, cancellationToken);
+            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), null, qos, telemetryTimeout, cancellationToken);
         }
 
-        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            ValidateAsNeeded();
+            ValidateAsNeeded(transientTopicTokenMap);
             cancellationToken.ThrowIfCancellationRequested();
 
             string? clientId = _mqttClient.ClientId;
@@ -104,7 +104,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap));
 
             try
             {
@@ -176,7 +176,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
-        private void ValidateAsNeeded()
+        private void ValidateAsNeeded(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
             if (_hasBeenValidated)
             {
@@ -191,7 +191,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     "The provided MQTT client is not configured for MQTT version 5");
             }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch

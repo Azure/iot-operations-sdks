@@ -284,6 +284,7 @@ where
         if let TestCaseAction::SendTelemetry {
             defaults_type: _,
             telemetry_name,
+            topic_token_map,
             timeout,
             telemetry_value,
             metadata,
@@ -307,6 +308,10 @@ where
             }
 
             telemetry_message_builder.qos(qos::to_enum(*qos));
+
+            if let Some(topic_token_map) = topic_token_map {
+                telemetry_message_builder.topic_tokens(topic_token_map.clone());
+            }
 
             if let Some(timeout) = timeout {
                 telemetry_message_builder.message_expiry(timeout.to_duration());

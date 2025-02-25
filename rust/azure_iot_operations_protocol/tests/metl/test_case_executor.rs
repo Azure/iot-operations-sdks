@@ -61,6 +61,9 @@ pub struct TestCaseExecutor<T: DefaultsType + Default> {
     #[serde(default)]
     pub response_metadata: HashMap<String, Option<String>>,
 
+    #[serde(rename = "token-metadata-prefix")]
+    pub token_metadata_prefix: Option<String>,
+
     #[serde(rename = "execution-concurrency")]
     #[serde(default = "get_default_execution_concurrency::<T>")]
     pub execution_concurrency: Option<i32>,

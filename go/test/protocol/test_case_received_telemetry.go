@@ -13,6 +13,7 @@ type TestCaseCloudEventCapsule struct {
 type testCaseReceivedTelemetry struct {
 	TelemetryValue any                        `yaml:"telemetry-value"`
 	Metadata       *map[string]string         `yaml:"metadata"`
+	TopicTokens    *map[string]string         `yaml:"topic-tokens"`
 	Capsule        *TestCaseCloudEventCapsule `yaml:",inline"`
 	SourceIndex    *int                       `yaml:"source-index"`
 }
