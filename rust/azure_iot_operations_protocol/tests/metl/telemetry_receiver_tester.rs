@@ -488,8 +488,11 @@ where
 
         for (key, value) in &expected_telemetry.topic_tokens {
             assert_eq!(
-                value.as_ref(),
-                received_telemetry.topic_tokens.get(key),
+                &value,
+                &received_telemetry
+                    .topic_tokens
+                    .get(key)
+                    .expect("expected telemetry topic token {key}"),
                 "topic token {key} expected replacement {value:?}"
             );
         }

@@ -24,6 +24,6 @@ cargo install \
     cargo-llvm-cov
 
 cargo install \
-    --version '^0.7' \
+    --version '^0.6' \
     --locked \
     cargo-machete
