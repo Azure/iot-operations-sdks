@@ -93,7 +93,7 @@ where
                 } else {
                     Err(Error(ErrorKind::LockAlreadyInUse))
                 }
-            },
+            }
             Err(state_store_error) => Err(state_store_error.into()),
         }
     }
@@ -145,11 +145,17 @@ where
                 .await;
 
             match acquire_result {
-                Ok(ref acquire_response) => if acquire_response.response { break; /* Lock acquired */ },
-                Err(ref acquire_error) => match acquire_error.kind() {
-                    ErrorKind::LockAlreadyInUse => { /* Must wait for lock to be released. */ },
-                    _ => { break; }
+                Ok(ref acquire_response) => {
+                    if acquire_response.response {
+                        break; /* Lock acquired */
+                    }
                 }
+                Err(ref acquire_error) => match acquire_error.kind() {
+                    ErrorKind::LockAlreadyInUse => { /* Must wait for lock to be released. */ }
+                    _ => {
+                        break;
+                    }
+                },
             };
 
             // Lock being held by another client. Wait for delete notification.
@@ -186,7 +192,7 @@ where
         request_timeout: Duration,
         key: Vec<u8>,
         value: Vec<u8>,
-        set_options: SetOptions
+        set_options: SetOptions,
     ) -> Result<Response<bool>, Error> {
         if self.lock_name.is_empty() {
             return Err(Error(ErrorKind::LockNameLengthZero));
@@ -199,31 +205,32 @@ where
                 Err(ref acquire_error) => {
                     match acquire_error.kind() {
                         ErrorKind::LockAlreadyInUse => continue, // Try to lock again.
-                        _ => return acquire_result // Some other error that cannot be handle here. 
+                        _ => return acquire_result, // Some other error that cannot be handle here.
                     }
-                },
-                Ok(acquire_response) => { 
+                }
+                Ok(acquire_response) => {
                     /* lock acquired, let's proceed. */
 
                     let locked_state_store = self.state_store.lock().await;
 
-                    let set_result = locked_state_store.set(
+                    let set_result = locked_state_store
+                        .set(
                             key.clone(),
                             value.clone(),
                             request_timeout,
                             acquire_response.version,
-                            set_options
+                            set_options,
                         )
                         .await;
-                    
+
                     drop(locked_state_store);
-        
+
                     let _ = self.release_lock(request_timeout).await;
 
                     match set_result {
                         Ok(set_response) => {
                             return Ok(Response::from_response(set_response));
-                        },
+                        }
                         Err(set_error) => {
                             return Err(set_error.into());
                         }
@@ -236,7 +243,7 @@ where
     /// Waits until a lock is acquired, deletes a key from the state store and releases the lock.
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
-    /// 
+    ///
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
     ///
@@ -264,29 +271,26 @@ where
                 Err(acquire_error) => {
                     match acquire_error.kind() {
                         ErrorKind::LockAlreadyInUse => continue, // Try to lock again.
-                        _ => return Err(acquire_error) // Some other error that cannot be handle here. 
+                        _ => return Err(acquire_error), // Some other error that cannot be handle here.
                     }
-                },
-                Ok(acquire_response) => { 
+                }
+                Ok(acquire_response) => {
                     /* lock acquired, let's proceed. */
 
                     let locked_state_store = self.state_store.lock().await;
 
-                    let del_result = locked_state_store.del(
-                            key.clone(),
-                            acquire_response.version,
-                            request_timeout
-                        )
+                    let del_result = locked_state_store
+                        .del(key.clone(), acquire_response.version, request_timeout)
                         .await;
-                    
+
                     drop(locked_state_store);
-        
+
                     let _ = self.release_lock(request_timeout).await;
 
                     match del_result {
                         Ok(del_response) => {
                             return Ok(Response::from_response(del_response));
-                        },
+                        }
                         Err(del_error) => {
                             return Err(del_error.into());
                         }
@@ -309,10 +313,7 @@ where
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
-    pub async fn release_lock(
-        &self,
-        request_timeout: Duration,
-    ) -> Result<Response<i64>, Error> {
+    pub async fn release_lock(&self, request_timeout: Duration) -> Result<Response<i64>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
         let vdel_result = locked_state_store
@@ -360,7 +361,9 @@ where
     ) -> Result<Response<LockObservation>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let observe_result = locked_state_store.observe(self.lock_name.clone(), request_timeout).await;
+        let observe_result = locked_state_store
+            .observe(self.lock_name.clone(), request_timeout)
+            .await;
 
         match observe_result {
             Ok(state_store_response) => Ok(state_store_response.into()),
@@ -384,13 +387,12 @@ where
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
-    pub async fn unobserve_lock(
-        &self,
-        request_timeout: Duration,
-    ) -> Result<Response<bool>, Error> {
+    pub async fn unobserve_lock(&self, request_timeout: Duration) -> Result<Response<bool>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let unobserve_result = locked_state_store.unobserve(self.lock_name.clone(), request_timeout).await;
+        let unobserve_result = locked_state_store
+            .unobserve(self.lock_name.clone(), request_timeout)
+            .await;
 
         match unobserve_result {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),

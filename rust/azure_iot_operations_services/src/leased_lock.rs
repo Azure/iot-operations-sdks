@@ -79,8 +79,12 @@ pub enum ErrorKind {
 impl From<StateStoreErrorKind> for ErrorKind {
     fn from(kind: StateStoreErrorKind) -> Self {
         match kind {
-            StateStoreErrorKind::AIOProtocolError(protocol_error) => ErrorKind::AIOProtocolError(protocol_error),
-            StateStoreErrorKind::ServiceError(service_error) => ErrorKind::ServiceError(service_error),
+            StateStoreErrorKind::AIOProtocolError(protocol_error) => {
+                ErrorKind::AIOProtocolError(protocol_error)
+            }
+            StateStoreErrorKind::ServiceError(service_error) => {
+                ErrorKind::ServiceError(service_error)
+            }
             StateStoreErrorKind::KeyLengthZero => ErrorKind::LockNameLengthZero,
             StateStoreErrorKind::SerializationError(error_string) => {
                 ErrorKind::SerializationError(error_string)
@@ -123,9 +127,6 @@ impl<T: Debug> Response<T> {
 
 impl From<StateStoreResponse<KeyObservation>> for Response<LockObservation> {
     fn from(state_store_response: StateStoreResponse<KeyObservation>) -> Self {
-        Response::new(
-            state_store_response.response,
-            state_store_response.version,
-        )
+        Response::new(state_store_response.response, state_store_response.version)
     }
 }

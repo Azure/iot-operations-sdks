@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{self};
-use azure_iot_operations_services::state_store::{self, SetOptions, SetCondition};
+use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
 use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
@@ -74,8 +74,12 @@ async fn leased_lock_operations(
         expires: Some(Duration::from_secs(5)),
     };
 
-    let leased_lock_client =
-        leased_lock::Client::new(state_store.clone(), lock_name.to_vec(), lock_holder.to_vec()).unwrap();
+    let leased_lock_client = leased_lock::Client::new(
+        state_store.clone(),
+        lock_name.to_vec(),
+        lock_holder.to_vec(),
+    )
+    .unwrap();
 
     // Individual operations (acquire_lock, observe, get_holder_name, unobserve).
     match leased_lock_client
@@ -96,10 +100,7 @@ async fn leased_lock_operations(
         }
     };
 
-    match leased_lock_client
-        .observe_lock(request_timeout)
-        .await
-    {
+    match leased_lock_client.observe_lock(request_timeout).await {
         Ok(_observe_lock_response) => {
             log::info!("Observe lock succeeded");
         }
@@ -111,10 +112,7 @@ async fn leased_lock_operations(
 
     get_lock_holder(&leased_lock_client, lock_name.to_vec(), request_timeout).await;
 
-    match leased_lock_client
-        .release_lock(request_timeout)
-        .await
-    {
+    match leased_lock_client.release_lock(request_timeout).await {
         Ok(release_lock_response) => {
             if release_lock_response.response == 1 {
                 log::info!("Lock released successfuly");
@@ -131,10 +129,7 @@ async fn leased_lock_operations(
 
     get_lock_holder(&leased_lock_client, lock_name.to_vec(), request_timeout).await;
 
-    match leased_lock_client
-        .unobserve_lock(request_timeout)
-        .await
-    {
+    match leased_lock_client.unobserve_lock(request_timeout).await {
         Ok(unobserve_lock_response) => {
             if unobserve_lock_response.response {
                 log::info!("Unobserve lock succeeded");
@@ -151,14 +146,23 @@ async fn leased_lock_operations(
 
     // acquire_lock_and_update_value, acquire_lock_and_delete_value
     match leased_lock_client
-        .acquire_lock_and_update_value(lock_expiry, request_timeout, key_name.to_vec(), key_value.to_vec(), key_set_options)
+        .acquire_lock_and_update_value(
+            lock_expiry,
+            request_timeout,
+            key_name.to_vec(),
+            key_value.to_vec(),
+            key_set_options,
+        )
         .await
     {
         Ok(acquire_lock_and_update_value_result) => {
             if acquire_lock_and_update_value_result.response {
                 log::info!("Key successfuly set");
             } else {
-                log::error!("Failed setting key {:?}", acquire_lock_and_update_value_result);
+                log::error!(
+                    "Failed setting key {:?}",
+                    acquire_lock_and_update_value_result
+                );
                 return;
             }
         }
@@ -171,11 +175,17 @@ async fn leased_lock_operations(
     {
         let locked_state_store = state_store.lock().await;
 
-        match locked_state_store.get(key_name.to_vec(), request_timeout).await {
+        match locked_state_store
+            .get(key_name.to_vec(), request_timeout)
+            .await
+        {
             Ok(get_response) => match get_response.response {
                 Some(get_value) => {
-                    log::info!("Key value retrieved: {}", String::from_utf8(get_value).unwrap());
-                },
+                    log::info!(
+                        "Key value retrieved: {}",
+                        String::from_utf8(get_value).unwrap()
+                    );
+                }
                 None => {
                     log::error!("Failed getting key {:?}", get_response);
                 }
@@ -197,7 +207,10 @@ async fn leased_lock_operations(
             if acquire_lock_and_delete_value_result.response == 1 {
                 log::info!("Key successfuly deleted");
             } else {
-                log::error!("Failed deleting key {:?}", acquire_lock_and_delete_value_result);
+                log::error!(
+                    "Failed deleting key {:?}",
+                    acquire_lock_and_delete_value_result
+                );
                 return;
             }
         }
