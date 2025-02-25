@@ -5,9 +5,11 @@ runs:
   steps:
     - name: Create k3s cluster
       run: tools/deployment/initialize-cluster.sh
+      shell: bash
 
     - name: Install AIO
       uses: azure/iot-operations-sdks-action@main
 
     - name: Configure AIO
       run: tools/deployment/deploy-aio.sh
+      shell: bash
