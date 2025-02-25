@@ -233,8 +233,8 @@ func (tr *TelemetryReceiver[T]) handle(
 		var err error
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
-				err = &errors.RemoteError{
-					BaseError: errors.BaseError{
+				err = &errors.Remote{
+					Base: errors.Base{
 						Message: fmt.Sprint(ePanic),
 						Kind:    errors.ExecutionException,
 					},
@@ -254,18 +254,18 @@ func (tr *TelemetryReceiver[T]) handle(
 			err = e
 		} else if err != nil {
 			if e, ok := err.(InvocationError); ok {
-				err = &errors.RemoteError{
-					BaseError: errors.BaseError{
+				err = &errors.Remote{
+					Base: errors.Base{
 						Message:       e.Message,
 						Kind:          errors.InvocationException,
 						PropertyName:  e.PropertyName,
-						PropertyValue: fmt.Sprint(e.PropertyValue),
+						PropertyValue: e.PropertyValue,
 					},
 					InApplication: true,
 				}
 			} else {
-				err = &errors.RemoteError{
-					BaseError: errors.BaseError{
+				err = &errors.Remote{
+					Base: errors.Base{
 						Message: err.Error(),
 						Kind:    errors.ExecutionException,
 					},

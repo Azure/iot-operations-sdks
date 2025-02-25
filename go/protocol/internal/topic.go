@@ -54,8 +54,8 @@ func ValidateTopicPatternComponent(
 	name, msgOnErr, pattern string,
 ) error {
 	if !matchPattern.MatchString(pattern) {
-		return &errors.ClientError{
-			BaseError: errors.BaseError{
+		return &errors.Client{
+			Base: errors.Base{
 				Message:       msgOnErr,
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  name,
@@ -75,8 +75,8 @@ func NewTopicPattern(
 ) (*TopicPattern, error) {
 	if namespace != "" {
 		if !ValidTopic(namespace) {
-			return nil, &errors.ClientError{
-				BaseError: errors.BaseError{
+			return nil, &errors.Client{
+				Base: errors.Base{
 					Message:       "invalid topic namespace",
 					Kind:          errors.ConfigurationInvalid,
 					PropertyName:  "TopicNamespace",
@@ -88,8 +88,8 @@ func NewTopicPattern(
 	}
 
 	if !matchPattern.MatchString(pattern) {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:       "invalid topic pattern",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  name,
@@ -122,8 +122,8 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	if !ValidTopic(topic) {
 		missingToken := matchToken.FindString(topic)
 		if missingToken != "" {
-			return "", &errors.ClientError{
-				BaseError: errors.BaseError{
+			return "", &errors.Client{
+				Base: errors.Base{
 					Message:      "invalid topic",
 					Kind:         errors.ArgumentInvalid,
 					PropertyName: missingToken[1 : len(missingToken)-1],
@@ -131,8 +131,8 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 			}
 		}
 
-		return "", &errors.ClientError{
-			BaseError: errors.BaseError{
+		return "", &errors.Client{
+			Base: errors.Base{
 				Message:       "invalid topic",
 				Kind:          errors.ArgumentInvalid,
 				PropertyName:  tp.name,
@@ -196,8 +196,8 @@ func ValidTopic(topic string) bool {
 // Return whether the provided string is a valid share name.
 func ValidateShareName(shareName string) error {
 	if shareName != "" && !matchLabel.MatchString(shareName) {
-		return &errors.ClientError{
-			BaseError: errors.BaseError{
+		return &errors.Client{
+			Base: errors.Base{
 				Message:       "invalid share name",
 				Kind:          errors.ConfigurationInvalid,
 				PropertyName:  "ShareName",
@@ -219,8 +219,8 @@ func validateTokens(kind errors.Kind, tokens map[string]string) error {
 		// however, check to make sure they're valid token names so that we can
 		// warn the user in cases that will never actually be valid.
 		if !matchLabel.MatchString(k) || !matchLabel.MatchString(v) {
-			return &errors.ClientError{
-				BaseError: errors.BaseError{
+			return &errors.Client{
+				Base: errors.Base{
 					Message:       "invalid topic token",
 					Kind:          kind,
 					PropertyName:  k,

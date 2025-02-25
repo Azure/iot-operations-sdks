@@ -98,8 +98,8 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 
 	for _, key := range ceReserved {
 		if _, ok := msg.UserProperties[key]; ok {
-			return &errors.ClientError{
-				BaseError: errors.BaseError{
+			return &errors.Client{
+				Base: errors.Base{
 					Message:       "metadata key reserved for cloud event",
 					Kind:          errors.ArgumentInvalid,
 					PropertyName:  "Metadata",
@@ -122,8 +122,8 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 	// We have reasonable defaults for all other values; source, however, is
 	// both required and something the caller must specify.
 	if ce.Source == nil {
-		return &errors.ClientError{
-			BaseError: errors.BaseError{
+		return &errors.Client{
+			Base: errors.Base{
 				Message:      "source must be defined",
 				Kind:         errors.ArgumentInvalid,
 				PropertyName: "CloudEvent",
@@ -145,8 +145,8 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 	}
 
 	if ce.DataContentType != "" && ce.DataContentType != msg.ContentType {
-		return &errors.ClientError{
-			BaseError: errors.BaseError{
+		return &errors.Client{
+			Base: errors.Base{
 				Message:       "cloud event content type mismatch",
 				Kind:          errors.ArgumentInvalid,
 				PropertyName:  "DataContentType",
@@ -156,8 +156,8 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 	}
 
 	if !contentTypeRegex.MatchString(msg.ContentType) {
-		return &errors.ClientError{
-			BaseError: errors.BaseError{
+		return &errors.Client{
+			Base: errors.Base{
 				Message:       "cloud event invalid content type",
 				Kind:          errors.ArgumentInvalid,
 				PropertyName:  "DataContentType",
@@ -168,8 +168,8 @@ func (ce *CloudEvent) toMessage(msg *mqtt.Message) error {
 
 	if ce.DataSchema != nil {
 		if ce.DataSchema.Scheme == "" {
-			return &errors.ClientError{
-				BaseError: errors.BaseError{
+			return &errors.Client{
+				Base: errors.Base{
 					Message:      "cloud event data schema URI not absolute",
 					Kind:         errors.ArgumentInvalid,
 					PropertyName: "CloudEvent",
@@ -206,8 +206,8 @@ func CloudEventFromTelemetry[T any](
 
 	ce.SpecVersion, ok = msg.Metadata[ceSpecVersion]
 	if !ok {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:    "cloud event missing spec version header",
 				Kind:       errors.HeaderMissing,
 				HeaderName: ceSpecVersion,
@@ -215,8 +215,8 @@ func CloudEventFromTelemetry[T any](
 		}
 	}
 	if ce.SpecVersion != "1.0" {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:     "cloud event invalid spec version",
 				Kind:        errors.HeaderInvalid,
 				HeaderName:  ceSpecVersion,
@@ -227,8 +227,8 @@ func CloudEventFromTelemetry[T any](
 
 	ce.ID, ok = msg.Metadata[ceID]
 	if !ok {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:    "cloud event missing ID header",
 				Kind:       errors.HeaderMissing,
 				HeaderName: ceID,
@@ -238,8 +238,8 @@ func CloudEventFromTelemetry[T any](
 
 	src, ok := msg.Metadata[ceSource]
 	if !ok {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:    "cloud event missing source header",
 				Kind:       errors.HeaderMissing,
 				HeaderName: ceSource,
@@ -248,8 +248,8 @@ func CloudEventFromTelemetry[T any](
 	}
 	ce.Source, err = url.Parse(src)
 	if err != nil {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:     "cloud event invalid source header",
 				Kind:        errors.HeaderInvalid,
 				HeaderName:  ceSource,
@@ -260,8 +260,8 @@ func CloudEventFromTelemetry[T any](
 
 	ce.Type, ok = msg.Metadata[ceType]
 	if !ok {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:    "cloud event missing type header",
 				Kind:       errors.HeaderMissing,
 				HeaderName: ceType,
@@ -273,8 +273,8 @@ func CloudEventFromTelemetry[T any](
 	// properties that don't parse.
 
 	if !contentTypeRegex.MatchString(msg.ContentType) {
-		return nil, &errors.ClientError{
-			BaseError: errors.BaseError{
+		return nil, &errors.Client{
+			Base: errors.Base{
 				Message:       "cloud event content type nonconforming",
 				Kind:          errors.HeaderInvalid,
 				PropertyName:  ceDataContentType,
@@ -288,8 +288,8 @@ func CloudEventFromTelemetry[T any](
 	if ds, ok := msg.Metadata[ceDataSchema]; ok {
 		ce.DataSchema, err = url.Parse(ds)
 		if err != nil {
-			return nil, &errors.ClientError{
-				BaseError: errors.BaseError{
+			return nil, &errors.Client{
+				Base: errors.Base{
 					Message:     "cloud event invalid data schema header",
 					Kind:        errors.HeaderInvalid,
 					HeaderName:  ceDataSchema,
@@ -298,8 +298,8 @@ func CloudEventFromTelemetry[T any](
 			}
 		}
 		if ce.DataSchema.Scheme == "" {
-			return nil, &errors.ClientError{
-				BaseError: errors.BaseError{
+			return nil, &errors.Client{
+				Base: errors.Base{
 					Message:     "cloud event data schema URI not absolute",
 					Kind:        errors.HeaderInvalid,
 					HeaderName:  ceDataSchema,
@@ -314,8 +314,8 @@ func CloudEventFromTelemetry[T any](
 	if t, ok := msg.Metadata[ceTime]; ok {
 		ce.Time, err = iso8601.ParseString(t)
 		if err != nil {
-			return nil, &errors.ClientError{
-				BaseError: errors.BaseError{
+			return nil, &errors.Client{
+				Base: errors.Base{
 					Message:     "cloud event invalid time header",
 					Kind:        errors.HeaderInvalid,
 					HeaderName:  ceTime,

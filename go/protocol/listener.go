@@ -122,8 +122,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	// nothing else is trustworthy.
 	ver := msg.Mqtt.UserProperties[constants.ProtocolVersion]
 	if !version.IsSupported(ver, l.supportedVersion) {
-		l.error(ctx, msg.Mqtt, &errors.RemoteError{
-			BaseError: errors.BaseError{
+		l.error(ctx, msg.Mqtt, &errors.Remote{
+			Base: errors.Base{
 				Message: "unsupported version",
 				Kind:    errors.UnsupportedRequestVersion,
 			},
@@ -136,8 +136,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	msg.ClientID = msg.Mqtt.UserProperties[constants.SourceID]
 
 	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
-		l.error(ctx, msg.Mqtt, &errors.RemoteError{
-			BaseError: errors.BaseError{
+		l.error(ctx, msg.Mqtt, &errors.Remote{
+			Base: errors.Base{
 				Message:    "correlation data missing",
 				Kind:       errors.HeaderMissing,
 				HeaderName: constants.CorrelationData,
@@ -148,8 +148,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	if len(msg.Mqtt.CorrelationData) != 0 {
 		correlationData, err := uuid.FromBytes(msg.Mqtt.CorrelationData)
 		if err != nil {
-			l.error(ctx, msg.Mqtt, &errors.RemoteError{
-				BaseError: errors.BaseError{
+			l.error(ctx, msg.Mqtt, &errors.Remote{
+				Base: errors.Base{
 					Message:    "correlation data is not a valid UUID",
 					Kind:       errors.HeaderInvalid,
 					HeaderName: constants.CorrelationData,
@@ -165,8 +165,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		var err error
 		msg.Timestamp, err = l.app.hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
-			l.error(ctx, msg.Mqtt, &errors.RemoteError{
-				BaseError: errors.BaseError{
+			l.error(ctx, msg.Mqtt, &errors.Remote{
+				Base: errors.Base{
 					Message:     "timestamp is not a valid RFC3339 timestamp",
 					Kind:        errors.HeaderInvalid,
 					HeaderName:  constants.Timestamp,
@@ -179,6 +179,21 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 			l.error(ctx, msg.Mqtt, err)
 			return
 		}
+	}
+
+	if msg.Mqtt.ContentType != "" &&
+		msg.Mqtt.ContentType != "application/json" &&
+		msg.Mqtt.ContentType != "non.conforming" &&
+		msg.Mqtt.ContentType != "application/octet-stream" {
+		l.error(ctx, msg.Mqtt, &errors.Remote{
+			Base: errors.Base{
+				Message:     "content type not supported",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  constants.ContentType,
+				HeaderValue: msg.Mqtt.ContentType,
+			},
+		})
+		return
 	}
 
 	msg.Metadata = internal.PropToMetadata(msg.Mqtt.UserProperties)

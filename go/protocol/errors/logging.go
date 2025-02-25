@@ -5,8 +5,8 @@ package errors
 import "log/slog"
 
 // client errors.
-func (e *ClientError) Attrs() []slog.Attr {
-	a := baseAttrs(&e.BaseError)
+func (e *Client) Attrs() []slog.Attr {
+	a := baseAttrs(&e.Base)
 
 	if e.IsShallow {
 		a = append(a, slog.Bool("is_shallow", e.IsShallow))
@@ -16,8 +16,8 @@ func (e *ClientError) Attrs() []slog.Attr {
 }
 
 // remote errors.
-func (e *RemoteError) Attrs() []slog.Attr {
-	a := baseAttrs(&e.BaseError)
+func (e *Remote) Attrs() []slog.Attr {
+	a := baseAttrs(&e.Base)
 
 	if e.HTTPStatusCode != 0 {
 		a = append(a, slog.Int("http_status_code", e.HTTPStatusCode))
@@ -44,8 +44,8 @@ func (e *RemoteError) Attrs() []slog.Attr {
 	return a
 }
 
-// get attributes from BaseError.
-func baseAttrs(e *BaseError) []slog.Attr {
+// get attributes from Base.
+func baseAttrs(e *Base) []slog.Attr {
 	a := make([]slog.Attr, 0, 8)
 
 	a = append(a, slog.Int("kind", int(e.Kind)))
@@ -74,7 +74,7 @@ func baseAttrs(e *BaseError) []slog.Attr {
 		)
 	case StateInvalid:
 		a = append(a, slog.String("property_name", e.PropertyName))
-		if e.PropertyValue != "" {
+		if e.PropertyValue != nil {
 			a = append(a, slog.Any("property_value", e.PropertyValue))
 		}
 	case InternalLogicError:
@@ -83,7 +83,7 @@ func baseAttrs(e *BaseError) []slog.Attr {
 		if e.PropertyName != "" {
 			a = append(a, slog.String("property_name", e.PropertyName))
 		}
-		if e.PropertyValue != "" {
+		if e.PropertyValue != nil {
 			a = append(a, slog.Any("property_value", e.PropertyValue))
 		}
 	case ExecutionException:

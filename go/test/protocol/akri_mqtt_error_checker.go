@@ -3,6 +3,7 @@
 package protocol
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -12,7 +13,7 @@ import (
 )
 
 func CheckError(t *testing.T, testCaseCatch TestCaseCatch, err error) {
-	if remoteErr, ok := err.(*errors.RemoteError); ok {
+	if remoteErr, ok := err.(*errors.Remote); ok {
 		require.Equal(t, testCaseCatch.GetErrorKind(), remoteErr.Kind)
 
 		if testCaseCatch.InApplication != nil {
@@ -29,28 +30,28 @@ func CheckError(t *testing.T, testCaseCatch TestCaseCatch, err error) {
 			require.Equal(t, statusCode, remoteErr.HTTPStatusCode)
 		}
 
-		checkCommonFields(t, testCaseCatch, &remoteErr.BaseError)
+		checkCommonFields(t, testCaseCatch, &remoteErr.Base)
 		return
 	}
 
-	if clientErr, ok := err.(*errors.ClientError); ok {
+	if clientErr, ok := err.(*errors.Client); ok {
 		require.Equal(t, testCaseCatch.GetErrorKind(), clientErr.Kind)
 
 		if testCaseCatch.IsShallow != nil {
 			require.Equal(t, *testCaseCatch.IsShallow, clientErr.IsShallow)
 		}
 
-		checkCommonFields(t, testCaseCatch, &clientErr.BaseError)
+		checkCommonFields(t, testCaseCatch, &clientErr.Base)
 		return
 	}
 
-	require.Fail(t, "error must be either RemoteError or ClientError")
+	require.Fail(t, "error must be either Remote or Client")
 }
 
 func checkCommonFields(
 	t *testing.T,
 	testCaseCatch TestCaseCatch,
-	baseErr *errors.BaseError,
+	baseErr *errors.Base,
 ) {
 	if testCaseCatch.Message != nil {
 		require.Equal(t, *testCaseCatch.Message, baseErr.Message)
@@ -101,7 +102,7 @@ func checkCommonFields(
 		if propertyValue == nil {
 			require.Empty(t, baseErr.PropertyValue)
 		} else {
-			val := baseErr.PropertyValue
+			val := fmt.Sprintf("%v", baseErr.PropertyValue)
 			require.Equal(t, *propertyValue, val)
 		}
 	}

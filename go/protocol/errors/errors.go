@@ -4,51 +4,48 @@ package errors
 
 import "time"
 
-type Kind int
+type (
+	Kind int
 
-// common fields for both client-side and remote errors.
-type BaseError struct {
-	Message string
-	Kind    Kind
+	// common fields for both client-side and remote errors.
+	Base struct {
+		Message string
+		Kind    Kind
 
-	PropertyName  string
-	PropertyValue string
-	NestedError   error
+		PropertyName  string
+		PropertyValue any
+		NestedError   error
 
-	TimeoutName  string
-	TimeoutValue time.Duration
+		TimeoutName  string
+		TimeoutValue time.Duration
 
-	HeaderName  string
-	HeaderValue string
-}
+		HeaderName  string
+		HeaderValue string
+	}
 
-// purely client-side errors that are never sent over the wire.
-type ClientError struct {
-	BaseError
-	IsShallow bool
-}
+	// purely client-side errors that are never sent over the wire.
+	Client struct {
+		Base
+		IsShallow bool
+	}
 
-// errors that can be sent between services over the wire.
-type RemoteError struct {
-	BaseError
-	HTTPStatusCode                 int
-	ProtocolVersion                string
-	SupportedMajorProtocolVersions []int
-	InApplication                  bool
-}
+	// errors that can be sent between services over the wire.
+	Remote struct {
+		Base
+		HTTPStatusCode                 int
+		ProtocolVersion                string
+		SupportedMajorProtocolVersions []int
+		InApplication                  bool
+	}
+)
 
-// client side.
 const (
 	Timeout Kind = iota
 	Cancellation
 	ConfigurationInvalid
 	ArgumentInvalid
 	MqttError
-)
-
-// remote.
-const (
-	HeaderMissing Kind = iota + 100
+	HeaderMissing
 	HeaderInvalid
 	PayloadInvalid
 	StateInvalid
@@ -60,10 +57,10 @@ const (
 	UnsupportedResponseVersion
 )
 
-func (e *ClientError) Error() string {
+func (e *Client) Error() string {
 	return e.Message
 }
 
-func (e *RemoteError) Error() string {
+func (e *Remote) Error() string {
 	return e.Message
 }

@@ -320,8 +320,8 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 		"response not for this invoker",
 		slog.String("correlation_data", cdata),
 	)
-	return &errors.RemoteError{
-		BaseError: errors.BaseError{
+	return &errors.Remote{
+		Base: errors.Base{
 			Message:     "unrecognized correlation data",
 			Kind:        errors.HeaderInvalid,
 			HeaderName:  constants.CorrelationData,
@@ -373,7 +373,7 @@ func (ci *CommandInvoker[Req, Res]) onErr(
 ) error {
 	// If we received a version error from the listener implementation rather
 	// than the response message, it indicates a version *we* don't support.
-	if e, ok := err.(*errors.RemoteError); ok &&
+	if e, ok := err.(*errors.Remote); ok &&
 		e.Kind == errors.UnsupportedRequestVersion {
 		e.Kind = errors.UnsupportedResponseVersion
 	}

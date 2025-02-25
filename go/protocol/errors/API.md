@@ -6,23 +6,23 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 
 ## Index
 
-- [type BaseError](<#BaseError>)
-- [type ClientError](<#ClientError>)
-  - [func \(e \*ClientError\) Attrs\(\) \[\]slog.Attr](<#ClientError.Attrs>)
-  - [func \(e \*ClientError\) Error\(\) string](<#ClientError.Error>)
+- [type Base](<#Base>)
+- [type Client](<#Client>)
+  - [func \(e \*Client\) Attrs\(\) \[\]slog.Attr](<#Client.Attrs>)
+  - [func \(e \*Client\) Error\(\) string](<#Client.Error>)
 - [type Kind](<#Kind>)
-- [type RemoteError](<#RemoteError>)
-  - [func \(e \*RemoteError\) Attrs\(\) \[\]slog.Attr](<#RemoteError.Attrs>)
-  - [func \(e \*RemoteError\) Error\(\) string](<#RemoteError.Error>)
+- [type Remote](<#Remote>)
+  - [func \(e \*Remote\) Attrs\(\) \[\]slog.Attr](<#Remote.Attrs>)
+  - [func \(e \*Remote\) Error\(\) string](<#Remote.Error>)
 
 
-<a name="BaseError"></a>
-## type [BaseError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L10-L23>)
+<a name="Base"></a>
+## type [Base](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L11-L24>)
 
 common fields for both client\-side and remote errors.
 
 ```go
-type BaseError struct {
+type Base struct {
     Message string
     Kind    Kind
 
@@ -38,38 +38,38 @@ type BaseError struct {
 }
 ```
 
-<a name="ClientError"></a>
-## type [ClientError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L26-L29>)
+<a name="Client"></a>
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L27-L30>)
 
 purely client\-side errors that are never sent over the wire.
 
 ```go
-type ClientError struct {
-    BaseError
+type Client struct {
+    Base
     IsShallow bool
 }
 ```
 
-<a name="ClientError.Attrs"></a>
-### func \(\*ClientError\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L8>)
+<a name="Client.Attrs"></a>
+### func \(\*Client\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L8>)
 
 ```go
-func (e *ClientError) Attrs() []slog.Attr
+func (e *Client) Attrs() []slog.Attr
 ```
 
 client errors.
 
-<a name="ClientError.Error"></a>
-### func \(\*ClientError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L63>)
+<a name="Client.Error"></a>
+### func \(\*Client\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L60>)
 
 ```go
-func (e *ClientError) Error() string
+func (e *Client) Error() string
 ```
 
 
 
 <a name="Kind"></a>
-## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L7>)
+## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L8>)
 
 
 
@@ -77,7 +77,7 @@ func (e *ClientError) Error() string
 type Kind int
 ```
 
-<a name="Timeout"></a>client side.
+<a name="Timeout"></a>
 
 ```go
 const (
@@ -86,14 +86,7 @@ const (
     ConfigurationInvalid
     ArgumentInvalid
     MqttError
-)
-```
-
-<a name="HeaderMissing"></a>remote.
-
-```go
-const (
-    HeaderMissing Kind = iota + 100
+    HeaderMissing
     HeaderInvalid
     PayloadInvalid
     StateInvalid
@@ -106,14 +99,14 @@ const (
 )
 ```
 
-<a name="RemoteError"></a>
-## type [RemoteError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L32-L38>)
+<a name="Remote"></a>
+## type [Remote](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L33-L39>)
 
 errors that can be sent between services over the wire.
 
 ```go
-type RemoteError struct {
-    BaseError
+type Remote struct {
+    Base
     HTTPStatusCode                 int
     ProtocolVersion                string
     SupportedMajorProtocolVersions []int
@@ -121,20 +114,20 @@ type RemoteError struct {
 }
 ```
 
-<a name="RemoteError.Attrs"></a>
-### func \(\*RemoteError\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L19>)
+<a name="Remote.Attrs"></a>
+### func \(\*Remote\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L19>)
 
 ```go
-func (e *RemoteError) Attrs() []slog.Attr
+func (e *Remote) Attrs() []slog.Attr
 ```
 
 remote errors.
 
-<a name="RemoteError.Error"></a>
-### func \(\*RemoteError\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L67>)
+<a name="Remote.Error"></a>
+### func \(\*Remote\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L64>)
 
 ```go
-func (e *RemoteError) Error() string
+func (e *Remote) Error() string
 ```
 
 

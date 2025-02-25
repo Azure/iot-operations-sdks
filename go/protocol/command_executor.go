@@ -191,8 +191,8 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	}
 
 	if pub.MessageExpiry == 0 {
-		errNoExpiry := &errors.RemoteError{
-			BaseError: errors.BaseError{
+		errNoExpiry := &errors.Remote{
+			Base: errors.Base{
 				Message:    "message expiry missing",
 				Kind:       errors.HeaderMissing,
 				HeaderName: constants.MessageExpiry,
@@ -289,8 +289,8 @@ func (ce *CommandExecutor[Req, Res]) handle(
 		var ret commandReturn[Res]
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
-				ret.err = &errors.RemoteError{
-					BaseError: errors.BaseError{
+				ret.err = &errors.Remote{
+					Base: errors.Base{
 						Message: fmt.Sprint(ePanic),
 						Kind:    errors.ExecutionException,
 					},
@@ -310,18 +310,18 @@ func (ce *CommandExecutor[Req, Res]) handle(
 			ret.err = e
 		} else if ret.err != nil {
 			if e, ok := ret.err.(InvocationError); ok {
-				ret.err = &errors.RemoteError{
-					BaseError: errors.BaseError{
+				ret.err = &errors.Remote{
+					Base: errors.Base{
 						Message:       e.Message,
 						Kind:          errors.InvocationException,
 						PropertyName:  e.PropertyName,
-						PropertyValue: fmt.Sprint(e.PropertyValue),
+						PropertyValue: e.PropertyValue,
 					},
 					InApplication: true,
 				}
 			} else {
-				ret.err = &errors.RemoteError{
-					BaseError: errors.BaseError{
+				ret.err = &errors.Remote{
+					Base: errors.Base{
 						Message: ret.err.Error(),
 						Kind:    errors.ExecutionException,
 					},
@@ -370,8 +370,8 @@ func (ce *CommandExecutor[Req, Res]) build(
 // Check whether this message should be ignored and why.
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
-		return &errors.RemoteError{
-			BaseError: errors.BaseError{
+		return &errors.Remote{
+			Base: errors.Base{
 				Message:    "missing response topic",
 				Kind:       errors.HeaderMissing,
 				HeaderName: constants.ResponseTopic,
@@ -379,8 +379,8 @@ func ignoreRequest(pub *mqtt.Message) error {
 		}
 	}
 	if !internal.ValidTopic(pub.ResponseTopic) {
-		return &errors.RemoteError{
-			BaseError: errors.BaseError{
+		return &errors.Remote{
+			Base: errors.Base{
 				Message:     "invalid response topic",
 				Kind:        errors.HeaderInvalid,
 				HeaderName:  constants.ResponseTopic,

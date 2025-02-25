@@ -17,8 +17,8 @@ import (
 func Mqtt(ctx context.Context, msg string, ack *mqtt.Ack, err error) error {
 	if ack != nil {
 		if ack.ReasonCode >= 0x80 {
-			return &errors.ClientError{
-				BaseError: errors.BaseError{
+			return &errors.Client{
+				Base: errors.Base{
 					Message: fmt.Sprintf(
 						"%s error: %s. reason code: 0x%x",
 						msg,
@@ -30,8 +30,8 @@ func Mqtt(ctx context.Context, msg string, ack *mqtt.Ack, err error) error {
 			}
 		}
 	} else if err == nil {
-		return &errors.ClientError{
-			BaseError: errors.BaseError{
+		return &errors.Client{
+			Base: errors.Base{
 				Message: "the MQTT client returned a nil response without an error",
 				Kind:    errors.InternalLogicError,
 			},

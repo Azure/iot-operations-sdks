@@ -404,8 +404,8 @@ func getCloudEventError(
 	parseType string,
 	err error,
 ) error {
-	return &errors.ClientError{
-		BaseError: errors.BaseError{
+	return &errors.Client{
+		Base: errors.Base{
 			Message: fmt.Sprintf(
 				"cloud event %s not parsable as %s",
 				fieldName,
