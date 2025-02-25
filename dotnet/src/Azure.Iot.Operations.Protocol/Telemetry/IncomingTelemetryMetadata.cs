@@ -34,7 +34,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public Dictionary<string, string> UserData { get; }
 
         /// <summary>
-        /// A dictionary of MQTT topic tokens and the replacement values exnracted from the publication topic.
+        /// A dictionary of MQTT topic tokens and the replacement values extracted from the publication topic.
+
         /// </summary>
         public Dictionary<string, string> TopicTokens { get; }
 
