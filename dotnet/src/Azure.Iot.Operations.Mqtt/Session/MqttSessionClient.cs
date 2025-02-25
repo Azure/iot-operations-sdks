@@ -451,6 +451,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 if ((isReconnection || attemptCount > 1)
                     && !_sessionClientOptions.ConnectionRetryPolicy.ShouldRetry(attemptCount, lastException!, out retryDelay))
                 {
+                    // Should not occur as it's indefinite retry
                     Trace.TraceError("Retry policy was exhausted while trying to maintain a connection {0}", lastException);
                     var retryException = new RetryExpiredException("Retry policy has been exhausted. See inner exception for the latest exception encountered while retrying.", lastException);
 
