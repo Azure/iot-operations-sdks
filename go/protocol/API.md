@@ -364,7 +364,7 @@ ApplyOptions filters and resolves the provided list of options.
 CommandHandler is the user\-provided implementation of a single command execution. It is treated as blocking; all parallelism is handled by the library. This \*must\* be thread\-safe.
 
 ```go
-type CommandHandler[Req any, Res any] func(
+type CommandHandler[Req any, Res any] = func(
     context.Context,
     *CommandRequest[Req],
 ) (*CommandResponse[Res], error)
@@ -872,7 +872,7 @@ Apply resolves the provided list of options.
 TelemetryHandler is the user\-provided implementation of a single telemetry event handler. It is treated as blocking; all parallelism is handled by the library. This \*must\* be thread\-safe.
 
 ```go
-type TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
+type TelemetryHandler[T any] = func(context.Context, *TelemetryMessage[T]) error
 ```
 
 <a name="TelemetryMessage"></a>

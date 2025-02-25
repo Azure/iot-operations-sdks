@@ -48,7 +48,7 @@ type (
 	// TelemetryHandler is the user-provided implementation of a single
 	// telemetry event handler. It is treated as blocking; all parallelism is
 	// handled by the library. This *must* be thread-safe.
-	TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
+	TelemetryHandler[T any] = func(context.Context, *TelemetryMessage[T]) error
 
 	// TelemetryMessage contains per-message data and methods that are exposed
 	// to the telemetry handlers.
