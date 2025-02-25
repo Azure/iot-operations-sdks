@@ -52,7 +52,7 @@ jobs:
       run: dotnet --info
 
     - name: Install AIO
-      uses: .github/actions/deploy-aio
+      uses: ./.github/actions/deploy-aio
 
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
