@@ -8,8 +8,7 @@ description:
 
 prologue:
   invokers:
-  - response-topic-map:
-      "mock/test": "my/response/topic"
+  - response-topic-pattern: "my/response/topic"
 
 actions:
 - action: invoke command
