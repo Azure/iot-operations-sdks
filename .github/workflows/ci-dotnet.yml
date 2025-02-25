@@ -52,12 +52,7 @@ jobs:
       run: dotnet --info
 
     - name: Install AIO
-      uses: azure/iot-operations-sdks-action@main
-      with:
-        create-cluster: 'true'
-
-    - name: Configure AIO
-      run: tools/deployment/deploy-aio.sh
+      uses: .github/actions/deploy-aio
 
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
