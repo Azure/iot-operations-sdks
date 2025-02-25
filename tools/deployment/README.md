@@ -33,12 +33,9 @@ The following is a brief outline of the function of the three major scripts in t
 
 ### `deploy-aio`
 
-Deploy all AIO prerequisites and configure the Broker ready for development.
+Configures the MQTT broker for development purposes.
 
-1. Install the required AZ CLI extensions
-1. If nightly:
-    1. Install cert-manager/trust-manager for cert management
-    1. Install MQTT Broker, ADR & Akri services
+1. Create root and intermediate CAs for x509 authentication.
 1. Create the trust bundle ConfigMap for the Broker to authentication x509 clients
 1. Configure a `BrokerListener` and `BrokerAuthentication` resources for SAT and x509 auth
 1. Runs the `update-credentials` script
@@ -53,25 +50,17 @@ This will download to your local machine, the different files needed to authenti
 
 ## Scenarios
 
-### Initial install
+### Install
 
-For the initial install, run the following:
+For the install, run the following:
 
 ```bash
 ./tools/deployment/initialize-cluster.sh
-./tools/deployment/deploy-aio.sh nightly
+./tools/deployment/deploy-aio.sh
 ```
 
 > [!CAUTION]
 > `initialize-cluster.sh` will **DELETE** your default k3d cluster.
-
-### Update MQTT Broker
-
-To update MQTT broker to the latest nightly, run the following:
-
-```bash
-./tools/deployment/deploy-aio.sh nightly
-```
 
 ### Refresh local credentials
 

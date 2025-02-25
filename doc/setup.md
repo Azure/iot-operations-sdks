@@ -81,12 +81,6 @@ The Codespaces approach is the recommended option and it provides all the necess
 
 ## Install Azure IoT Operations
 
-Installation of Azure IoT Operations can be performed by connecting your cluster to Azure Arc (simulating a production environment) or by installing directly to the cluster with Helm.
-
-### Install with Azure Arc
-
-Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Azure Arc. Azure Arc provides the full Azure IoT Operations experience including the [Dashboard](https://iotoperations.azure.com) where you can deploy Assets.
-
 1. Open a shell in the root directory of this repository
 
 1. Run the init script which will install k3d (plus other dependencies) and create a new cluster:
@@ -102,38 +96,23 @@ Your Kubernetes cluster and Azure IoT Operations can be setup via Helm or via Az
 
 1. [Deploy Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/howto-deploy-iot-operations?tabs=cli) to your cluster
 
-### Install with Helm
-
-Installation via Helm allows you to get started quickly, however this is missing the Azure integration so it may not be suitable for some development.
-
-1. Open a shell in the root directory of this repository
-
-1. Create a new k3d cluster:
-
-    ```bash
-    sudo ./tools/deployment/initialize-cluster.sh
-    ```
-
-1. Install Azure IoT Operations:
-
-    ```bash
-    ./tools/deployment/deploy-aio.sh nightly
-    ```
-
-> [!CAUTION]
-> The scripts linked above simplify the environment setup. To understand the steps, review the scripts in the [deployment directory](/tools/deployment/).
-
 ## Broker configuration
 
-Once setup is complete, the cluster will contain the following MQTT broker definitions:
+1. Run the `deploy-aio` script to configure the Azure IoT Operations deployment for development:
 
-| Component | Name | Description |
-|-|-|-|
-| `Broker` | default | The MQTT broker |
-| `BrokerListener` | default | Provides **cluster access** to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
-| `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
-| `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
-| `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
+    ```bash
+    ./tools/deployment/deploy-aio.sh
+    ```
+
+1. Once setup is complete, the cluster will contain the following MQTT broker definitions:
+
+    | Component | Name | Description |
+    |-|-|-|
+    | `Broker` | default | The MQTT broker |
+    | `BrokerListener` | default | Provides **cluster access** to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
+    | `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
+    | `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
+    | `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
 
 ## Local artifacts
 
