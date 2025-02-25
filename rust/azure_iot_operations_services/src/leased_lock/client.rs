@@ -167,7 +167,134 @@ where
         acquire_result
     }
 
-// TODO: AcquireLockAndUpdateValueAsync
+    /// Waits until a lock is acquired, sets or updates a key in the state store and releases the lock.
+    ///
+    /// Returns `true` if the key is successfully set, or `false` if it is not.
+    /// # Errors
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
+    ///
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    ///
+    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    ///
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    pub async fn acquire_lock_and_update_value(
+        &self,
+        lock_expiration: Duration,
+        request_timeout: Duration,
+        key: Vec<u8>,
+        value: Vec<u8>,
+        set_options: SetOptions
+    ) -> Result<Response<bool>, Error> {
+        if self.lock_name.is_empty() {
+            return Err(Error(ErrorKind::LockNameLengthZero));
+        }
+
+        loop {
+            let acquire_result = self.acquire_lock(lock_expiration, request_timeout).await;
+
+            match acquire_result {
+                Err(ref acquire_error) => {
+                    match acquire_error.kind() {
+                        ErrorKind::LockAlreadyInUse => continue, // Try to lock again.
+                        _ => return acquire_result // Some other error that cannot be handle here. 
+                    }
+                },
+                Ok(acquire_response) => { 
+                    /* lock acquired, let's proceed. */
+
+                    let locked_state_store = self.state_store.lock().await;
+
+                    let set_result = locked_state_store.set(
+                            key.clone(),
+                            value.clone(),
+                            request_timeout,
+                            acquire_response.version,
+                            set_options
+                        )
+                        .await;
+                    
+                    drop(locked_state_store);
+        
+                    let _ = self.release_lock(request_timeout).await;
+
+                    match set_result {
+                        Ok(set_response) => {
+                            return Ok(Response::from_response(set_response));
+                        },
+                        Err(set_error) => {
+                            return Err(set_error.into());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// Waits until a lock is acquired, deletes a key from the state store and releases the lock.
+    ///
+    /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
+    /// 
+    /// # Errors
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
+    ///
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    ///
+    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    ///
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    pub async fn acquire_lock_and_delete_value(
+        &self,
+        lock_expiration: Duration,
+        request_timeout: Duration,
+        key: Vec<u8>,
+    ) -> Result<Response<i64>, Error> {
+        if self.lock_name.is_empty() {
+            return Err(Error(ErrorKind::LockNameLengthZero));
+        }
+
+        loop {
+            let acquire_result = self.acquire_lock(lock_expiration, request_timeout).await;
+
+            match acquire_result {
+                Err(acquire_error) => {
+                    match acquire_error.kind() {
+                        ErrorKind::LockAlreadyInUse => continue, // Try to lock again.
+                        _ => return Err(acquire_error) // Some other error that cannot be handle here. 
+                    }
+                },
+                Ok(acquire_response) => { 
+                    /* lock acquired, let's proceed. */
+
+                    let locked_state_store = self.state_store.lock().await;
+
+                    let del_result = locked_state_store.del(
+                            key.clone(),
+                            acquire_response.version,
+                            request_timeout
+                        )
+                        .await;
+                    
+                    drop(locked_state_store);
+        
+                    let _ = self.release_lock(request_timeout).await;
+
+                    match del_result {
+                        Ok(del_response) => {
+                            return Ok(Response::from_response(del_response));
+                        },
+                        Err(del_error) => {
+                            return Err(del_error.into());
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
