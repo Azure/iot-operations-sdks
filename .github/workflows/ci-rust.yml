@@ -62,7 +62,7 @@ jobs:
         create-cluster: 'true'
 
     - name: Configure AIO
-      run: tools/deployment/deploy-aio.sh
+      run: ../tools/deployment/deploy-aio.sh
 
     - name: Run Tests
       run: |
