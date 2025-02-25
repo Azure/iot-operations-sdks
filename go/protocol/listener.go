@@ -181,21 +181,6 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		}
 	}
 
-	if msg.Mqtt.ContentType != "" &&
-		msg.Mqtt.ContentType != "application/json" &&
-		msg.Mqtt.ContentType != "non.conforming" &&
-		msg.Mqtt.ContentType != "application/octet-stream" {
-		l.error(ctx, msg.Mqtt, &errors.Remote{
-			Base: errors.Base{
-				Message:     "content type not supported",
-				Kind:        errors.HeaderInvalid,
-				HeaderName:  constants.ContentType,
-				HeaderValue: msg.Mqtt.ContentType,
-			},
-		})
-		return
-	}
-
 	msg.Metadata = internal.PropToMetadata(msg.Mqtt.UserProperties)
 
 	msg.Data = &Data{

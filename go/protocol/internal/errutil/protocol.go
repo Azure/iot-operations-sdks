@@ -26,6 +26,29 @@ func ToUserProp(err error) map[string]string {
 		return (&result{status: 200}).props()
 	}
 
+	if clientErr, ok := err.(*errors.Client); ok {
+		remoteErr := &errors.Remote{
+			Base: clientErr.Base,
+		}
+		switch clientErr.Kind {
+		case errors.ArgumentInvalid:
+			remoteErr.Kind = errors.ExecutionException
+			remoteErr.InApplication = true
+		case errors.PayloadInvalid:
+			remoteErr.Kind = errors.PayloadInvalid
+		case errors.HeaderMissing:
+			remoteErr.Kind = errors.HeaderMissing
+		case errors.HeaderInvalid:
+			remoteErr.Kind = errors.HeaderInvalid
+		case errors.StateInvalid:
+			remoteErr.Kind = errors.StateInvalid
+		default:
+			remoteErr.Kind = errors.UnknownError
+		}
+
+		err = remoteErr
+	}
+
 	e, ok := err.(*errors.Remote)
 	if !ok {
 		return (&result{
