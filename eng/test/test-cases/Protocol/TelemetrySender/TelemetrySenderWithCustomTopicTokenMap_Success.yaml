@@ -1,0 +1,26 @@
+---
+test-name: TelemetrySenderWithCustomTopicTokenMap_Success
+description:
+  condition: >-
+    TelemetrySender with custom topic-token map sends a Telemetry with additional topic-token map.
+  expect: >-
+    TelemetrySender performs send with appropriate token replacements in telemetry topic.
+
+prologue:
+  senders:
+  - telemetry-topic: "telemetry/{ex:resident}/{ex:transient}"
+    topic-token-map:
+      "ex:resident": "MyRes"
+
+actions:
+- action: send telemetry
+  topic-token-map:
+    "ex:transient": "MyTrans"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "telemetry/MyRes/MyTrans"
+    payload: "Test_Telemetry"
+...

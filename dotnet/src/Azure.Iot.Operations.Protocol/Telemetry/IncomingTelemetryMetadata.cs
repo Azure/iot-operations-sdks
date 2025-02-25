@@ -34,6 +34,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public Dictionary<string, string> UserData { get; }
 
         /// <summary>
+        /// A dictionary of MQTT topic tokens and the replacement values exnracted from the publication topic.
+        /// </summary>
+        public Dictionary<string, string> TopicTokens { get; }
+
+        /// <summary>
         /// The Id of the received MQTT packet.
         /// </summary>
         public uint PacketId { get; }
@@ -57,7 +62,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
 
-        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId)
+        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null)
         {
             UserData = [];
 
@@ -85,6 +90,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     }
                 }
             }
+
+            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
 
             PacketId = packetId;
         }
