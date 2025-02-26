@@ -148,7 +148,7 @@ impl TopicPattern {
 
         if pattern.starts_with('$') {
             return Err(TopicPatternError {
-                msg: Some("'$' is a reserved character".to_string()),
+                msg: Some("Pattern must not start with '$'".to_string()),
                 kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
             });
         }
