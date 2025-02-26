@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class MathClient : TestEnvoys.Math.Math.Client
 {
-    public MathClient(IMqttPubSubClient mqttClient) : base(mqttClient)
+    public MathClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
     }
 }

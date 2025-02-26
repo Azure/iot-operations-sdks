@@ -33,6 +33,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
         public abstract partial class Service : IAsyncDisposable
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>;
@@ -41,16 +42,17 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             private readonly <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>;
 <# } #>
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(mqttClient) { OnCommandReceived = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(applicationContext, mqttClient) { OnCommandReceived = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>, CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
             }
 
@@ -64,13 +66,18 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
-            public abstract <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, this.syncApi ? null : "async")#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public <#=this.defaultImpl ? "virtual" : "abstract"#> <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, this.syncApi ? null : "async")#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)<#=this.defaultImpl ? "" : ";"#>
+<# if (this.defaultImpl) { #>
+            {
+                return <#=this.EmptyResp(cmdNameReqResp, asTask: !this.syncApi)#>;
+            }
+<# } #>
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 <# } #>
 <# if (this.cmdNameReqResps.Any()) { #>
@@ -145,6 +152,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
         public abstract partial class Client<#=this.cmdNameReqResps.Any() ? " : IAsyncDisposable" : ""#>
         {
+            private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
             private readonly <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>;
@@ -153,16 +161,17 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             private readonly <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>;
 <# } #>
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
+                this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemNameSchema, "receive")#>, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemNameSchema, "receive")#>, CustomTopicTokenMap = this.CustomTopicTokenMap };
 <# } #>
             }
 
@@ -176,7 +185,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public abstract Task <#=this.TelemMethodName(telemNameSchema, "receive")#>(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata);
+            public <#=this.defaultImpl ? "virtual" : "abstract"#> Task <#=this.TelemMethodName(telemNameSchema, "receive")#>(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata)<#=this.defaultImpl ? "" : ";"#>
+<# if (this.defaultImpl) { #>
+            {
+                return Task.CompletedTask;
+            }
+<# } #>
 <# } #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
@@ -251,7 +265,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
     private string ExtRespType((CodeName, ITypeName, ITypeName) cmdNameReqResp, bool asTask) => this.CondWrap(cmdNameReqResp.Item3 != null ? $"ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}>" : "CommandResponseMetadata?", asTask);
 
+    private string EmptyResp((CodeName, ITypeName, ITypeName) cmdNameReqResp, bool asTask) => this.CondFrom(cmdNameReqResp.Item3 != null ? $"new ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}> {{ Response = new {this.SchemaType(cmdNameReqResp.Item3)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()", asTask);
+
     private string CondWrap(string type, bool asTask) => asTask ? $"Task<{type}>" : type;
+
+    private string CondFrom(string res, bool asTask) => asTask ? $"Task.FromResult({res})" : res;
 
     private string ReqParam((CodeName, ITypeName, ITypeName) cmdNameReqResp) => cmdNameReqResp.Item2 != null ? $"{this.SchemaType(cmdNameReqResp.Item2)} request, " : "";
 

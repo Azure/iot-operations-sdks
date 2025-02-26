@@ -258,7 +258,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestSerializer testSerializer = new TestSerializer(testCaseInvoker.Serializer);
 
-                TestCommandInvoker commandInvoker = new TestCommandInvoker(mqttClient, testCaseInvoker.CommandName!, testSerializer)
+                TestCommandInvoker commandInvoker = new TestCommandInvoker(new ApplicationContext(), mqttClient, testCaseInvoker.CommandName!, testSerializer)
                 {
                     RequestTopicPattern = testCaseInvoker.RequestTopic!,
                     TopicNamespace = testCaseInvoker.TopicNamespace,
@@ -477,7 +477,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private Task DisconnectAsync(StubMqttClient stubMqttClient)
         {
-            return stubMqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
+            return stubMqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions());
         }
 
         private Task<int> FreezeTimeAsync()
@@ -509,12 +509,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.Payload == null)
             {
-                Assert.Null(appMsg.PayloadSegment.Array);
+                Assert.True(appMsg.Payload.IsEmpty);
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.NotNull(appMsg.PayloadSegment.Array);
-                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.PayloadSegment.Array));
+                Assert.False(appMsg.Payload.IsEmpty);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.Payload));
             }
 
             if (publishedMessage.ContentType != null)

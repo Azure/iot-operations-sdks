@@ -92,7 +92,7 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         public int[]? SupportedMajorProtocolVersions { get; internal set; }
 
-        internal static AkriMqttException GetConfigurationInvalidException(
+        public static AkriMqttException GetConfigurationInvalidException(
             string configurationName,
             object? configurationValue,
             string? message = default,
@@ -122,10 +122,10 @@ namespace Azure.Iot.Operations.Protocol
                 };
         }
 
-        internal static AkriMqttException GetArgumentInvalidException(string? commandName, string argumentName, object? arguentValue, string? message = default)
+        public static AkriMqttException GetArgumentInvalidException(string? commandName, string argumentName, object? argumentValue, string? message = default)
         {
             string errMsg =
-                message ?? (arguentValue != null ? $"argument {argumentName} has invalid value {arguentValue}" :
+                message ?? (argumentValue != null ? $"argument {argumentName} has invalid value {argumentValue}" :
                 $"argument {argumentName} has no value");
 
             return new AkriMqttException(errMsg)
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol
                 IsShallow = true,
                 IsRemote = false,
                 PropertyName = argumentName,
-                PropertyValue = arguentValue,
+                PropertyValue = argumentValue,
                 CommandName = commandName,
             };
         }

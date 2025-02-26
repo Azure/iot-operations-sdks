@@ -1,56 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Assets;
 
-namespace Azure.Iot.Operations.Connector
+namespace EventDrivenTelemetryConnector
 {
     public class ConnectorWorker : BackgroundService, IDisposable
     {
         private readonly ILogger<ConnectorWorker> _logger;
-        private readonly EventDrivenTelemetryConnectorWorker _connector;
+        private readonly TelemetryConnectorWorker _connector;
 
-        public ConnectorWorker(ILogger<ConnectorWorker> logger, ILogger<EventDrivenTelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IAssetMonitor assetMonitor)
+        /// <summary>
+        /// Construct a new event-driven connector worker.
+        /// </summary>
+        /// <param name="applicationContext">The per session application context containing shared resources.</param>
+        /// <param name="logger">The logger to use in this layer.</param>
+        /// <param name="connectorLogger">The logger to use in the connector layer.</param>
+        /// <param name="mqttClient">The MQTT client that the connector layer will use to connect to the broker and forward telemetry.</param>
+        /// <param name="messageSchemaProviderFactory">The provider for any message schemas to associate with events forwarded as telemetry messages to the MQTT broker</param>
+        /// <param name="assetMonitor">The asset monitor.</param>
+        public ConnectorWorker(
+            ApplicationContext applicationContext,
+            ILogger<ConnectorWorker> logger,
+            ILogger<TelemetryConnectorWorker> connectorLogger,
+            IMqttClient mqttClient,
+            IMessageSchemaProvider messageSchemaProviderFactory,
+            IAssetMonitor assetMonitor)
         {
             _logger = logger;
-            _connector = new(connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
-            _connector.OnAssetAvailable += OnAssetSampleableAsync;
-            _connector.OnAssetUnavailable += OnAssetNotSampleableAsync;
+            _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
+            _connector.OnAssetAvailable += OnAssetAvailableAsync;
+            _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
 
-        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailabileEventArgs args)
+        public void OnAssetAvailableAsync(object? sender, AssetAvailabileEventArgs args)
         {
-            // This callback notifies your app when an asset and its datasets can be sampled
-            _logger.LogInformation("Asset with name {0} is no longer sampleable", args.AssetName);
-            throw new NotImplementedException();
+            // This callback notifies your app when an asset is available and you can open a connection to your asset to start receiving events
+            _logger.LogInformation("Asset with name {0} is now available", args.AssetName);
+
+            // Once you receive an event from your asset, use the connector to forward it as telemetry to your MQTT broker
+            // await _connector.ForwardReceivedEventAsync(args.Asset, args.Asset.Events[0], new byte[0]);
         }
 
-        public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
+        public void OnAssetUnavailableAsync(object? sender, AssetUnavailableEventArgs args)
         {
-            // This callback notifies your app when an asset and its datasets can no longer be sampled
-            _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
-            throw new NotImplementedException();
+            // This callback notifies your app when an asset is no longer available. At this point, you should close any connection to your asset
+            _logger.LogInformation("Asset with name {0} is no longer available", args.AssetName);
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // This will allow the connector process to run in parallel with any application-layer logic
-            await Task.WhenAny(
-                _connector.StartAsync(cancellationToken),
-                ExecuteEventsAsync(cancellationToken));
-        }
-
-        private async Task ExecuteEventsAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            // This will run the connector application which connects you to the MQTT broker, optionally performs leader election, and
+            // monitors for assets. As assets become available, OnAssetAvailable and OnAssetUnavailable events will execute.
+            await _connector.StartAsync(cancellationToken);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            _connector.OnAssetAvailable -= OnAssetSampleableAsync;
-            _connector.OnAssetUnavailable -= OnAssetNotSampleableAsync;
+            _connector.OnAssetAvailable -= OnAssetAvailableAsync;
+            _connector.OnAssetUnavailable -= OnAssetUnavailableAsync;
             _connector.Dispose();
         }
     }

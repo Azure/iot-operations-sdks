@@ -5,11 +5,6 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
@@ -42,7 +37,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public event Func<MqttClientDisconnectedEventArgs, Task>? DisconnectedAsync;
         public event Func<MqttClientOptions, Task<MqttClientConnectResult>>? OnConnectAttempt;
         public event Func<MqttClientDisconnectOptions, Task>? OnDisconnectAttempt;
-        
+
         public event Func<MqttApplicationMessage, Task<MqttClientPublishResult>>? OnPublishAttempt;
         public event Func<MqttClientSubscribeOptions, Task<MqttClientSubscribeResult>>? OnSubscribeAttempt;
         public event Func<MqttClientUnsubscribeOptions, Task<MqttClientUnsubscribeResult>>? OnUnsubscribeAttempt;
@@ -148,11 +143,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             throw new NotImplementedException();
         }
 
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
-
         public async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -232,6 +222,11 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             // nothing to dispose
             return ValueTask.CompletedTask;
+        }
+
+        public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

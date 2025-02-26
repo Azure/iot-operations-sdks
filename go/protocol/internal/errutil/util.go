@@ -31,7 +31,7 @@ func Return(err error, logger log.Logger, shallow bool) error {
 	if e, ok := err.(noReturn); ok {
 		err = e.error
 	}
-	if e, ok := err.(*errors.Error); ok {
+	if e, ok := err.(*errors.Client); ok {
 		e.IsShallow = shallow
 	}
 	if err != nil {
@@ -44,10 +44,12 @@ func Return(err error, logger log.Logger, shallow bool) error {
 func ValidateNonNil(args map[string]any) error {
 	for k, v := range args {
 		if v == nil {
-			return &errors.Error{
-				Message:      "argument is nil",
-				Kind:         errors.ConfigurationInvalid,
-				PropertyName: k,
+			return &errors.Client{
+				Base: errors.Base{
+					Message:      "argument is nil",
+					Kind:         errors.ConfigurationInvalid,
+					PropertyName: k,
+				},
 			}
 		}
 	}
@@ -58,10 +60,12 @@ func ValidateNonNil(args map[string]any) error {
 func NewUUID() (string, error) {
 	correlation, err := uuid.NewV7()
 	if err != nil {
-		return "", &errors.Error{
-			Message:     err.Error(),
-			Kind:        errors.UnknownError,
-			NestedError: err,
+		return "", &errors.Client{
+			Base: errors.Base{
+				Message:     err.Error(),
+				Kind:        errors.UnknownError,
+				NestedError: err,
+			},
 		}
 	}
 	return correlation.String(), nil

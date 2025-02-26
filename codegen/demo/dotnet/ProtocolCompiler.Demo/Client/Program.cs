@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 
 namespace Client
@@ -46,6 +47,7 @@ namespace Client
 
             TimeSpan runDuration = TimeSpan.FromSeconds(int.Parse(args[1], CultureInfo.InvariantCulture));
 
+            ApplicationContext appContext = new();
             MqttSessionClient mqttSessionClient = new();
 
             Console.Write($"Connecting to MQTT broker as {clientId} ... ");
@@ -58,25 +60,25 @@ namespace Client
             switch (format)
             {
                 case CommFormat.Avro:
-                    await ReceiveAvro(mqttSessionClient, runDuration);
+                    await ReceiveAvro(appContext, mqttSessionClient, runDuration);
                     break;
                 case CommFormat.Json:
-                    await ReceiveJson(mqttSessionClient, runDuration);
+                    await ReceiveJson(appContext, mqttSessionClient, runDuration);
                     break;
                 case CommFormat.Raw:
-                    await ReceiveRaw(mqttSessionClient, runDuration);
+                    await ReceiveRaw(appContext, mqttSessionClient, runDuration);
                     break;
                 case CommFormat.Custom:
-                    await ReceiveCustom(mqttSessionClient, runDuration);
+                    await ReceiveCustom(appContext, mqttSessionClient, runDuration);
                     break;
             }
 
             Console.WriteLine("Stopping receive loop");
         }
 
-        private static async Task ReceiveAvro(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
+        private static async Task ReceiveAvro(ApplicationContext appContext, MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            AvroComm.AvroModel.AvroModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
+            AvroComm.AvroModel.AvroModel.TelemetryReceiver telemetryReceiver = new(appContext, mqttSessionClient);
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
@@ -97,6 +99,11 @@ namespace Client
                     Console.WriteLine($"  Proximity: {telemetry.Proximity}");
                 }
 
+                if (telemetry.Data != null)
+                {
+                    Console.WriteLine($"  Data: \"{Encoding.UTF8.GetString(telemetry.Data)}\"");
+                }
+
                 Console.WriteLine();
 
                 return Task.CompletedTask;
@@ -109,9 +116,9 @@ namespace Client
             await telemetryReceiver.StopAsync();
         }
 
-        private static async Task ReceiveJson(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
+        private static async Task ReceiveJson(ApplicationContext appContext, MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            JsonComm.JsonModel.JsonModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
+            JsonComm.JsonModel.JsonModel.TelemetryReceiver telemetryReceiver = new(appContext, mqttSessionClient);
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
@@ -132,6 +139,11 @@ namespace Client
                     Console.WriteLine($"  Proximity: {telemetry.Proximity}");
                 }
 
+                if (telemetry.Data != null)
+                {
+                    Console.WriteLine($"  Data: \"{Encoding.UTF8.GetString(telemetry.Data)}\"");
+                }
+
                 Console.WriteLine();
 
                 return Task.CompletedTask;
@@ -144,9 +156,9 @@ namespace Client
             await telemetryReceiver.StopAsync();
         }
 
-        private static async Task ReceiveRaw(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
+        private static async Task ReceiveRaw(ApplicationContext appContext, MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            RawComm.RawModel.RawModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
+            RawComm.RawModel.RawModel.TelemetryReceiver telemetryReceiver = new(appContext, mqttSessionClient);
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
@@ -170,9 +182,9 @@ namespace Client
             await telemetryReceiver.StopAsync();
         }
 
-        private static async Task ReceiveCustom(MqttSessionClient mqttSessionClient, TimeSpan runDuration)
+        private static async Task ReceiveCustom(ApplicationContext appContext, MqttSessionClient mqttSessionClient, TimeSpan runDuration)
         {
-            CustomComm.CustomModel.CustomModel.TelemetryReceiver telemetryReceiver = new(mqttSessionClient);
+            CustomComm.CustomModel.CustomModel.TelemetryReceiver telemetryReceiver = new(appContext, mqttSessionClient);
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {

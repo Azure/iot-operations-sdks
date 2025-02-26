@@ -6,31 +6,32 @@
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     using System;
+    using System.Buffers;
     using System.Text;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Models;
 
     public class TestSerializer : IPayloadSerializer
     {
-        private string? outContentType;
-        private List<string> acceptContentTypes;
-        private MqttPayloadFormatIndicator outPayloadFormat;
-        private bool allowCharacterData;
-        private bool failDeserialization;
+        private string? _outContentType;
+        private List<string> _acceptContentTypes;
+        private MqttPayloadFormatIndicator _outPayloadFormat;
+        private bool _allowCharacterData;
+        private bool _failDeserialization;
 
         public TestSerializer(TestCaseSerializer testCaseSerializer)
         {
-            this.outContentType = testCaseSerializer.OutContentType;
-            this.acceptContentTypes = testCaseSerializer.AcceptContentTypes;
-            this.outPayloadFormat = testCaseSerializer.IndicateCharacterData ? MqttPayloadFormatIndicator.CharacterData : MqttPayloadFormatIndicator.Unspecified;
-            this.allowCharacterData = testCaseSerializer.AllowCharacterData;
-            this.failDeserialization = testCaseSerializer.FailDeserialization;
+            this._outContentType = testCaseSerializer.OutContentType;
+            this._acceptContentTypes = testCaseSerializer.AcceptContentTypes;
+            this._outPayloadFormat = testCaseSerializer.IndicateCharacterData ? MqttPayloadFormatIndicator.CharacterData : MqttPayloadFormatIndicator.Unspecified;
+            this._allowCharacterData = testCaseSerializer.AllowCharacterData;
+            this._failDeserialization = testCaseSerializer.FailDeserialization;
         }
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
-            if (contentType != null && !acceptContentTypes.Contains(contentType))
+            if (contentType != null && !_acceptContentTypes.Contains(contentType))
             {
                 throw new AkriMqttException($"Content type {contentType} is not allowed.")
                 {
@@ -43,7 +44,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 };
             }
 
-            if (payloadFormatIndicator == MqttPayloadFormatIndicator.CharacterData && !allowCharacterData)
+            if (payloadFormatIndicator == MqttPayloadFormatIndicator.CharacterData && !_allowCharacterData)
             {
                 throw new AkriMqttException($"Character data format indicator is not allowed.")
                 {
@@ -56,14 +57,14 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 };
             }
 
-            if (failDeserialization)
+            if (_failDeserialization)
             {
                 throw AkriMqttException.GetPayloadInvalidException();
             }
 
             if (typeof(T) == typeof(string))
             {
-                if (payload == null)
+                if (payload.IsEmpty)
                 {
                     return (null as T)!;
                 }
@@ -91,20 +92,20 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (payloadString == null)
                 {
-                    return new(null, null, MqttPayloadFormatIndicator.Unspecified);
+                    return new(ReadOnlySequence<byte>.Empty, null, MqttPayloadFormatIndicator.Unspecified);
                 }
                 else if (payloadString.Length == 0)
                 {
-                    return new(Array.Empty<byte>(), outContentType, outPayloadFormat);
+                    return new(ReadOnlySequence<byte>.Empty, _outContentType, _outPayloadFormat);
                 }
                 else
                 {
-                    return new(Encoding.UTF8.GetBytes(payloadString), outContentType, outPayloadFormat);
+                    return new(new(Encoding.UTF8.GetBytes(payloadString)), _outContentType, _outPayloadFormat);
                 }
             }
             else
             {
-                return new(null, null, MqttPayloadFormatIndicator.Unspecified);
+                return new(ReadOnlySequence<byte>.Empty, null, MqttPayloadFormatIndicator.Unspecified);
             }
         }
     }

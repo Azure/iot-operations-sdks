@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
-using System.Text;
 using TestEnvoys.Counter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests
@@ -14,9 +13,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         [Fact]
         public async Task TestRPCHandlesServiceConnectionDrop()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             string executorId = "counter-server-" + Guid.NewGuid();
             await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv(null, executorId);
-            await using CounterService counterService = new CounterService(mqttExecutor);
+            await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
             TaskCompletionSource faultWasInjectedTcs = new();
             mqttExecutor.DisconnectedAsync += (args) =>
             {
@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             };
             
             await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
-            await using CounterClient counterClient = new CounterClient(mqttInvoker);
+            await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
             await counterService.StartAsync(null, CancellationToken.None);
 
             var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
@@ -60,9 +60,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         [Fact]
         public async Task TestRPCHandlesServiceAndClientConnectionDrop()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             string executorId = "counter-server-" + Guid.NewGuid();
             await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv(null, executorId);
-            await using CounterService counterService = new CounterService(mqttExecutor);
+            await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
             TaskCompletionSource faultWasInjectedTcs1 = new();
             mqttExecutor.DisconnectedAsync += (args) =>
             {
@@ -71,7 +72,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             };
             
             await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
-            await using CounterClient counterClient = new CounterClient(mqttInvoker);
+            await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
             TaskCompletionSource faultWasInjectedTcs2 = new();
             mqttInvoker.DisconnectedAsync += (args) =>
             {

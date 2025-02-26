@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
 using System.Diagnostics;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
@@ -680,7 +679,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
 
 
         [Fact]
-        public void BuildWithConnectionSettingsWithCATrustChain()
+        public void BuildWithConnectionSettingsWithCaTrustChain()
         {
             X509Certificate2Collection expectedTrustChain = new();
             expectedTrustChain.ImportFromPemFile("Connection/ca.txt");

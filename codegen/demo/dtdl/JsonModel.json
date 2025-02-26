@@ -50,6 +50,11 @@
           }
         ]
       }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "data",
+      "schema": "bytes"
     }
   ]
 }

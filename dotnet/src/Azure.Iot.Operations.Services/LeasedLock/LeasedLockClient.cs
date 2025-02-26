@@ -60,6 +60,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// Once set, the automatic renewal will begin after the first call to <see cref="AcquireLockAsync(TimeSpan, AcquireLockRequestOptions?, CancellationToken)"/>.
         /// </para>
         /// <para>
+        /// Automatic renewal will continue for as long as the lock can be re-acquired. If another party acquires the lock, then this party's auto-renewal
+        /// will end. In this case, users should use <see cref="AcquireLockAsync(TimeSpan, AcquireLockRequestOptions?, CancellationToken)"/> to acquire the lock
+        /// instead to avoid polling.
+        /// </para>
+        /// <para>
         /// The result of automatic renewals can be accessed via <see cref="MostRecentAcquireLockResponse"/>.
         /// </para>
         /// </remarks>
@@ -96,19 +101,20 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Construct a new leased lock client.
         /// </summary>
+        /// <param name="applicationContext">The application context containing shared resources.</param>
         /// <param name="mqttClient">The client to use for I/O operations.</param>
         /// <param name="lockName">The name of the lock to acquire/release.</param>
         /// <param name="lockHolderName">The name for this client that will hold a lock. Other processes
         /// will be able to check which client holds a lock by name. By default, this is set to the MQTT client ID.
         /// </param>
-        public LeasedLockClient(IMqttPubSubClient mqttClient, string lockName, string? lockHolderName = null)
+        public LeasedLockClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string lockName, string? lockHolderName = null)
         {
             if (string.IsNullOrEmpty(lockName))
             {
                 throw new ArgumentException("Must provide a non-null, non-empty lock name");
             }
 
-            _stateStoreClient = new StateStoreClient(mqttClient);
+            _stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
             _lockKey = lockName;
 
             if (lockHolderName != null)
@@ -238,6 +244,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                             AutomaticRenewalOptions.LeaseTermLength,
                             options,
                             _renewalTimerCancellationToken.Token);
+
+                    if (!MostRecentAcquireLockResponse.Success)
+                    {
+                        CancelAutomaticRenewal();
+                    }
                 }
                 catch (OperationCanceledException)
                 {

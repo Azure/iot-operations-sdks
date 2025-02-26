@@ -2,21 +2,18 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.PacketInspection;
 using MQTTnet.Exceptions;
 using MQTTnet.Formatter;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
-using Azure.Iot.Operations.Protocol;
 using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
-    internal class StubMqttClient : MQTTnet.Client.IMqttClient
+    internal class StubMqttClient : MQTTnet.IMqttClient
     {
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
@@ -26,17 +23,17 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             IsSessionPresent = true,
         };
 
-        private AsyncAtomicInt packetIdSequencer;
-        private AsyncQueue<TestAckKind> pubAckQueue;
-        private AsyncQueue<TestAckKind> subAckQueue;
-        private AsyncQueue<TestAckKind> unsubAckQueue;
-        private AsyncQueue<ushort> ackedPacketIds;
-        private AsyncAtomicInt publicationCount;
-        private AsyncAtomicInt acknowledgementCount;
-        private AsyncQueue<byte[]> publishedCorrelationIds;
-        private ConcurrentDictionary<string, bool> subscribedTopics;
-        private ConcurrentDictionary<Guid, MqttApplicationMessage> publishedMessages;
-        private ConcurrentDictionary<int, MqttApplicationMessage> publishedMessageSeq;
+        private AsyncAtomicInt _packetIdSequencer;
+        private AsyncQueue<TestAckKind> _pubAckQueue;
+        private AsyncQueue<TestAckKind> _subAckQueue;
+        private AsyncQueue<TestAckKind> _unsubAckQueue;
+        private AsyncQueue<ushort> _ackedPacketIds;
+        private AsyncAtomicInt _publicationCount;
+        private AsyncAtomicInt _acknowledgementCount;
+        private AsyncQueue<byte[]> _publishedCorrelationIds;
+        private ConcurrentDictionary<string, bool> _subscribedTopics;
+        private ConcurrentDictionary<Guid, MqttApplicationMessage> _publishedMessages;
+        private ConcurrentDictionary<int, MqttApplicationMessage> _publishedMessageSeq;
 
         public StubMqttClient(string clientId)
         {
@@ -49,17 +46,30 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             Options = new MqttClientOptions() { ClientId = clientId, ProtocolVersion = MqttProtocolVersion.V500 };
 
-            packetIdSequencer = new(0);
-            pubAckQueue = new();
-            subAckQueue = new();
-            unsubAckQueue = new();
-            ackedPacketIds = new();
-            publicationCount = new(0);
-            acknowledgementCount = new(0);
-            publishedCorrelationIds = new();
-            subscribedTopics = new();
-            publishedMessages = new();
-            publishedMessageSeq = new();
+            _packetIdSequencer = new(0);
+            _pubAckQueue = new();
+            _subAckQueue = new();
+            _unsubAckQueue = new();
+            _ackedPacketIds = new();
+            _publicationCount = new(0);
+            _acknowledgementCount = new(0);
+            _publishedCorrelationIds = new();
+            _subscribedTopics = new();
+            _publishedMessages = new();
+            _publishedMessageSeq = new();
+        }
+
+        event Func<InspectMqttPacketEventArgs, Task> MQTTnet.IMqttClient.InspectPacketAsync
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
@@ -78,12 +88,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         internal async Task<int> GetPublicationCount()
         {
-            return await publicationCount.Read().ConfigureAwait(false);
+            return await _publicationCount.Read().ConfigureAwait(false);
         }
 
         internal async Task<int> GetAcknowledgementCount()
         {
-            return await acknowledgementCount.Read().ConfigureAwait(false);
+            return await _acknowledgementCount.Read().ConfigureAwait(false);
         }
 
         public string ClientId => Options.ClientId;
@@ -114,19 +124,19 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
         {
-            int sequenceIndex = await publicationCount.Increment().ConfigureAwait(false) - 1;
+            int sequenceIndex = await _publicationCount.Increment().ConfigureAwait(false) - 1;
 
-            publishedMessageSeq.TryAdd(sequenceIndex, applicationMessage);
+            _publishedMessageSeq.TryAdd(sequenceIndex, applicationMessage);
 
             if (!GuidExtensions.TryParseBytes(applicationMessage.CorrelationData ?? Array.Empty<byte>(), out Guid? correlationId))
             {
                 correlationId = Guid.Empty;
             }
 
-            publishedMessages.TryAdd((Guid)correlationId!, applicationMessage);
-            publishedCorrelationIds.Enqueue(applicationMessage.CorrelationData ?? Array.Empty<byte>());
+            _publishedMessages.TryAdd((Guid)correlationId!, applicationMessage);
+            _publishedCorrelationIds.Enqueue(applicationMessage.CorrelationData ?? Array.Empty<byte>());
 
-            if (!pubAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
+            if (!_pubAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
             {
                 return new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, string.Empty, new List<MqttUserProperty>());
             }
@@ -145,19 +155,14 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
-
         public Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
         {
             foreach (MqttTopicFilter topicFilter in options.TopicFilters)
             {
-                subscribedTopics[topicFilter.Topic] = true;
+                _subscribedTopics[topicFilter.Topic] = true;
             }
 
-            if (!subAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
+            if (!_subAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
             {
                 return Task.FromResult(new MqttClientSubscribeResult(0, new List<MqttClientSubscribeResultItem>() { new(new MqttTopicFilter() { Topic = options.TopicFilters.FirstOrDefault()!.Topic }, MqttClientSubscribeResultCode.GrantedQoS1) }, string.Empty, new List<MqttUserProperty>()));
             }
@@ -178,7 +183,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public Task<MqttClientUnsubscribeResult> UnsubscribeAsync(MqttClientUnsubscribeOptions options, CancellationToken cancellationToken = default)
         {
-            if (!unsubAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
+            if (!_unsubAckQueue.TryDequeue(out TestAckKind ackKind) || ackKind == TestAckKind.Success)
             {
                 return Task.FromResult(new MqttClientUnsubscribeResult(0, new List<MqttClientUnsubscribeResultItem>() { new(options.TopicFilters.FirstOrDefault()!, MqttClientUnsubscribeResultCode.Success) }, string.Empty, new List<MqttUserProperty>()));
             }
@@ -203,22 +208,22 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         internal void EnqueuePubAck(TestAckKind ackKind)
         {
-            pubAckQueue.Enqueue(ackKind);
+            _pubAckQueue.Enqueue(ackKind);
         }
 
         internal void EnqueueSubAck(TestAckKind ackKind)
         {
-            subAckQueue.Enqueue(ackKind);
+            _subAckQueue.Enqueue(ackKind);
         }
 
         internal void EnqueueUnsubAck(TestAckKind ackKind)
         {
-            unsubAckQueue.Enqueue(ackKind);
+            _unsubAckQueue.Enqueue(ackKind);
         }
 
         internal async Task<ushort> ReceiveMessageAsync(MqttApplicationMessage appMsg, ushort? specificPacketId = null)
         {
-            ushort packetId = specificPacketId != null ? (ushort)specificPacketId : (ushort)await packetIdSequencer.Increment().ConfigureAwait(false);
+            ushort packetId = specificPacketId != null ? (ushort)specificPacketId : (ushort)await _packetIdSequencer.Increment().ConfigureAwait(false);
 
             MqttApplicationMessageReceivedEventArgs msgReceivedArgs = new(
                 Options.ClientId,
@@ -226,8 +231,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 new MqttPublishPacket { PacketIdentifier = packetId },
                 async (args, _) =>
                 {
-                    await acknowledgementCount.Increment().ConfigureAwait(!false);
-                    ackedPacketIds.Enqueue(args.PacketIdentifier);
+                    await _acknowledgementCount.Increment().ConfigureAwait(!false);
+                    _ackedPacketIds.Enqueue(args.PacketIdentifier);
                 });
 
             await ApplicationMessageReceivedAsync!.Invoke(msgReceivedArgs).WaitAsync(TestTimeout).ConfigureAwait(false);
@@ -242,17 +247,17 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         internal async Task<ushort> AwaitAcknowledgementAsync()
         {
-            return await ackedPacketIds.DequeueAsync().WaitAsync(TestTimeout).ConfigureAwait(false);
+            return await _ackedPacketIds.DequeueAsync().WaitAsync(TestTimeout).ConfigureAwait(false);
         }
 
         internal async Task<byte[]> AwaitPublishAsync()
         {
-            return await publishedCorrelationIds.DequeueAsync().WaitAsync(TestTimeout).ConfigureAwait(false);
+            return await _publishedCorrelationIds.DequeueAsync().WaitAsync(TestTimeout).ConfigureAwait(false);
         }
 
         internal bool HasSubscribed(string topic)
         {
-            return subscribedTopics.ContainsKey(topic);
+            return _subscribedTopics.ContainsKey(topic);
         }
 
         internal MqttApplicationMessage? GetPublishedMessage(byte[]? correlationData)
@@ -262,12 +267,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 correlationId = Guid.Empty;
             }
 
-            return publishedMessages.TryGetValue((Guid)correlationId!, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
+            return _publishedMessages.TryGetValue((Guid)correlationId!, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
         }
 
         internal MqttApplicationMessage? GetPublishedMessage(int sequenceIndex)
         {
-            return publishedMessageSeq.TryGetValue(sequenceIndex, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
+            return _publishedMessageSeq.TryGetValue(sequenceIndex, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
         }
 
         public ValueTask DisposeAsync(bool disposing)
@@ -278,6 +283,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public ValueTask DisposeAsync()
         {
             return new ValueTask();
+        }
+
+        public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

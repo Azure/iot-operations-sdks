@@ -48,12 +48,18 @@ jobs:
           cd rust
           cargo build --release --config profile.release.panic=\'abort\'
 
-      - name: Setup .NET
+      - name: Setup .NET 8
         if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.301
-
+          
+      - name: Setup .NET 9
+        if: matrix.server == 'dotnet' || matrix.client == 'dotnet'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.200
+  
       - name: Setup GO
         if: matrix.server == 'go' || matrix.client == 'go'
         uses: actions/setup-go@v5
@@ -113,7 +119,7 @@ jobs:
 
       - name: Run Counter Server dotnet
         if: matrix.server == 'dotnet'
-        run: dotnet/samples/CounterServer/bin/Release/net8.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
+        run: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
 
       - name: Run Counter Server go
         if: matrix.server == 'go'
@@ -125,7 +131,7 @@ jobs:
 
       - name: Run Counter Client dotnet
         if: matrix.client == 'dotnet'
-        run: dotnet/samples/CounterClient/bin/Release/net8.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.server }}
+        run: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.server }}
 
       - name: Run Counter Client go
         if: matrix.client == 'go'

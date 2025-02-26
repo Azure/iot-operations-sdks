@@ -857,7 +857,7 @@
         <ObjectPropertyTable kinds="include" />
 
         <Paragraph>
-          The order of messasges in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
+          The order of messages in the `received-telemetries` array matches the expected order in which the telemetries are to be relayed to user code.
           The value type for `cloud-event` is defined in the next subsection.
         </Paragraph>
 
@@ -1058,7 +1058,7 @@
         <ObjectPropertyTable kinds="include" />
 
         <Paragraph>
-          The order of messasges in the `published-messages` array matches the expected order in which the messages are to be published.
+          The order of messages in the `published-messages` array matches the expected order in which the messages are to be published.
         </Paragraph>
 
       </Subsection>

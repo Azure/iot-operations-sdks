@@ -76,7 +76,7 @@ where
     pub timestamp: Option<HybridLogicalClock>,
     /// If present, contains the client ID of the invoker of the command.
     pub invoker_id: Option<String>,
-    /// Resolved topic tokens from the incoming request's topic.
+    /// Resolved static and dynamic topic tokens from the incoming request's topic.
     pub topic_tokens: HashMap<String, String>,
     // Internal fields
     command_name: String,
