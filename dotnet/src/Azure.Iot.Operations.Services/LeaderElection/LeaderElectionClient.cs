@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Services.LeasedLock;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Retry;
 
 namespace Azure.Iot.Operations.Services.LeaderElection
 {
@@ -25,6 +26,9 @@ namespace Azure.Iot.Operations.Services.LeaderElection
     {
         private readonly LeasedLockClient _leasedLockClient;
         private bool _disposed = false;
+        private readonly TimeSpan _retryPolicyMaxWait = TimeSpan.FromMilliseconds(200);
+        private const uint _retryPolicyBaseExponent = 1;
+        private const uint _retryPolicyMaxRetries = 5;
 
         /// <summary>
         /// The callback that executes whenever the current leader changes.
@@ -125,16 +129,23 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// The identifier of the leadership position that this client can campaign for. Each client that will
         /// campaign for the same leadership role must share the same value for this parameter.
         /// </param>
+        /// <param name="retryPolicy">The policy used to add extra wait time after a lease becomes available to give the previous leader priority.
+        /// If not provided, a default policy will be used <see cref="LeasedLockClient(IMqttPubSubClient mqttClient, string lockName, IRetryPolicy? retryPolicy = null, string? lockHolderName = null)"/>.</param>
         /// <param name="candidateName">The name to represent this client. Other clients can look up the current
         /// leader's name.</param>
-        public LeaderElectionClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null)
+        public LeaderElectionClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null, IRetryPolicy? retryPolicy = null)
         {
             if (string.IsNullOrEmpty(leadershipPositionId))
             {
                 throw new ArgumentException("Must provide a non-null, non-empty leadership position id.");
             }
 
-            _leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, leadershipPositionId, candidateName);
+            retryPolicy ??= new ExponentialBackoffRetryPolicy(
+                _retryPolicyMaxRetries,
+                _retryPolicyBaseExponent,
+                _retryPolicyMaxWait);
+
+            _leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, leadershipPositionId, candidateName, retryPolicy);
             _leasedLockClient.LockChangeEventReceivedAsync += LockChangeEventCallback;
         }
 
