@@ -4,6 +4,8 @@
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;
 using System.Diagnostics;
+using Azure.Iot.Operations.Protocol.Retry;
+using Azure.Iot.Operations.Services.LeaderElection;
 
 namespace Azure.Iot.Operations.Services.LeasedLock
 {
@@ -26,6 +28,10 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         private readonly IStateStoreClient _stateStoreClient;
         private readonly string _lockKey;
         private const string ValueFormat = "{0}:{1}";
+        private const int _retryResetIntervalCoefficient = 4;
+        private readonly TimeSpan _retryPolicyMaxWait = TimeSpan.FromMilliseconds(200);
+        private const uint _retryPolicyBaseExponent = 1;
+        private const uint _retryPolicyMaxRetries = 5;
 
         private System.Timers.Timer? _automaticRenewalTimer;
         private CancellationTokenSource? _renewalTimerCancellationToken;
@@ -33,6 +39,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         private bool _disposed = false;
         private TaskCompletionSource? _lockFreeToAcquireTaskCompletionSource;
         private bool _isObservingLock = false;
+        private readonly IRetryPolicy _retryPolicy;
+        private readonly TimeSpan _maximumDefaultLeaseDuration = TimeSpan.FromSeconds(5);
 
         /// <summary>
         /// The callback that executes whenever the current holder of the lock changes.
@@ -104,10 +112,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <param name="applicationContext">The application context containing shared resources.</param>
         /// <param name="mqttClient">The client to use for I/O operations.</param>
         /// <param name="lockName">The name of the lock to acquire/release.</param>
+        /// <param name="retryPolicy">The policy used to add extra wait time after leas available to acquire.</param>
         /// <param name="lockHolderName">The name for this client that will hold a lock. Other processes
         /// will be able to check which client holds a lock by name. By default, this is set to the MQTT client ID.
         /// </param>
-        public LeasedLockClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string lockName, string? lockHolderName = null)
+        public LeasedLockClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string lockName, string? lockHolderName = null, IRetryPolicy? retryPolicy = null)
         {
             if (string.IsNullOrEmpty(lockName))
             {
@@ -116,6 +125,10 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             _stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
             _lockKey = lockName;
+            _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(
+                _retryPolicyMaxRetries,
+                _retryPolicyBaseExponent,
+                _retryPolicyMaxWait);
 
             if (lockHolderName != null)
             {
@@ -127,14 +140,14 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             }
             else
             {
-                throw new ArgumentNullException("Must provide either a non-null MQTT client Id or a non-null lock holder name");
+                throw new ArgumentNullException(nameof(mqttClient.ClientId), "Must provide either a non-null MQTT client Id or a non-null lock holder name");
             }
 
             _automaticRenewalOptions = new LeasedLockAutomaticRenewalOptions();
             _stateStoreClient.KeyChangeMessageReceivedAsync += OnKeyChangeNotification;
         }
 
-        public LeasedLockClient(IStateStoreClient stateStoreClient, string lockName, string lockHolderName)
+        public LeasedLockClient(IStateStoreClient stateStoreClient, string lockName, string lockHolderName, IRetryPolicy? retryPolicy = null)
         {
             if (string.IsNullOrEmpty(lockName))
             {
@@ -143,6 +156,10 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             _stateStoreClient = stateStoreClient;
             _lockKey = lockName;
+            _retryPolicy = retryPolicy ??new ExponentialBackoffRetryPolicy(
+                _retryPolicyMaxRetries,
+                _retryPolicyBaseExponent,
+                _retryPolicyMaxWait);
             LockHolderName = lockHolderName;
             _automaticRenewalOptions = new LeasedLockAutomaticRenewalOptions();
             _stateStoreClient.KeyChangeMessageReceivedAsync += OnKeyChangeNotification;
@@ -150,6 +167,10 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
         internal LeasedLockClient()
         {
+            _retryPolicy = new ExponentialBackoffRetryPolicy(
+                _retryPolicyMaxRetries,
+                _retryPolicyBaseExponent,
+                _retryPolicyMaxWait);
             _stateStoreClient = new StateStoreClient();
             _lockKey = string.Empty;
             LockHolderName = string.Empty;
@@ -317,6 +338,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                     await _stateStoreClient.ObserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
                 }
 
+                var retryPolicy = new RetryPolicyWithAutoReset(_retryPolicy, expirationInterval: leaseDuration * _retryResetIntervalCoefficient);
                 AcquireLockResponse response;
                 do
                 {
@@ -328,9 +350,22 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                     {
                         await _lockFreeToAcquireTaskCompletionSource.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
                         _lockFreeToAcquireTaskCompletionSource = new TaskCompletionSource();
+
+                        // The lock is now available to be acquired, we prioritize previous leader renewal,
+                        // wait a bit to make sure old leader have enough time for renewal.
+                        bool shouldRetry = retryPolicy.ShouldRetry(null, out TimeSpan retryDelay);
+                        if (shouldRetry)
+                        {
+                            await Task.Delay(retryDelay, cancellationToken).ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new RetryExpiredException("Retry policy was exhausted when trying to acquire the lock");
+                        }
                     }
                 } while (!response.Success);
 
+                retryPolicy.Reset();
                 return response;
             }
             finally
@@ -338,7 +373,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 if (!_isObservingLock)
                 {
                     Debug.Assert(_lockKey != null);
-                    // The user may be observing the lock seperately from this single attempt to acquire the lock, so don't
+                    // The user may be observing the lock separately from this single attempt to acquire the lock, so don't
                     // unobserve it if the user is still observing it.
                     await _stateStoreClient.UnobserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
                 }
@@ -368,7 +403,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// </remarks>
         public async Task AcquireLockAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumLeaseDuration = null, CancellationToken cancellationToken = default)
         {
-            TimeSpan leaseDurationVerified = maximumLeaseDuration ?? TimeSpan.FromSeconds(5);
+            TimeSpan leaseDurationVerified = maximumLeaseDuration ?? _maximumDefaultLeaseDuration;
 
             // The lock may need to be acquired multiple times before the key is successfully updated.
             bool valueChanged = false;
@@ -501,7 +536,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// To stop watching lock holder change events, call <see cref="UnobserveLockAsync(CancellationToken)"/>
         /// and then remove any handlers from <see cref="LockChangeEventReceivedAsync"/>.
         /// </remarks>
-        public async virtual Task ObserveLockAsync(ObserveLockRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task ObserveLockAsync(ObserveLockRequestOptions? options = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -529,7 +564,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// To stop watching lock holder change events, call this function
         /// and then remove any handlers from <see cref="LockChangeEventReceivedAsync"/>.
         /// </remarks>
-        public async virtual Task UnobserveLockAsync(CancellationToken cancellationToken = default)
+        public virtual async Task UnobserveLockAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -551,7 +586,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             GC.SuppressFinalize(this);
         }
 
-        protected async virtual ValueTask DisposeAsyncCore(bool disposing)
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
         {
             if (_disposed)
             {

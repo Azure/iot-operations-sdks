@@ -37,6 +37,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
+            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", exception.PropertyName);
             Assert.Equal(MqttProtocolVersion.Unknown, exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
@@ -56,6 +57,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
+            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", exception.PropertyName);
             Assert.Equal(MqttProtocolVersion.V310, exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
@@ -75,6 +77,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
+            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", exception.PropertyName);
             Assert.Equal(MqttProtocolVersion.V311, exception.PropertyValue);
             Assert.Null(exception.CorrelationId);
@@ -215,6 +218,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
+            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("commandTimeout", ex.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(-1), ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -349,6 +353,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     Assert.False(ex.InApplication);
                     Assert.False(ex.IsShallow);
                     Assert.False(ex.IsRemote);
+                    Assert.Null(ex.HttpStatusCode);
                     Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
                 }
                 else
@@ -400,6 +405,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.InApplication);
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
+            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("myCmd", ex.CommandName);
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
@@ -444,6 +450,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.InApplication);
             Assert.False(ex.IsShallow);
             Assert.False(ex.IsRemote);
+            Assert.Null(ex.HttpStatusCode);
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             var secondInvoke = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });

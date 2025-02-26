@@ -75,9 +75,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 <# } #>
 <# if (this.cmdNameReqResps.Any()) { #>

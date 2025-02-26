@@ -271,6 +271,12 @@ where
                     }
                 }
 
+                if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
+                    for (key, value) in &request.topic_tokens {
+                        metadata.push((format!("{token_prefix}{key}"), value.clone()));
+                    }
+                }
+
                 let response = CommandResponseBuilder::default()
                     .payload(response_payload)
                     .unwrap()
@@ -653,6 +659,7 @@ where
                 for (key, value) in &expected_message.metadata {
                     let found = properties.user_properties.iter().find(|&k| &k.0 == key);
                     if let Some(value) = value {
+                        assert!(found.is_some(), "metadata key {key} not found");
                         assert_eq!(
                             value,
                             &found.unwrap().1,

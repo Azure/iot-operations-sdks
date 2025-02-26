@@ -53,7 +53,7 @@
                 try
                 {
                     RunCargo($"fmt --manifest-path {Path.Combine(outDir.FullName, "Cargo.toml")}", display: true);
-                    RunCargo("install --locked cargo-machete", display: false);
+                    RunCargo("install --locked cargo-machete@0.7.0", display: false);
                     RunCargo($"machete --fix {outDir.FullName}", display: true);
                 }
                 catch (Win32Exception)

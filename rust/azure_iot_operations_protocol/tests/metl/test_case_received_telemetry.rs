@@ -21,6 +21,10 @@ pub struct TestCaseReceivedTelemetry {
     #[serde(default)]
     pub metadata: HashMap<String, Option<String>>,
 
+    #[serde(rename = "topic-tokens")]
+    #[serde(default)]
+    pub topic_tokens: HashMap<String, String>,
+
     #[serde(rename = "cloud-event")]
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_optional_field")]

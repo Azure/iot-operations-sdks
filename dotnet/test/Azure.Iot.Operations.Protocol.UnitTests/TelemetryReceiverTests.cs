@@ -30,6 +30,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
+            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", ex.PropertyName);
             Assert.Equal(MqttProtocolVersion.V310, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);

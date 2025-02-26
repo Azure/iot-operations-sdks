@@ -22,19 +22,23 @@ type Timeout struct {
 func (to *Timeout) Validate(kind errors.Kind) error {
 	switch {
 	case to.Duration < 0:
-		return &errors.Error{
-			Message:       "timeout cannot be negative",
-			Kind:          kind,
-			PropertyName:  "Timeout",
-			PropertyValue: to,
+		return &errors.Client{
+			Base: errors.Base{
+				Message:       "timeout cannot be negative",
+				Kind:          kind,
+				PropertyName:  "Timeout",
+				PropertyValue: to,
+			},
 		}
 
 	case to.Seconds() > math.MaxUint32:
-		return &errors.Error{
-			Message:       "timeout too large",
-			Kind:          kind,
-			PropertyName:  "Timeout",
-			PropertyValue: to,
+		return &errors.Client{
+			Base: errors.Base{
+				Message:       "timeout too large",
+				Kind:          kind,
+				PropertyName:  "Timeout",
+				PropertyValue: to,
+			},
 		}
 
 	default:
@@ -48,12 +52,18 @@ func (to *Timeout) Context(
 	if to.Duration == 0 {
 		return context.WithCancel(ctx)
 	}
-	return wallclock.Instance.WithTimeoutCause(ctx, to.Duration, &errors.Error{
-		Message:      fmt.Sprintf("%s timed out", to.Text),
-		Kind:         errors.Timeout,
-		TimeoutName:  to.Name,
-		TimeoutValue: to.Duration,
-	})
+	return wallclock.Instance.WithTimeoutCause(
+		ctx,
+		to.Duration,
+		&errors.Remote{
+			Base: errors.Base{
+				Message:      fmt.Sprintf("%s timed out", to.Text),
+				Kind:         errors.Timeout,
+				TimeoutName:  to.Name,
+				TimeoutValue: to.Duration,
+			},
+		},
+	)
 }
 
 func (to *Timeout) MessageExpiry() uint32 {

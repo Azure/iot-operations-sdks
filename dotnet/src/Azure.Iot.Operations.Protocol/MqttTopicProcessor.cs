@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Azure.Iot.Operations.Protocol
@@ -43,6 +44,25 @@ namespace Azure.Iot.Operations.Protocol
         public static bool DoesTopicMatchFilter(string topic, string filter)
         {
             return MqttTopicFilterComparer.Compare(topic, filter) == MqttTopicFilterCompareResult.IsMatch;
+        }
+
+        public static Dictionary<string, string> GetReplacementMap(string pattern, string topic)
+        {
+            Dictionary<string, string> replacementMap = new();
+
+            string[] patternParts = pattern.Split('/');
+            string[] topicParts = topic.Split('/');
+
+            for (int i = 0; i < patternParts.Length; i++)
+            {
+                string patternPart = patternParts[i];
+                if (patternPart.StartsWith('{') && patternPart.EndsWith('}'))
+                {
+                    replacementMap[patternPart.Substring(1, patternPart.Length - 2)] = topicParts[i];
+                }
+            }
+
+            return replacementMap;
         }
 
         /// <summary>

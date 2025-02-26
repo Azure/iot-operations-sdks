@@ -365,12 +365,17 @@ where
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
         let topic_pattern = TopicPattern::new(
-            "sender_options.topic_pattern",
             &sender_options.topic_pattern,
             None,
             sender_options.topic_namespace.as_deref(),
             &sender_options.topic_token_map,
-        )?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "sender_options.topic_pattern",
+            )
+        })?;
 
         Ok(Self {
             application_hlc: application_context.application_hlc,
@@ -406,7 +411,10 @@ where
         };
 
         // Get topic.
-        let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
+        let message_topic = self
+            .topic_pattern
+            .as_publish_topic(&message.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
 
         // Get updated timestamp
         let timestamp_str = self.application_hlc.update_now()?;

@@ -38,6 +38,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public Dictionary<string, string> UserData { get; }
 
         /// <summary>
+        /// A dictionary of MQTT topic tokens and the replacement values exnracted from the publication topic.
+        /// </summary>
+        public Dictionary<string, string> TopicTokens { get; }
+
+        /// <summary>
         /// The partition attached to the request.
         /// When CommandRequestMetadata is constructed by user code that will invoke a command, the partition is initialized to null, and it can be set by user code.
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the partition is set from the request message; this will be null if the message contains no partition header.
@@ -79,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Timestamp = null;
         }
 
-        internal CommandRequestMetadata(MqttApplicationMessage message)
+        internal CommandRequestMetadata(MqttApplicationMessage message, string topicPattern)
         {
             CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
                 ? correlationId!.Value
@@ -114,6 +119,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
             }
+
+            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
         }
 
         internal void MarshalTo(MqttApplicationMessage message)

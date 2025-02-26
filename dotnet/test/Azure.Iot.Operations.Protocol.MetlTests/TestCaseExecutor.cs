@@ -38,6 +38,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public Dictionary<string, string?> ResponseMetadata { get; set; } = new();
 
+        public string? TokenMetadataPrefix { get; set; }
+
         public int? ExecutionConcurrency { get; set; } = DefaultExecutionConcurrency;
 
         public TestCaseError? RaiseError { get; set; }

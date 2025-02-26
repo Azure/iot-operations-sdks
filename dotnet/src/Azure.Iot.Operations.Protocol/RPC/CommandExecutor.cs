@@ -179,7 +179,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandRequestMetadata requestMetadata;
                 try
                 {
-                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage)
+                    requestMetadata = new CommandRequestMetadata(args.ApplicationMessage, RequestTopicPattern)
                     {
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
