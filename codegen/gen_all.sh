@@ -1,7 +1,7 @@
 #!/bin/bash
 SCRIPTDIR=$(dirname "$0")
 
-dotnet build -c Debug src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj 
+dotnet build -c Debug codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj 
 
 if ! which avrogen > /dev/null; then
     dotnet tool install --global Apache.Avro.Tools
