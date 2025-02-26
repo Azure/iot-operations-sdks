@@ -264,7 +264,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     TopicNamespace = testCaseInvoker.TopicNamespace,
                     ResponseTopicPrefix = testCaseInvoker.ResponseTopicPrefix,
                     ResponseTopicSuffix = testCaseInvoker.ResponseTopicSuffix,
-                    ResponseTopicPattern = testCaseInvoker.ResponseTopicPattern,
+                    GetResponseTopic = testCaseInvoker.ResponseTopicMap != null ? (reqTopic) => testCaseInvoker.ResponseTopicMap[reqTopic]! : null,
                 };
 
                 if (testCaseInvoker.TopicTokenMap != null)

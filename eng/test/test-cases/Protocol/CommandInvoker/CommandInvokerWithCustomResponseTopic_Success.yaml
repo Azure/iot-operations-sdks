@@ -8,18 +8,17 @@ description:
 
 prologue:
   invokers:
-  - response-topic-pattern: "my/response/topic/{ex:foo}"
+  - response-topic-map:
+      "mock/test": "my/response/topic"
 
 actions:
 - action: invoke command
   invocation-index: 0
-  topic-token-map: 
-    "ex:foo": "someCustomValue"
 - action: await publish
   correlation-index: 0
 - action: receive response
   correlation-index: 0
-  topic: "my/response/topic/someCustomValue"
+  topic: "my/response/topic"
   payload: "Test_Response"
   status: "200" # OK
   packet-index: 0
@@ -31,7 +30,7 @@ actions:
 
 epilogue:
   subscribed-topics:
-  - "my/response/topic/+"
+  - "my/response/topic"
   acknowledgement-count: 1
   published-messages:
   - correlation-index: 0
