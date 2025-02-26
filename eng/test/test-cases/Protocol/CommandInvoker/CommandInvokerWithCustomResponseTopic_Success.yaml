@@ -8,13 +8,13 @@ description:
 
 prologue:
   invokers:
-  - response-topic-pattern: "my/response/topic/{foo}"
+  - response-topic-pattern: "my/response/topic/{ex:foo}"
 
 actions:
 - action: invoke command
   invocation-index: 0
   topic-token-map: 
-    "foo": "someCustomValue"
+    "ex:foo": "someCustomValue"
 - action: await publish
   correlation-index: 0
 - action: receive response
