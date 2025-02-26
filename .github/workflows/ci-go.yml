@@ -56,14 +56,9 @@ jobs:
         dotnet-version: 9.0.200
 
     - name: Install AIO
-      uses: azure/iot-operations-sdks-action@main
-      with:
-        create-cluster: 'true'
+      uses: ./.github/actions/deploy-aio
 
-    - name: Configure AIO
-      run: tools/deployment/deploy-aio.sh
-
-    # This file is created by deploy-aio.sh
+    # This file is created by deploy-aio
     - name: Load test service account token into environment
       run: |
         if [ ! -f ".session/token.txt" ]; then
@@ -73,7 +68,7 @@ jobs:
 
         echo "TOKEN_FILE_PATH=$(pwd)/.session/token.txt" >> $GITHUB_ENV
 
-    # This file is created by deploy-aio.sh
+    # This file is created by deploy-aio
     - name: Load CA certificate into environment
       run: |
         if [ ! -f ".session/broker-ca.crt" ]; then
@@ -83,7 +78,7 @@ jobs:
 
         echo "CA_FILE_PATH=$(pwd)/.session/broker-ca.crt" >> $GITHUB_ENV
 
-    # These files are created by deploy-aio.sh
+    # These files are created by deploy-aio
     - name: Load client certificates into environment
       run: |
         if [ ! -f ".session/client.key" ]; then
