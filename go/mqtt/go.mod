@@ -1,6 +1,6 @@
 module github.com/Azure/iot-operations-sdks/go/mqtt
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.2.0
