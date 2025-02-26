@@ -133,7 +133,6 @@ impl TopicPattern {
     /// If any regex group is not present when it is expected to be, which is impossible given
     /// that there is only one group in the regex pattern.
     pub fn new<'a>(
-        //property_name: &'a str,
         pattern: &'a str,
         share_name: Option<String>,
         topic_namespace: Option<&str>,
