@@ -1,7 +1,8 @@
-name: 'Deploy AIO'
-description: 'Deploy AIO for pipelines'
+name: "Deploy AIO"
+description: "Deploy AIO for pipelines"
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Create k3s cluster
       run: tools/deployment/initialize-cluster.sh
