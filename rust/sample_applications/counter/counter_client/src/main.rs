@@ -112,14 +112,16 @@ async fn counter_telemetry_check(
     match exit_handle.try_exit().await {
         Ok(()) => { /* Successfully exited */ }
         Err(e) => {
-            if let azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
-                attempted,
-            } = e
-            {
-                // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                assert!(attempted, "{}", e.to_string());
-            } else {
-                panic!("{}", e.to_string())
+            match e {
+                azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
+                    attempted,
+                } => {
+                    // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                    assert!(attempted, "{}", e.to_string());
+                }
+                _ => {
+                    panic!("{}", e.to_string())
+                }
             }
         }
     }

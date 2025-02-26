@@ -316,24 +316,27 @@ where
                     log::error!("Error: {e:?}");
 
                     // Defer decision to reconnect policy
-                    if let Some(delay) = self
+                    match self
                         .reconnect_policy
                         .next_reconnect_delay(prev_reconnect_attempts, &e)
                     {
-                        log::info!("Attempting reconnect in {delay:?}");
-                        // Wait for either the reconnect delay time, or a force exit signal
-                        tokio::select! {
-                            () = tokio::time::sleep(delay) => {}
-                            () = self.notify_force_exit.notified() => {
-                                log::info!("Reconnect attempts halted by force exit");
-                                result = Err(SessionErrorKind::ForceExit);
-                                break;
+                        Some(delay) => {
+                            log::info!("Attempting reconnect in {delay:?}");
+                            // Wait for either the reconnect delay time, or a force exit signal
+                            tokio::select! {
+                                () = tokio::time::sleep(delay) => {}
+                                () = self.notify_force_exit.notified() => {
+                                    log::info!("Reconnect attempts halted by force exit");
+                                    result = Err(SessionErrorKind::ForceExit);
+                                    break;
+                                }
                             }
                         }
-                    } else {
-                        log::info!("Reconnect attempts halted by reconnect policy");
-                        result = Err(SessionErrorKind::ReconnectHalted);
-                        break;
+                        _ => {
+                            log::info!("Reconnect attempts halted by reconnect policy");
+                            result = Err(SessionErrorKind::ReconnectHalted);
+                            break;
+                        }
                     }
                     prev_reconnect_attempts += 1;
                 }

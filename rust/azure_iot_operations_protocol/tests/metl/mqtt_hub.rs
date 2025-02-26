@@ -144,10 +144,13 @@ impl MqttHub {
     }
 
     pub fn receive_message(&mut self, message: Publish) {
-        if let Some(message_tx) = self.message_tx.as_mut() {
-            message_tx.send(message).unwrap();
-        } else {
-            self.receive_incoming_event(Incoming::Publish(message));
+        match self.message_tx.as_mut() {
+            Some(message_tx) => {
+                message_tx.send(message).unwrap();
+            }
+            _ => {
+                self.receive_incoming_event(Incoming::Publish(message));
+            }
         }
     }
 
@@ -168,10 +171,9 @@ impl MqttHub {
                 } => {
                     self.publication_count += 1;
 
-                    let correlation_data = if let Some(properties) = properties.clone() {
-                        properties.correlation_data
-                    } else {
-                        None
+                    let correlation_data = match properties.clone() {
+                        Some(properties) => properties.correlation_data,
+                        _ => None,
                     };
                     self.published_correlation_data
                         .push_back(correlation_data.clone());

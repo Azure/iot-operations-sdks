@@ -472,168 +472,178 @@ where
         }
 
         loop {
-            if let Some((m, mut ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
-                // Drop the ack token if the user does not desire it
-                // TODO: change API around this receive to simplify
-                if self.auto_ack {
-                    // Replace the token with None (if Some)
-                    ack_token.take();
-                }
+            match self.mqtt_receiver.recv_manual_ack().await {
+                Some((m, mut ack_token)) => {
+                    // Drop the ack token if the user does not desire it
+                    // TODO: change API around this receive to simplify
+                    if self.auto_ack {
+                        // Replace the token with None (if Some)
+                        ack_token.take();
+                    }
 
-                // Process the received message
-                log::info!("[pkid: {}] Received message", m.pkid);
+                    // Process the received message
+                    log::info!("[pkid: {}] Received message", m.pkid);
 
-                'process_message: {
-                    // Clone properties
+                    'process_message: {
+                        // Clone properties
 
-                    let properties = m.properties.clone();
+                        let properties = m.properties.clone();
 
-                    let mut custom_user_data = Vec::new();
-                    let mut timestamp = None;
-                    let mut sender_id = None;
-                    let mut content_type = None;
-                    let mut format_indicator = FormatIndicator::UnspecifiedBytes;
+                        let mut custom_user_data = Vec::new();
+                        let mut timestamp = None;
+                        let mut sender_id = None;
+                        let mut content_type = None;
+                        let mut format_indicator = FormatIndicator::UnspecifiedBytes;
 
-                    if let Some(properties) = properties {
-                        // Get content type
-                        content_type = properties.content_type;
-                        // Get format indicator
-                        format_indicator = match properties.payload_format_indicator.try_into() {
-                            Ok(format_indicator) => format_indicator,
-                            Err(e) => {
-                                log::error!(
+                        if let Some(properties) = properties {
+                            // Get content type
+                            content_type = properties.content_type;
+                            // Get format indicator
+                            format_indicator = match properties.payload_format_indicator.try_into()
+                            {
+                                Ok(format_indicator) => format_indicator,
+                                Err(e) => {
+                                    log::error!(
                                     "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
                                     m.pkid
                                 );
-                                // Use default format indicator
-                                FormatIndicator::default()
-                            }
-                        };
+                                    // Use default format indicator
+                                    FormatIndicator::default()
+                                }
+                            };
 
-                        // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                        let mut message_protocol_version = DEFAULT_TELEMETRY_PROTOCOL_VERSION; // assume default version if none is provided
-                        if let Some((_, protocol_version)) =
-                            properties.user_properties.iter().find(|(key, _)| {
-                                UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
-                            })
-                        {
-                            if let Some(message_version) =
-                                ProtocolVersion::parse_protocol_version(protocol_version)
+                            // unused beyond validation, but may be used in the future to determine how to handle other fields.
+                            let mut message_protocol_version = DEFAULT_TELEMETRY_PROTOCOL_VERSION; // assume default version if none is provided
+                            if let Some((_, protocol_version)) =
+                                properties.user_properties.iter().find(|(key, _)| {
+                                    UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                                })
                             {
-                                message_protocol_version = message_version;
-                            } else {
-                                log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
+                                if let Some(message_version) =
+                                    ProtocolVersion::parse_protocol_version(protocol_version)
+                                {
+                                    message_protocol_version = message_version;
+                                } else {
+                                    log::error!("[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
                                             m.pkid
                                         );
-                                break 'process_message;
+                                    break 'process_message;
+                                }
                             }
-                        }
-                        // Check that the version (or the default version if one isn't provided) is supported
-                        if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                            log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
+                            // Check that the version (or the default version if one isn't provided) is supported
+                            if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+                                log::error!("[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
                                         m.pkid
                                     );
-                            break 'process_message;
-                        }
+                                break 'process_message;
+                            }
 
-                        for (key, value) in properties.user_properties {
-                            match UserProperty::from_str(&key) {
-                                Ok(UserProperty::Timestamp) => {
-                                    match HybridLogicalClock::from_str(&value) {
-                                        Ok(ts) => {
-                                            // Update application HLC against received __ts
-                                            if let Err(e) = self.application_hlc.update(&ts) {
-                                                log::error!(
+                            for (key, value) in properties.user_properties {
+                                match UserProperty::from_str(&key) {
+                                    Ok(UserProperty::Timestamp) => {
+                                        match HybridLogicalClock::from_str(&value) {
+                                            Ok(ts) => {
+                                                // Update application HLC against received __ts
+                                                if let Err(e) = self.application_hlc.update(&ts) {
+                                                    log::error!(
                                                     "[pkid: {}] Failure updating application HLC against {value}: {e}",
+                                                    m.pkid
+                                                );
+                                                    break 'process_message;
+                                                }
+                                                timestamp = Some(ts);
+                                            }
+                                            Err(e) => {
+                                                log::error!(
+                                                    "[pkid: {}] Invalid timestamp {value}: {e}",
                                                     m.pkid
                                                 );
                                                 break 'process_message;
                                             }
-                                            timestamp = Some(ts);
-                                        }
-                                        Err(e) => {
-                                            log::error!(
-                                                "[pkid: {}] Invalid timestamp {value}: {e}",
-                                                m.pkid
-                                            );
-                                            break 'process_message;
                                         }
                                     }
-                                }
-                                Ok(UserProperty::ProtocolVersion) => {
-                                    // skip, already processed
-                                }
-                                Ok(UserProperty::SourceId) => {
-                                    sender_id = Some(value);
-                                }
-                                Err(()) => {
-                                    custom_user_data.push((key, value));
-                                }
-                                _ => {
-                                    log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
-                                    custom_user_data.push((key, value));
+                                    Ok(UserProperty::ProtocolVersion) => {
+                                        // skip, already processed
+                                    }
+                                    Ok(UserProperty::SourceId) => {
+                                        sender_id = Some(value);
+                                    }
+                                    Err(()) => {
+                                        custom_user_data.push((key, value));
+                                    }
+                                    _ => {
+                                        log::warn!("[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}", m.pkid);
+                                        custom_user_data.push((key, value));
+                                    }
                                 }
                             }
                         }
+
+                        let topic = match std::str::from_utf8(&m.topic) {
+                            Ok(topic) => topic,
+                            Err(e) => {
+                                // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                log::error!(
+                                    "[pkid: {}] Topic deserialization error: {e:?}",
+                                    m.pkid
+                                );
+                                break 'process_message;
+                            }
+                        };
+
+                        let topic_tokens = self.topic_pattern.parse_tokens(topic);
+
+                        // Deserialize payload
+                        let payload =
+                            match T::deserialize(&m.payload, &content_type, &format_indicator) {
+                                Ok(p) => p,
+                                Err(e) => {
+                                    log::error!(
+                                        "[pkid: {}] Payload deserialization error: {e:?}",
+                                        m.pkid
+                                    );
+                                    break 'process_message;
+                                }
+                            };
+
+                        let telemetry_message = TelemetryMessage {
+                            payload,
+                            content_type,
+                            format_indicator,
+                            custom_user_data,
+                            sender_id,
+                            timestamp,
+                            topic_tokens,
+                        };
+
+                        return Some(Ok((telemetry_message, ack_token)));
                     }
 
-                    let topic = match std::str::from_utf8(&m.topic) {
-                        Ok(topic) => topic,
-                        Err(e) => {
-                            // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                            log::error!("[pkid: {}] Topic deserialization error: {e:?}", m.pkid);
-                            break 'process_message;
-                        }
-                    };
-
-                    let topic_tokens = self.topic_pattern.parse_tokens(topic);
-
-                    // Deserialize payload
-                    let payload = match T::deserialize(&m.payload, &content_type, &format_indicator)
-                    {
-                        Ok(p) => p,
-                        Err(e) => {
-                            log::error!("[pkid: {}] Payload deserialization error: {e:?}", m.pkid);
-                            break 'process_message;
-                        }
-                    };
-
-                    let telemetry_message = TelemetryMessage {
-                        payload,
-                        content_type,
-                        format_indicator,
-                        custom_user_data,
-                        sender_id,
-                        timestamp,
-                        topic_tokens,
-                    };
-
-                    return Some(Ok((telemetry_message, ack_token)));
-                }
-
-                // Occurs on an error processing the message, ack to prevent redelivery
-                if let Some(ack_token) = ack_token {
-                    tokio::spawn({
-                        let receiver_cancellation_token_clone =
-                            self.receiver_cancellation_token.clone();
-                        async move {
-                            tokio::select! {
-                                () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
-                                ack_res = ack_token.ack() => {
-                                    match ack_res {
-                                        Ok(_) => { /* Success */ }
-                                        Err(e) => {
-                                            log::error!("[pkid: {}] Ack error {e}", m.pkid);
+                    // Occurs on an error processing the message, ack to prevent redelivery
+                    if let Some(ack_token) = ack_token {
+                        tokio::spawn({
+                            let receiver_cancellation_token_clone =
+                                self.receiver_cancellation_token.clone();
+                            async move {
+                                tokio::select! {
+                                    () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
+                                    ack_res = ack_token.ack() => {
+                                        match ack_res {
+                                            Ok(_) => { /* Success */ }
+                                            Err(e) => {
+                                                log::error!("[pkid: {}] Ack error {e}", m.pkid);
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            } else {
-                // There will be no more messages
-                return None;
+                _ => {
+                    // There will be no more messages
+                    return None;
+                }
             }
         }
     }

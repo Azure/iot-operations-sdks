@@ -653,27 +653,29 @@ where
             // wait for incoming pub
             match response_rx.recv().await {
                 Ok(rsp_pub) => {
-                    if let Some(rsp_pub) = rsp_pub {
-                        // check correlation id for match, otherwise loop again
-                        if let Some(ref rsp_properties) = rsp_pub.properties {
-                            if let Some(ref response_correlation_data) =
-                                rsp_properties.correlation_data
-                            {
-                                if *response_correlation_data == correlation_data {
-                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                    // This is the response for this request, validate and parse it and send it back to the application
-                                    return validate_and_parse_response(
-                                        &self.application_hlc,
-                                        self.command_name.clone(),
-                                        &rsp_pub.payload,
-                                        rsp_properties.clone(),
-                                    );
+                    match rsp_pub {
+                        Some(rsp_pub) => {
+                            // check correlation id for match, otherwise loop again
+                            if let Some(ref rsp_properties) = rsp_pub.properties {
+                                if let Some(ref response_correlation_data) =
+                                    rsp_properties.correlation_data
+                                {
+                                    if *response_correlation_data == correlation_data {
+                                        // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                        // This is the response for this request, validate and parse it and send it back to the application
+                                        return validate_and_parse_response(
+                                            &self.application_hlc,
+                                            self.command_name.clone(),
+                                            &rsp_pub.payload,
+                                            rsp_properties.clone(),
+                                        );
+                                    }
                                 }
                             }
                         }
-                    } else {
-                        log::error!("Command Invoker has been shutdown and will no longer receive a response");
-                        return Err(AIOProtocolError::new_cancellation_error(
+                        _ => {
+                            log::error!("Command Invoker has been shutdown and will no longer receive a response");
+                            return Err(AIOProtocolError::new_cancellation_error(
                             false,
                             None,
                             None,
@@ -683,6 +685,7 @@ where
                             ),
                             Some(self.command_name.clone()),
                         ));
+                        }
                     }
 
                     // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
@@ -724,7 +727,7 @@ where
                     log::info!("[{command_name}] MQTT Receiver closed");
                   },
                   recv_result = mqtt_receiver.recv_manual_ack() => {
-                    if let Some((m, ack_token)) = recv_result {
+                    match recv_result { Some((m, ack_token)) => {
                         // Send to pending command listeners
                         match response_tx.send(Some(m)) {
                             Ok(_) => { },
@@ -741,12 +744,12 @@ where
                                 }
                             }
                         }
-                    } else {
+                    } _ => {
                         // if this fails, it's just because there are no more pending commands, which is fine
                         _ = response_tx.send(None);
                         log::info!("[{command_name}] No more command responses will be received.");
                         break;
-                    }
+                    }}
                 }
             }
         }
