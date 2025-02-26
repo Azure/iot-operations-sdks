@@ -41,12 +41,9 @@
             },
             "kind": "drive"
         },
-        "response-topic-map": {
-            "description": "A map from request topic to response topic, as an alternative to using prefix/suffix.",
-            "type": "object",
-            "additionalProperties": {
-                "type": "string"
-            },
+        "response-topic-pattern": {
+            "description": "The response topic pattern to attach to the invocation request, as an alternative to using prefix/suffix.",
+            "type": "string",
             "kind": "drive"
         }
     }
