@@ -459,7 +459,13 @@ where
             executor_options.service_group_id,
             executor_options.topic_namespace.as_deref(),
             &executor_options.topic_token_map,
-        ).map_err(|e| AIOProtocolError::from_topic_pattern_error(e, "executor_options.request_topic_pattern"))?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "executor_options.request_topic_pattern",
+            )
+        })?;
 
         // Get pub sub and receiver from the mqtt session
         let mqtt_receiver = match client

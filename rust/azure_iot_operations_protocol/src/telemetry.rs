@@ -13,9 +13,6 @@ pub mod telemetry_receiver;
 /// This module contains the cloud events enum for the Azure IoT Operations Protocol.
 pub mod cloud_event;
 
-/// This module contains the error type for Telemetry operations
-pub mod error;
-
 /// Protocol version used by all envoys in this module
 pub(crate) const TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };

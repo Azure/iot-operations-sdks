@@ -14,9 +14,6 @@ pub mod command_invoker;
 /// This module contains the command executor implementation.
 pub mod command_executor;
 
-/// This module contains the error type for RPC operations
-pub mod error;
-
 /// Protocol version used by all envoys in this module
 pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
 /// Assumed version if no version is provided.

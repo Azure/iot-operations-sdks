@@ -202,7 +202,10 @@ impl Error for AIOProtocolError {
 }
 
 impl AIOProtocolError {
-    pub fn from_topic_pattern_error(error: TopicPatternError, pattern_var_name: &str) -> AIOProtocolError {
+    pub(crate) fn config_invalid_from_topic_pattern_error(
+        error: TopicPatternError,
+        pattern_var_name: &str,
+    ) -> AIOProtocolError {
         // NOTE: There is some inefficiency here with string allocations.
         // This will be sorted out when AIOProtocolError is replaced in the near future.
         let err_msg = format!("{error}");
@@ -216,7 +219,7 @@ impl AIOProtocolError {
                     Some(err_msg),
                     None,
                 )
-            },
+            }
             TopicPatternErrorKind::InvalidShareName(share_name) => {
                 let share_name = share_name.to_string();
                 AIOProtocolError::new_configuration_invalid_error(
@@ -226,7 +229,7 @@ impl AIOProtocolError {
                     Some(err_msg),
                     None,
                 )
-            },
+            }
             TopicPatternErrorKind::InvalidNamespace(namespace) => {
                 let namespace = namespace.to_string();
                 AIOProtocolError::new_configuration_invalid_error(
@@ -236,7 +239,7 @@ impl AIOProtocolError {
                     Some(err_msg),
                     None,
                 )
-            },
+            }
             TopicPatternErrorKind::InvalidTokenReplacement(token, replacement) => {
                 let token = token.clone();
                 let replacement = replacement.to_string();
@@ -247,11 +250,33 @@ impl AIOProtocolError {
                     Some(err_msg),
                     None,
                 )
-            },
+            }
         }
-
     }
 
+    pub(crate) fn argument_invalid_from_topic_pattern_error(
+        error: &TopicPatternError,
+    ) -> AIOProtocolError {
+        // NOTE: It's not very ideal that we're matching a single enum variant with the rest panicking,
+        // but this will be revised when AIOProtocolError is replaced in the near future.
+        // TODO: Should this support nesting the error?
+        let err_msg = format!("{error}");
+        match error.kind() {
+            TopicPatternErrorKind::InvalidTokenReplacement(token, replacement) => {
+                let token = token.clone();
+                let replacement = replacement.to_string();
+                AIOProtocolError::new_argument_invalid_error(
+                    &token,
+                    Value::String(replacement.to_string()),
+                    Some(err_msg),
+                    None,
+                )
+            }
+            _ => {
+                unreachable!("Unexpected TopicPatternError: {error}");
+            }
+        }
+    }
 
     /// Creates a new [`AIOProtocolError`] for a missing MQTT header
     #[must_use]
@@ -729,16 +754,3 @@ impl AIOProtocolError {
         }
     }
 }
-
-
-// impl From<TopicPatternError> for AIOProtocolError {
-//     fn from(error: TopicPatternError) -> Self {
-//         AIOProtocolError::new_configuration_invalid_error(
-//             None,
-//             "topic_pattern",
-//             Value::String(error.to_string()),
-//             None,
-//             None,
-//         )
-//     }
-// }

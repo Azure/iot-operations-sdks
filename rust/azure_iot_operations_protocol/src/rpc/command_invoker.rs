@@ -30,9 +30,7 @@ use crate::{
         user_properties::UserProperty,
     },
     parse_supported_protocol_major_versions,
-    rpc::{
-        StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION
-    },
+    rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     ProtocolVersion,
 };
 
@@ -331,14 +329,23 @@ where
             None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
-        ).map_err(|e| AIOProtocolError::from_topic_pattern_error(e, "invoker_options.request_topic_pattern"))?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "invoker_options.request_topic_pattern",
+            )
+        })?;
 
         let response_topic_pattern = TopicPattern::new(
             &response_topic_pattern,
             None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
-        ).map_err(|e| AIOProtocolError::from_topic_pattern_error(e, "response_topic_pattern"))?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(e, "response_topic_pattern")
+        })?;
 
         // Create mutex to track invoker state
         let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
@@ -538,11 +545,13 @@ where
         // Get request topic. Validates dynamic topic tokens
         let request_topic = self
             .request_topic_pattern
-            .as_publish_topic(&request.topic_tokens)?;
+            .as_publish_topic(&request.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
         // Get response topic. Validates dynamic topic tokens
         let response_topic = self
             .response_topic_pattern
-            .as_publish_topic(&request.topic_tokens)?;
+            .as_publish_topic(&request.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();

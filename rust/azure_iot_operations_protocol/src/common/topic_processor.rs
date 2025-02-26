@@ -5,28 +5,31 @@ use std::collections::HashMap;
 
 use regex::Regex;
 
-use super::aio_protocol_error::{AIOProtocolError, Value};
-
 /// Wildcard token
 pub const WILDCARD: &str = "+";
-
 
 // NOTE: This error design is less than ideal as detailed messages are only provided for the
 // InvalidPattern kind. This is because the other error kinds have logic that validates many
 // things at once, thus not allowing an easy way to report granular detail without reworking
 // substantial structure and organization of this module.
+//
 // It has been suggested that namespaces and share names should be validated
 // separately before being provided to the constructor as well, as they are distinct from the
 // pattern, and having a TopicPatternError for something that is not a topic pattern is
 // semantically strange, which may help in improving error implementation here.
+//
+// This would also probably allow for better semantic separation of pattern failures from
+// token replacement failures, which would improve the experience of using this module.
 
+/// Represents an error that occurred when creating a [`TopicPattern`]
 #[derive(thiserror::Error, Debug)]
-pub(crate) struct TopicPatternError {
+pub struct TopicPatternError {
     msg: Option<String>,
     kind: TopicPatternErrorKind,
 }
 
 impl TopicPatternError {
+    /// Get the kind of error that occurred when creating a [`TopicPattern`]
     pub fn kind(&self) -> &TopicPatternErrorKind {
         &self.kind
     }
@@ -41,18 +44,22 @@ impl std::fmt::Display for TopicPatternError {
     }
 }
 
+/// Represents the kind of error that occurred when creating a [`TopicPattern`]
 #[derive(thiserror::Error, Debug)]
-pub (crate) enum TopicPatternErrorKind {
+pub enum TopicPatternErrorKind {
+    /// The topic pattern is invalid
     #[error("Topic pattern is invalid")]
     InvalidPattern(String),
+    /// The share name is invalid
     #[error("Share name '{0}' is invalid")]
     InvalidShareName(String),
+    /// The topic namespace is invalid
     #[error("Topic namespace '{0}' is invalid")]
     InvalidNamespace(String),
+    /// Could not replace a token in the topic pattern
     #[error("Token '{0}' replacement value '{1}' is invalid")]
     InvalidTokenReplacement(String, String),
 }
-
 
 /// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
 ///
@@ -101,7 +108,7 @@ pub struct TopicPattern {
 impl TopicPattern {
     /// Creates a new topic pattern from a pattern string
     ///
-    /// Returns a new [`TopicPattern`] on success, or an [`AIOProtocolError`] on failure
+    /// Returns a new [`TopicPattern`] on success, or [`TopicPatternError`] on failure
     ///
     /// # Arguments
     /// * `property_name` - A string slice representing the name of the property that provides the topic pattern
@@ -111,9 +118,11 @@ impl TopicPattern {
     /// * `token_map` - A map of token replacements for initial replacement
     ///
     /// # Errors
-    /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// if the pattern, topic namespace, or token replacement is empty or invalid. Invalid means
-    /// means that the argument contains invalid characters, empty or whitespace levels, or reserved characters.
+    /// The kind of error is determined by which argument is invalid:
+    /// - Has kind [`TopicPatternErrorKind::InvalidPattern`] if the pattern is invalid
+    /// - Has kind [`TopicPatternErrorKind::InvalidShareName`] if the share name is invalid
+    /// - Has kind [`TopicPatternErrorKind::InvalidNamespace`] if the topic namespace is invalid
+    /// - Has kind [`TopicPatternErrorKind::InvalidTokenReplacement`] if the token replacement is invalid
     ///
     /// # Panics
     /// If any regex fails to compile which is impossible given that the regex are pre-defined.
@@ -149,7 +158,7 @@ impl TopicPattern {
                 return Err(TopicPatternError {
                     msg: None,
                     kind: TopicPatternErrorKind::InvalidShareName(share_name.to_string()),
-                })
+                });
             }
         }
 
@@ -172,7 +181,7 @@ impl TopicPattern {
                 return Err(TopicPatternError {
                     msg: None,
                     kind: TopicPatternErrorKind::InvalidNamespace(topic_namespace.to_string()),
-                })
+                });
             }
             acc_pattern.push_str(topic_namespace);
             acc_pattern.push('/');
@@ -199,14 +208,14 @@ impl TopicPattern {
                 return Err(TopicPatternError {
                     msg: Some("Contains empty token".to_string()),
                     kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
-                })
+                });
             }
 
             if last_end_index != 0 && last_end_index == token_capture.start() {
                 return Err(TopicPatternError {
                     msg: Some("Contains adjacent tokens".to_string()),
                     kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
-                })
+                });
             }
 
             last_end_index = token_capture.end();
@@ -218,7 +227,7 @@ impl TopicPattern {
                 return Err(TopicPatternError {
                     msg: Some("Contains invalid characters".to_string()),
                     kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
-                })
+                });
             }
 
             acc_pattern.push_str(acc);
@@ -226,9 +235,11 @@ impl TopicPattern {
             // Check if the token is valid
             if invalid_regex.is_match(token_without_braces) || token_without_braces.contains('/') {
                 return Err(TopicPatternError {
-                    msg: Some(format!("Contains invalid characters in token {token_without_braces}")),
+                    msg: Some(format!(
+                        "Contains invalid characters in token {token_without_braces}"
+                    )),
                     kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
-                })
+                });
             }
 
             // Check if the replacement is valid
@@ -236,7 +247,10 @@ impl TopicPattern {
                 if !is_valid_replacement(val) {
                     return Err(TopicPatternError {
                         msg: None,
-                        kind: TopicPatternErrorKind::InvalidTokenReplacement(token_without_braces.to_string(), val.to_string()),
+                        kind: TopicPatternErrorKind::InvalidTokenReplacement(
+                            token_without_braces.to_string(),
+                            val.to_string(),
+                        ),
                     });
                 }
                 acc_pattern.push_str(val);
@@ -253,7 +267,7 @@ impl TopicPattern {
             return Err(TopicPatternError {
                 msg: Some("Contains invalid characters".to_string()),
                 kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
-            })
+            });
         }
 
         acc_pattern.push_str(acc);
@@ -285,17 +299,16 @@ impl TopicPattern {
 
     /// Get the publish topic for the pattern
     ///
-    /// Returns the publish topic on success, or an [`AIOProtocolError`] on failure
+    /// Returns the publish topic as a String on success, or an [`TopicPatternError`] on failure
     ///
     /// # Arguments
     /// * `tokens` - A map of token replacements for the topic pattern, can be empty if there are
     ///     no replacements to be made
     ///
     /// # Errors
-    /// Returns [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// if the topic contains a token without a replacement, or if the replacement is invalid. An
-    /// invalid replacement is one that is empty, contains invalid characters, starts or ends with '/',
-    /// or contains "//".
+    /// The error kind will be [`TopicPatternErrorKind::InvalidTokenReplacement`] if the topic
+    /// contains a token that was not provided in the replacement map, or if the replacement is
+    /// invalid.
     ///
     /// # Panics
     /// Panics if regex group is not present when it is expected to be, which is impossible given
@@ -303,7 +316,7 @@ impl TopicPattern {
     pub fn as_publish_topic(
         &self,
         tokens: &HashMap<String, String>,
-    ) -> Result<String, AIOProtocolError> {
+    ) -> Result<String, TopicPatternError> {
         // Initialize the publish topic with the same capacity as the pattern to avoid reallocations
         let mut publish_topic = String::with_capacity(self.dynamic_pattern.len());
 
@@ -322,25 +335,23 @@ impl TopicPattern {
             // Check if the replacement is valid
             if let Some(val) = tokens.get(key) {
                 if !is_valid_replacement(val) {
-                    return Err(AIOProtocolError::new_argument_invalid_error(
-                        key,
-                        Value::String(val.to_string()),
-                        Some(format!(
-                            "MQTT topic pattern contains token '{key}', but replacement value '{val}' is not valid",
-                        )),
-                        None,
-                    ));
+                    return Err(TopicPatternError {
+                        msg: None,
+                        kind: TopicPatternErrorKind::InvalidTokenReplacement(
+                            key.to_string(),
+                            val.to_string(),
+                        ),
+                    });
                 }
                 publish_topic.push_str(val);
             } else {
-                return Err(AIOProtocolError::new_argument_invalid_error(
-                    key,
-                    Value::String(String::new()),
-                    Some(format!(
-                        "MQTT topic pattern contains token '{key}', but no replacement value provided"
-                    )),
-                    None,
-                ));
+                return Err(TopicPatternError {
+                    msg: None,
+                    kind: TopicPatternErrorKind::InvalidTokenReplacement(
+                        key.to_string(),
+                        String::new(),
+                    ),
+                });
             }
             last_match = key_cap.end();
         }
@@ -401,7 +412,6 @@ mod tests {
     use test_case::test_case;
 
     use super::*;
-    use crate::common::aio_protocol_error::AIOProtocolErrorKind;
 
     fn create_topic_tokens() -> HashMap<String, String> {
         HashMap::from([
@@ -425,126 +435,95 @@ mod tests {
     #[test_case("test/{testToken1}/{wildToken}/test", "test/testRepl1/{wildToken}/test"; "wildcard token in middle")]
     #[test_case("test/{testToken1}/{testToken2}/{testToken3}", "test/testRepl1/testRepl2/testRepl3"; "multiple varied tokens")]
     fn test_topic_pattern_new_pattern_valid(pattern: &str, result: &str) {
-        let pattern =
-            TopicPattern::new(pattern, None, None, &create_topic_tokens()).unwrap();
+        let pattern = TopicPattern::new(pattern, None, None, &create_topic_tokens()).unwrap();
 
         assert_eq!(pattern.dynamic_pattern, result);
     }
 
-
-    // #[test_case(""; "empty")]
-    // #[test_case(" "; "whitespace")]
-    // #[test_case("$invalidPattern/{testToken1}"; "starts with dollar")]
-    // #[test_case("/invalidPattern/{testToken1}"; "starts with slash")]
-    // #[test_case("{testToken1}/invalidPattern/"; "ends with slash")]
-    // #[test_case("invalid//Pattern/{testToken1}"; "contains double slash")]
-    // #[test_case(" /invalidPattern/{testToken1}"; "starts with whitespace")]
-    // #[test_case("{testToken1}/invalidPattern/ "; "ends with whitespace")]
-    // #[test_case("invalidPattern/ /invalidPattern/{testToken1}"; "level contains only whitespace")]
-    // #[test_case("invalidPattern/invalid Pattern/invalidPattern/{testToken1}"; "level contains whitespace")]
-    // #[test_case("invalidPattern/invalid+Pattern/invalidPattern/{testToken1}"; "level contains plus")]
-    // #[test_case("invalidPattern/invalid#Pattern/invalidPattern/{testToken1}"; "level contains hash")]
-    // #[test_case("invalidPattern/invalid}Pattern/invalidPattern/{testToken1}"; "level contains close brace")]
-    // #[test_case("invalidPattern/invalid\u{0000}Pattern/invalidPattern/{testToken1}"; "level contains non-ASCII")]
-    // #[test_case("invalidPattern/{testToken1}/invalid\u{0000}Pattern/invalidPattern/{testToken2}"; "level contains non-ASCII varied token")]
-    // #[test_case("{testToken1}{testToken1}"; "adjacent tokens")]
-    // #[test_case("{testToken1} {testToken1}"; "adjacent spaced tokens")]
-    // #[test_case("{testToken1}{}"; "one adjacent empty")]
-    // #[test_case("{}{}"; "two adjacent empty")]
-    // #[test_case("test/{testToken1}}"; "curly brace end")]
-    // fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
-    //     let err =
-    //         TopicPattern::new(pattern, None, None, &create_topic_tokens()).unwrap_err();
-    //     assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //     assert_eq!(err.property_name, Some("pattern".to_string()));
-    //     assert_eq!(err.property_value, Some(Value::String(pattern.to_string())));
-    // }
+    #[test_case(""; "empty")]
+    #[test_case(" "; "whitespace")]
+    #[test_case("$invalidPattern/{testToken1}"; "starts with dollar")]
+    #[test_case("/invalidPattern/{testToken1}"; "starts with slash")]
+    #[test_case("{testToken1}/invalidPattern/"; "ends with slash")]
+    #[test_case("invalid//Pattern/{testToken1}"; "contains double slash")]
+    #[test_case(" /invalidPattern/{testToken1}"; "starts with whitespace")]
+    #[test_case("{testToken1}/invalidPattern/ "; "ends with whitespace")]
+    #[test_case("invalidPattern/ /invalidPattern/{testToken1}"; "level contains only whitespace")]
+    #[test_case("invalidPattern/invalid Pattern/invalidPattern/{testToken1}"; "level contains whitespace")]
+    #[test_case("invalidPattern/invalid+Pattern/invalidPattern/{testToken1}"; "level contains plus")]
+    #[test_case("invalidPattern/invalid#Pattern/invalidPattern/{testToken1}"; "level contains hash")]
+    #[test_case("invalidPattern/invalid}Pattern/invalidPattern/{testToken1}"; "level contains close brace")]
+    #[test_case("invalidPattern/invalid\u{0000}Pattern/invalidPattern/{testToken1}"; "level contains non-ASCII")]
+    #[test_case("invalidPattern/{testToken1}/invalid\u{0000}Pattern/invalidPattern/{testToken2}"; "level contains non-ASCII varied token")]
+    #[test_case("{testToken1}{testToken1}"; "adjacent tokens")]
+    #[test_case("{testToken1} {testToken1}"; "adjacent spaced tokens")]
+    #[test_case("{testToken1}{}"; "one adjacent empty")]
+    #[test_case("{}{}"; "two adjacent empty")]
+    #[test_case("test/{testToken1}}"; "curly brace end")]
+    fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
+        let err = TopicPattern::new(pattern, None, None, &create_topic_tokens()).unwrap_err();
+        matches!(err.kind(), TopicPatternErrorKind::InvalidPattern(p) if p == pattern);
+    }
 
     #[test_case("validNamespace"; "single level")]
     #[test_case("validNamespace/validNamespace"; "multiple levels")]
     fn test_topic_pattern_new_pattern_valid_topic_namespace(topic_namespace: &str) {
         let pattern = "test/{testToken1}";
 
-        TopicPattern::new(
-            pattern,
-            None,
-            Some(topic_namespace),
-            &create_topic_tokens(),
-        )
-        .unwrap();
+        TopicPattern::new(pattern, None, Some(topic_namespace), &create_topic_tokens()).unwrap();
     }
 
-    // #[test_case(""; "empty")]
-    // #[test_case(" "; "whitespace")]
-    // #[test_case("invalid Namespace"; "contains space")]
-    // #[test_case("invalid+Namespace"; "contains plus")]
-    // #[test_case("invalid#Namespace"; "contains hash")]
-    // #[test_case("invalid{Namespace"; "contains open brace")]
-    // #[test_case("invalid}Namespace"; "contains close brace")]
-    // #[test_case("invalid\u{0000}Namespace"; "contains non-ASCII")]
-    // #[test_case("/invalidNamespace"; "namespace starts with slash")]
-    // #[test_case("invalidNamespace/"; "namespace ends with slash")]
-    // fn test_topic_pattern_new_pattern_invalid_topic_namespace(topic_namespace: &str) {
-    //     let pattern = "test/{testToken1}";
+    #[test_case(""; "empty")]
+    #[test_case(" "; "whitespace")]
+    #[test_case("invalid Namespace"; "contains space")]
+    #[test_case("invalid+Namespace"; "contains plus")]
+    #[test_case("invalid#Namespace"; "contains hash")]
+    #[test_case("invalid{Namespace"; "contains open brace")]
+    #[test_case("invalid}Namespace"; "contains close brace")]
+    #[test_case("invalid\u{0000}Namespace"; "contains non-ASCII")]
+    #[test_case("/invalidNamespace"; "namespace starts with slash")]
+    #[test_case("invalidNamespace/"; "namespace ends with slash")]
+    fn test_topic_pattern_new_pattern_invalid_topic_namespace(topic_namespace: &str) {
+        let pattern = "test/{testToken1}";
 
-    //     let err = TopicPattern::new(
-    //         pattern,
-    //         None,
-    //         Some(topic_namespace),
-    //         &create_topic_tokens(),
-    //     )
-    //     .unwrap_err();
-    //     assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //     assert_eq!(err.property_name, Some("topic_namespace".to_string()));
-    //     assert_eq!(
-    //         err.property_value,
-    //         Some(Value::String(topic_namespace.to_string()))
-    //     );
-    // }
+        let err = TopicPattern::new(pattern, None, Some(topic_namespace), &create_topic_tokens())
+            .unwrap_err();
+        matches!(err.kind(), TopicPatternErrorKind::InvalidNamespace(n) if n == topic_namespace);
+    }
 
-    // #[test_case("test/{{testToken1}", "test/{{testToken1}"; "open brace")]
-    // #[test_case("test/{test+Token}", "test/{test+Token}"; "plus")]
-    // #[test_case("test/{test#Token}", "test/{test#Token}"; "hash")]
-    // #[test_case("test/{test/Token}", "test/{test/Token}"; "slash")]
-    // #[test_case("test/{test\u{0000}Token}", "test/{test\u{0000}Token}"; "non-ASCII")]
-    // fn test_topic_pattern_new_pattern_invalid_token(pattern: &str, property_value: &str) {
-    //     let err = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap_err();
-    //     assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //     assert_eq!(err.property_name, Some("pattern".to_string()));
-    //     assert_eq!(
-    //         err.property_value,
-    //         Some(Value::String(property_value.to_string()))
-    //     );
-    // }
+    #[test_case("test/{{testToken1}"; "open brace")]
+    #[test_case("test/{test+Token}"; "plus")]
+    #[test_case("test/{test#Token}"; "hash")]
+    #[test_case("test/{test/Token}"; "slash")]
+    #[test_case("test/{test\u{0000}Token}"; "non-ASCII")]
+    fn test_topic_pattern_new_pattern_invalid_token(pattern: &str) {
+        let err = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap_err();
+        matches!(err.kind(), TopicPatternErrorKind::InvalidPattern(p) if p == pattern);
+    }
 
-    // #[test_case("invalid replacement"; "replacement contains space")]
-    // #[test_case("invalid+replacement"; "replacement contains plus")]
-    // #[test_case("invalid#replacement"; "replacement contains hash")]
-    // #[test_case("invalid{replacement"; "replacement contains open brace")]
-    // #[test_case("invalid}replacement"; "replacement contains close brace")]
-    // #[test_case("invalid//replacement"; "replacement contains double slash")]
-    // #[test_case("invalid\u{0000}replacement"; "replacement contains non ASCII character")]
-    // #[test_case("/invalidReplacement"; "replacement starts with slash")]
-    // #[test_case("invalidReplacement/"; "replacement ends with slash")]
-    // #[test_case(""; "replacement is empty")]
-    // #[test_case(" "; "replacement contains only space")]
-    // fn test_topic_pattern_new_pattern_invalid_replacement(replacement: &str) {
-    //     let pattern = "test/{testToken}/test";
+    #[test_case("invalid replacement"; "replacement contains space")]
+    #[test_case("invalid+replacement"; "replacement contains plus")]
+    #[test_case("invalid#replacement"; "replacement contains hash")]
+    #[test_case("invalid{replacement"; "replacement contains open brace")]
+    #[test_case("invalid}replacement"; "replacement contains close brace")]
+    #[test_case("invalid//replacement"; "replacement contains double slash")]
+    #[test_case("invalid\u{0000}replacement"; "replacement contains non ASCII character")]
+    #[test_case("/invalidReplacement"; "replacement starts with slash")]
+    #[test_case("invalidReplacement/"; "replacement ends with slash")]
+    #[test_case(""; "replacement is empty")]
+    #[test_case(" "; "replacement contains only space")]
+    fn test_topic_pattern_new_pattern_invalid_replacement(replacement: &str) {
+        let pattern = "test/{testToken}/test";
 
-    //     let err = TopicPattern::new(
-    //         pattern,
-    //         None,
-    //         None,
-    //         &HashMap::from([("testToken".to_string(), replacement.to_string())]),
-    //     )
-    //     .unwrap_err();
-    //     assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //     assert_eq!(err.property_name, Some("testToken".to_string()));
-    //     assert_eq!(
-    //         err.property_value,
-    //         Some(Value::String(replacement.to_string()))
-    //     );
-    // }
+        let err = TopicPattern::new(
+            pattern,
+            None,
+            None,
+            &HashMap::from([("testToken".to_string(), replacement.to_string())]),
+        )
+        .unwrap_err();
+        matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == "testToken" && r == replacement);
+    }
 
     #[test_case("test", "test"; "no token")]
     #[test_case("{wildToken}", "+"; "single token")]
@@ -560,28 +539,18 @@ mod tests {
         assert_eq!(pattern.as_subscribe_topic(), result);
     }
 
-    // #[test_case("invalid ShareName"; "contains space")]
-    // #[test_case("invalid+ShareName"; "contains plus")]
-    // #[test_case("invalid#ShareName"; "contains hash")]
-    // #[test_case("invalid{ShareName"; "contains open brace")]
-    // #[test_case("invalid}ShareName"; "contains close brace")]
-    // #[test_case("invalid/ShareName"; "contains slash")]
-    // #[test_case("invalid\u{0000}ShareName"; "contains non-ASCII")]
-    // fn test_topic_pattern_new_pattern_invalid_share_name(share_name: &str) {
-    //     let err = TopicPattern::new(
-    //         "test",
-    //         Some(share_name.to_string()),
-    //         None,
-    //         &HashMap::new(),
-    //     )
-    //     .unwrap_err();
-    //     assert_eq!(err.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-    //     assert_eq!(err.property_name, Some("share_name".to_string()));
-    //     assert_eq!(
-    //         err.property_value,
-    //         Some(Value::String(share_name.to_string()))
-    //     );
-    // }
+    #[test_case("invalid ShareName"; "contains space")]
+    #[test_case("invalid+ShareName"; "contains plus")]
+    #[test_case("invalid#ShareName"; "contains hash")]
+    #[test_case("invalid{ShareName"; "contains open brace")]
+    #[test_case("invalid}ShareName"; "contains close brace")]
+    #[test_case("invalid/ShareName"; "contains slash")]
+    #[test_case("invalid\u{0000}ShareName"; "contains non-ASCII")]
+    fn test_topic_pattern_new_pattern_invalid_share_name(share_name: &str) {
+        let err = TopicPattern::new("test", Some(share_name.to_string()), None, &HashMap::new())
+            .unwrap_err();
+        matches!(err.kind(), TopicPatternErrorKind::InvalidShareName(s) if s == share_name);
+    }
 
     #[test]
     fn test_topic_pattern_methods_with_share_name() {
@@ -621,34 +590,29 @@ mod tests {
         assert_eq!(pattern.as_publish_topic(tokens).unwrap(), result);
     }
 
-    // #[test_case("{testToken}", &HashMap::new(), "testToken", ""; "no replacement")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid Replacement".to_string())]), "testToken", "invalid Replacement"; "replacement contains space")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid+Replacement".to_string())]), "testToken", "invalid+Replacement"; "replacement contains plus")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid#Replacement".to_string())]), "testToken", "invalid#Replacement"; "replacement contains hash")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid{Replacement".to_string())]), "testToken", "invalid{Replacement"; "replacement contains open brace")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid}Replacement".to_string())]), "testToken", "invalid}Replacement"; "replacement contains close brace")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid//Replacement".to_string())]), "testToken", "invalid//Replacement"; "replacement contains double slash")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid\u{0000}Replacement".to_string())]), "testToken", "invalid\u{0000}Replacement"; "replacement contains non ASCII character")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "/invalidReplacement".to_string())]), "testToken", "/invalidReplacement"; "replacement starts with slash")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalidReplacement/".to_string())]), "testToken", "invalidReplacement/"; "replacement ends with slash")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), String::new())]), "testToken", ""; "replacement is empty")]
-    // #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), " ".to_string())]), "testToken", " "; "replacement contains only space")]
-    // fn test_topic_pattern_as_publish_topic_invalid(
-    //     pattern: &str,
-    //     tokens: &HashMap<String, String>,
-    //     property_name: &str,
-    //     property_value: &str,
-    // ) {
-    //     let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
+    #[test_case("{testToken}", &HashMap::new(), "testToken", ""; "no replacement")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid Replacement".to_string())]), "testToken", "invalid Replacement"; "replacement contains space")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid+Replacement".to_string())]), "testToken", "invalid+Replacement"; "replacement contains plus")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid#Replacement".to_string())]), "testToken", "invalid#Replacement"; "replacement contains hash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid{Replacement".to_string())]), "testToken", "invalid{Replacement"; "replacement contains open brace")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid}Replacement".to_string())]), "testToken", "invalid}Replacement"; "replacement contains close brace")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid//Replacement".to_string())]), "testToken", "invalid//Replacement"; "replacement contains double slash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalid\u{0000}Replacement".to_string())]), "testToken", "invalid\u{0000}Replacement"; "replacement contains non ASCII character")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "/invalidReplacement".to_string())]), "testToken", "/invalidReplacement"; "replacement starts with slash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), "invalidReplacement/".to_string())]), "testToken", "invalidReplacement/"; "replacement ends with slash")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), String::new())]), "testToken", ""; "replacement is empty")]
+    #[test_case("{testToken}", &HashMap::from([("testToken".to_string(), " ".to_string())]), "testToken", " "; "replacement contains only space")]
+    fn test_topic_pattern_as_publish_topic_invalid(
+        pattern: &str,
+        tokens: &HashMap<String, String>,
+        expected_token: &str,
+        expected_replacement: &str,
+    ) {
+        let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
 
-    //     let err = pattern.as_publish_topic(tokens).unwrap_err();
-    //     assert_eq!(err.kind, AIOProtocolErrorKind::ArgumentInvalid);
-    //     assert_eq!(err.property_name, Some(property_name.to_string()));
-    //     assert_eq!(
-    //         err.property_value,
-    //         Some(Value::String(property_value.to_string()))
-    //     );
-    // }
+        let err = pattern.as_publish_topic(tokens).unwrap_err();
+        matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == expected_token && r == expected_replacement);
+    }
 
     #[test_case("test", "test", &HashMap::new(); "no token")]
     #[test_case("{testToken}", "testRepl", &HashMap::from([("testToken".to_string(), "testRepl".to_string())]); "single token")]
