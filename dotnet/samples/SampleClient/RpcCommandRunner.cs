@@ -4,12 +4,9 @@
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using MQTTnet.Client;
-using MQTTnet.Server;
-using TestEnvoys.dtmi_com_example_Counter__1;
-using TestEnvoys.dtmi_rpc_samples_math__1;
+using TestEnvoys.Counter;
+using TestEnvoys.Math;
 using TestEnvoys.Greeter;
-using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
 
 namespace SampleClient;
 
@@ -22,15 +19,23 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         await mqttClient.ConnectAsync(mcs, stoppingToken);
         await Console.Out.WriteLineAsync($"Connected to: {mcs}");
 
+        await using MemMonClient memMonClient = serviceProvider.GetService<MemMonClient>()!;
+
+        await memMonClient.StartAsync(stoppingToken);
 
         string userResponse = "y";
         while (userResponse == "y")
         {
-            await RunCustomTopicTokenCommand("SampleServerWithCustomTopicTokens");
+            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
+            await RunCounterCommands("SampleServer");
+            await RunGreeterCommands();
+            await RunMathCommands();
+            await memMonClient.StopTelemetryAsync("SampleServer", null, null, stoppingToken);
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
             if (userResponse == "q")
             {
+                await memMonClient.DisposeAsync();
                 await mqttClient.DisposeAsync(); // This disconnects the mqtt client as well
                 Environment.Exit(0);
             }
@@ -52,7 +57,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             Task<ExtendedResponse<IsPrimeResponsePayload>> respIsPrimeTask = mathClient.IsPrimeAsync("SampleServer",
                 new IsPrimeRequestPayload
                 {
-                    IsPrimeRequest = new Object_IsPrime_Request
+                    IsPrimeRequest = new IsPrimeRequestSchema
                     {
                         Number = number
                     }
@@ -66,7 +71,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             Task<ExtendedResponse<FibResponsePayload>> respFibTask = mathClient.FibAsync("SampleServer",
                 new FibRequestPayload
                 {
-                    FibRequest = new Object_Fib_Request
+                    FibRequest = new FibRequestSchema
                     {
                         Number = number
                     }
@@ -145,24 +150,6 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         catch (Exception ex)
         {
             logger.LogWarning("{msg}",ex.Message);
-        }
-    }
-
-    private async Task RunCustomTopicTokenCommand(string server)
-    {
-        await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
-        try
-        {
-
-            CommandRequestMetadata reqMd = new();
-
-            logger.LogInformation("Calling ReadCounter with {c}", reqMd.CorrelationId);
-            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(server, reqMd).WithMetadata();
-            logger.LogInformation("Received response with custom topic token {token}", respCounter.Response!.CustomTopicTokenResponse);
-        }
-        catch (Exception ex)
-        {
-            logger.LogWarning("{msg}", ex.Message);
         }
     }
 }

@@ -6,9 +6,10 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 
-using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
-using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;
+using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Schema;
+using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using System.Diagnostics;
+using Azure.Iot.Operations.Protocol;
 
 string jsonSchema1 = /*lang=json,strict*/ """
     {
@@ -35,7 +36,8 @@ var configuration = new ConfigurationBuilder()
 var mqttDiag = Convert.ToBoolean(configuration["mqttDiag"]);
 if (mqttDiag) Trace.Listeners.Add(new ConsoleTraceListener());
 MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = mqttDiag });
-await using SchemaRegistryClient schemaRegistryClient = new(mqttClient);
+ApplicationContext applicationContext = new();
+await using SchemaRegistryClient schemaRegistryClient = new(applicationContext, mqttClient);
 await mqttClient.ConnectAsync(MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!));
 
 SchemaInfo? schemaInfo = await schemaRegistryClient.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07);

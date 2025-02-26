@@ -6,9 +6,11 @@
 namespace SampleReadCloudEvents
 {
     using System;
+    using System.Buffers;
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Protocol;
+    using Azure.Iot.Operations.Protocol.Models;
 
     public class Utf8JsonSerializer : IPayloadSerializer
     {
@@ -26,16 +28,29 @@ namespace SampleReadCloudEvents
             }
         };
 
-        public string ContentType => "application/json";
+        public const string ContentType = "application/json";
 
-        public int CharacterDataFormatIndicator => 1;
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
-        public T FromBytes<T>(byte[]? payload)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
+            if (contentType != null && contentType != ContentType)
+            {
+                throw new AkriMqttException($"Content type {contentType} is not supported by this implementation; only {ContentType} is accepted.")
+                {
+                    Kind = AkriMqttErrorKind.HeaderInvalid,
+                    HeaderName = "Content Type",
+                    HeaderValue = contentType,
+                    InApplication = false,
+                    IsShallow = false,
+                    IsRemote = false,
+                };
+            }
+
             try
             {
-                if (payload == null || payload.Length == 0)
+                if (payload.IsEmpty)
                 {
                     if (typeof(T) != typeof(EmptyJson))
                     {
@@ -54,17 +69,17 @@ namespace SampleReadCloudEvents
             }
         }
 
-        public byte[]? ToBytes<T>(T? payload)
+        public SerializedPayloadContext ToBytes<T>(T? payload)
             where T : class
         {
             try
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return null;
+                    return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
                 }
 
-                return JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions);
+                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {

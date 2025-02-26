@@ -45,22 +45,22 @@
                 }
             }
 
-            string schemaName = schemaElt.TryGetProperty("name", out JsonElement nameElt) ? nameElt.GetString() ?? string.Empty : string.Empty;
+            CodeName? schemaName = schemaElt.TryGetProperty("name", out JsonElement nameElt) ? new CodeName(nameElt.GetString()!) : null;
 
             switch (typeElt.GetString())
             {
                 case "record":
                     schemaTypes.Add(new ObjectType(
-                        schemaName,
+                        schemaName!,
                         null,
-                        schemaElt.GetProperty("fields").EnumerateArray().ToDictionary(e => e.GetProperty("name").GetString()!, e => GetObjectTypeFieldInfo(e, schemaTypes))));
-                    return new ReferenceType(schemaName);
+                        schemaElt.GetProperty("fields").EnumerateArray().ToDictionary(e => new CodeName(e.GetProperty("name").GetString()!), e => GetObjectTypeFieldInfo(e, schemaTypes))));
+                    return new ReferenceType(schemaName!);
                 case "enum":
                     schemaTypes.Add(new EnumType(
-                        schemaName,
+                        schemaName!,
                         null,
-                        names: schemaElt.GetProperty("symbols").EnumerateArray().Select(e => e.GetString()!).ToArray()));
-                    return new ReferenceType(schemaName, isEnum: true);
+                        names: schemaElt.GetProperty("symbols").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray()));
+                    return new ReferenceType(schemaName!, isEnum: true);
                 case "map":
                     return new MapType(GetSchemaType(schemaElt.GetProperty("values"), schemaTypes));
                 case "array":
@@ -77,6 +77,8 @@
                     return new LongType();
                 case "string":
                     return new StringType();
+                case "bytes":
+                    return new BytesType();
                 default:
                     throw new Exception("unrecognized schema");
             }

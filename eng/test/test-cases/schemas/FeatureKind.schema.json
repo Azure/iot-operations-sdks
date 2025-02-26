@@ -11,6 +11,10 @@
             "title": "The component under test will order ACKs in accordance with MQTT protocol requirements."
         },
         {
+            "const": "topic-filtering",
+            "title": "The component under test will filter out received messages that lack an appropriate topic."
+        },
+        {
             "const": "reconnection",
             "title": "The component under test will automatically reconnect after a disconnection occurs."
         },
@@ -25,6 +29,10 @@
         {
             "const": "explicit-default",
             "title": "The component under test uses an explicit indication (not a sentinel value) to imply a default value."
+        },
+        {
+            "const": "multiple-serializers",
+            "title": "Each component under test can have a different serializer configuration."
         }
     ]
 }

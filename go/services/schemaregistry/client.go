@@ -8,13 +8,13 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1"
+	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/schemaregistry"
 )
 
 type (
 	// Client represents a client of the schema registry.
 	Client struct {
-		client *dtmi_ms_adr_SchemaRegistry__1.SchemaRegistryClient
+		client *schemaregistry.SchemaRegistryClient
 	}
 
 	// ClientOption represents a single option for the client.
@@ -27,14 +27,18 @@ type (
 )
 
 // New creates a new schema registry client.
-func New(client protocol.MqttClient, opt ...ClientOption) (*Client, error) {
+func New(
+	app *protocol.Application,
+	client protocol.MqttClient,
+	opt ...ClientOption,
+) (*Client, error) {
 	var opts ClientOptions
 	opts.Apply(opt)
 
-	sr, err := dtmi_ms_adr_SchemaRegistry__1.NewSchemaRegistryClient(
+	sr, err := schemaregistry.NewSchemaRegistryClient(
+		app,
 		client,
 		opts.invoker(),
-		protocol.WithResponseTopicPrefix("clients/{invokerClientId}"),
 	)
 	if err != nil {
 		return nil, err

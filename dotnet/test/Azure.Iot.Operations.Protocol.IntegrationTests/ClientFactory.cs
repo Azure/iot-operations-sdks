@@ -22,14 +22,14 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
 
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
-            MQTTnet.Client.IMqttClient mqttClient;
+            MQTTnet.IMqttClient mqttClient;
             if (withTraces)
             {
-                mqttClient = new MQTTnet.MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger());
+                mqttClient = new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger());
             }
             else
             {
-                mqttClient = new MQTTnet.MqttFactory().CreateMqttClient();
+                mqttClient = new MQTTnet.MqttClientFactory().CreateMqttClient();
             }
 
             var orderedAckClient = new OrderedAckMqttClient(mqttClient);

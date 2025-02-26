@@ -1,0 +1,34 @@
+---
+test-name: CommandExecutorRequestWithCustomTokens_RespondsAndAcks
+description:
+  condition: >-
+    CommandExecutor receives valid request on a topic specified with custom tokens.
+  expect: >-
+    CommandExecutor sends response and acknowledges request, inserting token values from topic into metadata.
+
+prologue:
+  executors:
+  - request-topic: "mock/{modelId}/test/{ex:foobar}"
+    topic-token-map:
+      "modelId": "dtmi:test:MyModel;1"
+    token-metadata-prefix: "token:"
+
+actions:
+- action: receive request
+  topic: "mock/dtmi:test:MyModel;1/test/MyValue"
+  correlation-index: 0
+- action: await acknowledgement
+
+epilogue:
+  subscribed-topics:
+  - "mock/dtmi:test:MyModel;1/test/+"
+  published-messages:
+  - correlation-index: 0
+    topic: "response/mock/test"
+    content-type: "application/json"
+    format-indicator: 1
+    metadata:
+      "token:modelId": "dtmi:test:MyModel;1"
+      "token:ex:foobar": "MyValue"
+    command-status: 200 # OK
+...

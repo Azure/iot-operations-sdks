@@ -9,8 +9,11 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+    },
     rpc::{
         command_executor::{
             CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
@@ -75,22 +78,32 @@ fn setup_test<
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     let invoker_options = CommandInvokerOptionsBuilder::default()
         .request_topic_pattern(topic)
         .response_topic_prefix("response".to_string())
         .command_name(client_id)
         .build()
         .unwrap();
-    let invoker: CommandInvoker<TReq, TResp, _> =
-        CommandInvoker::new(session.create_managed_client(), invoker_options).unwrap();
+    let invoker: CommandInvoker<TReq, TResp, _> = CommandInvoker::new(
+        application_context.clone(),
+        session.create_managed_client(),
+        invoker_options,
+    )
+    .unwrap();
 
     let executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(topic)
         .command_name(client_id)
         .build()
         .unwrap();
-    let executor: CommandExecutor<TReq, TResp, _> =
-        CommandExecutor::new(session.create_managed_client(), executor_options).unwrap();
+    let executor: CommandExecutor<TReq, TResp, _> = CommandExecutor::new(
+        application_context,
+        session.create_managed_client(),
+        executor_options,
+    )
+    .unwrap();
 
     let exit_handle: SessionExitHandle = session.create_exit_handle();
     Ok((session, invoker, executor, exit_handle))
@@ -100,16 +113,19 @@ fn setup_test<
 pub struct EmptyPayload {}
 impl PayloadSerialize for EmptyPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
+
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: Vec::new(),
+            content_type: "application/octet-stream".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok("".into())
-    }
-    fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
     }
 }
@@ -149,7 +165,7 @@ async fn command_basic_invoke_response_network_tests() {
                             .unwrap()
                             .build()
                             .unwrap();
-                        assert!(request.complete(response).is_ok());
+                        assert!(request.complete(response).await.is_ok());
                     }
 
                     // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)
@@ -218,23 +234,36 @@ pub struct DataRequestPayload {
 }
 impl PayloadSerialize for DataRequestPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"requestedTemperature\":{},\"requestedColor\":{}}}",
+                self.requested_temperature, self.requested_color
+            )
+            .into(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"requestedTemperature\":{},\"requestedColor\":{}}}",
-            self.requested_temperature, self.requested_color
-        )
-        .into())
-    }
-    fn deserialize(payload: &[u8]) -> Result<DataRequestPayload, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<DataRequestPayload, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+                )));
+            }
+        }
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing request: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing request: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -243,7 +272,11 @@ impl PayloadSerialize for DataRequestPayload {
             .parse::<f64>()
         {
             Ok(req_temp) => req_temp,
-            Err(e) => return Err(format!("Error while deserializing request: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing request: {e}"
+                )))
+            }
         };
         let requested_color = payload[1]
             .trim_start_matches("\"requestedColor\":")
@@ -265,23 +298,36 @@ pub struct DataResponsePayload {
 }
 impl PayloadSerialize for DataResponsePayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/something"
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"oldTemperature\":{},\"oldColor\":{},\"minutesToChange\":{}}}",
+                self.old_temperature, self.old_color, self.minutes_to_change
+            )
+            .into(),
+            content_type: "application/something".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"oldTemperature\":{},\"oldColor\":{},\"minutesToChange\":{}}}",
-            self.old_temperature, self.old_color, self.minutes_to_change
-        )
-        .into())
-    }
-    fn deserialize(payload: &[u8]) -> Result<DataResponsePayload, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<DataResponsePayload, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/something" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/something'"
+                )));
+            }
+        }
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing response: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -290,7 +336,11 @@ impl PayloadSerialize for DataResponsePayload {
             .parse::<f64>()
         {
             Ok(old_temp) => old_temp,
-            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing response: {e}"
+                )))
+            }
         };
         let old_color = payload[1].trim_start_matches("\"oldColor\":").to_string();
 
@@ -300,7 +350,11 @@ impl PayloadSerialize for DataResponsePayload {
             .parse::<u32>()
         {
             Ok(min) => min,
-            Err(e) => return Err(format!("Error while deserializing response: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing response: {e}"
+                )))
+            }
         };
 
         Ok(DataResponsePayload {
@@ -375,7 +429,7 @@ async fn command_complex_invoke_response_network_tests() {
                             .custom_user_data(test_response_custom_user_data_clone)
                             .build()
                             .unwrap();
-                        assert!(request.complete(response).is_ok());
+                        assert!(request.complete(response).await.is_ok());
                     }
 
                     // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)

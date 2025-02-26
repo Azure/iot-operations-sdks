@@ -10,15 +10,16 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandExecutorOptionsBuilderError,
     CommandResponseBuilder,
 };
 use bytes::Bytes;
+use serde_json;
 use tokio::time;
 use uuid::Uuid;
 
@@ -32,6 +33,7 @@ use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_executor::TestCaseExecutor;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_error_kind::TestErrorKind;
 use crate::metl::test_payload::TestPayload;
 
@@ -52,7 +54,6 @@ where
 {
     pub async fn test_command_executor(
         test_case: TestCase<ExecutorDefaults>,
-        test_case_index: i32,
         managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
@@ -107,6 +108,8 @@ where
             }
         }
 
+        let test_case_serializer = &test_case.prologue.executors[0].serializer;
+
         let mut source_ids: HashMap<i32, Uuid> = HashMap::new();
         let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
@@ -120,7 +123,7 @@ where
                         &mut source_ids,
                         &mut correlation_ids,
                         &mut packet_ids,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_ack @ TestCaseAction::AwaitAck { .. } => {
@@ -131,7 +134,7 @@ where
                         .await;
                 }
                 action_sync @ TestCaseAction::Sync { .. } => {
-                    Self::sync(action_sync, &countdown_events);
+                    Self::sync(action_sync, &countdown_events).await;
                 }
                 action_sleep @ TestCaseAction::Sleep { .. } => {
                     Self::sleep(action_sleep).await;
@@ -168,12 +171,7 @@ where
             }
 
             for published_message in &test_case_epilogue.published_messages {
-                Self::check_published_message(
-                    published_message,
-                    &mqtt_hub,
-                    &correlation_ids,
-                    test_case_index,
-                );
+                Self::check_published_message(published_message, &mqtt_hub, &correlation_ids);
             }
 
             if let Some(acknowledgement_count) = test_case_epilogue.acknowledgement_count {
@@ -216,6 +214,7 @@ where
                     if let Some(wait_event) = &test_case_sync.wait_event {
                         countdown_events
                             .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
+                            .await
                             .expect("test timeout in countdown_event.wait");
                     }
 
@@ -230,7 +229,7 @@ where
                             Some(message) => message.clone(),
                             None => String::default(),
                         };
-                        request.error(message).unwrap();
+                        request.error(message).await.unwrap();
                         continue;
                     }
                 }
@@ -252,7 +251,14 @@ where
 
                 let response_payload = TestPayload {
                     payload: response_value,
-                    test_case_index: request.payload.test_case_index,
+                    out_content_type: test_case_executor.serializer.out_content_type.clone(),
+                    accept_content_types: test_case_executor
+                        .serializer
+                        .accept_content_types
+                        .clone(),
+                    indicate_character_data: test_case_executor.serializer.indicate_character_data,
+                    allow_character_data: test_case_executor.serializer.allow_character_data,
+                    fail_deserialization: test_case_executor.serializer.fail_deserialization,
                 };
 
                 let mut metadata = Vec::with_capacity(test_case_executor.response_metadata.len());
@@ -265,6 +271,12 @@ where
                     }
                 }
 
+                if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
+                    for (key, value) in &request.topic_tokens {
+                        metadata.push((format!("{token_prefix}{key}"), value.clone()));
+                    }
+                }
+
                 let response = CommandResponseBuilder::default()
                     .payload(response_payload)
                     .unwrap()
@@ -272,7 +284,7 @@ where
                     .build()
                     .unwrap();
 
-                request.complete(response).unwrap();
+                _ = request.complete(response).await;
             }
         }
     }
@@ -303,10 +315,6 @@ where
 
         executor_options_builder.is_idempotent(tce.idempotent);
 
-        if let Some(cache_ttl) = tce.cache_ttl.as_ref() {
-            executor_options_builder.cacheable_duration(cache_ttl.to_duration());
-        }
-
         let options_result = executor_options_builder.build();
         if let Err(error) = options_result {
             if let Some(catch) = catch {
@@ -323,7 +331,11 @@ where
 
         let executor_options = options_result.unwrap();
 
-        match CommandExecutor::new(managed_client, executor_options) {
+        match CommandExecutor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        ) {
             Ok(mut executor) => {
                 if let Some(catch) = catch {
                     // CommandExecutor has no start method, so if an exception is expected, recv may be needed to trigger it.
@@ -369,13 +381,12 @@ where
         source_ids: &mut HashMap<i32, Uuid>,
         correlation_ids: &mut HashMap<i32, Option<Bytes>>,
         packet_ids: &mut HashMap<i32, u16>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<ExecutorDefaults>,
     ) {
         if let TestCaseAction::ReceiveRequest {
             defaults_type: _,
             topic,
             payload,
-            bypass_serialization,
             content_type,
             format_indicator,
             metadata,
@@ -445,23 +456,15 @@ where
                 Bytes::new()
             };
 
-            let payload = if let Some(payload) = payload {
-                if *bypass_serialization {
-                    Bytes::copy_from_slice(payload.as_bytes())
-                } else {
-                    Bytes::copy_from_slice(
-                        TestPayload {
-                            payload: Some(payload.clone()),
-                            test_case_index: Some(test_case_index),
-                        }
-                        .serialize()
-                        .unwrap()
-                        .as_slice(),
-                    )
-                }
-            } else {
-                Bytes::new()
-            };
+            let payload = serde_json::to_vec(&TestPayload {
+                payload: payload.clone(),
+                out_content_type: tcs.out_content_type.clone(),
+                accept_content_types: tcs.accept_content_types.clone(),
+                indicate_character_data: tcs.indicate_character_data,
+                allow_character_data: tcs.allow_character_data,
+                fail_deserialization: tcs.fail_deserialization,
+            })
+            .unwrap();
 
             let properties = PublishProperties {
                 payload_format_indicator: *format_indicator,
@@ -477,7 +480,7 @@ where
                 qos: qos::to_enum(*qos),
                 topic,
                 pkid: packet_id,
-                payload,
+                payload: payload.into(),
                 properties: Some(properties),
                 ..Default::default()
             };
@@ -542,7 +545,7 @@ where
         }
     }
 
-    fn sync(action: &TestCaseAction<ExecutorDefaults>, countdown_events: &CountdownEventMap) {
+    async fn sync(action: &TestCaseAction<ExecutorDefaults>, countdown_events: &CountdownEventMap) {
         if let TestCaseAction::Sync {
             defaults_type: _,
             signal_event,
@@ -552,6 +555,7 @@ where
             if let Some(wait_event) = wait_event {
                 countdown_events
                     .wait_timeout(wait_event.as_str(), TEST_TIMEOUT)
+                    .await
                     .expect("test timeout in countdown_event.wait");
             }
 
@@ -587,7 +591,6 @@ where
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
         correlation_ids: &HashMap<i32, Option<Bytes>>,
-        test_case_index: i32,
     ) {
         let published_message =
             if let Some(correlation_index) = expected_message.correlation_index {
@@ -621,18 +624,33 @@ where
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                let payload = Bytes::copy_from_slice(
-                    TestPayload {
-                        payload: Some(payload.clone()),
-                        test_case_index: Some(test_case_index),
-                    }
-                    .serialize()
-                    .unwrap()
-                    .as_slice(),
+                assert_eq!(
+                    payload,
+                    from_utf8(published_message.payload.to_vec().as_slice())
+                        .expect("could not process published payload topic as UTF8"),
+                    "payload"
                 );
-                assert_eq!(payload, published_message.payload, "payload");
             } else {
                 assert!(published_message.payload.is_empty());
+            }
+        }
+
+        if expected_message.content_type.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(expected_message.content_type, properties.content_type);
+            } else {
+                panic!("expected content type but found no properties in published message");
+            }
+        }
+
+        if expected_message.format_indicator.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(
+                    expected_message.format_indicator,
+                    properties.payload_format_indicator
+                );
+            } else {
+                panic!("expected format indicator but found no properties in published message");
             }
         }
 
@@ -641,6 +659,7 @@ where
                 for (key, value) in &expected_message.metadata {
                     let found = properties.user_properties.iter().find(|&k| &k.0 == key);
                     if let Some(value) = value {
+                        assert!(found.is_some(), "metadata key {key} not found");
                         assert_eq!(
                             value,
                             &found.unwrap().1,

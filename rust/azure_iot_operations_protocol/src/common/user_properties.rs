@@ -6,6 +6,11 @@ use std::{
     str::FromStr,
 };
 
+/// Partition key used by the MQ broker for RPC operations with shared subscriptions.
+/// It is added as a user property key in the MQTT message, with the client ID as its value.
+/// Users cannot set this property on the invoker. For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
+pub(crate) const PARTITION_KEY: &str = "$partition";
+
 /// A reserved prefix for all user properties known to `azure_iot_operations_protocol`, `azure_iot_operations_services`, and `azure_iot_operations_mqtt`; custom properties from user code should not start with this prefix.
 pub const RESERVED_PREFIX: &str = "__";
 
@@ -75,6 +80,25 @@ impl FromStr for UserProperty {
     }
 }
 
+/// Validates a vector of custom user properties provided to the invoker of the protocol crate.
+///
+/// # Errors
+/// Returns a `String` describing the error if any of `property_list`'s keys are invalid utf-8
+/// or start with the reserved key [`PARTITION_KEY`].
+pub fn validate_invoker_user_properties(property_list: &[(String, String)]) -> Result<(), String> {
+    for (key, value) in property_list {
+        if super::is_invalid_utf8(key) || super::is_invalid_utf8(value) {
+            return Err(format!(
+                "Invalid user data key '{key}' or value '{value}' isn't valid utf-8"
+            ));
+        }
+        if key == PARTITION_KEY {
+            return Err(format!("User data key '{PARTITION_KEY}'"));
+        }
+    }
+    Ok(())
+}
+
 /// Validates a vector of custom user properties provided to the protocol crate.
 ///
 /// # Errors
@@ -96,7 +120,7 @@ mod tests {
 
     use test_case::test_case;
 
-    use super::validate_user_properties;
+    use super::*;
     use crate::common::user_properties::UserProperty;
 
     #[test_case(UserProperty::Timestamp; "timestamp")]
@@ -119,6 +143,7 @@ mod tests {
     #[test_case(&[("abcdef".to_string(),"abc\ndef".to_string())]; "custom_user_data_malformed_value")]
     fn test_validate_user_properties_invalid_value(custom_user_data: &[(String, String)]) {
         assert!(validate_user_properties(custom_user_data).is_err());
+        assert!(validate_invoker_user_properties(custom_user_data).is_err());
     }
 
     /// Tests success: Custom user data key starts with '__' and no error is returned
@@ -127,5 +152,13 @@ mod tests {
     #[test_case(&[("abcdef".to_string(),"abcdef".to_string())]; "custom_user_data_valid")]
     fn test_validate_user_properties_valid_value(custom_user_data: &[(String, String)]) {
         assert!(validate_user_properties(custom_user_data).is_ok());
+        assert!(validate_invoker_user_properties(custom_user_data).is_ok());
+    }
+
+    #[test]
+    fn test_partition_key_user_property() {
+        let partition_key_user_properties = vec![(PARTITION_KEY.to_string(), "abcdef".to_string())];
+        assert!(validate_user_properties(&partition_key_user_properties).is_ok());
+        assert!(validate_invoker_user_properties(&partition_key_user_properties).is_err());
     }
 }

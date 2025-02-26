@@ -2,25 +2,28 @@
 // Licensed under the MIT License.
 
 //! Client for Schema Registry operations.
+//!
+//! To use this client, the `schema_registry` feature must be enabled.
 
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
 use derive_builder::Builder;
 
 use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
-use super::schemaregistry_gen::dtmi_ms_adr_SchemaRegistry__1::client::{
-    GetCommandInvoker, GetRequestPayloadBuilder, Object_Get_RequestBuilder,
-    Object_Put_RequestBuilder, PutCommandInvoker, PutRequestPayloadBuilder,
+use super::schemaregistry_gen::schema_registry::client::{
+    GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
+    PutRequestPayloadBuilder, PutRequestSchemaBuilder,
 };
 use super::{Format, Schema, SchemaType};
 use super::{SchemaRegistryError, SchemaRegistryErrorKind};
 
 /// The default schema version to use if not provided.
-const DEFAULT_SCHEMA_VERSION: &str = "1.0.0";
+const DEFAULT_SCHEMA_VERSION: &str = "1";
 
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug)]
@@ -77,6 +80,7 @@ where
 {
     get_command_invoker: Arc<GetCommandInvoker<C>>,
     put_command_invoker: Arc<PutCommandInvoker<C>>,
+    client_id: String, // TODO: Temporary until the schema registry service updates their executor
 }
 
 impl<C> Client<C>
@@ -89,14 +93,23 @@ where
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
-    pub fn new(client: &C) -> Self {
+    pub fn new(application_context: ApplicationContext, client: &C) -> Self {
         let options = CommandOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
 
         Self {
-            get_command_invoker: Arc::new(GetCommandInvoker::new(client.clone(), &options)),
-            put_command_invoker: Arc::new(PutCommandInvoker::new(client.clone(), &options)),
+            get_command_invoker: Arc::new(GetCommandInvoker::new(
+                application_context.clone(),
+                client.clone(),
+                &options,
+            )),
+            put_command_invoker: Arc::new(PutCommandInvoker::new(
+                application_context,
+                client.clone(),
+                &options,
+            )),
+            client_id: client.client_id().to_string(), // TODO: Temporary until the schema registry service updates their executor
         }
     }
 
@@ -124,7 +137,7 @@ where
     ) -> Result<Option<Schema>, SchemaRegistryError> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
-                Object_Get_RequestBuilder::default()
+                GetRequestSchemaBuilder::default()
                     .name(Some(get_request.id))
                     .version(Some(get_request.version))
                     .build()
@@ -138,6 +151,7 @@ where
             })?;
 
         let command_request = CommandRequestBuilder::default()
+            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(get_request_payload)
             .map_err(|e| {
                 SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
@@ -181,7 +195,7 @@ where
     ) -> Result<Schema, SchemaRegistryError> {
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
-                Object_Put_RequestBuilder::default()
+                PutRequestSchemaBuilder::default()
                     .format(Some(put_request.format))
                     .schema_content(Some(put_request.content))
                     .version(Some(put_request.version))
@@ -198,6 +212,7 @@ where
             })?;
 
         let command_request = CommandRequestBuilder::default()
+            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(put_request_payload)
             .map_err(|e| {
                 SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
@@ -222,7 +237,7 @@ where
     /// Note: If this method is called, the [`Client`] should not be used again.
     /// If the method returns an error, it may be called again to re-attempt unsubscribing.
     ///
-    /// Returns Ok(()) on success, otherwise returns [`SchemaRegistryError`].'
+    /// Returns Ok(()) on success, otherwise returns [`SchemaRegistryError`].
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
@@ -249,6 +264,7 @@ mod tests {
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
+    use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::schema_registry::{
         client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
@@ -332,7 +348,10 @@ mod tests {
     #[tokio::test]
     async fn test_get_timeout_invalid() {
         let session = create_session();
-        let client = Client::new(&session.create_managed_client());
+        let client = Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            &session.create_managed_client(),
+        );
 
         let get_result = client
             .get(
@@ -368,7 +387,10 @@ mod tests {
     #[tokio::test]
     async fn test_put_timeout_invalid() {
         let session = create_session();
-        let client = Client::new(&session.create_managed_client());
+        let client = Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            &session.create_managed_client(),
+        );
 
         let put_result = client
             .put(

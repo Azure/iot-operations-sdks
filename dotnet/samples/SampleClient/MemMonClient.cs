@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
 
 namespace SampleClient;
 
-internal class MemMonClient(MqttSessionClient mqttClient, ILogger<MemMonClient> logger) : Memmon.Client(mqttClient)
+internal class MemMonClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<MemMonClient> logger) : Memmon.Client(applicationContext, mqttClient)
 {
     public override Task ReceiveTelemetry(string senderId, WorkingSetTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
@@ -24,7 +25,17 @@ internal class MemMonClient(MqttSessionClient mqttClient, ILogger<MemMonClient> 
     public override Task ReceiveTelemetry(string senderId, MemoryStatsTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
         logger.LogInformation("Rcv MemStats Telemetry {v1} {v2}", telemetry.MemoryStats.WorkingSet, telemetry.MemoryStats.ManagedMemory);
-        logger.LogInformation("Cloud Events Metadata {v1} {v2}", metadata.CloudEvent?.Id, metadata.CloudEvent?.Time);
+
+        try
+        {
+            CloudEvent cloudEvent = metadata.GetCloudEvent();
+            logger.LogInformation("Cloud Events Metadata {v1} {v2}", cloudEvent?.Id, cloudEvent?.Time);
+        }
+        catch (Exception)
+        {
+            // it wasn't a cloud event, ignore this error
+        }
+
         return Task.CompletedTask;
     }
 }

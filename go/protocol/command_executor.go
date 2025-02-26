@@ -17,6 +17,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/caching"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -48,7 +49,7 @@ type (
 	// CommandHandler is the user-provided implementation of a single command
 	// execution. It is treated as blocking; all parallelism is handled by the
 	// library. This *must* be thread-safe.
-	CommandHandler[Req any, Res any] func(
+	CommandHandler[Req any, Res any] = func(
 		context.Context,
 		*CommandRequest[Req],
 	) (*CommandResponse[Res], error)
@@ -81,6 +82,7 @@ const commandExecutorErrStr = "command execution"
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
@@ -88,10 +90,11 @@ func NewCommandExecutor[Req, Res any](
 	handler CommandHandler[Req, Res],
 	opt ...CommandExecutorOption,
 ) (ce *CommandExecutor[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts CommandExecutorOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -136,18 +139,22 @@ func NewCommandExecutor[Req, Res any](
 		cache:   caching.New(wallclock.Instance),
 	}
 	ce.listener = &listener[Req]{
-		client:         client,
-		encoding:       requestEncoding,
-		topic:          reqTF,
-		shareName:      opts.ShareName,
-		concurrency:    opts.Concurrency,
-		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
-		handler:        ce,
+		app:              app,
+		client:           client,
+		encoding:         requestEncoding,
+		topic:            reqTF,
+		shareName:        opts.ShareName,
+		concurrency:      opts.Concurrency,
+		reqCorrelation:   true,
+		supportedVersion: version.RPCSupported,
+		log:              logger,
+		handler:          ce,
 	}
 	ce.publisher = &publisher[Res]{
+		app:      app,
 		client:   client,
 		encoding: responseEncoding,
+		version:  version.RPCProtocolString,
 	}
 
 	ce.listener.register()
@@ -156,12 +163,15 @@ func NewCommandExecutor[Req, Res any](
 
 // Start listening to the MQTT request topic.
 func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
-	return ce.listener.listen(ctx)
+	err := ce.listener.listen(ctx)
+	return err
 }
 
 // Close the command executor to free its resources.
 func (ce *CommandExecutor[Req, Res]) Close() {
+	ctx := context.Background()
 	ce.listener.close()
+	ce.listener.log.Info(ctx, "command executor shutdown complete")
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
@@ -169,16 +179,25 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	pub *mqtt.Message,
 	msg *Message[Req],
 ) error {
+	ce.listener.log.Debug(
+		ctx,
+		"request received",
+		slog.String("correlation_data", string(pub.CorrelationData)),
+	)
+
 	if err := ignoreRequest(pub); err != nil {
+		ce.listener.log.Warn(ctx, err)
 		return err
 	}
 
 	if pub.MessageExpiry == 0 {
-		return &errors.Error{
+		errNoExpiry := &errors.Error{
 			Message:    "message expiry missing",
 			Kind:       errors.HeaderMissing,
 			HeaderName: constants.MessageExpiry,
 		}
+		ce.listener.log.Error(ctx, errNoExpiry)
+		return errNoExpiry
 	}
 
 	rpub, err := ce.cache.Exec(pub, func() (*mqtt.Message, error) {
@@ -198,11 +217,13 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 
 		res, err := ce.handle(handlerCtx, req)
 		if err != nil {
+			ce.listener.log.Warn(ctx, err)
 			return nil, err
 		}
 
 		rpub, err := ce.build(pub, res, nil)
 		if err != nil {
+			ce.listener.log.Error(ctx, err)
 			return nil, err
 		}
 
@@ -212,7 +233,8 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer pub.Ack()
+	defer ce.logPubAck(ctx, pub)
+
 	if rpub == nil {
 		return nil
 	}
@@ -221,8 +243,9 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	if err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
+	} else {
+		ce.listener.log.Debug(ctx, "response sent", slog.String("correlation_data", string(pub.CorrelationData)))
 	}
-
 	return nil
 }
 
@@ -239,6 +262,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 
 	// If the error is a no-return error, don't send it.
 	if no, e := errutil.IsNoReturn(err); no {
+		ce.listener.log.Warn(ctx, e)
 		return e
 	}
 
@@ -303,6 +327,7 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	case ret := <-rchan:
 		return ret.res, ret.err
 	case <-ctx.Done():
+		ce.listener.log.Warn(ctx, "command handler timed out")
 		return nil, errutil.Context(ctx, commandExecutorErrStr)
 	}
 }
@@ -313,12 +338,14 @@ func (ce *CommandExecutor[Req, Res]) build(
 	res *CommandResponse[Res],
 	resErr error,
 ) (*mqtt.Message, error) {
+	ctx := context.Background()
 	var msg *Message[Res]
 	if res != nil {
 		msg = &res.Message
 	}
 	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
 	if err != nil {
+		ce.listener.log.Error(ctx, err)
 		return nil, err
 	}
 
@@ -350,6 +377,19 @@ func ignoreRequest(pub *mqtt.Message) error {
 		}
 	}
 	return nil
+}
+
+// Log that the request was acked.
+func (ce *CommandExecutor[Req, Res]) logPubAck(
+	ctx context.Context,
+	pub *mqtt.Message,
+) {
+	pub.Ack()
+	ce.listener.log.Debug(
+		ctx,
+		"request acked",
+		slog.String("correlation_data", string(pub.CorrelationData)),
+	)
 }
 
 // Build a timeout based on the message's expiry.

@@ -7,7 +7,10 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+};
 use azure_iot_operations_protocol::rpc::command_executor::{
     CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
 };
@@ -40,15 +43,20 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // Use the managed client to run a a command executor in another task
-    tokio::task::spawn(executor_loop(session.create_managed_client()));
+    tokio::task::spawn(executor_loop(
+        application_context,
+        session.create_managed_client(),
+    ));
 
     // Run the session
     session.run().await.unwrap();
 }
 
 /// Handle incoming increment command requests
-async fn executor_loop(client: SessionManagedClient) {
+async fn executor_loop(application_context: ApplicationContext, client: SessionManagedClient) {
     // Create a command executor for the increment command
     let incr_executor_options = CommandExecutorOptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -56,7 +64,7 @@ async fn executor_loop(client: SessionManagedClient) {
         .build()
         .unwrap();
     let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandExecutor::new(client, incr_executor_options).unwrap();
+        CommandExecutor::new(application_context, client, incr_executor_options).unwrap();
 
     // Counter to increment
     let mut counter = 0;
@@ -74,7 +82,7 @@ async fn executor_loop(client: SessionManagedClient) {
                     .unwrap()
                     .build()
                     .unwrap();
-                request.complete(response).unwrap();
+                request.complete(response).await.unwrap();
             }
             Err(err) => {
                 println!("Error receiving request: {err}");
@@ -97,40 +105,36 @@ pub enum IncrSerializerError {}
 
 impl PayloadSerialize for IncrRequestPayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
-
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         // This is a request payload, executor does not need to serialize it
         unimplemented!()
     }
-
-    fn deserialize(_payload: &[u8]) -> Result<IncrRequestPayload, IncrSerializerError> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrRequestPayload, DeserializationError<IncrSerializerError>> {
         Ok(IncrRequestPayload {})
     }
 }
 
 impl PayloadSerialize for IncrResponsePayload {
     type Error = IncrSerializerError;
-    fn content_type() -> &'static str {
-        "application/json"
-    }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, IncrSerializerError> {
+    fn serialize(self) -> Result<SerializedPayload, IncrSerializerError> {
         let payload = format!("{{\"CounterResponse\":{}}}", self.counter_response);
-        Ok(payload.into_bytes())
+        Ok(SerializedPayload {
+            payload: payload.into_bytes(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
 
-    fn deserialize(_payload: &[u8]) -> Result<IncrResponsePayload, IncrSerializerError> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
         // This is a response payload, executor does not need to deserialize it
         unimplemented!()
     }

@@ -8,10 +8,11 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
-use envoy::dtmi_com_example_Counter__1::client::{
+use envoy::counter::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
-    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryCollectionReceiver,
+    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryReceiver,
 };
 
 use tokio::time::sleep;
@@ -34,15 +35,20 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     // Use the managed client to run telemetry checks in another task
     let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
+        application_context.clone(),
         session.create_managed_client(),
         session.create_exit_handle(),
     ));
 
     // Use the managed client to run command invocations in another task
-    let increment_and_check_handle =
-        tokio::task::spawn(increment_and_check(session.create_managed_client()));
+    let increment_and_check_handle = tokio::task::spawn(increment_and_check(
+        application_context,
+        session.create_managed_client(),
+    ));
 
     // Wait for all tasks to finish and run the session, if any of the tasks fail, the program will panic
     assert!(tokio::try_join!(
@@ -58,9 +64,14 @@ async fn main() {
 }
 
 /// Wait for the associated telemetry. Then exit the session.
-async fn counter_telemetry_check(client: SessionManagedClient, exit_handle: SessionExitHandle) {
+async fn counter_telemetry_check(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+    exit_handle: SessionExitHandle,
+) {
     // Create receiver
-    let mut counter_value_receiver = TelemetryCollectionReceiver::new(
+    let mut counter_value_receiver = TelemetryReceiver::new(
+        application_context,
         client,
         &TelemetryOptionsBuilder::default()
             .auto_ack(false)
@@ -115,11 +126,16 @@ async fn counter_telemetry_check(client: SessionManagedClient, exit_handle: Sess
 }
 
 /// Send a read request, 15 increment requests, and another read request and wait for their responses.
-async fn increment_and_check(client: SessionManagedClient) {
+async fn increment_and_check(
+    application_context: ApplicationContext,
+    client: SessionManagedClient,
+) {
     // Create invokers
     let options = CommandOptionsBuilder::default().build().unwrap();
-    let increment_invoker = IncrementCommandInvoker::new(client.clone(), &options);
-    let read_counter_invoker = ReadCounterCommandInvoker::new(client.clone(), &options);
+    let increment_invoker =
+        IncrementCommandInvoker::new(application_context.clone(), client.clone(), &options);
+    let read_counter_invoker =
+        ReadCounterCommandInvoker::new(application_context, client, &options);
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();

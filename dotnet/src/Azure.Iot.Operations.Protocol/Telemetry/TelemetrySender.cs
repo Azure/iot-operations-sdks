@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -8,16 +8,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
     public abstract class TelemetrySender<T> : IAsyncDisposable
         where T : class
     {
-
-        private const int majorProtocolVersion = 1;
-        private const int minorProtocolVersion = 0;
-
+        private readonly ApplicationContext _applicationContext;
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
         private bool _isDisposed;
@@ -36,12 +34,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
-        private readonly Dictionary<string, string> topicTokenMap = [];
-
-        /// <summary>
-        /// Gets or sets the data schema used in a cloud event when one is associated with the telemetry.
-        /// </summary>
-        public string? DataSchema { get; set; }
+        private readonly Dictionary<string, string> _topicTokenMap = [];
 
         public string TopicPattern { get; init; }
 
@@ -51,16 +44,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => topicTokenMap;
+        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
 
         /// <summary>
         /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        public TelemetrySender(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
+            _applicationContext = applicationContext;
             _mqttClient = mqttClient;
             _serializer = serializer;
             _hasBeenValidated = false;
@@ -70,19 +64,19 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), qos, telemetryTimeout, cancellationToken);
+            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), null, qos, telemetryTimeout, cancellationToken);
         }
 
-        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            ValidateAsNeeded();
+            ValidateAsNeeded(transientTopicTokenMap);
             cancellationToken.ThrowIfCancellationRequested();
 
             string? clientId = _mqttClient.ClientId;
             if (string.IsNullOrEmpty(clientId))
             {
-                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
+                throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before sending telemetry.");
             }
 
             TimeSpan verifiedMessageExpiryInterval = messageExpiryInterval ?? DefaultTelemetryTimeout;
@@ -110,33 +104,38 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap));
 
             try
             {
-                if (metadata?.CloudEvent is not null)
-                {
-                    metadata.CloudEvent.Id = Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time = DateTime.UtcNow;
-                    metadata.CloudEvent.Subject = telemTopic.ToString();
-                    metadata.CloudEvent.DataContentType = _serializer.ContentType;
-                    metadata.CloudEvent.DataSchema = DataSchema;
-                }
-
+                SerializedPayloadContext serializedPayloadContext = _serializer.ToBytes(telemetry);
                 MqttApplicationMessage applicationMessage = new(telemTopic.ToString(), qos)
                 {
-                    PayloadFormatIndicator = (MqttPayloadFormatIndicator)_serializer.CharacterDataFormatIndicator,
-                    ContentType = _serializer.ContentType,
+                    PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializedPayloadContext.PayloadFormatIndicator,
+                    ContentType = serializedPayloadContext.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
-                    PayloadSegment = _serializer.ToBytes(telemetry) ?? [],
+                    Payload = serializedPayloadContext.SerializedPayload,
                 };
+
+                if (metadata?.CloudEvent is not null)
+                {
+                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
+                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
+                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
+                    metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
+                }
+
+                // Update HLC and use as the timestamp.
+                await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
+                metadata!.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
 
                 if (metadata != null)
                 {
+                    // The addition of the timestamp on to user properties happen below.
                     applicationMessage.AddMetadata(metadata);
                 }
 
-                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{majorProtocolVersion}.{minorProtocolVersion}");
+                applicationMessage.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{TelemetryVersion.MajorProtocolVersion}.{TelemetryVersion.MinorProtocolVersion}");
                 applicationMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
                 MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
@@ -151,9 +150,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         IsRemote = false,
                     };
                 }
+                Trace.TraceInformation($"Telemetry sent successfully to the topic '{telemTopic}'");
             }
             catch (SerializationException ex)
             {
+                Trace.TraceError($"The message payload cannot be serialized due to error: {ex}");
                 throw new AkriMqttException("The message payload cannot be serialized.", ex)
                 {
                     Kind = AkriMqttErrorKind.PayloadInvalid,
@@ -164,6 +165,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
             catch (Exception ex) when (ex is not AkriMqttException)
             {
+                Trace.TraceError($"Sending telemetry failed due to a MQTT communication error: {ex}");
                 throw new AkriMqttException($"Sending telemetry failed due to a MQTT communication error: {ex.Message}.", ex)
                 {
                     Kind = AkriMqttErrorKind.Timeout,
@@ -174,7 +176,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
-        private void ValidateAsNeeded()
+        private void ValidateAsNeeded(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
             if (_hasBeenValidated)
             {
@@ -189,7 +191,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     "The provided MQTT client is not configured for MQTT version 5");
             }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch

@@ -8,6 +8,11 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
+        "serializer": {
+            "description": "Configuration settings for the test serializer associated with the executor.",
+            "$ref": "ExecutorSerializer.schema.json",
+            "kind": "drive"
+        },
         "request-topic": {
             "description": "The MQTT topic pattern for the Command request.",
             "type": [ "string", "null" ],
@@ -69,6 +74,11 @@
             "additionalProperties": {
                 "type": [ "string", "null" ]
             },
+            "kind": "drive"
+        },
+        "token-metadata-prefix": {
+            "description": "When present, indicates that resolved topic tokens should be copied into response metadata, with keys prepended by the indicated prefix.",
+            "type": "string",
             "kind": "drive"
         },
         "execution-concurrency": {

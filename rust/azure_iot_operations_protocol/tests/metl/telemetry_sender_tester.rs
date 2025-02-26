@@ -8,15 +8,16 @@ use std::sync::Arc;
 
 use async_std::future;
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEventBuilder, TelemetryMessageBuilder, TelemetryMessageBuilderError, TelemetrySender,
-    TelemetrySenderOptionsBuilder, TelemetrySenderOptionsBuilderError,
+    CloudEventBuilder, CloudEventBuilderError, CloudEventSubject, TelemetryMessageBuilder,
+    TelemetryMessageBuilderError, TelemetrySender, TelemetrySenderOptionsBuilder,
+    TelemetrySenderOptionsBuilderError,
 };
-use bytes::Bytes;
+use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
 use tokio::time;
 
@@ -29,6 +30,7 @@ use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_sender::TestCaseSender;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -50,7 +52,6 @@ where
 {
     pub async fn test_telemetry_sender(
         test_case: TestCase<SenderDefaults>,
-        test_case_index: i32,
         managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
@@ -85,7 +86,6 @@ where
                 test_case_sender,
                 catch,
                 &mut mqtt_hub,
-                test_case_index,
             )
             .await
             {
@@ -96,6 +96,8 @@ where
             }
         }
 
+        let test_case_serializer = &test_case.prologue.senders[0].serializer;
+
         let mut send_chans: VecDeque<SendResultReceiver> = VecDeque::new();
 
         for test_case_action in &test_case.actions {
@@ -105,7 +107,7 @@ where
                         action_send_telemetry,
                         &senders,
                         &mut send_chans,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_send @ TestCaseAction::AwaitSend { .. } => {
@@ -146,7 +148,6 @@ where
                     sequence_index.try_into().unwrap(),
                     published_message,
                     &mqtt_hub,
-                    test_case_index,
                 );
             }
 
@@ -165,7 +166,6 @@ where
         tcs: &TestCaseSender<SenderDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-        test_case_index: i32,
     ) -> Option<TelemetrySender<TestPayload, C>> {
         let mut sender_options_builder = TelemetrySenderOptionsBuilder::default();
 
@@ -197,7 +197,11 @@ where
 
         let sender_options = options_result.unwrap();
 
-        match TelemetrySender::new(managed_client, sender_options) {
+        match TelemetrySender::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            sender_options,
+        ) {
             Ok(sender) => {
                 if let Some(catch) = catch {
                     // TelemetrySender has no start method, so if an exception is expected, send may be needed to trigger it.
@@ -218,7 +222,11 @@ where
                         telemetry_message_builder
                             .payload(TestPayload {
                                 payload: Some(telemetry_value.clone()),
-                                test_case_index: Some(test_case_index),
+                                out_content_type: tcs.serializer.out_content_type.clone(),
+                                accept_content_types: tcs.serializer.accept_content_types.clone(),
+                                indicate_character_data: tcs.serializer.indicate_character_data,
+                                allow_character_data: tcs.serializer.allow_character_data,
+                                fail_deserialization: tcs.serializer.fail_deserialization,
                             })
                             .unwrap();
                     }
@@ -271,11 +279,12 @@ where
         action: &TestCaseAction<SenderDefaults>,
         senders: &'a HashMap<String, Arc<TelemetrySender<TestPayload, C>>>,
         send_chans: &mut VecDeque<SendResultReceiver>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<SenderDefaults>,
     ) {
         if let TestCaseAction::SendTelemetry {
             defaults_type: _,
             telemetry_name,
+            topic_token_map,
             timeout,
             telemetry_value,
             metadata,
@@ -289,12 +298,20 @@ where
                 telemetry_message_builder
                     .payload(TestPayload {
                         payload: Some(telemetry_value.clone()),
-                        test_case_index: Some(test_case_index),
+                        out_content_type: tcs.out_content_type.clone(),
+                        accept_content_types: tcs.accept_content_types.clone(),
+                        indicate_character_data: tcs.indicate_character_data,
+                        allow_character_data: tcs.allow_character_data,
+                        fail_deserialization: tcs.fail_deserialization,
                     })
                     .unwrap();
             }
 
             telemetry_message_builder.qos(qos::to_enum(*qos));
+
+            if let Some(topic_token_map) = topic_token_map {
+                telemetry_message_builder.topic_tokens(topic_token_map.clone());
+            }
 
             if let Some(timeout) = timeout {
                 telemetry_message_builder.message_expiry(timeout.to_duration());
@@ -323,7 +340,49 @@ where
                     cloud_event_builder.spec_version(spec_version);
                 }
 
-                telemetry_message_builder.cloud_event(cloud_event_builder.build().unwrap());
+                if let Some(id) = &cloud_event.id {
+                    cloud_event_builder.id(id);
+                }
+
+                if let Some(Some(time)) = &cloud_event.time {
+                    match DateTime::parse_from_rfc3339(time) {
+                        Ok(time) => {
+                            cloud_event_builder.time(time.with_timezone(&Utc));
+                        }
+                        Err(error) => {
+                            let (response_tx, response_rx) = oneshot::channel();
+                            send_chans.push_back(response_rx);
+                            response_tx
+                                .send(Err(Self::from_cloud_event_builder_error(
+                                    CloudEventBuilderError::ValidationError(error.to_string()),
+                                )))
+                                .unwrap();
+                            return;
+                        }
+                    }
+                }
+
+                if let Some(Some(data_schema)) = &cloud_event.data_schema {
+                    cloud_event_builder.data_schema(data_schema.clone());
+                }
+
+                if let Some(Some(subject)) = &cloud_event.subject {
+                    cloud_event_builder.subject(CloudEventSubject::Custom(subject.to_string()));
+                }
+
+                match cloud_event_builder.build() {
+                    Ok(cloud_event) => {
+                        telemetry_message_builder.cloud_event(cloud_event);
+                    }
+                    Err(error) => {
+                        let (response_tx, response_rx) = oneshot::channel();
+                        send_chans.push_back(response_rx);
+                        response_tx
+                            .send(Err(Self::from_cloud_event_builder_error(error)))
+                            .unwrap();
+                        return;
+                    }
+                }
             }
 
             if let Some(telemetry_name) = &telemetry_name {
@@ -408,7 +467,6 @@ where
         sequence_index: i32,
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        test_case_index: i32,
     ) {
         let published_message = mqtt_hub
             .get_sequentially_published_message(sequence_index)
@@ -425,18 +483,33 @@ where
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                let payload = Bytes::copy_from_slice(
-                    TestPayload {
-                        payload: Some(payload.clone()),
-                        test_case_index: Some(test_case_index),
-                    }
-                    .serialize()
-                    .unwrap()
-                    .as_slice(),
+                assert_eq!(
+                    payload,
+                    from_utf8(published_message.payload.to_vec().as_slice())
+                        .expect("could not process published payload topic as UTF8"),
+                    "payload"
                 );
-                assert_eq!(payload, published_message.payload, "payload");
             } else {
                 assert!(published_message.payload.is_empty());
+            }
+        }
+
+        if expected_message.content_type.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(expected_message.content_type, properties.content_type);
+            } else {
+                panic!("expected content type but found no properties in published message");
+            }
+        }
+
+        if expected_message.format_indicator.is_some() {
+            if let Some(properties) = published_message.properties.as_ref() {
+                assert_eq!(
+                    expected_message.format_indicator,
+                    properties.payload_format_indicator
+                );
+            } else {
+                panic!("expected format indicator but found no properties in published message");
             }
         }
 
@@ -525,6 +598,35 @@ where
         let mut protocol_error = AIOProtocolError {
             message: None,
             kind: AIOProtocolErrorKind::ConfigurationInvalid,
+            in_application: false,
+            is_shallow: true,
+            is_remote: false,
+            nested_error: Some(Box::new(builder_error)),
+            http_status_code: None,
+            header_name: None,
+            header_value: None,
+            timeout_name: None,
+            timeout_value: None,
+            property_name,
+            property_value: None,
+            command_name: None,
+            protocol_version: None,
+            supported_protocol_major_versions: None,
+        };
+
+        protocol_error.ensure_error_message();
+        protocol_error
+    }
+
+    fn from_cloud_event_builder_error(builder_error: CloudEventBuilderError) -> AIOProtocolError {
+        let property_name = match builder_error {
+            CloudEventBuilderError::UninitializedField(field_name) => Some(field_name.to_string()),
+            _ => Some("cloud_event".to_string()),
+        };
+
+        let mut protocol_error = AIOProtocolError {
+            message: None,
+            kind: AIOProtocolErrorKind::ArgumentInvalid,
             in_application: false,
             is_shallow: true,
             is_remote: false,

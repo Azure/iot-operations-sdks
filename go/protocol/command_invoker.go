@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -58,6 +59,8 @@ type (
 	WithResponseTopic func(string) string
 
 	// WithResponseTopicPrefix specifies a custom prefix for the response topic.
+	// If no response topic options are specified, this will default to a value
+	// of "clients/<MQTT client ID>".
 	WithResponseTopicPrefix string
 
 	// WithResponseTopicSuffix specifies a custom suffix for the response topic.
@@ -84,16 +87,18 @@ const commandInvokerErrStr = "command invocation"
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
 	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts CommandInvokerOptions
 	opts.Apply(opt)
+	logger := log.Wrap(opts.Logger, app.log)
+
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -130,6 +135,14 @@ func NewCommandInvoker[Req, Res any](
 			}
 			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
 		}
+
+		// If no options were provided, apply a well-known prefix. This ensures
+		// that the response topic is different from the request topic and lets
+		// us document this pattern for auth configuration. Note that this does
+		// not use any topic tokens, since we cannot guarantee their existence.
+		if opts.ResponseTopicPrefix == "" && opts.ResponseTopicSuffix == "" {
+			responseTopic = "clients/" + client.ID() + "/" + requestTopicPattern
+		}
 	}
 
 	reqTP, err := internal.NewTopicPattern(
@@ -162,17 +175,21 @@ func NewCommandInvoker[Req, Res any](
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
+		app:      app,
 		client:   client,
 		encoding: requestEncoding,
+		version:  version.RPCProtocolString,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		client:         client,
-		encoding:       responseEncoding,
-		topic:          resTF,
-		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
-		handler:        ci,
+		app:              app,
+		client:           client,
+		encoding:         responseEncoding,
+		topic:            resTF,
+		reqCorrelation:   true,
+		supportedVersion: version.RPCSupported,
+		log:              logger,
+		handler:          ci,
 	}
 
 	ci.listener.register()
@@ -188,7 +205,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	opt ...InvokeOption,
 ) (res *CommandResponse[Res], err error) {
 	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
+	defer func() { err = errutil.Return(err, ci.listener.log, shallow) }()
 
 	var opts InvokeOptions
 	opts.Apply(opt)
@@ -237,6 +254,12 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
+	ci.listener.log.Debug(
+		ctx,
+		"request sent",
+		slog.String("correlation_data", correlationData),
+	)
+
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
 	ctx, cancel := expiry.Context(ctx)
@@ -276,12 +299,27 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	if pending, ok := ci.pending.Get(cdata); ok {
 		select {
 		case pending.ret <- commandReturn[Res]{res, err}:
+			ci.listener.log.Debug(
+				ctx,
+				"request ack received",
+				slog.String("correlation_data", cdata),
+			)
 		case <-pending.done:
 		case <-ctx.Done():
 		}
+		ci.listener.log.Debug(
+			ctx,
+			"response acked",
+			slog.String("correlation_data", cdata),
+		)
 		return nil
 	}
 
+	ci.listener.log.Debug(
+		ctx,
+		"response not for this invoker",
+		slog.String("correlation_data", cdata),
+	)
 	return &errors.Error{
 		Message:     "unrecognized correlation data",
 		Kind:        errors.HeaderInvalid,
@@ -318,6 +356,11 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 		// If sendPending fails onErr will also fail, so just drop the message.
 		ci.listener.drop(ctx, pub, e)
 	}
+	ci.listener.log.Debug(
+		ctx,
+		"response received",
+		slog.String("correlation_data", string(pub.CorrelationData)),
+	)
 	return nil
 }
 

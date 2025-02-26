@@ -7,11 +7,11 @@ import (
 )
 
 type testCaseSender struct {
-	TelemetryName  *string           `yaml:"telemetry-name"`
-	TelemetryTopic *string           `yaml:"telemetry-topic"`
-	DataSchema     *string           `yaml:"data-schema"`
-	TopicNamespace *string           `yaml:"topic-namespace"`
-	TopicTokenMap  map[string]string `yaml:"topic-token-map"`
+	TelemetryName  *string            `yaml:"telemetry-name"`
+	Serializer     TestCaseSerializer `yaml:"serializer"`
+	TelemetryTopic *string            `yaml:"telemetry-topic"`
+	TopicNamespace *string            `yaml:"topic-namespace"`
+	TopicTokenMap  map[string]string  `yaml:"topic-token-map"`
 }
 
 type TestCaseSender struct {
@@ -22,8 +22,8 @@ func (sender *TestCaseSender) UnmarshalYAML(node *yaml.Node) error {
 	*sender = TestCaseSender{}
 
 	sender.TelemetryName = TestCaseDefaultInfo.Prologue.Sender.GetTelemetryName()
+	sender.Serializer = TestCaseDefaultInfo.Prologue.Sender.GetSerializer()
 	sender.TelemetryTopic = TestCaseDefaultInfo.Prologue.Sender.GetTelemetryTopic()
-	sender.DataSchema = TestCaseDefaultInfo.Prologue.Sender.GetDataSchema()
 	sender.TopicNamespace = TestCaseDefaultInfo.Prologue.Sender.GetTopicNamespace()
 
 	return node.Decode(&sender.testCaseSender)

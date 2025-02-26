@@ -7,11 +7,11 @@
 
     public class RustTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
+        public void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new RustObject(genNamespace, objectType, GetReferencedSchemaNames(objectType)),
+                ObjectType objectType => new RustObject(genNamespace, objectType, GetReferencedSchemaNames(objectType), allowSkipping: serFormat == SerializationFormat.Json),
                 EnumType enumType =>
                     enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new RustStringEnum(genNamespace, enumType) :
                     enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new RustIntegerEnum(genNamespace, enumType) :
@@ -29,17 +29,16 @@
             string outFilePath = Path.Combine(outDirPath, templateTransform.FileName);
             File.WriteAllText(outFilePath, generatedCode);
             Console.WriteLine($"  generated {outFilePath}");
-            sourceFilePaths.Add(outFilePath);
         }
 
-        private IReadOnlyCollection<string> GetReferencedSchemaNames(SchemaType schemaType)
+        private IReadOnlyCollection<CodeName> GetReferencedSchemaNames(SchemaType schemaType)
         {
-            HashSet<string> referencedSchemaNames = new();
+            HashSet<CodeName> referencedSchemaNames = new();
             AddReferencedSchemaNames(referencedSchemaNames, schemaType);
             return referencedSchemaNames;
         }
 
-        private void AddReferencedSchemaNames(HashSet<string> referencedSchemaNames, SchemaType schemaType)
+        private void AddReferencedSchemaNames(HashSet<CodeName> referencedSchemaNames, SchemaType schemaType)
         {
             switch (schemaType)
             {

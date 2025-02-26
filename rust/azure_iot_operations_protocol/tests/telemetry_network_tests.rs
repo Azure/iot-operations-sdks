@@ -11,10 +11,13 @@ use azure_iot_operations_mqtt::{
     session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
+    application::ApplicationContextBuilder,
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+    },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+        telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
         telemetry_sender::{
             CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender,
             TelemetrySenderOptionsBuilder,
@@ -84,20 +87,30 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .unwrap();
     let session = Session::new(session_options).unwrap();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(topic)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<T, _> =
-        TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+    let telemetry_sender: TelemetrySender<T, _> = TelemetrySender::new(
+        application_context.clone(),
+        session.create_managed_client(),
+        sender_options,
+    )
+    .unwrap();
 
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(topic)
         .auto_ack(auto_ack)
         .build()
         .unwrap();
-    let telemetry_receiver: TelemetryReceiver<T, _> =
-        TelemetryReceiver::new(session.create_managed_client(), receiver_options).unwrap();
+    let telemetry_receiver: TelemetryReceiver<T, _> = TelemetryReceiver::new(
+        application_context,
+        session.create_managed_client(),
+        receiver_options,
+    )
+    .unwrap();
 
     let exit_handle: SessionExitHandle = session.create_exit_handle();
     Ok((session, telemetry_sender, telemetry_receiver, exit_handle))
@@ -107,16 +120,19 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 pub struct EmptyPayload {}
 impl PayloadSerialize for EmptyPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/octet-stream"
+
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: Vec::new(),
+            content_type: "application/octet-stream".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok("".into())
-    }
-    fn deserialize(_payload: &[u8]) -> Result<EmptyPayload, String> {
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
     }
 }
@@ -148,11 +164,11 @@ async fn telemetry_basic_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
+                        assert!(telemetry_receiver::CloudEvent::from_telemetry(&message).is_err());
                         assert_eq!(message.payload, EmptyPayload::default());
                         assert!(message.custom_user_data.is_empty());
                         assert_eq!(message.sender_id.unwrap(), sender_id);
                         assert!(message.timestamp.is_some());
-                        assert!(message.cloud_event.is_none());
                         assert!(message.topic_tokens.is_empty());
                         // stop waiting for more messages after we shouldn't get any more
                         if count == 2 {
@@ -226,23 +242,37 @@ pub struct DataPayload {
 }
 impl PayloadSerialize for DataPayload {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
+                self.external_temperature, self.internal_temperature
+            )
+            .into(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
-            self.external_temperature, self.internal_temperature
-        )
-        .into())
-    }
-    fn deserialize(payload: &[u8]) -> Result<DataPayload, String> {
+    fn deserialize(
+        payload: &[u8],
+        content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<DataPayload, DeserializationError<String>> {
+        if let Some(content_type) = content_type {
+            if content_type != "application/json" {
+                return Err(DeserializationError::UnsupportedContentType(format!(
+                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+                )));
+            }
+        }
+
         let payload = match String::from_utf8(payload.to_vec()) {
             Ok(p) => p,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
 
@@ -251,7 +281,11 @@ impl PayloadSerialize for DataPayload {
             .parse::<f64>()
         {
             Ok(ext_temp) => ext_temp,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
         let internal_temperature = match payload[1]
             .trim_start_matches("\"internalTemperature\":")
@@ -259,7 +293,11 @@ impl PayloadSerialize for DataPayload {
             .parse::<f64>()
         {
             Ok(int_temp) => int_temp,
-            Err(e) => return Err(format!("Error while deserializing telemetry: {e}")),
+            Err(e) => {
+                return Err(DeserializationError::InvalidPayload(format!(
+                    "Error while deserializing telemetry: {e}"
+                )))
+            }
         };
 
         Ok(DataPayload {
@@ -316,19 +354,24 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
+                        let cloud_event =
+                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
-                        assert_eq!(message.custom_user_data, test_custom_user_data_clone);
+                        assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
+                            message
+                                .custom_user_data
+                                .iter()
+                                .any(|(test_key, test_value)| {
+                                    key == test_key && value == test_value
+                                })
+                        }));
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
-                        let cloud_event = message.cloud_event.unwrap();
                         assert_eq!(cloud_event.source, test_cloud_event_source);
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
                         assert_eq!(cloud_event.subject.unwrap(), topic);
-                        assert_eq!(
-                            cloud_event.data_content_type.unwrap(),
-                            DataPayload::content_type()
-                        );
+                        assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
                     }
@@ -340,19 +383,24 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_some());
 
                         // Validate contents of message match expected based on what was sent
+                        let cloud_event =
+                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
-                        assert_eq!(message.custom_user_data, test_custom_user_data_clone);
+                        assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
+                            message
+                                .custom_user_data
+                                .iter()
+                                .any(|(test_key, test_value)| {
+                                    key == test_key && value == test_value
+                                })
+                        }));
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
-                        let cloud_event = message.cloud_event.unwrap();
                         assert_eq!(cloud_event.source, test_cloud_event_source);
                         assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
                         assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
                         assert_eq!(cloud_event.subject.unwrap(), topic);
-                        assert_eq!(
-                            cloud_event.data_content_type.unwrap(),
-                            DataPayload::content_type()
-                        );
+                        assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
                         assert!(cloud_event.time.is_some());
                         assert!(message.topic_tokens.is_empty());
 

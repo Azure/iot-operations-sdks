@@ -13,69 +13,70 @@ import (
 )
 
 type result struct {
-	status  int
-	error   *errors.Error
-	name    string
-	value   any
-	version string
+	status           int
+	error            *errors.Error
+	name             string
+	value            any
+	version          string
+	supportedVersion []int
 }
 
 func ToUserProp(err error) map[string]string {
 	if err == nil {
-		return result{status: 200}.props()
+		return (&result{status: 200}).props()
 	}
 
 	e, ok := err.(*errors.Error)
 	if !ok {
-		return result{
+		return (&result{
 			status: 500,
 			error: &errors.Error{
 				Message: "invalid error",
 				Kind:    errors.InternalLogicError,
 			},
 			name: "Error",
-		}.props()
+		}).props()
 	}
 
 	switch e.Kind {
 	case errors.HeaderMissing:
-		return result{
+		return (&result{
 			status: 400,
 			error:  e,
 			name:   e.HeaderName,
-		}.props()
+		}).props()
 	case errors.HeaderInvalid:
 		if e.HeaderName == constants.ContentType ||
 			e.HeaderName == constants.FormatIndicator {
-			return result{
+			return (&result{
 				status: 415,
 				error:  e,
 				name:   e.HeaderName,
 				value:  e.HeaderValue,
-			}.props()
+			}).props()
 		}
-		return result{
+		return (&result{
 			status: 400,
 			error:  e,
 			name:   e.HeaderName,
 			value:  e.HeaderValue,
-		}.props()
+		}).props()
 	case errors.PayloadInvalid:
-		return result{
+		return (&result{
 			status: 400,
 			error:  e,
-		}.props()
+		}).props()
 	case errors.Timeout:
-		return result{
+		return (&result{
 			status: 408,
 			error:  e,
 			name:   e.TimeoutName,
 			value:  duration.Format(e.TimeoutValue),
-		}.props()
+		}).props()
 	case errors.ArgumentInvalid:
 		// Treat "argument invalid" as "execution exception" over the wire.
 		// This can happen e.g. for invalid header names.
-		return result{
+		return (&result{
 			status: 500,
 			error: &errors.Error{
 				Message:       e.Message,
@@ -84,54 +85,55 @@ func ToUserProp(err error) map[string]string {
 			},
 			name:  e.PropertyName,
 			value: e.PropertyValue,
-		}.props()
+		}).props()
 	case errors.StateInvalid:
-		return result{
+		return (&result{
 			status: 503,
 			error:  e,
 			name:   e.PropertyName,
 			value:  e.PropertyValue,
-		}.props()
+		}).props()
 	case errors.InternalLogicError:
-		return result{
+		return (&result{
 			status: 500,
 			error:  e,
 			name:   e.PropertyName,
-		}.props()
+		}).props()
 	case errors.UnknownError:
-		return result{
+		return (&result{
 			status: 500,
 			error:  e,
-		}.props()
+		}).props()
 	case errors.InvocationException:
-		return result{
+		return (&result{
 			status: 422,
 			error:  e,
 			name:   e.PropertyName,
 			value:  e.PropertyValue,
-		}.props()
+		}).props()
 	case errors.ExecutionException:
 		// Note: The error should always be flagged InApplication in this case.
-		return result{
+		return (&result{
 			status: 500,
 			error:  e,
 			name:   e.PropertyName,
-		}.props()
+		}).props()
 	case errors.UnsupportedRequestVersion:
-		return result{
-			status:  505,
-			error:   e,
-			version: e.ProtocolVersion,
-		}.props()
+		return (&result{
+			status:           505,
+			error:            e,
+			version:          e.ProtocolVersion,
+			supportedVersion: e.SupportedMajorProtocolVersions,
+		}).props()
 	default:
-		return result{
+		return (&result{
 			status: 500,
 			error: &errors.Error{
 				Message: "invalid error kind",
 				Kind:    errors.InternalLogicError,
 			},
 			name: "Kind",
-		}.props()
+		}).props()
 	}
 }
 
@@ -227,7 +229,7 @@ func FromUserProp(user map[string]string) error {
 	case 505:
 		e.Kind = errors.UnsupportedRequestVersion
 		e.ProtocolVersion = protocolVersion
-		e.SupportedMajorProtocolVersions = version.ParseSupported(
+		e.SupportedMajorProtocolVersions = version.SerializeSupported(
 			supportedVersions,
 		)
 	default:
@@ -238,7 +240,7 @@ func FromUserProp(user map[string]string) error {
 	return e
 }
 
-func (r result) props() map[string]string {
+func (r *result) props() map[string]string {
 	props := make(map[string]string, 5)
 
 	props[constants.Status] = fmt.Sprint(r.status)
@@ -259,7 +261,9 @@ func (r result) props() map[string]string {
 
 	if r.version != "" {
 		props[constants.RequestProtocolVersion] = r.version
-		props[constants.SupportedProtocolMajorVersion] = version.SupportedString
+		props[constants.SupportedProtocolMajorVersion] = version.ParseInt(
+			r.supportedVersion,
+		)
 	}
 
 	return props

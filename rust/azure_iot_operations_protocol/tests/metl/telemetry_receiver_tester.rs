@@ -9,14 +9,16 @@ use std::sync::{Arc, Mutex};
 use async_std::future;
 use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
+    self, TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
 };
 use bytes::Bytes;
+use chrono::SecondsFormat;
+use serde_json;
 use tokio::sync::mpsc;
 use tokio::time;
 use uuid::Uuid;
@@ -31,6 +33,7 @@ use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_cloud_event::TestCaseCloudEvent;
 use crate::metl::test_case_received_telemetry::TestCaseReceivedTelemetry;
 use crate::metl::test_case_receiver::TestCaseReceiver;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -38,6 +41,7 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 struct ReceivedTelemetry {
     telemetry_value: Option<String>,
     metadata: HashMap<String, String>,
+    topic_tokens: HashMap<String, String>,
     cloud_event: Option<TestCaseCloudEvent>,
     source_id: Option<String>,
 }
@@ -57,7 +61,6 @@ where
 {
     pub async fn test_telemetry_receiver(
         test_case: TestCase<ReceiverDefaults>,
-        test_case_index: i32,
         managed_client: C,
         mut mqtt_hub: MqttHub,
     ) {
@@ -109,6 +112,8 @@ where
             }
         }
 
+        let test_case_serializer = &test_case.prologue.receivers[0].serializer;
+
         let mut source_ids: HashMap<i32, Uuid> = HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
@@ -120,7 +125,7 @@ where
                         &mut mqtt_hub,
                         &mut source_ids,
                         &mut packet_ids,
-                        test_case_index,
+                        test_case_serializer,
                     );
                 }
                 action_await_ack @ TestCaseAction::AwaitAck { .. } => {
@@ -193,27 +198,35 @@ where
                 Ok((telemetry, ack_token)) => {
                     *telemetry_count.lock().unwrap() += 1;
 
+                    let cloud_event =
+                        match telemetry_receiver::CloudEvent::from_telemetry(&telemetry) {
+                            Ok(cloud_event) => Some(TestCaseCloudEvent {
+                                source: Some(cloud_event.source),
+                                event_type: Some(cloud_event.event_type),
+                                spec_version: Some(cloud_event.spec_version),
+                                id: Some(cloud_event.id),
+                                time: Some(
+                                    cloud_event
+                                        .time
+                                        .map(|t| t.to_rfc3339_opts(SecondsFormat::Secs, true)),
+                                ),
+                                data_content_type: cloud_event.data_content_type,
+                                subject: Some(cloud_event.subject),
+                                data_schema: Some(cloud_event.data_schema),
+                            }),
+                            Err(_) => None,
+                        };
+
                     let mut metadata = HashMap::new();
                     for (key, value) in telemetry.custom_user_data {
                         metadata.insert(key, value);
                     }
 
-                    let cloud_event = match telemetry.cloud_event {
-                        Some(cloud_event) => Some(TestCaseCloudEvent {
-                            source: Some(cloud_event.source),
-                            event_type: Some(cloud_event.event_type),
-                            spec_version: Some(cloud_event.spec_version),
-                            data_content_type: cloud_event.data_content_type,
-                            subject: cloud_event.subject,
-                            data_schema: cloud_event.data_schema,
-                        }),
-                        None => None,
-                    };
-
                     telemetry_tx
                         .send(ReceivedTelemetry {
                             telemetry_value: telemetry.payload.payload,
                             metadata,
+                            topic_tokens: telemetry.topic_tokens.clone(),
                             cloud_event,
                             source_id: telemetry.sender_id,
                         })
@@ -266,7 +279,11 @@ where
 
         let receiver_options = options_result.unwrap();
 
-        match TelemetryReceiver::new(managed_client, receiver_options) {
+        match TelemetryReceiver::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            receiver_options,
+        ) {
             Ok(mut receiver) => {
                 if let Some(catch) = catch {
                     // TelemetryReceiver has no start method, so if an exception is expected, recv may be needed to trigger it.
@@ -311,13 +328,12 @@ where
         mqtt_hub: &mut MqttHub,
         source_ids: &mut HashMap<i32, Uuid>,
         packet_ids: &mut HashMap<i32, u16>,
-        test_case_index: i32,
+        tcs: &TestCaseSerializer<ReceiverDefaults>,
     ) {
         if let TestCaseAction::ReceiveTelemetry {
             defaults_type: _,
             topic,
             payload,
-            bypass_serialization,
             content_type,
             format_indicator,
             metadata,
@@ -368,23 +384,15 @@ where
                 Bytes::new()
             };
 
-            let payload = if let Some(payload) = payload {
-                if *bypass_serialization {
-                    Bytes::copy_from_slice(payload.as_bytes())
-                } else {
-                    Bytes::copy_from_slice(
-                        TestPayload {
-                            payload: Some(payload.clone()),
-                            test_case_index: Some(test_case_index),
-                        }
-                        .serialize()
-                        .unwrap()
-                        .as_slice(),
-                    )
-                }
-            } else {
-                Bytes::new()
-            };
+            let payload = serde_json::to_vec(&TestPayload {
+                payload: payload.clone(),
+                out_content_type: tcs.out_content_type.clone(),
+                accept_content_types: tcs.accept_content_types.clone(),
+                indicate_character_data: tcs.indicate_character_data,
+                allow_character_data: tcs.allow_character_data,
+                fail_deserialization: tcs.fail_deserialization,
+            })
+            .unwrap();
 
             let properties = PublishProperties {
                 payload_format_indicator: *format_indicator,
@@ -398,7 +406,7 @@ where
                 qos: qos::to_enum(*qos),
                 topic,
                 pkid: packet_id,
-                payload,
+                payload: payload.into(),
                 properties: Some(properties),
                 ..Default::default()
             };
@@ -478,66 +486,132 @@ where
             );
         }
 
+        for (key, value) in &expected_telemetry.topic_tokens {
+            assert_eq!(
+                &value,
+                &received_telemetry
+                    .topic_tokens
+                    .get(key)
+                    .expect("expected telemetry topic token {key}"),
+                "topic token {key} expected replacement {value:?}"
+            );
+        }
+
         if let Some(expected_cloud_event) = &expected_telemetry.cloud_event {
-            if let Some(received_cloud_event) = &received_telemetry.cloud_event {
-                if let Some(expected_source) = expected_cloud_event.source.as_ref() {
-                    assert_eq!(
-                        expected_source,
-                        received_cloud_event
-                            .source
-                            .as_ref()
-                            .expect("missing cloud event source")
+            match expected_cloud_event {
+                Some(expected_cloud_event) => {
+                    if let Some(received_cloud_event) = &received_telemetry.cloud_event {
+                        if let Some(expected_source) = expected_cloud_event.source.as_ref() {
+                            assert_eq!(
+                                expected_source,
+                                received_cloud_event
+                                    .source
+                                    .as_ref()
+                                    .expect("missing cloud event source")
+                            );
+                        }
+                        if let Some(expected_event_type) = expected_cloud_event.event_type.as_ref()
+                        {
+                            assert_eq!(
+                                expected_event_type,
+                                received_cloud_event
+                                    .event_type
+                                    .as_ref()
+                                    .expect("missing cloud event type")
+                            );
+                        }
+                        if let Some(expected_spec_version) =
+                            expected_cloud_event.spec_version.as_ref()
+                        {
+                            assert_eq!(
+                                expected_spec_version,
+                                received_cloud_event
+                                    .spec_version
+                                    .as_ref()
+                                    .expect("missing cloud event spec version")
+                            );
+                        }
+                        if let Some(expected_id) = expected_cloud_event.id.as_ref() {
+                            assert_eq!(
+                                expected_id,
+                                received_cloud_event
+                                    .id
+                                    .as_ref()
+                                    .expect("missing cloud event type")
+                            );
+                        }
+                        if let Some(expected_time) = expected_cloud_event.time.as_ref() {
+                            if let Some(expected_time) = expected_time {
+                                assert_eq!(
+                                    expected_time,
+                                    received_cloud_event
+                                        .time
+                                        .as_ref()
+                                        .unwrap()
+                                        .as_ref()
+                                        .expect("missing cloud event time")
+                                );
+                            } else {
+                                assert!(received_cloud_event.time.as_ref().unwrap().is_none());
+                            }
+                        }
+                        if let Some(expected_data_content_type) =
+                            expected_cloud_event.data_content_type.as_ref()
+                        {
+                            assert_eq!(
+                                expected_data_content_type,
+                                received_cloud_event
+                                    .data_content_type
+                                    .as_ref()
+                                    .expect("missing cloud event data content type")
+                            );
+                        }
+                        if let Some(expected_subject) = expected_cloud_event.subject.as_ref() {
+                            if let Some(expected_subject) = expected_subject {
+                                assert_eq!(
+                                    expected_subject,
+                                    received_cloud_event
+                                        .subject
+                                        .as_ref()
+                                        .unwrap()
+                                        .as_ref()
+                                        .expect("missing cloud event subject")
+                                );
+                            } else {
+                                assert!(received_cloud_event.subject.as_ref().unwrap().is_none());
+                            }
+                        }
+                        if let Some(expected_data_schema) =
+                            expected_cloud_event.data_schema.as_ref()
+                        {
+                            if let Some(expected_data_schema) = expected_data_schema {
+                                assert_eq!(
+                                    expected_data_schema,
+                                    received_cloud_event
+                                        .data_schema
+                                        .as_ref()
+                                        .unwrap()
+                                        .as_ref()
+                                        .expect("missing cloud event data schema")
+                                );
+                            } else {
+                                assert!(received_cloud_event
+                                    .data_schema
+                                    .as_ref()
+                                    .unwrap()
+                                    .is_none());
+                            }
+                        }
+                    } else {
+                        panic!("expected cloud event but not found in received telemetry");
+                    }
+                }
+                None => {
+                    assert!(
+                        received_telemetry.cloud_event.is_none(),
+                        "unexpected cloud event found in received telemetry"
                     );
                 }
-                if let Some(expected_event_type) = expected_cloud_event.event_type.as_ref() {
-                    assert_eq!(
-                        expected_event_type,
-                        received_cloud_event
-                            .event_type
-                            .as_ref()
-                            .expect("missing cloud event type")
-                    );
-                }
-                if let Some(expected_spec_version) = expected_cloud_event.spec_version.as_ref() {
-                    assert_eq!(
-                        expected_spec_version,
-                        received_cloud_event
-                            .spec_version
-                            .as_ref()
-                            .expect("missing cloud event spec version")
-                    );
-                }
-                if let Some(expected_data_content_type) =
-                    expected_cloud_event.data_content_type.as_ref()
-                {
-                    assert_eq!(
-                        expected_data_content_type,
-                        received_cloud_event
-                            .data_content_type
-                            .as_ref()
-                            .expect("missing cloud event data content type")
-                    );
-                }
-                if let Some(expected_subject) = expected_cloud_event.subject.as_ref() {
-                    assert_eq!(
-                        expected_subject,
-                        received_cloud_event
-                            .subject
-                            .as_ref()
-                            .expect("missing cloud event subject")
-                    );
-                }
-                if let Some(expected_data_schema) = expected_cloud_event.data_schema.as_ref() {
-                    assert_eq!(
-                        expected_data_schema,
-                        received_cloud_event
-                            .data_schema
-                            .as_ref()
-                            .expect("missing cloud event data schema")
-                    );
-                }
-            } else {
-                panic!("expected cloud event but not found in received telemetry");
             }
         }
 

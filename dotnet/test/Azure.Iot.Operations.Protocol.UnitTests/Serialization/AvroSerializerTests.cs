@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
@@ -10,21 +11,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         [Fact]
         public void AvroUsesFormatIndicatorAsZero()
         {
-            Assert.Equal(0, new AvroSerializer<EmptyAvro, EmptyAvro>().CharacterDataFormatIndicator);
+            Assert.Equal(Models.MqttPayloadFormatIndicator.Unspecified, AvroSerializer<EmptyAvro, EmptyAvro>.PayloadFormatIndicator);
         }
 
         [Fact]
-        public void DeserializeEmtpy()
+        public void DeserializeEmpty()
         {
             IPayloadSerializer avroSerializer = new AvroSerializer<EmptyAvro, EmptyAvro>();
 
-            byte[]? nullBytes = avroSerializer.ToBytes(new EmptyAvro());
-            Assert.Null(nullBytes);
+            ReadOnlySequence<byte> nullBytes = avroSerializer.ToBytes(new EmptyAvro()).SerializedPayload;
 
-            EmptyAvro? empty = avroSerializer.FromBytes<EmptyAvro>(nullBytes);
+            EmptyAvro? empty = avroSerializer.FromBytes<EmptyAvro>(nullBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
 
-            EmptyAvro? fromEmptyBytes = avroSerializer.FromBytes<EmptyAvro>(Array.Empty<byte>());
+            EmptyAvro? fromEmptyBytes = avroSerializer.FromBytes<EmptyAvro>(ReadOnlySequence<byte>.Empty, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(fromEmptyBytes);
         }
 
@@ -33,22 +33,21 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer avroSerializer = new AvroSerializer<EmptyAvro, EmptyAvro>();
 
-            Assert.Throws<AkriMqttException>(() => { avroSerializer.FromBytes<AvroCountTelemetry>(null); });
+            Assert.Throws<AkriMqttException>(() => { avroSerializer.FromBytes<AvroCountTelemetry>(ReadOnlySequence<byte>.Empty, null, Models.MqttPayloadFormatIndicator.Unspecified); });
         }
 
         [Fact]
         public void FromTo_KnownType()
         {
             IPayloadSerializer avroSerializer = new AvroSerializer<AvroCountTelemetry, AvroCountTelemetry>();
-            var bytes = avroSerializer.ToBytes(new AvroCountTelemetry() { count = 2});
-            Assert.NotNull(bytes);
+            var bytes = avroSerializer.ToBytes(new AvroCountTelemetry() { count = 2}).SerializedPayload;
             Assert.Equal(2, bytes.Length);
 
-            AvroCountTelemetry fromBytes = avroSerializer.FromBytes<AvroCountTelemetry>(bytes);
+            AvroCountTelemetry fromBytes = avroSerializer.FromBytes<AvroCountTelemetry>(bytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(2, fromBytes.count);
 
             byte[] newBytes = new byte[] { 0x02, 0x06 };
-            AvroCountTelemetry fromNewBytes = avroSerializer.FromBytes<AvroCountTelemetry>(newBytes);
+            AvroCountTelemetry fromNewBytes = avroSerializer.FromBytes<AvroCountTelemetry>(new(newBytes), null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.Equal(3, fromNewBytes.count);
         }
 
@@ -58,14 +57,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
             IPayloadSerializer avroSerializer = new AvroSerializer<AvroCountTelemetry, AvroCountTelemetry>();
             var countTelemetry = new AvroCountTelemetry();
             Assert.Null(countTelemetry.count);
-            var bytes = avroSerializer.ToBytes(countTelemetry);
-            Assert.Single(bytes!);
+            var bytes = avroSerializer.ToBytes(countTelemetry).SerializedPayload;
+            Assert.Equal(1, bytes.Length);
 
-            AvroCountTelemetry fromBytes = avroSerializer.FromBytes<AvroCountTelemetry>(bytes);
+            AvroCountTelemetry fromBytes = avroSerializer.FromBytes<AvroCountTelemetry>(bytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(fromBytes);
             Assert.Null(fromBytes.count);
 
-            AvroCountTelemetry fromBytesManual = avroSerializer.FromBytes<AvroCountTelemetry>(new byte[] {0x0});
+            AvroCountTelemetry fromBytesManual = avroSerializer.FromBytes<AvroCountTelemetry>(new(new byte[] {0x0}), null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(fromBytesManual);
         }
     }

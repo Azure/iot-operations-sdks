@@ -42,30 +42,30 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public static string? TelemSeparate { get; } = AnnexFileProperties.TelemSeparate;
 
         private readonly string projectName;
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string modelId;
         private readonly string serializationFormat;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string? telemTopicPattern;
         private readonly string? cmdTopicPattern;
         private readonly string? telemServiceGroupId;
         private readonly string? cmdServiceGroupId;
-        private readonly List<(string?, string)> telemNameSchemas;
-        private readonly List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales;
+        private readonly List<(string?, ITypeName)> telemNameSchemas;
+        private readonly List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales;
         private readonly bool separateTelemetries;
 
         public InterfaceAnnex(
             string projectName,
-            string genNamespace,
+            CodeName genNamespace,
             string modelId,
             string serializationFormat,
-            string serviceName,
+            CodeName serviceName,
             string? telemTopicPattern,
             string? cmdTopicPattern,
             string? telemServiceGroupId,
             string? cmdServiceGroupId,
-            List<(string?, string)> telemNameSchemas,
-            List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales,
+            List<(string?, ITypeName)> telemNameSchemas,
+            List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales,
             bool separateTelemetries)
         {
             this.projectName = projectName;
@@ -82,8 +82,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.separateTelemetries = separateTelemetries;
         }
 
-        public string FileName { get => $"{this.serviceName}.annex.json"; }
+        public string FileName { get => $"{this.serviceName.GetFileName(TargetLanguage.Independent)}.annex.json"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
     }
 }

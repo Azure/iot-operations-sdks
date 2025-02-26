@@ -59,13 +59,13 @@ async fn main() {
 /// Indefinitely receive
 async fn receive_messages(client: SessionManagedClient) {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let mut receiver = client.create_filtered_pub_receiver(TOPIC, false).unwrap();
+    let mut receiver = client.create_filtered_pub_receiver(TOPIC).unwrap();
     println!("Subscribing to {TOPIC}");
     client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
 
     // Receive indefinitely
     loop {
-        let (msg, ack_token) = receiver.recv().await.unwrap();
+        let (msg, ack_token) = receiver.recv_manual_ack().await.unwrap();
         tokio::spawn(store_and_acknowledge(msg, ack_token));
     }
 }

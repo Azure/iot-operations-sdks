@@ -8,10 +8,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class AsyncCountdownEvent
     {
-        private readonly SemaphoreSlim mutexSemaphore;
-        private readonly SemaphoreSlim waitSemaphore;
-        private readonly int maxWaiters;
-        private int count;
+        private readonly SemaphoreSlim _mutexSemaphore;
+        private readonly SemaphoreSlim _waitSemaphore;
+        private readonly int _maxWaiters;
+        private int _count;
 
         public AsyncCountdownEvent(int initialCount, int maxWaiters)
         {
@@ -20,37 +20,37 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 throw new ArgumentOutOfRangeException(nameof(initialCount));
             }
 
-            mutexSemaphore = new SemaphoreSlim(1);
-            waitSemaphore = new SemaphoreSlim(0);
-            this.maxWaiters = maxWaiters;
-            count = initialCount;
+            _mutexSemaphore = new SemaphoreSlim(1);
+            _waitSemaphore = new SemaphoreSlim(0);
+            this._maxWaiters = maxWaiters;
+            _count = initialCount;
         }
 
         public async Task WaitAsync(CancellationToken cancellationToken = default)
         {
-            await waitSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+            await _waitSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
 
         public async Task WaitAsync(TimeSpan timeout)
         {
-            await waitSemaphore.WaitAsync(timeout).ConfigureAwait(false);
+            await _waitSemaphore.WaitAsync(timeout).ConfigureAwait(false);
         }
 
         public async Task SignalAsync()
         {
-            await mutexSemaphore.WaitAsync().ConfigureAwait(false);
+            await _mutexSemaphore.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                count--;
-                if (count <= 0)
+                _count--;
+                if (_count <= 0)
                 {
-                    waitSemaphore.Release(maxWaiters);
+                    _waitSemaphore.Release(_maxWaiters);
                 }
             }
             finally
             {
-                mutexSemaphore.Release();
+                _mutexSemaphore.Release();
             }
         }
     }

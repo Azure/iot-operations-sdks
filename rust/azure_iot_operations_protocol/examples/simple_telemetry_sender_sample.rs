@@ -10,12 +10,14 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEventBuilder, TelemetrySender,
-};
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, PayloadSerialize},
-    telemetry::telemetry_sender::{TelemetryMessageBuilder, TelemetrySenderOptionsBuilder},
+    application::ApplicationContextBuilder,
+    common::payload_serialize::{
+        DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+    },
+    telemetry::telemetry_sender::{
+        CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
+    },
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -49,12 +51,18 @@ async fn main() {
     let mut session = Session::new(session_options).unwrap();
     let exit_handle = session.create_exit_handle();
 
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
     let sender_options = TelemetrySenderOptionsBuilder::default()
         .topic_pattern(TOPIC)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<SampleTelemetry, _> =
-        TelemetrySender::new(session.create_managed_client(), sender_options).unwrap();
+    let telemetry_sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
+        application_context,
+        session.create_managed_client(),
+        sender_options,
+    )
+    .unwrap();
 
     tokio::task::spawn(telemetry_loop(telemetry_sender, exit_handle));
 
@@ -100,23 +108,25 @@ pub struct SampleTelemetry {
 
 impl PayloadSerialize for SampleTelemetry {
     type Error = String;
-    fn content_type() -> &'static str {
-        "application/json"
+
+    fn serialize(self) -> Result<SerializedPayload, String> {
+        Ok(SerializedPayload {
+            payload: format!(
+                "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
+                self.external_temperature, self.internal_temperature
+            )
+            .into(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        })
     }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::Utf8EncodedCharacterData
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, String> {
-        Ok(format!(
-            "{{\"externalTemperature\":{},\"internalTemperature\":{}}}",
-            self.external_temperature, self.internal_temperature
-        )
-        .into())
-    }
-
-    fn deserialize(_payload: &[u8]) -> Result<SampleTelemetry, String> {
-        Ok(SampleTelemetry::default())
+    fn deserialize(
+        _payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<SampleTelemetry, DeserializationError<String>> {
+        // Not used in this example
+        unimplemented!()
     }
 }

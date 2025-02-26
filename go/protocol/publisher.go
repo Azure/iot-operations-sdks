@@ -6,21 +6,23 @@ import (
 	"context"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
-	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 	"github.com/google/uuid"
 )
 
 // Provide the shared implementation details for the MQTT publishers.
 type publisher[T any] struct {
+	app      *Application
 	client   MqttClient
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
+	log      log.Logger
+	version  string
 }
 
 // DefaultTimeout is the timeout applied to Invoke or Send if none is specified.
@@ -76,13 +78,13 @@ func (p *publisher[T]) build(
 		pub.UserProperties = map[string]string{}
 	}
 
-	ts, err := hlc.Get()
+	ts, err := p.app.hlc.Get()
 	if err != nil {
 		return nil, err
 	}
 	pub.UserProperties[constants.SourceID] = p.client.ID()
 	pub.UserProperties[constants.Timestamp] = ts.String()
-	pub.UserProperties[constants.ProtocolVersion] = version.ProtocolString
+	pub.UserProperties[constants.ProtocolVersion] = p.version
 
 	return pub, nil
 }

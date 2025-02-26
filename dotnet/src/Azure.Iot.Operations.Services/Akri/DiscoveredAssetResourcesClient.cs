@@ -4,14 +4,14 @@
 namespace Azure.Iot.Operations.Services.Akri;
 
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1;
+using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 
-using AssetEndpointProfileResponseInfo = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAssetEndpointProfile_Response;
-using AssetResponseInfo = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Response;
+using AssetEndpointProfileResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetEndpointProfileResponseSchema;
+using AssetResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetResponseSchema;
 
-public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
+public class DiscoveredAssetResourcesClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
 {
-    private readonly DiscoveredAssetResourcesClientStub _clientStub = new(pubSubClient);
+    private readonly DiscoveredAssetResourcesClientStub _clientStub = new(applicationContext, pubSubClient);
     private bool _disposed;
 
     public async Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(

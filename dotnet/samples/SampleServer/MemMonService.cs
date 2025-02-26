@@ -4,7 +4,8 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_akri_samples_memmon__1;
+using TestEnvoys.Memmon;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleServer;
 public class MemMonService : Memmon.Service
@@ -17,7 +18,7 @@ public class MemMonService : Memmon.Service
     private readonly CloudEvent _ceWorkingSet = new (new Uri("aio://test")) { DataSchema = "234" };
     private readonly CloudEvent _ceManagedMemory = new (new Uri("aio://test")) { DataSchema = "345" };
 
-    public MemMonService(MqttSessionClient mqttClient) : base(mqttClient)
+    public MemMonService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
     {
         _telemetryTimer = new Timer(SendTelemetryTimer, null, 0, 5000);
     }
@@ -49,7 +50,7 @@ public class MemMonService : Memmon.Service
         SendTelemetryAsync(
             new MemoryStatsTelemetry
             {
-                MemoryStats = new Object_MemoryStats
+                MemoryStats = new MemoryStatsSchema
                 {
                     ManagedMemory = GC.GetGCMemoryInfo().TotalCommittedBytes,
                     WorkingSet = Environment.WorkingSet

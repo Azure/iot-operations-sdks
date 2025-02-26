@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Diagnostics;
 using System.Globalization;
-using System.Net;
-using System.Text;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
@@ -13,8 +12,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class EchoCommandExecutor : CommandExecutor<string, string>
     {
-        public EchoCommandExecutor(IMqttPubSubClient mqttClient, string commandName = "echo")
-            : base(mqttClient, commandName, new Utf8JsonSerializer())
+        public EchoCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName = "echo")
+            : base(applicationContext, mqttClient, commandName, new Utf8JsonSerializer())
         {
 
         }
@@ -22,8 +21,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
     public class EchoWithMetadataCommandExecutor : CommandExecutor<string, string>
     {
-        public EchoWithMetadataCommandExecutor(IMqttPubSubClient mqttClient)
-            : base(mqttClient, "echoWithMetadata", new Utf8JsonSerializer())
+        public EchoWithMetadataCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            : base(applicationContext, mqttClient, "echoWithMetadata", new Utf8JsonSerializer())
         {
 
         }
@@ -31,8 +30,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
     public class DelayCommandExecutor : CommandExecutor<TimeSpanClass, IntegerClass>
     {
-        public DelayCommandExecutor(IMqttPubSubClient mqttClient, string commandName = "delay")
-            : base(mqttClient, commandName, new Utf8JsonSerializer())
+        public DelayCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName = "delay")
+            : base(applicationContext, mqttClient, commandName, new Utf8JsonSerializer())
         {
 
         }
@@ -54,7 +53,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersionUnknownThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.Unknown);
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -74,7 +73,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersion310ThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.V310);
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -94,7 +93,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersion311ThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.V311);
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -114,7 +113,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvalidRequestTopicPatternThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/{improper/token}/echo",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -134,7 +133,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task NonIdempotentCommandNegativeCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = false,
@@ -156,7 +155,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task IdempotentCommandNegativeCacheTtlThrowsException()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = true,
@@ -179,7 +178,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mock = new();
             TaskCompletionSource tcs = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -210,7 +209,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string execClientId = mock.ClientId;
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = $"mock/{execClientId}/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -229,12 +228,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_SameInvokerId_TopicContainsExecutorId_RetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
 
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
@@ -249,7 +249,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(2, mock.AcknowledgedMessageCount);
             Assert.Equal($"mock/{execClientId}/echo/response", mock.MessagePublished.Topic);
-            Assert.Equal(serializer.ToBytes(payload + payload + 1), mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(serializer.ToBytes(payload + payload + 1).SerializedPayload.ToArray(), mock.MessagePublished.Payload.ToArray());
         }
 
         [Fact]
@@ -259,7 +259,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string execClientId = mock.ClientId;
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = $"mock/{execClientId}/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -276,12 +276,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_NoInvokerId_TopicContainsExecutorId_RetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
@@ -296,7 +297,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(2, mock.AcknowledgedMessageCount);
             Assert.Equal($"mock/{execClientId}/echo/response", mock.MessagePublished.Topic);
-            Assert.Equal(serializer.ToBytes(payload + payload + 1), mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(serializer.ToBytes(payload + payload + 1).SerializedPayload.ToArray(), mock.MessagePublished.Payload.ToArray());
         }
 
         [Fact(Skip = "flaky")]
@@ -306,7 +307,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string execClientId = mock.ClientId;
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = $"mock/{execClientId}/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -325,25 +326,27 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string invClientId2 = Guid.NewGuid().ToString();
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicContainsExecutorId_NotRetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
-            var CorrelationData = Guid.NewGuid().ToByteArray();
+            var correlationData = Guid.NewGuid().ToByteArray();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
 
             requestMsg1.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
+            var payloadContext2 = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage($"mock/{execClientId}/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext2.SerializedPayload,
+                ContentType = payloadContext2.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext2.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = $"mock/{execClientId}/echo/response",
             };
@@ -362,11 +365,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal($"mock/{execClientId}/echo/response", mock.MessagesPublished[1].Topic);
 
             // Response messages could arrive in either order
-            byte[]? payload1 = serializer.ToBytes(payload + payload + 1);
-            byte[]? payload2 = serializer.ToBytes(payload + payload + 2);
+            ReadOnlySequence<byte> payload1 = serializer.ToBytes(payload + payload + 1).SerializedPayload;
+            ReadOnlySequence<byte> payload2 = serializer.ToBytes(payload + payload + 2).SerializedPayload;
             Assert.True(
-                (payload1!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!)) ||
-                (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
+                (payload1!.ToArray().SequenceEqual(mock.MessagesPublished[0].Payload.ToArray()!) && payload2!.ToArray().SequenceEqual(mock.MessagesPublished[1].Payload.ToArray())) ||
+                (payload1!.ToArray().SequenceEqual(mock.MessagesPublished[1].Payload.ToArray()!) && payload2!.ToArray().SequenceEqual(mock.MessagesPublished[0].Payload.ToArray())));
         }
 
         [Fact(Skip = "Flaky")]
@@ -375,7 +378,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/any/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -394,25 +397,27 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string invClientId2 = Guid.NewGuid().ToString();
             string payload = nameof(DuplicateRequest_NotIdempotent_WithinCommandTimeout_DifferentInvokerId_TopicWithoutExecutorId_NotRetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
-            var CorrelationData = Guid.NewGuid().ToByteArray();
+            var correlationData = Guid.NewGuid().ToByteArray();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg1 = new MqttApplicationMessage("mock/any/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = "mock/any/echo/response",
             };
 
             requestMsg1.AddUserProperty(AkriSystemProperties.SourceId, invClientId1);
 
+            var payloadContext2 = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg2 = new MqttApplicationMessage("mock/any/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext2.SerializedPayload,
+                ContentType = payloadContext2.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext2.PayloadFormatIndicator,
                 MessageExpiryInterval = 10,
                 ResponseTopic = "mock/any/echo/response",
             };
@@ -431,11 +436,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal($"mock/any/echo/response", mock.MessagesPublished[1].Topic);
 
             // Response messages could arrive in either order
-            byte[]? payload1 = serializer.ToBytes(payload + payload + 1);
-            byte[]? payload2 = serializer.ToBytes(payload + payload + 2);
+            ReadOnlySequence<byte> payload1 = serializer.ToBytes(payload + payload + 1).SerializedPayload;
+            ReadOnlySequence<byte> payload2 = serializer.ToBytes(payload + payload + 2).SerializedPayload;
             Assert.True(
-                (payload1!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!)) ||
-                (payload1!.SequenceEqual(mock.MessagesPublished[1].PayloadSegment.Array!) && payload2!.SequenceEqual(mock.MessagesPublished[0].PayloadSegment.Array!)));
+                (payload1!.ToArray().SequenceEqual(mock.MessagesPublished[0].Payload.ToArray()) && payload2!.ToArray().SequenceEqual(mock.MessagesPublished[1].Payload.ToArray())) ||
+                (payload1!.ToArray().SequenceEqual(mock.MessagesPublished[1].Payload.ToArray()) && payload2!.ToArray().SequenceEqual(mock.MessagesPublished[0].Payload.ToArray())));
         }
 
         [Fact]
@@ -444,7 +449,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -462,12 +467,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             string payload = nameof(DuplicateRequest_Idempotent_CacheUnexpired_RetrievedFromCache);
             var serializer = new Utf8JsonSerializer();
+            var payloadContext = serializer.ToBytes(payload);
             MqttApplicationMessage requestMsg = new MqttApplicationMessage("mock/echo")
             {
-                PayloadSegment = serializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = serializer.ContentType,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)serializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = "mock/echo/response",
                 MessageExpiryInterval = 25,
             };
@@ -482,7 +488,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
             Assert.Equal("mock/echo/response", mock.MessagePublished.Topic);
-            Assert.Equal(serializer.ToBytes(payload + payload + 1), mock.MessagePublished.PayloadSegment.Array);
+            Assert.Equal(serializer.ToBytes(payload + payload + 1).SerializedPayload.ToArray(), mock.MessagePublished.Payload.ToArray());
         }
 
         [Fact]
@@ -494,7 +500,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             MockMqttPubSubClient mock = new();
 
-            await using DelayCommandExecutor delay = new(mock)
+            await using DelayCommandExecutor delay = new(new ApplicationContext(), mock)
             {
                 // There are separate increment and decrement operations for the currentParallelism counter that happen within a semaphore.
                 // These increment and decrement operations are separated by a delay.
@@ -533,36 +539,39 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var requestTopic = "mock/delay";
             var responseTopic = "mock/delay/response";
 
+            var payloadContext = payloadSerializer.ToBytes(unlockWait);
             MqttApplicationMessage message1 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait) ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
 
             message1.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
+            var payloadContext2 = payloadSerializer.ToBytes(unlockWait);
             MqttApplicationMessage message2 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait) ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
+                Payload = payloadContext2.SerializedPayload,
+                ContentType = payloadContext2.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext2.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
 
             message2.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
 
+            var payloadContext3 = payloadSerializer.ToBytes(unlockWait);
             MqttApplicationMessage message3 = new MqttApplicationMessage(requestTopic)
             {
-                PayloadSegment = payloadSerializer.ToBytes(unlockWait) ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
+                Payload = payloadContext3.SerializedPayload,
+                ContentType = payloadContext3.ContentType,
                 CorrelationData = Guid.NewGuid().ToByteArray(),
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.CharacterDataFormatIndicator,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext3.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
@@ -587,7 +596,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             int timesCmdExecuted = 0;
             TimeSpan timeout = TimeSpan.FromSeconds(10);
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -609,12 +618,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var requestTopic = $"mock/echo";
             var responseTopic = "mock/echo/response";
             Guid cid = Guid.NewGuid();
+            var payloadContext = payloadSerializer.ToBytes(nameof(ExecutorRequestUnexpiredExecutorTimeout_RpcErrorTimeout));
             var message = new MqttApplicationMessage(requestTopic)
             {
                 CorrelationData = cid.ToByteArray(),
-                PayloadSegment = payloadSerializer.ToBytes(nameof(ExecutorRequestUnexpiredExecutorTimeout_RpcErrorTimeout)) ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.CharacterDataFormatIndicator,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = (uint)timeout.TotalSeconds,
             };
@@ -633,7 +643,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
-            Assert.Null(mock.MessagePublished.PayloadSegment.Array);
+            Assert.True(mock.MessagePublished.Payload.IsEmpty);
             Assert.Equal(cid.ToByteArray(), mock.MessagePublished.CorrelationData);
         }
 
@@ -643,7 +653,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             MockMqttPubSubClient mock = new();
             int timesCmdExecuted = 0;
 
-            await using EchoWithMetadataCommandExecutor echoCommand = new(mock)
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
                 OnCommandReceived = async (reqMd, ct) =>
@@ -666,12 +676,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var responseTopic = "mock/echo/response";
             string payload = nameof(ExecutorResponsePubAckDropped_NoExceptionThrownRequestAcknowledged);
             Guid cid = Guid.NewGuid();
+            var payloadContext = payloadSerializer.ToBytes(payload);
             var message = new MqttApplicationMessage(requestTopic)
             {
                 CorrelationData = cid.ToByteArray(),
-                PayloadSegment = payloadSerializer.ToBytes(payload) ?? Array.Empty<byte>(),
-                ContentType = payloadSerializer.ContentType,
-                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadSerializer.CharacterDataFormatIndicator,
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ResponseTopic = responseTopic,
                 MessageExpiryInterval = 10,
             };
@@ -684,16 +695,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(1, timesCmdExecuted);
             Assert.Equal(1, mock.AcknowledgedMessageCount);
             Assert.NotNull(mock.MessagePublished);
-            Assert.Equal(payloadSerializer.ToBytes(payload + payload), mock.MessagePublished.PayloadSegment.Array);
+            Assert.True(Enumerable.SequenceEqual(payloadSerializer.ToBytes(payload + payload).SerializedPayload.ToArray(), mock.MessagePublished.Payload.ToArray()));
             Assert.Equal(cid.ToByteArray(), mock.MessagePublished.CorrelationData);
         }
 
         [Fact]
         public async Task CommandExecutor_ThrowsIfAccessedWhenDisposed()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             MockMqttPubSubClient mock = new();
             string topic = "mock/echo/unsubAckUnspecifiedError";
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(applicationContext, mock)
             {
                 RequestTopicPattern = topic,
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
@@ -711,7 +723,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task CommandExecutor_ThrowsIfCancellationRequested()
         {
             MockMqttPubSubClient mock = new();
-            await using EchoCommandExecutor echoCommand = new(mock)
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "irrelevant",
                 OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),

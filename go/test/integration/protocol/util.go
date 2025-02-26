@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -13,6 +14,8 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy"
 	"github.com/stretchr/testify/require"
 )
+
+var app = protocol.Must(protocol.NewApplication())
 
 func sessionClients(
 	t *testing.T,
@@ -80,7 +83,7 @@ func SayHelloWithDelay(
 	)
 
 	if req.Payload.Delay == 0 {
-		return nil, fmt.Errorf("delay cannot be zero")
+		return nil, errors.New("delay cannot be zero")
 	}
 
 	select {

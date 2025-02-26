@@ -4,20 +4,20 @@
 namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
-using SchemaInfo = dtmi_ms_adr_SchemaRegistry__1.Object_Ms_Adr_SchemaRegistry_Schema__1;
-using SchemaFormat = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_Format__1;
-using SchemaType = dtmi_ms_adr_SchemaRegistry__1.Enum_Ms_Adr_SchemaRegistry_SchemaType__1;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
+using SchemaInfo = SchemaRegistry.Schema;
+using SchemaFormat = SchemaRegistry.Format;
+using SchemaType = SchemaRegistry.SchemaType;
 
-public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
+public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
 {
     private static readonly TimeSpan s_DefaultCommandTimeout = TimeSpan.FromSeconds(10);
-    private readonly SchemaRegistryClientStub _clientStub = new (pubSubClient);
+    private readonly SchemaRegistryClientStub _clientStub = new(applicationContext, pubSubClient);
     private bool _disposed;
 
     public async Task<SchemaInfo?> GetAsync(
         string schemaId,
-        string version = "1.0.0",
+        string version = "1",
         TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -39,9 +39,9 @@ public class SchemaRegistryClient(IMqttPubSubClient pubSubClient) : ISchemaRegis
         string schemaContent,
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,
-        string version = "1.0.0", 
-        Dictionary<string, string>? tags = null, 
-        TimeSpan? timeout = null, 
+        string version = "1",
+        Dictionary<string, string>? tags = null,
+        TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

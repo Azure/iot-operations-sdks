@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
-public class CounterClient(IMqttPubSubClient mqttClient) : Counter.Client(mqttClient)
+public class CounterClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : Counter.Client(applicationContext, mqttClient)
 {
     public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
