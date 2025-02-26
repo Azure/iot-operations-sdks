@@ -216,7 +216,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     pub sender_id: Option<String>,
     /// Timestamp of the telemetry message.
     pub timestamp: Option<HybridLogicalClock>,
-    /// Resolved topic tokens from the incoming message's topic.
+    /// Resolved static and dynamic topic tokens from the incoming message's topic.
     pub topic_tokens: HashMap<String, String>,
 }
 

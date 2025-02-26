@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.Greeter;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleServer;
 
-public class GreeterService(MqttSessionClient mqttClient) : GreeterEnvoy.Service(mqttClient)
+public class GreeterService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : GreeterEnvoy.Service(applicationContext, mqttClient)
 {
     public override Task<ExtendedResponse<GreeterEnvoy.HelloResponse>> SayHello(ExtendedRequest<GreeterEnvoy.HelloRequest> request, CancellationToken cancellationToken)
     {

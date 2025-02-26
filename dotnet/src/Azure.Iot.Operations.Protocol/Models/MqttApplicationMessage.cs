@@ -3,14 +3,15 @@
 
 using Azure.Iot.Operations.Protocol.Telemetry;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
     public class MqttApplicationMessage(string topic, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce)
     {
-
         /// <summary>
         ///     Gets or sets the content type.
         ///     The content type must be a UTF-8 encoded string. The content type value identifies the kind of UTF-8 encoded
@@ -49,9 +50,20 @@ namespace Azure.Iot.Operations.Protocol.Models
         public uint MessageExpiryInterval { get; set; }
 
         /// <summary>
-        /// Get or set ArraySegment style of Payload.
+        ///     Set an ArraySegment as Payload.
         /// </summary>
-        public ArraySegment<byte> PayloadSegment { get; set; }
+        public ArraySegment<byte> PayloadSegment
+        {
+            set { Payload = new ReadOnlySequence<byte>(value); }
+        }
+
+        /// <summary>
+        ///     Get or set ReadOnlySequence style of Payload.
+        ///     This payload type is used internally and is recommended for public use.
+        ///     It can be used in combination with a RecyclableMemoryStream to publish
+        ///     large buffered messages without allocating large chunks of memory.
+        /// </summary>
+        public ReadOnlySequence<byte> Payload { get; set; } = ReadOnlySequence<byte>.Empty;
 
         /// <summary>
         ///     Gets or sets the payload format indicator.
@@ -62,7 +74,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     If no payload format indicator is provided, the default value is 0.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; set; }
+        public MqttPayloadFormatIndicator PayloadFormatIndicator { get; set; } = MqttPayloadFormatIndicator.Unspecified;
 
         /// <summary>
         ///     Gets or sets the quality of service level.
@@ -138,11 +150,9 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public string? ConvertPayloadToString()
         {
-            return PayloadSegment == ArraySegment<byte>.Empty
+            return Payload.IsEmpty
                 ? null
-                : PayloadSegment.Array == null
-                ? null
-                : Encoding.UTF8.GetString(PayloadSegment.Array, PayloadSegment.Offset, PayloadSegment.Count);
+                : Encoding.UTF8.GetString(Payload.ToArray());
         }
 
         public void AddMetadata(OutgoingTelemetryMetadata md)
@@ -151,7 +161,6 @@ namespace Azure.Iot.Operations.Protocol.Models
             {
                 return;
             }
-
             if (md.Timestamp != default)
             {
                 AddUserProperty(AkriSystemProperties.Timestamp, md.Timestamp.EncodeToString());
@@ -177,7 +186,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
             if (md.Time is not null)
             {
-                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("O"));
+                AddUserProperty(nameof(md.Time).ToLowerInvariant(), md.Time!.Value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture));
             }
 
             if (md.Subject is not null)

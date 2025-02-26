@@ -10,8 +10,8 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::FormatIndicator;
-use iso8601_duration;
 use custom_comm::common_types::custom_payload::CustomPayload;
+use iso8601_duration;
 
 const AVRO_SERVER_ID: &str = "AvroRustServer";
 const JSON_SERVER_ID: &str = "JsonRustServer";
@@ -150,6 +150,9 @@ async fn avro_telemetry_loop(
                 course: Some("Math".to_string()),
                 credit: Some(format!("{:0>2}:{:0>2}:{:0>2}", i + 2, i + 1, i)),
             }),
+            data: Some(avro_comm::common_types::b64::Bytes(
+                format!("Sample data {i}").into_bytes(),
+            )),
         };
 
         let message = builder.payload(telemetry).unwrap().build().unwrap();
@@ -206,6 +209,9 @@ async fn json_telemetry_loop(
                     second: i as f32,
                 }),
             }),
+            data: Some(json_comm::common_types::b64::Bytes(
+                format!("Sample data {i}").into_bytes(),
+            )),
         };
 
         let message = builder.payload(telemetry).unwrap().build().unwrap();

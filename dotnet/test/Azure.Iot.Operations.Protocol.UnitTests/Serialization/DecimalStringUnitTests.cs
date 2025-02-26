@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Text;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.common;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization

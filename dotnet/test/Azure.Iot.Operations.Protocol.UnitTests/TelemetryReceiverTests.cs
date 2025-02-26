@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class StringTelemetryReceiver : TelemetryReceiver<string>
     {
-        public StringTelemetryReceiver(IMqttPubSubClient mqttClient) : base(mqttClient, "test", new Utf8JsonSerializer()) { }
+        public StringTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient, "test", new Utf8JsonSerializer()) { }
     }
 
     public class TelemetryReceiverTests
@@ -19,13 +19,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             // Arrange
             var mockClient = new MockMqttPubSubClient("clientId", MqttProtocolVersion.V310);
-            var reciever = new StringTelemetryReceiver(mockClient);
+            var reciever = new StringTelemetryReceiver(new ApplicationContext(), mockClient);
 
             // Act
-            Task act() => reciever.StartAsync();
+            Task Act() => reciever.StartAsync();
 
             // Assert
-            var ex = await Assert.ThrowsAsync<AkriMqttException>(act);
+            var ex = await Assert.ThrowsAsync<AkriMqttException>(Act);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
             Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             string telemetryReceived2 = "";
             SemaphoreSlim semaphore1 = new(0);
             SemaphoreSlim semaphore2 = new(0);
-            var receiver1 = new StringTelemetryReceiver(mockClient)
+            var receiver1 = new StringTelemetryReceiver(new ApplicationContext(), mockClient)
             {
                 TopicPattern = "someTopicPattern",
                 TopicNamespace = "test",
@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 }
             };
 
-            var receiver2 = new StringTelemetryReceiver(mockClient)
+            var receiver2 = new StringTelemetryReceiver(new ApplicationContext(), mockClient)
             {
                 TopicPattern = "someTopicPattern",
                 TopicNamespace = "test",
@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             SerializedPayloadContext payloadContext = serializer.ToBytes(expectedTelemetry);
             var message = new MqttApplicationMessage($"{receiver1.TopicNamespace}/{receiver1.TopicPattern}")
             {
-                PayloadSegment = payloadContext.SerializedPayload ?? Array.Empty<byte>(),
+                Payload = payloadContext.SerializedPayload,
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
                 ContentType = payloadContext.ContentType,
             };
@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             // Arrange
             var mockClient = new MockMqttPubSubClient();
             var serializer = new Utf8JsonSerializer();
-            await using var receiver = new StringTelemetryReceiver(mockClient)
+            await using var receiver = new StringTelemetryReceiver(new ApplicationContext(), mockClient)
             {
                 TopicPattern = "someTopicPattern",
                 TopicNamespace = "test",
@@ -129,7 +129,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             var mockClient = new MockMqttPubSubClient();
             var serializer = new Utf8JsonSerializer();
-            await using var receiver = new StringTelemetryReceiver(mockClient)
+            await using var receiver = new StringTelemetryReceiver(new ApplicationContext(), mockClient)
             {
                 TopicPattern = "someTopicPattern",
                 TopicNamespace = "test",

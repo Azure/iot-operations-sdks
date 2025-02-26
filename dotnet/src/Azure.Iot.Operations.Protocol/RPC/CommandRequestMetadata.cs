@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandRequestMetadata is constructed by user code that will invoke a command, the Timestamp is set from the updated HybridLogicalClock of the CommandInvoker.
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the Timestamp is set from the request message; this will be null if the message contains no timestamp header.
         /// </summary>
-        public HybridLogicalClock? Timestamp { get; }
+        public HybridLogicalClock? Timestamp { get; internal set; }
 
         /// <summary>
         /// A dictionary of user properties that are sent along with the request from the CommandInvoker to the CommandExecutor.
@@ -36,6 +36,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the UserData is set from the request message.
         /// </summary>
         public Dictionary<string, string> UserData { get; }
+
+        /// <summary>
+        /// A dictionary of MQTT topic tokens and the replacement values exnracted from the publication topic.
+        /// </summary>
+        public Dictionary<string, string> TopicTokens { get; }
 
         /// <summary>
         /// The partition attached to the request.
@@ -66,23 +71,20 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// * The CorrelationData field will be set to a new GUID; if the CommandRequestMetadata is passed to a command invocation, this value will be used as the correlation date for the request.
         /// * The InvokerClientId field will be set to null; user code can obtain the MQTT client ID directly from the MQTT client.
-        /// * The Timestamp field will be set to the current HybridLogicalClock time for the process.
+        /// * The Timestamp field will be set to the current ApplicationContext's HybridLogicalClock time for the process.
         /// * The FencingToken field will be initialized to null; this can be set by user code if desired.
         /// * The UserData field will be initialized with an empty dictionary; entries in this dictionary can be set by user code as desired.
         /// </remarks>
         public CommandRequestMetadata()
         {
-            HybridLogicalClock localClock = HybridLogicalClock.GetInstance();
-            localClock.Update();
-
             CorrelationId = Guid.NewGuid();
             InvokerClientId = null;
 
-            Timestamp = new HybridLogicalClock(localClock);
             UserData = [];
+            Timestamp = null;
         }
 
-        internal CommandRequestMetadata(MqttApplicationMessage message)
+        internal CommandRequestMetadata(MqttApplicationMessage message, string topicPattern)
         {
             CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
                 ? correlationId!.Value
@@ -117,6 +119,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
             }
+
+            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
         }
 
         internal void MarshalTo(MqttApplicationMessage message)

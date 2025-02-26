@@ -7,10 +7,10 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using dtmi_akri_samples_oven__1;
+using Azure.Iot.Operations.Protocol;
 
-
-public class OvenClient(MqttSessionClient mqttClient, SchemaRegistryClient schemaRegistryClient, ILogger<OvenClient> logger) 
-    :Oven.Client(mqttClient)
+public class OvenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, SchemaRegistryClient schemaRegistryClient, ILogger<OvenClient> logger) 
+    :Oven.Client(applicationContext, mqttClient)
 {
 
     Dictionary<string, string> schemaCache = new();

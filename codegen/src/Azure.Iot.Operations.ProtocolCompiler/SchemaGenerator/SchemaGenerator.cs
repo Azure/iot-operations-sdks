@@ -20,10 +20,8 @@
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
 
-        public static CodeName GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, out string annexFile, out List<string> schemaFiles)
+        public static void GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace)
         {
-            schemaFiles = new List<string>();
-
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
 
             TopicCollisionDetector telemetryTopicCollisionDetector = TopicCollisionDetector.GetTelemetryTopicCollisionDetector();
@@ -32,34 +30,27 @@
             telemetryTopicCollisionDetector.Check(dtInterface, dtInterface.Telemetries.Keys, mqttVersion);
             commandTopicCollisionDetector.Check(dtInterface, dtInterface.Commands.Keys, mqttVersion);
 
-            var schemaGenerator = new SchemaGenerator(modelDict, projectName, dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, projectName, dtInterface, mqttVersion, genNamespace);
 
-            CodeName genNamespace = new(dtInterface.Id);
+            schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName), mqttVersion);
 
-            List<string> annexFiles = new List<string>();
-            CodeName serviceName = schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName, annexFiles), mqttVersion);
-            annexFile = annexFiles.First();
-
-            schemaFiles = new List<string>();
-            schemaGenerator.GenerateTelemetrySchemas(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
-            schemaGenerator.GenerateCommandSchemas(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
-            schemaGenerator.GenerateObjects(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
-            schemaGenerator.GenerateEnums(GetWriter(workingDir.FullName, schemaFiles), mqttVersion);
-            schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName, schemaFiles));
-            schemaGenerator.GenerateMaps(GetWriter(workingDir.FullName, schemaFiles));
+            schemaGenerator.GenerateTelemetrySchemas(GetWriter(workingDir.FullName), mqttVersion);
+            schemaGenerator.GenerateCommandSchemas(GetWriter(workingDir.FullName), mqttVersion);
+            schemaGenerator.GenerateObjects(GetWriter(workingDir.FullName), mqttVersion);
+            schemaGenerator.GenerateEnums(GetWriter(workingDir.FullName), mqttVersion);
+            schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName));
+            schemaGenerator.GenerateMaps(GetWriter(workingDir.FullName));
             schemaGenerator.CopyIncludedSchemas(GetWriter(workingDir.FullName));
-
-            return serviceName;
         }
 
-        public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion)
+        public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion, CodeName genNamespace)
         {
             this.modelDict = modelDict;
             this.projectName = projectName;
             this.dtInterface = dtInterface;
+            this.genNamespace = genNamespace;
 
             payloadFormat = (string)dtInterface.SupplementalProperties[string.Format(DtdlMqttExtensionValues.PayloadFormatPropertyFormat, mqttVersion)];
-            genNamespace = new(dtInterface.Id);
 
             telemetryTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.TelemTopicPropertyFormat, mqttVersion), out object? telemTopicObj) ? (string)telemTopicObj : null;
             commandTopic = dtInterface.SupplementalProperties.TryGetValue(string.Format(DtdlMqttExtensionValues.CmdReqTopicPropertyFormat, mqttVersion), out object? cmdTopicObj) ? (string)cmdTopicObj : null;
@@ -81,7 +72,7 @@
             }
         }
 
-        public CodeName GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
+        public void GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
         {
             CodeName serviceName = new(dtInterface.Id);
 
@@ -94,8 +85,6 @@
 
             ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales, separateTelemetries);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
-
-            return serviceName;
         }
 
         public void GenerateTelemetrySchemas(Action<string, string, string> acceptor, int mqttVersion)
@@ -298,7 +287,7 @@
             return dtCommandPayload.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.TransparentAdjunctTypeFormat, mqttVersion)));
         }
 
-        private static Action<string, string, string> GetWriter(string parentPath, List<string>? fileNames = null)
+        private static Action<string, string, string> GetWriter(string parentPath)
         {
             return (schemaText, fileName, subFolder) =>
             {
@@ -312,11 +301,6 @@
                 string filePath = Path.Combine(folderPath, fileName);
                 File.WriteAllText(filePath, schemaText);
                 Console.WriteLine($"  generated {filePath}");
-
-                if (fileNames != null)
-                {
-                    fileNames.Add(fileName);
-                }
             };
         }
     }

@@ -13,12 +13,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
     class InvokerStub : CommandInvoker<string, string>
     {
-        public InvokerStub(IMqttPubSubClient mqttClient, string? commandName = "myCmd") : base(mqttClient, commandName!, new Utf8JsonSerializer()) { }
+        public InvokerStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? commandName = "myCmd") : base(applicationContext, mqttClient, commandName!, new Utf8JsonSerializer()) { }
     }
 
     class InvokerStubProtobuf : CommandInvoker<string, string>
     {
-        public InvokerStubProtobuf(IMqttPubSubClient mqttClient) : base(mqttClient, "myCmd", new ProtobufSerializer<Empty, Empty>()) { }
+        public InvokerStubProtobuf(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient, "myCmd", new ProtobufSerializer<Empty, Empty>()) { }
     }
 
     public class CommandInvokerTests
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersionUnknownThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient", MqttProtocolVersion.Unknown);
-            InvokerStub stub = new(mock)
+            InvokerStub stub = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/stub",
             };
@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersion310ThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient", MqttProtocolVersion.V310);
-            InvokerStub stub = new(mock)
+            InvokerStub stub = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/stub",
             };
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersion311ThrowsException()
         {
             MockMqttPubSubClient mock = new("mockClient", MqttProtocolVersion.V311);
-            InvokerStub stub = new(mock)
+            InvokerStub stub = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/stub",
             };
@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokeWithExecutorIdAndCustomResponse()
         {
             MockMqttPubSubClient mock = new("mockClient");
-            InvokerStub stub = new(mock)
+            InvokerStub stub = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
                 ResponseTopicPrefix = "not-uns/prefix/{invokerClientId}"
@@ -123,7 +123,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokeConcurrentLegalRequests(int maxConcurrentRequests, int totalRequests)
         {
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
                 ResponseTopicPrefix = "clients/mockClient",
@@ -166,7 +166,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokeConcurrentRequestsWithFreshness(int maxConcurrentRequests, int totalRequests)
         {
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
                 ResponseTopicPrefix = "clients/mockClient",
@@ -206,7 +206,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokeOneRequestIllegalTimeout()
         {
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
             };
@@ -232,7 +232,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             int numberOfResponses = 0;
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 // Each request is different
                 RequestTopicPattern = string.Concat("command/{executorId}/mockCommand"),
@@ -272,7 +272,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             List<ExtendedResponse<string>> responses = new();
 
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = string.Concat("command/{executorId}/mockCommand"),
                 ResponseTopicPrefix = "clients/mockClient",
@@ -321,7 +321,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokerSequenceFirstRequestTimesOut(int numberOfRequests)
         {
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = string.Concat("command/{executorId}/mockCommand"),
                 ResponseTopicPrefix = "clients/mockClient",
@@ -381,8 +381,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task InvokerDisconnectsBeforePuback()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(applicationContext, mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
                 ResponseTopicPrefix = "clients/mockClient",
@@ -429,8 +430,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task InvokerTimesOutAndResendsNewRequest()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(applicationContext, mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
                 ResponseTopicPrefix = "clients/mockClient",
@@ -472,7 +474,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokerThrowsIfAccessedWhenDisposed()
         {
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
             };
@@ -486,7 +488,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task InvokerThrowsIfCancellationRequested()
         {
             var mock = new MockMqttPubSubClient("mockClient");
-            await using var invoker = new InvokerStub(mock)
+            await using var invoker = new InvokerStub(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "command/{executorId}/mockCommand",
             };

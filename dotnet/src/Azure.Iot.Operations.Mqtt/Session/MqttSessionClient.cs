@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using Azure.Iot.Operations.Protocol.Connection;
@@ -53,10 +52,10 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <param name="sessionClientOptions">The configurable options for this MQTT session client.</param>
         public MqttSessionClient(MqttSessionClientOptions? sessionClientOptions = null)
             : base(sessionClientOptions != null && sessionClientOptions.EnableMqttLogging
-                  ? new MQTTnet.MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
-                  : new MQTTnet.MqttFactory().CreateMqttClient())
+                  ? new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
+                  : new MQTTnet.MqttClientFactory().CreateMqttClient())
         {
-            _sessionClientOptions = sessionClientOptions != null ? sessionClientOptions : new MqttSessionClientOptions();
+            _sessionClientOptions = sessionClientOptions ?? new MqttSessionClientOptions();
             _sessionClientOptions.Validate();
 
             DisconnectedAsync += InternalDisconnectedAsync;
@@ -65,7 +64,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         }
 
         // For unit test purposes only
-        internal MqttSessionClient(MQTTnet.Client.IMqttClient mqttClient, MqttSessionClientOptions? sessionClientOptions = null)
+        internal MqttSessionClient(MQTTnet.IMqttClient mqttClient, MqttSessionClientOptions? sessionClientOptions = null)
             : base(mqttClient)
         {
             _sessionClientOptions = sessionClientOptions != null ? sessionClientOptions : new MqttSessionClientOptions();
@@ -452,6 +451,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 if ((isReconnection || attemptCount > 1)
                     && !_sessionClientOptions.ConnectionRetryPolicy.ShouldRetry(attemptCount, lastException!, out retryDelay))
                 {
+                    // Should not occur as it's indefinite retry
                     Trace.TraceError("Retry policy was exhausted while trying to maintain a connection {0}", lastException);
                     var retryException = new RetryExpiredException("Retry policy has been exhausted. See inner exception for the latest exception encountered while retrying.", lastException);
 

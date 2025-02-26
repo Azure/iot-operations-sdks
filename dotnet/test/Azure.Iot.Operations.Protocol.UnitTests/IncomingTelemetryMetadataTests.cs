@@ -16,6 +16,7 @@ public class IncomingTelemetryMetadataTests
         var message = new MqttApplicationMessage("someTopic")
         {
             CorrelationData = Guid.NewGuid().ToByteArray(),
+            ContentType = "application/json",
             UserProperties = new List<MqttUserProperty>
             {
                 new MqttUserProperty(nameof(CloudEvent.SpecVersion).ToLowerInvariant(), "1.0"),
@@ -23,7 +24,6 @@ public class IncomingTelemetryMetadataTests
                 new MqttUserProperty(nameof(CloudEvent.Source).ToLowerInvariant(), "my://source"),
                 new MqttUserProperty(nameof(CloudEvent.Subject).ToLowerInvariant(), "eventSubject"),
                 new MqttUserProperty(nameof(CloudEvent.DataSchema).ToLowerInvariant(), "eventSchema"),
-                new MqttUserProperty(nameof(CloudEvent.DataContentType).ToLowerInvariant(), "application/json"),
                 new MqttUserProperty(nameof(CloudEvent.Id).ToLowerInvariant(), id),
                 new MqttUserProperty(nameof(CloudEvent.Time).ToLowerInvariant(), time.ToString("O")),
                 new MqttUserProperty("customProperty", "customValue")
@@ -179,4 +179,25 @@ public class IncomingTelemetryMetadataTests
         Assert.Equal("test", metadata.GetCloudEvent().Type);
     }
 
+    [Fact]
+    public void WithTopicTokens()
+    {
+        var message = new MqttApplicationMessage("actual/topic/on/which/message/was/published")
+        {
+            CorrelationData = Guid.NewGuid().ToByteArray(),
+            UserProperties = null
+        };
+        uint packetId = 123;
+
+        string pattern = "{adverb}/topic/{preposition}/{relativePronoun}/{noun}/{auxiliary}/{verb}";
+
+        var metadata = new IncomingTelemetryMetadata(message, packetId, pattern);
+
+        Assert.Equal("actual", metadata.TopicTokens["adverb"]);
+        Assert.Equal("on", metadata.TopicTokens["preposition"]);
+        Assert.Equal("which", metadata.TopicTokens["relativePronoun"]);
+        Assert.Equal("message", metadata.TopicTokens["noun"]);
+        Assert.Equal("was", metadata.TopicTokens["auxiliary"]);
+        Assert.Equal("published", metadata.TopicTokens["verb"]);
+    }
 }

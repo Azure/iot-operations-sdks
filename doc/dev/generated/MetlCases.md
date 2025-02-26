@@ -60,6 +60,7 @@ See below for categorized tests.
 | CommandExecutor receives request with a protocol version that it cannot parse. | CommandExecutor sends response with status NotSupportedVersion. |
 | CommandExecutor receives request with unspecified payload format indicator despite UTF8 content type. | CommandExecutor sends response with status OK. |
 | CommandExecutor receives request with a protocol version that it does not support. | CommandExecutor sends response with status NotSupportedVersion. |
+| CommandExecutor receives valid request on a topic specified with custom tokens. | CommandExecutor sends response and acknowledges request, inserting token values from topic into metadata. |
 | CommandExecutor receives valid request containing metadata. | CommandExecutor sends response and acknowledges request. |
 | CommandExecutor receives request with mismatched ContentType metadata. | CommandExecutor sends response with status UnsupportedMediaType. |
 | CommandExecutor receives request with different topic than subscribed. | CommandExecutor ignores request, and MQTT client auto-acknowledges. |
@@ -93,7 +94,7 @@ See below for categorized tests.
 | CommandInvoker initialized with no request topic string. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker invokes command but receives no response message. | Invocation throws 'timeout' exception. |
 | CommandInvoker initialized with null command name. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker invokes command but ACK dropped when publishing request. | Connection automatically re-established, publication retried, success. |
+| CommandInvoker invokes command but the MQTT connection is dropped after publishing the packet but before the command invoker receives the ACK. | Connection automatically re-established by the session client, the session client re-publishes the command invocation, success. |
 | CommandInvoker invokes command but ACK fails when publishing request, then repeats invocation. | Invocation throws 'mqtt error' exception, then reinvocation succeeds. |
 | CommandInvoker invokes command but ACK fails when publishing request. | Invocation throws 'mqtt error' exception. |
 | CommandInvoker with redundantly executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |

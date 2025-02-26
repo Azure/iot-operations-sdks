@@ -3,13 +3,9 @@
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Mqtt;
 
@@ -41,8 +37,8 @@ internal class TokenRefreshTimer : IDisposable
             byte[] token = File.ReadAllBytes(_tokenFilePath);
             Task.Run(async () =>
             {
-                await mqttClient.SendExtendedAuthenticationExchangeDataAsync(
-                    new MqttExtendedAuthenticationExchangeData()
+                await mqttClient.SendEnhancedAuthenticationExchangeDataAsync(
+                    new MqttEnhancedAuthenticationExchangeData()
                     {
                         AuthenticationData = token,
                         ReasonCode = MqttAuthenticateReasonCode.ReAuthenticate

@@ -6,7 +6,7 @@ using TestEnvoys.Counter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
-public class CounterClient(IMqttPubSubClient mqttClient) : Counter.Client(mqttClient)
+public class CounterClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : Counter.Client(applicationContext, mqttClient)
 {
     public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {

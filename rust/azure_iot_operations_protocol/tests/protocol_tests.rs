@@ -28,18 +28,18 @@ use metl::test_feature_kind::TestFeatureKind;
 static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
-    "CommandExecutorRequestsCompleteOutOfOrder_RequestAckedInOrder",
+    "CommandExecutorRequest_TimeoutPropagated",
     "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandExecutorUserCodeRaisesContentError_RespondsError",
     "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
-    "CommandExecutorRequest_TimeoutPropagated",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "CommandInvokerWithSubMillisecTimeout_ThrowsException",
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
+    "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
 ];
 
 /*

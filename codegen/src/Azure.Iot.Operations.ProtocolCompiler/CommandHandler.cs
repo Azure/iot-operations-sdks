@@ -6,6 +6,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using DTDLParser;
 
     internal class CommandHandler
@@ -23,44 +24,26 @@
         {
             try
             {
-                if (options.ModelFiles.Length == 0 && (options.ModelId == null || options.DmrRoot == null))
+                bool isModelSpecified = options.ModelFiles.Length > 0 || (options.ModelId != null && options.DmrRoot != null);
+                if (!isModelSpecified && options.GenNamespace == null)
                 {
-                    Console.WriteLine("You must specify at least one modelFile or both a modelId and dmrRoot");
+#if DEBUG
+                    Console.WriteLine("You must specify at least (a) one modelFile, (b) both a modelId and dmrRoot, or (c) a namespace.");
+                    Console.WriteLine("Alternatives (a) and (b) will generate schema definitions and code from a DTDL model.");
+                    Console.WriteLine("Alternative (c) will generate code from schema definitions in the workingDir, bypassing DTDL.");
+#else
+                    Console.WriteLine("You must specify at least one modelFile or both a modelId and dmrRoot.");
+#endif
+                    Console.WriteLine("Use option --help for a full list of options");
                     return 1;
                 }
 
-                if (options.ModelFiles.Any(mf => !mf.Exists))
+                WarnOnSuspiciousOption("workingDir", options.WorkingDir);
+                WarnOnSuspiciousOption("sdkPath", options.SdkPath);
+                WarnOnSuspiciousOption("namespace", options.GenNamespace);
+                if (!options.OutDir.Exists)
                 {
-                    Console.WriteLine("All modelFiles must exist.  Non-existent files specified:");
-                    foreach (FileInfo f in options.ModelFiles.Where(mf => !mf.Exists))
-                    {
-                        Console.WriteLine($"  {f.FullName}");
-                    }
-                    return 1;
-                }
-
-                Dtmi? modelDtmi = null;
-                if (options.ModelId != null && !Dtmi.TryCreateDtmi(options.ModelId, out modelDtmi))
-                {
-                    Console.WriteLine($"modelId \"{options.ModelId}\" is not a valid DTMI");
-                    return 1;
-                }
-
-                Uri? dmrUri = null;
-                if (options.DmrRoot != null)
-                {
-                    if (!Uri.TryCreate(options.DmrRoot, UriKind.Absolute, out dmrUri))
-                    {
-                        if (Directory.Exists(options.DmrRoot))
-                        {
-                            dmrUri = new Uri(Path.GetFullPath(options.DmrRoot));
-                        }
-                        else
-                        {
-                            Console.WriteLine($"The dmrRoot {options.DmrRoot} must exist");
-                            return 1;
-                        }
-                    }
+                    WarnOnSuspiciousOption("outDir", options.OutDir.Name);
                 }
 
                 if (!SupportedLanguages.Contains(options.Lang))
@@ -75,25 +58,10 @@
                     return 1;
                 }
 
-                WarnOnSuspiciousOption("workingDir", options.WorkingDir);
-                WarnOnSuspiciousOption("sdkPath", options.SdkPath);
-                if (!options.OutDir.Exists)
-                {
-                    WarnOnSuspiciousOption("outDir", options.OutDir.Name);
-                }
+                CodeName? genNamespace = options.GenNamespace != null ? new(options.GenNamespace) : null;
 
-                string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
-                string[] modelNames = options.ModelFiles.Select(mf => mf.Name).ToArray();
-                ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, dmrUri, Console.WriteLine);
-
-                if (contextualizedInterface.InterfaceId == null)
-                {
-                    Environment.Exit(1);
-                }
-
-                var modelParser = new ModelParser();
-
-                string projectName = options.OutDir.Name;
+                string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
+                string projectName = LegalizeName(options.OutDir.Name);
 
                 string workingPathResolved =
                     options.WorkingDir == null ? Path.Combine(options.OutDir.FullName, LanguageInfos[options.Lang].DefaultWorkingPath) :
@@ -101,20 +69,91 @@
                     Path.Combine(options.OutDir.FullName, options.WorkingDir);
                 DirectoryInfo workingDir = new(workingPathResolved);
 
-                CodeName serviceName = SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, out string annexFile, out List<string> schemaFiles);
-
-                CodeName genNamespace = new(contextualizedInterface.InterfaceId);
-                string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
-
-                HashSet<string> sourceFilePaths = new();
-                HashSet<SchemaKind> distinctSchemaKinds = new();
-
-                foreach (string schemaFileName in schemaFiles)
+                if (isModelSpecified)
                 {
-                    TypesGenerator.GenerateType(options.Lang, LanguageInfos[options.Lang].Language, projectName, schemaFileName, workingDir, genRoot, genNamespace, sourceFilePaths, distinctSchemaKinds);
+                    if (options.ModelFiles.Any(mf => !mf.Exists))
+                    {
+                        Console.WriteLine("All modelFiles must exist.  Non-existent files specified:");
+                        foreach (FileInfo f in options.ModelFiles.Where(mf => !mf.Exists))
+                        {
+                            Console.WriteLine($"  {f.FullName}");
+                        }
+                        return 1;
+                    }
+
+                    Dtmi? modelDtmi = null;
+                    if (options.ModelId != null && !Dtmi.TryCreateDtmi(options.ModelId, out modelDtmi))
+                    {
+                        Console.WriteLine($"modelId \"{options.ModelId}\" is not a valid DTMI");
+                        return 1;
+                    }
+
+                    Uri? dmrUri = null;
+                    if (options.DmrRoot != null)
+                    {
+                        if (!Uri.TryCreate(options.DmrRoot, UriKind.Absolute, out dmrUri))
+                        {
+                            if (Directory.Exists(options.DmrRoot))
+                            {
+                                dmrUri = new Uri(Path.GetFullPath(options.DmrRoot));
+                            }
+                            else
+                            {
+                                Console.WriteLine($"The dmrRoot {options.DmrRoot} must exist");
+                                return 1;
+                            }
+                        }
+                    }
+
+                    string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
+                    string[] modelNames = options.ModelFiles.Select(mf => mf.Name).ToArray();
+                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, dmrUri, Console.WriteLine);
+
+                    if (contextualizedInterface.InterfaceId == null)
+                    {
+                        return 1;
+                    }
+
+                    if (genNamespace == null)
+                    {
+                        genNamespace = new(contextualizedInterface.InterfaceId);
+                    }
+
+                    var modelParser = new ModelParser();
+
+                    SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace);
                 }
 
-                EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFile, options.OutDir, workingDir, genRoot, genNamespace, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, !options.NoProj, sourceFilePaths, distinctSchemaKinds);
+                string schemaFolder = Path.Combine(workingDir.FullName, genNamespace!.GetFolderName(TargetLanguage.Independent));
+
+                if (!Directory.Exists(schemaFolder))
+                {
+                    Console.WriteLine($"No '{genNamespace!.GetFolderName(TargetLanguage.Independent)}' folder found in working directory {workingDir.FullName}");
+                    return 1;
+                }
+
+                foreach (string schemaFileName in Directory.GetFiles(schemaFolder))
+                {
+                    TypesGenerator.GenerateType(options.Lang, LanguageInfos[options.Lang].Language, projectName, schemaFileName, workingDir, genRoot, genNamespace!);
+                }
+
+                string[] annexFiles = Directory.GetFiles(schemaFolder, $"*.annex.json");
+                switch (annexFiles.Length)
+                {
+                    case 0:
+                        Console.WriteLine("No annex file present in working directory, so no envoy files generated");
+                        break;
+                    case 1:
+                        EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFiles.First(), options.OutDir, workingDir, genRoot, genNamespace!, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, options.DefaultImpl, !options.NoProj);
+                        break;
+                    default:
+                        Console.WriteLine("Multiple annex files in working directory. To generate envoy files, remove all but one annex file:");
+                        foreach (string annexFile in annexFiles)
+                        {
+                            Console.WriteLine($"  {annexFile}");
+                        }
+                        return 1;
+                }
             }
             catch (Exception ex)
             {
@@ -126,6 +165,11 @@
         }
 
         private record LanguageInfo(TargetLanguage Language, string DefaultWorkingPath, string GenSubdir);
+
+        private static string LegalizeName(string fsName)
+        {
+            return string.Join('.', fsName.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(s => (char.IsNumber(s[0]) ? "_" : "") + Regex.Replace(s, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant)));
+        }
 
         private static void WarnOnSuspiciousOption(string optionName, string? pathName)
         {

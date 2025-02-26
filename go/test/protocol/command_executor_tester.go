@@ -558,6 +558,12 @@ func processRequest(
 		}
 	}
 
+	if tce.TokenMetadataPrefix != nil {
+		for key, val := range req.TopicTokens {
+			responseMetadata[*tce.TokenMetadataPrefix+key] = val
+		}
+	}
+
 	return &protocol.CommandResponse[string]{Message: protocol.Message[string]{
 		Payload:  response,
 		Metadata: responseMetadata,

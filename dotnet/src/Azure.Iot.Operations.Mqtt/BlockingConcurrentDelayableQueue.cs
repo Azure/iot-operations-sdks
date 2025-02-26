@@ -2,9 +2,7 @@
 //  Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
-using System;
 using System.Collections.Concurrent;
-using System.Threading;
 
 namespace Azure.Iot.Operations.Mqtt
 {
@@ -12,8 +10,8 @@ namespace Azure.Iot.Operations.Mqtt
     /// A blocking queue that is thread safe and that allows for each element to specify when it is "ready" to be dequeued.
     /// </summary>
     /// <remarks>
-    /// Items in this queue may be marked as ready to be dequeued in any order, but the blocking calls 
-    /// <see cref="Dequeue(CancellationToken)"/> and <see cref="Peek(CancellationToken)"/> will only ever return 
+    /// Items in this queue may be marked as ready to be dequeued in any order, but the blocking calls
+    /// <see cref="Dequeue(CancellationToken)"/> and <see cref="Peek(CancellationToken)"/> will only ever return
     /// if the head of the queue is ready.
     /// </remarks>
     /// <typeparam name="T">The type of all the elements in the blocking queue.</typeparam>
