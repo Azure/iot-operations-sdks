@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// If provided, this topic pattern will be used for command response topic.
         /// </summary>
         /// <remarks>
-        /// If not provided, the default pattern used will be clients/{mqtt client id}/{request topic pattern}.
+        /// If not provided, and no value is provided for <see cref="ResponseTopicPrefix"/> or <see cref="ResponseTopicSuffix"/>, the default pattern used will be clients/{mqtt client id}/{request topic pattern}.
         /// </remarks>
         public string? ResponseTopicPattern { get; set; }
 
