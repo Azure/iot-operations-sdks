@@ -49,7 +49,7 @@ type (
 	// CommandHandler is the user-provided implementation of a single command
 	// execution. It is treated as blocking; all parallelism is handled by the
 	// library. This *must* be thread-safe.
-	CommandHandler[Req any, Res any] func(
+	CommandHandler[Req any, Res any] = func(
 		context.Context,
 		*CommandRequest[Req],
 	) (*CommandResponse[Res], error)
