@@ -11,6 +11,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public Dictionary<string, string?> Metadata { get; set; } = new();
 
+        public Dictionary<string, string> TopicTokens { get; set; } = new();
+
         public TestCaseCloudEvent? CloudEvent { get; set; } = IrrelevantCloudEvent;
 
         public int? SourceIndex { get; set; }

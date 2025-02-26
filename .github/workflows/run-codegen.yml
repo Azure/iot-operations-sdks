@@ -1,0 +1,53 @@
+name: Run Codegen
+permissions:
+  contents: write
+on:
+  workflow_dispatch:
+
+jobs:
+  codegen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.301
+          
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.200
+      
+      - name: Build codegen
+        run: |
+          dotnet build -c Debug codegen/codegen.sln
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+
+      - name: Run all codegen scripts
+        run: |
+          ./codegen/gen_all.sh
+
+      - name: Verify Generated Code Matches Repo
+        run: |
+          if git diff --exit-code --ignore-cr-at-eol
+          then
+              echo "Running codegen changed no files. No changes will be committed to this branch."
+              exit 0
+          fi
+
+          echo "Codegen changed 1 or more files. Will commit these changes to the branch"
+              
+          # configure user account to match the runner of this workflow
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+      
+          git add -A
+          git commit -m 'Ran Codegen'
+          git push
+            

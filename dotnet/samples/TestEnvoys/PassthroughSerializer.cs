@@ -42,7 +42,7 @@ namespace TestEnvoys
             }
             else
             {
-                return new(new(Array.Empty<byte>()), ContentType, PayloadFormatIndicator);
+                return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
             }
         }
     }

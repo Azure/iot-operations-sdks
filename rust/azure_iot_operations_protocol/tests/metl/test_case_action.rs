@@ -277,6 +277,9 @@ pub enum TestCaseAction<T: DefaultsType + Default> {
         #[serde(default = "test_case_action_send_telemetry::get_default_telemetry_name::<T>")]
         telemetry_name: Option<String>,
 
+        #[serde(rename = "topic-token-map")]
+        topic_token_map: Option<HashMap<String, String>>,
+
         #[serde(rename = "timeout")]
         #[serde(default = "test_case_action_send_telemetry::get_default_timeout::<T>")]
         timeout: Option<TestCaseDuration>,

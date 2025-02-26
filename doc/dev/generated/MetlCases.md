@@ -60,6 +60,7 @@ See below for categorized tests.
 | CommandExecutor receives request with a protocol version that it cannot parse. | CommandExecutor sends response with status NotSupportedVersion. |
 | CommandExecutor receives request with unspecified payload format indicator despite UTF8 content type. | CommandExecutor sends response with status OK. |
 | CommandExecutor receives request with a protocol version that it does not support. | CommandExecutor sends response with status NotSupportedVersion. |
+| CommandExecutor receives valid request on a topic specified with custom tokens. | CommandExecutor sends response and acknowledges request, inserting token values from topic into metadata. |
 | CommandExecutor receives valid request containing metadata. | CommandExecutor sends response and acknowledges request. |
 | CommandExecutor receives request with mismatched ContentType metadata. | CommandExecutor sends response with status UnsupportedMediaType. |
 | CommandExecutor receives request with different topic than subscribed. | CommandExecutor ignores request, and MQTT client auto-acknowledges. |

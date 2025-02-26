@@ -13,6 +13,14 @@
             "type": "string",
             "kind": "drive"
         },
+        "topic-token-map": {
+            "description": "A map from topic tokens to replacement values.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "kind": "drive"
+        },
         "timeout": {
             "description": "Telemetry timeout duration.",
             "anyOf": [
