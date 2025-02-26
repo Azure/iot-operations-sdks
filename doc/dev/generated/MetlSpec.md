@@ -563,7 +563,7 @@ Each element of the `invokers` array can have the following child keys:
 | response-topic-prefix | drive | no | string or null | "response" | A prefix to be prepended to the request topic pattern to produce a response topic pattern. |
 | response-topic-suffix | drive | no | string or null | null | A suffix to be appended to the request topic pattern to produce a response topic pattern. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
-| response-topic-map | drive | no | map from string to string | { } | A map from request topic to response topic, as an alternative to using prefix/suffix. |
+| response-topic-pattern | drive | no | string |  | The response topic pattern to attach to the invocation request, as an alternative to using prefix/suffix. |
 
 #### InvokerSerializer
 
