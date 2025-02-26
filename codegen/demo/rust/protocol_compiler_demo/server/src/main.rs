@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
 use std::env;
 use std::time::Duration;
 
@@ -156,7 +157,7 @@ async fn avro_telemetry_loop(
         };
 
         let message = builder
-            .topic_tokens(vec![("myToken".to_string(), "RustReplacement".to_string())])
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
             .payload(telemetry)
             .unwrap()
             .build()
@@ -220,7 +221,7 @@ async fn json_telemetry_loop(
         };
 
         let message = builder
-            .topic_tokens(vec![("myToken".to_string(), "RustReplacement".to_string())])
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
             .payload(telemetry)
             .unwrap()
             .build()
@@ -262,7 +263,7 @@ async fn raw_telemetry_loop(
         let telemetry = format!("Sample data {i}");
 
         let message = builder
-            .topic_tokens(vec![("myToken".to_string(), "RustReplacement".to_string())])
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
             .payload(telemetry.into_bytes())
             .unwrap()
             .build()
@@ -311,7 +312,7 @@ async fn custom_telemetry_loop(
         };
 
         let message = builder
-            .topic_tokens(vec![("myToken".to_string(), "RustReplacement".to_string())])
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
             .payload(payload)
             .unwrap()
             .build()
