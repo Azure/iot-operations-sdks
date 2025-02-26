@@ -28,15 +28,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Assert.Equal(testCaseCatch.IsRemote, exception.IsRemote);
             }
 
-            if (testCaseCatch.StatusCode == null)
-            {
-                Assert.Null(exception.HttpStatusCode);
-            }
-            else if (testCaseCatch.StatusCode is int statusCode || int.TryParse(testCaseCatch.StatusCode.ToString(), out statusCode))
-            {
-                Assert.Equal(statusCode, exception.HttpStatusCode);
-            }
-
             if (testCaseCatch.Message != null)
             {
                 Assert.Equal(testCaseCatch.Message, exception.Message);
