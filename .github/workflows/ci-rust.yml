@@ -57,7 +57,7 @@ jobs:
         make check
 
     - name: Install AIO
-      uses: ../.github/actions/deploy-aio
+      uses: ./../.github/actions/deploy-aio
 
     - name: Run Tests
       run: |
