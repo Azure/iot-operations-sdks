@@ -15,12 +15,12 @@ concurrency:
 
 env:
   broker_port: 1883
-  dotnet-server: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=server"
-  dotnet-client: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=server
-  go-server: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=server go/server
-  go-client: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=server go/client
-  rust-server: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=server rust/target/release/counter_server
-  rust-client: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=server rust/target/release/counter_client  
+  dotnet-server: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=$broker_port;UseTls=false;ClientId=server"
+  dotnet-client: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=$broker_port;UseTls=false" -e COUNTER_SERVER_ID=server
+  go-server: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$broker_port AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=server go/server
+  go-client: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$broker_port AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=server go/client
+  rust-server: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$broker_port AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=server rust/target/release/counter_server
+  rust-client: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$broker_port AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=server rust/target/release/counter_client
 
 jobs:
   cross-language:
