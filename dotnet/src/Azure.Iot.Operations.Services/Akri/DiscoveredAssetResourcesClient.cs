@@ -21,7 +21,7 @@ public class DiscoveredAssetResourcesClient(ApplicationContext applicationContex
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         return (await _clientStub.CreateDiscoveredAssetEndpointProfileAsync(
-            discoveredAssetEndpointProfileCommandRequest, null, timeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
+            discoveredAssetEndpointProfileCommandRequest, null, null, timeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
     }
 
     public async Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
@@ -30,7 +30,7 @@ public class DiscoveredAssetResourcesClient(ApplicationContext applicationContex
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _clientStub.CreateDiscoveredAssetAsync(discoveredAssetCommandRequest, null, timeout, cancellationToken)).CreateDiscoveredAssetResponse;
+        return (await _clientStub.CreateDiscoveredAssetAsync(discoveredAssetCommandRequest, null, null, timeout, cancellationToken)).CreateDiscoveredAssetResponse;
     }
 
     public async ValueTask DisposeAsync()

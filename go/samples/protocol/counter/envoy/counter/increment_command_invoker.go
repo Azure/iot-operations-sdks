@@ -46,18 +46,20 @@ func (invoker IncrementCommandInvoker) Increment(
 	request IncrementRequestPayload,
 	opt ...protocol.InvokeOption,
 ) (*protocol.CommandResponse[IncrementResponsePayload], error) {
-	var opts protocol.InvokeOptions
-	opts.Apply(
-		opt,
+	invokerOpts := []protocol.InvokeOption{
+		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"executorId": executorId,
 		},
-	)
+	}
+
+	var invokeOpts protocol.InvokeOptions
+	invokeOpts.Apply(opt, invokerOpts...)
 
 	response, err := invoker.Invoke(
 		ctx,
 		request,
-		&opts,
+		&invokeOpts,
 	)
 
 	return response, err

@@ -45,10 +45,17 @@ func (invoker PutCommandInvoker) Put(
 	request PutRequestPayload,
 	opt ...protocol.InvokeOption,
 ) (*protocol.CommandResponse[PutResponsePayload], error) {
+	invokerOpts := []protocol.InvokeOption{
+		protocol.WithTopicTokenNamespace("ex:"),
+	}
+
+	var invokeOpts protocol.InvokeOptions
+	invokeOpts.Apply(opt, invokerOpts...)
+
 	response, err := invoker.Invoke(
 		ctx,
 		request,
-		opt...,
+		&invokeOpts,
 	)
 
 	return response, err

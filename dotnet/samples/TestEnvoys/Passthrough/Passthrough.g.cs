@@ -98,7 +98,7 @@ namespace TestEnvoys.Passthrough
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
-            public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -107,13 +107,17 @@ namespace TestEnvoys.Passthrough
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new()
+                Dictionary<string, string>? internalTopicTokenMap = new()
                 {
                     { "invokerClientId", clientId },
                     { "executorId", executorId },
                 };
 
-                return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
+                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
+                    internalTopicTokenMap;
+
+                return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()
