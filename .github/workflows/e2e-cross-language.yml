@@ -15,12 +15,12 @@ concurrency:
 
 env:
   BROKER_PORT: 1883
-  DOTNET_SERVER: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=1883;UseTls=false;ClientId=$SERVER_ID"
-  DOTNET_CLIENT: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=1883;UseTls=false" -e COUNTER_SERVER_ID=$SERVER_ID
-  GO_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=$SERVER_ID go/server
-  GO_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=$SERVER_ID go/client
-  RUST_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=$SERVER_ID rust/target/release/counter_server
-  RUST_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=$SERVER_ID rust/target/release/counter_client
+  DOTNET_SERVER: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=1883;UseTls=false;ClientId=dotnet"
+  DOTNET_CLIENT: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=1883;UseTls=false"
+  GO_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go go/server
+  GO_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client go/client
+  RUST_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust rust/target/release/counter_server
+  RUST_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client rust/target/release/counter_client
 
 jobs:
   cross-language:
@@ -125,28 +125,24 @@ jobs:
 
       - name: Dotnet server
         run: |
-          echo Server = $DOTNET_SERVER
-          echo Client = $DOTNET_CLIENT
           $DOTNET_SERVER &
           $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
         env:
-          SERVER_ID: dotnet
+          COUNTER_SERVER_ID: dotnet
 
       - name: Go server
         run: |
-          echo Executing for server $SERVER_ID
           $GO_SERVER &
           $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
         env:
-          SERVER_ID: go
+          COUNTER_SERVER_ID: go
 
       - name: Rust server
         run: |
-          echo Executing for server $SERVER_ID
           $RUST_SERVER &
           $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
         env:
-          SERVER_ID: rust
+          COUNTER_SERVER_ID: rust
 
       # - name: Run Counter Server dotnet
       #   if: matrix.server == 'dotnet'
