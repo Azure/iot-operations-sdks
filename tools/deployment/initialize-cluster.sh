@@ -48,7 +48,7 @@ fi
 # install step
 if ! which step;
 then
-    wget https://github.com/smallstep/cli/releases/download/v0.28.0/step-cli_amd64.deb -P /tmp
+    wget -q https://github.com/smallstep/cli/releases/download/v0.28.0/step-cli_amd64.deb -P /tmp
     sudo dpkg -i /tmp/step-cli_amd64.deb
 fi
 
@@ -66,7 +66,7 @@ az extension add --upgrade --name connectedk8s
 # install k9s
 if ! which k9s;
 then
-    wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb -P /tmp
+    wget -q https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb -P /tmp
     sudo dpkg -i /tmp/k9s_linux_amd64.deb
 fi
 
