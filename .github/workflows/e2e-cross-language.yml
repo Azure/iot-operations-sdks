@@ -15,12 +15,12 @@ concurrency:
 
 env:
   BROKER_PORT: 1883
-  DOTNET_SERVER: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=$BROKER_PORT;UseTls=false;ClientId=$SERVER_ID"
-  DOTNET_CLIENT: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=$BROKER_PORT;UseTls=false" -e COUNTER_SERVER_ID=$SERVER_ID
-  GO_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$BROKER_PORT AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=$SERVER_ID go/server
-  GO_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$BROKER_PORT AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=$SERVER_ID go/client
-  RUST_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$BROKER_PORT AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=$SERVER_ID rust/target/release/counter_server
-  RUST_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=$BROKER_PORT AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=$SERVER_ID rust/target/release/counter_client
+  DOTNET_SERVER: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=1883;UseTls=false;ClientId=$SERVER_ID"
+  DOTNET_CLIENT: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=1883;UseTls=false" -e COUNTER_SERVER_ID=$SERVER_ID
+  GO_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=$SERVER_ID go/server
+  GO_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=$SERVER_ID go/client
+  RUST_SERVER: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=$SERVER_ID rust/target/release/counter_server
+  RUST_CLIENT: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=1883 AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=$SERVER_ID rust/target/release/counter_client
 
 jobs:
   cross-language:
@@ -50,10 +50,10 @@ jobs:
       #     cd rust
       #     cargo build --release --config profile.release.panic=\'abort\'
 
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.301
+      # - name: Setup .NET 8
+      #   uses: actions/setup-dotnet@v4
+      #   with:
+      #     dotnet-version: 8.0.301
 
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
@@ -66,7 +66,7 @@ jobs:
           go-version: 1.22.4
 
       #=======================================================================
-      # Build all the components
+      # Build codegen and verify it matches repository
       #=======================================================================
 
       - name: Build codegen
@@ -96,18 +96,22 @@ jobs:
               exit 1
           fi
 
-      - name: Build dotnet
+      #=======================================================================
+      # Build all the components
+      #=======================================================================
+
+      - name: Build Dotnet Sample
         run: |
           cd dotnet
           dotnet build -c Release
 
-      - name: Build go
+      - name: Build Go Sample
         run: |
           cd go
           go build -o server samples/protocol/counter/server/main.go
           go build -o client samples/protocol/counter/client/main.go
 
-      - name: Build rust
+      - name: Build Rust Sample
         run: |
           cd rust
           cargo build --release --config profile.release.panic=\'abort\'
