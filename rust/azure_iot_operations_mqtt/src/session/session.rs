@@ -446,6 +446,10 @@ where
         self.trigger_exit_user().await?;
         // Wait for the exit to complete, or until the session realizes it was already disconnected.
         tokio::select! {
+            // NOTE: Adding biased protects from the case where we called try_exit while connected
+            // and because select alternates between the two branches below, we would return an error
+            // when we should have returned Ok(()).
+            biased;
             // NOTE: These two conditions here are functionally almost identical for now, due to the
             // very loose matching of disconnect events in [`Session::run()`] (as a result of bugs and
             // unreliable behavior in rumqttc). These would be less identical conditions if we tightened
