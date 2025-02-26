@@ -119,15 +119,26 @@ jobs:
       - name: Install AIO
         uses: ./.github/actions/deploy-aio
 
-      - name: dotnet -> dotnet
+      - name: dotnet server
         run: |
           $dotnet-server &
           $dotnet-client
-
-      - name: dotnet -> go
-        run: |
-          $dotnet-server &
           $go-client
+          $rust-client
+
+      - name: go server
+        run: |
+          $go-server &
+          $dotnet-client
+          $go-client
+          $rust-client
+
+      - name: rust server
+        run: |
+          $rust-server &
+          $dotnet-client
+          $go-client
+          $rust-client
 
       # - name: Run Counter Server dotnet
       #   if: matrix.server == 'dotnet'
