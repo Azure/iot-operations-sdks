@@ -349,7 +349,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             MqttQualityOfServiceLevel qos = actionSendTelemetry.Qos != null ? (MqttQualityOfServiceLevel)actionSendTelemetry.Qos : MqttQualityOfServiceLevel.AtLeastOnce;
-            sendTasks.Enqueue(telemetrySenders[actionSendTelemetry.TelemetryName!].SendTelemetryAsync(actionSendTelemetry.TelemetryValue!, metadata, qos, actionSendTelemetry.Timeout?.ToTimeSpan()));
+            sendTasks.Enqueue(telemetrySenders[actionSendTelemetry.TelemetryName!].SendTelemetryAsync(actionSendTelemetry.TelemetryValue!, metadata, actionSendTelemetry.TopicTokenMap, qos, actionSendTelemetry.Timeout?.ToTimeSpan()));
         }
 
         private async Task AwaitSendAsync(TestCaseActionAwaitSend actionAwaitSend, AsyncQueue<Task> sendTasks)

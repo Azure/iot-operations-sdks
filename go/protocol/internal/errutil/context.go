@@ -16,7 +16,7 @@ import (
 // parent context (which should be respected as-is), or a special case we
 // need to respond to. In any of these cases, we return the error unwrapped.
 func normalize(err error, msg string, cause bool) error {
-	if e, ok := err.(*errors.Error); ok {
+	if e, ok := err.(*errors.Client); ok {
 		return e
 	}
 
@@ -25,25 +25,30 @@ func normalize(err error, msg string, cause bool) error {
 		return nil
 
 	case os.IsTimeout(err), stderr.Is(err, context.DeadlineExceeded):
-		return &errors.Error{
-			Message: fmt.Sprintf("%s timed out", msg),
-			Kind:    errors.Timeout,
+		return &errors.Client{
+			Base: errors.Base{
+				Message: fmt.Sprintf("%s timed out", msg),
+				Kind:    errors.Timeout,
+			},
 		}
-
 	case stderr.Is(err, context.Canceled):
-		return &errors.Error{
-			Message: fmt.Sprintf("%s cancelled", msg),
-			Kind:    errors.Cancellation,
+		return &errors.Client{
+			Base: errors.Base{
+				Message: fmt.Sprintf("%s cancelled", msg),
+				Kind:    errors.Cancellation,
+			},
 		}
 
 	default:
 		if cause {
 			return err
 		}
-		return &errors.Error{
-			Message:     fmt.Sprintf("%s error: %s", msg, err.Error()),
-			Kind:        errors.UnknownError,
-			NestedError: err,
+		return &errors.Client{
+			Base: errors.Base{
+				Message:     fmt.Sprintf("%s error: %s", msg, err.Error()),
+				Kind:        errors.UnknownError,
+				NestedError: err,
+			},
 		}
 	}
 }
