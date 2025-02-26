@@ -26,6 +26,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public Dictionary<string, string>? TopicTokenMap { get; set; }
 
-        public Dictionary<string, string?>? ResponseTopicMap { get; set; }
+        public string? ResponseTopicPattern { get; set; }
     }
 }
