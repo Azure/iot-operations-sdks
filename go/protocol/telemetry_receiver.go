@@ -48,7 +48,7 @@ type (
 	// TelemetryHandler is the user-provided implementation of a single
 	// telemetry event handler. It is treated as blocking; all parallelism is
 	// handled by the library. This *must* be thread-safe.
-	TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
+	TelemetryHandler[T any] = func(context.Context, *TelemetryMessage[T]) error
 
 	// TelemetryMessage contains per-message data and methods that are exposed
 	// to the telemetry handlers.
@@ -233,9 +233,11 @@ func (tr *TelemetryReceiver[T]) handle(
 		var err error
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
-				err = &errors.Error{
-					Message:       fmt.Sprint(ePanic),
-					Kind:          errors.ExecutionException,
+				err = &errors.Remote{
+					Base: errors.Base{
+						Message: fmt.Sprint(ePanic),
+						Kind:    errors.ExecutionException,
+					},
 					InApplication: true,
 				}
 			}
@@ -252,17 +254,21 @@ func (tr *TelemetryReceiver[T]) handle(
 			err = e
 		} else if err != nil {
 			if e, ok := err.(InvocationError); ok {
-				err = &errors.Error{
-					Message:       e.Message,
-					Kind:          errors.InvocationException,
+				err = &errors.Remote{
+					Base: errors.Base{
+						Message:       e.Message,
+						Kind:          errors.InvocationException,
+						PropertyName:  e.PropertyName,
+						PropertyValue: e.PropertyValue,
+					},
 					InApplication: true,
-					PropertyName:  e.PropertyName,
-					PropertyValue: e.PropertyValue,
 				}
 			} else {
-				err = &errors.Error{
-					Message:       err.Error(),
-					Kind:          errors.ExecutionException,
+				err = &errors.Remote{
+					Base: errors.Base{
+						Message: err.Error(),
+						Kind:    errors.ExecutionException,
+					},
 					InApplication: true,
 				}
 			}

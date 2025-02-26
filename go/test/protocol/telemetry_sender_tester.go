@@ -405,18 +405,18 @@ func getCloudEventError(
 	parseType string,
 	err error,
 ) error {
-	return &errors.Error{
-		Message: fmt.Sprintf(
-			"cloud event %s not parsable as %s",
-			fieldName,
-			parseType,
-		),
-		Kind:          errors.ArgumentInvalid,
-		NestedError:   err,
-		PropertyName:  "CloudEvent",
-		PropertyValue: propValue,
-		InApplication: false,
-		IsShallow:     true,
-		IsRemote:      false,
+	return &errors.Client{
+		Base: errors.Base{
+			Message: fmt.Sprintf(
+				"cloud event %s not parsable as %s",
+				fieldName,
+				parseType,
+			),
+			Kind:          errors.ArgumentInvalid,
+			NestedError:   err,
+			PropertyName:  "CloudEvent",
+			PropertyValue: propValue,
+		},
+		IsShallow: true,
 	}
 }
