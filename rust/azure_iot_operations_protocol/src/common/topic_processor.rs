@@ -30,6 +30,7 @@ pub struct TopicPatternError {
 
 impl TopicPatternError {
     /// Get the kind of error that occurred when creating a [`TopicPattern`]
+    #[must_use]
     pub fn kind(&self) -> &TopicPatternErrorKind {
         &self.kind
     }
