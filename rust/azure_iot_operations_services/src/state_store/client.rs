@@ -7,7 +7,7 @@
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_mqtt::{interface::{AckToken, ManagedClient}, session::SessionConnectionMonitor};
 use azure_iot_operations_protocol::{
     application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
@@ -103,6 +103,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
+        connection_monitor: SessionConnectionMonitor,
         options: ClientOptions,
     ) -> Result<Self, StateStoreError> {
         // create invoker for commands
@@ -158,6 +159,7 @@ where
                     shutdown_notifier_clone,
                     notification_receiver,
                     observed_keys_clone,
+                    connection_monitor
                 )
                 .await;
             }
@@ -577,6 +579,15 @@ where
         }
     }
 
+    async fn notify_on_disconnection(connection_monitor: &SessionConnectionMonitor) {
+        if connection_monitor.is_connected() {
+            connection_monitor.disconnected().await;
+        } else {
+            connection_monitor.connected().await;
+            connection_monitor.disconnected().await;
+        }
+    }
+
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
@@ -584,6 +595,7 @@ where
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
+        connection_monitor: SessionConnectionMonitor
     ) {
         let mut shutdown_attempt_count = 0;
         loop {
@@ -604,6 +616,12 @@ where
                             }
                         }
                     }
+                  },
+                  () = Self::notify_on_disconnection(&connection_monitor) => {
+                    log::warn!("Session disconnected. Drain the observed keys as they won't receive any more notifications and must be recreated");
+                    let mut observed_keys_mutex_guard = observed_keys.lock().await;
+                    // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
+                    observed_keys_mutex_guard.drain();
                   },
                   msg = telemetry_receiver.recv() => {
                     if let Some(m) = msg {
@@ -707,10 +725,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -732,10 +752,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -749,10 +771,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -768,10 +792,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -787,10 +813,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -806,10 +834,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -825,10 +855,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -850,10 +882,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -869,10 +903,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -888,10 +924,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -912,10 +950,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -931,10 +971,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
             ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
