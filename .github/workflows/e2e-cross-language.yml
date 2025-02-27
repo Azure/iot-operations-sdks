@@ -19,15 +19,16 @@ env:
   AIO_MQTT_USE_TLS: false
 
   DOTNET_SERVER: AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer
-  DOTNET_CLIENT: AIO_MQTT_CLIENT_ID=dotnet-client dotnet run -c Release --project dotnet/samples/CounterClient
+  #DOTNET_CLIENT: AIO_MQTT_CLIENT_ID=dotnet-client dotnet run -c Release --project dotnet/samples/CounterClient
+  DOTNET_CLIENT: dotnet run -c Release --project dotnet/samples/CounterClient
   GO_SERVER:     AIO_MQTT_CLIENT_ID=go-server     go/server
   GO_CLIENT:     AIO_MQTT_CLIENT_ID=go-client     go/client
   RUST_SERVER:   AIO_MQTT_CLIENT_ID=rust-server   rust/target/release/counter_server
   RUST_CLIENT:   AIO_MQTT_CLIENT_ID=rust-client   rust/target/release/counter_client
 
-defaults:
-  run:
-    shell: bash
+# defaults:
+#   run:
+#     shell: bash
 
 jobs:
   cross-language:
@@ -112,10 +113,13 @@ jobs:
       #   uses: ./.github/actions/deploy-aio
 
       - name: Dotnet server
-        run: AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer &
+        run: dotnet run -c Release --project dotnet/samples/CounterServer &
+        env:
+          AIO_MQTT_CLIENT_ID: dotnet-server 
+
 
       - name: Dotnet clients
-        run: ${{ DOTNET_CLIENT }}
+        run: AIO_MQTT_CLIENT_ID=dotnet-client $DOTNET_CLIENT
         env:
           COUNTER_SERVER_ID: dotnet-server
 
