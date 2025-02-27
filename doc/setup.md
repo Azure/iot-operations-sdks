@@ -45,6 +45,11 @@ The Codespaces approach is the recommended option and it provides all the necess
 
 ### Windows Subsystem for Linux (WSL)
 
+> [!WARNING]
+> The current v5.15 kernel that ships with WSL does not support Azure IoT Operations as a feature is disabled.
+>
+> You can [build a custom kernel](https://learn.microsoft.com/community/content/wsl-user-msft-kernel-v6), or install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required features.
+
 1. Install Ubuntu on [WSL 2](https://learn.microsoft.com/windows/wsl/install):
 
     ```powershell
