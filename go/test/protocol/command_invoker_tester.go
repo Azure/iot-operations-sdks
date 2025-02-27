@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -32,6 +31,7 @@ func RunCommandInvokerTests(t *testing.T) {
 	}
 
 	TestCaseDefaultInfo = &commandInvokerDefaultInfo
+	TestCaseDefaultSerializer = &commandInvokerDefaultInfo.Prologue.Invoker.Serializer
 
 	files, err := filepath.Glob(
 		"../../../eng/test/test-cases/Protocol/CommandInvoker/*.yaml",
@@ -61,6 +61,7 @@ func runOneCommandInvokerTest(
 		// async publishes (https://github.com/eclipse/paho.golang/issues/216).
 		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
 		"CommandInvokerPubAckFailure_ThrowsException",
+		"CommandInvokerWithCustomResponseTopic_Success",
 	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
@@ -120,7 +121,7 @@ func runOneCommandInvokerTest(
 			catch = testCase.Prologue.Catch
 		}
 
-		invoker := getCommandInvoker(t, sessionClient, tci, catch)
+		invoker := getCommandInvoker(t, sessionClient, &tci, catch)
 		if invoker != nil {
 			commandInvokers[*tci.CommandName] = invoker
 		}
@@ -150,7 +151,6 @@ func runOneCommandInvokerTest(
 			awaitInvocation(t, action.AsAwaitInvocation(), invocationChans)
 		case ReceiveResponse:
 			receiveResponse(
-				t,
 				action.AsReceiveResponse(),
 				stubBroker,
 				correlationIDs,
@@ -205,7 +205,7 @@ func runOneCommandInvokerTest(
 func getCommandInvoker(
 	t *testing.T,
 	sessionClient protocol.MqttClient,
-	tci TestCaseInvoker,
+	tci *TestCaseInvoker,
 	catch *TestCaseCatch,
 ) *TestingCommandInvoker {
 	options := []protocol.CommandInvokerOption{
@@ -245,6 +245,7 @@ func getCommandInvoker(
 	invoker, err := NewTestingCommandInvoker(
 		sessionClient,
 		tci.CommandName,
+		&tci.Serializer,
 		tci.RequestTopic,
 		options...)
 
@@ -349,7 +350,6 @@ func awaitInvocation(
 }
 
 func receiveResponse(
-	t *testing.T,
 	actionReceiveResponse *TestCaseActionReceiveResponse,
 	stubBroker *StubBroker,
 	correlationIDs map[int][]byte,
@@ -379,13 +379,7 @@ func receiveResponse(
 
 	var payload []byte
 	if actionReceiveResponse.Payload != nil {
-		if actionReceiveResponse.BypassSerialization {
-			payload = []byte(*actionReceiveResponse.Payload)
-		} else {
-			var err error
-			payload, err = json.Marshal(*actionReceiveResponse.Payload)
-			require.NoErrorf(t, err, "Unexpected error serializing payload: %s", err)
-		}
+		payload = []byte(*actionReceiveResponse.Payload)
 	}
 
 	if actionReceiveResponse.CorrelationIndex != nil {
@@ -493,9 +487,23 @@ func checkPublishedRequest(
 	if publishedMessage.Payload == nil {
 		require.Empty(t, msg.Payload)
 	} else if payload, ok := publishedMessage.Payload.(string); ok {
-		payloadBytes, err := json.Marshal(payload)
-		require.NoError(t, err)
-		require.Equal(t, payloadBytes, msg.Payload)
+		require.Equal(t, payload, string(msg.Payload))
+	}
+
+	if publishedMessage.ContentType != nil {
+		require.Equal(
+			t,
+			*publishedMessage.ContentType,
+			msg.Properties.ContentType,
+		)
+	}
+
+	if publishedMessage.FormatIndicator != nil {
+		require.Equal(
+			t,
+			*publishedMessage.FormatIndicator,
+			*msg.Properties.PayloadFormat,
+		)
 	}
 
 	for key, val := range publishedMessage.Metadata {

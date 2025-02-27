@@ -22,8 +22,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? Payload { get; set; } = DefaultPayload;
 
-        public bool BypassSerialization { get; set; }
-
         public string? ContentType { get; set; } = DefaultContentType;
 
         public int? FormatIndicator { get; set; } = DefaultFormatIndicator;

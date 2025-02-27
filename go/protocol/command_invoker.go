@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -177,16 +178,18 @@ func NewCommandInvoker[Req, Res any](
 		app:      app,
 		client:   client,
 		encoding: requestEncoding,
+		version:  version.RPCProtocolString,
 		topic:    reqTP,
 	}
 	ci.listener = &listener[Res]{
-		app:            app,
-		client:         client,
-		encoding:       responseEncoding,
-		topic:          resTF,
-		reqCorrelation: true,
-		log:            logger,
-		handler:        ci,
+		app:              app,
+		client:           client,
+		encoding:         responseEncoding,
+		topic:            resTF,
+		reqCorrelation:   true,
+		supportedVersion: version.RPCSupported,
+		log:              logger,
+		handler:          ci,
 	}
 
 	ci.listener.register()
@@ -317,11 +320,13 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 		"response not for this invoker",
 		slog.String("correlation_data", cdata),
 	)
-	return &errors.Error{
-		Message:     "unrecognized correlation data",
-		Kind:        errors.HeaderInvalid,
-		HeaderName:  constants.CorrelationData,
-		HeaderValue: cdata,
+	return &errors.Remote{
+		Base: errors.Base{
+			Message:     "unrecognized correlation data",
+			Kind:        errors.HeaderInvalid,
+			HeaderName:  constants.CorrelationData,
+			HeaderValue: cdata,
+		},
 	}
 }
 
@@ -368,7 +373,7 @@ func (ci *CommandInvoker[Req, Res]) onErr(
 ) error {
 	// If we received a version error from the listener implementation rather
 	// than the response message, it indicates a version *we* don't support.
-	if e, ok := err.(*errors.Error); ok &&
+	if e, ok := err.(*errors.Remote); ok &&
 		e.Kind == errors.UnsupportedRequestVersion {
 		e.Kind = errors.UnsupportedResponseVersion
 	}

@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.9.0" />
+    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.9.0" />
+    <PackageReference Include="Azure.Iot.Operations.Services" Version="0.9.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-    <PackageReference Include="Azure.Iot.Operations.Services" Version="0.8.0" />
-    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.8.0" />
-    <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.8.0" />
   </ItemGroup>
 </Project>

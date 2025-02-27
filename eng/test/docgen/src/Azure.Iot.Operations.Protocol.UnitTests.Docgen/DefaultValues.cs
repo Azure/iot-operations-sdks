@@ -24,8 +24,13 @@
             }
         }
 
-        public string? GetDefaultAsString(string suiteName, string tablePath, string propertyName)
+        public string? GetDefaultAsString(string suiteName, string tablePath, string propertyName, string[] popDefaults)
         {
+            if (popDefaults.Contains(propertyName))
+            {
+                return "(see below)";
+            }
+
             string[] tablePathSegments = tablePath.Split('.');
             if (suiteName != string.Empty)
             {
@@ -70,7 +75,7 @@
                 return "[ " + string.Join(", ", tomlArray.Select(elt => GetValue(elt!))) + " ]";
             }
 
-            return value is string ? $"\"{value}\"" : value.ToString()!;
+            return value is bool boolVal? (boolVal ? "true" : "false") : value is string strVal ? $"\"{strVal}\"" : value.ToString()!;
         }
     }
 }

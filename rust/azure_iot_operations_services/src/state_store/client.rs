@@ -700,9 +700,8 @@ mod tests {
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-    use azure_iot_operations_protocol::application::ApplicationContextOptionsBuilder;
+    use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
-    use super::*;
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
     // TODO: This should return a mock ManagedClient instead.
@@ -728,7 +727,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -755,7 +754,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -774,7 +773,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -795,7 +794,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -816,7 +815,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -837,7 +836,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -858,7 +857,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -885,7 +884,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -906,7 +905,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -927,7 +926,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -953,7 +952,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
@@ -974,7 +973,7 @@ mod tests {
         let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),

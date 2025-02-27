@@ -39,7 +39,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = modelParser.Parse(modelText.Replace("<[DVER]>", dtdlVersion.ToString()).Replace("<[MVER]>", mqttVersion.ToString()));
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             List<string> schemaTexts = new();
             schemaGenerator.GenerateInterfaceAnnex(GetWriter(schemaTexts), mqttVersion);
@@ -49,9 +49,7 @@
                 bool passesValidation = true;
                 try
                 {
-                    HashSet<string> sourceFilePaths = new();
-                    HashSet<SchemaKind> distinctSchemaKinds = new();
-                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, true, true, sourceFilePaths, distinctSchemaKinds, string.Empty, true).ToList();
+                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, true, true, false, string.Empty, true).ToList();
                 }
                 catch
                 {

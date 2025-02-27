@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -31,7 +31,7 @@
     <PackageReference Include="Apache.Avro" Version="1.11.3" />
     <PackageReference Include="Dahomey.Cbor" Version="1.24.3" />
     <PackageReference Include="Google.Protobuf" Version="3.26.1" />
-    <PackageReference Include="MQTTnet" Version="4.3.6.1152" />
+    <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
   </ItemGroup>
 
   <ItemGroup>

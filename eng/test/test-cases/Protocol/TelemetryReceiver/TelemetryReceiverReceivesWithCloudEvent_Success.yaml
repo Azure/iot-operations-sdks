@@ -17,6 +17,7 @@ actions:
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
+    "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
     "dataschema": "dtmi:test:MyModel:_contents:__test;1"
   packet-index: 0
@@ -34,6 +35,8 @@ epilogue:
       source: "dtmi:test:myEventSource;1"
       type: "test-type"
       spec-version: "1.0"
+      id: "dtmi:test:someAssignedId;1"
+      time: "1955-11-12T22:04:00Z"
       data-content-type: "application/json"
       subject: "mock/test"
       data-schema: "dtmi:test:MyModel:_contents:__test;1"

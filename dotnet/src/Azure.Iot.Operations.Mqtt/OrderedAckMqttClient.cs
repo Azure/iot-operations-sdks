@@ -28,7 +28,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     internal bool _disposed;
 
-    public OrderedAckMqttClient(MQTTnet.Client.IMqttClient mqttNetClient)
+    public OrderedAckMqttClient(MQTTnet.IMqttClient mqttNetClient)
     {
         UnderlyingMqttClient = mqttNetClient;
                 
@@ -45,10 +45,10 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// <summary>
     /// The MQTT client used by this client to handle all MQTT operations.
     /// </summary>
-    public MQTTnet.Client.IMqttClient UnderlyingMqttClient { get; }
+    public MQTTnet.IMqttClient UnderlyingMqttClient { get; }
 
     /// <inheritdoc/>
-    public string? ClientId => UnderlyingMqttClient.Options == null ? null : UnderlyingMqttClient.Options.ClientId;
+    public string? ClientId => UnderlyingMqttClient.Options?.ClientId;
 
     /// <inheritdoc/>
     public MqttProtocolVersion ProtocolVersion => (MqttProtocolVersion)((int) UnderlyingMqttClient.Options.ProtocolVersion);
@@ -149,7 +149,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// </remarks>
     private Task ValidateMessageSize(MqttApplicationMessage message)
     {
-        if (_maximumPacketSize > 0 && message.PayloadSegment.Count > _maximumPacketSize)
+        if (_maximumPacketSize > 0 && message.Payload.Length > _maximumPacketSize)
         {
             throw new InvalidOperationException($"Message size is too large. Maximum message size is {_maximumPacketSize} bytes.");
         }
@@ -186,7 +186,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     public bool IsConnected => UnderlyingMqttClient.IsConnected;
 
-    private async Task OnMessageReceived(MQTTnet.Client.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
+    private async Task OnMessageReceived(MQTTnet.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
     {
         // Never let MQTTnet auto ack a message because it may do so out-of-order
         mqttNetArgs.AutoAcknowledge = false;
@@ -259,7 +259,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         }
     }
 
-    private Task OnDisconnectedAsync(MQTTnet.Client.MqttClientDisconnectedEventArgs args)
+    private Task OnDisconnectedAsync(MQTTnet.MqttClientDisconnectedEventArgs args)
     {
         lock (_ctsLockObj)
         {
@@ -274,7 +274,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         return Task.CompletedTask;
     }
 
-    private Task OnConnectedAsync(MQTTnet.Client.MqttClientConnectedEventArgs args)
+    private Task OnConnectedAsync(MQTTnet.MqttClientConnectedEventArgs args)
     {
         if (ConnectedAsync != null)
         {
@@ -371,8 +371,8 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         }
     }
 
-    public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+    public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
     {
-        return UnderlyingMqttClient.SendExtendedAuthenticationExchangeDataAsync(MqttNetConverter.FromGeneric(data), cancellationToken);
+        return UnderlyingMqttClient.SendEnhancedAuthenticationExchangeDataAsync(MqttNetConverter.FromGeneric(data), cancellationToken);
     }
 }

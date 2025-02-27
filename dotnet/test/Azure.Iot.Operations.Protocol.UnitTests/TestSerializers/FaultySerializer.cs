@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
+using System.Buffers;
 using System.Runtime.Serialization;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
@@ -14,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.TestSerializers
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
         public Type EmptyType { get => typeof(EmptyJson); }
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             throw new SerializationException();

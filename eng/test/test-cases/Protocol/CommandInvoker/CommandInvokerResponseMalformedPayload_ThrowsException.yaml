@@ -8,7 +8,8 @@ description:
 
 prologue:
   invokers:
-  - { }
+  - serializer:
+      fail-deserialization: true
 
 actions:
 - action: invoke command
@@ -17,8 +18,6 @@ actions:
   correlation-index: 0
 - action: receive response
   correlation-index: 0
-  payload: '{ "invalid" "json" }'
-  bypass-serialization: true
   status: "200" # OK
 - action: await invocation
   invocation-index: 0

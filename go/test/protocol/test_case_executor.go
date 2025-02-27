@@ -8,6 +8,7 @@ import (
 
 type testCaseExecutor struct {
 	CommandName          *string             `yaml:"command-name"`
+	Serializer           TestCaseSerializer  `yaml:"serializer"`
 	RequestTopic         *string             `yaml:"request-topic"`
 	ExecutorID           *string             `yaml:"executor-id"`
 	TopicNamespace       *string             `yaml:"topic-namespace"`
@@ -16,6 +17,7 @@ type testCaseExecutor struct {
 	ExecutionTimeout     *TestCaseDuration   `yaml:"execution-timeout"`
 	RequestResponsesMap  map[string][]string `yaml:"request-responses-map"`
 	ResponseMetadata     map[string]*string  `yaml:"response-metadata"`
+	TokenMetadataPrefix  *string             `yaml:"token-metadata-prefix"`
 	ExecutionConcurrency *uint               `yaml:"execution-concurrency"`
 	RaiseError           TestCaseError       `yaml:"raise-error"`
 	Sync                 []TestCaseSync      `yaml:"sync"`
@@ -29,6 +31,7 @@ func (executor *TestCaseExecutor) UnmarshalYAML(node *yaml.Node) error {
 	*executor = TestCaseExecutor{}
 
 	executor.CommandName = TestCaseDefaultInfo.Prologue.Executor.GetCommandName()
+	executor.Serializer = TestCaseDefaultInfo.Prologue.Executor.GetSerializer()
 	executor.RequestTopic = TestCaseDefaultInfo.Prologue.Executor.GetRequestTopic()
 	executor.ExecutorID = TestCaseDefaultInfo.Prologue.Executor.GetExecutorID()
 	executor.TopicNamespace = TestCaseDefaultInfo.Prologue.Executor.GetTopicNamespace()

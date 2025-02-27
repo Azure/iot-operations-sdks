@@ -18,11 +18,6 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "bypass-serialization": {
-            "description": "Bypass serializing the payload and just embed raw bytes.",
-            "type": "boolean",
-            "kind": "drive"
-        },
         "content-type": {
             "description": "The value of the ContentType header in the message, or null if no such header.",
             "type": [ "string", "null" ],

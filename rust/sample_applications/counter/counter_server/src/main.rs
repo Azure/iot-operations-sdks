@@ -8,9 +8,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::counter::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
@@ -36,8 +34,7 @@ async fn main() {
         .unwrap();
     let mut session = Session::new(session_options).unwrap();
 
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // The counter value for the server
     let counter = Arc::new(Mutex::new(0));
@@ -118,19 +115,6 @@ async fn increment_counter_and_publish(
             *counter_guard
         };
 
-        // Respond
-        let response_payload = IncrementResponsePayload {
-            counter_response: updated_counter,
-        };
-
-        // Respond to the increment request
-        let response = IncrementResponseBuilder::default()
-            .payload(response_payload)
-            .unwrap()
-            .build()
-            .unwrap();
-        request.complete(response).await.unwrap();
-
         // Create telemetry message using the new counter value
         let telemetry_message = TelemetryMessageBuilder::default()
             .payload(
@@ -145,6 +129,19 @@ async fn increment_counter_and_publish(
 
         // Send associated telemetry
         counter_sender.send(telemetry_message).await.unwrap();
+
+        // Respond
+        let response_payload = IncrementResponsePayload {
+            counter_response: updated_counter,
+        };
+
+        // Respond to the increment request
+        let response = IncrementResponseBuilder::default()
+            .payload(response_payload)
+            .unwrap()
+            .build()
+            .unwrap();
+        request.complete(response).await.unwrap();
     }
 }
 

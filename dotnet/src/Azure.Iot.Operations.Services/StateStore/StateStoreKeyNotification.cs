@@ -2,11 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Services.StateStore
 {

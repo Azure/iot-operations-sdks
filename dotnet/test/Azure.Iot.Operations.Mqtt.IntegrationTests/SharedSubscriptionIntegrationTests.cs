@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using System.Text;
-using TestEnvoys.Greeter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 

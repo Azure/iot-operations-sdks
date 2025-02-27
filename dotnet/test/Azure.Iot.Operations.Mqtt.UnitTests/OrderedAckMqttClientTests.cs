@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt;
 using MQTTnet.Exceptions;
 using System.Text;
-using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests;
 
@@ -16,10 +14,10 @@ public class OrderedAckMqttClientTests
     [Fact]
     public async Task CreateWithFactoryExtension()
     {
-        await using OrderedAckMqttClient clientNoLogger = new OrderedAckMqttClient(new MQTTnet.MqttFactory().CreateMqttClient());
+        await using OrderedAckMqttClient clientNoLogger = new OrderedAckMqttClient(new MQTTnet.MqttClientFactory().CreateMqttClient());
         Assert.NotNull(clientNoLogger);
 
-        await using OrderedAckMqttClient clientWithLogger = new OrderedAckMqttClient(new MQTTnet.MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger()));
+        await using OrderedAckMqttClient clientWithLogger = new OrderedAckMqttClient(new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger()));
         Assert.NotNull(clientWithLogger);
     }
 
@@ -310,7 +308,7 @@ public class OrderedAckMqttClientTests
                     OnReconnectComplete.TrySetResult();
                 });
 
-                return Task.FromResult(new MQTTnet.Client.MqttClientConnectResult());
+                return Task.FromResult(new MQTTnet.MqttClientConnectResult());
             };
 
             TaskCompletionSource<MQTTnet.MqttApplicationMessage> firstMessageAcknowledged = new();

@@ -2,9 +2,9 @@
 test-name: CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess
 description:
   condition: >-
-    CommandInvoker invokes command but ACK dropped when publishing request.
+    CommandInvoker invokes command but the MQTT connection is dropped after publishing the packet but before the command invoker receives the ACK.
   expect: >-
-    Connection automatically re-established, publication retried, success.
+    Connection automatically re-established by the session client, the session client re-publishes the command invocation, success.
 
 requires:
 - reconnection

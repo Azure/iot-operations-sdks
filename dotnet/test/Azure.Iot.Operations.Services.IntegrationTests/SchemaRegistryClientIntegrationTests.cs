@@ -15,20 +15,21 @@ using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.S
 [Trait("Category", "SchemaRegistry")]
 public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 {
-    const string Version1_0_0 = "1.0.0";
+    const string DefaultVersion = "1";
 
     [Fact]
     public async Task JsonRegisterGet()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
         Dictionary<string, string> testTags = new() { { "key1", "value1" } };
 
-        Schema? res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, testTags);
+        Schema? res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, testTags);
         output.WriteLine($"resp {res?.Name}");
         //Assert.Equal("29F37966A94F76DB402A96BC5D9B2B3A5B9465CA2A80696D7DE40AEB3DE8E9E7", res.Name);
         string schemaId = res?.Name!;
-        Schema? getSchemaResponse = await client.GetAsync(schemaId, Version1_0_0);
+        Schema? getSchemaResponse = await client.GetAsync(schemaId, DefaultVersion);
 
         output.WriteLine($"getRes {res?.Version}");
         Assert.Contains("temperature", getSchemaResponse?.SchemaContent);
@@ -44,7 +45,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task NotFoundSchemaReturnsNull()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         Schema? s = await client.GetAsync("NotFound");
         Assert.Null(s);
@@ -54,9 +56,10 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task RegisterAvroAsJsonThrows()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
-        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, null!, TimeSpan.FromMinutes(1)));
+        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
         Assert.StartsWith("Invalid JsonSchemaDraft07 schema", ex.Message);
     }
@@ -65,9 +68,10 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task InvalidJsonThrows()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
-        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, null!, TimeSpan.FromMinutes(1)));
+        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
         Assert.StartsWith("Invalid JsonSchemaDraft07 schema", ex.Message);
     }
@@ -76,11 +80,12 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task SchemaRegistryClientThrowsIfAccessedWhenDisposed()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         await client.DisposeAsync();
 
-        await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, null!, TimeSpan.FromMinutes(1)));
+        await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
         await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.GetAsync("irrelevant"));
     }
 
@@ -88,12 +93,13 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task SchemaRegistryClientThrowsIfCancellationRequested()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         CancellationTokenSource cts = new CancellationTokenSource();
         cts.Cancel();
 
-        await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, Version1_0_0, null!, TimeSpan.FromMinutes(1), cts.Token));
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1), cts.Token));
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.GetAsync("irrelevant", cancellationToken: cts.Token));
     }
 
@@ -123,4 +129,3 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     }
     """;
 }
-

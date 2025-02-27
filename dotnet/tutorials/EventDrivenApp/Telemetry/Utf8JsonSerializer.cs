@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Azure.Iot.Operations.Protocol;
@@ -23,7 +24,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
 
     public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
-    public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+    public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
         where T : class
     {
         if (contentType != null && contentType != ContentType)
@@ -41,7 +42,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
 
         try
         {
-            if (payload == null || payload.Length == 0)
+            if (payload.IsEmpty)
             {
                 if (typeof(T) != typeof(EmptyJson))
                 {
@@ -67,10 +68,10 @@ public class Utf8JsonSerializer : IPayloadSerializer
         {
             if (typeof(T) == typeof(EmptyJson))
             {
-                return new(null, ContentType, PayloadFormatIndicator);
+                return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
             }
 
-            return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);
+            return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
         }
         catch (Exception)
         {

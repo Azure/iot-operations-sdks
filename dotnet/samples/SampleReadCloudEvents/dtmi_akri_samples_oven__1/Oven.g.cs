@@ -23,12 +23,12 @@ namespace SampleReadCloudEvents.dtmi_akri_samples_oven__1
             private IMqttPubSubClient mqttClient;
             private readonly TelemetryCollectionSender telemetryCollectionSender;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.telemetryCollectionSender = new TelemetryCollectionSender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionSender = new TelemetryCollectionSender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public TelemetryCollectionSender TelemetryCollectionSender { get => this.telemetryCollectionSender; }
@@ -37,7 +37,7 @@ namespace SampleReadCloudEvents.dtmi_akri_samples_oven__1
 
             public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.telemetryCollectionSender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.telemetryCollectionSender.SendTelemetryAsync(telemetry, metadata, null, qos, messageExpiryInterval, cancellationToken);
             }
 
             public async ValueTask DisposeAsync()
@@ -56,12 +56,12 @@ namespace SampleReadCloudEvents.dtmi_akri_samples_oven__1
             private IMqttPubSubClient mqttClient;
             private readonly TelemetryCollectionReceiver telemetryCollectionReceiver;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public TelemetryCollectionReceiver TelemetryCollectionReceiver { get => this.telemetryCollectionReceiver; }

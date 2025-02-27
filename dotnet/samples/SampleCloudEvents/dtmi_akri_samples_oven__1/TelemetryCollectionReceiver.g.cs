@@ -39,8 +39,8 @@ namespace SampleCloudEvents.dtmi_akri_samples_oven__1
             /// <summary>
             /// Initializes a new instance of the <see cref="TelemetryCollectionReceiver"/> class.
             /// </summary>
-            public TelemetryCollectionReceiver(IMqttPubSubClient mqttClient)
-                : base(mqttClient, null, new Utf8JsonSerializer())
+            public TelemetryCollectionReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, null, new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

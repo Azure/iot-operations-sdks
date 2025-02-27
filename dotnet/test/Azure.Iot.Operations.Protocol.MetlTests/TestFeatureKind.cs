@@ -12,5 +12,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         Caching = 4,
         Dispatch = 5,
         ExplicitDefault = 6,
+        MultipleSerializers = 7,
     }
 }

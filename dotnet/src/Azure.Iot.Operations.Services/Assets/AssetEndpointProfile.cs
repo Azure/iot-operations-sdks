@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.Services.Assets
     /// </summary>
     public record AssetEndpointProfile
     {
-        internal AssetEndpointProfile(string targetAddress, string authenticationMethod, string endpointProfileType)
+        internal AssetEndpointProfile(string targetAddress, string? authenticationMethod, string endpointProfileType)
         {
             TargetAddress = targetAddress;
             AuthenticationMethod = authenticationMethod;
@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Services.Assets
         /// <summary>
         /// The authentication method to use when connecting to the asset endpoint.
         /// </summary>
-        public string AuthenticationMethod { get; set; }
+        public string? AuthenticationMethod { get; set; }
 
         /// <summary>
         /// The profile type of the asset endpoint.

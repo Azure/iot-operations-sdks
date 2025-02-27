@@ -40,10 +40,5 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             return Task.FromResult(Encoding.UTF8.GetBytes("someData"));
         }
-
-        Task<DatasetMessageSchema?> IDatasetSampler.GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken)
-        {
-            return Task.FromResult((DatasetMessageSchema?)null);
-        }
     }
 }
