@@ -1,4 +1,4 @@
-name: Cross language
+name: CI-Cross language
 on:
   workflow_dispatch:
   pull_request:
@@ -58,7 +58,7 @@ jobs:
       #   with:
       #     dotnet-version: 8.0.301
 
-      - name: Setup .NET 9
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.200
@@ -128,22 +128,28 @@ jobs:
 
       - name: Dotnet server
         run: |
-          $DOTNET_SERVER &
-          $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
+          AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer &
+          $DOTNET_CLIENT
+          $GO_CLIENT
+          $RUST_CLIENT
         env:
           COUNTER_SERVER_ID: dotnet-server
 
       - name: Go server
         run: |
           $GO_SERVER &
-          $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
+          $DOTNET_CLIENT
+          $GO_CLIENT
+          $RUST_CLIENT
         env:
           COUNTER_SERVER_ID: go-server
 
       - name: Rust server
         run: |
           $RUST_SERVER &
-          $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
+          $DOTNET_CLIENT
+          $GO_CLIENT
+          $RUST_CLIENT
         env:
           COUNTER_SERVER_ID: rust-server
 

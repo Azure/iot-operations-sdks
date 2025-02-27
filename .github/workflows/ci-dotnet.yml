@@ -1,4 +1,4 @@
-name: CI-dotnet
+name: CI-Dotnet
 
 on:
   workflow_dispatch:

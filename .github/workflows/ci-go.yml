@@ -1,4 +1,4 @@
-name: CI-go
+name: CI-Go
 
 on:
   workflow_dispatch:
