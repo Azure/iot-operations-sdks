@@ -43,6 +43,19 @@ impl TelemetryMessageBuilder {
         self
     }
 
+    /// Topic token keys/values to be replaced into the publish topic of the telemetry message.
+    /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
+    /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
+    pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
+        self.inner_builder.topic_tokens(
+            topic_tokens
+                .into_iter()
+                .map(|(k, v)| (format!("ex:{k}"), v))
+                .collect::<HashMap<String, String>>(),
+        );
+        self
+    }
+
     /// Time before message expires
     pub fn message_expiry(&mut self, message_expiry: Duration) -> &mut Self {
         self.inner_builder.message_expiry(message_expiry);

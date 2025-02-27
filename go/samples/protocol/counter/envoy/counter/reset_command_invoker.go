@@ -45,18 +45,20 @@ func (invoker ResetCommandInvoker) Reset(
 	executorId string,
 	opt ...protocol.InvokeOption,
 ) error {
-	var opts protocol.InvokeOptions
-	opts.Apply(
-		opt,
+	invokerOpts := []protocol.InvokeOption{
+		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"executorId": executorId,
 		},
-	)
+	}
+
+	var invokeOpts protocol.InvokeOptions
+	invokeOpts.Apply(opt, invokerOpts...)
 
 	_, err := invoker.Invoke(
 		ctx,
 		nil,
-		&opts,
+		&invokeOpts,
 	)
 
 	return err
