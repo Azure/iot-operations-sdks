@@ -1,6 +1,10 @@
-name: "Deploy AIO"
-description: "Deploy AIO for pipelines"
-
+name: 'Deploy AIO'
+description: 'Deploy AIO for pipelines'
+inputs:
+  wait-for-broker:
+    description: 'Wait for the MQTT broker to start before returning'
+    required: false
+    default: 'true'
 runs:
   using: composite
   steps:
@@ -16,5 +20,6 @@ runs:
       shell: bash
 
     - name: Wait for Mqtt Broker
+      if: ${{ inputs.wait-for-broker == 'true'}}
       run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
       shell: bash

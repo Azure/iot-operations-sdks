@@ -14,15 +14,16 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AIO_BROKER_HOSTNAME: localhost
-  AIO_BROKER_TCP_PORT: 1883
-  AIO_MQTT_USE_TLS:    false
-  DOTNET_SERVER: dotnet run -c Release --project dotnet/samples/CounterServer
-  DOTNET_CLIENT: dotnet run -c Release --project dotnet/samples/CounterClient
-  GO_SERVER:     go/server
-  GO_CLIENT:     go/client
-  RUST_SERVER:   rust/target/release/counter_server
-  RUST_CLIENT:   rust/target/release/counter_client
+  AIO_BROKER_HOSTNAME:  localhost
+  AIO_BROKER_TCP_PORT:  1883
+  AIO_MQTT_USE_TLS:     false
+  AIO_MQTT_CLEAN_START: true
+  DOTNET_SERVER:        dotnet run -c Release --project dotnet/samples/CounterServer
+  DOTNET_CLIENT:        dotnet run -c Release --project dotnet/samples/CounterClient
+  GO_SERVER:            go/server
+  GO_CLIENT:            go/client
+  RUST_SERVER:          rust/target/release/counter_server
+  RUST_CLIENT:          rust/target/release/counter_client
 
 jobs:
   cross-language:
