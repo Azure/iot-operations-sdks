@@ -7,7 +7,7 @@ on:
   schedule:
     - cron: "0 11 * * *" # Nightly at 4am PST
 
-# Only allow one run / branch at a time
+# Cancel old runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -92,7 +92,7 @@ jobs:
           cargo build --release --config profile.release.panic=\'abort\'
 
       #=======================================================================
-      # Run the server
+      # Run a server
       #=======================================================================
       - name: Run .NET server
         if: matrix.server == 'dotnet-server'
@@ -113,7 +113,7 @@ jobs:
           AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
       #=======================================================================
-      # Run the clients
+      # Run all the clients
       #=======================================================================
       - name: Run .NET client
         run: dotnet run -c Release --project dotnet/samples/CounterClient
