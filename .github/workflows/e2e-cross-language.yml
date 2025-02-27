@@ -17,18 +17,31 @@ env:
   AIO_BROKER_HOSTNAME:  localhost
   AIO_BROKER_TCP_PORT:  1883
   AIO_MQTT_USE_TLS:     false
-  AIO_MQTT_CLEAN_START: true
-  DOTNET_SERVER:        dotnet run -c Release --project dotnet/samples/CounterServer
-  DOTNET_CLIENT:        dotnet run -c Release --project dotnet/samples/CounterClient
-  GO_SERVER:            go/server
-  GO_CLIENT:            go/client
-  RUST_SERVER:          rust/target/release/counter_server
-  RUST_CLIENT:          rust/target/release/counter_client
+#  AIO_MQTT_CLEAN_START: true
+  
+#   dotnet: dotnet run -c Release --project dotnet/samples/CounterServer
+#   go:     go/server
+#   rust:   rust/target/release/counter_server
 
 jobs:
   cross-language:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - server: dotnet
+            command: dotnet run -c Release --project dotnet/samples/CounterServer
+          - server: go
+            command: go/server
+          - server: rust
+            command: rust/target/release/counter_server
+#          [dotnet, rust, go]
+
+    env:
+      COUNTER_SERVER_ID: ${{ matrix.server }}
 
     steps:
       - uses: actions/checkout@v4
@@ -41,16 +54,9 @@ jobs:
 
       - name: Install AIO
         uses: ./.github/actions/deploy-aio
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.200
-
-      - name: Setup GO
-        uses: actions/setup-go@v5
-        with:
-          go-version: 1.24
+          install-compilers: 'true'
+          wait-for-broker: 'true'
 
       #=======================================================================
       # Build codegen and verify it matches repository
@@ -107,33 +113,22 @@ jobs:
       # Run the tests
       #=======================================================================
 
-      - name: Dotnet server
-        run: dotnet run -c Release --project dotnet/samples/CounterServer &
+      - name: Run server
+        run: $${{ matrix.server }} &
         env:
-          AIO_MQTT_CLIENT_ID: dotnet-server 
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
-      - name: Dotnet clients
-        run: |
-          $DOTNET_CLIENT
-          $GO_CLIENT
-          $RUST_CLIENT
+      - name: Run .NET client
+        run: dotnet run -c Release --project dotnet/samples/CounterClient
         env:
-          COUNTER_SERVER_ID: dotnet-server
-          
-      # - name: Go server
-      #   run: |
-      #     $GO_SERVER &
-      #     $DOTNET_CLIENT
-      #     $GO_CLIENT
-      #     $RUST_CLIENT
-      #   env:
-      #     COUNTER_SERVER_ID: go-server
+          AIO_MQTT_CLIENT_ID: dotnet-client
 
-      # - name: Rust server
-      #   run: |
-      #     $RUST_SERVER &
-      #     $DOTNET_CLIENT
-      #     $GO_CLIENT
-      #     $RUST_CLIENT
-      #   env:
-      #     COUNTER_SERVER_ID: rust-server
+      - name: Run Go client
+        run: go/client
+        env:
+          AIO_MQTT_CLIENT_ID: go-client
+
+      - name: Run Rust client
+        run: rust/target/release/counter_client
+        env:
+          AIO_MQTT_CLIENT_ID: rust-client

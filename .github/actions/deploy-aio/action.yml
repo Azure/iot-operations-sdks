@@ -5,6 +5,10 @@ inputs:
     description: 'Wait for the MQTT broker to start before returning'
     required: false
     default: 'true'
+  install-compilers:
+    description: 'Install the .NET/Rust/Go compilers and runtimes'
+    required: false
+    default: 'true'
 runs:
   using: composite
   steps:
@@ -18,6 +22,22 @@ runs:
     - name: Configure AIO
       run: tools/deployment/deploy-aio.sh
       shell: bash
+
+    - name: Setup .NET
+      if: ${{ inputs.install-compilers == 'true'}}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.200
+
+    - name: Setup GO
+      if: ${{ inputs.install-compilers == 'true'}}
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.24
+
+    # - name: Setup Rust
+    #   if: ${{ inputs.install-compilers == 'true'}}
+    #   uses: actions-rust-lang/setup-rust-toolchain@v1
 
     - name: Wait for Mqtt Broker
       if: ${{ inputs.wait-for-broker == 'true'}}
