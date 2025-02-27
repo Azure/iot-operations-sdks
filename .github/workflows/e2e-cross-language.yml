@@ -3,25 +3,19 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - main
+    branches: [ main ]
   schedule:
     - cron: "0 11 * * *" # Nightly at 4am PST
 
-# only allow one run / branch at a time
+# Only allow one run / branch at a time
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  AIO_BROKER_HOSTNAME:  localhost
-  AIO_BROKER_TCP_PORT:  1883
-  AIO_MQTT_USE_TLS:     false
-#  AIO_MQTT_CLEAN_START: true
-  
-#   dotnet: dotnet run -c Release --project dotnet/samples/CounterServer
-#   go:     go/server
-#   rust:   rust/target/release/counter_server
+  AIO_BROKER_HOSTNAME: localhost
+  AIO_BROKER_TCP_PORT: 1883
+  AIO_MQTT_USE_TLS:    false
 
 jobs:
   cross-language:
@@ -31,14 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        server:
-          - name: dotnet-server
-            command: dotnet run -c Release --project dotnet/samples/CounterServer
-          - name: go-server
-            command: go/server
-          - name: rust-server
-            command: rust/target/release/counter_server
-#          [dotnet, rust, go]
+        server: [dotnet, rust, go]
 
     env:
       COUNTER_SERVER_ID: ${{ matrix.server.name }}
@@ -51,48 +38,45 @@ jobs:
       #=======================================================================
       # Install prerequesities
       #=======================================================================
-
       - name: Install AIO
         uses: ./.github/actions/deploy-aio
         with:
-          install-compilers: 'true'
+          install-compilers: 'all'
           wait-for-broker: 'true'
 
       #=======================================================================
       # Build codegen and verify it matches repository
       #=======================================================================
+      - name: Build codegen
+        run: |
+          dotnet build -c Debug codegen/codegen.sln
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
 
-      # - name: Build codegen
-      #   run: |
-      #     dotnet build -c Debug codegen/codegen.sln
-      #     echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+      - name: CodeGen Rust Counter samples
+        run: |
+          pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
 
-      # - name: CodeGen Rust Counter samples
-      #   run: |
-      #     pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
+      - name: CodeGen .NET Counter samples
+        run: |
+          pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
 
-      # - name: CodeGen .NET Counter samples
-      #   run: |
-      #     pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
+      - name: CodeGen Go Counter samples
+        run: |
+          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
 
-      # - name: CodeGen Go Counter samples
-      #   run: |
-      #     pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
-
-      # - name: Verify Generated Code Matches Repo
-      #   run: |
-      #     if ! git diff --exit-code --ignore-cr-at-eol
-      #     then
-      #         echo "codegen'd envoy updates not checked in"
-      #         git diff-files
-      #         echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
-      #         exit 1
-      #     fi
+      - name: Verify Generated Code Matches Repo
+        run: |
+          if ! git diff --exit-code --ignore-cr-at-eol
+          then
+              echo "codegen'd envoy updates not checked in"
+              git diff-files
+              echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
+              exit 1
+          fi
 
       #=======================================================================
       # Build all the components
       #=======================================================================
-
       - name: Build .NET Sample
         run: |
           cd dotnet
@@ -112,11 +96,17 @@ jobs:
       #=======================================================================
       # Run the tests
       #=======================================================================
+      - name: Run .NET server
+        if: matrix.server == 'dotnet'
+        run: dotnet run -c Release --project dotnet/samples/CounterServer
 
-      - name: Run ${{ matrix.server.name }}
-        run: ${{ matrix.server.command }} &
-        env:
-          AIO_MQTT_CLIENT_ID: ${{ matrix.server.name }}
+      - name: Run Go server
+        if: matrix.server == 'go'
+        run: go/server
+
+      - name: Run Rust server
+        if: matrix.server == 'rust'
+        run: rust/target/release/counter_server
 
       - name: Run .NET client
         run: dotnet run -c Release --project dotnet/samples/CounterClient

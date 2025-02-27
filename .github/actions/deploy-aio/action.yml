@@ -1,14 +1,19 @@
 name: 'Deploy AIO'
 description: 'Deploy AIO for pipelines'
+
 inputs:
+  # 'true', 'false'
   wait-for-broker:
     description: 'Wait for the MQTT broker to start before returning'
     required: false
     default: 'true'
+
+  # 'all', '.net', 'go', 'rust'
   install-compilers:
     description: 'Install the .NET/Rust/Go compilers and runtimes'
     required: false
-    default: 'true'
+    default: 'all'
+
 runs:
   using: composite
   steps:
@@ -24,22 +29,22 @@ runs:
       shell: bash
 
     - name: Setup .NET
-      if: ${{ inputs.install-compilers == 'true'}}
+      if: inputs.install-compilers == 'true' || inputs.install-compilers == '.net'
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.200
 
     - name: Setup GO
-      if: ${{ inputs.install-compilers == 'true'}}
+      if: inputs.install-compilers == 'true' || inputs.install-compilers == 'go'
       uses: actions/setup-go@v5
       with:
         go-version: 1.24
 
     # - name: Setup Rust
-    #   if: ${{ inputs.install-compilers == 'true'}}
+    #   if: inputs.install-compilers == 'true' || inputs.install-compilers == 'rust'
     #   uses: actions-rust-lang/setup-rust-toolchain@v1
 
     - name: Wait for Mqtt Broker
-      if: ${{ inputs.wait-for-broker == 'true'}}
+      if: inputs.wait-for-broker == 'true'
       run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
       shell: bash
