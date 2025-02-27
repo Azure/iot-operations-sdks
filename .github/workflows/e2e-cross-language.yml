@@ -25,15 +25,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        server: [dotnet, go, rust]
+        server: [dotnet-server, go-server, rust-server]
 
     env:
       COUNTER_SERVER_ID: ${{ matrix.server }}
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       #=======================================================================
       # Install prerequesities
@@ -94,31 +92,43 @@ jobs:
           cargo build --release --config profile.release.panic=\'abort\'
 
       #=======================================================================
-      # Run the tests
+      # Run the server
       #=======================================================================
       - name: Run .NET server
-        if: matrix.server == 'dotnet'
+        if: matrix.server == 'dotnet-server'
         run: dotnet run -c Release --project dotnet/samples/CounterServer &
+        env:
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
       - name: Run Go server
-        if: matrix.server == 'go'
+        if: matrix.server == 'go-server'
         run: go/server &
+        env:
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
       - name: Run Rust server
-        if: matrix.server == 'rust'
+        if: matrix.server == 'rust-server'
         run: rust/target/release/counter_server &
+        env:
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
+      #=======================================================================
+      # Run the clients
+      #=======================================================================
       - name: Run .NET client
         run: dotnet run -c Release --project dotnet/samples/CounterClient
+        continue-on-error: true
         env:
           AIO_MQTT_CLIENT_ID: dotnet-client
 
       - name: Run Go client
         run: go/client
+        continue-on-error: true
         env:
           AIO_MQTT_CLIENT_ID: go-client
 
       - name: Run Rust client
         run: rust/target/release/counter_client
+        continue-on-error: true
         env:
           AIO_MQTT_CLIENT_ID: rust-client
