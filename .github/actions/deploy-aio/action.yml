@@ -14,3 +14,7 @@ runs:
     - name: Configure AIO
       run: tools/deployment/deploy-aio.sh
       shell: bash
+
+    - name: Wait for Mqtt Broker
+      run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
+      shell: bash

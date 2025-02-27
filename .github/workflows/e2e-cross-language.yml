@@ -38,6 +38,9 @@ jobs:
       # Install prerequesities
       #=======================================================================
 
+      - name: Install AIO
+        uses: ./.github/actions/deploy-aio
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -103,22 +106,18 @@ jobs:
       # Run the tests
       #=======================================================================
 
-      - name: Install AIO
-        uses: ./.github/actions/deploy-aio
-
       - name: Dotnet server
-#        run: dotnet run -c Release --project dotnet/samples/CounterServer &
-        run: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
+        run: dotnet run -c Release --project dotnet/samples/CounterServer &
         env:
           AIO_MQTT_CLIENT_ID: dotnet-server 
 
-    #   - name: Dotnet clients
-    #     run: |
-    #       $DOTNET_CLIENT
-    #       $GO_CLIENT
-    #       $RUST_CLIENT
-    #     env:
-    #       COUNTER_SERVER_ID: dotnet-server
+      - name: Dotnet clients
+        run: |
+          $DOTNET_CLIENT
+          $GO_CLIENT
+          $RUST_CLIENT
+        env:
+          COUNTER_SERVER_ID: dotnet-server
           
       # - name: Go server
       #   run: |
