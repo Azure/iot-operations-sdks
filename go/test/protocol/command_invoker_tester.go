@@ -61,7 +61,6 @@ func runOneCommandInvokerTest(
 		// async publishes (https://github.com/eclipse/paho.golang/issues/216).
 		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
 		"CommandInvokerPubAckFailure_ThrowsException",
-		"CommandInvokerWithCustomResponseTopic_Success",
 	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
@@ -226,12 +225,10 @@ func getCommandInvoker(
 		)
 	}
 
-	if tci.ResponseTopicMap != nil {
+	if tci.ResponseTopicPattern != nil {
 		options = append(
 			options,
-			protocol.WithResponseTopic(
-				func(reqTopic string) string { return *(*tci.ResponseTopicMap)[reqTopic] },
-			),
+			protocol.WithResponseTopicPattern(*tci.ResponseTopicPattern),
 		)
 	}
 
