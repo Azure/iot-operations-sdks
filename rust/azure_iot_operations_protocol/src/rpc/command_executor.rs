@@ -29,7 +29,7 @@ use crate::{
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
-const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u64 = 10;
+const DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS: u32 = 10;
 
 /// Message for when expiration time is unable to be calculated, internal logic error
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
@@ -706,8 +706,9 @@ where
                     response_arguments.message_expiry_interval = Some(ct);
                     message_received_time.checked_add(Duration::from_secs(ct.into()))
                 } else {
-                    message_received_time
-                        .checked_add(Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL))
+                    message_received_time.checked_add(Duration::from_secs(u64::from(
+                        DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS,
+                    )))
                 };
 
                 // Check if there was an error calculating the command expiration time
@@ -1219,6 +1220,7 @@ where
         };
 
         if let Some(command_expiration_time) = response_arguments.command_expiration_time {
+            // Calculating remaining time until the command expires
             let response_message_expiry_interval =
                 command_expiration_time.saturating_duration_since(Instant::now());
             if response_message_expiry_interval.is_zero() {
@@ -1247,8 +1249,20 @@ where
                 return;
             }
 
-            let Ok(response_message_expiry_interval) =
-                response_message_expiry_interval.as_secs().try_into()
+            // Rounding remaining expiration time up to the nearest second
+            let response_message_expiry_interval =
+                if response_message_expiry_interval.as_nanos() != 0 {
+                    // NOTE: We should always be able to add 1 since the seconds portion of the
+                    // response_message_expiry_interval is always at least one less than its initial
+                    // value when received in this block.
+                    // NOTE: Rounding up to the nearest second to ensure the invoker will time out
+                    // at or before the response expires.
+                    response_message_expiry_interval.as_secs().saturating_add(1)
+                } else {
+                    response_message_expiry_interval.as_secs()
+                };
+
+            let Ok(response_message_expiry_interval) = response_message_expiry_interval.try_into()
             else {
                 // Unreachable, will be smaller than u32::MAX
                 log::error!(
@@ -1280,22 +1294,8 @@ where
         } else {
             // Happens when the command expiration time was not able to be calculated.
             // We don't cache the response in this case.
-            let response_message_expiry_interval =
-                Duration::from_secs(DEFAULT_MESSAGE_EXPIRY_INTERVAL);
-
-            let Ok(response_message_expiry_interval) =
-                response_message_expiry_interval.as_secs().try_into()
-            else {
-                // Unreachable, will be smaller than u32::MAX
-                log::error!(
-                    "[{}][pkid: {}] Message expiry interval is too large",
-                    response_arguments.command_name,
-                    pkid
-                );
-                return;
-            };
-
-            publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
+            publish_properties.message_expiry_interval =
+                Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
         }
 
         // Try to publish
