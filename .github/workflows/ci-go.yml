@@ -126,6 +126,11 @@ jobs:
     - name: Build codegen
       run: dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
 
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_ORG_TOKEN }}
+
     - name: Codegen counter for Go
       working-directory: ./go/samples/protocol/counter/envoy
       run: ./gen.sh
