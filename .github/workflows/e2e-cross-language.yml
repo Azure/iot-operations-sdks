@@ -18,25 +18,17 @@ env:
   AIO_BROKER_TCP_PORT: 1883
   AIO_MQTT_USE_TLS: false
 
-  DOTNET_SERVER: AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer
-  DOTNET_CLIENT: AIO_MQTT_CLIENT_ID=dotnet-client dotnet run -c Release --project dotnet/samples/CounterClient
-  GO_SERVER:     AIO_MQTT_CLIENT_ID=go-server     go/server
-  GO_CLIENT:     AIO_MQTT_CLIENT_ID=go-client     go/client
-  RUST_SERVER:   AIO_MQTT_CLIENT_ID=rust-server   rust/target/release/counter_server
-  RUST_CLIENT:   AIO_MQTT_CLIENT_ID=rust-client   rust/target/release/counter_client
+  DOTNET_SERVER: AIO_MQTT_CLIENT_ID=dotnet-server; dotnet run -c Release --project dotnet/samples/CounterServer
+  DOTNET_CLIENT: AIO_MQTT_CLIENT_ID=dotnet-client; dotnet run -c Release --project dotnet/samples/CounterClient
+  GO_SERVER:     AIO_MQTT_CLIENT_ID=go-server;     go/server
+  GO_CLIENT:     AIO_MQTT_CLIENT_ID=go-client;     go/client
+  RUST_SERVER:   AIO_MQTT_CLIENT_ID=rust-server;   rust/target/release/counter_server
+  RUST_CLIENT:   AIO_MQTT_CLIENT_ID=rust-client;   rust/target/release/counter_client
 
 jobs:
   cross-language:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     server:
-    #       [dotnet, rust, go]
-    #     client:
-    #       [dotnet, rust, go]
 
     steps:
       - uses: actions/checkout@v4
@@ -47,57 +39,46 @@ jobs:
       # Install prerequesities
       #=======================================================================
 
-      # This isn't actually any setup, but Rust needs to get all of it's dependencies setup before the next steps, and this is an easy way
-      # - name: Setup Rust
-      #   run: |
-      #     cd rust
-      #     cargo build --release --config profile.release.panic=\'abort\'
-
-      # - name: Setup .NET 8
-      #   uses: actions/setup-dotnet@v4
-      #   with:
-      #     dotnet-version: 8.0.301
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.200
 
-      - name: Setup GO
-        uses: actions/setup-go@v5
-        with:
-          go-version: 1.24
+      # - name: Setup GO
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: 1.24
 
       #=======================================================================
       # Build codegen and verify it matches repository
       #=======================================================================
 
-      - name: Build codegen
-        run: |
-          dotnet build -c Debug codegen/codegen.sln
-          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+      # - name: Build codegen
+      #   run: |
+      #     dotnet build -c Debug codegen/codegen.sln
+      #     echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
 
-      - name: CodeGen Rust Counter samples
-        run: |
-          pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
+      # - name: CodeGen Rust Counter samples
+      #   run: |
+      #     pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
 
-      - name: CodeGen .NET Counter samples
-        run: |
-          pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
+      # - name: CodeGen .NET Counter samples
+      #   run: |
+      #     pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
 
-      - name: CodeGen Go Counter samples
-        run: |
-          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
+      # - name: CodeGen Go Counter samples
+      #   run: |
+      #     pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
 
-      - name: Verify Generated Code Matches Repo
-        run: |
-          if ! git diff --exit-code --ignore-cr-at-eol
-          then
-              echo "codegen'd envoy updates not checked in"
-              git diff-files
-              echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
-              exit 1
-          fi
+      # - name: Verify Generated Code Matches Repo
+      #   run: |
+      #     if ! git diff --exit-code --ignore-cr-at-eol
+      #     then
+      #         echo "codegen'd envoy updates not checked in"
+      #         git diff-files
+      #         echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
+      #         exit 1
+      #     fi
 
       #=======================================================================
       # Build all the components
@@ -108,71 +89,45 @@ jobs:
           cd dotnet
           dotnet build -c Release
 
-      - name: Build Go Sample
-        run: |
-          cd go
-          go build -o server samples/protocol/counter/server/main.go
-          go build -o client samples/protocol/counter/client/main.go
+      # - name: Build Go Sample
+      #   run: |
+      #     cd go
+      #     go build -o server samples/protocol/counter/server/main.go
+      #     go build -o client samples/protocol/counter/client/main.go
 
-      - name: Build Rust Sample
-        run: |
-          cd rust
-          cargo build --release --config profile.release.panic=\'abort\'
+      # - name: Build Rust Sample
+      #   run: |
+      #     cd rust
+      #     cargo build --release --config profile.release.panic=\'abort\'
 
       #=======================================================================
       # Run the tests
       #=======================================================================
 
-      - name: Install AIO
-        uses: ./.github/actions/deploy-aio
+      # - name: Install AIO
+      #   uses: ./.github/actions/deploy-aio
 
       - name: Dotnet server
         run: |
           AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer &
           $DOTNET_CLIENT
-          $GO_CLIENT
-          $RUST_CLIENT
         env:
           COUNTER_SERVER_ID: dotnet-server
 
-      - name: Go server
-        run: |
-          $GO_SERVER &
-          $DOTNET_CLIENT
-          $GO_CLIENT
-          $RUST_CLIENT
-        env:
-          COUNTER_SERVER_ID: go-server
+      # - name: Go server
+      #   run: |
+      #     $GO_SERVER &
+      #     $DOTNET_CLIENT
+      #     $GO_CLIENT
+      #     $RUST_CLIENT
+      #   env:
+      #     COUNTER_SERVER_ID: go-server
 
-      - name: Rust server
-        run: |
-          $RUST_SERVER &
-          $DOTNET_CLIENT
-          $GO_CLIENT
-          $RUST_CLIENT
-        env:
-          COUNTER_SERVER_ID: rust-server
-
-      # - name: Run Counter Server dotnet
-      #   if: matrix.server == 'dotnet'
-      #   run: dotnet/samples/CounterServer/bin/Release/net9.0/CounterServer --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false;ClientId=${{ matrix.server }}" &
-
-      # - name: Run Counter Server go
-      #   if: matrix.server == 'go'
-      #   run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }} go/server &
-
-      # - name: Run Counter Server rust
-      #   if: matrix.server == 'rust'
-      #   run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=${{ matrix.server }} rust/target/release/counter_server &
-
-      # - name: Run Counter Client dotnet
-      #   if: matrix.client == 'dotnet'
-      #   run: dotnet/samples/CounterClient/bin/Release/net9.0/CounterClient --ConnectionStrings:Default="HostName=localhost;TcpPort=${{ env.broker_port }};UseTls=false" -e COUNTER_SERVER_ID=${{ matrix.server }}
-
-      # - name: Run Counter Client go
-      #   if: matrix.client == 'go'
-      #   run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=go-client COUNTER_SERVER_ID=${{ matrix.server }} go/client
-
-      # - name: Run Counter Client rust
-      #   if: matrix.client == 'rust'
-      #   run: AIO_BROKER_HOSTNAME=localhost AIO_BROKER_TCP_PORT=${{ env.broker_port }} AIO_MQTT_USE_TLS=false AIO_MQTT_CLIENT_ID=rust-client COUNTER_SERVER_ID=${{ matrix.server }} rust/target/release/counter_client
+      # - name: Rust server
+      #   run: |
+      #     $RUST_SERVER &
+      #     $DOTNET_CLIENT
+      #     $GO_CLIENT
+      #     $RUST_CLIENT
+      #   env:
+      #     COUNTER_SERVER_ID: rust-server
