@@ -13,7 +13,8 @@ use env_logger::Builder;
 
 use tokio::{
     sync::Mutex,
-    time::sleep
+    time::sleep,
+    time::timeout
 };
 
 use azure_iot_operations_mqtt::session::{
@@ -21,8 +22,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
-use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
+use azure_iot_operations_services::state_store::{self};
 use azure_iot_operations_services::leased_lock::{self};
 
 // API:
@@ -38,11 +38,10 @@ use azure_iot_operations_services::leased_lock::{self};
 // basic try lock
 // single holder acquires a lock
 // two holders attempt to acquire a lock simultaneously, with release
-
 // two holders attempt to acquire a lock, first renews lease
-// holder 1 acquires short lived lock, no release, holder 2 acquires expired lock.
-// one holder observes lock until it is released by another
-// one holder observes lock until it expires
+// second holder acquires non-released expired lock.
+// second holder observes until lock released
+// second holder observes until lock expires
 // single holder do acquire_lock_and_update_value
 // two holders do acquire_lock_and_update_value
 // single holder do acquire_lock_and_delete_value
@@ -79,7 +78,7 @@ fn initialize_client(
 > {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
-        .hostname("4.242.27.201")
+        .hostname("localhost")
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -256,7 +255,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
     let test_task1_holder_name2 = holder_name2.clone();
     let test_task1 = tokio::task::spawn({
         async move {
-            let lock_expiry = Duration::from_secs(30);
+            let lock_expiry = Duration::from_secs(10);
             let request_timeout = Duration::from_secs(50);
 
             let acquire_response = leased_lock_client1
@@ -354,7 +353,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
     .is_ok());
 }
 
-[ignore] // TODO: investigate why this is not working.
+#[ignore] // TODO: investigate why this is not working.
 #[tokio::test]
 async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_tests() {
     let test_id = "leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_tests";
@@ -490,14 +489,460 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
     .is_ok());
 }
 
-// holder 1 acquires short lived lock, no release, holder 2 acquires expired lock.
-// one holder observes lock until it is released by another
-// one holder observes lock until it expires
+#[tokio::test]
+async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_tests() {
+    let test_id = "leased_lock_second_holder_acquires_non_released_expired_lock_network_tests";
+    if !setup_test(test_id) { return; }
+
+    let lock_name1 = format!("{test_id}-lock");
+    let holder_name1 = format!("{test_id}1");
+    let holder_name2 = format!("{test_id}2");
+
+    let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
+        match initialize_client(&holder_name1, &lock_name1.clone()) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
+        match initialize_client(&holder_name2, &lock_name1) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let test_task1 = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(3);
+            let request_timeout = Duration::from_secs(50);
+
+            let acquire_response = leased_lock_client1
+                .acquire_lock(lock_expiry, request_timeout)
+                .await.unwrap();
+            assert!(acquire_response.response);
+
+            sleep(Duration::from_secs(4)).await; // This will allow the lock to expire.
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex1.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle1.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    let test_task2 = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(30);
+            let request_timeout = Duration::from_secs(50);
+
+            sleep(Duration::from_secs(5)).await;
+
+            let acquire_response = leased_lock_client2
+                .acquire_lock(lock_expiry, request_timeout)
+                .await.unwrap();
+            assert!(acquire_response.response);
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex2.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle2.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task1.await.map_err(|e| { e.to_string() }) },
+        async move { session1.run().await.map_err(|e| { e.to_string() }) },
+        async move { test_task2.await.map_err(|e| { e.to_string() }) },
+        async move { session2.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests() {
+    let test_id = "leased_lock_second_holder_observes_until_lock_is_released_network_tests";
+    if !setup_test(test_id) { return; }
+
+    let lock_name1 = format!("{test_id}-lock");
+    let holder_name1 = format!("{test_id}1");
+    let holder_name2 = format!("{test_id}2");
+
+    let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
+        match initialize_client(&holder_name1, &lock_name1.clone()) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
+        match initialize_client(&holder_name2, &lock_name1) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let test_task1 = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(120);
+            let request_timeout = Duration::from_secs(50);
+
+            let acquire_response = leased_lock_client1
+                .acquire_lock(lock_expiry, request_timeout)
+                .await.unwrap();
+            assert!(acquire_response.response);
+
+            sleep(Duration::from_secs(4)).await;
+
+            let release_response = leased_lock_client1
+                .release_lock(request_timeout)
+                .await.unwrap();
+            assert_eq!(release_response.response, 1);
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex1.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle1.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    let test_task2_lock_name1 = lock_name1.clone();
+    let test_task2 = tokio::task::spawn({
+        async move {
+            let request_timeout = Duration::from_secs(50);
+
+            sleep(Duration::from_secs(1)).await;
+
+            let mut observe_response = leased_lock_client2
+                .observe_lock(request_timeout)
+                .await.unwrap();
+
+            let receive_notifications_task = tokio::task::spawn({
+                async move {
+                    while let Some((notification, _)) =
+                        observe_response.response.recv_notification().await
+                    {
+                        assert_eq!(notification.key, test_task2_lock_name1.clone().into_bytes());
+                        assert_eq!(notification.operation, state_store::Operation::Del);
+                        break;
+                    }
+                }
+            });
+
+            assert!(timeout(Duration::from_secs(5), receive_notifications_task).await.is_ok());
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex2.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle2.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task1.await.map_err(|e| { e.to_string() }) },
+        async move { session1.run().await.map_err(|e| { e.to_string() }) },
+        async move { test_task2.await.map_err(|e| { e.to_string() }) },
+        async move { session2.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
+    let test_id = "leased_lock_second_holder_observes_until_lock_expires_network_tests";
+    if !setup_test(test_id) { return; }
+
+    let lock_name1 = format!("{test_id}-lock");
+    let holder_name1 = format!("{test_id}1");
+    let holder_name2 = format!("{test_id}2");
+
+    let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
+        match initialize_client(&holder_name1, &lock_name1.clone()) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
+        match initialize_client(&holder_name2, &lock_name1) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let test_task1 = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(4);
+            let request_timeout = Duration::from_secs(50);
+
+            let acquire_response = leased_lock_client1
+                .acquire_lock(lock_expiry, request_timeout)
+                .await.unwrap();
+            assert!(acquire_response.response);
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex1.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle1.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    let test_task2_lock_name1 = lock_name1.clone();
+    let test_task2 = tokio::task::spawn({
+        async move {
+            let request_timeout = Duration::from_secs(50);
+
+            sleep(Duration::from_secs(1)).await;
+
+            let mut observe_response = leased_lock_client2
+                .observe_lock(request_timeout)
+                .await.unwrap();
+
+            let receive_notifications_task = tokio::task::spawn({
+                async move {
+                    while let Some((notification, _)) =
+                        observe_response.response.recv_notification().await
+                    {
+                        assert_eq!(notification.key, test_task2_lock_name1.clone().into_bytes());
+                        assert_eq!(notification.operation, state_store::Operation::Del);
+                        break;
+                    }
+                }
+            });
+
+            assert!(timeout(Duration::from_secs(5), receive_notifications_task).await.is_ok());
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex2.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle2.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task1.await.map_err(|e| { e.to_string() }) },
+        async move { session1.run().await.map_err(|e| { e.to_string() }) },
+        async move { test_task2.await.map_err(|e| { e.to_string() }) },
+        async move { session2.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+
 // single holder do acquire_lock_and_update_value
 // two holders do acquire_lock_and_update_value
 // single holder do acquire_lock_and_delete_value
-// single holder attempts to release a lock twice
-// attempt to observe lock that does not exist
+
+#[tokio::test]
+async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
+    let test_id = "leased_lock_attempt_to_release_lock_twice_network_tests";
+    if !setup_test(test_id) { return; }
+
+    let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
+        match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(3);
+            let request_timeout = Duration::from_secs(5);
+
+            let try_acquire_response = leased_lock_client
+                .try_acquire_lock(lock_expiry, request_timeout)
+                .await.unwrap();
+            assert!(try_acquire_response.response);
+
+            let release_response = leased_lock_client
+                .release_lock(request_timeout)
+                .await.unwrap();
+            assert_eq!(release_response.response, 1);
+
+            let release_response2 = leased_lock_client
+                .release_lock(request_timeout)
+                .await.unwrap();
+            assert_eq!(release_response2.response, 0);
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[tokio::test]
+async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests() {
+    let test_id = "leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests";
+    if !setup_test(test_id) { return; }
+
+    let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
+        match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
+            Ok((a, b, c, d)) => (a, b, c, d),
+            Err(error) => panic!("{:?}", error)
+        };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let request_timeout = Duration::from_secs(5);
+
+            let _observe_response = leased_lock_client
+                .observe_lock(request_timeout)
+                .await.unwrap();
+            // Looks like this never fails...
+
+            // Shutdown state store client and underlying resources
+            let state_store_client = state_store_client_arc_mutex.lock().await;
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
+            match exit_handle.try_exit().await {
+                Ok(()) => Ok(()),
+                Err(e) => {
+                    match e {
+                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
+                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
+                            if !attempted {
+                                return Err(e.to_string());
+                            }
+                            Ok(())
+                        },
+                        _ => Err(e.to_string()),
+                    }
+                }
+            }
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
 
 #[ignore]
 #[tokio::test]
