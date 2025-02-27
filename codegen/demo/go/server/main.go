@@ -15,9 +15,9 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/iso"
 
+	"server/custommodel"
 	"server/jsonmodel"
 	"server/rawmodel"
-	"server/custommodel"
 )
 
 const jsonServerId = "JsonGoServer"
@@ -32,8 +32,8 @@ func main() {
 	}
 
 	if len(os.Args) < 3 {
-		fmt.Printf("Usage: %s {JSON|RAW|CUSTOM} iterations [interval_in_seconds]", os.Args[0]);
-		return;
+		fmt.Printf("Usage: %s {JSON|RAW|CUSTOM} iterations [interval_in_seconds]", os.Args[0])
+		return
 	}
 
 	iterations, err := strconv.Atoi(os.Args[2])
@@ -50,15 +50,15 @@ func main() {
 	}
 
 	switch strings.ToLower(os.Args[1]) {
-		case "json":
-			sendJson(ctx, app, iterations, interval_in_seconds)
-		case "raw":
-			sendRaw(ctx, app, iterations, interval_in_seconds)
-		case "custom":
-			sendCustom(ctx, app, iterations, interval_in_seconds)
-		default:
-			fmt.Printf("format must be JSON or RAW or CUSTOM")
-			return
+	case "json":
+		sendJson(ctx, app, iterations, interval_in_seconds)
+	case "raw":
+		sendRaw(ctx, app, iterations, interval_in_seconds)
+	case "custom":
+		sendCustom(ctx, app, iterations, interval_in_seconds)
+	default:
+		fmt.Printf("format must be JSON or RAW or CUSTOM")
+		return
 	}
 
 	fmt.Printf("\nStopping send loop\n")
@@ -99,10 +99,10 @@ func sendJson(ctx context.Context, app *protocol.Application, iterations int, in
 
 	for i := 0; i < iterations; i++ {
 		course := "Math"
-		credit := iso.Duration(time.Duration(i + 2) * time.Hour + time.Duration(i + 1) * time.Minute + time.Duration(i) * time.Second)
+		credit := iso.Duration(time.Duration(i+2)*time.Hour + time.Duration(i+1)*time.Minute + time.Duration(i)*time.Second)
 
 		var proximity jsonmodel.ProximitySchema
-		if i % 3 == 0 {
+		if i%3 == 0 {
 			proximity = jsonmodel.Far
 		} else {
 			proximity = jsonmodel.Near
@@ -120,7 +120,9 @@ func sendJson(ctx context.Context, app *protocol.Application, iterations int, in
 		}
 
 		fmt.Printf("  Sending iteration %d\n", i)
-		err = server.Send(ctx, telemetry)
+		err = server.SendTelemetry(ctx, telemetry, protocol.WithTopicTokens{
+			"myToken": "GoReplacement",
+		})
 		if err != nil {
 			panic(err)
 		}
@@ -148,7 +150,9 @@ func sendRaw(ctx context.Context, app *protocol.Application, iterations int, int
 		telemetry := []byte(fmt.Sprintf("Sample data %d", i))
 
 		fmt.Printf("  Sending iteration %d\n", i)
-		err = server.Send(ctx, telemetry)
+		err = server.SendTelemetry(ctx, telemetry, protocol.WithTopicTokens{
+			"myToken": "GoReplacement",
+		})
 		if err != nil {
 			panic(err)
 		}
@@ -176,7 +180,14 @@ func sendCustom(ctx context.Context, app *protocol.Application, iterations int, 
 		telemetry := []byte(fmt.Sprintf("Sample data %d", i))
 
 		fmt.Printf("  Sending iteration %d\n", i)
-		err = server.Send(ctx, protocol.Data{telemetry, "text/csv", 1})
+		err = server.SendTelemetry(
+			ctx,
+			protocol.Data{
+				telemetry,
+				"text/csv", 1},
+			protocol.WithTopicTokens{
+				"myToken": "GoReplacement",
+			})
 		if err != nil {
 			panic(err)
 		}

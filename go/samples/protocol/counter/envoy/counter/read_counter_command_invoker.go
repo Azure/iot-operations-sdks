@@ -45,18 +45,20 @@ func (invoker ReadCounterCommandInvoker) ReadCounter(
 	executorId string,
 	opt ...protocol.InvokeOption,
 ) (*protocol.CommandResponse[ReadCounterResponsePayload], error) {
-	var opts protocol.InvokeOptions
-	opts.Apply(
-		opt,
+	invokerOpts := []protocol.InvokeOption{
+		protocol.WithTopicTokenNamespace("ex:"),
 		protocol.WithTopicTokens{
 			"executorId": executorId,
 		},
-	)
+	}
+
+	var invokeOpts protocol.InvokeOptions
+	invokeOpts.Apply(opt, invokerOpts...)
 
 	response, err := invoker.Invoke(
 		ctx,
 		nil,
-		&opts,
+		&invokeOpts,
 	)
 
 	return response, err

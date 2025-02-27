@@ -28,5 +28,5 @@ require (
 )
 
 replace github.com/Azure/iot-operations-sdks/go/mqtt => ../../../../go/mqtt
-
 replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../../go/protocol
+replace github.com/Azure/iot-operations-sdks/go/internal => ../../../../go/internal

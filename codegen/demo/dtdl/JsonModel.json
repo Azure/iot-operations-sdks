@@ -6,7 +6,7 @@
   "@id": "dtmi:codegen:communicationTest:jsonModel;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
-  "telemetryTopic": "test/JsonModel/{senderId}/telemetry",
+  "telemetryTopic": "test/JsonModel/{senderId}/telemetry/{ex:myToken}",
   "contents": [
     {
       "@type": "Telemetry",

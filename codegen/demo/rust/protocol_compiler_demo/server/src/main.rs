@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
 use std::env;
 use std::time::Duration;
 
@@ -155,7 +156,12 @@ async fn avro_telemetry_loop(
             )),
         };
 
-        let message = builder.payload(telemetry).unwrap().build().unwrap();
+        let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
+            .payload(telemetry)
+            .unwrap()
+            .build()
+            .unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;
@@ -214,7 +220,12 @@ async fn json_telemetry_loop(
             )),
         };
 
-        let message = builder.payload(telemetry).unwrap().build().unwrap();
+        let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
+            .payload(telemetry)
+            .unwrap()
+            .build()
+            .unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;
@@ -252,6 +263,7 @@ async fn raw_telemetry_loop(
         let telemetry = format!("Sample data {i}");
 
         let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
             .payload(telemetry.into_bytes())
             .unwrap()
             .build()
@@ -298,7 +310,13 @@ async fn custom_telemetry_loop(
             content_type: "text/csv".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let message = builder.payload(payload).unwrap().build().unwrap();
+
+        let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
+            .payload(payload)
+            .unwrap()
+            .build()
+            .unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;

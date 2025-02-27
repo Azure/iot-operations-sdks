@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         public virtual RpcCallAsync<byte[]> InvokeAsync(byte[] request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             Debug.Assert(_generatedClient != null);
-            return _generatedClient.InvokeAsync(request, requestMetadata, commandTimeout, cancellationToken);
+            return _generatedClient.InvokeAsync(request, requestMetadata, null, commandTimeout, cancellationToken);
         }
     }
 }
