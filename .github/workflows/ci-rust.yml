@@ -53,8 +53,8 @@ jobs:
     - name: Install AIO
       uses: ./.github/actions/deploy-aio
       with:
-        install-compilers: 'rust'
         wait-for-broker: 'true'
+        install-rust: 'true'
 
     - name: Run Checks
       run: |

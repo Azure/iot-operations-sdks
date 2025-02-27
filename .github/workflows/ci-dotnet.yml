@@ -39,8 +39,8 @@ jobs:
     - name: Install AIO
       uses: ./.github/actions/deploy-aio
       with:
-        install-compilers: '.net'
         wait-for-broker: 'true'
+        install-dotnet: 'true'
 
     - name: dotnet info
       run: dotnet --info

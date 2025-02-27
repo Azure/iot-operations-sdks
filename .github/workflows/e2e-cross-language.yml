@@ -36,22 +36,13 @@ jobs:
       #=======================================================================
       # Install prerequesities
       #=======================================================================
-      # - name: Install AIO
-      #   uses: ./.github/actions/deploy-aio
-      #   with:
-      #     install-compilers: 'all'
-      #     wait-for-broker: 'true'
-
-      #=======================================================================
-      # Setup the workflow
-      #=======================================================================
       - name: Install AIO
-        uses: ./.github/workflows/shared-deploy-aio.yml
+        uses: ./.github/actions/deploy-aio
         with:
-          wait-for-broker: true
-          install-dotnet: true
-          install-go: true
-          install-rust: true
+          wait-for-broker: 'true'
+          install-go: 'true'
+          install-dotnet: 'true'
+          install-rust: 'true'
 
       #=======================================================================
       # Build codegen and verify it matches repository

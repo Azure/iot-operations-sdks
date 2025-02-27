@@ -45,8 +45,9 @@ jobs:
     - name: Install AIO
       uses: ./.github/actions/deploy-aio
       with:
-        install-compilers: 'rust'
         wait-for-broker: 'true'
+        install-dotnet: 'true'
+        install-go: 'true'
 
     # This file is created by deploy-aio
     - name: Load test service account token into environment
