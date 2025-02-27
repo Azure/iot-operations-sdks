@@ -52,16 +52,16 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Run Checks
-      run: |
-        set -e
-        make check
-
     - name: Install AIO
       uses: ./../.github/actions/deploy-aio
       with:
         install-compilers: 'rust'
         wait-for-broker: 'true'
+
+    - name: Run Checks
+      run: |
+        set -e
+        make check
 
     - name: Run Tests
       run: |

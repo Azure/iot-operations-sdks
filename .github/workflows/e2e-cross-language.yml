@@ -28,7 +28,7 @@ jobs:
         server: [dotnet, go, rust]
 
     env:
-      COUNTER_SERVER_ID: ${{ matrix.server.name }}
+      COUNTER_SERVER_ID: ${{ matrix.server }}
 
     steps:
       - uses: actions/checkout@v4
@@ -41,8 +41,8 @@ jobs:
       - name: Install AIO
         uses: ./.github/actions/deploy-aio
         with:
-          install-compilers: "all"
-          wait-for-broker: "true"
+          install-compilers: 'all'
+          wait-for-broker: 'true'
 
       #=======================================================================
       # Build codegen and verify it matches repository
@@ -77,18 +77,18 @@ jobs:
       #=======================================================================
       # Build all the components
       #=======================================================================
-      - name: Build .NET Sample
+      - name: Build .NET sample
         run: |
           cd dotnet
           dotnet build -c Release
 
-      - name: Build Go Sample
+      - name: Build Go sample
         run: |
           cd go
           go build -o server samples/protocol/counter/server/main.go
           go build -o client samples/protocol/counter/client/main.go
 
-      - name: Build Rust Sample
+      - name: Build Rust sample
         run: |
           cd rust
           cargo build --release --config profile.release.panic=\'abort\'
