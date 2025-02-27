@@ -129,7 +129,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
-        token: ${{ secrets.CODECOV_ORG_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Codegen counter for Go
       working-directory: ./go/samples/protocol/counter/envoy
