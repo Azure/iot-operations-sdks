@@ -130,6 +130,7 @@ jobs:
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./go
 
     - name: Codegen counter for Go
       working-directory: ./go/samples/protocol/counter/envoy

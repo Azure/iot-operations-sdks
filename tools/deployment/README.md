@@ -1,6 +1,6 @@
 # Initializing a Kubernetes cluster and installing Azure IoT Operations
 
-The scripts support the general [Setups](/docs/setup.md) documentation.
+These scripts support the general [Setups](/docs/setup.md) documentation.
 
 ## Supported environments
 
@@ -13,6 +13,35 @@ The scripts have been tested in the following environments:
 
 > [!NOTE]
 > Docker will need to be preinstalled in the target environment
+
+## Scenarios
+
+### Setup for development
+
+> [!CAUTION]
+> `initialize-cluster.sh` will **DELETE** your default k3d cluster.
+
+1. Initialize the cluster:
+
+    ```bash
+    ./tools/deployment/initialize-cluster.sh
+    ```
+
+2. [Install Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/overview-deploy)
+
+3. Configure Azure IoT Operations for development:
+
+    ```bash
+    ./tools/deployment/deploy-aio.sh
+    ```
+
+### Update credentials
+
+To refresh the MQTT broker authorisation credentials (located in the `.session` folder), including SAT, MQTT Broker server cert and x509 client certs, run the following:
+
+```bash
+./tools/deployment/update-credentials.sh
+```
 
 ## Scripts
 
@@ -37,29 +66,15 @@ Installs prerequisites and creates a new cluster:
 
 Configures the MQTT broker for development purposes:
 
-1. Create root and intermediate CAs for x509 authentication.
-1. Create a client x509 certificate: `.session/client.crt` + `.session/client.key`
+1. Setup certificate services, if missing
+1. Create root and intermediate CAs for x509 authentication
 1. Create the trust bundle ConfigMap for the Broker to authentication x509 clients
 1. Configure a `BrokerListener` and `BrokerAuthentication` resources for SAT and x509 auth
+
+### `update-credentials`
+
+This will download to your local machine, the different files needed to authenticate your application.
+
 1. Download the Broker trust bundle: `.session/broker-ca.crt`
+1. Create a client x509 certificate: `.session/client.crt` & `.session/client.key`
 1. Create a new SAT: `.session/token.txt`
-
-## Install
-
-> [!CAUTION]
-> `initialize-cluster.sh` will **DELETE** your default k3d cluster.
-
-1. Initialize the cluster:
-
-    ```bash
-    ./tools/deployment/initialize-cluster.sh
-    ```
-
-2. [Install Azure IoT Operations](https://learn.microsoft.com/azure/iot-operations/deploy-iot-ops/overview-deploy)
-
-3. Configure Azure IoT Operations for development:
-
-    ```bash
-    ./tools/deployment/deploy-aio.sh
-    ```
-
