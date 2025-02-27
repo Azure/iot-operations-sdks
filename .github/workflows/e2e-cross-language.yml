@@ -18,7 +18,7 @@ env:
   AIO_BROKER_TCP_PORT: 1883
   AIO_MQTT_USE_TLS: false
 
-  DOTNET_SERVER: AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer
+  DOTNET_SERVER: dotnet run -c Release --project dotnet/samples/CounterServer
   DOTNET_CLIENT: dotnet run -c Release --project dotnet/samples/CounterClient
   DOTNET_CLIENT2: AIO_MQTT_CLIENT_ID=dotnet-client dotnet run -c Release --project dotnet/samples/CounterClient
   GO_SERVER:     AIO_MQTT_CLIENT_ID=go-server     go/server
@@ -119,20 +119,11 @@ jobs:
         env:
           AIO_MQTT_CLIENT_ID: dotnet-server 
 
-
       - name: Dotnet clients
-        run: |
-          $DOTNET_CLIENT
-          $GO_CLIENT
-          $RUST_CLIENT
+        run: $DOTNET_CLIENT; $GO_CLIENT; $RUST_CLIENT
         env:
           COUNTER_SERVER_ID: dotnet-server
-
-      - name: Dotnet clients again
-        run: ${{ env.DOTNET_CLIENT2 }}
-        env:
-          COUNTER_SERVER_ID: dotnet-server
-
+          
       # - name: Go server
       #   run: |
       #     $GO_SERVER &
