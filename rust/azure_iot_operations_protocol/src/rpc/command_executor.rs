@@ -29,7 +29,7 @@ use crate::{
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
-const DEFAULT_MESSAGE_EXPIRY_INTERVAL: u32 = 10;
+const DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS: u32 = 10;
 
 /// Message for when expiration time is unable to be calculated, internal logic error
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
