@@ -7,7 +7,10 @@
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::{interface::{AckToken, ManagedClient}, session::SessionConnectionMonitor};
+use azure_iot_operations_mqtt::{
+    interface::{AckToken, ManagedClient},
+    session::SessionConnectionMonitor,
+};
 use azure_iot_operations_protocol::{
     application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
@@ -159,7 +162,7 @@ where
                     shutdown_notifier_clone,
                     notification_receiver,
                     observed_keys_clone,
-                    connection_monitor
+                    connection_monitor,
                 )
                 .await;
             }
@@ -579,13 +582,10 @@ where
         }
     }
 
+    /// only return when the session goes from connected to disconnected
     async fn notify_on_disconnection(connection_monitor: &SessionConnectionMonitor) {
-        if connection_monitor.is_connected() {
-            connection_monitor.disconnected().await;
-        } else {
-            connection_monitor.connected().await;
-            connection_monitor.disconnected().await;
-        }
+        connection_monitor.connected().await;
+        connection_monitor.disconnected().await;
     }
 
     async fn receive_key_notification_loop(
@@ -595,7 +595,7 @@ where
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
-        connection_monitor: SessionConnectionMonitor
+        connection_monitor: SessionConnectionMonitor,
     ) {
         let mut shutdown_attempt_count = 0;
         loop {
@@ -618,7 +618,7 @@ where
                     }
                   },
                   () = Self::notify_on_disconnection(&connection_monitor) => {
-                    log::warn!("Session disconnected. Drain the observed keys as they won't receive any more notifications and must be recreated");
+                    log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
                     let mut observed_keys_mutex_guard = observed_keys.lock().await;
                     // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
                     observed_keys_mutex_guard.drain();
