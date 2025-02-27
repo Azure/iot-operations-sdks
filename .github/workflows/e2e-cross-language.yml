@@ -88,7 +88,7 @@ jobs:
       # Build all the components
       #=======================================================================
 
-      - name: Build Dotnet Sample
+      - name: Build .NET Sample
         run: |
           cd dotnet
           dotnet build -c Release
@@ -112,8 +112,8 @@ jobs:
       #   uses: ./.github/actions/deploy-aio
 
       - name: Dotnet server
-        run: $DOTNET_SERVER &
-          
+        run: AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer &
+
       - name: Dotnet clients
         run: $DOTNET_CLIENT
         env:
