@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
             }
 
             string? tcpPort = Environment.GetEnvironmentVariable("AIO_BROKER_TCP_PORT");
-            string? clientId = Environment.GetEnvironmentVariable("AIO_MQTT_CLIENT_ID") ?? string.Empty;
+            string? clientId = Environment.GetEnvironmentVariable("AIO_MQTT_CLIENT_ID");
             string? certFile = Environment.GetEnvironmentVariable("AIO_TLS_CERT_FILE");
             string? keyFile = Environment.GetEnvironmentVariable("AIO_TLS_KEY_FILE");
             string? username = Environment.GetEnvironmentVariable("AIO_MQTT_USERNAME");
