@@ -109,7 +109,7 @@ jobs:
 
       - name: Dotnet server
         run: |
-          AIO_MQTT_CLIENT_ID=dotnet-server dotnet run -c Release --project dotnet/samples/CounterServer &
+          $DOTNET_SERVER &
           $DOTNET_CLIENT
         env:
           COUNTER_SERVER_ID: dotnet-server
