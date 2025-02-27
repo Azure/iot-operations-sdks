@@ -34,4 +34,4 @@ kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
 kubectl apply -f yaml/aio-developer.yaml
 
 # Create the credentials for auth to the MQTT broker
-$script_dir/update_credentials.sh
+$script_dir/update-credentials.sh
