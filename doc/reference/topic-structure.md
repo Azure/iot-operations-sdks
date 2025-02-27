@@ -114,7 +114,7 @@ The value for this property is derived from the following four values, each of w
 * A *response prefix* optionally provided by the user
 * A *response suffix* optionally provided by the user
 
-The response topic is derived by the following three steps.
+The response topic is derived by the following four steps.
 
 The first step produces an *unresolved response pattern* by the following rules:
 
@@ -123,12 +123,17 @@ The first step produces an *unresolved response pattern* by the following rules:
 * If a response prefix is provided, this is prepended to the command topic pattern with an intervening `/` character.
 * If a response suffix is provided, this is appended to the command topic pattern with an intervening `/` character.
 
-In the second step, each topic token in the unresolved response pattern is replaced with a concrete string value.
+The second step produces a *resolved response pattern* as follows:
+Each topic token in the unresolved response pattern is replaced with a concrete string value.
 For custom tokens, a replacement map is defined by the user; each map key is a non-empty string of ASCII alphabetic characters, and each map value follows the rules defined above for command namespace.
 For recognized tokens, the replacements are defined by the table presented above with reference to deriving request topics.
 
-In the third step, if a command namespace is defined by the user, the namespace is prepended to the token-substituted combined topic pattern, with an intervening `/` character.
-If no command namespace is defined by the user, the token-substituted combined topic pattern is used as the final topic for the command response.
+The third step applies only if the user has provided no response topic pattern, no response prefix, and no response suffix.
+In this case, the third step prepends a *default response prefix* to the resolved response pattern.
+The default response prefix is the string `clients/` followed by the client ID, followed by a `/` character.
+
+In the fourth step, if a command namespace is defined by the user, the namespace is prepended to the result of the previous steps, with an intervening `/` character.
+If no command namespace is defined by the user, the result of the previous steps is used as the topic for the command response.
 
 ### Command topic example
 
