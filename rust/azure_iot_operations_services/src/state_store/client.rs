@@ -95,6 +95,9 @@ where
     C::PubReceiver: Send + Sync,
 {
     /// Create a new State Store Client
+    ///
+    /// Note: `connection_monitor` must be from the same session as `client`.
+    ///
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) is possible if
     ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen
