@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
   schedule:
     - cron: "0 11 * * *" # Nightly at 4am PST
 
@@ -15,7 +15,7 @@ concurrency:
 env:
   AIO_BROKER_HOSTNAME: localhost
   AIO_BROKER_TCP_PORT: 1883
-  AIO_MQTT_USE_TLS:    false
+  AIO_MQTT_USE_TLS: false
 
 jobs:
   cross-language:
@@ -41,8 +41,8 @@ jobs:
       - name: Install AIO
         uses: ./.github/actions/deploy-aio
         with:
-          install-compilers: 'all'
-          wait-for-broker: 'true'
+          install-compilers: "all"
+          wait-for-broker: "true"
 
       #=======================================================================
       # Build codegen and verify it matches repository

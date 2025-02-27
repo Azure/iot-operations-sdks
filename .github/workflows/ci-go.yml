@@ -44,19 +44,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: 1.22.4
-        
-    # This pipeline builds and runs the faultable MQTT broker project which is written in .NET
-    - name: Setup .NET 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.200
-
     - name: Install AIO
       uses: ./.github/actions/deploy-aio
+      with:
+        install-compilers: 'rust'
+        wait-for-broker: 'true'
 
     # This file is created by deploy-aio
     - name: Load test service account token into environment

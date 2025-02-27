@@ -29,19 +29,19 @@ runs:
       shell: bash
 
     - name: Setup .NET
-      if: inputs.install-compilers == 'true' || inputs.install-compilers == '.net'
+      if: inputs.install-compilers == 'all' || inputs.install-compilers == '.net'
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.200
 
     - name: Setup GO
-      if: inputs.install-compilers == 'true' || inputs.install-compilers == 'go'
+      if: inputs.install-compilers == 'all' || inputs.install-compilers == 'go'
       uses: actions/setup-go@v5
       with:
         go-version: 1.24
 
     # - name: Setup Rust
-    #   if: inputs.install-compilers == 'true' || inputs.install-compilers == 'rust'
+    #   if: inputs.install-compilers == 'all' || inputs.install-compilers == 'rust'
     #   uses: actions-rust-lang/setup-rust-toolchain@v1
 
     - name: Wait for Mqtt Broker
