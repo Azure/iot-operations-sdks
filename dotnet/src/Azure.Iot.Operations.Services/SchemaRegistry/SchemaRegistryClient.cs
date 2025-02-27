@@ -32,7 +32,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                     Name = schemaId,
                     Version = version
                 }
-            }, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+            }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
     }
 
     public async Task<SchemaInfo?> PutAsync(
@@ -58,7 +58,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                     Tags = tags,
                     SchemaType = schemaType
                 }
-            }, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+            }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
     }
 
     public async ValueTask DisposeAsync()

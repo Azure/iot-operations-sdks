@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -26,6 +26,6 @@ namespace Azure.Iot.Operations.Protocol.Retry
         /// }
         /// </code>
         /// </example>
-        bool ShouldRetry(uint currentRetryCount, Exception lastException, out TimeSpan retryDelay);
+        bool ShouldRetry(uint currentRetryCount, Exception? lastException, out TimeSpan retryDelay);
     }
 }

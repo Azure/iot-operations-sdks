@@ -114,7 +114,7 @@ func main() {
 }
 
 func handleJsonTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[jsonmodel.TelemetryCollection]) error {
-	fmt.Printf("Received telemetry....\n")
+	fmt.Printf("Received telemetry with token replacement %s....\n", msg.TopicTokens["ex:myToken"])
 
 	p := msg.Payload
 
@@ -141,7 +141,7 @@ func handleJsonTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[jso
 }
 
 func handleRawTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[[]byte]) error {
-	fmt.Printf("Received telemetry....\n")
+	fmt.Printf("Received telemetry with token replacement %s....\n", msg.TopicTokens["ex:myToken"])
 
 	fmt.Printf("  data: %s\n\n", string(msg.Payload))
 
@@ -150,7 +150,7 @@ func handleRawTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[[]by
 }
 
 func handleCustomTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[protocol.Data]) error {
-	fmt.Printf("Received telemetry with content type %s....\n", msg.ContentType)
+	fmt.Printf("Received telemetry with content type %s and token replacement %s....\n", msg.ContentType, msg.TopicTokens["ex:myToken"])
 
 	fmt.Printf("  Payload: %s\n\n", string(msg.Payload.Payload))
 
