@@ -707,7 +707,7 @@ where
                     message_received_time.checked_add(Duration::from_secs(ct.into()))
                 } else {
                     message_received_time.checked_add(Duration::from_secs(u64::from(
-                        DEFAULT_MESSAGE_EXPIRY_INTERVAL,
+                        DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS,
                     )))
                 };
 
@@ -1294,7 +1294,8 @@ where
         } else {
             // Happens when the command expiration time was not able to be calculated.
             // We don't cache the response in this case.
-            publish_properties.message_expiry_interval = Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL);
+            publish_properties.message_expiry_interval =
+                Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
         }
 
         // Try to publish
