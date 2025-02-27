@@ -108,9 +108,10 @@ jobs:
       #   uses: ./.github/actions/deploy-aio
 
       - name: Dotnet server
-        run: |
-          $DOTNET_SERVER &
-          $DOTNET_CLIENT
+        run: $DOTNET_SERVER &
+          
+      - name: Dotnet clients
+        run: $DOTNET_CLIENT
         env:
           COUNTER_SERVER_ID: dotnet-server
 
