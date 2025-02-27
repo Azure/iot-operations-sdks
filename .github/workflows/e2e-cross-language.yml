@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        server: [dotnet, rust, go]
+        server: [dotnet, go, rust]
 
     env:
       COUNTER_SERVER_ID: ${{ matrix.server.name }}
@@ -98,15 +98,15 @@ jobs:
       #=======================================================================
       - name: Run .NET server
         if: matrix.server == 'dotnet'
-        run: dotnet run -c Release --project dotnet/samples/CounterServer
+        run: dotnet run -c Release --project dotnet/samples/CounterServer &
 
       - name: Run Go server
         if: matrix.server == 'go'
-        run: go/server
+        run: go/server &
 
       - name: Run Rust server
         if: matrix.server == 'rust'
-        run: rust/target/release/counter_server
+        run: rust/target/release/counter_server &
 
       - name: Run .NET client
         run: dotnet run -c Release --project dotnet/samples/CounterClient
