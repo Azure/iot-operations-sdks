@@ -31,17 +31,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - server: dotnet
+        server:
+          - name: dotnet-server
             command: dotnet run -c Release --project dotnet/samples/CounterServer
-          - server: go
+          - name: go-server
             command: go/server
-          - server: rust
+          - name: rust-server
             command: rust/target/release/counter_server
 #          [dotnet, rust, go]
 
     env:
-      COUNTER_SERVER_ID: ${{ matrix.server }}
+      COUNTER_SERVER_ID: ${{ matrix.server.name }}
 
     steps:
       - uses: actions/checkout@v4
@@ -113,10 +113,10 @@ jobs:
       # Run the tests
       #=======================================================================
 
-      - name: Run server
-        run: $${{ matrix.server }} &
+      - name: Run ${{ matrix.server.name }}
+        run: ${{ matrix.server.command }} &
         env:
-          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server.name }}
 
       - name: Run .NET client
         run: dotnet run -c Release --project dotnet/samples/CounterClient
