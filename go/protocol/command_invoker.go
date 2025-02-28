@@ -34,9 +34,9 @@ type (
 
 	// CommandInvokerOptions are the resolved command invoker options.
 	CommandInvokerOptions struct {
-		ResponseTopic       func(string) string
-		ResponseTopicPrefix string
-		ResponseTopicSuffix string
+		ResponseTopicPattern string
+		ResponseTopicPrefix  string
+		ResponseTopicSuffix  string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -53,10 +53,9 @@ type (
 		Metadata    map[string]string
 	}
 
-	// WithResponseTopic specifies a translation function from the request topic
-	// to the response topic. Note that this overrides any provided response
-	// topic prefix or suffix.
-	WithResponseTopic func(string) string
+	// WithResponseTopicPattern specifies a custom response topic pattern. Note
+	// that this overrides any provided response topic prefix or suffix.
+	WithResponseTopicPattern string
 
 	// WithResponseTopicPrefix specifies a custom prefix for the response topic.
 	// If no response topic options are specified, this will default to a value
@@ -108,11 +107,10 @@ func NewCommandInvoker[Req, Res any](
 		return nil, err
 	}
 
-	// Generate the response topic based on the provided options.
-	responseTopic := requestTopicPattern
-	if opts.ResponseTopic != nil {
-		responseTopic = opts.ResponseTopic(requestTopicPattern)
-	} else {
+	responseTopicPattern := opts.ResponseTopicPattern
+	if responseTopicPattern == "" {
+		responseTopicPattern = requestTopicPattern
+
 		if opts.ResponseTopicPrefix != "" {
 			err = internal.ValidateTopicPatternComponent(
 				"responseTopicPrefix",
@@ -122,7 +120,7 @@ func NewCommandInvoker[Req, Res any](
 			if err != nil {
 				return nil, err
 			}
-			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
+			responseTopicPattern = opts.ResponseTopicPrefix + "/" + responseTopicPattern
 		}
 		if opts.ResponseTopicSuffix != "" {
 			err = internal.ValidateTopicPatternComponent(
@@ -133,7 +131,7 @@ func NewCommandInvoker[Req, Res any](
 			if err != nil {
 				return nil, err
 			}
-			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
+			responseTopicPattern = responseTopicPattern + "/" + opts.ResponseTopicSuffix
 		}
 
 		// If no options were provided, apply a well-known prefix. This ensures
@@ -141,7 +139,7 @@ func NewCommandInvoker[Req, Res any](
 		// us document this pattern for auth configuration. Note that this does
 		// not use any topic tokens, since we cannot guarantee their existence.
 		if opts.ResponseTopicPrefix == "" && opts.ResponseTopicSuffix == "" {
-			responseTopic = "clients/" + client.ID() + "/" + requestTopicPattern
+			responseTopicPattern = "clients/" + client.ID() + "/" + requestTopicPattern
 		}
 	}
 
@@ -156,8 +154,8 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	resTP, err := internal.NewTopicPattern(
-		"responseTopic",
-		responseTopic,
+		"responseTopicPattern",
+		responseTopicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -405,11 +403,11 @@ func (o *CommandInvokerOptions) commandInvoker(opt *CommandInvokerOptions) {
 
 func (*CommandInvokerOptions) option() {}
 
-func (o WithResponseTopic) commandInvoker(opt *CommandInvokerOptions) {
-	opt.ResponseTopic = o
+func (o WithResponseTopicPattern) commandInvoker(opt *CommandInvokerOptions) {
+	opt.ResponseTopicPattern = string(o)
 }
 
-func (WithResponseTopic) option() {}
+func (WithResponseTopicPattern) option() {}
 
 func (o WithResponseTopicPrefix) commandInvoker(opt *CommandInvokerOptions) {
 	opt.ResponseTopicPrefix = string(o)
