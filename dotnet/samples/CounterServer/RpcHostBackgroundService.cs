@@ -11,7 +11,6 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, CounterServi
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
         MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVars();
 
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);

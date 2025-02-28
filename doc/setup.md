@@ -98,7 +98,7 @@ To test the setup is working correctly, use `mosquitto_pub` to connect to the MQ
 1. Test TLS with x509 auth:
 
     ```bash
-    mosquitto_pub -L mqtts://localhost:8883/hello -m world --cafile $SESSION/broker-ca.crt --cert $SESSION/client.crt --key $SESSION/client.key --debug
+ mosquitto_pub -L mqtts://localhost:8883/hello -m world --cafile $SESSION/broker-ca.crt --cert $SESSION/client.crt --key $SESSION/client.key --debugrp
     ```
 
 1. Test TLS with SAT auth:

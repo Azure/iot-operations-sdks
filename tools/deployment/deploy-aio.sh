@@ -10,7 +10,7 @@ session_dir=$script_dir/../../.session
 cd $script_dir
 mkdir -p $session_dir
 
-# Install the cert-man resources if certificate isnt present
+# Install the cert-man resources if certificate isn't present
 if ! kubectl get certificate/azure-iot-operations-aio-selfsigned &> /dev/null; then
     echo Missing certificate, installing...
     kubectl apply -f yaml/cert-man.yaml

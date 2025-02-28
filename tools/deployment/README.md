@@ -37,7 +37,7 @@ The scripts have been tested in the following environments:
 
 ### Update credentials
 
-To refresh the MQTT broker authorisation credentials (located in the `.session` folder), including SAT, MQTT Broker server cert and x509 client certs, run the following:
+To refresh the MQTT broker authorization credentials (located in the `.session` folder), including SAT, MQTT Broker server cert and x509 client certs, run the following:
 
 ```bash
 ./tools/deployment/update-credentials.sh
