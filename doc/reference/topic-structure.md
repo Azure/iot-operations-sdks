@@ -91,7 +91,7 @@ The string MAY contain one or more `/` characters, but it MUST NOT begin with a 
 
 ### Command request
 
-A command request MQTT pub/sub topic is derived from a command topic pattern in two steps.
+A command request MQTT pub/sub topic is derived from a *request topic pattern* in two steps.
 In the first step, each topic token is replaced with a concrete string value.
 For custom tokens, a replacement map is defined by the user; each map key is a non-empty string of ASCII alphabetic characters, and each map value follows the rules defined above for command namespace.
 For recognized tokens, the replacements are defined by the following table.
@@ -107,25 +107,37 @@ If no command namespace is defined by the user, the token-substituted topic patt
 ### Command response
 
 The response for a command MUST be published on the topic specified by the `ResponseTopic` MQTT property in the command request message.
-There is no requirement for the structure or format of a response topic; this can be determined entirely by the user, as long as it accords with MQTT topic format rules.
+The value for this property is derived from the following four values, each of which follows the rules defined above for request topic patterns, including the allowability of topic tokens:
 
-If the user does not provide a function for generating response topics, they are derived by the following three steps.
+* A *response topic pattern* optionally provided by the user
+* The request topic pattern described above
+* A *response prefix* optionally provided by the user
+* A *response suffix* optionally provided by the user
 
-The first step employs zero, one, or two values that are optionally supplied by the user: a *response prefix* and a *response suffix*, each of which follows the rules defined above for command topic patterns, including the allowability of topic tokens.
+The response topic is derived by the following four steps.
 
-* If a response prefix is provided, it is prepended to the command topic pattern with an intervening `/` character.
-* If a response suffix is provided, it is appended to the command topic pattern with an intervening `/` character.
+The first step produces an *unresolved response pattern* by the following rules:
 
-In the second step, each topic token in the combined *prefix + pattern + suffix* string is replaced with a concrete string value.
+* If a response topic pattern is provided, this is the unresolved response pattern.
+* If no response topic pattern is provided, the unresolved response pattern is formed from the request topic pattern, conditionally modified by the next two rules.
+* If a response prefix is provided, this is prepended to the command topic pattern with an intervening `/` character.
+* If a response suffix is provided, this is appended to the command topic pattern with an intervening `/` character.
+
+The second step produces a *resolved response pattern* as follows:
+Each topic token in the unresolved response pattern is replaced with a concrete string value.
 For custom tokens, a replacement map is defined by the user; each map key is a non-empty string of ASCII alphabetic characters, and each map value follows the rules defined above for command namespace.
 For recognized tokens, the replacements are defined by the table presented above with reference to deriving request topics.
 
-In the third step, if a command namespace is defined by the user, the namespace is prepended to the token-substituted combined topic pattern, with an intervening `/` character.
-If no command namespace is defined by the user, the token-substituted combined topic pattern is used as the final topic for the command response.
+The third step applies only if the user has provided no response topic pattern, no response prefix, and no response suffix.
+In this case, the third step prepends a *default response prefix* to the resolved response pattern.
+The default response prefix is the string `clients/` followed by the client ID, followed by a `/` character.
+
+In the fourth step, if a command namespace is defined by the user, the namespace is prepended to the result of the previous steps, with an intervening `/` character.
+If no command namespace is defined by the user, the result of the previous steps is used as the topic for the command response.
 
 ### Command topic example
 
-An example of a permitted MQTT Command topic pattern string is:
+An example of a permitted MQTT Command request topic pattern string is:
 
 ```text
 vehicles/{executorId}/command/{commandName}
@@ -143,7 +155,7 @@ Furthermore, if the user has provided a command namespace value of `region/quad1
 region/quad12/vehicles/delivery-14/command/reset
 ```
 
-If the user provides no response prefix or response suffix, the derived MQTT response topic is the same as the MQTT request topic above.
+If the user provides no response topic pattern, response prefix, or response suffix, the derived MQTT response topic is the same as the MQTT request topic above.
 On the other hand, if the user has provided a response prefix of `clients/{invokerClientId}` and a response suffix of `response`, and if the invoker's client ID is `monitor5`, the resulting MQTT response topic is:
 
 ```text
