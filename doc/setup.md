@@ -107,26 +107,39 @@ To test the setup is working correctly, use `mosquitto_pub` to connect to the MQ
     mosquitto_pub -L mqtts://localhost:8884/hello -m world --cafile $SESSION/broker-ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat $SESSION/token.txt) --debug
     ```
 
-## Final configuration
+## Configuration summary
 
-### MQTT Broker
+### MQTT broker configuration
 
  With the installation complete, the cluster will contain the following MQTT broker definitions:
 
- | Component | Name | Description |
- |-|-|-|
- | `Broker` | default | The MQTT broker |
- | `BrokerListener` | default | Provides **cluster access** to the MQTT Broker:</br>Port `18883` - TLS, SAT auth |
- | `BrokerListener` | default-external | Provides **external access** to the MQTT Broker:</br>Port `1883` - no TLS, no auth</br>Port `8883` - TLS, x509 auth</br>Port `8884` - TLS, SAT auth
- | `BrokerAuthentication` | default | A SAT authentication definition used by the `default` BrokerListener.
- | `BrokerAuthentication` | default-x509 | An x509 authentication definition used by the `default-external` BrokerListener.
+| Component Type | Name | Description
+|-|-|-|
+| `Broker` | default | The MQTT broker |
+| `BrokerListener` | default | Provides **cluster access** to the MQTT Broker |
+| `BrokerListener` | default-external | Provides **off-cluster access** to the MQTT Broker |
+| `BrokerAuthentication` | default | SAT authentication definition
+| `BrokerAuthentication` | default-x509 | An x509 authentication definition
+
+### MQTT broker access
+
+The MQTT broker can be accessed both on-cluster and off-cluster using the connection information below. Refer to [ Connection Settings](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/connection-settings.md) for information on which environment variables to use when configuration your application.
+
+> [!NOTE]
+>
+> The hostname when accessing the MQTT broker off-cluster may differ from `localhost` depending on your setup.
+
+| Hostname | Authentication | TLS | On cluster port | Off cluster port |
+|-|-|-|-|-|
+| `aio-broker` | SAT | :white_check_mark: | `18883` | - | 
+| `localhost` | None | :x: | `31883` | `1883` |
+| `localhost` | x509 | :white_check_mark: | `38883` | `8883` |
+| `localhost` | SAT | :white_check_mark: | `38884` | `8884` |
+
 
 ### Development artifacts
 
 As part of the deployment script, the following files are created in the local environment, to facilitate connection and authentication to the MQTT broker. These files are located in the `.session` directory, found at the repository root.
-
-> [!NOTE]
-> For applications that will be deployed to the cluster, SAT  is the preferred authentication method for connecting to the MQTT broker.
 
 | File | Description |
 |-|-|
