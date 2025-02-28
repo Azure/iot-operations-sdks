@@ -10,12 +10,11 @@ use thiserror::Error;
 use azure_iot_operations_protocol::common::{
     aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock,
 };
-
-pub use crate::state_store::resp3::Operation;
-
 use crate::state_store::{
-    KeyObservation, Response as StateStoreResponse, ServiceError as StateStoreServiceError,
-    StateStoreError, StateStoreErrorKind,
+    KeyObservation, Response as StateStoreResponse,
+    ServiceError as StateStoreServiceError,
+    StateStoreError, 
+    StateStoreErrorKind
 };
 
 type LockObservation = KeyObservation;
@@ -51,8 +50,8 @@ impl From<StateStoreError> for Error {
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
     /// The lock is already in use by another holder.
-    #[error("lock is already in use by another holder")]
-    LockAlreadyInUse,
+    #[error("lock is already held by another holder")]
+    LockAlreadyHeld,
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
@@ -62,6 +61,9 @@ pub enum ErrorKind {
     /// The lock name length must not be zero.
     #[error("lock name length must not be zero")]
     LockNameLengthZero,
+    /// The lock holder name length must not be zero.
+    #[error("lock holder name length must not be zero")]
+    LockHolderNameLengthZero,
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
@@ -105,6 +107,7 @@ where
     T: Debug,
 {
     /// The version of the lock as a [`HybridLogicalClock`].
+    /// Important: This should be used as the `fencing_token` when editing the locked key.
     pub version: Option<HybridLogicalClock>,
     /// The response for the request. Will vary per operation.
     pub response: T,

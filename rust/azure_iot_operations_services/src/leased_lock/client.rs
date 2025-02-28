@@ -28,23 +28,29 @@ where
     C: ManagedClient + Clone + Send + Sync,
     C::PubReceiver: Send + Sync,
 {
-    /// Create a new Leased Lock Client
-    ///
-    /// Note: `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings.
+    /// Create a new Leased Lock Client.
+    /// 
+    /// Notes:
+    /// - `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings.
+    /// - There must be one instance of `leased_lock::Client` per lock. 
     ///
     /// # Errors
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) is possible if
-    ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen.
-    ///
-    /// # Panics
-    /// Possible panics when building options for the underlying command invoker or telemetry receiver,
-    /// but they should be unreachable because we control the static parameters that go into these calls.
-    #[allow(clippy::needless_pass_by_value)]
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
+    /// 
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
     pub fn new(
         state_store: Arc<Mutex<state_store::Client<C>>>,
         lock_name: Vec<u8>,
         lock_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
+        if lock_name.is_empty() {
+            return Err(Error(ErrorKind::LockNameLengthZero));
+        }
+
+        if lock_holder_name.is_empty() {
+            return Err(Error(ErrorKind::LockHolderNameLengthZero));
+        }
+
         Ok(Self {
             state_store,
             lock_name,
@@ -52,8 +58,11 @@ where
         })
     }
 
-    /// Attempts to acquire a lock, returning immediately if it cannot be acquired.
+    /// Attempts to acquire a lock, returning if it cannot be acquired after one attempt.
     ///
+    /// `lock_expiration` is how long the lock will remain set in the Distributed State Store after set, if not deleted.
+    /// `request_timeout` is the maximum time the function will wait for receiving a response from the Distributed State Store service.
+    /// 
     /// Returns `true` if completed successfully, or `false` if lock is not acquired.
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
@@ -66,7 +75,7 @@ where
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     ///
-    /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
+    /// [`Error`] of kind [`LockAlreadyHeld`](ErrorKind::LockAlreadyHeld) if the `lock` is already in use by another holder
     pub async fn try_acquire_lock(
         &self,
         lock_expiration: Duration,
@@ -91,7 +100,7 @@ where
                 if state_store_response.response {
                     Ok(Response::from_response(state_store_response))
                 } else {
-                    Err(Error(ErrorKind::LockAlreadyInUse))
+                    Err(Error(ErrorKind::LockAlreadyHeld))
                 }
             }
             Err(state_store_error) => Err(state_store_error.into()),
@@ -102,8 +111,6 @@ where
     ///
     /// Returns `true` if completed successfully, or `false` if lock is not acquired.
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
@@ -111,32 +118,19 @@ where
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
-    ///
-    /// [`Error`] of kind [`LockAlreadyInUse`](ErrorKind::LockAlreadyInUse) if the `lock` is already in use by another holder
     pub async fn acquire_lock(
         &self,
         lock_expiration: Duration,
         request_timeout: Duration,
     ) -> Result<Response<bool>, Error> {
-        if self.lock_name.is_empty() {
-            return Err(Error(ErrorKind::LockNameLengthZero));
-        }
-
         // Logic:
-        // Start observing lock within this function.
-        // If succeeds, wait for observe notification until lock deleted
-        // try acquire again, repeat while error is retriable (?); exit loop once acquire succeeds.
-        // Unobserve lock before exiting.
+        // a. Start observing lock within this function.
+        // b. Try acquiring the lock and return if acquired or got an error other than `LockAlreadyHeld`.
+        // c. If got `LockAlreadyHeld`, wait until `Del` notification for the lock.
+        // d. Loop back starting from b. above.
+        // e. Unobserve lock before exiting.
 
-        let mut observe_result = self.observe_lock(request_timeout).await;
-
-        match observe_result {
-            Ok(_) => {}
-            Err(observe_error) => {
-                return Err(observe_error);
-            }
-        }
-
+        let mut observe_response = self.observe_lock(request_timeout).await?;
         let mut acquire_result;
 
         loop {
@@ -151,7 +145,7 @@ where
                     }
                 }
                 Err(ref acquire_error) => match acquire_error.kind() {
-                    ErrorKind::LockAlreadyInUse => { /* Must wait for lock to be released. */ }
+                    ErrorKind::LockAlreadyHeld => { /* Must wait for lock to be released. */ }
                     _ => {
                         break;
                     }
@@ -159,11 +153,9 @@ where
             };
 
             // Lock being held by another client. Wait for delete notification.
-            if let Ok(ref mut response) = observe_result {
-                while let Some((notification, _)) = response.response.recv_notification().await {
-                    if notification.operation == state_store::Operation::Del {
-                        break;
-                    }
+            while let Some((notification, _)) = observe_response.response.recv_notification().await {
+                if notification.operation == state_store::Operation::Del {
+                    break;
                 }
             }
         }
@@ -177,8 +169,6 @@ where
     ///
     /// Returns `true` if the key is successfully set, or `false` if it is not.
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
@@ -194,17 +184,13 @@ where
         value: Vec<u8>,
         set_options: SetOptions,
     ) -> Result<Response<bool>, Error> {
-        if self.lock_name.is_empty() {
-            return Err(Error(ErrorKind::LockNameLengthZero));
-        }
-
         loop {
             let acquire_result = self.acquire_lock(lock_expiration, request_timeout).await;
 
             match acquire_result {
                 Err(ref acquire_error) => {
                     match acquire_error.kind() {
-                        ErrorKind::LockAlreadyInUse => continue, // Try to lock again.
+                        ErrorKind::LockAlreadyHeld => continue, // Try to lock again.
                         _ => return acquire_result, // Some other error that cannot be handle here.
                     }
                 }
@@ -215,8 +201,8 @@ where
 
                     let set_result = locked_state_store
                         .set(
-                            key.clone(),
-                            value.clone(),
+                            key,
+                            value,
                             request_timeout,
                             acquire_response.version,
                             set_options,
@@ -245,13 +231,11 @@ where
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     ///
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Del` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn acquire_lock_and_delete_value(
@@ -260,17 +244,11 @@ where
         request_timeout: Duration,
         key: Vec<u8>,
     ) -> Result<Response<i64>, Error> {
-        if self.lock_name.is_empty() {
-            return Err(Error(ErrorKind::LockNameLengthZero));
-        }
-
         loop {
-            let acquire_result = self.acquire_lock(lock_expiration, request_timeout).await;
-
-            match acquire_result {
+            match self.acquire_lock(lock_expiration, request_timeout).await {
                 Err(acquire_error) => {
                     match acquire_error.kind() {
-                        ErrorKind::LockAlreadyInUse => continue, // Try to lock again.
+                        ErrorKind::LockAlreadyHeld => continue, // Try to lock again.
                         _ => return Err(acquire_error), // Some other error that cannot be handle here.
                     }
                 }
@@ -280,7 +258,7 @@ where
                     let locked_state_store = self.state_store.lock().await;
 
                     let del_result = locked_state_store
-                        .del(key.clone(), acquire_response.version, request_timeout)
+                        .del(key, acquire_response.version, request_timeout)
                         .await;
 
                     drop(locked_state_store);
@@ -316,16 +294,13 @@ where
     pub async fn release_lock(&self, request_timeout: Duration) -> Result<Response<i64>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let vdel_result = locked_state_store
-            .vdel(
-                self.lock_name.clone(),
-                self.lock_holder_name.clone(),
-                None,
-                request_timeout,
-            )
-            .await;
-
-        match vdel_result {
+        match locked_state_store.vdel(
+            self.lock_name.clone(),
+            self.lock_holder_name.clone(),
+            None,
+            request_timeout,
+        )
+        .await {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }
@@ -363,12 +338,9 @@ where
 
         let observe_result = locked_state_store
             .observe(self.lock_name.clone(), request_timeout)
-            .await;
+            .await?;
 
-        match observe_result {
-            Ok(state_store_response) => Ok(state_store_response.into()),
-            Err(state_store_error) => Err(state_store_error.into()),
-        }
+        Ok(observe_result.into())
     }
 
     /// Stops observation of any changes on a lock.
@@ -390,11 +362,9 @@ where
     pub async fn unobserve_lock(&self, request_timeout: Duration) -> Result<Response<bool>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let unobserve_result = locked_state_store
-            .unobserve(self.lock_name.clone(), request_timeout)
-            .await;
-
-        match unobserve_result {
+        match locked_state_store.unobserve(
+            self.lock_name.clone(), request_timeout)
+        .await {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }
@@ -404,7 +374,7 @@ where
     ///
     /// Returns `Some(<holder of the lock>)` if the lock is found or `None` if the lock was not found
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
+    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
     ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
@@ -415,14 +385,12 @@ where
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn get_lock_holder(
         &self,
-        lock: Vec<u8>,
-        timeout: Duration,
+        lock_name: Vec<u8>,
+        request_timeout: Duration,
     ) -> Result<Response<Option<Vec<u8>>>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        let get_result = locked_state_store.get(lock.clone(), timeout).await;
-
-        match get_result {
+        match locked_state_store.get(lock_name.clone(), request_timeout).await {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }

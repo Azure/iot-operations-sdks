@@ -14,7 +14,7 @@ use thiserror::Error;
 /// State Store Client implementation
 mod client;
 /// Serialization and deserialization implementations for resp3 state store payloads
-pub mod resp3;
+mod resp3;
 
 pub use client::{Client, ClientOptions, ClientOptionsBuilder, KeyObservation};
 pub use resp3::{Operation, SetCondition, SetOptions};
@@ -68,7 +68,7 @@ pub enum StateStoreErrorKind {
 }
 
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
-#[derive(Error, Debug, Clone)]
+#[derive(Error, Debug)]
 pub enum ServiceError {
     /// the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
     #[error("the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]

@@ -41,7 +41,7 @@ pub enum AIOProtocolErrorKind {
 }
 
 /// Represents the possible types of the value of a property
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq)]
 pub enum Value {
     /// A 32-bit integer value
     Integer(i32),

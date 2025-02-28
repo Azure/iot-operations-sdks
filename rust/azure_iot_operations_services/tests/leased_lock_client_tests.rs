@@ -122,10 +122,7 @@ async fn leased_lock_basic_try_acquire_network_tests() {
     if !setup_test(test_id) { return; }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
-        match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
-        };
+        initialize_client(&format!("{test_id}"), &format!("{test_id}-lock")).unwrap();
 
     let test_task = tokio::task::spawn({
         async move {
@@ -353,7 +350,6 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
     .is_ok());
 }
 
-#[ignore] // TODO: investigate why this is not working.
 #[tokio::test]
 async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_tests() {
     let test_id = "leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_tests";
@@ -379,7 +375,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
     let test_task1_holder_name2 = holder_name2.clone();
     let test_task1 = tokio::task::spawn({
         async move {
-            let lock_expiry = Duration::from_secs(4);
+            let lock_expiry = Duration::from_secs(5);
             let request_timeout = Duration::from_secs(50);
 
             let acquire_response = leased_lock_client1
@@ -393,6 +389,8 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
                 .acquire_lock(lock_expiry, request_timeout)
                 .await.unwrap();
             assert!(acquire_response2.response);
+
+            sleep(Duration::from_secs(2)).await;
 
             let release_response = leased_lock_client1
                 .release_lock(request_timeout)
@@ -436,14 +434,14 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
             let lock_expiry = Duration::from_secs(30);
             let request_timeout = Duration::from_secs(50);
 
-            sleep(Duration::from_secs(2)).await;
+            sleep(Duration::from_secs(1)).await;
 
             let get_lock_holder_response = leased_lock_client2
                 .get_lock_holder(test_task2_lock_name1.clone().into_bytes(), request_timeout)
                 .await.unwrap();
             assert_eq!(get_lock_holder_response.response.unwrap(), test_task1_holder_name1.clone().into_bytes());
 
-            sleep(Duration::from_secs(5)).await;
+            sleep(Duration::from_secs(2)).await;
 
             let get_lock_holder_response2 = leased_lock_client2
                 .get_lock_holder(test_task2_lock_name1.clone().into_bytes(), request_timeout)
@@ -675,7 +673,7 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
                 }
             });
 
-            assert!(timeout(Duration::from_secs(5), receive_notifications_task).await.is_ok());
+            assert!(timeout(Duration::from_secs(10), receive_notifications_task).await.is_ok());
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex2.lock().await;
@@ -910,7 +908,10 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
             let _observe_response = leased_lock_client
                 .observe_lock(request_timeout)
                 .await.unwrap();
-            // Looks like this never fails...
+            // Looks like this never fails. That is expected:
+            // vaava: "Since a key being deleted doesn't end your observation,
+            // it makes sense that if you observe a key that doesn't exist,
+            // you might expect it to exist in the future and want notifications"
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex.lock().await;
