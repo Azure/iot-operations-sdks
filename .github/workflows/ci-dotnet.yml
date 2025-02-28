@@ -198,6 +198,14 @@ jobs:
         indicators: true
         output: both
 
+    - uses: dorny/test-reporter@v1
+      id: test-reporter
+      if: always()
+      with:
+        name: dotnet test report
+        path: 'dotnet/**/test-results.trx,tools/**/test-results.trx'
+        reporter: dotnet-trx  
+        
     - name: Annotate Test Report
       if: always()
       run: echo Test Report ${{ steps.test-reporter.outputs.url_html }} >> $GITHUB_STEP_SUMMARY
