@@ -153,45 +153,45 @@ jobs:
 
     - name: Build DSS CLI (Release)
       run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
-    
-    - name: Code Coverage Report
+
+    - name: Azure.Iot.Operations.Mqtt Package Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Mqtt.**/**/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Mqtt.**/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
         indicators: true
         output: both
 
-    - name: Code Coverage Report
+    - name: Azure.Iot.Operations.Protocol Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Protocol.**/**/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Protocol.**/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
         indicators: true
         output: both
 
-    - name: Code Coverage Report
+    - name: Azure.Iot.Operations.Services Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Services.**/**/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Services.**/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
         indicators: true
         output: both
 
-    - name: Code Coverage Report
+    - name: Azure.Iot.Operations.Connector Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Connector.**/**/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Connector.**/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
@@ -205,7 +205,7 @@ jobs:
         name: dotnet test report
         path: 'dotnet/**/test-results.trx,tools/**/test-results.trx'
         reporter: dotnet-trx  
-        
+
     - name: Annotate Test Report
       if: always()
       run: echo Test Report ${{ steps.test-reporter.outputs.url_html }} >> $GITHUB_STEP_SUMMARY
