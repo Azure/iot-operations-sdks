@@ -20,7 +20,7 @@ func Test() error {
 // TestClean runs the unit tests with no test cache.
 func TestClean() error {
 	// Cannot use -race, since the wallclock tests register as racy.
-	return shellcmd.RunAll(`go clean -testcache`, `go test -coverprofile=coverage.out -covermode=atomic`)
+	return shellcmd.RunAll(`go clean -testcache`, `go test`)
 }
 
 // CI runs format, lint, and test.

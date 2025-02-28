@@ -78,7 +78,7 @@ func Doc() error {
 
 // Test runs the unit tests.
 func Test() error {
-	return shellcmd.Command(`go test -race -cover -coverprofile=coverage.out -covermode=atomic -timeout 30s ./...`).Run()
+	return shellcmd.Command(`go test -race -cover -timeout 30s ./...`).Run()
 }
 
 // TestClean runs the unit tests with no test cache.
