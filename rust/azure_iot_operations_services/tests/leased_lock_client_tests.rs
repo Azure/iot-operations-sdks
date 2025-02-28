@@ -51,23 +51,20 @@ fn setup_test(test_name: &str) -> bool {
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
         log::warn!("Test {test_name} is skipped. Set ENABLE_NETWORK_TESTS to run.");
         return false;
-    } else {
-        return true;
     }
+
+    true
 }
 
 fn initialize_client(
     client_id: &str,
     lock_name: &str,
-) -> Result<
-    (
+) -> (
         Session,
         Arc<Mutex<state_store::Client<SessionManagedClient>>>,
         leased_lock::Client<SessionManagedClient>,
         SessionExitHandle,
-    ),
-    (),
-> {
+    ) {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
@@ -105,12 +102,12 @@ fn initialize_client(
     )
     .unwrap();
 
-    Ok((
+    (
         session,
         state_store_client_arc_mutex,
         leased_lock_client,
         exit_handle,
-    ))
+    )
 }
 
 #[tokio::test]
@@ -121,7 +118,7 @@ async fn leased_lock_basic_try_acquire_network_tests() {
     }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
-        initialize_client(&format!("{test_id}"), &format!("{test_id}-lock")).unwrap();
+        initialize_client(test_id, &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -177,10 +174,7 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
     let lock_name1 = format!("{test_id}-lock");
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
-        match initialize_client(&holder_name1, &lock_name1) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name1, &lock_name1);
 
     let test_task = tokio::task::spawn({
         async move {
@@ -248,16 +242,10 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
     let holder_name2 = format!("{test_id}2");
 
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
-        match initialize_client(&holder_name1, &lock_name1.clone()) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name1, &lock_name1.clone());
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
-        match initialize_client(&holder_name2, &lock_name1) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name2, &lock_name1);
 
     let test_task1_lock_name1 = lock_name1.clone();
     let test_task1_holder_name2 = holder_name2.clone();
@@ -384,16 +372,10 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
     let holder_name2 = format!("{test_id}2");
 
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
-        match initialize_client(&holder_name1, &lock_name1.clone()) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name1, &lock_name1.clone());
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
-        match initialize_client(&holder_name2, &lock_name1) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name2, &lock_name1);
 
     let test_task1_lock_name1 = lock_name1.clone();
     let test_task1_holder_name2 = holder_name2.clone();
@@ -539,16 +521,10 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
     let holder_name2 = format!("{test_id}2");
 
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
-        match initialize_client(&holder_name1, &lock_name1.clone()) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name1, &lock_name1.clone());
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
-        match initialize_client(&holder_name2, &lock_name1) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name2, &lock_name1);
 
     let test_task1 = tokio::task::spawn({
         async move {
@@ -645,16 +621,10 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
     let holder_name2 = format!("{test_id}2");
 
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
-        match initialize_client(&holder_name1, &lock_name1.clone()) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name1, &lock_name1.clone());
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
-        match initialize_client(&holder_name2, &lock_name1) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name2, &lock_name1);
 
     let test_task1 = tokio::task::spawn({
         async move {
@@ -712,13 +682,14 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
-                    while let Some((notification, _)) =
-                        observe_response.response.recv_notification().await
+                    let Some((notification, _)) = observe_response.response.recv_notification().await
+                    else
                     {
-                        assert_eq!(notification.key, test_task2_lock_name1.clone().into_bytes());
-                        assert_eq!(notification.operation, state_store::Operation::Del);
-                        break;
-                    }
+                        panic!("Received unexpected None for notification");
+                    };
+
+                    assert_eq!(notification.key, test_task2_lock_name1.clone().into_bytes());
+                    assert_eq!(notification.operation, state_store::Operation::Del);
                 }
             });
 
@@ -772,16 +743,10 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
     let holder_name2 = format!("{test_id}2");
 
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
-        match initialize_client(&holder_name1, &lock_name1.clone()) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name1, &lock_name1.clone());
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
-        match initialize_client(&holder_name2, &lock_name1) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&holder_name2, &lock_name1);
 
     let test_task1 = tokio::task::spawn({
         async move {
@@ -831,13 +796,15 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
-                    while let Some((notification, _)) =
+                    let Some((notification, _)) =
                         observe_response.response.recv_notification().await
+                    else
                     {
-                        assert_eq!(notification.key, test_task2_lock_name1.clone().into_bytes());
-                        assert_eq!(notification.operation, state_store::Operation::Del);
-                        break;
-                    }
+                        panic!("Received unexpected None for notification.");
+                    };
+
+                    assert_eq!(notification.key, test_task2_lock_name1.clone().into_bytes());
+                    assert_eq!(notification.operation, state_store::Operation::Del);
                 }
             });
 
@@ -891,10 +858,7 @@ async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
     }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
-        match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -959,10 +923,7 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
     }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
-        match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -1018,10 +979,7 @@ async fn leased_lock_shutdown_right_away_network_tests() {
     }
 
     let (mut session, state_store_client_arc_mutex, _leased_lock_client, exit_handle) =
-        match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
-            Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error),
-        };
+        initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({
         async move {
