@@ -29,14 +29,14 @@ where
     C::PubReceiver: Send + Sync,
 {
     /// Create a new Leased Lock Client.
-    /// 
+    ///
     /// Notes:
     /// - `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings.
-    /// - There must be one instance of `leased_lock::Client` per lock. 
+    /// - There must be one instance of `leased_lock::Client` per lock.
     ///
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
-    /// 
+    ///
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
     pub fn new(
         state_store: Arc<Mutex<state_store::Client<C>>>,
@@ -62,7 +62,7 @@ where
     ///
     /// `lock_expiration` is how long the lock will remain set in the Distributed State Store after set, if not deleted.
     /// `request_timeout` is the maximum time the function will wait for receiving a response from the Distributed State Store service.
-    /// 
+    ///
     /// Returns `true` if completed successfully, or `false` if lock is not acquired.
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
@@ -153,7 +153,8 @@ where
             };
 
             // Lock being held by another client. Wait for delete notification.
-            while let Some((notification, _)) = observe_response.response.recv_notification().await {
+            while let Some((notification, _)) = observe_response.response.recv_notification().await
+            {
                 if notification.operation == state_store::Operation::Del {
                     break;
                 }
@@ -294,13 +295,15 @@ where
     pub async fn release_lock(&self, request_timeout: Duration) -> Result<Response<i64>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        match locked_state_store.vdel(
-            self.lock_name.clone(),
-            self.lock_holder_name.clone(),
-            None,
-            request_timeout,
-        )
-        .await {
+        match locked_state_store
+            .vdel(
+                self.lock_name.clone(),
+                self.lock_holder_name.clone(),
+                None,
+                request_timeout,
+            )
+            .await
+        {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }
@@ -362,9 +365,10 @@ where
     pub async fn unobserve_lock(&self, request_timeout: Duration) -> Result<Response<bool>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        match locked_state_store.unobserve(
-            self.lock_name.clone(), request_timeout)
-        .await {
+        match locked_state_store
+            .unobserve(self.lock_name.clone(), request_timeout)
+            .await
+        {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }
@@ -390,7 +394,10 @@ where
     ) -> Result<Response<Option<Vec<u8>>>, Error> {
         let locked_state_store = self.state_store.lock().await;
 
-        match locked_state_store.get(lock_name.clone(), request_timeout).await {
+        match locked_state_store
+            .get(lock_name.clone(), request_timeout)
+            .await
+        {
             Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
             Err(state_store_error) => Err(state_store_error.into()),
         }

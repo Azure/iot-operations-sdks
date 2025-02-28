@@ -28,18 +28,20 @@ async fn main() {
     let (mut session1, exit_handle1, state_store_client_arc_mutex1, leased_lock_client1) =
         create_clients(client_id1, lock_name);
 
-    tokio::task::spawn(
-        leased_lock_client_1_operations(
-            lock_name, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1));
+    tokio::task::spawn(leased_lock_client_1_operations(
+        lock_name,
+        state_store_client_arc_mutex1,
+        leased_lock_client1,
+        exit_handle1,
+    ));
 
-    let _join_result = tokio::join!(
-        session1.run()
-    );
+    let _join_result = tokio::join!(session1.run());
 }
 
 fn create_clients(
     client_id: &str,
-    lock_name: &str)-> (
+    lock_name: &str,
+) -> (
     Session,
     SessionExitHandle,
     Arc<Mutex<state_store::Client<SessionManagedClient>>>,
@@ -82,7 +84,12 @@ fn create_clients(
     )
     .unwrap();
 
-    (session, exit_handle, state_store_client_arc_mutex, leased_lock_client)
+    (
+        session,
+        exit_handle,
+        state_store_client_arc_mutex,
+        leased_lock_client,
+    )
 }
 
 /// In the functions below we show different calls that an application could make
@@ -132,7 +139,13 @@ async fn leased_lock_client_1_operations(
     let locked_state_store_client = state_store_client_arc_mutex.lock().await;
 
     match locked_state_store_client
-        .set(shared_resource_key_name.to_vec(), shared_resource_key_value1.to_vec(), request_timeout, fencing_token, shared_resource_key_set_options.clone())
+        .set(
+            shared_resource_key_name.to_vec(),
+            shared_resource_key_value1.to_vec(),
+            request_timeout,
+            fencing_token,
+            shared_resource_key_set_options.clone(),
+        )
         .await
     {
         Ok(set_response) => {
@@ -160,7 +173,12 @@ async fn leased_lock_client_1_operations(
         }
     };
 
-    get_lock_holder(&leased_lock_client, lock_name.as_bytes().to_vec(), request_timeout).await;
+    get_lock_holder(
+        &leased_lock_client,
+        lock_name.as_bytes().to_vec(),
+        request_timeout,
+    )
+    .await;
 
     match leased_lock_client.release_lock(request_timeout).await {
         Ok(release_lock_response) => {
@@ -177,7 +195,12 @@ async fn leased_lock_client_1_operations(
         }
     };
 
-    get_lock_holder(&leased_lock_client, lock_name.as_bytes().to_vec(), request_timeout).await;
+    get_lock_holder(
+        &leased_lock_client,
+        lock_name.as_bytes().to_vec(),
+        request_timeout,
+    )
+    .await;
 
     match leased_lock_client.unobserve_lock(request_timeout).await {
         Ok(unobserve_lock_response) => {
@@ -250,7 +273,11 @@ async fn leased_lock_client_1_operations(
     }
 
     match leased_lock_client
-        .acquire_lock_and_delete_value(lock_expiry, request_timeout, shared_resource_key_name.to_vec())
+        .acquire_lock_and_delete_value(
+            lock_expiry,
+            request_timeout,
+            shared_resource_key_name.to_vec(),
+        )
         .await
     {
         Ok(acquire_lock_and_delete_value_result) => {

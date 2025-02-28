@@ -3,27 +3,19 @@
 
 #![cfg(feature = "leased_lock")]
 
-use std::{
-    env,
-    sync::Arc,
-    time::Duration,
-};
+use std::{env, sync::Arc, time::Duration};
 
 use env_logger::Builder;
 
-use tokio::{
-    sync::Mutex,
-    time::sleep,
-    time::timeout
-};
+use tokio::{sync::Mutex, time::sleep, time::timeout};
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::state_store::{self};
 use azure_iot_operations_services::leased_lock::{self};
+use azure_iot_operations_services::state_store::{self};
 
 // API:
 // try_acquire_lock
@@ -31,7 +23,7 @@ use azure_iot_operations_services::leased_lock::{self};
 // release_lock
 // observe_lock/unobserve_lock
 // acquire_lock_and_update_value
-// acquire_lock_and_delete_value 
+// acquire_lock_and_delete_value
 // get_lock_holder
 
 // Test Scenarios:
@@ -113,13 +105,20 @@ fn initialize_client(
     )
     .unwrap();
 
-    Ok((session, state_store_client_arc_mutex, leased_lock_client, exit_handle))
+    Ok((
+        session,
+        state_store_client_arc_mutex,
+        leased_lock_client,
+        exit_handle,
+    ))
 }
 
 #[tokio::test]
 async fn leased_lock_basic_try_acquire_network_tests() {
     let test_id = "leased_lock_basic_try_acquire_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
         initialize_client(&format!("{test_id}"), &format!("{test_id}-lock")).unwrap();
@@ -131,7 +130,8 @@ async fn leased_lock_basic_try_acquire_network_tests() {
 
             let try_acquire_response = leased_lock_client
                 .try_acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(try_acquire_response.response);
 
             // Shutdown state store client and underlying resources
@@ -169,7 +169,9 @@ async fn leased_lock_basic_try_acquire_network_tests() {
 #[tokio::test]
 async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
     let test_id = "leased_lock_single_holder_acquires_a_lock_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let holder_name1 = format!("{test_id}1");
     let lock_name1 = format!("{test_id}-lock");
@@ -177,7 +179,7 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
         match initialize_client(&holder_name1, &lock_name1) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task = tokio::task::spawn({
@@ -187,13 +189,18 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
 
             let acquire_response = leased_lock_client
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             let get_lock_holder_response = leased_lock_client
                 .get_lock_holder(lock_name1.as_bytes().to_vec(), request_timeout)
-                .await.unwrap();
-            assert_eq!(get_lock_holder_response.response.unwrap(), holder_name1.as_bytes().to_vec());
+                .await
+                .unwrap();
+            assert_eq!(
+                get_lock_holder_response.response.unwrap(),
+                holder_name1.as_bytes().to_vec()
+            );
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex.lock().await;
@@ -228,9 +235,13 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
 }
 
 #[tokio::test]
-async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_network_tests() {
-    let test_id = "leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_network_tests";
-    if !setup_test(test_id) { return; }
+async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_network_tests()
+{
+    let test_id =
+        "leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_network_tests";
+    if !setup_test(test_id) {
+        return;
+    }
 
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
@@ -239,13 +250,13 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
         match initialize_client(&holder_name1, &lock_name1.clone()) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
         match initialize_client(&holder_name2, &lock_name1) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task1_lock_name1 = lock_name1.clone();
@@ -257,22 +268,28 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
 
             let acquire_response = leased_lock_client1
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             sleep(Duration::from_secs(3)).await;
 
             let release_response = leased_lock_client1
                 .release_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert_eq!(release_response.response, 1);
 
             sleep(Duration::from_secs(2)).await;
 
             let get_lock_holder_response = leased_lock_client1
                 .get_lock_holder(test_task1_lock_name1.clone().into_bytes(), request_timeout)
-                .await.unwrap();
-            assert_eq!(get_lock_holder_response.response.unwrap(), test_task1_holder_name2.into_bytes());
+                .await
+                .unwrap();
+            assert_eq!(
+                get_lock_holder_response.response.unwrap(),
+                test_task1_holder_name2.into_bytes()
+            );
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex1.lock().await;
@@ -308,12 +325,17 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
 
             let get_lock_holder_response = leased_lock_client2
                 .get_lock_holder(test_task2_lock_name1.clone().into_bytes(), request_timeout)
-                .await.unwrap();
-            assert_eq!(get_lock_holder_response.response.unwrap(), test_task1_holder_name1.into_bytes());
+                .await
+                .unwrap();
+            assert_eq!(
+                get_lock_holder_response.response.unwrap(),
+                test_task1_holder_name1.into_bytes()
+            );
 
             let acquire_response = leased_lock_client2
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             // Shutdown state store client and underlying resources
@@ -353,7 +375,9 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
 #[tokio::test]
 async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_tests() {
     let test_id = "leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
@@ -362,13 +386,13 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
         match initialize_client(&holder_name1, &lock_name1.clone()) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
         match initialize_client(&holder_name2, &lock_name1) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task1_lock_name1 = lock_name1.clone();
@@ -380,29 +404,36 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
 
             let acquire_response = leased_lock_client1
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             sleep(Duration::from_secs(2)).await;
 
             let acquire_response2 = leased_lock_client1
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response2.response);
 
             sleep(Duration::from_secs(2)).await;
 
             let release_response = leased_lock_client1
                 .release_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert_eq!(release_response.response, 1);
 
             sleep(Duration::from_secs(2)).await;
 
             let get_lock_holder_response = leased_lock_client1
                 .get_lock_holder(test_task1_lock_name1.clone().into_bytes(), request_timeout)
-                .await.unwrap();
-            assert_eq!(get_lock_holder_response.response.unwrap(), test_task1_holder_name2.into_bytes());
+                .await
+                .unwrap();
+            assert_eq!(
+                get_lock_holder_response.response.unwrap(),
+                test_task1_holder_name2.into_bytes()
+            );
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex1.lock().await;
@@ -438,19 +469,28 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
 
             let get_lock_holder_response = leased_lock_client2
                 .get_lock_holder(test_task2_lock_name1.clone().into_bytes(), request_timeout)
-                .await.unwrap();
-            assert_eq!(get_lock_holder_response.response.unwrap(), test_task1_holder_name1.clone().into_bytes());
+                .await
+                .unwrap();
+            assert_eq!(
+                get_lock_holder_response.response.unwrap(),
+                test_task1_holder_name1.clone().into_bytes()
+            );
 
             sleep(Duration::from_secs(2)).await;
 
             let get_lock_holder_response2 = leased_lock_client2
                 .get_lock_holder(test_task2_lock_name1.clone().into_bytes(), request_timeout)
-                .await.unwrap();
-            assert_eq!(get_lock_holder_response2.response.unwrap(), test_task1_holder_name1.into_bytes());
+                .await
+                .unwrap();
+            assert_eq!(
+                get_lock_holder_response2.response.unwrap(),
+                test_task1_holder_name1.into_bytes()
+            );
 
             let acquire_response = leased_lock_client2
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             // Shutdown state store client and underlying resources
@@ -490,7 +530,9 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
 #[tokio::test]
 async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_tests() {
     let test_id = "leased_lock_second_holder_acquires_non_released_expired_lock_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
@@ -499,13 +541,13 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
         match initialize_client(&holder_name1, &lock_name1.clone()) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
         match initialize_client(&holder_name2, &lock_name1) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task1 = tokio::task::spawn({
@@ -515,7 +557,8 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
 
             let acquire_response = leased_lock_client1
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             sleep(Duration::from_secs(4)).await; // This will allow the lock to expire.
@@ -552,7 +595,8 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
 
             let acquire_response = leased_lock_client2
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             // Shutdown state store client and underlying resources
@@ -592,7 +636,9 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
 #[tokio::test]
 async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests() {
     let test_id = "leased_lock_second_holder_observes_until_lock_is_released_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
@@ -601,13 +647,13 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
         match initialize_client(&holder_name1, &lock_name1.clone()) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
         match initialize_client(&holder_name2, &lock_name1) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task1 = tokio::task::spawn({
@@ -617,14 +663,16 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 
             let acquire_response = leased_lock_client1
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             sleep(Duration::from_secs(4)).await;
 
             let release_response = leased_lock_client1
                 .release_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert_eq!(release_response.response, 1);
 
             // Shutdown state store client and underlying resources
@@ -659,7 +707,8 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 
             let mut observe_response = leased_lock_client2
                 .observe_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
@@ -673,7 +722,9 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
                 }
             });
 
-            assert!(timeout(Duration::from_secs(10), receive_notifications_task).await.is_ok());
+            assert!(timeout(Duration::from_secs(10), receive_notifications_task)
+                .await
+                .is_ok());
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex2.lock().await;
@@ -712,7 +763,9 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 #[tokio::test]
 async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
     let test_id = "leased_lock_second_holder_observes_until_lock_expires_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
@@ -721,13 +774,13 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
     let (mut session1, state_store_client_arc_mutex1, leased_lock_client1, exit_handle1) =
         match initialize_client(&holder_name1, &lock_name1.clone()) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let (mut session2, state_store_client_arc_mutex2, leased_lock_client2, exit_handle2) =
         match initialize_client(&holder_name2, &lock_name1) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task1 = tokio::task::spawn({
@@ -737,7 +790,8 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
 
             let acquire_response = leased_lock_client1
                 .acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(acquire_response.response);
 
             // Shutdown state store client and underlying resources
@@ -772,7 +826,8 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
 
             let mut observe_response = leased_lock_client2
                 .observe_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
@@ -786,7 +841,9 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
                 }
             });
 
-            assert!(timeout(Duration::from_secs(5), receive_notifications_task).await.is_ok());
+            assert!(timeout(Duration::from_secs(5), receive_notifications_task)
+                .await
+                .is_ok());
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex2.lock().await;
@@ -822,7 +879,6 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
     .is_ok());
 }
 
-
 // single holder do acquire_lock_and_update_value
 // two holders do acquire_lock_and_update_value
 // single holder do acquire_lock_and_delete_value
@@ -830,12 +886,14 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
 #[tokio::test]
 async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
     let test_id = "leased_lock_attempt_to_release_lock_twice_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
         match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task = tokio::task::spawn({
@@ -845,17 +903,20 @@ async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
 
             let try_acquire_response = leased_lock_client
                 .try_acquire_lock(lock_expiry, request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert!(try_acquire_response.response);
 
             let release_response = leased_lock_client
                 .release_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert_eq!(release_response.response, 1);
 
             let release_response2 = leased_lock_client
                 .release_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             assert_eq!(release_response2.response, 0);
 
             // Shutdown state store client and underlying resources
@@ -893,12 +954,14 @@ async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
 #[tokio::test]
 async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests() {
     let test_id = "leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let (mut session, state_store_client_arc_mutex, leased_lock_client, exit_handle) =
         match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task = tokio::task::spawn({
@@ -907,7 +970,8 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
 
             let _observe_response = leased_lock_client
                 .observe_lock(request_timeout)
-                .await.unwrap();
+                .await
+                .unwrap();
             // Looks like this never fails. That is expected:
             // vaava: "Since a key being deleted doesn't end your observation,
             // it makes sense that if you observe a key that doesn't exist,
@@ -949,12 +1013,14 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
 #[tokio::test]
 async fn leased_lock_shutdown_right_away_network_tests() {
     let test_id = "leased_lock_shutdown_right_away_network_tests";
-    if !setup_test(test_id) { return; }
+    if !setup_test(test_id) {
+        return;
+    }
 
     let (mut session, state_store_client_arc_mutex, _leased_lock_client, exit_handle) =
         match initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock")) {
             Ok((a, b, c, d)) => (a, b, c, d),
-            Err(error) => panic!("{:?}", error)
+            Err(error) => panic!("{:?}", error),
         };
 
     let test_task = tokio::task::spawn({

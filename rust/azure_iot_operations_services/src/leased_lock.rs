@@ -7,14 +7,12 @@ use core::fmt::Debug;
 
 use thiserror::Error;
 
+use crate::state_store::{
+    KeyObservation, Response as StateStoreResponse, ServiceError as StateStoreServiceError,
+    StateStoreError, StateStoreErrorKind,
+};
 use azure_iot_operations_protocol::common::{
     aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock,
-};
-use crate::state_store::{
-    KeyObservation, Response as StateStoreResponse,
-    ServiceError as StateStoreServiceError,
-    StateStoreError, 
-    StateStoreErrorKind
 };
 
 type LockObservation = KeyObservation;
