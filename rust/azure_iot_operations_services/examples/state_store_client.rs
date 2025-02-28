@@ -4,7 +4,8 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+    Session, SessionConnectionMonitor, SessionExitHandle, SessionManagedClient,
+    SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
@@ -39,6 +40,7 @@ async fn main() {
     tokio::task::spawn(state_store_operations(
         application_context,
         session.create_managed_client(),
+        session.create_connection_monitor(),
         session.create_exit_handle(),
     ));
 
@@ -48,6 +50,7 @@ async fn main() {
 async fn state_store_operations(
     application_context: ApplicationContext,
     client: SessionManagedClient,
+    connection_monitor: SessionConnectionMonitor,
     exit_handle: SessionExitHandle,
 ) {
     let state_store_key = b"someKey";
@@ -57,6 +60,7 @@ async fn state_store_operations(
     let state_store_client = state_store::Client::new(
         application_context,
         client,
+        connection_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
