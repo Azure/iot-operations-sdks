@@ -158,7 +158,18 @@ jobs:
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Mqtt.**/TestResults/*/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Mqtt.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Mqtt Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.IntegrationTests/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
@@ -169,7 +180,29 @@ jobs:
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Protocol.**/TestResults/*/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Protocol.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+        
+    - name: Azure.Iot.Operations.Protocol Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.MetlTests/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
@@ -180,7 +213,18 @@ jobs:
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Services.**/TestResults/*/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Services.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.IntegrationTests/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
@@ -191,7 +235,7 @@ jobs:
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/Azure.Iot.Operations.Connector.**/TestResults/*/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Connector.UnitTests/TestResults/*/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
