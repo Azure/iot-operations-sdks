@@ -82,7 +82,7 @@ namespace Client
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
-                Console.WriteLine($"Received telemetry from {sender}....");
+                Console.WriteLine($"Received telemetry from {sender} with token replacement {metadata.TopicTokens["ex:myToken"]}....");
 
                 if (telemetry.Schedule != null)
                 {
@@ -122,7 +122,7 @@ namespace Client
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
-                Console.WriteLine($"Received telemetry from {sender}....");
+                Console.WriteLine($"Received telemetry from {sender} with token replacement {metadata.TopicTokens["ex:myToken"]}....");
 
                 if (telemetry.Schedule != null)
                 {
@@ -162,7 +162,7 @@ namespace Client
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
-                Console.WriteLine($"Received telemetry from {sender}....");
+                Console.WriteLine($"Received telemetry from {sender} with token replacement {metadata.TopicTokens["ex:myToken"]}....");
 
                 if (telemetry != null)
                 {
@@ -188,7 +188,7 @@ namespace Client
 
             telemetryReceiver.OnTelemetryReceived += (sender, telemetry, metadata) =>
             {
-                Console.WriteLine($"Received telemetry from {sender} with content type {telemetry.ContentType}....");
+                Console.WriteLine($"Received telemetry from {sender} with content type {telemetry.ContentType} and token replacement {metadata.TopicTokens["ex:myToken"]}....");
 
                 if (telemetry != null)
                 {

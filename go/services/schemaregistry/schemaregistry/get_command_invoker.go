@@ -45,10 +45,17 @@ func (invoker GetCommandInvoker) Get(
 	request GetRequestPayload,
 	opt ...protocol.InvokeOption,
 ) (*protocol.CommandResponse[GetResponsePayload], error) {
+	invokerOpts := []protocol.InvokeOption{
+		protocol.WithTopicTokenNamespace("ex:"),
+	}
+
+	var invokeOpts protocol.InvokeOptions
+	invokeOpts.Apply(opt, invokerOpts...)
+
 	response, err := invoker.Invoke(
 		ctx,
 		request,
-		opt...,
+		&invokeOpts,
 	)
 
 	return response, err
