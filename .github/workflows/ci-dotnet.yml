@@ -153,24 +153,50 @@ jobs:
 
     - name: Build DSS CLI (Release)
       run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
+    
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        filename: ./**/coverage.cobertura.xml
+        filename: ./**/Azure.Iot.Operations.Mqtt/**/coverage.cobertura.xml
         format: markdown
         hide_branch_rate: false
         hide_complexity: false
         indicators: true
         output: both
 
-    - uses: dorny/test-reporter@v1
-      id: test-reporter
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
       with:
-        name: dotnet test report
-        path: 'dotnet/**/test-results.trx,tools/**/test-results.trx'
-        reporter: dotnet-trx  
+        filename: ./**/Azure.Iot.Operations.Protocol/**/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services/**/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Connector/**/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
 
     - name: Annotate Test Report
       if: always()
