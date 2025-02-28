@@ -6,7 +6,7 @@
   "@id": "dtmi:codegen:communicationTest:customModel;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "custom/0",
-  "telemetryTopic": "test/CustomModel/{senderId}/telemetry",
+  "telemetryTopic": "test/CustomModel/{senderId}/telemetry/{ex:myToken}",
   "contents": [
     {
       "@type": "Telemetry",

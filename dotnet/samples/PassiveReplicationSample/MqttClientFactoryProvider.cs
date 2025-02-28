@@ -1,12 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
-using MQTTnet;
-using MQTTnet.Client;
-using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 {

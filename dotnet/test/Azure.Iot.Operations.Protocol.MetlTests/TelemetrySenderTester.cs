@@ -1,12 +1,12 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Concurrent;
+using System.Globalization;
 using System.Text;
+using System.Threading.Tasks;
 using Azure.Iot.Operations.Mqtt.Converters;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 using Microsoft.VisualStudio.Threading;
 using Tomlyn;
 using Xunit;
@@ -26,11 +26,19 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
+            "TelemetrySenderSendWithCloudEventDataContentTypeNonConforming_ThrowsException",
+            "TelemetrySenderSendWithCloudEventDataSchemaEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventDataSchemaNonUri_ThrowsException",
+            "TelemetrySenderSendWithCloudEventDataSchemaRelativeUri_ThrowsException",
+            "TelemetrySenderSendWithCloudEventIdEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventSourceNonUri_ThrowsException",
+            "TelemetrySenderSendWithCloudEventSpecVersionEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventSubjectEmpty_ThrowsException",
+            "TelemetrySenderSendWithCloudEventTypeEmpty_ThrowsException",
         };
 
         private static IDeserializer yamlDeserializer;
         private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static IPayloadSerializer payloadSerializer;
 
         static TelemetrySenderTester()
         {
@@ -51,6 +59,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
+                TestCaseSerializer.DefaultOutContentType = defaultTestCase.Prologue.Sender.Serializer.OutContentType;
+                TestCaseSerializer.DefaultIndicateCharacterData = defaultTestCase.Prologue.Sender.Serializer.IndicateCharacterData;
+
                 TestCaseSender.DefaultTelemetryName = defaultTestCase.Prologue.Sender.TelemetryName;
                 TestCaseSender.DefaultTelemetryTopic = defaultTestCase.Prologue.Sender.TelemetryTopic;
                 TestCaseSender.DefaultTopicNamespace = defaultTestCase.Prologue.Sender.TopicNamespace;
@@ -60,8 +71,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 TestCaseActionSendTelemetry.DefaultTimeout = defaultTestCase.Actions.SendTelemetry.Timeout;
                 TestCaseActionSendTelemetry.DefaultQos = defaultTestCase.Actions.SendTelemetry.Qos;
             }
-
-            payloadSerializer = new Utf8JsonSerializer();
         }
 
         public static IEnumerable<object[]> GetAllTelemetrySenderCases()
@@ -228,7 +237,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestTelemetrySender telemetrySender = new TestTelemetrySender(mqttClient, testCaseSender.TelemetryName!)
+                TestSerializer testSerializer = new TestSerializer(testCaseSender.Serializer);
+
+                TestTelemetrySender telemetrySender = new TestTelemetrySender(new ApplicationContext(), mqttClient, testCaseSender.TelemetryName!, testSerializer)
                 {
                     TopicPattern = testCaseSender.TelemetryTopic!,
                     TopicNamespace = testCaseSender.TopicNamespace,
@@ -308,14 +319,37 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     metadata.CloudEvent = new CloudEvent(sourceUri);
                 }
 
-                if (actionSendTelemetry.CloudEvent.DataSchema != null)
+                if (actionSendTelemetry.CloudEvent.Id != null)
                 {
-                    metadata.CloudEvent.DataSchema = actionSendTelemetry.CloudEvent.DataSchema;
+                    metadata.CloudEvent.Id = actionSendTelemetry.CloudEvent.Id;
+                }
+
+                if (actionSendTelemetry.CloudEvent.Time is string timeString)
+                {
+                    if (DateTime.TryParse(timeString, null, DateTimeStyles.RoundtripKind, out DateTime time))
+                    {
+                        metadata.CloudEvent.Time = time;
+                    }
+                    else
+                    {
+                        sendTasks.Enqueue(Task.FromException(AkriMqttException.GetArgumentInvalidException(null, "CloudEvent", null, null)));
+                        return;
+                    }
+                }
+
+                if (actionSendTelemetry.CloudEvent.Subject is string subject)
+                {
+                    metadata.CloudEvent.Subject = subject;
+                }
+
+                if (actionSendTelemetry.CloudEvent.DataSchema is string dataSchema)
+                {
+                    metadata.CloudEvent.DataSchema = dataSchema;
                 }
             }
 
             MqttQualityOfServiceLevel qos = actionSendTelemetry.Qos != null ? (MqttQualityOfServiceLevel)actionSendTelemetry.Qos : MqttQualityOfServiceLevel.AtLeastOnce;
-            sendTasks.Enqueue(telemetrySenders[actionSendTelemetry.TelemetryName!].SendTelemetryAsync(actionSendTelemetry.TelemetryValue!, metadata, qos, actionSendTelemetry.Timeout?.ToTimeSpan()));
+            sendTasks.Enqueue(telemetrySenders[actionSendTelemetry.TelemetryName!].SendTelemetryAsync(actionSendTelemetry.TelemetryValue!, metadata, actionSendTelemetry.TopicTokenMap, qos, actionSendTelemetry.Timeout?.ToTimeSpan()));
         }
 
         private async Task AwaitSendAsync(TestCaseActionAwaitSend actionAwaitSend, AsyncQueue<Task> sendTasks)
@@ -348,7 +382,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private Task DisconnectAsync(StubMqttClient stubMqttClient)
         {
-            return stubMqttClient.DisconnectAsync(new MQTTnet.Client.MqttClientDisconnectOptions());
+            return stubMqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions());
         }
 
         private void CheckPublishedMessage(int sequenceIndex, TestCasePublishedMessage publishedMessage, StubMqttClient stubMqttClient)
@@ -363,11 +397,22 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.Payload == null)
             {
-                Assert.Null(appMsg.PayloadSegment.Array);
+                Assert.True(appMsg.Payload.IsEmpty);
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(payload).SerializedPayload, appMsg.PayloadSegment.Array);
+                Assert.False(appMsg.Payload.IsEmpty);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.Payload));
+            }
+
+            if (publishedMessage.ContentType != null)
+            {
+                Assert.Equal(publishedMessage.ContentType, appMsg.ContentType);
+            }
+
+            if (publishedMessage.FormatIndicator != null)
+            {
+                Assert.Equal(publishedMessage.FormatIndicator, (int)appMsg.PayloadFormatIndicator);
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)

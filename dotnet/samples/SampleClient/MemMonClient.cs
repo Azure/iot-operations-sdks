@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using TestEnvoys.Memmon;
 
 namespace SampleClient;
 
-internal class MemMonClient(MqttSessionClient mqttClient, ILogger<MemMonClient> logger) : Memmon.Client(mqttClient)
+internal class MemMonClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<MemMonClient> logger) : Memmon.Client(applicationContext, mqttClient)
 {
     public override Task ReceiveTelemetry(string senderId, WorkingSetTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {

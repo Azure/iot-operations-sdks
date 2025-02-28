@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 public class MathService : TestEnvoys.Math.Math.Service
 {
     IMqttPubSubClient _mqttClient;
-    public MathService(IMqttPubSubClient mqttClient) : base(mqttClient)
+    public MathService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
         _mqttClient = mqttClient;
         FibCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);

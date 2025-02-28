@@ -6,7 +6,7 @@
 
     public class DotNetTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder, HashSet<string> sourceFilePaths)
+        public void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
@@ -28,7 +28,6 @@
             string outFilePath = Path.Combine(outDirPath, templateTransform.FileName);
             File.WriteAllText(outFilePath, generatedCode);
             Console.WriteLine($"  generated {outFilePath}");
-            sourceFilePaths.Add(outFilePath);
         }
     }
 }

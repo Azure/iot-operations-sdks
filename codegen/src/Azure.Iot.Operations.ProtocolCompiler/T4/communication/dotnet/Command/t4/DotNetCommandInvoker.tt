@@ -40,14 +40,18 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <summary>
             /// Initializes a new instance of the <see cref="<#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>"/> class.
             /// </summary>
-            public <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "<#=this.commandName.AsGiven#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
+            public <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "<#=this.commandName.AsGiven#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
+                }
                 base.TopicTokenMap["commandName"] = "<#=this.commandName.AsGiven#>";
             }
         }

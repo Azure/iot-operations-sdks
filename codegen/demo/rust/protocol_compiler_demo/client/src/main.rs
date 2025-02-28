@@ -9,9 +9,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
 const AVRO_CLIENT_ID: &str = "AvroRustClient";
 const JSON_CLIENT_ID: &str = "JsonRustClient";
@@ -84,8 +82,7 @@ async fn main() {
 }
 
 async fn avro_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -106,8 +103,9 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
 
-                println!("Received telemetry from {sender_id}....");
+                println!("Received telemetry from {sender_id} with token replacement {my_replacement}....");
 
                 if let Some(schedule) = message.payload.schedule {
                     if let Some(course) = schedule.course {
@@ -129,6 +127,10 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
                     println!("  Proximity: {proximity:?}");
                 }
 
+                if let Some(data) = message.payload.data {
+                    println!("  Data: {}", str::from_utf8(&data).unwrap());
+                }
+
                 println!();
             }
             Err(e) => {
@@ -140,8 +142,7 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn json_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -162,8 +163,9 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
 
-                println!("Received telemetry from {sender_id}....");
+                println!("Received telemetry from {sender_id} with token replacement {my_replacement}....");
 
                 if let Some(schedule) = message.payload.schedule {
                     if let Some(course) = schedule.course {
@@ -188,6 +190,10 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
                     println!("  Proximity: {proximity:?}");
                 }
 
+                if let Some(data) = message.payload.data {
+                    println!("  Data: {}", str::from_utf8(&data).unwrap());
+                }
+
                 println!();
             }
             Err(e) => {
@@ -199,8 +205,7 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn raw_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -221,9 +226,10 @@ async fn raw_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
 
                 let data = str::from_utf8(&message.payload).unwrap();
-                println!("Received telemetry from {sender_id}....");
+                println!("Received telemetry from {sender_id} with token replacement {my_replacement}....");
                 println!("  Data: {data:?}");
 
                 println!();
@@ -237,8 +243,7 @@ async fn raw_telemetry_loop(client: SessionManagedClient) {
 }
 
 async fn custom_telemetry_loop(client: SessionManagedClient) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
         custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -259,11 +264,12 @@ async fn custom_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
                 let content_type = &message.payload.content_type.as_str();
 
                 let payload = str::from_utf8(&message.payload.payload).unwrap();
                 println!(
-                    "Received telemetry from {sender_id} with content type {content_type}...."
+                    "Received telemetry from {sender_id} with content type {content_type} and token replacement {my_replacement}...."
                 );
                 println!("  Payload: {payload:?}");
 

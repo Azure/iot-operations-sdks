@@ -5,8 +5,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class TestCaseReceiver
     {
+        public static TestCaseSerializer DefaultSerializer = new();
         public static string? DefaultTelemetryTopic;
         public static string? DefaultTopicNamespace;
+
+        public TestCaseSerializer Serializer { get; set; } = DefaultSerializer;
 
         public string? TelemetryTopic { get; set; } = DefaultTelemetryTopic;
 

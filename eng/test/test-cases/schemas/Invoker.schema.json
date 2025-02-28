@@ -8,6 +8,11 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
+        "serializer": {
+            "description": "Configuration settings for the test serializer associated with the invoker.",
+            "$ref": "InvokerSerializer.schema.json",
+            "kind": "drive"
+        },
         "request-topic": {
             "description": "The MQTT topic pattern for the Command request.",
             "type": [ "string", "null" ],
@@ -36,12 +41,9 @@
             },
             "kind": "drive"
         },
-        "response-topic-map": {
-            "description": "A map from request topic to response topic, as an alternative to using prefix/suffix.",
-            "type": "object",
-            "additionalProperties": {
-                "type": "string"
-            },
+        "response-topic-pattern": {
+            "description": "The response topic pattern to attach to the invocation request, as an alternative to using prefix/suffix.",
+            "type": "string",
             "kind": "drive"
         }
     }

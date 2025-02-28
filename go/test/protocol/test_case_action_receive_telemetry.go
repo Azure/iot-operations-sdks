@@ -7,16 +7,15 @@ import (
 )
 
 type testCaseActionReceiveTelemetry struct {
-	Topic               *string           `yaml:"topic"`
-	Payload             *string           `yaml:"payload"`
-	BypassSerialization bool              `yaml:"bypass-serialization"`
-	ContentType         *string           `yaml:"content-type"`
-	FormatIndicator     *int              `yaml:"format-indicator"`
-	Metadata            map[string]string `yaml:"metadata"`
-	Qos                 *int              `yaml:"qos"`
-	MessageExpiry       *TestCaseDuration `yaml:"message-expiry"`
-	SourceIndex         *int              `yaml:"source-index"`
-	PacketIndex         *int              `yaml:"packet-index"`
+	Topic           *string           `yaml:"topic"`
+	Payload         *string           `yaml:"payload"`
+	ContentType     *string           `yaml:"content-type"`
+	FormatIndicator *int              `yaml:"format-indicator"`
+	Metadata        map[string]string `yaml:"metadata"`
+	Qos             *int              `yaml:"qos"`
+	MessageExpiry   *TestCaseDuration `yaml:"message-expiry"`
+	SourceIndex     *int              `yaml:"source-index"`
+	PacketIndex     *int              `yaml:"packet-index"`
 }
 
 type TestCaseActionReceiveTelemetry struct {

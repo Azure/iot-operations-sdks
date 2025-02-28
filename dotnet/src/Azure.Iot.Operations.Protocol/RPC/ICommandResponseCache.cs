@@ -3,17 +3,18 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using System;
+using System.Buffers;
 using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
     /// <summary>
     /// Interface for a cache of command responses that may be used for two purposes.
-    /// 
+    ///
     /// First, for ensuring that duplicated requests do not result in repeated executions, a stored response whose correlation data matches that of a previous request
     /// SHOULD return the same response at least until the expiration time of the command. This is RECOMMENDED for all commands, but it is REQUIRED for non-idempotent
     /// commands, becasue repeated non-idempotent requests will cause corruption.
-    /// 
+    ///
     /// Second, for reducing the load on the execution engine, a stored response whose request payload matches that of a previous request MAY be returned instead of
     /// executing the command, as long as the stored respone is returned before the specfied maximum staleness time.
     /// </summary>
@@ -30,9 +31,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="responseMessage">The response message to be stored.</param>
         /// <param name="isIdempotent">True if the command is designated as idempotent.</param>
         /// <param name="commandExpirationTime">Time prior to which the command instance (identfied by <paramref name="correlationData"/>) remains valid\.</param>
-        /// <param name="ttl">Time prior to which a potentially stale cached response may be returned for a matching <paramref name="requestPayload"/> but different <paramref name="correlationData"/>.</param>
         /// <param name="executionDuration">Time taken to execute the command and serialize the response into a message.</param>
-        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
+        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
 
         /// <summary>
         /// Retrieve a promise (Task) of an <see cref="MqttApplicationMessage"/> if present in the cache.
@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="isCacheable">True if the command is cacheable for responding to a request with different <paramref name="correlationData"/>.</param>
         /// <param name="canReuseAcrossInvokers">True if the <paramref name="invokerId"/> can be ignored when caching for reuse.</param>
         /// <returns>A <c>Task</c> that promises the retrieved message, or null if the response message is neither present nor expected.</returns>
-        Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers);
+        Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers);
 
         /// <summary>
         /// Start background maintenance threads.

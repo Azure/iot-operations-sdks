@@ -31,7 +31,9 @@ pub struct <#=this.objectType.SchemaName.GetTypeName(TargetLanguage.Rust)#> {
     #[serde(rename = "<#=fieldInfo.Key.AsGiven#>")]
 <# } #>
 <# if (!fieldInfo.Value.IsRequired) { #>
+<# if (this.allowSkipping) { #>
     #[serde(skip_serializing_if = "Option::is_none")]
+<# } #>
     #[builder(default = "None")]
 <# } else if (RustSchemaSupport.HasNativeDefault(fieldInfo.Value.SchemaType)) { #>
     #[builder(default)]

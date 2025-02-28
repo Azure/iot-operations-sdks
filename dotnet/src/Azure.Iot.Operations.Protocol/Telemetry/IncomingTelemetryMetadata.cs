@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     /// The metadata associated with every message received by a <see cref="TelemetryReceiver{T}"/>.
     /// </summary>
     /// <remarks>
-    /// Some metadata should be expected if it was sent by a <see cref="TelemetrySender{T}"/> but may not be 
+    /// Some metadata should be expected if it was sent by a <see cref="TelemetrySender{T}"/> but may not be
     /// present if the message was sent by something else.
     /// </remarks>
     public class IncomingTelemetryMetadata
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// A timestamp attached to the telemetry message.
         /// </summary>
         /// <remarks>
-        /// This value is nullable only because a received message may not have sent it. Any message sent by 
+        /// This value is nullable only because a received message may not have sent it. Any message sent by
         /// <see cref="TelemetrySender{T}"/> will include a non-null timestamp. A message sent by anything else
         /// may or may not include this timestamp.
         /// </remarks>
@@ -34,8 +34,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public Dictionary<string, string> UserData { get; }
 
         /// <summary>
-        /// The Id of the received MQTT packet. This value can be used to acknowledge a received message via 
-        /// <see cref="TelemetryReceiver{T}.AcknowledgeAsync(uint)"/>.
+        /// A dictionary of MQTT topic tokens and the replacement values extracted from the publication topic.
+
+        /// </summary>
+        public Dictionary<string, string> TopicTokens { get; }
+
+        /// <summary>
+        /// The Id of the received MQTT packet.
         /// </summary>
         public uint PacketId { get; }
 
@@ -58,7 +63,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
 
-        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId)
+        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null)
         {
             UserData = [];
 
@@ -86,6 +91,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     }
                 }
             }
+
+            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
 
             PacketId = packetId;
         }
@@ -127,11 +134,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
             string subject = safeGetUserProperty(nameof(CloudEvent.Subject));
             string dataSchema = safeGetUserProperty(nameof(CloudEvent.DataSchema));
-            string dataContentType = safeGetUserProperty(nameof(CloudEvent.DataContentType));
 
             string time = safeGetUserProperty(nameof(CloudEvent.Time));
             DateTime _dateTime = DateTime.UtcNow;
-            if (!string.IsNullOrEmpty(time) && !DateTime.TryParse(time, CultureInfo.InvariantCulture, out _dateTime))
+            if (!string.IsNullOrEmpty(time) && !DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out _dateTime))
             {
                 throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events time must be a valid RFC3339 date-time");
             }
@@ -140,7 +146,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             {
                 Id = id,
                 Time = _dateTime,
-                DataContentType = dataContentType,
+                DataContentType = ContentType,
                 DataSchema = dataSchema,
                 Subject = subject,
             };

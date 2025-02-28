@@ -14,6 +14,9 @@ $gen --modelFile ../dtdl/CommandRaw.json --outDir ./CommandRawSample/command_raw
 [[ -d ./TelemetryAndCommandSample ]] && rm -r ./TelemetryAndCommandSample
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSample/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 
+[[ -d ./TelemetryAndCommandSampleFromSchema ]] && rm -r ./TelemetryAndCommandSampleFromSchema
+$gen --namespace TelemetryAndCommand --workingDir ../../TelemetryAndCommandSample/telemetry_and_command_gen/target/akri --outDir ./TelemetryAndCommandSampleFromSchema/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
+
 [[ -d ./TelemetryAndCommandSampleClientOnly ]] && rm -r ./TelemetryAndCommandSampleClientOnly
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSampleClientOnly/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust --clientOnly
 

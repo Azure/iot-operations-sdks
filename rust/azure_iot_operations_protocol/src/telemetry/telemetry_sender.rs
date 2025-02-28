@@ -9,14 +9,13 @@ use std::{collections::HashMap, marker::PhantomData, time::Duration};
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use bytes::Bytes;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
 
-use crate::application::{ApplicationContext, ApplicationHybridLogicalClock};
 use crate::{
+    application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
-        hybrid_logical_clock::HybridLogicalClock,
         is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
@@ -145,7 +144,10 @@ impl CloudEvent {
             CloudEventSubject::None => {}
         }
         if let Some(time) = self.time {
-            headers.push((CloudEventFields::Time.to_string(), time.to_rfc3339()));
+            headers.push((
+                CloudEventFields::Time.to_string(),
+                time.to_rfc3339_opts(SecondsFormat::Secs, true),
+            ));
         }
         if let Some(data_schema) = self.data_schema {
             headers.push((
@@ -297,7 +299,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
-/// # use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextOptionsBuilder};
+/// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
 /// #     .hostname("mqtt://localhost")
@@ -307,7 +309,7 @@ pub struct TelemetrySenderOptions {
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
 /// # let mut mqtt_session = Session::new(session_options).unwrap();
-/// # let application_context = ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+/// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let sender_options = TelemetrySenderOptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
@@ -328,10 +330,10 @@ where
     T: PayloadSerialize,
     C: ManagedClient + Send + Sync + 'static,
 {
+    application_hlc: Arc<ApplicationHybridLogicalClock>,
     mqtt_client: C,
     message_payload_type: PhantomData<T>,
     topic_pattern: TopicPattern,
-    _application_hlc: Arc<ApplicationHybridLogicalClock>,
 }
 
 /// Implementation of Telemetry Sender
@@ -363,17 +365,23 @@ where
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
         let topic_pattern = TopicPattern::new(
-            "sender_options.topic_pattern",
             &sender_options.topic_pattern,
+            None,
             sender_options.topic_namespace.as_deref(),
             &sender_options.topic_token_map,
-        )?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "sender_options.topic_pattern",
+            )
+        })?;
 
         Ok(Self {
+            application_hlc: application_context.application_hlc,
             mqtt_client: client,
             message_payload_type: PhantomData,
             topic_pattern,
-            _application_hlc: application_context.application_hlc,
         })
     }
 
@@ -386,6 +394,12 @@ where
     /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
+    ///
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if
+    /// - the [`ApplicationHybridLogicalClock`]'s counter would be incremented and overflow beyond [`u64::MAX`] when preparing the timestamp for the message
+    ///
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if
+    /// - the [`ApplicationHybridLogicalClock`]'s timestamp is too far in the future
     pub async fn send(&self, mut message: TelemetryMessage<T>) -> Result<(), AIOProtocolError> {
         // Validate parameters. Custom user data, timeout, QoS, and payload serialization have already been validated in TelemetryMessageBuilder
         let message_expiry_interval: u32 = match message.message_expiry.as_secs().try_into() {
@@ -397,10 +411,13 @@ where
         };
 
         // Get topic.
-        let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
+        let message_topic = self
+            .topic_pattern
+            .as_publish_topic(&message.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
 
-        // Create timestamp
-        let timestamp = HybridLogicalClock::new();
+        // Get updated timestamp
+        let timestamp_str = self.application_hlc.update_now()?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -417,7 +434,7 @@ where
         // Add internal user properties
         message
             .custom_user_data
-            .push((UserProperty::Timestamp.to_string(), timestamp.to_string()));
+            .push((UserProperty::Timestamp.to_string(), timestamp_str));
 
         message.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
@@ -486,9 +503,8 @@ mod tests {
 
     use test_case::test_case;
 
-    use super::*;
     use crate::{
-        application::ApplicationContextOptionsBuilder,
+        application::ApplicationContextBuilder,
         common::{
             aio_protocol_error::{AIOProtocolErrorKind, Value},
             payload_serialize::{FormatIndicator, MockPayload, SerializedPayload},
@@ -526,7 +542,7 @@ mod tests {
             .unwrap();
 
         TelemetrySender::<MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         )
@@ -547,7 +563,7 @@ mod tests {
             .unwrap();
 
         TelemetrySender::<MockPayload, _>::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         )
@@ -565,7 +581,7 @@ mod tests {
             .unwrap();
 
         let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
-            ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap()),
+            ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         );

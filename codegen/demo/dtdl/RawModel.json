@@ -6,7 +6,7 @@
   "@id": "dtmi:codegen:communicationTest:rawModel;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "raw/0",
-  "telemetryTopic": "test/RawModel/{senderId}/telemetry",
+  "telemetryTopic": "test/RawModel/{senderId}/telemetry/{ex:myToken}",
   "contents": [
     {
       "@type": "Telemetry",

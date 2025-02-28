@@ -164,7 +164,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public IMqttClientCredentialsProvider? Credentials { get; set; }
 
-        public IMqttExtendedAuthenticationExchangeHandler? ExtendedAuthenticationExchangeHandler { get; set; }
+        public IMqttEnhancedAuthenticationHandler? EnhancedAuthenticationHandler { get; set; }
 
         /// <summary>
         ///     Gets or sets the keep alive period.
@@ -238,7 +238,10 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///         connect properly.
         ///     </remarks>
         /// </summary>
-        public bool TryPrivate { get; set; } = true;
+        /// <remarks>
+        /// This feature is not supported in MQTT5
+        /// </remarks>
+        public bool TryPrivate { get; set; }
 
         /// <summary>
         ///     Gets or sets the user properties.

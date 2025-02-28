@@ -6,14 +6,14 @@ namespace Azure.Iot.Operations.Services.Assets
     public interface IAssetMonitor
     {
         /// <summary>
-        /// The callback that executes when an asset has changed once you start observing an asset with 
-        /// <see cref="ObserveAssetAsync(string, TimeSpan?, CancellationToken)"/>.
+        /// The callback that executes when an asset has changed once you start observing an asset with
+        /// <see cref="ObserveAssets(TimeSpan?, CancellationToken)"/>.
         /// </summary>
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
         /// <summary>
         /// The callback that executes when the asset endpoint profile has changed once you start observing it with
-        /// <see cref="ObserveAssetEndpointProfileAsync(TimeSpan?, CancellationToken)"/>.
+        /// <see cref="ObserveAssetEndpointProfile(TimeSpan?, CancellationToken)"/>.
         /// </summary>
         public event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
 
@@ -33,20 +33,20 @@ namespace Azure.Iot.Operations.Services.Assets
         public Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Start receiving notifications on <see cref="AssetFileChanged"/> when any asset changes.
+        /// Start receiving notifications on <see cref="AssetChanged"/> when any asset changes.
         /// </summary>
         /// <param name="pollingInterval">How frequently to check for changes to the asset.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         public void ObserveAssets(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Stop receiving notifications on <see cref="AssetFileChanged"/> when an asset changes.
+        /// Stop receiving notifications on <see cref="AssetChanged"/> when an asset changes.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         public void UnobserveAssets(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Start receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
+        /// Start receiving notifications on <see cref="AssetEndpointProfileChanged"/> when the asset endpoint profile
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="pollingInterval">How frequently to check for changes to the asset endpoint profile.</param>
@@ -54,7 +54,7 @@ namespace Azure.Iot.Operations.Services.Assets
         public void ObserveAssetEndpointProfile(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Stop receiving notifications on <see cref="AssetEndpointProfileFileChanged"/> when the asset endpoint profile
+        /// Stop receiving notifications on <see cref="AssetEndpointProfileChanged"/> when the asset endpoint profile
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>

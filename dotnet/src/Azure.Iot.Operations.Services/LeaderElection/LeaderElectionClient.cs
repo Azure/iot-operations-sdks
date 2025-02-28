@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Services.LeasedLock;
 using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Retry;
 
 namespace Azure.Iot.Operations.Services.LeaderElection
 {
@@ -16,52 +17,33 @@ namespace Azure.Iot.Operations.Services.LeaderElection
     /// with <see cref="AutomaticRenewalOptions"/>, though.
     /// </para>
     /// <para>
-    /// When a leader is elected via <see cref="CampaignAsync(long, CampaignRequestOptions?, CancellationToken)"/>,
+    /// When a leader is elected via <see cref="CampaignAsync(TimeSpan, CampaignRequestOptions?, CancellationToken)"/>,
     /// the service will respond with a fencing token via <see cref="CampaignResponse.FencingToken"/>. This fencing token
     /// allows for State Store set/delete operations on shared resources without risk of race conditions.
     /// </para>
     /// </remarks>
-    public class LeaderElectionClient : IAsyncDisposable
+    public class LeaderElectionClient : ILeaderElectionClient
     {
         private readonly LeasedLockClient _leasedLockClient;
         private bool _disposed = false;
+        private readonly TimeSpan _retryPolicyMaxWait = TimeSpan.FromMilliseconds(200);
+        private const uint _retryPolicyBaseExponent = 1;
+        private const uint _retryPolicyMaxRetries = 5;
 
-        /// <summary>
-        /// The callback that executes whenever the current leader changes.
-        /// </summary>
-        /// <remarks>
-        /// Users who want to watch leadership change events must first set this callback, then
-        /// call <see cref="ObserveLeadershipChangesAsync(ObserveLeadershipChangesRequestOptions?, CancellationToken)"/>.
-        /// To stop watching leadership change events, call <see cref="UnobserveLeadershipChangesAsync(CancellationToken)"/>
-        /// and then remove any handlers from this object.
-        /// </remarks>
+        /// <inheritdoc/>
         public event Func<object?, LeadershipChangeEventArgs, Task>? LeadershipChangeEventReceivedAsync;
 
-        /// <summary>
-        /// The name of this client that is used when campaigning to be leader.
-        /// </summary>
-        public string CandidateName 
-        { 
-            get 
+        /// <inheritdoc/>
+        public string CandidateName
+        {
+            get
             {
                 ObjectDisposedException.ThrowIf(_disposed, this);
-                return _leasedLockClient.LockHolderName; 
+                return _leasedLockClient.LockHolderName;
             }
         }
 
-        /// <summary>
-        /// The options for automatically re-campaigning to be leader at the end of a term as leader. 
-        /// By default, no automatic renewing happens.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// These options must be set before calling <see cref="CampaignAsync(TimeSpan, CampaignRequestOptions?, CancellationToken)"/>.
-        /// Once set, the automatic renewal will begin after the first call to <see cref="CampaignAsync(TimeSpan, CampaignRequestOptions?, CancellationToken)"/>.
-        /// </para>
-        /// <para>
-        /// The result of automatic renewals can be accessed via <see cref="LastKnownCampaignResult"/>.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc/>
         public LeaderElectionAutomaticRenewalOptions AutomaticRenewalOptions
         {
             get
@@ -88,13 +70,8 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             }
         }
 
-        /// <summary>
-        /// The result of the most recently run campaign.
-        /// </summary>
-        /// <remarks>
-        /// This value captures the result of automatic re-campaigning with <see cref="AutomaticRenewalOptions"/>.
-        /// </remarks>
-        public CampaignResponse? LastKnownCampaignResult 
+        /// <inheritdoc/>
+        public CampaignResponse? LastKnownCampaignResult
         {
             get
             {
@@ -114,21 +91,29 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <summary>
         /// Construct a new leader election client.
         /// </summary>
+        /// <param name="applicationContext">The application context containing shared resources.</param>
         /// <param name="mqttClient">The mqtt client to use for I/O.</param>
         /// <param name="leadershipPositionId">
-        /// The identifier of the leadership position that this client can campaign for. Each client that will 
+        /// The identifier of the leadership position that this client can campaign for. Each client that will
         /// campaign for the same leadership role must share the same value for this parameter.
         /// </param>
-        /// <param name="candidateName">The name to represent this client. Other clients can look up the current 
+        /// <param name="retryPolicy">The policy used to add extra wait time after a lease becomes available to give the previous leader priority.
+        /// If not provided, a default policy will be used <see cref="LeasedLockClient(IMqttPubSubClient mqttClient, string lockName, IRetryPolicy? retryPolicy = null, string? lockHolderName = null)"/>.</param>
+        /// <param name="candidateName">The name to represent this client. Other clients can look up the current
         /// leader's name.</param>
-        public LeaderElectionClient(IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null)
+        public LeaderElectionClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string leadershipPositionId, string? candidateName = null, IRetryPolicy? retryPolicy = null)
         {
             if (string.IsNullOrEmpty(leadershipPositionId))
             {
                 throw new ArgumentException("Must provide a non-null, non-empty leadership position id.");
             }
 
-            _leasedLockClient = new LeasedLockClient(mqttClient, leadershipPositionId, candidateName);
+            retryPolicy ??= new ExponentialBackoffRetryPolicy(
+                _retryPolicyMaxRetries,
+                _retryPolicyBaseExponent,
+                _retryPolicyMaxWait);
+
+            _leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, leadershipPositionId, candidateName, retryPolicy);
             _leasedLockClient.LockChangeEventReceivedAsync += LockChangeEventCallback;
         }
 
@@ -158,19 +143,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             _leasedLockClient = new LeasedLockClient();
         }
 
-        /// <summary>
-        /// Make a single attempt to campaign to be leader.
-        /// </summary>
-        /// <param name="electionTerm">How long the client will be leader if elected. This value only has millisecond-level precision.</param>
-        /// <param name="options">The optional parameters for this request.</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The result of the campaign.</returns>
-        /// <remarks>
-        /// <para>
-        /// Once elected, this client will not automatically renew its position by default. This client allows you to opt-in to auto-renew
-        /// with <see cref="AutomaticRenewalOptions"/>, though.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc/>
         public virtual async Task<CampaignResponse> TryCampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -194,19 +167,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                 acquireLockResponse.FencingToken);
         }
 
-        /// <summary>
-        /// Await until this client is elected leader or cancellation is requested.
-        /// </summary>
-        /// <param name="electionTerm">How long the client will be leader if elected. This value only has millisecond-level precision.</param>
-        /// <param name="options">The optional parameters for this request.</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The result of the campaign.</returns>
-        /// <remarks>
-        /// <para>
-        /// Once elected, this client will not automatically renew its position by default. This client allows you to opt-in to auto-renew
-        /// with <see cref="AutomaticRenewalOptions"/>, though.
-        /// </para>
-        /// </remarks>
+        /// <inheritdoc/>
         public virtual async Task<CampaignResponse> CampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -230,38 +191,13 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                 acquireLockResponse.FencingToken);
         }
 
-        /// <summary>
-        /// Block until elected leader, update the value of the state store resource based on
-        /// its current value, then resign.
-        /// </summary>
-        /// <param name="key">The state store key whose value will be updated.</param>
-        /// <param name="updateValueFunc">
-        /// The function to execute after elected leader. The parameter of this function contains
-        /// the current value of the state store key. The return value of this function is the new value
-        /// that you wish the state store key to have.
-        /// </param>
-        /// </param>
-        /// <param name="maximumTermLength">
-        /// The maximum length of time that the client will be leader once elected. Under normal circumstances,
-        /// this function will resign from the leadership position after updating the value of the shared resource, but 
-        /// it is possible that this client is interrupted or encounters a fatal exception. By setting a low value for this field, 
-        /// you limit how long the leadership position can be acquired for before it is released automatically by the service.
-        /// </param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <remarks>
-        /// This function will always resign from the leadership position if it was elected. Even if cancellation is requested 
-        /// after being elected leader, this function will resign from that position.
-        /// </remarks>
+        /// <inheritdoc/>
         public async Task CampaignAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumTermLength = null, CancellationToken cancellationToken = default)
         {
             await _leasedLockClient.AcquireLockAndUpdateValueAsync(key, updateValueFunc, maximumTermLength, cancellationToken);
         }
 
-        /// <summary>
-        /// Get the name of the current leader.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The details about the current leader.</returns>
+        /// <inheritdoc/>
         public virtual async Task<GetCurrentLeaderResponse> GetCurrentLeaderAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -278,12 +214,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             return new GetCurrentLeaderResponse(new LeaderElectionCandidate(getLockHolderResponse.LockHolder.Bytes));
         }
 
-        /// <summary>
-        /// Resign from being the leader.
-        /// </summary>
-        /// <param name="options">The optional parameters for this request.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The result of the attempted resignation.</returns>
+        /// <inheritdoc/>
         public virtual async Task<ResignationResponse> ResignAsync(ResignationRequestOptions? options = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -303,17 +234,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             return new ResignationResponse(releaseLockResponse.Success);
         }
 
-        /// <summary>
-        /// Start receiving notifications when the leader changes.
-        /// </summary>
-        /// <param name="options">The optional parameters for this request.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <remarks>
-        /// Users who want to watch lock holder change events must first set one or more handlers on 
-        /// <see cref="LeadershipChangeEventReceivedAsync"/>, then call this function.
-        /// To stop watching lock holder change events, call <see cref="UnobserveLeadershipChangesAsync(CancellationToken)"/>
-        /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
-        /// </remarks>
+        /// <inheritdoc/>
         public virtual async Task ObserveLeadershipChangesAsync(ObserveLeadershipChangesRequestOptions? options = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -322,22 +243,13 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             options ??= new ObserveLeadershipChangesRequestOptions();
             await _leasedLockClient.ObserveLockAsync(
                 new ObserveLockRequestOptions()
-                { 
+                {
                     GetNewValue = options.GetNewLeader,
-                }, 
+                },
                 cancellationToken).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Stop receiving notifications when the leader changes.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <remarks>
-        /// Users who want to watch lock holder change events must first set one or more handlers on 
-        /// <see cref="LeadershipChangeEventReceivedAsync"/>, then call <see cref="ObserveLeadershipChangesAsync(ObserveLeadershipChangesRequestOptions?, CancellationToken)"/>.
-        /// To stop watching lock holder change events, call this function
-        /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
-        /// </remarks>
+        /// <inheritdoc/>
         public virtual async Task UnobserveLeadershipChangesAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -368,7 +280,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             _leasedLockClient.LockChangeEventReceivedAsync -= LockChangeEventCallback;
 
             if (disposing)
-            { 
+            {
                 await _leasedLockClient.DisposeAsync(disposing).ConfigureAwait(false);
             }
 

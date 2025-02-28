@@ -4,7 +4,6 @@ package protocol
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/url"
@@ -15,7 +14,9 @@ import (
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/BurntSushi/toml"
+	"github.com/relvacode/iso8601"
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
@@ -32,6 +33,7 @@ func RunTelemetrySenderTests(t *testing.T) {
 	}
 
 	TestCaseDefaultInfo = &telemetrySenderDefaultInfo
+	TestCaseDefaultSerializer = &telemetrySenderDefaultInfo.Prologue.Sender.Serializer
 
 	files, err := filepath.Glob(
 		"../../../eng/test/test-cases/Protocol/TelemetrySender/*.yaml",
@@ -116,7 +118,7 @@ func runOneTelemetrySenderTest(
 			catch = testCase.Prologue.Catch
 		}
 
-		sender := getTelemetrySender(t, sessionClient, stubBroker, tcs, catch)
+		sender := getTelemetrySender(t, sessionClient, stubBroker, &tcs, catch)
 		if sender != nil {
 			telemetrySenders[*tcs.TelemetryName] = sender
 		}
@@ -174,7 +176,7 @@ func getTelemetrySender(
 	t *testing.T,
 	sessionClient protocol.MqttClient,
 	stubBroker *StubBroker,
-	tcs TestCaseSender,
+	tcs *TestCaseSender,
 	catch *TestCaseCatch,
 ) *TestingTelemetrySender {
 	options := []protocol.TelemetrySenderOption{
@@ -190,6 +192,7 @@ func getTelemetrySender(
 
 	sender, err := NewTestingTelemetrySender(
 		sessionClient,
+		&tcs.Serializer,
 		tcs.TelemetryTopic,
 		options...)
 
@@ -225,6 +228,7 @@ func sendTelemetry(
 	options = append(
 		options,
 		protocol.WithTimeout(actionSendTelemetry.Timeout.ToDuration()),
+		protocol.WithTopicTokens(actionSendTelemetry.TopicTokenMap),
 	)
 
 	if actionSendTelemetry.Qos != nil && *actionSendTelemetry.Qos != 1 {
@@ -245,20 +249,54 @@ func sendTelemetry(
 	}
 
 	if actionSendTelemetry.CloudEvent != nil {
-		sourceURL, _ := url.Parse(*actionSendTelemetry.CloudEvent.Source)
-		dataSchemaURL, _ := url.Parse(
-			*actionSendTelemetry.CloudEvent.DataSchema,
-		)
+		cloudEvent := protocol.CloudEvent{}
+
+		if actionSendTelemetry.CloudEvent.Source != nil {
+			source, err := url.Parse(*actionSendTelemetry.CloudEvent.Source)
+			if err != nil {
+				go func() { sendChan <- getCloudEventError("Source", *actionSendTelemetry.CloudEvent.Source, "URL", err) }()
+				return
+			}
+			cloudEvent.Source = source
+		}
+
+		if actionSendTelemetry.CloudEvent.SpecVersion != nil {
+			cloudEvent.SpecVersion = *actionSendTelemetry.CloudEvent.SpecVersion
+		}
+
+		if actionSendTelemetry.CloudEvent.Type != nil {
+			cloudEvent.Type = *actionSendTelemetry.CloudEvent.Type
+		}
+
+		if actionSendTelemetry.CloudEvent.ID != nil {
+			cloudEvent.ID = *actionSendTelemetry.CloudEvent.ID
+		}
+
+		if time, ok := actionSendTelemetry.CloudEvent.Time.(string); ok {
+			isoTime, err := iso8601.ParseString(time)
+			if err != nil {
+				go func() { sendChan <- getCloudEventError("Time", time, "ISO 8601", err) }()
+				return
+			}
+			cloudEvent.Time = isoTime
+		}
+
+		if subject, ok := actionSendTelemetry.CloudEvent.Subject.(string); ok {
+			cloudEvent.Subject = subject
+		}
+
+		if dataSchema, ok := actionSendTelemetry.CloudEvent.DataSchema.(string); ok {
+			dataSchemaURL, err := url.Parse(dataSchema)
+			if err != nil {
+				go func() { sendChan <- getCloudEventError("DataSchema", dataSchema, "URL", err) }()
+				return
+			}
+			cloudEvent.DataSchema = dataSchemaURL
+		}
+
 		options = append(
 			options,
-			protocol.WithCloudEvent(
-				&protocol.CloudEvent{
-					Source:      sourceURL,
-					SpecVersion: *actionSendTelemetry.CloudEvent.SpecVersion,
-					Type:        *actionSendTelemetry.CloudEvent.Type,
-					DataSchema:  dataSchemaURL,
-				},
-			),
+			protocol.WithCloudEvent(&cloudEvent),
 		)
 	}
 
@@ -317,9 +355,23 @@ func checkPublishedTelemetry(
 	if publishedMessage.Payload == nil {
 		require.Empty(t, msg.Payload)
 	} else if payload, ok := publishedMessage.Payload.(string); ok {
-		payloadBytes, err := json.Marshal(payload)
-		require.NoError(t, err)
-		require.Equal(t, payloadBytes, msg.Payload)
+		require.Equal(t, payload, string(msg.Payload))
+	}
+
+	if publishedMessage.ContentType != nil {
+		require.Equal(
+			t,
+			*publishedMessage.ContentType,
+			msg.Properties.ContentType,
+		)
+	}
+
+	if publishedMessage.FormatIndicator != nil {
+		require.Equal(
+			t,
+			*publishedMessage.FormatIndicator,
+			*msg.Properties.PayloadFormat,
+		)
 	}
 
 	for key, val := range publishedMessage.Metadata {
@@ -344,5 +396,27 @@ func checkPublishedTelemetry(
 			*publishedMessage.Expiry,
 			*msg.Properties.MessageExpiry,
 		)
+	}
+}
+
+func getCloudEventError(
+	fieldName string,
+	propValue string,
+	parseType string,
+	err error,
+) error {
+	return &errors.Client{
+		Base: errors.Base{
+			Message: fmt.Sprintf(
+				"cloud event %s not parsable as %s",
+				fieldName,
+				parseType,
+			),
+			Kind:          errors.ArgumentInvalid,
+			NestedError:   err,
+			PropertyName:  "CloudEvent",
+			PropertyValue: propValue,
+		},
+		IsShallow: true,
 	}
 }

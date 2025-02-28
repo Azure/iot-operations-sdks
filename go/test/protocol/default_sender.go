@@ -3,9 +3,10 @@
 package protocol
 
 type DefaultSender struct {
-	TelemetryName  *string `toml:"telemetry-name"`
-	TelemetryTopic *string `toml:"telemetry-topic"`
-	TopicNamespace *string `toml:"topic-namespace"`
+	TelemetryName  *string           `toml:"telemetry-name"`
+	Serializer     DefaultSerializer `toml:"serializer"`
+	TelemetryTopic *string           `toml:"telemetry-topic"`
+	TopicNamespace *string           `toml:"topic-namespace"`
 }
 
 func (sender *DefaultSender) GetTelemetryName() *string {
@@ -15,6 +16,10 @@ func (sender *DefaultSender) GetTelemetryName() *string {
 
 	telemetryName := *sender.TelemetryName
 	return &telemetryName
+}
+
+func (sender *DefaultSender) GetSerializer() TestCaseSerializer {
+	return sender.Serializer.GetSerializer()
 }
 
 func (sender *DefaultSender) GetTelemetryTopic() *string {

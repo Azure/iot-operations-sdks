@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.schema = schema;
             this.valueSchema = JsonSchemaSupport.GetPrimitiveType(valueSchemaId);
             this.nameValueIndices = nameValueIndices;
-            this.zeroNameValueIndex = nameValueIndices.FirstOrDefault(nvi => nvi.Item2 == "0" || nvi.Item3 == 0, ($"{this.schema}_none", "0", 0));
+            this.zeroNameValueIndex = nameValueIndices.FirstOrDefault(nvi => nvi.Item2 == "0" || nvi.Item3 == 0, ($"{this.schema.AsGiven}_none", "0", 0));
         }
 
         public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.proto"; }

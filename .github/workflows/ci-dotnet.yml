@@ -38,10 +38,15 @@ jobs:
       with:
         fetch-depth: 0
     
-    - name: Setup .NET
+    - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.301
+    
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.200
     
     - name: dotnet info
       run: dotnet --info
@@ -85,7 +90,10 @@ jobs:
       run: |
         dotnet new install dotnet/templates/EventDrivenTelemetryConnector
         dotnet new install dotnet/templates/PollingTelemetryConnector
-
+ 
+    - name: Build Faultable MQTT Broker
+      run: dotnet build eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj
+   
     - name: Setup Faultable MQTT Broker
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+use std::collections::HashMap;
 use std::env;
 use std::time::Duration;
 
@@ -8,12 +9,10 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{
-    ApplicationContext, ApplicationContextOptionsBuilder,
-};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::FormatIndicator;
-use iso8601_duration;
 use custom_comm::common_types::custom_payload::CustomPayload;
+use iso8601_duration;
 
 const AVRO_SERVER_ID: &str = "AvroRustServer";
 const JSON_SERVER_ID: &str = "JsonRustServer";
@@ -120,8 +119,7 @@ async fn avro_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -153,9 +151,17 @@ async fn avro_telemetry_loop(
                 course: Some("Math".to_string()),
                 credit: Some(format!("{:0>2}:{:0>2}:{:0>2}", i + 2, i + 1, i)),
             }),
+            data: Some(avro_comm::common_types::b64::Bytes(
+                format!("Sample data {i}").into_bytes(),
+            )),
         };
 
-        let message = builder.payload(telemetry).unwrap().build().unwrap();
+        let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
+            .payload(telemetry)
+            .unwrap()
+            .build()
+            .unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;
@@ -170,8 +176,7 @@ async fn json_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -210,9 +215,17 @@ async fn json_telemetry_loop(
                     second: i as f32,
                 }),
             }),
+            data: Some(json_comm::common_types::b64::Bytes(
+                format!("Sample data {i}").into_bytes(),
+            )),
         };
 
-        let message = builder.payload(telemetry).unwrap().build().unwrap();
+        let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
+            .payload(telemetry)
+            .unwrap()
+            .build()
+            .unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;
@@ -227,8 +240,7 @@ async fn raw_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options = raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
         .build()
@@ -251,6 +263,7 @@ async fn raw_telemetry_loop(
         let telemetry = format!("Sample data {i}");
 
         let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
             .payload(telemetry.into_bytes())
             .unwrap()
             .build()
@@ -269,8 +282,7 @@ async fn custom_telemetry_loop(
     iterations: i32,
     interval: Duration,
 ) {
-    let application_context =
-        ApplicationContext::new(ApplicationContextOptionsBuilder::default().build().unwrap());
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
         custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
@@ -298,7 +310,13 @@ async fn custom_telemetry_loop(
             content_type: "text/csv".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let message = builder.payload(payload).unwrap().build().unwrap();
+
+        let message = builder
+            .topic_tokens(HashMap::from([("myToken".to_string(), "RustReplacement".to_string())]))
+            .payload(payload)
+            .unwrap()
+            .build()
+            .unwrap();
         telemetry_sender.send(message).await.unwrap();
 
         tokio::time::sleep(interval).await;
