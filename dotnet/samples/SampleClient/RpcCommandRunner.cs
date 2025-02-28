@@ -26,11 +26,11 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         string userResponse = "y";
         while (userResponse == "y")
         {
-            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, TimeSpan.FromMinutes(10), stoppingToken);
+            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, null, TimeSpan.FromMinutes(10), stoppingToken);
             await RunCounterCommands("SampleServer");
             await RunGreeterCommands();
             await RunMathCommands();
-            await memMonClient.StopTelemetryAsync("SampleServer", null, null, stoppingToken);
+            await memMonClient.StopTelemetryAsync("SampleServer", null, null, null, stoppingToken);
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
             if (userResponse == "q")
@@ -75,7 +75,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
                     {
                         Number = number
                     }
-                }, reqMdFib, TimeSpan.FromSeconds(30)).WithMetadata();
+                }, reqMdFib, null, TimeSpan.FromSeconds(30)).WithMetadata();
             logger.LogInformation("Calling Fib({n}) with id {id}", number, reqMdFib.CorrelationId);
 
             ExtendedResponse<FibResponsePayload> respFib = await respFibTask;

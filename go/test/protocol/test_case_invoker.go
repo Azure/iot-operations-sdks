@@ -7,14 +7,14 @@ import (
 )
 
 type testCaseInvoker struct {
-	CommandName         *string             `yaml:"command-name"`
-	Serializer          TestCaseSerializer  `yaml:"serializer"`
-	RequestTopic        *string             `yaml:"request-topic"`
-	TopicNamespace      *string             `yaml:"topic-namespace"`
-	ResponseTopicPrefix *string             `yaml:"response-topic-prefix"`
-	ResponseTopicSuffix *string             `yaml:"response-topic-suffix"`
-	TopicTokenMap       map[string]string   `yaml:"topic-token-map"`
-	ResponseTopicMap    *map[string]*string `yaml:"response-topic-map"`
+	CommandName          *string            `yaml:"command-name"`
+	Serializer           TestCaseSerializer `yaml:"serializer"`
+	RequestTopic         *string            `yaml:"request-topic"`
+	TopicNamespace       *string            `yaml:"topic-namespace"`
+	ResponseTopicPattern *string            `yaml:"response-topic-pattern"`
+	ResponseTopicPrefix  *string            `yaml:"response-topic-prefix"`
+	ResponseTopicSuffix  *string            `yaml:"response-topic-suffix"`
+	TopicTokenMap        map[string]string  `yaml:"topic-token-map"`
 }
 
 type TestCaseInvoker struct {

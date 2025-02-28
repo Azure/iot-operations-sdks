@@ -132,7 +132,7 @@ namespace TestEnvoys.Math
 
             public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
-            public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -141,16 +141,20 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new()
+                Dictionary<string, string>? internalTopicTokenMap = new()
                 {
                     { "invokerClientId", clientId },
                     { "executorId", executorId },
                 };
 
-                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
+                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
+                    internalTopicTokenMap;
+
+                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -159,16 +163,20 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new()
+                Dictionary<string, string>? internalTopicTokenMap = new()
                 {
                     { "invokerClientId", clientId },
                     { "executorId", executorId },
                 };
 
-                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
+                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
+                    internalTopicTokenMap;
+
+                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -177,13 +185,17 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? transientTopicTokenMap = new()
+                Dictionary<string, string>? internalTopicTokenMap = new()
                 {
                     { "invokerClientId", clientId },
                     { "executorId", executorId },
                 };
 
-                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, transientTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
+                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
+                    internalTopicTokenMap;
+
+                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

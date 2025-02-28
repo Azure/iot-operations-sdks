@@ -6,7 +6,7 @@
   "@id": "dtmi:codegen:communicationTest:avroModel;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Avro/1.11.0",
-  "telemetryTopic": "test/AvroModel/{senderId}/telemetry",
+  "telemetryTopic": "test/AvroModel/{senderId}/telemetry/{ex:myToken}",
   "contents": [
     {
       "@type": "Telemetry",
