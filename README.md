@@ -3,7 +3,7 @@
 [![CI-dotnet](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-dotnet.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-dotnet.yml)
 [![CI-go](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-go.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-go.yml)
 [![CI-Rust](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml)
-[![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language-samples.yml)
+[![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
 
 > [!CAUTION]
 > The assets in this repository are currently in **Private Preview** and have been made available for early access and feedback purposes.
@@ -47,7 +47,7 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
 1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
 
     ```bash
-    iot-operations-sdks//tools/deployment/deploy-aio.sh
+    ./tools/deployment/deploy-aio.sh
     ```
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
