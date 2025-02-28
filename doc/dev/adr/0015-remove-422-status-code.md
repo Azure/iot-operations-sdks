@@ -14,7 +14,10 @@ While one might argue that this allows customer applications to define multiple 
 
 ## Decision: 
 
-All reference to the 422 status code and Invocation Exception/Error error kind should be removed. Command Executors should no longer send a 422 error, instead categorizing all application errors as 500s. Command Invokers should no longer expect 422 status codes, and this should be treated as any other unknown status code. This change is a wire protocol change, but we will not increase the version since we are before public preview, and we don't know of any current usage of the 422 status code.
+All reference to the 422 status code and Invocation Exception/Error error kind should be removed. Command Executors should no longer send a 422 error. Command Invokers should no longer expect 422 status codes, and this should be treated as any other unknown status code.
+At the API surface, there should no longer be a way for the application to indicate an error vs a success response, they should only have a way to respond (that encompasses both, but is internal to their encoding). The SDK should only send a 500 if there is an uncaught exception thrown from the application (or the language equivalent that indicates the application will be unable to respond).
+
+This change is a wire protocol change, but we will not increase the version since we are before public preview, and the only known usage of the 422 status code is with Schema Registry, which we can manage during the transition since we own the Client side code that would be affected by this change.
 
 ## Alternatives Considered:
 
@@ -26,11 +29,10 @@ All reference to the 422 status code and Invocation Exception/Error error kind s
 ## Consequences:
 
 1. Changes needed across languages to support this new functionality.
-    - For Go and Dotnet: Remove option for executor application to specify the error type.
-    - All languages:
-      - Remove handling of the 422 status code in the invoker.
-      - Remove 422 as a known Status Code.
-      - Remove InvocationException as an AIO Protocol Error kind.
+    - Remove option for executor application to specify the error type (For Rust, this was previously sent as a 500, but should have been sent as a 422)
+    - Remove handling of the 422 status code in the invoker.
+    - Remove 422 as a known Status Code.
+    - Remove InvocationException as an AIO Protocol Error kind.
 1. METL tests to update: `CommandExecutorUserCodeRaisesContentError_RespondsError`, `CommandInvokerResponseIndicatesInvocationError_ThrowsException`, and `CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError`. Double check that the equivalent 500 scenario is already captured in METL before removing these.
 1. Documentation changes needed (for 422 and InvocationException)
     - https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/error-model.md#appendix-1-error-conditions-in-the-c-sdk
@@ -40,5 +42,5 @@ All reference to the 422 status code and Invocation Exception/Error error kind s
 ## Open Questions:
 
 1. Do we want to consider any of the alternatives that involve allowing returning more information on error responses? These would definitely come with larger code changes than the current proposal.
-1. 422 currently allows the user to specify an invalid property name and an invalid property value - do we want to maintain this optionally for 500 errors?
+1. ~~422 currently allows the user to specify an invalid property name and an invalid property value - do we want to maintain this optionally for 500 errors?~~ No, because 500 errors should not be sent intentionally from the application.
 
