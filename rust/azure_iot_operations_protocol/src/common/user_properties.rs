@@ -84,7 +84,7 @@ impl FromStr for UserProperty {
 ///
 /// # Errors
 /// Returns a `String` describing the error if any of `property_list`'s keys are invalid utf-8
-/// or start with the reserved key [`PARTITION_KEY`].
+/// or are the reserved key [`PARTITION_KEY`].
 pub fn validate_invoker_user_properties(property_list: &[(String, String)]) -> Result<(), String> {
     for (key, value) in property_list {
         if super::is_invalid_utf8(key) || super::is_invalid_utf8(value) {
