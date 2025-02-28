@@ -6,7 +6,7 @@ The following instruction outline how to create a container image for your appli
 
 Some languages have built in container support, however all binaries can be deployed using a Dockerfile. A Dockerfile can be created to support building the project and the creating the deployable container for repeatable container creation by using [multi-stage builds](https://docs.docker.com/build/building/multi-stage/).
 
-[Alpine Docker](https://hub.docker.com/_/alpine) provides some of the smallest container sizes, so is often the recommended image to use for the runtime image.
+[Alpine Docker](https://hub.docker.com/_/alpine) provides some of the smallest container sizes, so is often the recommended image to use for the final container.
 
 > [!NOTE]
 > The Dockerfile examples below are for reference only, and should be adapted for your particular situation.
@@ -86,7 +86,7 @@ It contains the following information:
 > [!TIP]
 > Setting the `imagePullPolicy` to `Never`, allows the cached image to be used even when the version is `latest`.
 
-1. Create a file called `app.yaml` containing the following
+1. Create a file called `app.yaml` containing the following definitions:
 
     ```yaml
     apiVersion: v1
