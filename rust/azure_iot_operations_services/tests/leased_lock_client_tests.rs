@@ -60,11 +60,11 @@ fn initialize_client(
     client_id: &str,
     lock_name: &str,
 ) -> (
-        Session,
-        Arc<Mutex<state_store::Client<SessionManagedClient>>>,
-        leased_lock::Client<SessionManagedClient>,
-        SessionExitHandle,
-    ) {
+    Session,
+    Arc<Mutex<state_store::Client<SessionManagedClient>>>,
+    leased_lock::Client<SessionManagedClient>,
+    SessionExitHandle,
+) {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
@@ -682,9 +682,9 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
-                    let Some((notification, _)) = observe_response.response.recv_notification().await
-                    else
-                    {
+                    let Some((notification, _)) =
+                        observe_response.response.recv_notification().await
+                    else {
                         panic!("Received unexpected None for notification");
                     };
 
@@ -798,8 +798,7 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
                 async move {
                     let Some((notification, _)) =
                         observe_response.response.recv_notification().await
-                    else
-                    {
+                    else {
                         panic!("Received unexpected None for notification.");
                     };
 
