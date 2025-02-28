@@ -33,20 +33,22 @@ The focus of the SDKs it to assist customers in developing applications by provi
 
 ## Getting started
 
-Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine.
+Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes cluster without installing anything on your local machine.
 
-> [!NOTE] 
-> For alternative platforms and more in-depth setup instruction, refer to the [environment setup](/doc/setup.md) document.
+> [!TIP] 
+> For additional platforms and more in-depth setup instruction, refer to the [setup documentation](/doc/setup.md).
 
-1. Create a **codespace**, and enter your Azure details to store them as environment variables:
+1. Create a **codespace** from the *Azure IoT Operations SDKs* repository:
 
-    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?hide_repo_select=true&editor=vscode)
+    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?quickstart=1&editor=vscode)
 
-    > :stop_sign:<code style="color:red">**Important**</code>  
-    >  
-    > Open the codespace in VS Code Desktop (**Ctrl + Shift + P > Codespaces: Open in VS Code Desktop**).  This is required to login to Azure in a later step.
+1. Follow the [Azure IoT Operations documentation](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces#connect-cluster-to-azure-arc) to connect Azure Arc and deploy Azure IoT Operations.
 
-1. Follow the [Learn docs](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces) to deploy a cluster to Azure Arc and deploy Azure IoT Operations all within codespaces. Alternatively, follow [these instructions](https://learn.microsoft.com/en-us/azure/iot-operations/deploy-iot-ops/overview-deploy) to deploy a cluster cluster with Azure IoT Operations via the Azure Portal. 
+1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
+
+    ```bash
+    iot-operations-sdks//tools/deployment/deploy-aio.sh
+    ```
 
 1. Run through a [tutorial or sample](/samples) to get started with developing!
 
@@ -56,9 +58,9 @@ Use [GitHub Codespaces](https://github.com/features/codespaces) to try the Azure
 
 1. Refer to each language directory for specific instructions on using each SDK:
 
-    * **.NET** - [/dotnet](/dotnet)
-    * **Go** - [/go](/go)
-    * **Rust** - [/rust](/rust)
+    * **.NET SDK** - [/dotnet](/dotnet)
+    * **Go SDK** - [/go](/go)
+    * **Rust SDK** - [/rust](/rust)
 
 ## Features
 
@@ -79,8 +81,7 @@ The following tables outline the current feature set, along with the associated 
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
 | **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
-| **ADR** client | Configuration for the MQTT Broker and asset endpoint | :yellow_circle: | :orange_circle: | :orange_circle: |
-| **Akri** client | Record discovered assets and asset endpoints | :yellow_circle: | :orange_circle: | :orange_circle: |
+| **Akri** client | Asset and asset endpoint configuration and asset discovery | :green_circle: | :yellow_circle: | :yellow_circle: |
 
 ## Protocol compiler (Codegen)
 
