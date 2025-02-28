@@ -1,6 +1,6 @@
 module client
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/mqtt v0.3.0
@@ -28,5 +28,7 @@ require (
 )
 
 replace github.com/Azure/iot-operations-sdks/go/mqtt => ../../../../go/mqtt
+
 replace github.com/Azure/iot-operations-sdks/go/protocol => ../../../../go/protocol
+
 replace github.com/Azure/iot-operations-sdks/go/internal => ../../../../go/internal
