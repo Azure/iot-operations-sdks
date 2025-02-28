@@ -96,7 +96,11 @@ where
 {
     /// Create a new State Store Client
     ///
+    /// <div class="warning">
+    ///
     /// Note: `connection_monitor` must be from the same session as `client`.
+    ///
+    /// </div>
     ///
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) is possible if
