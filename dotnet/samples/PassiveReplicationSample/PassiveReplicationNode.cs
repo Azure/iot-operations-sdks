@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
     public class PassiveReplicationNode : BackgroundService, IAsyncDisposable
     {
         private readonly StateStoreKey SharedResourceKeyToUpdate = new("someKeyToUpdate");
-        private static TimeSpan _electionTerm = TimeSpan.FromSeconds(1);
+        private static readonly TimeSpan _electionTerm = TimeSpan.FromSeconds(1);
         private string? _lastKnownLeader;
 
         private readonly ILogger<PassiveReplicationNode> _logger;

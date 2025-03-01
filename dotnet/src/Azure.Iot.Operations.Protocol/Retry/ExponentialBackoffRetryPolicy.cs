@@ -91,7 +91,7 @@ namespace Azure.Iot.Operations.Protocol.Retry
         /// <summary>
         /// Gets jitter between 95% and 105% of the base time.
         /// </summary>
-        private TimeSpan UpdateWithJitter(double baseTimeMs)
+        private static TimeSpan UpdateWithJitter(double baseTimeMs)
         {
             // Don't calculate jitter if the value is very small
             if (baseTimeMs < 50)

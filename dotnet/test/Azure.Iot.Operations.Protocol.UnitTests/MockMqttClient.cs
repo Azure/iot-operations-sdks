@@ -14,8 +14,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
     {
         private string _clientId;
         private readonly MqttProtocolVersion _protocolVersion;
-        private bool _isConnected;
-
         public static MqttConnAckPacket SuccessfulInitialConnAck = new()
         {
             ReasonCode = MqttConnectReasonCode.Success,
@@ -54,7 +52,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public bool IsConnected => _isConnected;
+        public bool IsConnected { get; private set; }
 
         public MqttClientOptions Options { get; set; }
 
@@ -101,7 +99,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         public async Task SimulateServerInitiatedDisconnectAsync(Exception cause, MqttClientDisconnectReason reason = MqttClientDisconnectReason.ImplementationSpecificError)
         {
-            _isConnected = false;
+            IsConnected = false;
 
             if (DisconnectedAsync != null)
             {
@@ -143,7 +141,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             if (connectResult.ResultCode == MqttClientConnectResultCode.Success)
             {
-                _isConnected = true;
+                IsConnected = true;
             }
 
             Options = options;
@@ -174,7 +172,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 await OnDisconnectAttempt(options);
             }
 
-            _isConnected = false;
+            IsConnected = false;
 
             DisconnectedAsync?.Invoke(new MqttClientDisconnectedEventArgs(true, new MqttClientConnectResult(), MqttClientDisconnectReason.NormalDisconnection, "disconnected", new List<MqttUserProperty>(), new Exception()));
         }

@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestTelemetryReceiver : TelemetryReceiver<string>
     {
-        private AsyncAtomicInt _telemetryCount;
+        private readonly AsyncAtomicInt _telemetryCount;
 
         public async Task<int> GetTelemetryCount()
         {

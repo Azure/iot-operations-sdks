@@ -55,7 +55,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
+#pragma warning disable IDE0060 // Remove unused parameter
         public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             _applicationContext = applicationContext;
             _mqttClient = mqttClient;
@@ -161,7 +163,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         "The provided MQTT client is not configured for MQTT version 5");
                 }
 
-                string? clientId = this._mqttClient.ClientId;
+                string? clientId = _mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting a telemetry receiver");
@@ -219,7 +221,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         {
             if (_dispatcher == null)
             {
-                string? clientId = this._mqttClient.ClientId;
+                string? clientId = _mqttClient.ClientId;
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 _dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId);
             }

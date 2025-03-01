@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestCommandExecutor : CommandExecutor<string, string>
     {
-        private AsyncAtomicInt _executionCount;
+        private readonly AsyncAtomicInt _executionCount;
 
         public async Task<int> GetExecutionCount()
         {

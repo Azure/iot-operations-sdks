@@ -14,11 +14,11 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
         private CancellationTokenSource? _observationTaskCancellationTokenSource;
 
         // The set of file paths and their last known contents hash
-        private Dictionary<string, byte[]> _lastKnownDirectoryState = new();
+        private readonly Dictionary<string, byte[]> _lastKnownDirectoryState = new();
 
-        private Func<string> _directoryRetriever;
+        private readonly Func<string> _directoryRetriever;
 
-        private TimeSpan _pollingInterval;
+        private readonly TimeSpan _pollingInterval;
 
         internal event EventHandler<FileChangedEventArgs>? OnFileChanged;
 

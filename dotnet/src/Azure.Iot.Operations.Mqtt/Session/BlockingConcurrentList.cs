@@ -16,8 +16,8 @@ namespace Azure.Iot.Operations.Mqtt.Session
         private SemaphoreSlim _gate = new SemaphoreSlim(0);
 
         private readonly LinkedList<QueuedRequest> _items = new();
-        private uint _maxSize;
-        private MqttPendingMessagesOverflowStrategy _overflowStrategy;
+        private readonly uint _maxSize;
+        private readonly MqttPendingMessagesOverflowStrategy _overflowStrategy;
 
         public BlockingConcurrentList(uint maxSize, MqttPendingMessagesOverflowStrategy overflowStrategy)
         {
