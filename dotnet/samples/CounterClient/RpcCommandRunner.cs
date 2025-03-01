@@ -14,8 +14,8 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
     {
         try
         {
-
-            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")! + ";ClientId=sampleClient-" + Environment.TickCount);
+            // MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")! + ";ClientId=sampleClient-" + Environment.TickCount);
+            MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVars();
 
             await mqttClient.ConnectAsync(mcs, stoppingToken);
             await Console.Out.WriteLineAsync($"Connected to: {mcs}");

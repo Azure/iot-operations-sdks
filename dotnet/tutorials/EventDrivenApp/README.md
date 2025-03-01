@@ -22,30 +22,33 @@ The **OutputWorker** performs the following steps:
 
 ## Prerequisites
 
-1. Follow the [Getting started](/README.md#getting-started) guide to install Azure IoT Operations in Codespaces.
+1. Follow the [Getting started](/doc/setup.md) guide to setup your environment and install Azure IoT Operations
 
 > [!NOTE]
-> The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The codespace environment already provides this configuration.
+> The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The setup instructions will configure the MQTT broker with this configuration.
 
-## Run the application locally
+## Run the application from the developer environment
 
-The application can be run locally by fetching a SAT and broker cert from the cluster. Deploying locally simplifies application debugging.
+The application can be run directly from the development environment by fetching a SAT and broker cert from the cluster. This allows the application to be debugged using regular tooling.
 
-1. Pull the SAT and MQTT broker cert from the cluster:
-
-    ```bash
-    ../../../tools/deployment/update-credentials.sh
-    ```
-
-1. Run the application:
+1. Build and run the application off cluster:
 
     ```bash
     dotnet run
     ```
 
+> [!TIP]
+>
+> If the certificate or SAT has expired, you can generate new ones by execution the following script:
+>
+> ```bash
+> ../../../tools/deployment/update-credentials.sh
+> ```
+
+
 ## Run the application on cluster
 
-The application can also be deployed to the cluster by building a container and applying the `app.yml` file:
+The application can also be deployed to the cluster by building a container and applying the `app.yml`:
 
 1. Build the container and upload it the the local k3d cluster:
 
@@ -54,7 +57,7 @@ The application can also be deployed to the cluster by building a container and 
     k3d image import event-driven-app
     ```
 
-1. Deploy the application:
+1. Deploy the application to the cluster:
 
     ```bash
     kubectl apply -f yaml/app.yml
