@@ -21,8 +21,6 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
 
         var schemaInfo = await srClient.PutAsync(File.ReadAllText("OvenTelemetry.schema.json"), SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema);
 
-        
-
         OutgoingTelemetryMetadata metadata = new()
         {
             CloudEvent = new CloudEvent(new Uri("aio://oven/sample"))
@@ -41,7 +39,7 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
                 ExternalTemperature = 100 - counter,
                 InternalTemperature = 200 + counter,
             }, metadata, MqttQualityOfServiceLevel.AtMostOnce);
-            
+
             if (counter % 2 == 0)
             {
                 await ovenService.SendTelemetryAsync(new dtmi_akri_samples_oven__1.TelemetryCollection()
@@ -63,7 +61,7 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
     {
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
-        
+
         if (connAck.ResultCode != MqttClientConnectResultCode.Success)
         {
             logger.LogError("Failed to connect to MQTT broker: {connAck.ResultCode}", connAck.ResultCode);

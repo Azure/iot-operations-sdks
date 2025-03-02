@@ -52,17 +52,17 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
 
 ## Next steps
 
-1. [Read the documentation](./doc) on building edge applications using the Azure IoT Operations SDKs
+* [Read the documentation](./doc) on building edge applications using the Azure IoT Operations SDKs
 
-1. Review the [API documentation](https://azure.github.io/iot-operations-sdks/) for the SDKs
+* Review the [API documentation](https://azure.github.io/iot-operations-sdks/) for the SDKs
 
-1. Refer to each language directory for specific instructions on using each SDK:
+* Refer to language directory for instructions on using each SDK:
 
     * **.NET SDK** - [/dotnet](/dotnet)
     * **Go SDK** - [/go](/go)
     * **Rust SDK** - [/rust](/rust)
   
-1. Take a look at the [samples and tutorials](/samples) for an summary of the different samples available across the languages.
+* Take a look at the [samples and tutorials](/samples) for an summary of the different samples available across the languages.
 
 ## Features
 
