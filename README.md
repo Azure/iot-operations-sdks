@@ -58,9 +58,9 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
 
 * Refer to language directory for instructions on using each SDK:
 
-    * **.NET SDK** - [/dotnet](/dotnet)
-    * **Go SDK** - [/go](/go)
-    * **Rust SDK** - [/rust](/rust)
+    * **.NET** SDK - [/dotnet](/dotnet)
+    * **Go** SDK - [/go](/go)
+    * **Rust** SDK - [/rust](/rust)
   
 * Take a look at the [samples and tutorials](/samples) for an summary of the different samples available across the languages.
 
