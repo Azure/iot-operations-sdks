@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
-using TestEnvoys.dtmi_com_example_Counter__1;
 
 namespace SampleServer;
 

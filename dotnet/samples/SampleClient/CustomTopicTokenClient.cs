@@ -9,7 +9,7 @@ namespace SampleClient;
 
 internal class CustomTopicTokenClient : CustomTopicTokens.Client
 {
-    public static Func<IServiceProvider, CounterClient> Factory = service => new CounterClient(service.GetService<MqttSessionClient>()!);
+    public static Func<IServiceProvider, CustomTopicTokenClient> Factory = service => new CustomTopicTokenClient(service.GetService<MqttSessionClient>()!);
 
     public CustomTopicTokenClient(MqttSessionClient mqttClient) : base(mqttClient)
     {
