@@ -2,8 +2,6 @@
 
 This sample demonstrates a connector thats polls a REST endpoint for asset information.
 
- that will randomly send thermostat data on a TCP connection that is established once the asset is discovered.
-
 ## Setup your environment
 
 1. Follow the [setup](/doc/setup.md) steps to configure your environment and the Azure IoT Operations cluster for development.
@@ -12,7 +10,7 @@ This sample demonstrates a connector thats polls a REST endpoint for asset infor
 
 ## Creating the sample
 
-This project was generated  from the [polling telemetry connector](/dotnet/templates/PollingTelemetryConnector/) template. 
+This project was generated from the [polling telemetry connector](/dotnet/templates/PollingTelemetryConnector/) template. 
 
 For instructions on how to install the project template, see [the installation instructions](/dotnet/templates/README.md).
 
