@@ -103,8 +103,9 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
 
-                println!("Received telemetry from {sender_id}....");
+                println!("Received telemetry from {sender_id} with token replacement {my_replacement}....");
 
                 if let Some(schedule) = message.payload.schedule {
                     if let Some(course) = schedule.course {
@@ -124,6 +125,10 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
 
                 if let Some(proximity) = message.payload.proximity {
                     println!("  Proximity: {proximity:?}");
+                }
+
+                if let Some(data) = message.payload.data {
+                    println!("  Data: {}", str::from_utf8(&data).unwrap());
                 }
 
                 println!();
@@ -158,8 +163,9 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
 
-                println!("Received telemetry from {sender_id}....");
+                println!("Received telemetry from {sender_id} with token replacement {my_replacement}....");
 
                 if let Some(schedule) = message.payload.schedule {
                     if let Some(course) = schedule.course {
@@ -182,6 +188,10 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
 
                 if let Some(proximity) = message.payload.proximity {
                     println!("  Proximity: {proximity:?}");
+                }
+
+                if let Some(data) = message.payload.data {
+                    println!("  Data: {}", str::from_utf8(&data).unwrap());
                 }
 
                 println!();
@@ -216,9 +226,10 @@ async fn raw_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
 
                 let data = str::from_utf8(&message.payload).unwrap();
-                println!("Received telemetry from {sender_id}....");
+                println!("Received telemetry from {sender_id} with token replacement {my_replacement}....");
                 println!("  Data: {data:?}");
 
                 println!();
@@ -253,11 +264,12 @@ async fn custom_telemetry_loop(client: SessionManagedClient) {
         match message {
             Ok((message, _)) => {
                 let sender_id = message.sender_id.unwrap();
+                let my_replacement = message.topic_tokens.get("ex:myToken").unwrap();
                 let content_type = &message.payload.content_type.as_str();
 
                 let payload = str::from_utf8(&message.payload.payload).unwrap();
                 println!(
-                    "Received telemetry from {sender_id} with content type {content_type}...."
+                    "Received telemetry from {sender_id} with content type {content_type} and token replacement {my_replacement}...."
                 );
                 println!("  Payload: {payload:?}");
 

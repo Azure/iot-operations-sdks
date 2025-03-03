@@ -1,0 +1,16 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorConfig
+metadata:
+  name: tcp-connector-app-config
+  namespace: azure-iot-operations
+spec:
+  replicas: 3
+  assetEndpointProfileType: tcp-thermostat
+  image: eventdriventcpthermostatconnector:latest
+  brokerTargetAddress: aio-broker.azure-iot-operations.svc.cluster.local:18883  # expected format: {hostname}:{port}
+  brokerTls:
+    mode: Enabled
+    caTrustBundle: azure-iot-operations-aio-ca-trust-bundle
+  brokerAuthentication:
+    mode: ServiceAccountToken
+    satAudience: aio-internal

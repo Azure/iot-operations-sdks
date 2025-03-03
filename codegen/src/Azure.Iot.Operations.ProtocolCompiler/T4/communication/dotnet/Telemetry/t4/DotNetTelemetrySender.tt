@@ -39,13 +39,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <summary>
             /// Initializes a new instance of the <see cref="<#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>"/> class.
             /// </summary>
-            public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(IMqttPubSubClient mqttClient)
-                : base(mqttClient, <#=this.telemetryName.IsEmpty ? "null" : $"\"{this.telemetryName.AsGiven}\""#>, new <#=this.serializerClassName#>())
+            public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, <#=this.telemetryName.IsEmpty ? "null" : $"\"{this.telemetryName.AsGiven}\""#>, new <#=this.serializerClassName#>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
-                base.TopicTokenMap["senderId"] = mqttClient.ClientId!;
+                if (mqttClient.ClientId != null)
+                {
+                    base.TopicTokenMap["senderId"] = mqttClient.ClientId;
+                }
 <# if (!this.telemetryName.IsEmpty) { #>
                 base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
 <# } #>

@@ -8,22 +8,22 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestCommandExecutor : CommandExecutor<string, string>
     {
-        private AsyncAtomicInt executionCount;
+        private AsyncAtomicInt _executionCount;
 
         public async Task<int> GetExecutionCount()
         {
-            return await executionCount.Read().ConfigureAwait(false);
+            return await _executionCount.Read().ConfigureAwait(false);
         }
 
-        internal TestCommandExecutor(IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
-            : base(mqttClient, commandName, payloadSerializer)
+        internal TestCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer payloadSerializer)
+            : base(applicationContext, mqttClient, commandName, payloadSerializer)
         {
-            executionCount = new(0);
+            _executionCount = new(0);
         }
 
         internal async Task Track()
         {
-            await executionCount.Increment().ConfigureAwait(false);
+            await _executionCount.Increment().ConfigureAwait(false);
         }
     }
 }

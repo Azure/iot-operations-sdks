@@ -4,21 +4,14 @@
 namespace Azure.Iot.Operations.Services.IntegrationTests;
 
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.Akri;
 using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 using Azure.Iot.Operations.Services.IntegrationTest;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
-using global::Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Models;
-using System.Reflection.Emit;
 
 [Trait("Category", "DiscoveredAsset")]
 public class DiscoveredAssetResourcesClientIntegrationTests
@@ -29,7 +22,7 @@ public class DiscoveredAssetResourcesClientIntegrationTests
     {
 
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("opcda-" + Guid.NewGuid().ToString());
-        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        await using DiscoveredAssetResourcesClient mrpcClient = new(new ApplicationContext(), _mqttClient);
         CreateDiscoveredAssetRequestPayload request = new CreateDiscoveredAssetRequestPayload
         {
             CreateDiscoveredAssetRequest = new()
@@ -93,7 +86,7 @@ public class DiscoveredAssetResourcesClientIntegrationTests
     {
 
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("onvifda-" + Guid.NewGuid().ToString());
-        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        await using DiscoveredAssetResourcesClient mrpcClient = new(new ApplicationContext(), _mqttClient);
 
         CreateDiscoveredAssetRequestPayload dReq = new CreateDiscoveredAssetRequestPayload
         {
@@ -123,7 +116,7 @@ public class DiscoveredAssetResourcesClientIntegrationTests
     public async Task CreateOpcDiscoveredAssetEndpointProfile()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("opcdaep-" + Guid.NewGuid().ToString());
-        await using DiscoveredAssetResourcesClient mrpcClient = new(_mqttClient);
+        await using DiscoveredAssetResourcesClient mrpcClient = new(new ApplicationContext(), _mqttClient);
 
         CreateDiscoveredAssetEndpointProfileRequestPayload dReq = new CreateDiscoveredAssetEndpointProfileRequestPayload
         {

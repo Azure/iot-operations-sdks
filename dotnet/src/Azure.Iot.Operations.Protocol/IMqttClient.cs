@@ -66,6 +66,6 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         /// <param name="data">The authentication data to send.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default);
+        Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default);
     }
 }

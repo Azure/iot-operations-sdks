@@ -55,24 +55,22 @@ func (invoker <#=this.commandName.GetTypeName(TargetLanguage.Go, "command", "inv
 <# } else { #>
 ) error {
 <# } #>
+	invokerOpts := []protocol.InvokeOption{
+		protocol.WithTopicTokenNamespace("ex:"),
 <# if (this.doesCommandTargetExecutor) { #>
-	var opts protocol.InvokeOptions
-	opts.Apply(
-		opt,
 		protocol.WithTopicTokens{
 			"executorId": executorId,
 		},
-	)
-
 <# } #>
+	}
+
+	var invokeOpts protocol.InvokeOptions
+	invokeOpts.Apply(opt, invokerOpts...)
+
 	<#=this.respSchema != null ? "response" : "_"#>, err := invoker.Invoke(
 		ctx,
 		<#=this.reqSchema != null ? "request" : "nil"#>,
-<# if (this.doesCommandTargetExecutor) { #>
-		&opts,
-<# } else { #>
-		opt...,
-<# } #>
+		&invokeOpts,
 	)
 
 	return <#=this.respSchema != null ? "response, " : ""#>err

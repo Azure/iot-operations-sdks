@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace RestThermostatConnector
 {
-    internal class ThermostatStatus
+    public class ThermostatStatus
     {
         [JsonPropertyName("desiredTemperature")]
         public double? DesiredTemperature { get; set; }

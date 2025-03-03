@@ -21,7 +21,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task JsonRegisterGet()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
         Dictionary<string, string> testTags = new() { { "key1", "value1" } };
 
         Schema? res = await client.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, testTags);
@@ -44,7 +45,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task NotFoundSchemaReturnsNull()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         Schema? s = await client.GetAsync("NotFound");
         Assert.Null(s);
@@ -54,7 +56,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task RegisterAvroAsJsonThrows()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
@@ -65,7 +68,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task InvalidJsonThrows()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
@@ -76,7 +80,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task SchemaRegistryClientThrowsIfAccessedWhenDisposed()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         await client.DisposeAsync();
 
@@ -88,7 +93,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     public async Task SchemaRegistryClientThrowsIfCancellationRequested()
     {
         await using MqttSessionClient _mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using SchemaRegistryClient client = new(_mqttClient);
+        ApplicationContext applicationContext = new();
+        await using SchemaRegistryClient client = new(applicationContext, _mqttClient);
 
         CancellationTokenSource cts = new CancellationTokenSource();
         cts.Cancel();
@@ -123,4 +129,3 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     }
     """;
 }
-

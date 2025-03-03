@@ -67,11 +67,13 @@ func deserialize[T any](encoding Encoding[T], data *Data) (value T, err error) {
 	value, err = encoding.Deserialize(data)
 	if err != nil {
 		if stderr.Is(err, ErrUnsupportedContentType) {
-			return value, &errors.Error{
-				Message:     "content type mismatch",
-				Kind:        errors.HeaderInvalid,
-				HeaderName:  constants.ContentType,
-				HeaderValue: data.ContentType,
+			return value, &errors.Client{
+				Base: errors.Base{
+					Message:     "content type mismatch",
+					Kind:        errors.HeaderInvalid,
+					HeaderName:  constants.ContentType,
+					HeaderValue: data.ContentType,
+				},
 			}
 		}
 		return value, payloadError("cannot deserialize payload", err)
@@ -81,19 +83,23 @@ func deserialize[T any](encoding Encoding[T], data *Data) (value T, err error) {
 
 func payloadError(msg string, err any) error {
 	switch e := err.(type) {
-	case *errors.Error:
+	case *errors.Client:
 		return e
 	case error:
-		return &errors.Error{
-			Message:     msg,
-			Kind:        errors.PayloadInvalid,
-			NestedError: e,
+		return &errors.Client{
+			Base: errors.Base{
+				Message:     msg,
+				Kind:        errors.PayloadInvalid,
+				NestedError: e,
+			},
 		}
 	default:
-		return &errors.Error{
-			Message:     msg,
-			Kind:        errors.PayloadInvalid,
-			NestedError: stderr.New(fmt.Sprint(e)),
+		return &errors.Client{
+			Base: errors.Base{
+				Message:     msg,
+				Kind:        errors.PayloadInvalid,
+				NestedError: stderr.New(fmt.Sprint(e)),
+			},
 		}
 	}
 }
@@ -122,9 +128,11 @@ func (JSON[T]) Deserialize(data *Data) (T, error) {
 // Serialize validates that the payload is empty.
 func (Empty) Serialize(t any) (*Data, error) {
 	if t != nil {
-		return nil, &errors.Error{
-			Message: "unexpected payload for empty type",
-			Kind:    errors.PayloadInvalid,
+		return nil, &errors.Client{
+			Base: errors.Base{
+				Message: "unexpected payload for empty type",
+				Kind:    errors.PayloadInvalid,
+			},
 		}
 	}
 	return &Data{}, nil
@@ -133,9 +141,11 @@ func (Empty) Serialize(t any) (*Data, error) {
 // Deserialize validates that the payload is empty.
 func (Empty) Deserialize(data *Data) (any, error) {
 	if len(data.Payload) != 0 {
-		return nil, &errors.Error{
-			Message: "unexpected payload for empty type",
-			Kind:    errors.PayloadInvalid,
+		return nil, &errors.Client{
+			Base: errors.Base{
+				Message: "unexpected payload for empty type",
+				Kind:    errors.PayloadInvalid,
+			},
 		}
 	}
 	return nil, nil

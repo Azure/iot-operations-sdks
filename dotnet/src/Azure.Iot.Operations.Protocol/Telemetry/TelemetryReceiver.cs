@@ -16,23 +16,24 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     public abstract class TelemetryReceiver<T> : IAsyncDisposable
         where T : class
     {
-        private readonly int[] supportedMajorProtocolVersions = [TelemetryVersion.MajorProtocolVersion];
+        private readonly ApplicationContext _applicationContext;
+        private readonly int[] _supportedMajorProtocolVersions = [TelemetryVersion.MajorProtocolVersion];
 
         private static readonly int PreferredDispatchConcurrency = 10;
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
         internal static IWallClock WallClock = new WallClock();
 
-        private readonly IMqttPubSubClient mqttClient;
-        private readonly IPayloadSerializer serializer;
+        private readonly IMqttPubSubClient _mqttClient;
+        private readonly IPayloadSerializer _serializer;
 
-        private readonly Dictionary<string, string> topicTokenMap = [];
+        private readonly Dictionary<string, string> _topicTokenMap = [];
 
-        private Dispatcher? dispatcher;
+        private Dispatcher? _dispatcher;
 
-        private bool isRunning;
+        private bool _isRunning;
 
-        private bool isDisposed;
+        private bool _isDisposed;
 
         public Func<string, T, IncomingTelemetryMetadata, Task>? OnTelemetryReceived { get; set; }
 
@@ -46,24 +47,25 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => topicTokenMap;
+        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
 
         /// <summary>
         /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
         /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
         /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => topicTokenMap;
+        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        public TelemetryReceiver(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
         {
-            this.mqttClient = mqttClient;
-            this.serializer = serializer;
+            _applicationContext = applicationContext;
+            _mqttClient = mqttClient;
+            _serializer = serializer;
 
-            isRunning = false;
+            _isRunning = false;
 
             OnTelemetryReceived = default;
 
-            dispatcher = null;
+            _dispatcher = null;
 
             ServiceGroupId = AttributeRetriever.GetAttribute<ServiceGroupIdAttribute>(this)?.Id ?? string.Empty;
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
@@ -86,9 +88,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     return;
                 }
 
-                if (!supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
+                if (!_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
                 {
-                    Trace.TraceError($"Telemetry with CorrelationId {args.ApplicationMessage.CorrelationData} requested an unsupported protocol version {requestProtocolVersion}. This telemetry reciever supports versions {ProtocolVersion.ToString(supportedMajorProtocolVersions)}. The telemetry will be ignored by this receiver.");
+                    Trace.TraceError($"Telemetry with CorrelationId {args.ApplicationMessage.CorrelationData} requested an unsupported protocol version {requestProtocolVersion}. This telemetry reciever supports versions {ProtocolVersion.ToString(_supportedMajorProtocolVersions)}. The telemetry will be ignored by this receiver.");
                     return;
                 }
 
@@ -109,16 +111,21 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 try
                 {
-                    T serializedPayload = this.serializer.FromBytes<T>(args.ApplicationMessage.PayloadSegment.Array, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
+                    T serializedPayload = _serializer.FromBytes<T>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
 
-                    IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier);
+                    IncomingTelemetryMetadata metadata = new(args.ApplicationMessage, args.PacketIdentifier, TopicPattern);
 
                     if (metadata.Timestamp != null)
                     {
-                        HybridLogicalClock.GetInstance().Update(metadata.Timestamp);
+                        // Update application HLC against received TS
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(metadata.Timestamp);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation($"No timestamp present in telemetry received metadata.");
                     }
 
-                    async Task telemFunc()
+                    async Task TelemFunc()
                     {
                         try
                         {
@@ -129,7 +136,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                             Trace.TraceError($"Exception thrown while executing telemetry received callback: {innerEx.Message}");
                         }
                     }
-                    await GetDispatcher()(telemFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
+                    await GetDispatcher()(TelemFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                 }
                 catch (Exception outerEx)
                 {
@@ -142,25 +149,25 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            ObjectDisposedException.ThrowIf(isDisposed, this);
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            if (!isRunning)
+            if (!_isRunning)
             {
-                if (mqttClient.ProtocolVersion != MqttProtocolVersion.V500)
+                if (_mqttClient.ProtocolVersion != MqttProtocolVersion.V500)
                 {
                     throw AkriMqttException.GetConfigurationInvalidException(
                         "MQTTClient.ProtocolVersion",
-                        mqttClient.ProtocolVersion,
+                        _mqttClient.ProtocolVersion,
                         "The provided MQTT client is not configured for MQTT version 5");
                 }
 
-                string? clientId = this.mqttClient.ClientId;
+                string? clientId = this._mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting a telemetry receiver");
                 }
 
-                dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, PreferredDispatchConcurrency);
+                _dispatcher ??= ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId, PreferredDispatchConcurrency);
 
                 if (TopicNamespace != null && !MqttTopicProcessor.IsValidReplacement(TopicNamespace))
                 {
@@ -183,9 +190,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 MqttClientSubscribeOptions mqttSubscribeOptions = new(topicFilter);
 
-                MqttClientSubscribeResult subAck = await mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
+                MqttClientSubscribeResult subAck = await _mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
                 subAck.ThrowIfNotSuccessSubAck(topicFilter.QualityOfServiceLevel);
-                isRunning = true;
+                _isRunning = true;
                 Trace.TraceInformation($"Telemetry receiver subscribed for topic {telemTopicFilter}.");
             }
         }
@@ -193,31 +200,31 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public async Task StopAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            ObjectDisposedException.ThrowIf(isDisposed, this);
+            ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            if (isRunning)
+            if (_isRunning)
             {
                 string telemTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetTelemetryTopic()}" : GetTelemetryTopic();
 
                 MqttClientUnsubscribeOptions unsubscribeOptions = new(telemTopicFilter);
 
-                MqttClientUnsubscribeResult unsubAck = await mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
+                MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
                 unsubAck.ThrowIfNotSuccessUnsubAck();
-                isRunning = false;
+                _isRunning = false;
                 Trace.TraceInformation($"Telemetry receiver unsubscribed for topic {telemTopicFilter}.");
             }
         }
 
         private Dispatcher GetDispatcher()
         {
-            if (dispatcher == null)
+            if (_dispatcher == null)
             {
-                string? clientId = this.mqttClient.ClientId;
+                string? clientId = this._mqttClient.ClientId;
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
-                dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId);
+                _dispatcher = ExecutionDispatcher.CollectionInstance.GetDispatcher(clientId);
             }
 
-            return dispatcher;
+            return _dispatcher;
         }
 
         private string GetTelemetryTopic()
@@ -248,7 +255,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         protected virtual async ValueTask DisposeAsyncCore(bool disposing)
         {
-            if (!isDisposed)
+            if (!_isDisposed)
             {
                 try
                 {
@@ -259,14 +266,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     Trace.TraceWarning("Failed to stop the telemetry receiver while disposing it: {0}", ex);
                 }
 
-                mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
+                _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
 
                 if (disposing)
                 {
-                    await mqttClient.DisposeAsync(disposing);
+                    await _mqttClient.DisposeAsync(disposing);
                 }
 
-                isDisposed = true;
+                _isDisposed = true;
             }
         }
     }

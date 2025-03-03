@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
@@ -26,8 +27,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer cborSerializer = new CborSerializer();
 
-            byte[]? emptyBytes = cborSerializer.ToBytes(new EmptyCbor()).SerializedPayload;
-            Assert.Null(emptyBytes);
+            ReadOnlySequence<byte> emptyBytes = cborSerializer.ToBytes(new EmptyCbor()).SerializedPayload;
+            Assert.True(emptyBytes.IsEmpty);
             EmptyCbor? empty = cborSerializer.FromBytes<EmptyCbor>(emptyBytes, null, Models.MqttPayloadFormatIndicator.Unspecified);
             Assert.NotNull(empty);
         }
@@ -37,7 +38,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
         {
             IPayloadSerializer cborSerializer = new CborSerializer();
 
-            Assert.Throws<AkriMqttException>(() => { cborSerializer.FromBytes<MyCborType>(null, null, Models.MqttPayloadFormatIndicator.Unspecified); });
+            Assert.Throws<AkriMqttException>(() => { cborSerializer.FromBytes<MyCborType>(ReadOnlySequence<byte>.Empty, null, Models.MqttPayloadFormatIndicator.Unspecified); });
         }
     }
 }

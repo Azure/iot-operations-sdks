@@ -4,25 +4,54 @@ package errors
 
 import "log/slog"
 
-// Attrs returns additional error attributes for slog.
-func (e *Error) Attrs() []slog.Attr {
-	a := make([]slog.Attr, 0, 8)
+// client errors.
+func (e *Client) Attrs() []slog.Attr {
+	a := baseAttrs(&e.Base)
 
-	a = append(a,
-		slog.Int("kind", int(e.Kind)),
-		slog.Bool("in_application", e.InApplication),
-		slog.Bool("is_shallow", e.IsShallow),
-		slog.Bool("is_remote", e.IsRemote),
-	)
-
-	httpStatusCode := e.HTTPStatusCode
-	if httpStatusCode != 0 {
-		a = append(a, slog.Int("http_status_code", httpStatusCode))
+	if e.IsShallow {
+		a = append(a, slog.Bool("is_shallow", e.IsShallow))
 	}
 
-	nestedError := e.NestedError
-	if nestedError != nil {
-		a = append(a, slog.Any("nested_error", nestedError))
+	return a
+}
+
+// remote errors.
+func (e *Remote) Attrs() []slog.Attr {
+	a := baseAttrs(&e.Base)
+
+	if e.HTTPStatusCode != 0 {
+		a = append(a, slog.Int("http_status_code", e.HTTPStatusCode))
+	}
+
+	if e.InApplication {
+		a = append(a, slog.Bool("in_application", e.InApplication))
+	}
+
+	if e.ProtocolVersion != "" {
+		a = append(a, slog.String("protocol_version", e.ProtocolVersion))
+	}
+
+	if len(e.SupportedMajorProtocolVersions) > 0 {
+		a = append(
+			a,
+			slog.Any(
+				"supported_major_protocol_versions",
+				e.SupportedMajorProtocolVersions,
+			),
+		)
+	}
+
+	return a
+}
+
+// get attributes from Base.
+func baseAttrs(e *Base) []slog.Attr {
+	a := make([]slog.Attr, 0, 8)
+
+	a = append(a, slog.Int("kind", int(e.Kind)))
+
+	if e.NestedError != nil {
+		a = append(a, slog.Any("nested_error", e.NestedError))
 	}
 
 	switch e.Kind {

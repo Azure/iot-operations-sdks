@@ -47,7 +47,14 @@ func (sender <#=this.componentName.GetTypeName(TargetLanguage.Go)#>) <#=this.tel
 	telemetry <#=this.schemaType.GetTypeName(TargetLanguage.Go)#>,
 	opt ...protocol.SendOption,
 ) error {
-	return sender.Send(ctx, telemetry, opt...)
+	senderOpts := []protocol.SendOption{
+		protocol.WithTopicTokenNamespace("ex:"),
+	}
+
+	var sendOpts protocol.SendOptions
+	sendOpts.Apply(opt, senderOpts...)
+
+	return sender.Send(ctx, telemetry, &sendOpts)
 }
 <#+
     private string GetSerializer(ITypeName schema) =>

@@ -95,7 +95,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][PayloadFormat.Avro];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateTelemetrySchemas(ValidateAvroSchema, mqttVersion);
         }
@@ -116,7 +116,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][PayloadFormat.Json];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateTelemetrySchemas(ValidateJsonSchema, mqttVersion);
         }
@@ -147,7 +147,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][PayloadFormat.Avro];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateCommandSchemas(ValidateAvroSchema, mqttVersion);
         }
@@ -178,7 +178,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][PayloadFormat.Json];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateCommandSchemas(ValidateJsonSchema, mqttVersion);
         }
@@ -195,7 +195,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][PayloadFormat.Json];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateObjects(ValidateJsonSchema, mqttVersion);
         }
@@ -218,7 +218,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][PayloadFormat.Json];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateEnums(ValidateJsonSchema, mqttVersion);
         }
@@ -233,7 +233,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models["TelemetryNoIndices"][mqttVersion][protoFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateTelemetrySchemas(CheckProtoIndexes(fullyInferredIndexAssignments), mqttVersion);
         }
@@ -248,7 +248,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models["TelemetrySomeIndices"][mqttVersion][protoFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateTelemetrySchemas(CheckProtoIndexes(partlyInferredIndexAssignments), mqttVersion);
         }
@@ -263,7 +263,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models["TelemetryObjectNoIndices"][mqttVersion][protoFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateObjects(CheckProtoIndexes(fullyInferredIndexAssignments), mqttVersion);
         }
@@ -278,7 +278,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models["TelemetryObjectSomeIndices"][mqttVersion][protoFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateObjects(CheckProtoIndexes(partlyInferredIndexAssignments), mqttVersion);
         }
@@ -293,7 +293,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models["TelemetryStringEnumNoIndices"][mqttVersion][protoFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateEnums(CheckProtoIndexes(fullyInferredIndexAssignments), mqttVersion);
         }
@@ -308,7 +308,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models["TelemetryStringEnumSomeIndices"][mqttVersion][protoFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             schemaGenerator.GenerateEnums(CheckProtoIndexes(partlyInferredIndexAssignments), mqttVersion);
         }
@@ -335,7 +335,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][payloadFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             int callCount = 0;
             schemaGenerator.GenerateObjects((string schemaText, string fileName, string subFolder) =>
@@ -368,7 +368,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][payloadFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             int callCount = 0;
             schemaGenerator.GenerateEnums((string schemaText, string fileName, string subFolder) =>
@@ -393,7 +393,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][payloadFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             int callCount = 0;
             schemaGenerator.GenerateArrays((string schemaText, string fileName, string subFolder) =>
@@ -418,7 +418,7 @@
             IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict = models[modelName][mqttVersion][payloadFormat];
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[testInterfaceId];
 
-            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion);
+            var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             int callCount = 0;
             schemaGenerator.GenerateMaps((string schemaText, string fileName, string subFolder) =>

@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using System;
+using System.Buffers;
 using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.RPC
@@ -31,7 +32,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="isIdempotent">True if the command is designated as idempotent.</param>
         /// <param name="commandExpirationTime">Time prior to which the command instance (identfied by <paramref name="correlationData"/>) remains valid\.</param>
         /// <param name="executionDuration">Time taken to execute the command and serialize the response into a message.</param>
-        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[]? requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
+        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
 
         /// <summary>
         /// Retrieve a promise (Task) of an <see cref="MqttApplicationMessage"/> if present in the cache.
@@ -44,7 +45,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="isCacheable">True if the command is cacheable for responding to a request with different <paramref name="correlationData"/>.</param>
         /// <param name="canReuseAcrossInvokers">True if the <paramref name="invokerId"/> can be ignored when caching for reuse.</param>
         /// <returns>A <c>Task</c> that promises the retrieved message, or null if the response message is neither present nor expected.</returns>
-        Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, byte[] requestPayload, bool isCacheable, bool canReuseAcrossInvokers);
+        Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers);
 
         /// <summary>
         /// Start background maintenance threads.

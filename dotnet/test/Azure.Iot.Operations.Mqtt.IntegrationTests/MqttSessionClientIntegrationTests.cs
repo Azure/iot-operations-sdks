@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.IntegrationTests;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
+using System.Buffers;
 
 namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests;
 
@@ -48,7 +49,7 @@ public class MqttSessionClientIntegrationTests
         }
 
         Assert.NotNull(receivedMessage);
-        Assert.Equal(expectedPayload, receivedMessage.PayloadSegment.Array);
+        Assert.Equal(expectedPayload, receivedMessage.Payload.ToArray());
         Assert.Equal(expectedTopic, receivedMessage.Topic);
 
         MqttClientUnsubscribeResult unsubscribeResult =

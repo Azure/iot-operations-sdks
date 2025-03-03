@@ -6,6 +6,7 @@
 namespace SampleReadCloudEvents
 {
     using System;
+    using System.Buffers;
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Protocol;
@@ -31,7 +32,7 @@ namespace SampleReadCloudEvents
 
         public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
-        public T FromBytes<T>(byte[]? payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+        public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             if (contentType != null && contentType != ContentType)
@@ -49,7 +50,7 @@ namespace SampleReadCloudEvents
 
             try
             {
-                if (payload == null || payload.Length == 0)
+                if (payload.IsEmpty)
                 {
                     if (typeof(T) != typeof(EmptyJson))
                     {
@@ -75,10 +76,10 @@ namespace SampleReadCloudEvents
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return new(null, ContentType, PayloadFormatIndicator);
+                    return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
                 }
 
-                return new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions), ContentType, PayloadFormatIndicator);
+                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {

@@ -9,9 +9,9 @@ using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 using AssetEndpointProfileResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetEndpointProfileResponseSchema;
 using AssetResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetResponseSchema;
 
-public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
+public class DiscoveredAssetResourcesClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : IDiscoveredAssetResourcesClient
 {
-    private readonly DiscoveredAssetResourcesClientStub _clientStub = new(pubSubClient);
+    private readonly DiscoveredAssetResourcesClientStub _clientStub = new(applicationContext, pubSubClient);
     private bool _disposed;
 
     public async Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(
@@ -21,7 +21,7 @@ public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : ID
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         return (await _clientStub.CreateDiscoveredAssetEndpointProfileAsync(
-            discoveredAssetEndpointProfileCommandRequest, null, timeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
+            discoveredAssetEndpointProfileCommandRequest, null, null, timeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
     }
 
     public async Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
@@ -30,7 +30,7 @@ public class DiscoveredAssetResourcesClient(IMqttPubSubClient pubSubClient) : ID
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _clientStub.CreateDiscoveredAssetAsync(discoveredAssetCommandRequest, null, timeout, cancellationToken)).CreateDiscoveredAssetResponse;
+        return (await _clientStub.CreateDiscoveredAssetAsync(discoveredAssetCommandRequest, null, null, timeout, cancellationToken)).CreateDiscoveredAssetResponse;
     }
 
     public async ValueTask DisposeAsync()

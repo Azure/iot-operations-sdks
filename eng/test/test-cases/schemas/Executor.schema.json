@@ -76,6 +76,11 @@
             },
             "kind": "drive"
         },
+        "token-metadata-prefix": {
+            "description": "When present, indicates that resolved topic tokens should be copied into response metadata, with keys prepended by the indicated prefix.",
+            "type": "string",
+            "kind": "drive"
+        },
         "execution-concurrency": {
             "description": "A limit on the count of concurrent executions to reqest from the command dispatcher.",
             "type": [ "integer", "null" ],

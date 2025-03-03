@@ -12,11 +12,12 @@ public class MathEnvoyTests
     [Fact]
     public async Task IsPrime_OneInvoker_SecondCallFromCache()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "math-server-" + Guid.NewGuid();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using MathService mathService = new(mqttExecutor);
+        await using MathService mathService = new(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MathClient mathClient = new(mqttInvoker);
+        await using MathClient mathClient = new(applicationContext, mqttInvoker);
 
         await mathService.StartAsync();
 
@@ -36,17 +37,18 @@ public class MathEnvoyTests
     [Fact]
     public async Task IsPrime_BigNumber_Expects_Timeout()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "math-server-" + Guid.NewGuid();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using MathService mathService = new(mqttExecutor);
+        await using MathService mathService = new(applicationContext, mqttExecutor);
         mathService.IsPrimeCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(1);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MathClient mathClient = new(mqttInvoker);
+        await using MathClient mathClient = new(applicationContext, mqttInvoker);
         
         await mathService.StartAsync();
         var ex = await Assert.ThrowsAsync<AkriMqttException>(
             () => mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new IsPrimeRequestSchema() { Number = 45677 } },
-            new RPC.CommandRequestMetadata(), TimeSpan.FromSeconds(30)).WithMetadata());
+            new RPC.CommandRequestMetadata(), null, TimeSpan.FromSeconds(30)).WithMetadata());
 
         Assert.True(ex.IsRemote);
     }
@@ -54,11 +56,12 @@ public class MathEnvoyTests
     [Fact]
     public async Task Fibonacci_OneInvoker()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "math-server-" + Guid.NewGuid();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using MathService mathService = new(mqttExecutor);
+        await using MathService mathService = new(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MathClient mathClient = new(mqttInvoker);
+        await using MathClient mathClient = new(applicationContext, mqttInvoker);
 
         await mathService.StartAsync();
 
@@ -69,11 +72,12 @@ public class MathEnvoyTests
     [Fact()]
     public async Task RandomOneInvoker()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "math-server-" + Guid.NewGuid();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using MathService mathService = new(mqttExecutor);
+        await using MathService mathService = new(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using MathClient mathClient = new(mqttInvoker);
+        await using MathClient mathClient = new(applicationContext, mqttInvoker);
         
         await mathService.StartAsync();
 

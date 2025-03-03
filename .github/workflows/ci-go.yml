@@ -1,4 +1,4 @@
-name: CI-go
+name: CI-Go
 
 on:
   workflow_dispatch:
@@ -41,25 +41,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install AIO
+      uses: ./.github/actions/deploy-aio
       with:
-        fetch-depth: 0
+        wait-for-broker: 'true'
+        install-dotnet: 'true'
+        install-go: 'true'
 
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: 1.22.4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.301
-
-    - name: Setup cluster
-      run: |
-        tools/deployment/initialize-cluster.sh
-        tools/deployment/deploy-aio.sh nightly
-
-    # This file is created by deploy-aio.sh
+    # This file is created by deploy-aio
     - name: Load test service account token into environment
       run: |
         if [ ! -f ".session/token.txt" ]; then
@@ -69,7 +59,7 @@ jobs:
 
         echo "TOKEN_FILE_PATH=$(pwd)/.session/token.txt" >> $GITHUB_ENV
 
-    # This file is created by deploy-aio.sh
+    # This file is created by deploy-aio
     - name: Load CA certificate into environment
       run: |
         if [ ! -f ".session/broker-ca.crt" ]; then
@@ -79,7 +69,7 @@ jobs:
 
         echo "CA_FILE_PATH=$(pwd)/.session/broker-ca.crt" >> $GITHUB_ENV
 
-    # These files are created by deploy-aio.sh
+    # These files are created by deploy-aio
     - name: Load client certificates into environment
       run: |
         if [ ! -f ".session/client.key" ]; then
@@ -135,6 +125,12 @@ jobs:
 
     - name: Build codegen
       run: dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./go
 
     - name: Codegen counter for Go
       working-directory: ./go/samples/protocol/counter/envoy

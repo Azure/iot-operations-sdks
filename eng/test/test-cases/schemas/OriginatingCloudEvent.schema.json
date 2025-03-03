@@ -18,6 +18,21 @@
             "type": "string",
             "kind": "drive"
         },
+        "id": {
+            "description": "A string that identifies the event.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "time": {
+            "description": "Timestamp of when the occurrence happened.",
+            "type": "string",
+            "kind": "drive"
+        },
+        "subject": {
+            "description": "The subject of the event in the context of the event producer.",
+            "type": "string",
+            "kind": "drive"
+        },
         "data-schema": {
             "description": "URI that identifies the schema the data adheres to.",
             "type": "string",

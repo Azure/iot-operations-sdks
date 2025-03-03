@@ -7,7 +7,6 @@ namespace Azure.Iot.Operations.Protocol.Models
 {
     public class MqttExtendedAuthenticationExchangeContext(MqttAuthenticateReasonCode reasonCode)
     {
-
         /// <summary>
         /// Gets the reason code.
         /// Hint: MQTT 5 feature only.

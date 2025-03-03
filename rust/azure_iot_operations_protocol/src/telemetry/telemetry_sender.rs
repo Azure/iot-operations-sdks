@@ -9,7 +9,7 @@ use std::{collections::HashMap, marker::PhantomData, time::Duration};
 use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use bytes::Bytes;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, SecondsFormat, Utc};
 use uuid::Uuid;
 
 use crate::{
@@ -144,7 +144,10 @@ impl CloudEvent {
             CloudEventSubject::None => {}
         }
         if let Some(time) = self.time {
-            headers.push((CloudEventFields::Time.to_string(), time.to_rfc3339()));
+            headers.push((
+                CloudEventFields::Time.to_string(),
+                time.to_rfc3339_opts(SecondsFormat::Secs, true),
+            ));
         }
         if let Some(data_schema) = self.data_schema {
             headers.push((
@@ -362,12 +365,17 @@ where
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
         let topic_pattern = TopicPattern::new(
-            "sender_options.topic_pattern",
             &sender_options.topic_pattern,
             None,
             sender_options.topic_namespace.as_deref(),
             &sender_options.topic_token_map,
-        )?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "sender_options.topic_pattern",
+            )
+        })?;
 
         Ok(Self {
             application_hlc: application_context.application_hlc,
@@ -387,10 +395,10 @@ where
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
     ///
-    /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if
     /// - the [`ApplicationHybridLogicalClock`]'s counter would be incremented and overflow beyond [`u64::MAX`] when preparing the timestamp for the message
     ///
-    /// [`AIOProtocolError`] of kind [`StateInvalid`](AIOProtocolErrorKind::StateInvalid) if
+    /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid) if
     /// - the [`ApplicationHybridLogicalClock`]'s timestamp is too far in the future
     pub async fn send(&self, mut message: TelemetryMessage<T>) -> Result<(), AIOProtocolError> {
         // Validate parameters. Custom user data, timeout, QoS, and payload serialization have already been validated in TelemetryMessageBuilder
@@ -403,7 +411,10 @@ where
         };
 
         // Get topic.
-        let message_topic = self.topic_pattern.as_publish_topic(&message.topic_tokens)?;
+        let message_topic = self
+            .topic_pattern
+            .as_publish_topic(&message.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
 
         // Get updated timestamp
         let timestamp_str = self.application_hlc.update_now()?;

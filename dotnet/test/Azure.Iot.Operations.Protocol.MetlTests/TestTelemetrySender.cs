@@ -8,8 +8,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestTelemetrySender : TelemetrySender<string>
     {
-        internal TestTelemetrySender(IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer payloadSerializer)
-            : base(mqttClient, telemetryName, payloadSerializer)
+        internal TestTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer payloadSerializer)
+            : base(applicationContext, mqttClient, telemetryName, payloadSerializer)
         {
         }
     }
