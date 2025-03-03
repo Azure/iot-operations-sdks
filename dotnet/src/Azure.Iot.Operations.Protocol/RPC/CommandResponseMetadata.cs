@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the UserData is initialized with an empty dictionary.
         /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the UserData is set from the resonse message.
         /// </summary>
-        public Dictionary<string, string> UserData { get; set; } = [];
+        public Dictionary<string, string> UserData { get; set; } = new();
 
         /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
