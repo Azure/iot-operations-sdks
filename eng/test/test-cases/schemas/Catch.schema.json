@@ -17,7 +17,6 @@
                 "invalid state",
                 "internal logic error",
                 "unknown error",
-                "invocation error",
                 "execution error",
                 "mqtt error",
                 "request version not supported",

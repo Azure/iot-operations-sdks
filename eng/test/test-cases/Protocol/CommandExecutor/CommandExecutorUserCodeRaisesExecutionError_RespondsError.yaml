@@ -10,7 +10,7 @@ prologue:
   executors:
   - raise-error:
       kind: execution
-      message: "This is an execution error"
+      message: "Request has been dropped by the application"
 
 actions:
 - action: receive request
@@ -24,5 +24,5 @@ epilogue:
     command-status: 500 # InternalServerError
     is-application-error: true
     metadata:
-      "__stMsg": "This is an execution error"
+      "__stMsg": "Request has been dropped by the application"
 ...
