@@ -7,6 +7,8 @@ import (
 	_ "embed"
 	"fmt"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/princjef/mageutil/bintool"
 	"github.com/princjef/mageutil/shellcmd"
@@ -76,17 +78,56 @@ func Doc() error {
 	).Run()
 }
 
+// Tester generates the test commands from various parameters.
+type Tester struct {
+	Clean, Race bool
+	CoverPkg    []string
+	Timeout     time.Duration
+}
+
+func (t Tester) Run() error {
+	test := `go test -coverprofile=coverage.out -covermode=atomic`
+
+	if t.Race {
+		test += ` -race`
+	}
+
+	if t.Timeout > 0 {
+		test += ` -timeout=` + t.Timeout.String()
+	}
+
+	if len(t.CoverPkg) > 0 {
+		test += ` -coverpkg="` + strings.Join(t.CoverPkg, `/...,`) + `/..."`
+	}
+
+	test += " ./..."
+
+	var cmds []shellcmd.Command
+
+	if t.Clean {
+		cmds = append(cmds, `go clean -testcache`)
+	}
+
+	cmds = append(cmds, shellcmd.Command(test))
+
+	return shellcmd.RunAll(cmds...)
+}
+
 // Test runs the unit tests.
 func Test() error {
-	return shellcmd.Command(`go test -race -cover -timeout 30s ./...`).Run()
+	return Tester{
+		Race:    true,
+		Timeout: 10 * time.Second,
+	}.Run()
 }
 
 // TestClean runs the unit tests with no test cache.
 func TestClean() error {
-	return shellcmd.RunAll(
-		`go clean -testcache`,
-		`go test -race -cover -timeout 12s ./...`,
-	)
+	return Tester{
+		Clean:   true,
+		Race:    true,
+		Timeout: 10 * time.Second,
+	}.Run()
 }
 
 // CI runs format, lint, doc, and test.
