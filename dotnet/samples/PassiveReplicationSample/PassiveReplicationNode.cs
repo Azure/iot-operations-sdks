@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
     public class PassiveReplicationNode : BackgroundService, IAsyncDisposable
     {
         private readonly StateStoreKey SharedResourceKeyToUpdate = new("someKeyToUpdate");
-        private static TimeSpan _electionTerm = TimeSpan.FromSeconds(1);
+        private static readonly TimeSpan _electionTerm = TimeSpan.FromSeconds(1);
         private string? _lastKnownLeader;
 
         private readonly ILogger<PassiveReplicationNode> _logger;
@@ -40,23 +40,18 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            string? mqttConnectionString = _configuration.GetConnectionString("PassiveReplicationNode");
-            if (string.IsNullOrWhiteSpace(mqttConnectionString))
+            _logger.LogInformation("Running in cluster, load config from environment");
+            MqttConnectionSettings settings = MqttConnectionSettings.FromEnvVars();
+            if (string.IsNullOrEmpty(settings.ClientId))
             {
-                throw new Exception("No connection string set");
+                settings.ClientId += _leaderElectionClient.CandidateName;
             }
-
-            _logger.LogInformation("Found the connection string: {0}", mqttConnectionString);
-
-            if (!mqttConnectionString.Contains("ClientId="))
-            {
-                mqttConnectionString += ";ClientId=" + _leaderElectionClient.CandidateName;
-            }
+            _logger.LogInformation("Connecting to: {settings}", settings);
 
             MqttClientConnectResult connAck;
             try
             {
-                connAck = await _mqttClient.ConnectAsync(MqttConnectionSettings.FromConnectionString(mqttConnectionString));
+                connAck = await _mqttClient.ConnectAsync(settings);
             }
             catch (Exception e)
             {

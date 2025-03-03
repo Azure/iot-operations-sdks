@@ -1,12 +1,10 @@
 # Deploy an edge application
 
-The following instruction outline how to create a container image for your application, push it to the cluster and deploy to Kubernetes.
+The following instruction outline how to create a container image for your application, push it to the a registry, and deploy to the cluster.
 
 ## Creating a container
 
 Some languages have built in container support, however all binaries can be deployed using a Dockerfile. A Dockerfile can be created to support building the project and the creating the deployable container for repeatable container creation by using [multi-stage builds](https://docs.docker.com/build/building/multi-stage/).
-
-[Alpine Docker](https://hub.docker.com/_/alpine) provides some of the smallest container sizes, so is often the recommended image to use for the runtime image.
 
 > [!NOTE]
 > The Dockerfile examples below are for reference only, and should be adapted for your particular situation.
@@ -65,23 +63,32 @@ COPY --from=build work/go-application .
 ENTRYPOINT ["/go-application"]
 ```
 
-## Uploading to a container registry
+## Import the container image
 
-Import the image from docker into the k3d cluster using the [k3d image import](https://k3d.io/v5.1.0/usage/commands/k3d_image_import/) command:
+Instead of uploading the container image to a container registry, you can choose to import the image directly into the k3d cluster using the [k3d image import](https://k3d.io/v5.1.0/usage/commands/k3d_image_import/) command. This avoids the need to use a container registry, and is ideal for developing locally.
 
 ```bash
 k3d image import <image-name>
 ```
 
+> [!TIP]
+>
+> If using the k3d import method described here, then make sure the `imagePullPolicy` in the container definition is set to `Never`, otherwise the cluster will attempt to download the image.
+
 ## Deploying to the cluster
 
-The following yaml defines a `ServiceAccount` and `Deployment` for the edge application container. 
+The following yaml can be used as a reference for deploying your application to the cluster.
 
 It contains the following information:
 
-1. A Service Account Token for authentication with MQTT broker
-1. A CA trust bundle for validating the MQTT broker certificate
-1. The container image built earlier
+| Type | Name | Description |
+|-|-|-|
+| ServiceAccount | `sdk-application` | Used for generating the SAT for authentication to the broker |
+| Deployment | `sdk-application` | The edge application deployment definition |
+| Volume | `mqtt-client-token` | The SAT for mounting into the counter |
+| Volume | `aio-ca-trust-bundle` | The broker trust-bundle for validating the server |
+| Container | `sdk-application` | The definition of the container, including the container image and the mount locations for the SAT and broker trust-bundle |
+| env | `MQTT_*`, `AIO_*` | The environment variables used to configure the connection to the MQTT broker. Refer to [MQTT broker access](/doc/setup.md#mqtt-broker-access) for details on settings these values to match the development environment |
 
 > [!TIP]
 > Setting the `imagePullPolicy` to `Never`, allows the cached image to be used even when the version is `latest`.
@@ -128,13 +135,27 @@ It contains the following information:
           containers:
           - name: sdk-application
             image: <image-name>
-            #imagePullPolicy: Never  # Set this to Never will allow pulling the imported image from Docker
+            imagePullPolicy: Never # Set to Never to use the imported image
             
             volumeMounts:
             - name: mqtt-client-token
               mountPath: /var/run/secrets/tokens
             - name: aio-ca-trust-bundle
               mountPath: /var/run/certs/aio-ca-cert
+
+          env:
+            - name: MQTT_CLIENT_ID
+              value: <my-client-id>
+            - name: AIO_BROKER_HOSTNAME
+              value: aio-broker
+            - name: AIO_BROKER_TCP_PORT
+              value: 18883
+            - name: AIO_MQTT_USE_TLS
+              value: true
+            - name: AIO_TLS_CA_FILE
+              value: var/run/certs/aio-ca/ca.crt
+            - name: AIO_SAT_FILE
+              value: /var/run/secrets/tokens/mqtt-client-token
     ```
 
 1. Apply the yaml to the cluster:

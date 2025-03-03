@@ -2,62 +2,21 @@
 
 set -o errexit # fail if any command fails
 
-# check input args
-deploy_type=$1
-if [[ -z "$deploy_type" ]] || ! [[ "$deploy_type" =~ ^(nightly|release)$ ]]; then
-    echo "Error: Missing argument"
-    echo "  Options are 'nightly' or 'release'"
-    echo "  Example: './deploy-aio.sh nightly'"
-    exit 1
-fi
-
-echo "Installing $deploy_type build of MQTT Broker"
+echo "Deploying Azure IoT Operations for development"
 
 # setup some variables, and change into the script directory
 script_dir=$(dirname $(readlink -f $0))
 session_dir=$script_dir/../../.session
-mkdir -p $session_dir
 cd $script_dir
+mkdir -p $session_dir
 
-# add & upgrade the extensions
-az extension add --upgrade --name azure-iot-ops
-az extension add --upgrade --name connectedk8s
-
-# If its a nightly build, we need to install all the dependencies
-if [ "$deploy_type" = "nightly" ]; then
-    # Install Jetstack helm repository
-    helm repo add jetstack https://charts.jetstack.io --force-update
-
-    # install cert-manager
-    helm upgrade cert-manager jetstack/cert-manager --install --create-namespace -n cert-manager --version v1.16 --set crds.enabled=true --set fullnameOverride=aio-cert-manager --set extraArgs={--enable-certificate-owner-ref=true} --wait
-
-    # install trust-manager
-    helm upgrade trust-manager jetstack/trust-manager --install --create-namespace -n cert-manager --set nameOverride=aio-trust-manager --wait
-
-    # install MQTT broker
-    helm uninstall broker -n azure-iot-operations --ignore-not-found
-    helm install broker --atomic --create-namespace -n azure-iot-operations --version 1.1.0-dev oci://mqbuilds.azurecr.io/helm/aio-broker --wait
-
-    # add ADR
-    helm uninstall adr -n azure-iot-operations --ignore-not-found
-    helm install adr --version 1.0.0 oci://mcr.microsoft.com/azureiotoperations/helm/adr/assets-arc-extension
-
-    # add Akri service, port 18883
-    helm uninstall akri -n azure-iot-operations --ignore-not-found
-    helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.6.1 \
-        --set agent.extensionService.mqttBroker.useTls=true \
-        --set agent.extensionService.mqttBroker.caCertConfigMapRef=azure-iot-operations-aio-ca-trust-bundle \
-        --set agent.extensionService.mqttBroker.authenticationMethod=serviceAccountToken \
-        --set agent.extensionService.mqttBroker.hostName=aio-broker \
-        --set agent.extensionService.mqttBroker.port=18883 \
-        -n azure-iot-operations
-
-    # deploy the Akri Operator
-    helm uninstall akri-operator -n azure-iot-operations --ignore-not-found
-    helm install akri-operator oci://akripreview.azurecr.io/helm/microsoft-managed-akri-operator --version 0.1.5-preview -n azure-iot-operations
+# Install the cert-man resources if certificate isn't present
+if ! kubectl get certificate/azure-iot-operations-aio-selfsigned &> /dev/null; then
+    echo Missing certificate, installing...
+    kubectl apply -f yaml/cert-man.yaml
 fi
 
-# create root & intermediate CA
+# create x509 certificate chain
 step certificate create --profile root-ca "my root ca" \
     $session_dir/root_ca.crt $session_dir/root_ca.key \
     --no-password --insecure --force
@@ -71,18 +30,8 @@ kubectl delete configmap client-ca-trust-bundle -n azure-iot-operations --ignore
 kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
     --from-literal=client_ca.pem="$(cat $session_dir/intermediate_ca.crt $session_dir/root_ca.crt)"
 
-# setup new Broker
-#TODO this is a temporary workaround to a bug in the broker. Currently, the cluster issuer
-# takes longer to deploy than the broker listener expects and this causes the deployment to fail.
-# This temporary fix deploys just the cluster issuer, waits a bit, then deploys the broker listener
-if [ "$deploy_type" = "nightly" ]; then
-    kubectl apply -f yaml/aio-nightly-cluster-issuer.yaml
-    kubectl wait --for=condition=Ready clusterIssuer/azure-iot-operations-aio-certificate-issuer
-fi
+# Setup the MQTT broker
+kubectl apply -f yaml/aio-developer.yaml
 
-kubectl apply -f yaml/aio-$deploy_type.yaml
-
-# Update the credentials locally for connecting to MQTT Broker
-./update-credentials.sh
-
-echo Setup complete, session related files are in the '.session' directory
+# Create the credentials for auth to the MQTT broker
+$script_dir/update-credentials.sh
