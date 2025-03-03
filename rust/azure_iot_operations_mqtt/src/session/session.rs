@@ -114,7 +114,7 @@ where
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(&mut self) -> Result<(), SessionError> {
+    pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: This is a temporary solution to prevent re-use of the session.
         // Re-use should be available in the future.
