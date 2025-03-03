@@ -68,8 +68,15 @@ namespace Azure.Iot.Operations.Connector
 
                 _assetsSamplingTimers[args.AssetName][dataset.Name] = new Timer(async (state) =>
                 {
-                    byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                    await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
+                    try
+                    {
+                        byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                        await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to sample the dataset");
+                    }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
             }
         }
