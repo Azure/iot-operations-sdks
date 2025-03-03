@@ -62,7 +62,7 @@ func runOneCommandInvokerTest(
 		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
 		"CommandInvokerPubAckFailure_ThrowsException",
 		// TODO: Uncomment once 422 is removed in Go to support the modifications for this test
-		"CommandInvokerResponseIndicatesInvocationError_ThrowsException"
+		"CommandInvokerResponseIndicatesInvocationError_ThrowsException",
 	}
 
 	testCaseYaml, err := os.ReadFile(fileName)
