@@ -55,7 +55,8 @@ fi
 # NOTE: If rustup was already installed, make sure it's up-to-date.  If
 # it was just installed above, create the hardlinks for cargo, rustc,
 # etc.
-rustup self update
+#rustup self update
+rustup set auto-self-update disable
 
 # NOTE: The toolchain specified by rust-toolchain will be automatically
 # installed if it doesn't already exist when `cargo` is run later.  We'd
