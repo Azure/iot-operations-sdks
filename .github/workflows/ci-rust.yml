@@ -46,20 +46,20 @@ jobs:
     name: Build, Test, Lint
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install AIO
+      uses: ./.github/actions/deploy-aio
       with:
-        fetch-depth: 0
+        wait-for-broker: 'true'
+        install-rust: 'true'
 
     - name: Run Checks
       run: |
         set -e
         make check
-
-    - name: Setup Cluster
-      run: |
-        ../tools/deployment/initialize-cluster.sh
-        ../tools/deployment/deploy-aio.sh nightly
 
     - name: Run Tests
       run: |

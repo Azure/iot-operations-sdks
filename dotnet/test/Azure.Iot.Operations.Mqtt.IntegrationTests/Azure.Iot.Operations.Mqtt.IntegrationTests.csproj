@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.Protocol.IntegrationTests\Azure.Iot.Operations.Protocol.IntegrationTests.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
 </Project>

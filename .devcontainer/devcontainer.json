@@ -1,5 +1,5 @@
 {
-    "name": "Empty k3s cluster",
+    "name": "AIO SDK development",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "hostRequirements": {
         "cpus": 2,
@@ -48,7 +48,7 @@
             "description": "Your Azure subscription ID"
         },
         "RESOURCE_GROUP": {
-            "description": "Your Azure resource group"
+            "description": "Your Azure resource group. Defaults to AIO-<CODESPACE NAME>"
         },
         "LOCATION": {
             "description": "Region to use, must be one of eastus, eastus2, westus, westus2, westus3, westeurope, or northeurope.",

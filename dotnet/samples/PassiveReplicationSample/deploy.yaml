@@ -1,9 +1,3 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: passive-replication-secrets
-stringData:
-  PassiveReplicationNode: HostName=aio-broker;TcpPort=1883;UseTls=false;UserName=\$sat;PasswordFile=/var/run/secrets/tokens/mqtt-client-token
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -28,22 +22,34 @@ spec:
     spec:
       serviceAccountName: passive-replication-service-account
       containers:
-      - name: passive-replication-sample
-        image: k3d-registry.localhost:5000/passivereplicationsample:latest
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-        - name: mqtt-client-token
-          mountPath: /var/run/secrets/tokens
-        env:
-        - name: ConnectionStrings__PassiveReplicationNode
-          valueFrom:
-            secretKeyRef:
-              name: passive-replication-secrets
-              key: PassiveReplicationNode
+        - name: passive-replication-sample
+          image: k3d-registry.localhost:5000/passivereplicationsample:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: mqtt-client-token
+              mountPath: /var/run/secrets/tokens
+            - name: aio-ca-trust-bundle
+              mountPath: /var/run/certs/aio-ca/
+          env:
+            - name: MQTT_CLIENT_ID
+              value: "PassiveReplicationApp"
+            - name: AIO_BROKER_HOSTNAME
+              value: "aio-broker"
+            - name: AIO_BROKER_TCP_PORT
+              value: "18883"
+            - name: AIO_MQTT_USE_TLS
+              value: "true"
+            - name: AIO_TLS_CA_FILE
+              value: "/var/run/certs/aio-ca/ca.crt"
+            - name: AIO_SAT_FILE
+              value: "/var/run/secrets/tokens/mqtt-client-token"
       volumes:
-      - name: mqtt-client-token
-        projected:
-          sources:
-          - serviceAccountToken:
-              path: mqtt-client-token
-              audience: passive-replication-sample
+        - name: mqtt-client-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: mqtt-client-token
+                  audience: aio-internal
+        - name: aio-ca-trust-bundle
+          configMap:
+            name: azure-iot-operations-aio-ca-trust-bundle

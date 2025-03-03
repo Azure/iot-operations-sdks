@@ -23,5 +23,8 @@
     <PackageReference Include="Moq" Version="4.20.70" />
     <ProjectReference Include="..\..\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
 </Project>

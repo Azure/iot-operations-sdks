@@ -10,11 +10,21 @@ if [ -z $STORAGE_ACCOUNT ]; then echo "STORAGE_ACCOUNT is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
 
+# install providers
+az provider register -n "Microsoft.ExtendedLocation"
+az provider register -n "Microsoft.Kubernetes"
+az provider register -n "Microsoft.KubernetesConfiguration"
+az provider register -n "Microsoft.IoTOperations"
+az provider register -n "Microsoft.DeviceRegistry"
+az provider register -n "Microsoft.SecretSyncController"
+
 # install arc
 echo ===Installing Azure Arc===
 az connectedk8s connect --name $CLUSTER_NAME --location $LOCATION --resource-group $RESOURCE_GROUP
 echo ===Enabling Azure Arc Features===
-az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --features cluster-connect custom-locations
+#az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --features cluster-connect custom-locations
+export OBJECT_ID=$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)
+az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --custom-locations-oid $OBJECT_ID --features cluster-connect custom-locations
 
 # install schema registry
 echo ===Creating Storage Account===
