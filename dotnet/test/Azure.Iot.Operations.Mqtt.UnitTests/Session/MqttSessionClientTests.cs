@@ -2347,11 +2347,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             var certRequest = new CertificateRequest($"CN={subjectName}", ecdsa, HashAlgorithmName.SHA256);
 
             X509Certificate2 generatedCert = certRequest.CreateSelfSigned(DateTimeOffset.Now.AddDays(-1), DateTimeOffset.Now.AddYears(10));
-#if NET9_0_OR_GREATER
             return generatedCert;
-#else
-            return new X509Certificate2(generatedCert.Export(X509ContentType.Pfx));
-#endif
         }
 
         private static MqttClientOptions GetClientOptions(MqttConnectionSettings? mcs = null)
