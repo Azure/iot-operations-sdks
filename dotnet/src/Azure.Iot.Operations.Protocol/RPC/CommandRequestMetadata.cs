@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <summary>
         /// A dictionary of MQTT topic tokens and the replacement values exnracted from the publication topic.
         /// </summary>
-        public Dictionary<string, string> TopicTokens { get; }
+        public Dictionary<string, string> TopicTokens { get; } = new();
 
         /// <summary>
         /// The partition attached to the request.
