@@ -5,7 +5,9 @@
 
 use core::fmt::Debug;
 
-use azure_iot_operations_protocol::common::aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind};
+use azure_iot_operations_protocol::common::aio_protocol_error::{
+    AIOProtocolError, AIOProtocolErrorKind,
+};
 use thiserror::Error;
 
 pub use schemaregistry_gen::schema_registry::client::{Format, Schema, SchemaType};
@@ -49,16 +51,22 @@ pub enum SchemaRegistryErrorKind {
 impl From<AIOProtocolError> for SchemaRegistryErrorKind {
     fn from(error: AIOProtocolError) -> Self {
         match error.kind {
-            AIOProtocolErrorKind::UnknownError => SchemaRegistryErrorKind::ServiceError(ServiceError {
-                message: error.message.unwrap_or_else(|| "Unknown error".to_string()),
-                property_name: error.header_name,
-                property_value: error.header_value,
-            }),
-            AIOProtocolErrorKind::ExecutionException => SchemaRegistryErrorKind::ServiceError(ServiceError {
-                message: error.message.unwrap_or_else(|| "Execution Exception".to_string()),
-                property_name: None,
-                property_value: None,
-            }),
+            AIOProtocolErrorKind::UnknownError => {
+                SchemaRegistryErrorKind::ServiceError(ServiceError {
+                    message: error.message.unwrap_or_else(|| "Unknown error".to_string()),
+                    property_name: error.header_name,
+                    property_value: error.header_value,
+                })
+            }
+            AIOProtocolErrorKind::ExecutionException => {
+                SchemaRegistryErrorKind::ServiceError(ServiceError {
+                    message: error
+                        .message
+                        .unwrap_or_else(|| "Execution Exception".to_string()),
+                    property_name: None,
+                    property_value: None,
+                })
+            }
             _ => SchemaRegistryErrorKind::AIOProtocolError(error),
         }
     }
