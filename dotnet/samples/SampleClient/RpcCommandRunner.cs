@@ -48,6 +48,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         customTopicTokenClient.CustomTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
         customTopicTokenClient.CustomTopicTokenMap["ex:commandName"] = "someCommandName1";
         customTopicTokenClient.CustomTopicTokenMap["commandName"] = "someCommandName2";
+        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
+        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
+        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["ex:commandName"] = "someCommandName1";
+        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["commandName"] = "someCommandName2";
         try
         {
 
