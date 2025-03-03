@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace TestEnvoys.Memmon
+namespace TestEnvoys.CustomTopicTokens
 {
     using System;
     using System.Collections.Generic;
@@ -11,12 +11,12 @@ namespace TestEnvoys.Memmon
     using Azure.Iot.Operations.Protocol.Models;
     using TestEnvoys;
 
-    public static partial class Memmon
+    public static partial class CustomTopicTokens
     {
         /// <summary>
-        /// Specializes the <c>TelemetryReceiver</c> class for type <c>ManagedMemoryTelemetry</c>.
+        /// Specializes the <c>TelemetryReceiver</c> class for type <c>TelemetryCollection</c>.
         /// </summary>
-        public class ManagedMemoryTelemetryReceiver : TelemetryReceiver<ManagedMemoryTelemetry>
+        public class TelemetryReceiver : TelemetryReceiver<TelemetryCollection>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 
@@ -37,15 +37,14 @@ namespace TestEnvoys.Memmon
             protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="ManagedMemoryTelemetryReceiver"/> class.
+            /// Initializes a new instance of the <see cref="TelemetryReceiver"/> class.
             /// </summary>
-            public ManagedMemoryTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-                : base(applicationContext, mqttClient,  new AvroSerializer<ManagedMemoryTelemetry, EmptyAvro>())
+            public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient,  new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
-                base.TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
-                base.TopicTokenMap["telemetryName"] = "managedMemory";
+                base.TopicTokenMap["modelId"] = "dtmi:com:example:CustomTopicTokens;1";
             }
         }
     }
