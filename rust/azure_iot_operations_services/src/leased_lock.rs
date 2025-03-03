@@ -11,6 +11,9 @@ use crate::state_store::{
     KeyObservation, Response as StateStoreResponse, ServiceError as StateStoreServiceError,
     StateStoreError, StateStoreErrorKind,
 };
+
+pub use crate::state_store::{SetCondition, SetOptions};
+
 use azure_iot_operations_protocol::common::{
     aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock,
 };
@@ -106,25 +109,21 @@ where
 {
     /// The response for the request. Will vary per operation.
     pub response: T,
-    /// Important: This should be used as the `fencing_token` when editing the locked key.
-    /// Semantically, it is the version of the lock as a [`HybridLogicalClock`].
-    pub fencing_token: Option<HybridLogicalClock>,
+    /// The version of the response as a [`HybridLogicalClock`].
+    pub version: Option<HybridLogicalClock>,
 }
 
 impl<T: Debug> Response<T> {
     /// Creates a new instance of Response<T>.
-    pub fn new(response: T, fencing_token: Option<HybridLogicalClock>) -> Response<T> {
-        Self {
-            response,
-            fencing_token,
-        }
+    pub fn new(response: T, version: Option<HybridLogicalClock>) -> Response<T> {
+        Self { response, version }
     }
 
     /// Creates a new instance of Response<T> out of the `response` and `version` of a `state_store::Response<T>`.
     pub fn from_response(state_store_response: StateStoreResponse<T>) -> Response<T> {
         Self {
             response: state_store_response.response,
-            fencing_token: state_store_response.version,
+            version: state_store_response.version,
         }
     }
 }
@@ -141,7 +140,7 @@ impl From<StateStoreResponse<KeyObservation>> for Response<LockObservation> {
 pub enum AcquireAndUpdateKeyOption {
     /// Indicates a State Store key shall be updated.
     /// The first argument is new value for the State Store key.
-    Update(Vec<u8>),
+    Update(Vec<u8>, SetOptions),
     /// Indicates the State Store key shall not be updated nor deleted.
     DoNotUpdate,
     /// Indicates the State Store key shall be deleted.

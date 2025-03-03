@@ -45,7 +45,6 @@ async fn main() {
 
     let client_1_task = tokio::task::spawn(async move {
         leased_lock_client_1_operations(
-            lock_name,
             state_store_client_arc_mutex1,
             leased_lock_client1,
             exit_handle1,
@@ -124,9 +123,11 @@ fn create_clients(
 /// make all these calls, but they do show all that can be done with this client.
 
 /// In `leased_lock_client_1_operations` you will find the following examples:
-/// 1. Perform a basic
+/// 1. Acquire a lock using `acquire_lock()`
+/// 2. Sets a key in the State Store using the `fencing_token` obtained from the lock.
+/// 3. Gets the current lock holder name.
+/// 4. Releases a lock.
 async fn leased_lock_client_1_operations(
-    lock_name: &str,
     state_store_client_arc_mutex: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
     leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
@@ -141,19 +142,14 @@ async fn leased_lock_client_1_operations(
         expires: Some(Duration::from_secs(15)),
     };
 
-    // Individual operations (acquire_lock, observe, get_holder_name, unobserve).
+    // 1.
     let fencing_token = match leased_lock_client
         .acquire_lock(lock_expiry, request_timeout)
         .await
     {
-        Ok(acquire_lock_response) => {
-            if acquire_lock_response.response {
-                log::info!("Lock acquired successfuly");
-                acquire_lock_response.fencing_token
-            } else {
-                log::error!("Could not acquire lock {:?}", acquire_lock_response);
-                return;
-            }
+        Ok(acquire_lock_result) => {
+            log::info!("Lock acquired successfuly");
+            acquire_lock_result // a.k.a., the fencing token.
         }
         Err(e) => {
             log::error!("Failed acquiring lock {:?}", e);
@@ -164,12 +160,13 @@ async fn leased_lock_client_1_operations(
     // The purpose of the lock is to protect setting a shared key in the state store.
     let locked_state_store_client = state_store_client_arc_mutex.lock().await;
 
+    // 2.
     match locked_state_store_client
         .set(
             shared_resource_key_name.to_vec(),
             shared_resource_key_value1.to_vec(),
             request_timeout,
-            fencing_token,
+            Some(fencing_token),
             shared_resource_key_set_options.clone(),
         )
         .await
@@ -189,13 +186,10 @@ async fn leased_lock_client_1_operations(
     };
     drop(locked_state_store_client); // Important to release the local lock on `state_store_client`.
 
-    get_lock_holder(
-        &leased_lock_client,
-        lock_name.as_bytes().to_vec(),
-        request_timeout,
-    )
-    .await;
+    // 3.
+    get_lock_holder(&leased_lock_client, request_timeout).await;
 
+    // 4.
     match leased_lock_client.release_lock(request_timeout).await {
         Ok(release_lock_response) => {
             if release_lock_response.response == 1 {
@@ -218,7 +212,10 @@ async fn leased_lock_client_1_operations(
 }
 
 /// In `leased_lock_client_2_operations` you will find the following examples:
-/// 1. Perform a basic
+/// 5. Start observing a lock, waiting for it to be released.
+/// 6. Stopt observing a lock.
+/// 7. Make a call to `acquire_lock_and_update_value()` to set a key.
+/// 8. Make a call to `acquire_lock_and_update_value()` to delete a key.
 async fn leased_lock_client_2_operations(
     state_store_client_arc_mutex: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
     leased_lock_client: leased_lock::Client<SessionManagedClient>,
@@ -236,6 +233,7 @@ async fn leased_lock_client_2_operations(
         expires: Some(Duration::from_secs(15)),
     };
 
+    // 5.
     let mut received_lock_free_notification = false;
     while !received_lock_free_notification {
         let mut observe_response = leased_lock_client
@@ -262,7 +260,13 @@ async fn leased_lock_client_2_operations(
         }
     }
 
-    // acquire_lock_and_update_value, acquire_lock_and_update_value
+    // 6.
+    leased_lock_client
+        .unobserve_lock(request_timeout)
+        .await
+        .unwrap();
+
+    // 7.
     match leased_lock_client
         .acquire_lock_and_update_value(
             lock_expiry,
@@ -271,7 +275,13 @@ async fn leased_lock_client_2_operations(
             &|key_current_value: Option<Vec<u8>>| {
                 // Perform some check on `key_current_value`...
                 if key_current_value.unwrap() == shared_resource_key_value1.to_vec() {
-                    AcquireAndUpdateKeyOption::Update(shared_resource_key_value2.to_vec())
+                    AcquireAndUpdateKeyOption::Update(
+                        shared_resource_key_value2.to_vec(),
+                        SetOptions {
+                            set_condition: SetCondition::Unconditional,
+                            expires: Some(Duration::from_secs(10)),
+                        },
+                    )
                 } else {
                     AcquireAndUpdateKeyOption::DoNotUpdate
                     // Handle unexpected value...
@@ -299,6 +309,7 @@ async fn leased_lock_client_2_operations(
 
     // Perform any application-logic and when done, delete key...
 
+    // 8.
     match leased_lock_client
         .acquire_lock_and_update_value(
             lock_expiry,
@@ -336,13 +347,9 @@ async fn leased_lock_client_2_operations(
 
 async fn get_lock_holder(
     leased_lock_client: &azure_iot_operations_services::leased_lock::Client<SessionManagedClient>,
-    lock_name: Vec<u8>,
     request_timeout: Duration,
 ) {
-    match leased_lock_client
-        .get_lock_holder(lock_name, request_timeout)
-        .await
-    {
+    match leased_lock_client.get_lock_holder(request_timeout).await {
         Ok(lock_holder_response) => match lock_holder_response.response {
             Some(holder_name) => {
                 log::info!(
