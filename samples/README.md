@@ -1,9 +1,17 @@
 # Samples and Tutorials
 
+> [!CAUTION]
+>
+> The samples and tutorials provided in this repository are for **demonstration purposed only**, and should not be deployed to a production system, or included (in part or as a whole) within an application deployed to Azure IoT Operations, without a full understanding of how they work, and how they interact with other code in the application.
+>
+> Some samples may use a username and password for authentication. This is used for simplicity and a production system should utilize a more robust authentication mechanism such as certificate-based.
+>
+> To learn more about securing your edge solution in production, refer to [Security best practices for IoT solutions](https://learn.microsoft.com//azure/iot/iot-overview-security).
+
 The following is a list of tutorials and samples that are available across all languages. Each language may have additional samples which can also be found within each language directory.
 
-> [!IMPORTANT]
-> Refer to [getting started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
+> [!TIP]
+> Refer to the [getting started](/README.md#getting-started) documentation for setting up your development environment **prior** to running the tutorials and samples.
 
 A :yellow_circle: mean the tutorial or sample is planned in the near future.
 

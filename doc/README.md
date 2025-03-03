@@ -57,9 +57,11 @@ The SDK supports the following application types:
 
 1. Read more on developing [edge applications](edge_application).
 
-1. Review the [samples](/samples) directory for samples and tutorials.
+1. Review the [samples](/samples) directory for samples and tutorials
 
-1. Learn how to [deploy](deploy.md) your application to the cluster.
+1. Learn how to [deploy](deploy.md) your application to the cluster
+
+1. Read about additional [tools](tools.md) to help with K8s application development
 
 ## Limitations
 

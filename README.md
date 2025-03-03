@@ -62,9 +62,13 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
     * **Go SDK** - [/go](/go)
     * **Rust SDK** - [/rust](/rust)
 
-## Features
+## Components
 
-The following tables outline the current feature set, along with the associated language support:
+The following tables outline the current components, along with the associated language support.
+
+> [!TIP]
+>
+> Additional information on the SDK components is available in our [component documentation](doc/components.md).
 
 | State | Support |
 |-|-|

@@ -1,6 +1,13 @@
 # Components of the SDKs
 
-The following are the major components of the SDKs and the protocol compiler.
+The following outlines the major components of the SDKs and the protocol compiler. This includes clients for connecting to the various services within Azure IoT Operations, as well as additional tooling to support creating edge applications.
+
+The following components groups are included:
+* [MQTT](#mqtt)
+* [Protocol](#protocol)
+* [Services](#services)
+* [Protocol compiler](#protocol-compiler-codegen)
+* [Akri Services *(Private Preview)*](#akri-services-private-preview)
 
 ## MQTT 
 
@@ -42,14 +49,6 @@ The state store client communicates with the [state store](https://learn.microso
 
 The schema registry client provides an interface to get and set Schemas from the Azure IoT Operations [schema registry](https://learn.microsoft.com/azure/iot-operations/connect-to-cloud/concept-schema-registry). The registry would typically contain schemas describing the different assets available to be consumed by the an edge application.
 
-### ADR client
-
-The ADR *(Azure Device Registry)* client provides the application the AEP *(Asset Endpoint Profile)*. The configuration will contain information such as the hostname, port, username, password and certificates needed to connect to customers edge service.
-
-### Akri client
-
-Notifies of newly discovered assets, which can then be triaged by the operator.
-
 ### Leader election client
 
 The leader election client utilized the state store to designate which instance of an application is the leader. Once a single leader is assigned, that instance can then be given special responsibilities that allow all the instances to work together.
@@ -63,4 +62,18 @@ The lease lock client allows the application to create a lock on a shared resour
 The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages from a [DTDL](https://github.com/Azure/opendigitaltwins-dtdl) input.
 
 The primary purpose of the tool is to facilitate communication between two edge applications via the MQTT broker.
+
+## Akri Services *(Private Preview)*
+
+Akri Services is currently in private preview and not deployed as part of Azure IoT Operations. The following clients will not function unless you are part of the private preview.
+
+### Asset monitor client
+
+The Asset monitor client provides the Akri connector with the AEP *(Asset Endpoint Profile)* and the associate Assets. 
+* AEP - Connection information such as the hostname, port, username, password and certificates needed to authenticate with customers on-prem service. 
+* Asset - Describes how the asset is accessed within the AEP and a description of the expected payload
+
+### Akri client
+
+Notifies of newly discovered assets, which can then be triaged by the operator.
 
