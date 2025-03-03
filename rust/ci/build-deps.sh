@@ -19,11 +19,11 @@ sudo apt-get install -y \
     build-essential cmake libssl-dev perl pkg-config protobuf-compiler
 
 cargo install \
-    --version '^0.5' \
+    --version '=0.5' \
     --locked \
     cargo-llvm-cov
 
 cargo install \
-    --version '^0.6' \
+    --version '=0.6' \
     --locked \
     cargo-machete
