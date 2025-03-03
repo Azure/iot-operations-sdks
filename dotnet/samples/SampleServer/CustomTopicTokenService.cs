@@ -12,18 +12,16 @@ public class CustomTopicTokenService : CustomTopicTokens.Service
 {
     public CustomTopicTokenService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient) 
     {
-        base.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
-        base.TelemetryCollectionSender.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
-        base.ReadCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
     }
 
     public override Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
-        string customTopicTokenValue = CustomTopicTokenMap["myCustomTopicToken"];
-
+        string customTopicTokenValue1 = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
+        string customTopicTokenValue2 = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
+        Console.WriteLine("Received RPC call with token values " + customTopicTokenValue1 + " " + customTopicTokenValue2);
         return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenResponsePayload>
         {
-            Response = new ReadCustomTopicTokenResponsePayload { CustomTopicTokenResponse = customTopicTokenValue }
+            Response = new ReadCustomTopicTokenResponsePayload { CustomTopicTokenResponse = customTopicTokenValue1 }
         });
     }
 }

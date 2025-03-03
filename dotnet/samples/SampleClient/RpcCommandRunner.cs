@@ -7,6 +7,7 @@ using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
 using TestEnvoys.Math;
 using TestEnvoys.Greeter;
+using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
 
 namespace SampleClient;
 
@@ -27,10 +28,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         while (userResponse == "y")
         {
             var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, null, TimeSpan.FromMinutes(10), stoppingToken);
-            await RunCounterCommands("SampleServer");
-            await RunGreeterCommands();
-            await RunMathCommands();
-            await memMonClient.StopTelemetryAsync("SampleServer", null, null, null, stoppingToken);
+            await RunCustomTopicTokenCommands("SampleServer");
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
             if (userResponse == "q")
@@ -150,6 +148,23 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         catch (Exception ex)
         {
             logger.LogWarning("{msg}",ex.Message);
+        }
+    }
+
+    private async Task RunCustomTopicTokenCommands(string executorId)
+    {
+        await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
+        try
+        {
+            CommandRequestMetadata cmdMetadata = new();
+            cmdMetadata.TopicTokens["ex:myCustomTopicToken"] = "someCustomValue";
+            cmdMetadata.TopicTokens["ex:commandName"] = "someCommandName";
+            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, cmdMetadata).WithMetadata();
+            logger.LogInformation("Sent custom topic token request");
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("{msg}", ex.Message);
         }
     }
 }
