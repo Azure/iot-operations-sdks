@@ -39,6 +39,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
     private async Task RunCustomTopicTokenCommands(string executorId)
     {
         await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
+        logger.LogInformation("client is null? " + (customTopicTokenClient == null));
         try
         {
             CommandRequestMetadata cmdMetadata = new();
