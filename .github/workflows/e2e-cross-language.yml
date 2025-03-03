@@ -1,0 +1,136 @@
+name: CI-Cross language
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 11 * * *" # Nightly at 4am PST
+
+# Cancel old runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AIO_BROKER_HOSTNAME: localhost
+  AIO_BROKER_TCP_PORT: 1883
+  AIO_MQTT_USE_TLS: false
+
+jobs:
+  cross-language:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        server: [dotnet-server, go-server, rust-server]
+
+    env:
+      COUNTER_SERVER_ID: ${{ matrix.server }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      #=======================================================================
+      # Install prerequesities
+      #=======================================================================
+      - name: Install AIO
+        uses: ./.github/actions/deploy-aio
+        with:
+          wait-for-broker: 'true'
+          install-go: 'true'
+          install-dotnet: 'true'
+          install-rust: 'true'
+
+      #=======================================================================
+      # Build codegen and verify it matches repository
+      #=======================================================================
+      - name: Build codegen
+        run: |
+          dotnet build -c Debug codegen/codegen.sln
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+
+      - name: CodeGen Rust Counter samples
+        run: |
+          pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
+
+      - name: CodeGen .NET Counter samples
+        run: |
+          pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
+
+      - name: CodeGen Go Counter samples
+        run: |
+          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
+
+      - name: Verify Generated Code Matches Repo
+        run: |
+          if ! git diff --exit-code --ignore-cr-at-eol
+          then
+              echo "codegen'd envoy updates not checked in"
+              git diff-files
+              echo "If this gets triggered by the differences between windows and linux line endings, we may need to modify this check"
+              exit 1
+          fi
+
+      #=======================================================================
+      # Build all the components
+      #=======================================================================
+      - name: Build .NET sample
+        run: |
+          cd dotnet
+          dotnet build -c Release
+
+      - name: Build Go sample
+        run: |
+          cd go
+          go build -o server samples/protocol/counter/server/main.go
+          go build -o client samples/protocol/counter/client/main.go
+
+      - name: Build Rust sample
+        run: |
+          cd rust
+          cargo build --release --config profile.release.panic=\'abort\'
+
+      #=======================================================================
+      # Run a server
+      #=======================================================================
+      - name: Run .NET server
+        if: matrix.server == 'dotnet-server'
+        run: dotnet run -c Release --project dotnet/samples/CounterServer &
+        env:
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
+
+      - name: Run Go server
+        if: matrix.server == 'go-server'
+        run: go/server &
+        env:
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
+
+      - name: Run Rust server
+        if: matrix.server == 'rust-server'
+        run: rust/target/release/counter_server &
+        env:
+          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
+
+      #=======================================================================
+      # Run all the clients
+      #=======================================================================
+      - name: Run .NET client
+        run: dotnet run -c Release --project dotnet/samples/CounterClient
+        continue-on-error: true
+        env:
+          AIO_MQTT_CLIENT_ID: dotnet-client
+
+      - name: Run Go client
+        run: go/client
+        continue-on-error: true
+        env:
+          AIO_MQTT_CLIENT_ID: go-client
+
+      - name: Run Rust client
+        run: rust/target/release/counter_client
+        continue-on-error: true
+        env:
+          AIO_MQTT_CLIENT_ID: rust-client
