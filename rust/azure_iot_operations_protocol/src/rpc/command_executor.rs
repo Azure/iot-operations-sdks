@@ -433,7 +433,6 @@ where
     ///     [`topic_namespace`](CommandExecutorOptions::topic_namespace)
     ///     are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
-    /// - [`is_idempotent`](CommandExecutorOptions::is_idempotent) is false and [`cacheable_duration`](CommandExecutorOptions::cacheable_duration) is not zero
     pub fn new(
         application_context: ApplicationContext,
         client: C,
