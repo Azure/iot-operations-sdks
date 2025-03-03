@@ -26,13 +26,13 @@ namespace TestEnvoys.dtmi_com_example_CustomTopicTokens__1
             private readonly ReadCustomTopicTokenCommandExecutor readCustomTopicTokenCommandExecutor;
             private readonly TelemetryCollectionSender telemetryCollectionSender;
 
-            public Service(IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
 
-                this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(mqttClient) { OnCommandReceived = ReadCustomTopicToken_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.telemetryCollectionSender = new TelemetryCollectionSender(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicToken_Int, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionSender = new TelemetryCollectionSender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public ReadCustomTopicTokenCommandExecutor ReadCustomTopicTokenCommandExecutor { get => this.readCustomTopicTokenCommandExecutor; }
@@ -42,9 +42,9 @@ namespace TestEnvoys.dtmi_com_example_CustomTopicTokens__1
 
             public abstract Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.telemetryCollectionSender.SendTelemetryAsync(telemetry, metadata, qos, messageExpiryInterval, cancellationToken);
+                await this.telemetryCollectionSender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
@@ -94,15 +94,15 @@ namespace TestEnvoys.dtmi_com_example_CustomTopicTokens__1
             private readonly ReadCustomTopicTokenCommandInvoker readCustomTopicTokenCommandInvoker;
             private readonly TelemetryCollectionReceiver telemetryCollectionReceiver;
 
-            public Client(IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
             {
                 this.mqttClient = mqttClient;
                 this.CustomTopicTokenMap = new();
                 CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
                 CustomTopicTokenMap.TryAdd("myCustomTopicToken", "SomeCustomTopicStringValue");
 
-                this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.telemetryCollectionReceiver = new TelemetryCollectionReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
             }
 
             public ReadCustomTopicTokenCommandInvoker ReadCustomTopicTokenCommandInvoker { get => this.readCustomTopicTokenCommandInvoker; }

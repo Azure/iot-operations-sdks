@@ -39,8 +39,8 @@ namespace TestEnvoys.dtmi_com_example_CustomTopicTokens__1
             /// <summary>
             /// Initializes a new instance of the <see cref="ReadCustomTopicTokenCommandInvoker"/> class.
             /// </summary>
-            public ReadCustomTopicTokenCommandInvoker(IMqttPubSubClient mqttClient)
-                : base(mqttClient, "readCustomTopicToken", new Utf8JsonSerializer())
+            public ReadCustomTopicTokenCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "readCustomTopicToken", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 

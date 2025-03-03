@@ -38,8 +38,8 @@ namespace TestEnvoys.dtmi_com_example_CustomTopicTokens__1
             /// <summary>
             /// Initializes a new instance of the <see cref="TelemetryCollectionSender"/> class.
             /// </summary>
-            public TelemetryCollectionSender(IMqttPubSubClient mqttClient)
-                : base(mqttClient, null, new Utf8JsonSerializer())
+            public TelemetryCollectionSender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, null, new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

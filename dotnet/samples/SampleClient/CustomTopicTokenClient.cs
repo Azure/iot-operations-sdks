@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
 
@@ -9,9 +10,9 @@ namespace SampleClient;
 
 internal class CustomTopicTokenClient : CustomTopicTokens.Client
 {
-    public static Func<IServiceProvider, CustomTopicTokenClient> Factory = service => new CustomTopicTokenClient(service.GetService<MqttSessionClient>()!);
+    public static Func<IServiceProvider, CustomTopicTokenClient> Factory = service => new CustomTopicTokenClient(service.GetService<ApplicationContext>()!, service.GetService<MqttSessionClient>()!);
 
-    public CustomTopicTokenClient(MqttSessionClient mqttClient) : base(mqttClient)
+    public CustomTopicTokenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
     {
         base.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
         TelemetryCollectionReceiver.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");

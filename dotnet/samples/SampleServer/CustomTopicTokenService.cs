@@ -4,12 +4,13 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleServer;
 
 public class CustomTopicTokenService : CustomTopicTokens.Service
 {
-    public CustomTopicTokenService(MqttSessionClient mqttClient) : base(mqttClient) 
+    public CustomTopicTokenService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient) 
     {
         base.CustomTopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
         base.TelemetryCollectionSender.TopicTokenMap.TryAdd("ex:myCustomTopicToken", "SomeCustomTopicStringValue");
