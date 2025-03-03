@@ -72,11 +72,11 @@ namespace TestEnvoys
 
         public override bool Equals(object? obj)
         {
-            return obj is DecimalString other && Equals(other);
+            return obj is DecimalString other && this.Equals(other);
         }
         public override int GetHashCode()
         {
-            return value.GetHashCode();
+            return this.value.GetHashCode();
         }
 
         private DecimalString(string value, bool skipValidation)
