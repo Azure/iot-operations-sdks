@@ -5,19 +5,6 @@ set -o pipefail
 
 script_dir=$(dirname $(readlink -f $0))
 
-# Prompt user if this is an interactive shell
-if [[ -t 0 ]]
-then
-    echo "This script will delete the default k3d cluster and create a new one."
-    read -p "Are you sure you want to proceed? " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]
-    then
-        echo Cancelling $0
-        exit
-    fi
-fi
-
 echo =========================
 echo Installing prerequisities
 echo =========================
