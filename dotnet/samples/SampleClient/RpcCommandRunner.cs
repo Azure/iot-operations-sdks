@@ -37,11 +37,12 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
     {
         await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
         logger.LogInformation("client is null? " + (customTopicTokenClient == null));
+        CommandRequestMetadata cmdMetadata = new();
+        cmdMetadata.TopicTokens["ex:myCustomTopicToken"] = "someCustomValue";
+        cmdMetadata.TopicTokens["ex:commandName"] = "someCommandName";
         try
         {
-            CommandRequestMetadata cmdMetadata = new();
-            cmdMetadata.TopicTokens["ex:myCustomTopicToken"] = "someCustomValue";
-            cmdMetadata.TopicTokens["ex:commandName"] = "someCommandName";
+
             ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, cmdMetadata).WithMetadata();
             logger.LogInformation("Sent custom topic token request");
         }
