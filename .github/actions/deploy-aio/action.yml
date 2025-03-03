@@ -1,0 +1,59 @@
+name: 'Deploy AIO'
+description: 'Deploy AIO for pipelines'
+
+inputs:
+  wait-for-broker:
+    description: 'Wait for the MQTT broker to start before returning'
+    required: false
+    default: 'true'
+
+  install-go:
+    description: 'Install the Go compiler'
+    required: false
+    default: 'false'
+
+  install-dotnet:
+    description: 'Install the .NET compiler and runtime'
+    required: false
+    default: 'false'
+
+  install-rust:
+    description: 'Install the Rust compiler'
+    required: false
+    default: 'false'
+
+
+runs:
+  using: composite
+  steps:
+    - name: Create k3s cluster
+      run: tools/deployment/initialize-cluster.sh
+      shell: bash
+
+    - name: Install AIO
+      uses: azure/iot-operations-sdks-action@main
+
+    - name: Configure AIO
+      run: tools/deployment/deploy-aio.sh
+      shell: bash
+
+    - name: Setup .NET
+      if: inputs.install-dotnet == 'true'
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.200
+
+    - name: Setup GO
+      if: inputs.install-go == 'true'
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.24
+
+    # - name: Setup Rust
+      # if: inputs.install-rust == 'true'
+    #   uses: actions-rust-lang/setup-rust-toolchain@v1
+
+    - name: Wait for Mqtt Broker
+      if: inputs.wait-for-broker == 'true'
+      run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
+      shell: bash

@@ -31,3 +31,19 @@ spec:
     algorithm: RSA
     encoding: PKCS1
     size: 2048
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: azure-iot-operations-aio-ca-trust-bundle
+spec:
+  sources:
+    - secret:
+        name: azure-iot-operations-aio-ca-certificate
+        key: tls.crt
+  target:
+    configMap:
+      key: ca.crt
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: azure-iot-operations    
