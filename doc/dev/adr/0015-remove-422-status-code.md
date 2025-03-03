@@ -14,7 +14,7 @@ While one might argue that this allows customer applications to define multiple 
 
 ## Decision: 
 
-All reference to the 422 status code and Invocation Exception/Error error kind should be removed. Command Executors should no longer send a 422 error. Command Invokers should no longer expect 422 status codes, and this should be treated as any other unknown status code.
+All reference to the 422 status code and Invocation Exception/Error error kind should be removed. Command Executors should no longer send a 422 error. Command Invokers should no longer expect 422 status codes, and this should be treated as an unknown status code, although we should (potentially temporarily) expose the property_name and property_value if present to maintain easy backward compatibility for Schema Registry.
 At the API surface, there should no longer be a way for the application to indicate an error vs a success response, they should only have a way to respond (that encompasses both, but is internal to their encoding). The SDK should only send a 500 if there is an uncaught exception thrown from the application (or the language equivalent that indicates the application will be unable to respond).
 
 This change is a wire protocol change, but we will not increase the version since we are before public preview, and the only known usage of the 422 status code is with Schema Registry, which we can manage during the transition since we own the Client side code that would be affected by this change.
@@ -31,6 +31,7 @@ This change is a wire protocol change, but we will not increase the version sinc
 1. Changes needed across languages to support this new functionality.
     - Remove option for executor application to specify the error type (For Rust, this was previously sent as a 500, but should have been sent as a 422)
     - Remove handling of the 422 status code in the invoker.
+    - Include property_name and property_value for unknown status codes if they are present.
     - Remove 422 as a known Status Code.
     - Remove InvocationException as an AIO Protocol Error kind.
 1. METL tests to update: `CommandExecutorUserCodeRaisesContentError_RespondsError`, `CommandInvokerResponseIndicatesInvocationError_ThrowsException`, and `CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError`. Double check that the equivalent 500 scenario is already captured in METL before removing these.
@@ -41,6 +42,6 @@ This change is a wire protocol change, but we will not increase the version sinc
 
 ## Open Questions:
 
-1. Do we want to consider any of the alternatives that involve allowing returning more information on error responses? These would definitely come with larger code changes than the current proposal.
+1. ~~Do we want to consider any of the alternatives that involve allowing returning more information on error responses? These would definitely come with larger code changes than the current proposal.~~ This change handles this in a different way
 1. ~~422 currently allows the user to specify an invalid property name and an invalid property value - do we want to maintain this optionally for 500 errors?~~ No, because 500 errors should not be sent intentionally from the application.
 
