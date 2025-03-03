@@ -27,7 +27,6 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         string userResponse = "y";
         while (userResponse == "y")
         {
-            var startTelemetryTask =  memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, null, TimeSpan.FromMinutes(10), stoppingToken);
             await RunCustomTopicTokenCommands("SampleServer");
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
