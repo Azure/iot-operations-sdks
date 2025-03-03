@@ -42,8 +42,8 @@ pub struct TestCaseInvoker<T: DefaultsType + Default> {
     #[serde(rename = "topic-token-map")]
     pub topic_token_map: Option<HashMap<String, String>>,
 
-    #[serde(rename = "response-topic-map")]
-    pub response_topic_map: Option<HashMap<String, Option<String>>>,
+    #[serde(rename = "response-topic-pattern")]
+    pub response_topic_pattern: Option<String>,
 }
 
 pub fn get_default_command_name<T: DefaultsType + Default>() -> Option<String> {
