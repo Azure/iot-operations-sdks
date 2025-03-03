@@ -3,11 +3,11 @@
 
 //! Client for Lease Lock operations.
 
-use std::{sync::Arc, time::Duration};
+use std::{future::Future, sync::Arc, time::Duration};
 
 use tokio::sync::Mutex;
 
-use crate::leased_lock::{Error, ErrorKind, LockObservation, Response};
+use crate::leased_lock::{AcquireAndUpdateKeyOption, Error, ErrorKind, LockObservation, Response};
 use crate::state_store::{self, SetCondition, SetOptions};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 
@@ -166,9 +166,14 @@ where
         acquire_result
     }
 
-    /// Waits until a lock is acquired, sets or updates a key in the state store and releases the lock.
+    /// Waits until a lock is acquired, sets/updates/deletes a key in the state store (depending on `update_value_function` result) and releases the lock.
     ///
-    /// Returns `true` if the key is successfully set, or `false` if it is not.
+    /// `update_value_function` is a future with signature:
+    ///     async fn `should_update_key(key_current_value`: Vec<u8>) -> `AcquireAndUpdateKeyOption`
+    /// Where `key_current_value` is the current value of `key` in the State Store (right after the lock is acquired).
+    /// If the return is `AcquireAndUpdateKeyOption::Update(key_new_value)` it must contain the new value of the State Store key.
+    ///
+    /// Returns `true` if the key is successfully set or deleted, or `false` if it is not.
     /// # Errors
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
@@ -182,8 +187,8 @@ where
         lock_expiration: Duration,
         request_timeout: Duration,
         key: Vec<u8>,
-        value: Vec<u8>,
-        set_options: SetOptions,
+        // update_value_function: &dyn Fn(Option<Vec<u8>>) -> AcquireAndUpdateKeyOption,
+        update_value_function: impl Fn(Option<Vec<u8>>) -> AcquireAndUpdateKeyOption,
     ) -> Result<Response<bool>, Error> {
         loop {
             let acquire_result = self.acquire_lock(lock_expiration, request_timeout).await;
@@ -200,26 +205,55 @@ where
 
                     let locked_state_store = self.state_store.lock().await;
 
-                    let set_result = locked_state_store
-                        .set(
-                            key,
-                            value,
-                            request_timeout,
-                            acquire_response.version,
-                            set_options,
-                        )
-                        .await;
+                    let get_result = locked_state_store.get(key.clone(), request_timeout).await?;
 
-                    drop(locked_state_store);
-
-                    let _ = self.release_lock(request_timeout).await;
-
-                    match set_result {
-                        Ok(set_response) => {
-                            return Ok(Response::from_response(set_response));
+                    match update_value_function(get_result.response) {
+                        AcquireAndUpdateKeyOption::Update(new_value) => {
+                            match locked_state_store
+                                .set(
+                                    key,
+                                    new_value,
+                                    request_timeout,
+                                    acquire_response.fencing_token,
+                                    SetOptions {
+                                        // TODO: fill in set_options.
+                                        set_condition: SetCondition::Unconditional,
+                                        expires: Some(Duration::from_secs(10)),
+                                    },
+                                )
+                                .await
+                            {
+                                Ok(set_response) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Ok(Response::from_response(set_response));
+                                }
+                                Err(set_error) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Err(set_error.into());
+                                }
+                            };
                         }
-                        Err(set_error) => {
-                            return Err(set_error.into());
+                        AcquireAndUpdateKeyOption::DoNotUpdate => {
+                            let _ = self.release_lock(request_timeout).await;
+                            return Ok(Response::new(true, None));
+                        }
+                        AcquireAndUpdateKeyOption::Delete => {
+                            match locked_state_store
+                                .del(key, acquire_response.fencing_token, request_timeout)
+                                .await
+                            {
+                                Ok(delete_response) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Ok(Response::new(
+                                        delete_response.response != 0,
+                                        delete_response.version,
+                                    ));
+                                }
+                                Err(delete_error) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Err(delete_error.into());
+                                }
+                            };
                         }
                     }
                 }
@@ -227,30 +261,41 @@ where
         }
     }
 
-    /// Waits until a lock is acquired, deletes a key from the state store and releases the lock.
+    /// Waits until a lock is acquired, sets/updates/deletes a key in the state store (depending on `update_value_function` result) and releases the lock.
     ///
-    /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
+    /// `update_value_function` is a future with signature:
+    ///     async fn `should_update_key(key_current_value`: Vec<u8>) -> `AcquireAndUpdateKeyOption`
+    /// Where `key_current_value` is the current value of `key` in the State Store (right after the lock is acquired).
+    /// If the return is `AcquireAndUpdateKeyOption::Update(key_new_value)` it must contain the new value of the State Store key.
     ///
+    /// Returns `true` if the key is successfully set or deleted, or `false` if it is not.
     /// # Errors
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Del` request
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
-    pub async fn acquire_lock_and_delete_value(
+    pub async fn acquire_lock_and_update_value2<F, G>(
         &self,
         lock_expiration: Duration,
         request_timeout: Duration,
         key: Vec<u8>,
-    ) -> Result<Response<i64>, Error> {
+        update_value_function: F,
+    ) -> Result<Response<bool>, Error>
+    where
+        F: FnOnce(Option<Vec<u8>>) -> G,
+        G: Future<Output = AcquireAndUpdateKeyOption>,
+    {
         loop {
-            match self.acquire_lock(lock_expiration, request_timeout).await {
-                Err(acquire_error) => {
+            let acquire_result = self.acquire_lock(lock_expiration, request_timeout).await;
+
+            match acquire_result {
+                Err(ref acquire_error) => {
                     match acquire_error.kind() {
                         ErrorKind::LockAlreadyHeld => continue, // Try to lock again.
-                        _ => return Err(acquire_error), // Some other error that cannot be handle here.
+                        _ => return acquire_result, // Some other error that cannot be handle here.
                     }
                 }
                 Ok(acquire_response) => {
@@ -258,20 +303,55 @@ where
 
                     let locked_state_store = self.state_store.lock().await;
 
-                    let del_result = locked_state_store
-                        .del(key, acquire_response.version, request_timeout)
-                        .await;
+                    let get_result = locked_state_store.get(key.clone(), request_timeout).await?;
 
-                    drop(locked_state_store);
-
-                    let _ = self.release_lock(request_timeout).await;
-
-                    match del_result {
-                        Ok(del_response) => {
-                            return Ok(Response::from_response(del_response));
+                    match update_value_function(get_result.response).await {
+                        AcquireAndUpdateKeyOption::Update(new_value) => {
+                            match locked_state_store
+                                .set(
+                                    key,
+                                    new_value,
+                                    request_timeout,
+                                    acquire_response.fencing_token,
+                                    SetOptions {
+                                        // TODO: fill in set_options.
+                                        set_condition: SetCondition::Unconditional,
+                                        expires: Some(Duration::from_secs(10)),
+                                    },
+                                )
+                                .await
+                            {
+                                Ok(set_response) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Ok(Response::from_response(set_response));
+                                }
+                                Err(set_error) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Err(set_error.into());
+                                }
+                            };
                         }
-                        Err(del_error) => {
-                            return Err(del_error.into());
+                        AcquireAndUpdateKeyOption::DoNotUpdate => {
+                            let _ = self.release_lock(request_timeout).await;
+                            return Ok(Response::new(true, None));
+                        }
+                        AcquireAndUpdateKeyOption::Delete => {
+                            match locked_state_store
+                                .del(key, acquire_response.fencing_token, request_timeout)
+                                .await
+                            {
+                                Ok(delete_response) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Ok(Response::new(
+                                        delete_response.response != 0,
+                                        delete_response.version,
+                                    ));
+                                }
+                                Err(delete_error) => {
+                                    let _ = self.release_lock(request_timeout).await;
+                                    return Err(delete_error.into());
+                                }
+                            };
                         }
                     }
                 }

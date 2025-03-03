@@ -130,27 +130,13 @@ async fn leased_lock_basic_try_acquire_network_tests() {
                 .await
                 .unwrap();
             assert!(try_acquire_response.response);
+            assert!(try_acquire_response.fencing_token.is_some());
 
             // Shutdown state store client and underlying resources
             let state_store_client = state_store_client_arc_mutex.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -200,22 +186,7 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
             let state_store_client = state_store_client_arc_mutex.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -283,22 +254,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
             let state_store_client = state_store_client_arc_mutex1.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle1.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle1.try_exit().await.unwrap();
         }
     });
 
@@ -330,22 +286,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
             let state_store_client = state_store_client_arc_mutex2.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle2.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle2.try_exit().await.unwrap();
         }
     });
 
@@ -421,22 +362,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
             let state_store_client = state_store_client_arc_mutex1.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle1.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle1.try_exit().await.unwrap();
         }
     });
 
@@ -479,22 +405,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
             let state_store_client = state_store_client_arc_mutex2.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle2.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle2.try_exit().await.unwrap();
         }
     });
 
@@ -543,22 +454,7 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
             let state_store_client = state_store_client_arc_mutex1.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle1.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle1.try_exit().await.unwrap();
         }
     });
 
@@ -579,22 +475,7 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
             let state_store_client = state_store_client_arc_mutex2.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle2.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle2.try_exit().await.unwrap();
         }
     });
 
@@ -649,22 +530,7 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
             let state_store_client = state_store_client_arc_mutex1.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle1.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle1.try_exit().await.unwrap();
         }
     });
 
@@ -701,22 +567,7 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
             let state_store_client = state_store_client_arc_mutex2.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle2.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle2.try_exit().await.unwrap();
         }
     });
 
@@ -763,22 +614,7 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
             let state_store_client = state_store_client_arc_mutex1.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle1.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle1.try_exit().await.unwrap();
         }
     });
 
@@ -815,22 +651,7 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
             let state_store_client = state_store_client_arc_mutex2.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle2.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle2.try_exit().await.unwrap();
         }
     });
 
@@ -886,22 +707,7 @@ async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
             let state_store_client = state_store_client_arc_mutex.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -941,22 +747,7 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
             let state_store_client = state_store_client_arc_mutex.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -986,22 +777,7 @@ async fn leased_lock_shutdown_right_away_network_tests() {
             let state_store_client = state_store_client_arc_mutex.lock().await;
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
