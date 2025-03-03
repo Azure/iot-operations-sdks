@@ -45,10 +45,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string? TopicNamespace { get; set; }
 
         /// <summary>
-        /// The prefix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
+        /// The prefix to use in the command response topic. This value is ignored if <see cref="ResponseTopicPattern"/> is set.
         /// </summary>
         /// <remarks>
-        /// If no prefix or suffix is specified, and no value is provided in <see cref="GetResponseTopic"/>, then this
+        /// If no prefix or suffix is specified, and no value is provided in <see cref="ResponseTopicPattern"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
         /// 
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string? ResponseTopicPrefix { get; set; }
 
         /// <summary>
-        /// The suffix to use in the command response topic. This value is ignored if <see cref="GetResponseTopic"/> is set.
+        /// The suffix to use in the command response topic. This value is ignored if <see cref="ResponseTopicPattern"/> is set.
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
@@ -68,12 +68,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public string? ResponseTopicSuffix { get; set; }
 
         /// <summary>
-        /// If provided, this function will be used to determine the command response topic used.
+        /// If provided, this topic pattern will be used for command response topic.
         /// </summary>
         /// <remarks>
-        /// If provided, this function will override any values set in <see cref="ResponseTopicPrefix"/> and <see cref="ResponseTopicSuffix"/>.
+        /// If not provided, and no value is provided for <see cref="ResponseTopicPrefix"/> or <see cref="ResponseTopicSuffix"/>, the default pattern used will be clients/{mqtt client id}/{request topic pattern}.
         /// </remarks>
-        public Func<string, string>? GetResponseTopic { get; set; }
+        public string? ResponseTopicPattern { get; set; }
 
         /// <summary>
         /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
@@ -107,20 +107,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             RequestTopicPattern = AttributeRetriever.GetAttribute<CommandTopicAttribute>(this)?.RequestTopic ?? string.Empty;
 
-            GetResponseTopic = null;
-
             this._mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
         }
 
         private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
+            if (ResponseTopicPattern != null)
+            {
+                return ResponseTopicPattern;
+            }
+
             StringBuilder responseTopicPattern = new();
 
             // ADR 14 specifies that a default response topic prefix should be used if
             // the user doesn't provide any prefix, suffix, or specify the response topic
             if (string.IsNullOrWhiteSpace(ResponseTopicPrefix)
-                && string.IsNullOrWhiteSpace(ResponseTopicSuffix)
-                && GetResponseTopic == null)
+                && string.IsNullOrWhiteSpace(ResponseTopicSuffix))
             {
                 ResponseTopicPrefix = "clients/" + _mqttClient.ClientId;
             }
@@ -521,8 +523,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             try
             {
                 string requestTopic = GetCommandTopic(RequestTopicPattern, transientTopicTokenMap);
-                string responseTopic = GetResponseTopic?.Invoke(requestTopic) ?? GetCommandTopic(GenerateResponseTopicPattern(transientTopicTokenMap), transientTopicTokenMap);
-                string responseTopicFilter = GetResponseTopic?.Invoke(requestTopic) ?? GetCommandTopic(GenerateResponseTopicPattern(transientTopicTokenMap), null);
+                string responseTopicPattern = GenerateResponseTopicPattern(transientTopicTokenMap);
+                string responseTopic = GetCommandTopic(responseTopicPattern, transientTopicTokenMap);
+                string responseTopicFilter = GetCommandTopic(responseTopicPattern, null);
 
                 ResponsePromise responsePromise = new(responseTopic);
 

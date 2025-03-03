@@ -61,7 +61,6 @@ where
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
-
 impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
@@ -326,20 +325,27 @@ where
 
         // Generate the request and response topics
         let request_topic_pattern = TopicPattern::new(
-            "invoker_options.request_topic_pattern",
             &invoker_options.request_topic_pattern,
             None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
-        )?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "invoker_options.request_topic_pattern",
+            )
+        })?;
 
         let response_topic_pattern = TopicPattern::new(
-            "response_topic_pattern",
             &response_topic_pattern,
             None,
             invoker_options.topic_namespace.as_deref(),
             &invoker_options.topic_token_map,
-        )?;
+        )
+        .map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(e, "response_topic_pattern")
+        })?;
 
         // Create mutex to track invoker state
         let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
@@ -539,11 +545,13 @@ where
         // Get request topic. Validates dynamic topic tokens
         let request_topic = self
             .request_topic_pattern
-            .as_publish_topic(&request.topic_tokens)?;
+            .as_publish_topic(&request.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
         // Get response topic. Validates dynamic topic tokens
         let response_topic = self
             .response_topic_pattern
-            .as_publish_topic(&request.topic_tokens)?;
+            .as_publish_topic(&request.topic_tokens)
+            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();

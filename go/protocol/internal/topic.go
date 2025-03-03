@@ -54,11 +54,13 @@ func ValidateTopicPatternComponent(
 	name, msgOnErr, pattern string,
 ) error {
 	if !matchPattern.MatchString(pattern) {
-		return &errors.Error{
-			Message:       msgOnErr,
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  name,
-			PropertyValue: pattern,
+		return &errors.Client{
+			Base: errors.Base{
+				Message:       msgOnErr,
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  name,
+				PropertyValue: pattern,
+			},
 		}
 	}
 
@@ -73,22 +75,26 @@ func NewTopicPattern(
 ) (*TopicPattern, error) {
 	if namespace != "" {
 		if !ValidTopic(namespace) {
-			return nil, &errors.Error{
-				Message:       "invalid topic namespace",
-				Kind:          errors.ConfigurationInvalid,
-				PropertyName:  "TopicNamespace",
-				PropertyValue: namespace,
+			return nil, &errors.Client{
+				Base: errors.Base{
+					Message:       "invalid topic namespace",
+					Kind:          errors.ConfigurationInvalid,
+					PropertyName:  "TopicNamespace",
+					PropertyValue: namespace,
+				},
 			}
 		}
 		pattern = namespace + `/` + pattern
 	}
 
 	if !matchPattern.MatchString(pattern) {
-		return nil, &errors.Error{
-			Message:       "invalid topic pattern",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  name,
-			PropertyValue: pattern,
+		return nil, &errors.Client{
+			Base: errors.Base{
+				Message:       "invalid topic pattern",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  name,
+				PropertyValue: pattern,
+			},
 		}
 	}
 
@@ -116,18 +122,22 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	if !ValidTopic(topic) {
 		missingToken := matchToken.FindString(topic)
 		if missingToken != "" {
-			return "", &errors.Error{
-				Message:      "invalid topic",
-				Kind:         errors.ArgumentInvalid,
-				PropertyName: missingToken[1 : len(missingToken)-1],
+			return "", &errors.Client{
+				Base: errors.Base{
+					Message:      "invalid topic",
+					Kind:         errors.ArgumentInvalid,
+					PropertyName: missingToken[1 : len(missingToken)-1],
+				},
 			}
 		}
 
-		return "", &errors.Error{
-			Message:       "invalid topic",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  tp.name,
-			PropertyValue: topic,
+		return "", &errors.Client{
+			Base: errors.Base{
+				Message:       "invalid topic",
+				Kind:          errors.ArgumentInvalid,
+				PropertyName:  tp.name,
+				PropertyValue: topic,
+			},
 		}
 	}
 	return topic, nil
@@ -186,11 +196,13 @@ func ValidTopic(topic string) bool {
 // Return whether the provided string is a valid share name.
 func ValidateShareName(shareName string) error {
 	if shareName != "" && !matchLabel.MatchString(shareName) {
-		return &errors.Error{
-			Message:       "invalid share name",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "ShareName",
-			PropertyValue: shareName,
+		return &errors.Client{
+			Base: errors.Base{
+				Message:       "invalid share name",
+				Kind:          errors.ConfigurationInvalid,
+				PropertyName:  "ShareName",
+				PropertyValue: shareName,
+			},
 		}
 	}
 	return nil
@@ -207,11 +219,13 @@ func validateTokens(kind errors.Kind, tokens map[string]string) error {
 		// however, check to make sure they're valid token names so that we can
 		// warn the user in cases that will never actually be valid.
 		if !matchLabel.MatchString(k) || !matchLabel.MatchString(v) {
-			return &errors.Error{
-				Message:       "invalid topic token",
-				Kind:          kind,
-				PropertyName:  k,
-				PropertyValue: v,
+			return &errors.Client{
+				Base: errors.Base{
+					Message:       "invalid topic token",
+					Kind:          kind,
+					PropertyName:  k,
+					PropertyValue: v,
+				},
 			}
 		}
 	}

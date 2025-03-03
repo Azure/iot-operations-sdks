@@ -41,5 +41,12 @@ func (sender TelemetrySender) SendTelemetry(
 	telemetry TelemetryCollection,
 	opt ...protocol.SendOption,
 ) error {
-	return sender.Send(ctx, telemetry, opt...)
+	senderOpts := []protocol.SendOption{
+		protocol.WithTopicTokenNamespace("ex:"),
+	}
+
+	var sendOpts protocol.SendOptions
+	sendOpts.Apply(opt, senderOpts...)
+
+	return sender.Send(ctx, telemetry, &sendOpts)
 }

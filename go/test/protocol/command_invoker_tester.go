@@ -225,12 +225,10 @@ func getCommandInvoker(
 		)
 	}
 
-	if tci.ResponseTopicMap != nil {
+	if tci.ResponseTopicPattern != nil {
 		options = append(
 			options,
-			protocol.WithResponseTopic(
-				func(reqTopic string) string { return *(*tci.ResponseTopicMap)[reqTopic] },
-			),
+			protocol.WithResponseTopicPattern(*tci.ResponseTopicPattern),
 		)
 	}
 

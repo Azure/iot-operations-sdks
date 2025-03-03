@@ -191,10 +191,12 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	}
 
 	if pub.MessageExpiry == 0 {
-		errNoExpiry := &errors.Error{
-			Message:    "message expiry missing",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.MessageExpiry,
+		errNoExpiry := &errors.Remote{
+			Base: errors.Base{
+				Message:    "message expiry missing",
+				Kind:       errors.HeaderMissing,
+				HeaderName: constants.MessageExpiry,
+			},
 		}
 		ce.listener.log.Error(ctx, errNoExpiry)
 		return errNoExpiry
@@ -287,9 +289,11 @@ func (ce *CommandExecutor[Req, Res]) handle(
 		var ret commandReturn[Res]
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
-				ret.err = &errors.Error{
-					Message:       fmt.Sprint(ePanic),
-					Kind:          errors.ExecutionException,
+				ret.err = &errors.Remote{
+					Base: errors.Base{
+						Message: fmt.Sprint(ePanic),
+						Kind:    errors.ExecutionException,
+					},
 					InApplication: true,
 				}
 			}
@@ -306,17 +310,21 @@ func (ce *CommandExecutor[Req, Res]) handle(
 			ret.err = e
 		} else if ret.err != nil {
 			if e, ok := ret.err.(InvocationError); ok {
-				ret.err = &errors.Error{
-					Message:       e.Message,
-					Kind:          errors.InvocationException,
+				ret.err = &errors.Remote{
+					Base: errors.Base{
+						Message:       e.Message,
+						Kind:          errors.InvocationException,
+						PropertyName:  e.PropertyName,
+						PropertyValue: e.PropertyValue,
+					},
 					InApplication: true,
-					PropertyName:  e.PropertyName,
-					PropertyValue: e.PropertyValue,
 				}
 			} else {
-				ret.err = &errors.Error{
-					Message:       ret.err.Error(),
-					Kind:          errors.ExecutionException,
+				ret.err = &errors.Remote{
+					Base: errors.Base{
+						Message: ret.err.Error(),
+						Kind:    errors.ExecutionException,
+					},
 					InApplication: true,
 				}
 			}
@@ -362,18 +370,22 @@ func (ce *CommandExecutor[Req, Res]) build(
 // Check whether this message should be ignored and why.
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
-		return &errors.Error{
-			Message:    "missing response topic",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.ResponseTopic,
+		return &errors.Remote{
+			Base: errors.Base{
+				Message:    "missing response topic",
+				Kind:       errors.HeaderMissing,
+				HeaderName: constants.ResponseTopic,
+			},
 		}
 	}
 	if !internal.ValidTopic(pub.ResponseTopic) {
-		return &errors.Error{
-			Message:     "invalid response topic",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.ResponseTopic,
-			HeaderValue: pub.ResponseTopic,
+		return &errors.Remote{
+			Base: errors.Base{
+				Message:     "invalid response topic",
+				Kind:        errors.HeaderInvalid,
+				HeaderName:  constants.ResponseTopic,
+				HeaderValue: pub.ResponseTopic,
+			},
 		}
 	}
 	return nil

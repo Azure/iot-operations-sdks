@@ -48,7 +48,7 @@ public class MathEnvoyTests
         await mathService.StartAsync();
         var ex = await Assert.ThrowsAsync<AkriMqttException>(
             () => mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new IsPrimeRequestSchema() { Number = 45677 } },
-            new RPC.CommandRequestMetadata(), TimeSpan.FromSeconds(30)).WithMetadata());
+            new RPC.CommandRequestMetadata(), null, TimeSpan.FromSeconds(30)).WithMetadata());
 
         Assert.True(ex.IsRemote);
     }
