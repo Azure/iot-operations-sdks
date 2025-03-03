@@ -9,7 +9,7 @@ namespace SampleServer;
 
 internal static class MqttSessionClientFactoryProvider
 {
-    public static Func<IServiceProvider, IMqttPubSubClient> MqttSessionClientFactory = service =>
+    public static Func<IServiceProvider, MqttSessionClient> MqttSessionClientFactory = service =>
     {
         IConfiguration? config = service.GetService<IConfiguration>();
         bool mqttDiag = config!.GetValue<bool>("mqttDiag");
