@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Mqtt.Session;
+
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
+using TestEnvoys.CustomTopicTokens;
 
 namespace SampleClient;
 
 internal class CustomTopicTokenClient : CustomTopicTokens.Client
 {
-    public CustomTopicTokenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
+    public CustomTopicTokenClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
     }
 

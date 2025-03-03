@@ -4,10 +4,7 @@
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using TestEnvoys.Counter;
-using TestEnvoys.Math;
-using TestEnvoys.Greeter;
-using TestEnvoys.dtmi_com_example_CustomTopicTokens__1;
+using TestEnvoys.CustomTopicTokens;
 
 namespace SampleClient;
 
