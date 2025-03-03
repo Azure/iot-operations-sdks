@@ -52,9 +52,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-#pragma warning disable IDE0060 // Remove unused parameter
-        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
-#pragma warning restore IDE0060 // Remove unused parameter
+        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
             _applicationContext = applicationContext;
             _mqttClient = mqttClient;

@@ -2348,12 +2348,10 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
             X509Certificate2 generatedCert = certRequest.CreateSelfSigned(DateTimeOffset.Now.AddDays(-1), DateTimeOffset.Now.AddYears(10));
 #if NET9_0_OR_GREATER
-            X509Certificate2 pfxGeneratedCert = X509CertificateLoader.LoadCertificate(generatedCert.Export(X509ContentType.Pfx));
+            return generatedCert;
 #else
-            X509Certificate2 pfxGeneratedCert = new X509Certificate2(generatedCert.Export(X509ContentType.Pfx));
+            return new X509Certificate2(generatedCert.Export(X509ContentType.Pfx));
 #endif
-
-            return pfxGeneratedCert;
         }
 
         private static MqttClientOptions GetClientOptions(MqttConnectionSettings? mcs = null)
