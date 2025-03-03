@@ -6,7 +6,13 @@ This sample demonstrates a connector that reacts to events sent to it by an asse
 
 1. Follow the [setup](/doc/setup.md) steps to configure your environment and the Azure IoT Operations cluster for development.
 
-2. Deploy the Akri operator (currently in private preview)
+2. Deploy the Akri operator *(currently in private preview)*
+
+## Creating the sample
+
+This project was generated  from the [event driven telemetry connector](/dotnet/templates/EventDrivenTelemetryConnector/) template. 
+
+For instructions on how to install the project template, see [the installation instructions](/dotnet/templates/README.md).
 
 ## Run the sample
 
