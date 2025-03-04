@@ -549,9 +549,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             if (testCaseReceiver.RaiseError != null && testCaseReceiver.RaiseError.Kind != TestErrorKind.None)
             {
-                throw testCaseReceiver.RaiseError.Kind == TestErrorKind.Content ?
-                    new InvocationException(testCaseReceiver.RaiseError.Message, testCaseReceiver.RaiseError.PropertyName, testCaseReceiver.RaiseError.PropertyValue) :
-                    new ApplicationException(testCaseReceiver.RaiseError.Message);
+                throw new ApplicationException(testCaseReceiver.RaiseError.Message);
             }
 
             CloudEvent? cloudEvent = null;
