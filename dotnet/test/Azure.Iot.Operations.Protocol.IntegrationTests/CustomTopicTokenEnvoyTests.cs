@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedTelemetryTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedTelemetryTopicTokenValue
+                ["myCustomTopicToken"] = expectedTelemetryTopicTokenValue
             };
             await service.SendTelemetryAsync(new(), new(), customTopicTokens);
 
@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcCommandNameTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
                 ["commandName"] = expectedRpcCommandNameTopicTokenValue
             };
             var result = await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), customTopicTokens);
