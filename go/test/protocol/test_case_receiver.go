@@ -11,7 +11,7 @@ type testCaseReceiver struct {
 	TelemetryTopic *string            `yaml:"telemetry-topic"`
 	TopicNamespace *string            `yaml:"topic-namespace"`
 	TopicTokenMap  map[string]string  `yaml:"topic-token-map"`
-	RaiseError     TestCaseError      `yaml:"raise-error"`
+	RaiseError     bool               `yaml:"raise-error"`
 }
 
 type TestCaseReceiver struct {

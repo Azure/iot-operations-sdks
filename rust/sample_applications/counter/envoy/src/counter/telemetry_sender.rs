@@ -28,6 +28,7 @@ pub type TelemetryMessageBuilderError = TelemetryMessageBuilderBaseError;
 #[derive(Default)]
 pub struct TelemetryMessageBuilder {
     inner_builder: TelemetryMessageBuilderBase<TelemetryCollection>,
+    topic_tokens: HashMap<String, String>,
 }
 
 impl TelemetryMessageBuilder {
@@ -47,12 +48,9 @@ impl TelemetryMessageBuilder {
     /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        self.inner_builder.topic_tokens(
-            topic_tokens
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect::<HashMap<String, String>>(),
-        );
+        for (k, v) in topic_tokens {
+            self.topic_tokens.insert(format!("ex:{k}"), v);
+        }
         self
     }
 
@@ -82,6 +80,8 @@ impl TelemetryMessageBuilder {
     /// # Errors
     /// If a required field has not been initialized
     pub fn build(&mut self) -> Result<TelemetryMessage, TelemetryMessageBuilderError> {
+        self.inner_builder.topic_tokens(self.topic_tokens.clone());
+
         self.inner_builder.build()
     }
 }

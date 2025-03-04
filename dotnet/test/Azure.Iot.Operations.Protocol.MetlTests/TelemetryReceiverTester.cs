@@ -547,11 +547,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static void ProcessTelemetry(string sourceId, string telemetry, IncomingTelemetryMetadata metadata,TestCaseReceiver testCaseReceiver, AsyncQueue<ReceivedTelemetry> receivedTelemetries)
         {
-            if (testCaseReceiver.RaiseError != null && testCaseReceiver.RaiseError.Kind != TestErrorKind.None)
+            if (testCaseReceiver.RaiseError)
             {
-                throw testCaseReceiver.RaiseError.Kind == TestErrorKind.Content ?
-                    new InvocationException(testCaseReceiver.RaiseError.Message, testCaseReceiver.RaiseError.PropertyName, testCaseReceiver.RaiseError.PropertyValue) :
-                    new ApplicationException(testCaseReceiver.RaiseError.Message);
+                throw new ApplicationException();
             }
 
             CloudEvent? cloudEvent = null;

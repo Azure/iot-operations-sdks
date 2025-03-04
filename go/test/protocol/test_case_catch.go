@@ -61,8 +61,6 @@ func (catch *TestCaseCatch) GetErrorKind() errors.Kind {
 		return errors.InternalLogicError
 	case "unknown error":
 		return errors.UnknownError
-	case "invocation error":
-		return errors.InvocationException
 	case "execution error":
 		return errors.ExecutionException
 	case "mqtt error":

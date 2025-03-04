@@ -6,14 +6,14 @@ namespace SampleReadCloudEvents;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using dtmi_akri_samples_oven__1;
 using Azure.Iot.Operations.Protocol;
+using SampleReadCloudEvents.Oven;
 
 public class OvenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, SchemaRegistryClient schemaRegistryClient, ILogger<OvenClient> logger) 
-    :Oven.Client(applicationContext, mqttClient)
+    : Oven.Oven.Client(applicationContext, mqttClient)
 {
 
-    private readonly Dictionary<string, string> schemaCache = new();
+    private readonly Dictionary<string, string> _schemaCache = new();
 
     public override async Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {
@@ -43,7 +43,7 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
             cloudEvent.DataContentType,
             cloudEvent.DataSchema);
 
-        if (schemaCache.ContainsKey(cloudEvent.DataSchema!))
+        if (_schemaCache.ContainsKey(cloudEvent.DataSchema!))
         {
             logger.LogInformation("Schema already cached");
         }
@@ -52,7 +52,7 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
             logger.LogInformation("Schema not cached, fetching from SR");
             Uri schemaUri = new(cloudEvent.DataSchema!);
             var schemaInfo = await schemaRegistryClient.GetAsync(schemaUri.Segments[1]);
-            schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
+            _schemaCache.Add(cloudEvent.DataSchema!, schemaInfo!.SchemaContent!);
             logger.LogInformation("Schema cached");
         }   
     }
