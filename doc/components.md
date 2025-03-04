@@ -90,10 +90,6 @@ The state store does not support resuming connections. In the case of a disconne
 
 ### Session client
 
-The session client sets `clean_start = false` when reconnecting which will automatically resume the last session, assuming the session hasn't expired.
-
-However, if the application is restarted, 
-
-In edge cases, such as when an application using the session client is restarted **after** a `PUBLISH` is sent, but **before** the `PUBACK` is received,
-
-There are some edge cases where the application might be restarted after a PUBLISH is sent and an ACK is received. In these cases, the SDK has no way to resend the PUBLISH, as required by [4.1.0-1](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901231) of the MQTT spec.
+By default, the session client will resume a session when it connects (both at first connect, and during a reconnect) using `Clean Start = false`. However at first connect, the SDK is unable to have retained the Session State from the past session, which is **not** compliant with [4.1.0-1](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901231).
+ 
+In this situation, if the application is restarted **after** a `PUBLISH` is sent but **before** the `PUBACK` is received, then this missing Session State may result in lost messages, as the client would be unable to process whether the `PUBLISH` was successful or not and therefor cannot initiate a retry, or report the failure.
