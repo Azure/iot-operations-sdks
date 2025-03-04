@@ -2,11 +2,11 @@
 
 The following instruction outline how to create a container image for your application, push it to the a registry, and deploy to the cluster.
 
-## Creating a container
+## Define the container
 
-Some languages have built in container support, however all binaries can be deployed using a Dockerfile. A Dockerfile can be created to support building the project and the creating the deployable container for repeatable container creation by using [multi-stage builds](https://docs.docker.com/build/building/multi-stage/).
+Some languages have built in container support, however all binaries can be containerized using a Dockerfile. A Dockerfile can be created to support both building the project and the creating the deployable container for repeatable container creation by using [multi-stage builds](https://docs.docker.com/build/building/multi-stage/).
 
-> [!NOTE]
+> [!WARNING]
 > The Dockerfile examples below are for reference only, and should be adapted for your particular situation.
 
 ### .NET
@@ -37,7 +37,7 @@ WORKDIR /work
 
 # Build application
 COPY . .
-RUN cargo install –path .
+RUN cargo build
 
 # Build runtime image
 FROM alpine:3
@@ -62,6 +62,27 @@ WORKDIR /
 COPY --from=build work/go-application .
 ENTRYPOINT ["/go-application"]
 ```
+
+## Build the container image
+
+1. Create a file called `Dockerfile` in your application directory, and create the definition *(using above as a reference)*.
+
+1. Build the container image, substituting "sample" with your own tag name:
+
+    ```bash
+    docker build --tag sample .
+    ```
+
+1. The resulting binary will be available 
+
+    ```bash
+    docker image ls sample
+    ```
+
+    ```output
+    REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+    sample       latest    7b76808165ed   10 minutes ago   73.9MB
+    ```
 
 ## Import the container image
 
