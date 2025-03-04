@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol;
 using System.Diagnostics;
 
 namespace SampleServer;
