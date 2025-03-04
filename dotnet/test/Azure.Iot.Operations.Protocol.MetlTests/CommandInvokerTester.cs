@@ -271,7 +271,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 {
                     foreach (KeyValuePair<string, string> kvp in testCaseInvoker.TopicTokenMap)
                     {
-                        //here. Not "CustomTopicTokenMap", but "TopicTokenMap"
                         commandInvoker.TopicTokenMap![kvp.Key] = kvp.Value;
                     }
                 }
