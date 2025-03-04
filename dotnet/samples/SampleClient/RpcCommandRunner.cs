@@ -4,8 +4,11 @@
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
+using TestEnvoys.Counter;
+using TestEnvoys.Math;
+using TestEnvoys.Greeter;
+using System.CodeDom.Compiler;
 using TestEnvoys.CustomTopicTokens;
-using System.Collections.ObjectModel;
 
 namespace SampleClient;
 
@@ -18,14 +21,25 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         await mqttClient.ConnectAsync(mcs, stoppingToken);
         await Console.Out.WriteLineAsync($"Connected to: {mcs}");
 
+        await using MemMonClient memMonClient = serviceProvider.GetService<MemMonClient>()!;
+
+        await memMonClient.StartAsync(stoppingToken);
+
         string userResponse = "y";
         while (userResponse == "y")
         {
-            await RunCustomTopicTokenCommands("SampleServer");
+            var startTelemetryTask = memMonClient.StartTelemetryAsync("SampleServer", new TestEnvoys.Memmon.StartTelemetryRequestPayload { Interval = 6 }, null, null, TimeSpan.FromMinutes(10), stoppingToken);
+            string executorId = "SampleServer";
+            await RunCounterCommands(executorId);
+            await RunGreeterCommands();
+            await RunMathCommands();
+            await RunCustomTopictokenCommand(executorId);
+            await memMonClient.StopTelemetryAsync("SampleServer", null, null, null, stoppingToken);
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
             if (userResponse == "q")
             {
+                await memMonClient.DisposeAsync();
                 await mqttClient.DisposeAsync(); // This disconnects the mqtt client as well
                 Environment.Exit(0);
             }
@@ -34,22 +48,127 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         await mqttClient.DisconnectAsync();
     }
 
-    private async Task RunCustomTopicTokenCommands(string executorId)
+    private async Task RunMathCommands()
     {
-        await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
-        logger.LogInformation("client is null? " + (customTopicTokenClient == null));
-        CommandRequestMetadata cmdMetadata = new();
-        logger.LogInformation("topic tokens is null? " + (cmdMetadata.TopicTokens == null));
-        
-        Dictionary<string, string> transientTopicTokenMap = new Dictionary<string, string>();
-        //transientTopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
-        //transientTopicTokenMap["ex:commandName"] = "someCommandName1";
-        transientTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
-        transientTopicTokenMap["commandName"] = "someCommandName2";
-
+        await using MathClient mathClient = serviceProvider.GetService<MathClient>()!;
         try
         {
-            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, cmdMetadata, transientTopicTokenMap).WithMetadata();
+            ExtendedResponse<GetRandomResponsePayload> respRandom = await mathClient.GetRandomAsync("SampleServer").WithMetadata();
+            logger.LogInformation("getRandom = {r} with id {cid}", respRandom.Response!.GetRandomResponse, respRandom.ResponseMetadata!.CorrelationId);
+            int number = respRandom.Response!.GetRandomResponse;
+
+            CommandRequestMetadata reqMdIsPrime = new();
+            Task<ExtendedResponse<IsPrimeResponsePayload>> respIsPrimeTask = mathClient.IsPrimeAsync("SampleServer",
+                new IsPrimeRequestPayload
+                {
+                    IsPrimeRequest = new IsPrimeRequestSchema
+                    {
+                        Number = number
+                    }
+                }, reqMdIsPrime).WithMetadata();
+
+            logger.LogInformation("Calling isPrime({n}) with id {id}", number, reqMdIsPrime.CorrelationId);
+            ExtendedResponse<IsPrimeResponsePayload> respIsPrime = await respIsPrimeTask;
+            logger.LogInformation("Called isPrime({n}) = {p} with id {id}", number, respIsPrime.Response.IsPrimeResponse.IsPrime, respIsPrime.ResponseMetadata!.CorrelationId);
+
+            CommandRequestMetadata reqMdFib = new();
+            Task<ExtendedResponse<FibResponsePayload>> respFibTask = mathClient.FibAsync("SampleServer",
+                new FibRequestPayload
+                {
+                    FibRequest = new FibRequestSchema
+                    {
+                        Number = number
+                    }
+                }, reqMdFib, null, TimeSpan.FromSeconds(30)).WithMetadata();
+            logger.LogInformation("Calling Fib({n}) with id {id}", number, reqMdFib.CorrelationId);
+
+            ExtendedResponse<FibResponsePayload> respFib = await respFibTask;
+            logger.LogInformation("Called Fib({n}) = {p} with id {id}", number, respFib.Response.FibResponse, respFib.ResponseMetadata!.CorrelationId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("{msg}", ex.Message);
+        }
+    }
+
+    private async Task RunGreeterCommands()
+    {
+        await using GreeterEnvoyClient greeterClient = serviceProvider.GetService<GreeterEnvoyClient>()!;
+        try
+        {
+            CommandRequestMetadata reqMd = new();
+            logger.LogInformation("Calling SayHello with id {id}", reqMd.CorrelationId);
+            ExtendedResponse<GreeterEnvoy.HelloResponse> respGreet = await greeterClient.SayHello(
+                new ExtendedRequest<GreeterEnvoy.HelloRequest>
+                {
+                    Request = new GreeterEnvoy.HelloRequest()
+                    {
+                        Name = "User"
+                    }
+                }, reqMd).WithMetadata();
+
+            logger.LogInformation("greet {g} with id {id}", respGreet.Response!.Message, respGreet.ResponseMetadata!.CorrelationId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("{msg}", ex.Message);
+        }
+    }
+
+    private async Task RunCounterCommands(string executorId)
+    {
+        await using CounterClient counterClient = serviceProvider.GetService<CounterClient>()!;
+        try
+        {
+
+            CommandRequestMetadata reqMd = new();
+
+            logger.LogInformation("Calling ReadCounter with {c}", reqMd.CorrelationId);
+            ExtendedResponse<ReadCounterResponsePayload> respCounter = await counterClient.ReadCounterAsync(executorId, reqMd).WithMetadata();
+            logger.LogInformation("called read {c} with id {id}", respCounter.Response!.CounterResponse, respCounter.ResponseMetadata!.CorrelationId);
+
+
+            Task[] tasks = new Task[32];
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                CommandRequestMetadata reqMd2 = new();
+                IncrementRequestPayload payload = new IncrementRequestPayload();
+                payload.IncrementValue = 1;
+                logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
+                Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(executorId, payload, reqMd2).WithMetadata();
+                tasks[i] = incrCounterTask;
+            }
+            await Task.WhenAll(tasks);
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                Task<ExtendedResponse<IncrementResponsePayload>>? t = (Task<ExtendedResponse<IncrementResponsePayload>>?)tasks[i];
+                logger.LogInformation("called counter.incr {c} with id {id}", t!.Result.Response.CounterResponse, t.Result.ResponseMetadata!.CorrelationId);
+            }
+
+
+            ExtendedResponse<ReadCounterResponsePayload> respCounter4 = await counterClient.ReadCounterAsync(executorId).WithMetadata();
+            logger.LogInformation("counter {c} with id {id}", respCounter4.Response!.CounterResponse, respCounter4.ResponseMetadata!.CorrelationId);
+
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("{msg}", ex.Message);
+        }
+    }
+
+    private async Task RunCustomTopictokenCommand(string executorId)
+    {
+        await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
+        try
+        {
+            CommandRequestMetadata reqMd = new();
+            Dictionary<string, string> transientTopicTokenMap = new Dictionary<string, string>
+            {
+                ["myCustomTopicToken"] = Guid.NewGuid().ToString(),
+                ["commandName"] = "myCustomCommandName"
+            };
+            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, reqMd, transientTopicTokenMap).WithMetadata();
             logger.LogInformation("Sent custom topic token request");
         }
         catch (Exception ex)
