@@ -30,9 +30,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly string _commandName;
         private readonly IPayloadSerializer _serializer;
 
-        private readonly Dictionary<string, string> _topicTokenMap = [];
-
-        //private readonly HybridLogicalClock hybridLogicalClock;
         private readonly ApplicationContext _applicationContext;
         private readonly ICommandResponseCache _commandResponseCache;
         private Dispatcher? _dispatcher;
@@ -70,9 +67,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public TimeSpan CacheTtl { get; init; }
 
-        private readonly Dictionary<string, string> _topicTokenReplacementMap;
+        public Dictionary<string, string> TopicTokenReplacementMap { get; protected set; }
 
-        public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer, Dictionary<string, string>? topicTokenReplacementMap = null)
+        public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             if (commandName == null || commandName == string.Empty)
             {
@@ -100,7 +97,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             CacheTtl = XmlConvert.ToTimeSpan(AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.CacheTtl ?? "PT0H0M0S");
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
-            _topicTokenReplacementMap = topicTokenReplacementMap ?? new();
+            TopicTokenReplacementMap = new();
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -622,7 +619,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid", commandName: _commandName);
             }
 
-            MqttTopicProcessor.SplitTopicTokenMap(_topicTokenReplacementMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+            MqttTopicProcessor.SplitTopicTokenMap(TopicTokenReplacementMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
 
             PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, effectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)

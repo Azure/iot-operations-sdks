@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly object _requestIdMapLock = new();
         private readonly Dictionary<string, ResponsePromise> _requestIdMap;
 
-        private readonly Dictionary<string, string> _topicTokenReplacementMap;
+        public Dictionary<string, string> TopicTokenReplacementMap { get; protected set; }
 
         private bool _isDisposed;
 
@@ -78,7 +78,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly ApplicationContext _applicationContext;
 
-        public CommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer, Dictionary<string, string>? topicTokenMap = null)
+        public CommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -98,7 +98,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             RequestTopicPattern = AttributeRetriever.GetAttribute<CommandTopicAttribute>(this)?.RequestTopic ?? string.Empty;
 
             _mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
-            _topicTokenReplacementMap = topicTokenMap ?? new();
+            TopicTokenReplacementMap = new();
         }
 
         private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
@@ -120,7 +120,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseTopicPrefix != null)
             {
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicPrefix, _topicTokenReplacementMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicPrefix, TopicTokenReplacementMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
@@ -140,7 +140,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseTopicSuffix != null)
             {
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicSuffix, _topicTokenReplacementMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicSuffix, TopicTokenReplacementMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
@@ -501,7 +501,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            Dictionary<string, string> baseTopicTokenMap = topicTokenMap ?? _topicTokenReplacementMap ?? new();
+            Dictionary<string, string> baseTopicTokenMap = topicTokenMap ?? TopicTokenReplacementMap ?? new();
             MqttTopicProcessor.SplitTopicTokenMap(baseTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
 
             PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, effectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
