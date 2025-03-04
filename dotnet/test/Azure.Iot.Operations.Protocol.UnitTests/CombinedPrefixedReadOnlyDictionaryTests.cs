@@ -10,9 +10,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         private const string prefix1 = "foo:";
         private const string prefix2 = "bar:";
 
-        private Dictionary<string, int> _dict1;
-        private Dictionary<string, int> _dict2;
-        private IReadOnlyDictionary<string, int> _combinedDict;
+        private readonly Dictionary<string, int> _dict1;
+        private readonly Dictionary<string, int> _dict2;
+        private readonly IReadOnlyDictionary<string, int> _combinedDict;
 
         public CombinedPrefixedReadOnlyDictionaryTests()
         {

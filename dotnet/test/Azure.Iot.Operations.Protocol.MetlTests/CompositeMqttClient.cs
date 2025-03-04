@@ -21,11 +21,11 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
         _connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883)) { SessionExpiryInterval = 120, ClientId = clientId };
         _disconnectOptions = new MqttClientDisconnectOptions();
 
-        this._mqttClient = mqttClient;
+        _mqttClient = mqttClient;
 
         if (includeSessionClient)
         {
-            this._sessionClient = new MqttSessionClient(mqttClient);
+            _sessionClient = new MqttSessionClient(mqttClient);
         }
     }
 

@@ -480,7 +480,10 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // starts flowing on the new MQTT topic
             await assetTelemetryForwardedToBrokerTcs1.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            asset.Datasets[0].Topic.Path = expectedMqttTopic2;
+            Assert.NotNull(asset);
+            Assert.NotNull(asset.Datasets[0]);
+            Assert.NotNull(asset.Datasets[0].Topic);
+            asset.Datasets[0].Topic!.Path = expectedMqttTopic2;
             mockAssetMonitor.AddOrUpdateMockAsset(assetName, asset);
 
             await assetTelemetryForwardedToBrokerTcs2.Task.WaitAsync(TimeSpan.FromSeconds(3));

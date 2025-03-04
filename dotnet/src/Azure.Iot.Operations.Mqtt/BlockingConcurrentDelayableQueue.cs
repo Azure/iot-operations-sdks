@@ -18,8 +18,8 @@ namespace Azure.Iot.Operations.Mqtt
     internal class BlockingConcurrentDelayableQueue<T> : IDisposable
         where T : IDelayableQueueItem
     {
-        ConcurrentQueue<T> _queue;
-        ManualResetEventSlim _gate;
+        private readonly ConcurrentQueue<T> _queue;
+        private readonly ManualResetEventSlim _gate;
 
         public BlockingConcurrentDelayableQueue()
         {

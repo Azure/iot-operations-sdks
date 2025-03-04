@@ -28,11 +28,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static FreezableWallClock freezableWallClock;
-        private static ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> sessionRequestResponseSequencers;
-        private static ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> standaloneRequestResponseSequencers;
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly FreezableWallClock freezableWallClock;
+        private static readonly ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> sessionRequestResponseSequencers;
+        private static readonly ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> standaloneRequestResponseSequencers;
 
         static CommandExecutorTester()
         {
@@ -364,9 +364,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     commandExecutor.ExecutionTimeout = testCaseExecutor.ExecutionTimeout.ToTimeSpan();
                 }
 
-                if (testCaseExecutor.ResponseMetadata.Any() || testCaseExecutor.TokenMetadataPrefix != null)
-                {
-                    commandExecutor.OnCommandReceived = async (extReq, ct) =>
+                commandExecutor.OnCommandReceived = testCaseExecutor.ResponseMetadata.Any() || testCaseExecutor.TokenMetadataPrefix != null
+                    ? (async (extReq, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
                         string response = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
@@ -390,17 +389,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                             Response = response,
                             ResponseMetadata = responseMetadata,
                         };
-                    };
-                }
-                else
-                {
-                    commandExecutor.OnCommandReceived = async (extReq, ct) =>
+                    })
+                    : (async (extReq, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
                         string response = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
                         return ExtendedResponse<string>.CreateFromResponse(response);
-                    };
-                }
+                    });
 
                 await commandExecutor.StartAsync(testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
 

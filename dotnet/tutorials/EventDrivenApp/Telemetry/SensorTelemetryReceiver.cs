@@ -10,7 +10,7 @@ namespace EventDrivenApp;
 public class SensorTelemetryReceiver : TelemetryReceiver<SensorData>
 {
     internal SensorTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-        : base(applicationContext, mqttClient, "SensorReceiver", new Utf8JsonSerializer())
+        : base(applicationContext, mqttClient, new Utf8JsonSerializer())
     {
     }
 }

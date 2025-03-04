@@ -48,8 +48,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             var result = await mqttExecutor.PublishAsync(faultMessage).WaitAsync(TimeSpan.FromMinutes(1));
             Assert.True(result.IsSuccess);
 
-            IncrementRequestPayload payload = new IncrementRequestPayload();
-            payload.IncrementValue = 1;
+            IncrementRequestPayload payload = new IncrementRequestPayload
+            {
+                IncrementValue = 1
+            };
 
             // // Wait until the fault injection happens or until a timeout
             await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
@@ -115,8 +117,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             Assert.True(result.IsSuccess);
             await faultWasInjectedTcs2.Task.WaitAsync(TimeSpan.FromSeconds(30));
 
-            IncrementRequestPayload payload = new IncrementRequestPayload();
-            payload.IncrementValue = 1;
+            IncrementRequestPayload payload = new IncrementRequestPayload
+            {
+                IncrementValue = 1
+            };
 
             var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(1, resp2.Response.CounterResponse);   

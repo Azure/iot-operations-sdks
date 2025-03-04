@@ -72,11 +72,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.common
 
         public override bool Equals(object? obj)
         {
-            return obj is DecimalString other && this.Equals(other);
+            return obj is DecimalString other && Equals(other);
         }
         public override int GetHashCode()
         {
-            return this.value.GetHashCode();
+            return value.GetHashCode();
         }
 
         private DecimalString(string value, bool skipValidation)
