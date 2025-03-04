@@ -11,8 +11,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 internal class CustomTopicTokenClient : CustomTopicTokens.Client
 {
+    // This is the value of the custom topic token in the most recently received telemetry
     public string CustomTopicTokenValue { get; private set; } = "";
 
+    // This TCS triggers upon the first telemetry received
     public TaskCompletionSource OnTelemetryReceived = new();
 
     public CustomTopicTokenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)

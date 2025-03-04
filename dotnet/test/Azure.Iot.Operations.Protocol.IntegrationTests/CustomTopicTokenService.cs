@@ -10,7 +10,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class CustomTopicTokenService : CustomTopicTokens.Service
 {
+    // This is the value of the custom topic token in the most recently received RPC invocation
     public string ReceivedRpcCustomTopicTokenValue { get; private set; } = "";
+
+    // This is the value of the command name topic token in the most recently received RPC invocation
     public string ReceivedRpcCommandNameTopicTokenValue { get; private set; } = "";
 
     public CustomTopicTokenService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
