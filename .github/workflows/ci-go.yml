@@ -1,4 +1,4 @@
-name: CI-go
+name: CI-Go
 
 on:
   workflow_dispatch:
@@ -41,26 +41,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
-    - name: Setup Go
-      uses: actions/setup-go@v5
+    - name: Install AIO
+      uses: ./.github/actions/deploy-aio
       with:
-        go-version: 1.22.4
-        
-    # This pipeline builds and runs the faultable MQTT broker project which is written in .NET
-    - name: Setup .NET 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.200
+        wait-for-broker: 'true'
+        install-dotnet: 'true'
+        install-go: 'true'
 
-    - name: Setup cluster
-      run: |
-        tools/deployment/initialize-cluster.sh
-        tools/deployment/deploy-aio.sh nightly
-
-    # This file is created by deploy-aio.sh
+    # This file is created by deploy-aio
     - name: Load test service account token into environment
       run: |
         if [ ! -f ".session/token.txt" ]; then
@@ -70,7 +59,7 @@ jobs:
 
         echo "TOKEN_FILE_PATH=$(pwd)/.session/token.txt" >> $GITHUB_ENV
 
-    # This file is created by deploy-aio.sh
+    # This file is created by deploy-aio
     - name: Load CA certificate into environment
       run: |
         if [ ! -f ".session/broker-ca.crt" ]; then
@@ -80,7 +69,7 @@ jobs:
 
         echo "CA_FILE_PATH=$(pwd)/.session/broker-ca.crt" >> $GITHUB_ENV
 
-    # These files are created by deploy-aio.sh
+    # These files are created by deploy-aio
     - name: Load client certificates into environment
       run: |
         if [ ! -f ".session/client.key" ]; then

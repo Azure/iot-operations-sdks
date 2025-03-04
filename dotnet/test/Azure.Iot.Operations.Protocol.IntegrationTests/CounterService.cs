@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class CounterService : Counter.Service
 {
-    int _counter = 0;
+    private int _counter = 0;
 
     public CounterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {

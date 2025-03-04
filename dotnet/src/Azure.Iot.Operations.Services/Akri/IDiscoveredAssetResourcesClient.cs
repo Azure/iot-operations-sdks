@@ -26,7 +26,7 @@ public interface IDiscoveredAssetResourcesClient : IAsyncDisposable
     /// A task that represents the asynchronous operation. The task result contains an <see cref="AssetEndpointProfileResponseInfo"/> object
     /// if the asset endpoint profile is successfully created, or <c>null</c> if the operation fails or no response is available.
     /// </returns>
-    public Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(
+    Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(
         CreateDiscoveredAssetEndpointProfileRequestPayload discoveredAssetEndpointProfileRequest,
         TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 
@@ -40,7 +40,7 @@ public interface IDiscoveredAssetResourcesClient : IAsyncDisposable
     /// A task that represents the asynchronous operation. The task result contains an <see cref="AssetResponseInfo"/> object
     /// if the asset creation succeeds, or <c>null</c> if the operation fails or no response is available.
     /// </returns>
-    public Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
+    Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
         CreateDiscoveredAssetRequestPayload discoveredAssetRequest,
         TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }

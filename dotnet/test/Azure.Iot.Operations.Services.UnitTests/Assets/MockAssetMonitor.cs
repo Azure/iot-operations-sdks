@@ -78,12 +78,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default)
         {
-            if (_assets.TryGetValue(assetName, out var asset))
+            if (_assets.TryGetValue(assetName, out Asset? asset))
             {
-                return Task.FromResult(asset);
+                return Task.FromResult((Asset?) asset);
             }
 
-            return null;
+            return Task.FromResult((Asset?)null);
         }
 
         public Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default)

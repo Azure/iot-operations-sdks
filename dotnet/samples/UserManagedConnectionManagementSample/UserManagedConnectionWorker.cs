@@ -11,7 +11,7 @@ namespace ConnectionManagementSample
 {
     public class UserManagedConnectionWorker(OrderedAckMqttClient mqttClient, ILogger<UserManagedConnectionWorker> logger, IConfiguration configuration) : BackgroundService
     {
-        readonly SemaphoreSlim _reconnectionMutex = new (1);
+        private readonly SemaphoreSlim _reconnectionMutex = new (1);
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {

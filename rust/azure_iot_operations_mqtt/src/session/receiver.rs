@@ -73,7 +73,7 @@ pub struct PublishReceiverManager {
 }
 
 impl PublishReceiverManager {
-    /// Create a new [`PublishReceiver`] that will receive dispatched [`Publish`]es that match the
+    /// Create a new [`PublishRx`] that will receive dispatched [`Publish`]es that match the
     /// provided topic filter for as long as it is open.
     ///
     /// Multiple receivers can be created for the same topic filter, or with overlapping wildcard
@@ -101,8 +101,8 @@ impl PublishReceiverManager {
         rx
     }
 
-    /// Create a new [`PublishReceiver`] that will receive all dispatched [`Publish`]es that do not
-    /// match the topic filters for any other filtered [`PublishReceiver`]s, for as long as it
+    /// Create a new [`PublishRx`] that will receive all dispatched [`Publish`]es that do not
+    /// match the topic filters for any other filtered [`PublishRx`]s, for as long as it
     /// is open.
     ///
     /// Multiple unfiltered receivers can be created, and each will receive all publishes that are
@@ -130,7 +130,7 @@ impl PublishReceiverManager {
     }
 }
 
-/// Manager for creating and dispatching messages to [`PublishReceiver`]s.
+/// Manager for creating and dispatching messages to [`PublishRx`]s.
 pub struct IncomingPublishDispatcher<A>
 where
     A: MqttAck + Clone + Send + Sync + 'static,

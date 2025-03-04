@@ -23,11 +23,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
+            // TODO: Uncomment once 422 is removed in Dotnet to support the modifications for this test
+            "CommandInvokerResponseIndicatesInvocationError_ThrowsException"
         };
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static FreezableWallClock freezableWallClock;
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly FreezableWallClock freezableWallClock;
 
         static CommandInvokerTester()
         {
@@ -498,7 +500,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Assert.True(correlationIds.TryGetValue((int)publishedMessage.CorrelationIndex, out correlationId));
             }
 
-            byte[]? lookupKey = correlationId != null ? correlationId.Value.ToByteArray() : null;
+            byte[]? lookupKey = correlationId?.ToByteArray();
             MQTTnet.MqttApplicationMessage? appMsg = stubMqttClient.GetPublishedMessage(lookupKey);
             Assert.NotNull(appMsg);
 

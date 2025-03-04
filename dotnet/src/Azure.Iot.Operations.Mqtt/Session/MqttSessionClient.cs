@@ -22,13 +22,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
         // publish/subscribe/unsubscribe requests that haven't been fulfilled yet. Some may be in flight, though.
         private readonly BlockingConcurrentList _outgoingRequestList;
 
-        private object ctsLockObj = new();
+        private readonly object _ctsLockObj = new();
 
         private bool _isDesiredConnected;
         private bool _isClosing;
         private CancellationTokenSource? _reconnectionCancellationToken;
 
-        private SemaphoreSlim disconnectedEventLock = new(1);
+        private readonly SemaphoreSlim _disconnectedEventLock = new(1);
 
         public event Func<MqttClientDisconnectedEventArgs, Task>? SessionLostAsync;
 
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         internal MqttSessionClient(MQTTnet.IMqttClient mqttClient, MqttSessionClientOptions? sessionClientOptions = null)
             : base(mqttClient)
         {
-            _sessionClientOptions = sessionClientOptions != null ? sessionClientOptions : new MqttSessionClientOptions();
+            _sessionClientOptions = sessionClientOptions ?? new MqttSessionClientOptions();
             _sessionClientOptions.Validate();
 
             DisconnectedAsync += InternalDisconnectedAsync;
@@ -328,12 +328,12 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
                 _workerThreadsTaskCancellationTokenSource?.Dispose();
                 _reconnectionCancellationToken?.Dispose();
-                disconnectedEventLock.Dispose();
+                _disconnectedEventLock.Dispose();
                 _outgoingRequestList.Dispose();
             }
 
             _workerThreadsTaskCancellationTokenSource?.Dispose();
-            disconnectedEventLock.Dispose();
+            _disconnectedEventLock.Dispose();
             _outgoingRequestList.Dispose();
 
             // The underlying client has an MQTT client as a managed resource that no other client has access to, so always dispose it
@@ -347,7 +347,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         private async Task InternalDisconnectedAsync(MqttClientDisconnectedEventArgs args)
         {
             // MQTTNet's client often triggers the same "OnDisconnect" callback more times than expected, so only start reconnection once
-            await disconnectedEventLock.WaitAsync();
+            await _disconnectedEventLock.WaitAsync();
 
             try
             {
@@ -389,7 +389,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             finally
             {
-                disconnectedEventLock.Release();
+                _disconnectedEventLock.Release();
             }
         }
 
@@ -426,7 +426,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                     throw lastException;
                 }
 
-                if (IsFatal(lastException!, isReconnection, _reconnectionCancellationToken?.Token.IsCancellationRequested ?? cancellationToken.IsCancellationRequested))
+                if (IsFatal(lastException!, _reconnectionCancellationToken?.Token.IsCancellationRequested ?? cancellationToken.IsCancellationRequested))
                 {
                     Trace.TraceError("Encountered a fatal exception while maintaining connection {0}", lastException);
                     if (isReconnection)
@@ -584,7 +584,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         private void StartPublishingSubscribingAndUnsubscribing()
         {
-            lock (ctsLockObj)
+            lock (_ctsLockObj)
             {
                 if (!_disposed)
                 {
@@ -596,7 +596,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         private void StopPublishingSubscribingAndUnsubscribing()
         {
-            lock (ctsLockObj)
+            lock (_ctsLockObj)
             {
                 try
                 {
@@ -687,7 +687,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             catch (Exception e)
             {
-                if (IsFatal(e, false, queuedPublish.CancellationToken.IsCancellationRequested))
+                if (IsFatal(e, queuedPublish.CancellationToken.IsCancellationRequested))
                 {
                     await _outgoingRequestList.RemoveAsync(queuedPublish, CancellationToken.None);
                     if (!queuedPublish.ResultTaskCompletionSource.TrySetException(e))
@@ -721,7 +721,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             catch (Exception e)
             {
-                if (IsFatal(e, false, queuedSubscribe.CancellationToken.IsCancellationRequested))
+                if (IsFatal(e, queuedSubscribe.CancellationToken.IsCancellationRequested))
                 {
                     await _outgoingRequestList.RemoveAsync(queuedSubscribe, CancellationToken.None);
                     if (!queuedSubscribe.ResultTaskCompletionSource.TrySetException(e))
@@ -754,7 +754,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             catch (Exception e)
             {
-                if (IsFatal(e, false, queuedUnsubscribe.CancellationToken.IsCancellationRequested))
+                if (IsFatal(e, queuedUnsubscribe.CancellationToken.IsCancellationRequested))
                 {
                     await _outgoingRequestList.RemoveAsync(queuedUnsubscribe, CancellationToken.None);
                     if (!queuedUnsubscribe.ResultTaskCompletionSource.TrySetException(e))
@@ -802,7 +802,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             return false;
         }
 
-        private static bool IsFatal(Exception e, bool isReconnecting, bool userCancellationRequested = false)
+        private static bool IsFatal(Exception e, bool userCancellationRequested = false)
         {
             if (e is MqttConnectingFailedException)
             {

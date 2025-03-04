@@ -68,7 +68,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (testCaseCatch.Supplemental.TryGetValue(TestCaseCatch.PropertyNameKey, out string? propertyName))
             {
-                Assert.Equal(propertyName, exception.PropertyName != null ? exception.PropertyName.Substring(exception.PropertyName.LastIndexOf('.') + 1).ToLower() : null);
+                Assert.Equal(propertyName, exception.PropertyName?.Substring(exception.PropertyName.LastIndexOf('.') + 1).ToLower());
             }
 
             if (testCaseCatch.Supplemental.TryGetValue(TestCaseCatch.PropertyValueKey, out string? propertyValue))

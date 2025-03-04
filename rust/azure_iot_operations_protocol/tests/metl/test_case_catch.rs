@@ -58,7 +58,6 @@ impl TestCaseCatch {
             "invalid state" => AIOProtocolErrorKind::StateInvalid,
             "internal logic error" => AIOProtocolErrorKind::InternalLogicError,
             "unknown error" => AIOProtocolErrorKind::UnknownError,
-            "invocation error" => AIOProtocolErrorKind::InvocationException,
             "execution error" => AIOProtocolErrorKind::ExecutionException,
             "mqtt error" => AIOProtocolErrorKind::ClientError,
             "request version not supported" => AIOProtocolErrorKind::UnsupportedRequestVersion,

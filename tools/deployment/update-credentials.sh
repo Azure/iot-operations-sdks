@@ -21,3 +21,5 @@ step certificate create client $session_dir/client.crt $session_dir/client.key \
 
 # Create a SAT auth file for local testing
 kubectl create token default --namespace azure-iot-operations --duration=86400s --audience=aio-internal > $session_dir/token.txt
+
+echo Update complete, session related files are in the '.session' directory

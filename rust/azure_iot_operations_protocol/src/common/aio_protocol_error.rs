@@ -30,8 +30,6 @@ pub enum AIOProtocolErrorKind {
     InternalLogicError,
     /// The client or service received an unexpected error from a dependent component
     UnknownError,
-    /// The command processor identified an error in the request
-    InvocationException,
     /// The command processor encountered an error while executing the command
     ExecutionException,
     /// The MQTT communication encountered an error and failed. The exception message should be inspected for additional information
@@ -167,10 +165,6 @@ impl fmt::Display for AIOProtocolError {
                     self.property_name.as_deref().unwrap_or("Not Specified")
                 ),
                 AIOProtocolErrorKind::UnknownError => write!(f, "An unknown error occurred"),
-                AIOProtocolErrorKind::InvocationException => write!(
-                    f,
-                    "The command processor identified an error in the request"
-                ),
                 AIOProtocolErrorKind::ExecutionException => write!(
                     f,
                     "The command processor encountered an error while executing the command"
@@ -587,37 +581,6 @@ impl AIOProtocolError {
             timeout_value: None,
             property_name: None,
             property_value: None,
-            command_name,
-            protocol_version: None,
-            supported_protocol_major_versions: None,
-        };
-        e.ensure_error_message();
-        e
-    }
-
-    /// Creates a new [`AIOProtocolError`] for an invocation exception
-    #[must_use]
-    pub fn new_invocation_exception_error(
-        http_status_code: u16,
-        property_name: Option<&str>,
-        property_value: Option<Value>,
-        message: Option<String>,
-        command_name: Option<String>,
-    ) -> AIOProtocolError {
-        let mut e = AIOProtocolError {
-            message,
-            kind: AIOProtocolErrorKind::InvocationException,
-            in_application: true,
-            is_shallow: false,
-            is_remote: true,
-            nested_error: None,
-            http_status_code: Some(http_status_code),
-            header_name: None,
-            header_value: None,
-            timeout_name: None,
-            timeout_value: None,
-            property_name: property_name.map(std::string::ToString::to_string),
-            property_value,
             command_name,
             protocol_version: None,
             supported_protocol_major_versions: None,

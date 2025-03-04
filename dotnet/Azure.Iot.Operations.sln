@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTcpServiceApp", "samp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenTcpThermostatConnector", "samples\EventDrivenTcpThermostatConnector\EventDrivenTcpThermostatConnector.csproj", "{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateChangeSample", "samples\StateStoreObserveKeySample\StateChangeSample.csproj", "{4992415C-ABB2-2284-D6CD-8FE01910092F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,10 @@ Global
 		{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -263,6 +269,7 @@ Global
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{566859E0-8783-92AF-29D8-F8C23A802B45} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5} = {78562762-96CB-4527-8EE2-43A1CE119A21}
+		{4992415C-ABB2-2284-D6CD-8FE01910092F} = {4DDB0B28-1830-4B6F-8A10-FB37874D4D57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}

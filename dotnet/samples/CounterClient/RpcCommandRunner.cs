@@ -14,8 +14,8 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
     {
         try
         {
-
-            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")! + ";ClientId=sampleClient-" + Environment.TickCount);
+            // MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")! + ";ClientId=sampleClient-" + Environment.TickCount);
+            MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVars();
 
             await mqttClient.ConnectAsync(mcs, stoppingToken);
             await Console.Out.WriteLineAsync($"Connected to: {mcs}");
@@ -47,8 +47,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         for (int i = 0; i < tasks.Length; i++)
         {
             CommandRequestMetadata reqMd2 = new();
-            IncrementRequestPayload payload = new IncrementRequestPayload();
-            payload.IncrementValue = 1;
+            IncrementRequestPayload payload = new IncrementRequestPayload
+            {
+                IncrementValue = 1
+            };
             logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
             Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;

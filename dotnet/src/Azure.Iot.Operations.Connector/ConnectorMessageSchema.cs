@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Connector
             Dictionary<string, string>? tags)
         {
             SchemaContent = schemaContent;
-            schemaFormat = SchemaFormat;
+            SchemaFormat = schemaFormat;
             SchemaType = schemaType;
             Version = version;
             Tags = tags;

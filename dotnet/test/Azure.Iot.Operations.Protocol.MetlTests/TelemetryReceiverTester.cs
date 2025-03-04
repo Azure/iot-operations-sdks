@@ -39,9 +39,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             "TelemetryReceiverReceivesWithCloudEventTimeAbsent_Success",
         };
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static FreezableWallClock freezableWallClock;
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly FreezableWallClock freezableWallClock;
 
         static TelemetryReceiverTester()
         {
@@ -197,7 +197,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     switch (action)
                     {
                         case TestCaseActionReceiveTelemetry actionReceiveTelemetry:
-                            await ReceiveTelemetryAsync(actionReceiveTelemetry, stubMqttClient, sourceIds, packetIds, testCaseIndex).ConfigureAwait(false);
+                            await ReceiveTelemetryAsync(actionReceiveTelemetry, stubMqttClient, sourceIds, packetIds).ConfigureAwait(false);
                             break;
                         case TestCaseActionAwaitAck actionAwaitAck:
                             await AwaitAcknowledgementAsync(actionAwaitAck, stubMqttClient, packetIds).ConfigureAwait(false);
@@ -253,7 +253,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 foreach (TestCaseReceivedTelemetry receivedTelemetry in testCase.Epilogue.ReceivedTelemetries)
                 {
-                    CheckReceivedTelemetry(receivedTelemetry, testCaseIndex, receivedTelemetries, sourceIds);
+                    CheckReceivedTelemetry(receivedTelemetry, receivedTelemetries, sourceIds);
                 }
 
                 try
@@ -345,7 +345,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private async Task ReceiveTelemetryAsync(TestCaseActionReceiveTelemetry actionReceiveTelemetry, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string> sourceIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
+        private async Task ReceiveTelemetryAsync(TestCaseActionReceiveTelemetry actionReceiveTelemetry, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string> sourceIds, ConcurrentDictionary<int, ushort> packetIds)
         {
             string? sourceId = null;
             if (actionReceiveTelemetry.SourceIndex != null)
@@ -444,7 +444,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return freezableWallClock.UnfreezeTimeAsync(freezeTicket);
         }
 
-        private void CheckReceivedTelemetry(TestCaseReceivedTelemetry receivedTelemetry, int testCaseIndex, AsyncQueue<ReceivedTelemetry> receivedTelemetries, ConcurrentDictionary<int, string> sourceIds)
+        private void CheckReceivedTelemetry(TestCaseReceivedTelemetry receivedTelemetry, AsyncQueue<ReceivedTelemetry> receivedTelemetries, ConcurrentDictionary<int, string> sourceIds)
         {
             Assert.True(receivedTelemetries.TryDequeue(out ReceivedTelemetry? actualReceivedTelemetry));
             Assert.NotNull(actualReceivedTelemetry);
@@ -578,15 +578,17 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (cloudEvent != null)
                 {
-                    CloudEvent = new();
-                    CloudEvent.Source = cloudEvent.Source?.ToString();
-                    CloudEvent.Type = cloudEvent.Type;
-                    CloudEvent.SpecVersion = cloudEvent.SpecVersion;
-                    CloudEvent.Id = cloudEvent.Id;
-                    CloudEvent.Time = cloudEvent.Time?.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture);
-                    CloudEvent.DataContentType = cloudEvent.DataContentType;
-                    CloudEvent.Subject = cloudEvent.Subject;
-                    CloudEvent.DataSchema = cloudEvent.DataSchema;
+                    CloudEvent = new()
+                    {
+                        Source = cloudEvent.Source?.ToString(),
+                        Type = cloudEvent.Type,
+                        SpecVersion = cloudEvent.SpecVersion,
+                        Id = cloudEvent.Id,
+                        Time = cloudEvent.Time?.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture),
+                        DataContentType = cloudEvent.DataContentType,
+                        Subject = cloudEvent.Subject,
+                        DataSchema = cloudEvent.DataSchema
+                    };
                 }
             }
 

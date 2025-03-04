@@ -195,6 +195,7 @@ public class MemMonEnvoyTests
         Assert.True(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData.ContainsKey(MemoryStatsUserDataKey));
         Assert.Equal(MemoryStatsUserDataValue, memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData[MemoryStatsUserDataKey]);
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp);
+        Assert.NotNull(MemoryStatsTelemetryMetadata.Timestamp);
         Assert.Equal(0, MemoryStatsTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].Timestamp!));
 
         Assert.NotNull(memmonClient.ReceivedMemoryStatsTelemetryMetadata[0].UserData);
@@ -205,12 +206,14 @@ public class MemMonEnvoyTests
         Assert.True(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].UserData.ContainsKey(WorkingSetUserDataKey));
         Assert.Equal(WorkingSetUserDataValue, memmonClient.ReceivedWorkingSetTelemetryMetadata[0].UserData[WorkingSetUserDataKey]);
         Assert.NotNull(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp);
+        Assert.NotNull(WorkingSetTelemetryMetadata.Timestamp);
         Assert.Equal(0, WorkingSetTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedWorkingSetTelemetryMetadata[0].Timestamp!));
 
         Assert.NotNull(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData);
         Assert.True(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData.ContainsKey(ManagedMemoryUserDataKey));
         Assert.Equal(ManagedMemoryUserDataValue, memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].UserData[ManagedMemoryUserDataKey]);
         Assert.NotNull(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp);
+        Assert.NotNull(ManagedMemoryTelemetryMetadata.Timestamp);
         Assert.Equal(0, ManagedMemoryTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!));
     }
 
@@ -243,7 +246,7 @@ public class MemMonEnvoyTests
         Assert.Equal("False", resp.DiagnosticResults["enabled"]);
     }
 
-    void AssertUserProperty(Dictionary<string, string> props, string name, string value)
+    private void AssertUserProperty(Dictionary<string, string> props, string name, string value)
     {
 
         var prop = props.FirstOrDefault(x => x.Key == name); 

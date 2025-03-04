@@ -1,4 +1,4 @@
-name: CI-dotnet
+name: CI-Dotnet
 
 on:
   workflow_dispatch:
@@ -35,27 +35,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install AIO
+      uses: ./.github/actions/deploy-aio
       with:
-        fetch-depth: 0
-    
-    - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.301
-    
-    - name: Setup .NET 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.200
-    
+        wait-for-broker: 'true'
+        install-dotnet: 'true'
+
     - name: dotnet info
       run: dotnet --info
 
-    - name: Setup Cluster
-      run: |
-        tools/deployment/initialize-cluster.sh
-        tools/deployment/deploy-aio.sh nightly
-        
     - name: Install Protoc
       uses: arduino/setup-protoc@v3
 
@@ -140,11 +129,11 @@ jobs:
         echo "CLIENT_CERT=$(pwd)/.session/client.crt" >> $GITHUB_ENV 
       
     - name: Test SDK (TLS + SAT)
-      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
     - name: Test SDK (TLS + x509)
       run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
-    
+
     - name: Build DSS CLI (Debug)
       run:  |
         cd tools/dsscli/src/Azure.Iot.Operations.Services.DssCli
@@ -153,6 +142,94 @@ jobs:
 
     - name: Build DSS CLI (Release)
       run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
+
+    - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Mqtt.IntegrationTests Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+        
+    - name: Azure.Iot.Operations.Protocol.IntegrationTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol.MetlTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.MetlTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services.IntegrationTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Connector.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Connector.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
 
     - uses: dorny/test-reporter@v1
       id: test-reporter
