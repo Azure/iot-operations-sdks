@@ -18,7 +18,11 @@ public class CustomTopicTokenService : CustomTopicTokens.Service
     {
         string customTopicTokenValue1 = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
         string customTopicTokenValue2 = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
-        Console.WriteLine("Received RPC call with token values " + customTopicTokenValue1 + " " + customTopicTokenValue2);
+        Console.WriteLine("Received RPC call with token values: ");
+        foreach (string key in requestMetadata.TopicTokens.Keys)
+        {
+            Console.WriteLine("     " + key +" : " + requestMetadata.TopicTokens[key]);
+        }
         return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenResponsePayload>
         {
             Response = new ReadCustomTopicTokenResponsePayload { CustomTopicTokenResponse = customTopicTokenValue1 }
