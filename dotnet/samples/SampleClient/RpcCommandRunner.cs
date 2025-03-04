@@ -43,13 +43,12 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         
         Dictionary<string, string> transientTopicTokenMap = new Dictionary<string, string>();
         transientTopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
-        transientTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
         transientTopicTokenMap["ex:commandName"] = "someCommandName1";
-        transientTopicTokenMap["commandName"] = "someCommandName2";
+        //transientTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
+        //transientTopicTokenMap["commandName"] = "someCommandName2";
 
         try
         {
-
             ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, cmdMetadata, transientTopicTokenMap).WithMetadata();
             logger.LogInformation("Sent custom topic token request");
         }
