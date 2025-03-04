@@ -17,7 +17,8 @@ public class CustomTopicTokenService : CustomTopicTokens.Service
     public override Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string customTopicTokenValue = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
-        Console.WriteLine("Received RPC call with token value: " + customTopicTokenValue);
+        string commandNameTopicTokenValue = requestMetadata.TopicTokens["commandName"];
+        Console.WriteLine("Received RPC call with custom token value: " + customTopicTokenValue + " and command name " + commandNameTopicTokenValue);
 
         return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenResponsePayload>
         {
