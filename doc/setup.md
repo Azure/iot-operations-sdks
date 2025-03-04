@@ -42,6 +42,11 @@ The following development environment setups utilise [k3d](https://k3d.io/#what-
 
 ### Windows Subsystem for Linux (WSL)
 
+> [!CAUTION]
+> The current v5.15 kernel that ships with WSL does not support Azure IoT Operations, as a kernel feature is missing.
+>
+> You can [build a custom kernel](https://learn.microsoft.com/community/content/wsl-user-msft-kernel-v6), or install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required features.
+
 1. Install Ubuntu on [WSL 2](https://learn.microsoft.com/windows/wsl/install):
 
     ```powershell
@@ -55,11 +60,6 @@ The following development environment setups utilise [k3d](https://k3d.io/#what-
     ```bash
     git clone https://github.com/Azure/iot-operations-sdks
     ```
-
-> [!CAUTION]
-> The current v5.15 kernel that ships with WSL does not support Azure IoT Operations, as a kernel feature is missing.
->
-> You can [build a custom kernel](https://learn.microsoft.com/community/content/wsl-user-msft-kernel-v6), or install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required features.
 
 ## Install Azure IoT Operations
 
