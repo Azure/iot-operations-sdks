@@ -31,7 +31,7 @@ namespace TestEnvoys.Passthrough
                 this.mqttClient = mqttClient;
 
                 this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt};
-                this.passCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.passCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
@@ -39,21 +39,19 @@ namespace TestEnvoys.Passthrough
 
             public abstract Task<ExtendedResponse<byte[]>> PassAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string>? transientTopicTokenMap = new()
-                {
-                    { "executorId", clientId },
-                };
+                topicTokenMap["executorId"] = clientId 
 
                 await Task.WhenAll(
-                    this.passCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.passCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -90,13 +88,13 @@ namespace TestEnvoys.Passthrough
                 this.mqttClient = mqttClient;
 
                 this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient);
-                this.passCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.passCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PassCommandInvoker PassCommandInvoker { get => this.passCommandInvoker; }
 
 
-            public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -105,17 +103,13 @@ namespace TestEnvoys.Passthrough
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                    { "executorId", executorId },
-                };
+                topicTokenMap ??= new();
+                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                combinedTopicTokenMap["invokerClientId"] = clientId;
+                combinedTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

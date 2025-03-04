@@ -33,9 +33,9 @@ namespace TestEnvoys.CustomTopicTokens
                 this.mqttClient = mqttClient;
 
                 this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt};
-                this.readCustomTopicTokenCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.readCustomTopicTokenCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
-                this.telemetrySender.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.telemetrySender.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public ReadCustomTopicTokenCommandExecutor ReadCustomTopicTokenCommandExecutor { get => this.readCustomTopicTokenCommandExecutor; }
@@ -49,21 +49,19 @@ namespace TestEnvoys.CustomTopicTokens
                 await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap?.Select(kvp => new KeyValuePair<string, string>($"ex:{kvp.Key}", kvp.Value))?.ToDictionary(), qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string>? transientTopicTokenMap = new()
-                {
-                    { "executorId", clientId },
-                };
+                topicTokenMap["executorId"] = clientId 
 
                 await Task.WhenAll(
-                    this.readCustomTopicTokenCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.readCustomTopicTokenCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -103,9 +101,9 @@ namespace TestEnvoys.CustomTopicTokens
                 this.mqttClient = mqttClient;
 
                 this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient);
-                this.readCustomTopicTokenCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.readCustomTopicTokenCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.telemetryReceiver.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.telemetryReceiver.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public ReadCustomTopicTokenCommandInvoker ReadCustomTopicTokenCommandInvoker { get => this.readCustomTopicTokenCommandInvoker; }
@@ -114,7 +112,7 @@ namespace TestEnvoys.CustomTopicTokens
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 
-            public RpcCallAsync<ReadCustomTopicTokenResponsePayload> ReadCustomTopicTokenAsync(string executorId, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<ReadCustomTopicTokenResponsePayload> ReadCustomTopicTokenAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -123,23 +121,21 @@ namespace TestEnvoys.CustomTopicTokens
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                    { "executorId", executorId },
-                };
+                topicTokenMap ??= new();
+                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                combinedTopicTokenMap["invokerClientId"] = clientId;
+                combinedTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<ReadCustomTopicTokenResponsePayload>(this.readCustomTopicTokenCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<ReadCustomTopicTokenResponsePayload>(this.readCustomTopicTokenCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public async Task StartAsync(CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, CancellationToken cancellationToken = default)
             {
+                topicTokenMap ??= new();
+
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StartAsync(topicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

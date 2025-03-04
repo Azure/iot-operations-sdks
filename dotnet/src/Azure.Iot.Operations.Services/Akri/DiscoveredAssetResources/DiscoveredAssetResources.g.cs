@@ -33,9 +33,9 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.mqttClient = mqttClient;
 
                 this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt};
-                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
-                this.createDiscoveredAssetCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.createDiscoveredAssetCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }
@@ -46,22 +46,20 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
 
             public abstract Task<ExtendedResponse<CreateDiscoveredAssetResponsePayload>> CreateDiscoveredAssetAsync(CreateDiscoveredAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string>? transientTopicTokenMap = new()
-                {
-                    { "executorId", clientId },
-                };
+                topicTokenMap["executorId"] = clientId 
 
                 await Task.WhenAll(
-                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
-                    this.createDiscoveredAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
+                    this.createDiscoveredAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -107,16 +105,16 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.mqttClient = mqttClient;
 
                 this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(applicationContext, mqttClient);
-                this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
-                this.createDiscoveredAssetCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.createDiscoveredAssetCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandInvoker CreateDiscoveredAssetEndpointProfileCommandInvoker { get => this.createDiscoveredAssetEndpointProfileCommandInvoker; }
             public CreateDiscoveredAssetCommandInvoker CreateDiscoveredAssetCommandInvoker { get => this.createDiscoveredAssetCommandInvoker; }
 
 
-            public RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -125,19 +123,15 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                };
+                topicTokenMap ??= new();
+                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                combinedTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<CreateDiscoveredAssetResponsePayload> CreateDiscoveredAssetAsync(CreateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<CreateDiscoveredAssetResponsePayload> CreateDiscoveredAssetAsync(CreateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -146,16 +140,12 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                };
+                topicTokenMap ??= new();
+                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                combinedTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<CreateDiscoveredAssetResponsePayload>(this.createDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<CreateDiscoveredAssetResponsePayload>(this.createDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

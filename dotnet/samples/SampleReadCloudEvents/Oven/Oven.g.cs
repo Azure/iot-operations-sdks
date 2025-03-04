@@ -31,7 +31,7 @@ namespace SampleReadCloudEvents.Oven
                 this.mqttClient = mqttClient;
 
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
-                this.telemetrySender.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.telemetrySender.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public TelemetrySender TelemetrySender { get => this.telemetrySender; }
@@ -65,7 +65,7 @@ namespace SampleReadCloudEvents.Oven
                 this.mqttClient = mqttClient;
 
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.telemetryReceiver.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.telemetryReceiver.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
@@ -73,10 +73,12 @@ namespace SampleReadCloudEvents.Oven
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 
-            public async Task StartAsync(CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, CancellationToken cancellationToken = default)
             {
+                topicTokenMap ??= new();
+
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StartAsync(topicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
