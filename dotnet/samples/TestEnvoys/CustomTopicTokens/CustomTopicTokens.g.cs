@@ -27,20 +27,20 @@ namespace TestEnvoys.CustomTopicTokens
             private readonly ReadCustomTopicTokenCommandExecutor readCustomTopicTokenCommandExecutor;
             private readonly TelemetrySender telemetrySender;
 
-            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt};
+                this.readCustomTopicTokenCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
+                this.telemetrySender.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public ReadCustomTopicTokenCommandExecutor ReadCustomTopicTokenCommandExecutor { get => this.readCustomTopicTokenCommandExecutor; }
             public TelemetrySender TelemetrySender { get => this.telemetrySender; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public abstract Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -97,20 +97,20 @@ namespace TestEnvoys.CustomTopicTokens
             private readonly ReadCustomTopicTokenCommandInvoker readCustomTopicTokenCommandInvoker;
             private readonly TelemetryReceiver telemetryReceiver;
 
-            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient);
+                this.readCustomTopicTokenCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.telemetryReceiver.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public ReadCustomTopicTokenCommandInvoker ReadCustomTopicTokenCommandInvoker { get => this.readCustomTopicTokenCommandInvoker; }
             public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 

@@ -25,18 +25,17 @@ namespace TestEnvoys.Passthrough
             private IMqttPubSubClient mqttClient;
             private readonly PassCommandExecutor passCommandExecutor;
 
-            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt};
+                this.passCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public abstract Task<ExtendedResponse<byte[]>> PassAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -85,18 +84,17 @@ namespace TestEnvoys.Passthrough
             private IMqttPubSubClient mqttClient;
             private readonly PassCommandInvoker passCommandInvoker;
 
-            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient);
+                this.passCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PassCommandInvoker PassCommandInvoker { get => this.passCommandInvoker; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {

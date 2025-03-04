@@ -26,20 +26,20 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             private readonly PutCommandExecutor putCommandExecutor;
             private readonly GetCommandExecutor getCommandExecutor;
 
-            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt};
+                this.putCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
+                this.getCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }
             public GetCommandExecutor GetCommandExecutor { get => this.getCommandExecutor; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public abstract Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -100,20 +100,20 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             private readonly PutCommandInvoker putCommandInvoker;
             private readonly GetCommandInvoker getCommandInvoker;
 
-            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.putCommandInvoker = new PutCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.putCommandInvoker = new PutCommandInvoker(applicationContext, mqttClient);
+                this.putCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
+                this.getCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PutCommandInvoker PutCommandInvoker { get => this.putCommandInvoker; }
             public GetCommandInvoker GetCommandInvoker { get => this.getCommandInvoker; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public RpcCallAsync<PutResponsePayload> PutAsync(PutRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
