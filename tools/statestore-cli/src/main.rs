@@ -9,7 +9,7 @@ use clap::{Parser, Subcommand};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder, SessionConnectionMonitor
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
@@ -129,6 +129,7 @@ async fn main() {
             let get_join_handle = tokio::task::spawn(state_store_get_value(
                 application_context.clone(),
                 session.create_managed_client(),
+                session.create_connection_monitor(),
                 session.create_exit_handle(),
                 key,
                 valuefile,
@@ -151,6 +152,7 @@ async fn main() {
             let set_join_handle = tokio::task::spawn(state_store_set_value(
                 application_context.clone(),
                 session.create_managed_client(),
+                session.create_connection_monitor(),
                 session.create_exit_handle(),
                 key,
                 actual_value,
@@ -164,6 +166,7 @@ async fn main() {
             let delete_join_handle = tokio::task::spawn(state_store_delete_key(
                 application_context.clone(),
                 session.create_managed_client(),
+                session.create_connection_monitor(),
                 session.create_exit_handle(),
                 key,
             ));
@@ -180,6 +183,7 @@ async fn main() {
 async fn state_store_get_value(
     context: ApplicationContext,
     client: SessionManagedClient,
+    connection_monitor: SessionConnectionMonitor,
     exit_handle: SessionExitHandle,
     key: String,
     valuefile: Option<String>,
@@ -191,6 +195,7 @@ async fn state_store_get_value(
     let state_store_client = state_store::Client::new(
         context,
         client,
+        connection_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
@@ -228,6 +233,7 @@ async fn state_store_get_value(
 async fn state_store_set_value(
     context: ApplicationContext,
     client: SessionManagedClient,
+    connection_monitor: SessionConnectionMonitor,
     exit_handle: SessionExitHandle,
     key: String,
     value: String,
@@ -240,6 +246,7 @@ async fn state_store_set_value(
     let state_store_client = state_store::Client::new(
         context,
         client,
+        connection_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
@@ -276,6 +283,7 @@ async fn state_store_set_value(
 async fn state_store_delete_key(
     context: ApplicationContext,
     client: SessionManagedClient,
+    connection_monitor: SessionConnectionMonitor,
     exit_handle: SessionExitHandle,
     key: String,
 ) -> i32 {
@@ -286,6 +294,7 @@ async fn state_store_delete_key(
     let state_store_client = state_store::Client::new(
         context,
         client,
+        connection_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
