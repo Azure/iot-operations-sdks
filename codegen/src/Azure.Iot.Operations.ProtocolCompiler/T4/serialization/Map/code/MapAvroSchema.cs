@@ -6,11 +6,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         private readonly DTSchemaInfo valueSchema;
         private readonly int indent;
+        private readonly CodeName? sharedPrefix;
 
-        public MapAvroSchema(DTSchemaInfo valueSchema, int indent)
+        public MapAvroSchema(DTSchemaInfo valueSchema, int indent, CodeName? sharedPrefix)
         {
             this.valueSchema = valueSchema;
             this.indent = indent;
+            this.sharedPrefix = sharedPrefix;
         }
 
         public string FileName { get => string.Empty; }

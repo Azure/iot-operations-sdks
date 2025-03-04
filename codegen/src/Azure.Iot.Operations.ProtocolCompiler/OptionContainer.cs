@@ -22,17 +22,20 @@
         /// <summary>Gets or sets the directory for receiving generated code.</summary>
         public required DirectoryInfo OutDir { get; set; }
 
-        /// <summary>Gets or sets the programming language for generated code.</summary>
-        public required string Lang { get; set; }
+        /// <summary>Gets or sets a namespace for generated code.</summary>
+        public string? GenNamespace { get; set; }
+
+        /// <summary>Gets or sets a DTMI prefix for shared schemas.</summary>
+        public string? SharedPrefix { get; set; }
 
         /// <summary>Gets or sets an indication of whether to generate synchronous API.</summary>
         public bool Sync { get; set; }
 
-        /// <summary>Gets or sets a namespace for generated code.</summary>
-        public string? GenNamespace { get; set; }
-
         /// <summary>Gets or sets a local path or feed URL for Azure.Iot.Operations.Protocol SDK.</summary>
         public string? SdkPath { get; set; }
+
+        /// <summary>Gets or sets the programming language for generated code.</summary>
+        public required string Lang { get; set; }
 
         /// <summary>Gets or sets an indication of whether to generate only client-side code.</summary>
         public bool ClientOnly { get; set; }

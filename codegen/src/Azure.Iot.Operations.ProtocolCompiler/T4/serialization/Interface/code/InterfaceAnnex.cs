@@ -7,6 +7,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? Namespace { get; } = AnnexFileProperties.Namespace;
 
+        public static string? Shared { get; } = AnnexFileProperties.Shared;
+
         public static string? ModelId { get; } = AnnexFileProperties.ModelId;
 
         public static string? ServiceName { get; } = AnnexFileProperties.ServiceName;
@@ -35,6 +37,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? CmdResponseSchema { get; } = AnnexFileProperties.CmdResponseSchema;
 
+        public static string? CmdRequestNamespace { get; } = AnnexFileProperties.CmdRequestNamespace;
+
+        public static string? CmdResponseNamespace { get; } = AnnexFileProperties.CmdResponseNamespace;
+
         public static string? CmdIsIdempotent { get; } = AnnexFileProperties.CmdIsIdempotent;
 
         public static string? CmdCacheability { get; } = AnnexFileProperties.Cacheability;
@@ -43,6 +49,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private readonly string projectName;
         private readonly CodeName genNamespace;
+        private readonly CodeName? sharedPrefix;
         private readonly string modelId;
         private readonly string serializationFormat;
         private readonly CodeName serviceName;
@@ -57,6 +64,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public InterfaceAnnex(
             string projectName,
             CodeName genNamespace,
+            CodeName? sharedPrefix,
             string modelId,
             string serializationFormat,
             CodeName serviceName,
@@ -70,6 +78,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.sharedPrefix = sharedPrefix;
             this.modelId = modelId;
             this.serializationFormat = serializationFormat;
             this.serviceName = serviceName;

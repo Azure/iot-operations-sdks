@@ -10,9 +10,10 @@
     {
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
-        public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath)
+        public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath, CodeName genNamespace)
         {
             StreamReader schemaReader = File.OpenText(schemaFilePath);
+            Path.GetFileName(schemaFilePath);
             List<SchemaType> schemaTypes = new();
 
             using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))
@@ -26,12 +27,14 @@
                         HashSet<string> requiredFields = schemaDoc.RootElement.TryGetProperty("required", out JsonElement requredElt) ? requredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                         schemaTypes.Add(new ObjectType(
                             schemaName,
+                            genNamespace,
                             description,
                             schemaDoc.RootElement.GetProperty("properties").EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(p.Name, p.Value, requiredFields, schemaFilePath))));
                         break;
                     case "integer":
                         schemaTypes.Add(new EnumType(
                             schemaName,
+                            genNamespace,
                             description,
                             names: schemaDoc.RootElement.GetProperty("x-enumNames").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray(),
                             intValues: schemaDoc.RootElement.GetProperty("enum").EnumerateArray().Select(e => e.GetInt32()).ToArray()));
@@ -39,6 +42,7 @@
                     case "string":
                         schemaTypes.Add(new EnumType(
                             schemaName,
+                            genNamespace,
                             description,
                             names: schemaDoc.RootElement.GetProperty("x-enumNames").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray(),
                             stringValues: schemaDoc.RootElement.GetProperty("enum").EnumerateArray().Select(e => e.GetString()!).ToArray()));
@@ -63,8 +67,8 @@
             if (schemaElt.TryGetProperty("$ref", out JsonElement refElt))
             {
                 string refFilePath = Path.Combine(Path.GetDirectoryName(schemaFilePath)!, refElt.GetString()!);
-                GetTitleAndType(refFilePath, out string title, out string type);
-                return new ReferenceType(new CodeName(title), isNullable: type == "object");
+                GetTitleTypeAndNamespace(refFilePath, out string title, out string type, out string genNamespace);
+                return new ReferenceType(new CodeName(title), new CodeName(genNamespace), isNullable: type == "object");
             }
             switch (schemaElt.GetProperty("type").GetString())
             {
@@ -126,7 +130,7 @@
             }
         }
 
-        private void GetTitleAndType(string refFilePath, out string title, out string type)
+        private void GetTitleTypeAndNamespace(string refFilePath, out string title, out string type, out string genNamespace)
         {
             StreamReader refReader = File.OpenText(refFilePath);
             using (JsonDocument refDoc = JsonDocument.Parse(refReader.ReadToEnd()))
@@ -144,6 +148,7 @@
                 {
                     title = titleElt.GetString()!;
                     type = typeElt.GetString()!;
+                    genNamespace = Path.GetFileName(Path.GetDirectoryName(refFilePath))!;
                 }
             }
         }
