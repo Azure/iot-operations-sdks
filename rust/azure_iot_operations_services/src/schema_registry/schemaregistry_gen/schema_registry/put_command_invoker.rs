@@ -40,9 +40,9 @@ impl PutRequestBuilder {
     /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        topic_tokens.into_iter().for_each(|(k, v)| {
+        for (k, v) in topic_tokens.into_iter() {
             self.topic_tokens.insert(format!("ex:{k}"), v);
-        });
+        }
         self
     }
 
