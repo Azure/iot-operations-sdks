@@ -70,19 +70,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public TimeSpan CacheTtl { get; init; }
 
-        /// <summary>
-        /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in request and response topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
+        private readonly Dictionary<string, string> _topicTokenReplacementMap;
 
-        /// <summary>
-        /// Gets a dictionary used by this class's code for substituting tokens in request and response topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
-
-        public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
+        public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer, Dictionary<string, string>? topicTokenReplacementMap = null)
         {
             if (commandName == null || commandName == string.Empty)
             {
@@ -110,6 +100,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             CacheTtl = XmlConvert.ToTimeSpan(AttributeRetriever.GetAttribute<CommandBehaviorAttribute>(this)?.CacheTtl ?? "PT0H0M0S");
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
+            _topicTokenReplacementMap = topicTokenReplacementMap ?? new();
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -300,7 +291,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public async Task StartAsync(int? preferredDispatchConcurrency = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? topicTokenReplacementMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -330,7 +321,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    await SubscribeAsync(transientTopicTokenMap, cancellationToken).ConfigureAwait(false);
+                    await SubscribeAsync(topicTokenReplacementMap, cancellationToken).ConfigureAwait(false);
                 }
 
                 _isRunning = true;
@@ -356,9 +347,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Trace.TraceInformation($"Command executor for '{_commandName}' stopped.");
         }
 
-        private async Task SubscribeAsync(IReadOnlyDictionary<string, string>? transientTopicTokenMap, CancellationToken cancellationToken = default)
+        private async Task SubscribeAsync(Dictionary<string, string>? topicTokenReplacementMap, CancellationToken cancellationToken = default)
         {
-            string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic(transientTopicTokenMap)}" : GetCommandTopic(transientTopicTokenMap);
+            string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic(topicTokenReplacementMap)}" : GetCommandTopic(topicTokenReplacementMap);
 
             MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce;
             MqttClientSubscribeOptions mqttSubscribeOptions = new(new MqttTopicFilter(requestTopicFilter, qos));
@@ -606,8 +597,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return _dispatcher;
         }
 
-        private string GetCommandTopic(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
+        private string GetCommandTopic(Dictionary<string, string>? topicTokenMap = null)
         {
+            topicTokenMap ??= new();
             StringBuilder commandTopic = new();
 
             if (TopicNamespace != null)
@@ -616,7 +608,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap));
+            MqttTopicProcessor.SplitTopicTokenMap(topicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, effectiveTopicTokenMap, transientTopicTokenMap));
 
             return commandTopic.ToString();
         }
@@ -628,7 +622,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid", commandName: _commandName);
             }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+            MqttTopicProcessor.SplitTopicTokenMap(_topicTokenReplacementMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, effectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch
@@ -695,7 +691,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     Trace.TraceWarning("Failed to stop the command executor while disposing it: {0}", ex);
                 }
 
-                TopicTokenMap?.Clear();
                 _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
 
                 if (disposing)

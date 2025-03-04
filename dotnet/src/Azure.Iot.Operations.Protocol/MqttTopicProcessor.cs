@@ -176,6 +176,22 @@ namespace Azure.Iot.Operations.Protocol
             return PatternValidity.Valid;
         }
 
+        public static void SplitTopicTokenMap(Dictionary<string, string> topicTokenMap, out Dictionary<string, string> effectiveTopicTokenMap, out Dictionary<string, string> transientTopicTokenMap)
+        {
+            effectiveTopicTokenMap = new Dictionary<string, string>();
+            transientTopicTokenMap = new Dictionary<string, string>();
+
+            foreach (string topicTokenKey in topicTokenMap.Keys)
+            {
+                if (topicTokenKey.StartsWith("ex:", StringComparison.Ordinal))
+                {
+                    transientTopicTokenMap.Add(topicTokenKey, topicTokenMap[topicTokenKey]);
+                }
+
+                effectiveTopicTokenMap.Add(topicTokenKey, topicTokenMap[topicTokenKey]);
+            }
+        }
+
         private static bool ContainsInvalidChar(string s)
         {
             foreach (char c in s)

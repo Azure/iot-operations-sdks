@@ -159,8 +159,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return responseTopicPattern.ToString();
         }
 
-        private string GetCommandTopic(string pattern, IReadOnlyDictionary<string, string>? topicTokenMap)
+        private string GetCommandTopic(string pattern, Dictionary<string, string>? topicTokenMap = null)
         {
+            topicTokenMap ??= new();
             StringBuilder commandTopic = new();
 
             if (TopicNamespace != null)
@@ -174,21 +175,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            var effectiveTopicTokenMap = new Dictionary<string, string>();
-            var transientTopicTokenMap = new Dictionary<string, string>();
-
-            if (topicTokenMap != null)
-            {
-                foreach (string topicTokenKey in topicTokenMap.Keys)
-                {
-                    if (topicTokenKey.StartsWith("ex:", StringComparison.Ordinal))
-                    {
-                        transientTopicTokenMap.Add(topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-
-                    effectiveTopicTokenMap.Add(topicTokenKey, topicTokenMap[topicTokenKey]);
-                }
-            }
+            MqttTopicProcessor.SplitTopicTokenMap(topicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
 
             commandTopic.Append(MqttTopicProcessor.ResolveTopic(pattern, effectiveTopicTokenMap, transientTopicTokenMap));
 
@@ -515,18 +502,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             Dictionary<string, string> baseTopicTokenMap = topicTokenMap ?? _topicTokenReplacementMap ?? new();
-            var effectiveTopicTokenMap = new Dictionary<string, string>();
-            var transientTopicTokenMap = new Dictionary<string, string>();
-
-            foreach (string topicTokenKey in baseTopicTokenMap.Keys)
-            {
-                if (topicTokenKey.StartsWith("ex:", StringComparison.Ordinal))
-                {
-                    transientTopicTokenMap.Add(topicTokenKey, baseTopicTokenMap[topicTokenKey]);
-                }
-
-                effectiveTopicTokenMap.Add(topicTokenKey, baseTopicTokenMap[topicTokenKey]);
-            }
+            MqttTopicProcessor.SplitTopicTokenMap(baseTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
 
             PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, effectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
