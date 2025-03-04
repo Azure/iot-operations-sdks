@@ -33,6 +33,18 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         await _memMonService!.StartAsync(null, stoppingToken);
         await _customTopicTokenService.StartAsync(null, stoppingToken);
 
+        _ = Task.Run(async () =>
+        {
+            // Periodically send telemetry from custom topic token service to the custom topic token client
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                Dictionary<string, string> transientTopicTokens = new();
+                transientTopicTokens["ex:myCustomTopicToken"] = Guid.NewGuid().ToString();
+                await _customTopicTokenService.SendTelemetryAsync(new(), new(), transientTopicTokens);
+            }
+        });
+
         while (!stoppingToken.IsCancellationRequested)
         {
             string? res = Console.ReadLine();
