@@ -2,20 +2,21 @@
 
 #nullable enable
 
-namespace SampleCloudEvents.Oven
+namespace SampleReadCloudEvents.Oven
 {
+    using System;
     using System.Collections.Generic;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Protocol.Models;
-    using SampleCloudEvents;
+    using SampleReadCloudEvents;
 
     public static partial class Oven
     {
         /// <summary>
-        /// Specializes the <c>TelemetrySender</c> class for type <c>TelemetryCollection</c>.
+        /// Specializes the <c>TelemetryReceiver</c> class for type <c>TelemetryCollection</c>.
         /// </summary>
-        public class TelemetrySender : TelemetrySender<TelemetryCollection>
+        public class TelemetryReceiver : TelemetryReceiver<TelemetryCollection>
         {
             private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
 
@@ -36,18 +37,14 @@ namespace SampleCloudEvents.Oven
             protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="TelemetrySender"/> class.
+            /// Initializes a new instance of the <see cref="TelemetryReceiver"/> class.
             /// </summary>
-            public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:akri:samples:oven;1";
-                if (mqttClient.ClientId != null)
-                {
-                    base.TopicTokenMap["senderId"] = mqttClient.ClientId;
-                }
             }
         }
     }
