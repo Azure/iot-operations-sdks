@@ -23,7 +23,7 @@
         },
         {
             "@type": "Telemetry",
-            "name": "announcedCustomTopicTokenValue",
+            "name": "CustomTopicTokenPayload",
             "schema": "string"
         }
     ]

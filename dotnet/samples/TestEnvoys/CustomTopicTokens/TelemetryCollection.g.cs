@@ -13,11 +13,11 @@ namespace TestEnvoys.CustomTopicTokens
     public partial class TelemetryCollection
     {
         /// <summary>
-        /// The 'announcedCustomTopicTokenValue' Telemetry.
+        /// The 'CustomTopicTokenPayload' Telemetry.
         /// </summary>
-        [JsonPropertyName("announcedCustomTopicTokenValue")]
+        [JsonPropertyName("CustomTopicTokenPayload")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AnnouncedCustomTopicTokenValue { get; set; } = default;
+        public string? CustomTopicTokenPayload { get; set; } = default;
 
     }
 }
