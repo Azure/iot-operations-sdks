@@ -80,7 +80,7 @@ where
     pub topic_tokens: HashMap<String, String>,
     // Internal fields
     command_name: String,
-    response_tx: oneshot::Sender<Result<CommandResponse<TResp>, String>>,
+    response_tx: oneshot::Sender<CommandResponse<TResp>>,
     publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
 }
 
@@ -111,32 +111,15 @@ where
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
     /// if the response publish completion fails. This should not happen.
     pub async fn complete(self, response: CommandResponse<TResp>) -> Result<(), AIOProtocolError> {
-        self.send_response(Ok(response)).await
-    }
+        // We can ignore the error here. If the receiver of the response is dropped it may be
+        // because the executor is shutting down in which case the receive below will fail.
+        // If the executor is not shutting down, the receive below will succeed and we'll receive a
+        // timeout error since that is the only possible error at this point.
+        let _ = self.response_tx.send(response);
 
-    /// Consumes the command request and reports an error to the executor. An attempt is made to
-    /// send the error to the invoker.
-    ///
-    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
-    ///
-    /// # Arguments
-    /// * `error` - The error message to send.
-    ///
-    /// # Errors
-    ///
-    /// [`AIOProtocolError`] of kind [`Timeout`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Timeout) if the command request
-    /// has expired.
-    ///
-    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the error
-    /// acknowledgement returns an error.
-    ///
-    /// [`AIOProtocolError`] of kind [`Cancellation`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Cancellation) if the
-    /// executor is dropped.
-    ///
-    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
-    /// if the error publish completion fails. This should not happen.
-    pub async fn error(self, error: String) -> Result<(), AIOProtocolError> {
-        self.send_response(Err(error)).await
+        self.publish_completion_rx
+            .await
+            .map_err(|_| Self::create_cancellation_error(self.command_name))?
     }
 
     fn create_cancellation_error(command_name: String) -> AIOProtocolError {
@@ -150,21 +133,6 @@ where
             ),
             Some(command_name),
         )
-    }
-
-    async fn send_response(
-        self,
-        response: Result<CommandResponse<TResp>, String>,
-    ) -> Result<(), AIOProtocolError> {
-        // We can ignore the error here. If the receiver of the response is dropped it may be
-        // because the executor is shutting down in which case the receive below will fail.
-        // If the executor is not shutting down, the receive below will succeed and we'll receive a
-        // timeout error since that is the only possible error at this point.
-        let _ = self.response_tx.send(response);
-
-        self.publish_completion_rx
-            .await
-            .map_err(|_| Self::create_cancellation_error(self.command_name))?
     }
 
     /// Check if the command response is no longer expected.
@@ -1049,7 +1017,7 @@ where
         client: C,
         pkid: u16,
         mut response_arguments: ResponseArguments,
-        response_rx: Option<oneshot::Receiver<Result<CommandResponse<TResp>, String>>>,
+        response_rx: Option<oneshot::Receiver<CommandResponse<TResp>>>,
         completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
         cache: CommandExecutorCache,
     ) {
@@ -1085,16 +1053,7 @@ where
                     .await
                     {
                         if let Ok(response_app) = response_timer {
-                            match response_app {
-                                Ok(response) => response,
-                                Err(e) => {
-                                    response_arguments.status_code =
-                                        StatusCode::InternalServerError;
-                                    response_arguments.status_message = Some(e);
-                                    response_arguments.is_application_error = true;
-                                    break 'process_response;
-                                }
-                            }
+                            response_app
                         } else {
                             // Happens when the sender is dropped by the application.
                             response_arguments.status_code = StatusCode::InternalServerError;
