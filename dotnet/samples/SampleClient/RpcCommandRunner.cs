@@ -42,10 +42,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         logger.LogInformation("topic tokens is null? " + (cmdMetadata.TopicTokens == null));
         
         Dictionary<string, string> transientTopicTokenMap = new Dictionary<string, string>();
-        transientTopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
-        transientTopicTokenMap["ex:commandName"] = "someCommandName1";
-        //transientTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
-        //transientTopicTokenMap["commandName"] = "someCommandName2";
+        //transientTopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
+        //transientTopicTokenMap["ex:commandName"] = "someCommandName1";
+        transientTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
+        transientTopicTokenMap["commandName"] = "someCommandName2";
 
         try
         {
