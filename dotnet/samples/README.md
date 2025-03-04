@@ -1,5 +1,13 @@
 # .NET Samples
 
+> [!CAUTION]
+>
+> The samples and tutorials provided in this repository are for **demonstration purposed only**, and should not be deployed to a production system or included within an application without a full understanding of how they operate.
+>
+> Additionally some samples may use a username and password for authentication. This is used for sample simplicity and a production system should use a robust authentication mechanism such as certificates.
+>
+> To learn more about securing your edge solution, refer to [Security best practices for IoT solutions](https://learn.microsoft.com/azure/iot/iot-overview-security).
+
 This directory contains a variety of samples demonstrating how to use the .NET packages to interact with Azure IoT Operations.
 
 ## Setup your environment
