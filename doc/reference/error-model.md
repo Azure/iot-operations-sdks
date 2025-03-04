@@ -121,9 +121,6 @@ Because the 'command name' field can potentially apply to any error, it is not l
 >
 > * The 'property name' field should indicate the actual programming-language-specific name of the argument, parameter, or property that is missing or invalid.
 > Since language conventions dictate casing rules, these values are expected to diverge across libraries, but only insofar as necessary to represent names in camelCase, PascalCase, or snake_case as appropriate.
->
-> * When an 'unknown error' is surfaced because of an unknown status code from the executor (previously 'invocation error'), the values of 'property name' and 'property value' are set by the user-code execution function, over which the library has no control.
-> The value of 'property value' will always be in the form of a string representation, via whatever string conversion the user code chooses to employ.
 
 To illustrate the use of these error kinds, [Appendix 1](#appendix-1-error-conditions-in-the-c-sdk) tabulates the error conditions currently recognized by the C# SDK and indicates which error kind should be used to express the condition.
 This table also indicates the C# exception type currently thrown for each error condition.
