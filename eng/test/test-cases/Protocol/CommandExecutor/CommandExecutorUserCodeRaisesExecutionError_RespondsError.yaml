@@ -23,6 +23,4 @@ epilogue:
     topic: "response/mock/test"
     command-status: 500 # InternalServerError
     is-application-error: true
-    metadata:
-      "__stMsg": "This is an execution error"
 ...

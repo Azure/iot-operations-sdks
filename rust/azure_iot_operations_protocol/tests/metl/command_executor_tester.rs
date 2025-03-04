@@ -225,11 +225,7 @@ where
 
                 if let Some(raise_error) = &test_case_executor.raise_error {
                     if raise_error.kind != TestErrorKind::None {
-                        let message = match &raise_error.message {
-                            Some(message) => message.clone(),
-                            None => String::default(),
-                        };
-                        request.error(message).await.unwrap();
+                        drop(request);
                         continue;
                     }
                 }

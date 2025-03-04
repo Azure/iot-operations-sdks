@@ -13,9 +13,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
     public class MockMqttPubSubClient : IMqttPubSubClient
     {
         private static int ClientIdIndex;
-
-        private readonly string _clientId;
-        private readonly MqttProtocolVersion _protocolVersion;
         private readonly SemaphoreSlim _messageAcked = new(0);
         private int _mqttPacketId;
         private int _numSubscriptions;
@@ -27,14 +24,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public MockMqttPubSubClient(string? clientId = null, MqttProtocolVersion protocolVersion = MqttProtocolVersion.V500)
         {
-            _clientId = clientId ?? $"MockClientIx{Interlocked.Increment(ref ClientIdIndex)}";
-            _protocolVersion = protocolVersion;
+            ClientId = clientId ?? $"MockClientIx{Interlocked.Increment(ref ClientIdIndex)}";
+            ProtocolVersion = protocolVersion;
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public MqttProtocolVersion ProtocolVersion => _protocolVersion;
+        public MqttProtocolVersion ProtocolVersion { get; }
 
-        public string ClientId => _clientId;
+        public string ClientId { get; }
 
         public MqttApplicationMessage MessagePublished { get; set; }
 

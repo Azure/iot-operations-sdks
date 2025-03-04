@@ -11,12 +11,12 @@ using Google.Protobuf.WellKnownTypes;
 namespace Azure.Iot.Operations.Protocol.UnitTests
 {
 
-    class InvokerStub : CommandInvoker<string, string>
+    internal class InvokerStub : CommandInvoker<string, string>
     {
         public InvokerStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? commandName = "myCmd") : base(applicationContext, mqttClient, commandName!, new Utf8JsonSerializer()) { }
     }
 
-    class InvokerStubProtobuf : CommandInvoker<string, string>
+    internal class InvokerStubProtobuf : CommandInvoker<string, string>
     {
         public InvokerStubProtobuf(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient, "myCmd", new ProtobufSerializer<Empty, Empty>()) { }
     }

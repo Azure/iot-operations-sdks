@@ -13,12 +13,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 {
     internal class MockDatasetSampler : IDatasetSampler
     {
-        private bool _isFaulty;
+        private readonly bool _isFaulty;
         private int _sampleAttemptCount = 0;
 
         public MockDatasetSampler(bool isFaulty = false) 
-        { 
-        
+        {
+            _isFaulty = isFaulty;
         }
 
         public ValueTask DisposeAsync()

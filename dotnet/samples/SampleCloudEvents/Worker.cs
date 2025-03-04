@@ -13,7 +13,7 @@ namespace SampleCloudEvents;
 
 public class Worker(MqttSessionClient mqttClient, OvenService ovenService, SchemaRegistryClient srClient, ILogger<Worker> logger, IConfiguration configuration) : BackgroundService
 {
-    DateTime started = DateTime.UtcNow;
+    private readonly DateTime started = DateTime.UtcNow;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {

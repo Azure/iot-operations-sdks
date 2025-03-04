@@ -2,38 +2,36 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
 
 namespace Azure.Iot.Operations.Protocol.Models
 {
-    public class MqttEnhancedAuthenticationEventArgs
+    public class MqttEnhancedAuthenticationEventArgs : EventArgs
     {
 
         /// <summary>
         ///     Gets the authentication data.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public byte[] AuthenticationData;
+        public byte[] AuthenticationData { get; set; }
 
         /// <summary>
         ///     Gets the authentication method.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public string AuthenticationMethod;
+        public string AuthenticationMethod { get; set; }
 
         /// <summary>
         ///     Gets the reason code.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public MqttAuthenticateReasonCode ReasonCode;
+        public MqttAuthenticateReasonCode ReasonCode { get; set; }
 
         /// <summary>
         ///     Gets the reason string.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public string ReasonString;
+        public string ReasonString { get; set; }
 
         /// <summary>
         ///     Gets the user properties.
@@ -44,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     The feature is very similar to the HTTP header concept.
         ///     Hint: MQTT 5 feature only.
         /// </summary>
-        public List<MqttUserProperty> UserProperties;
+        public List<MqttUserProperty> UserProperties { get; set; }
 
         public MqttEnhancedAuthenticationEventArgs(byte[] authenticationData, string authenticationMethod, MqttAuthenticateReasonCode reasonCode, string reasonString, List<MqttUserProperty> userProperties)
         {

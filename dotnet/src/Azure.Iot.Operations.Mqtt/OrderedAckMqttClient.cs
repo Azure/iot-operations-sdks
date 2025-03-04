@@ -18,13 +18,13 @@ namespace Azure.Iot.Operations.Mqtt;
 /// </remarks>
 public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 {
-    private BlockingConcurrentDelayableQueue<QueuedMqttApplicationMessageReceivedEventArgs> _receivedMessagesToAcknowledgeQueue = new();
+    private readonly BlockingConcurrentDelayableQueue<QueuedMqttApplicationMessageReceivedEventArgs> _receivedMessagesToAcknowledgeQueue = new();
     private CancellationTokenSource _acknowledgementSenderTaskCancellationTokenSource = new();
     private Task? _acknowledgementSenderTask;
    
     private TokenRefreshTimer? _tokenRefresh;
 
-    private object _ctsLockObj = new object();
+    private readonly object _ctsLockObj = new object();
 
     internal bool _disposed;
 
@@ -332,16 +332,16 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     public virtual async ValueTask DisposeAsync()
     {
-        await DisposeAsyncCore(false);
+        await DisposeAsyncCore();
         GC.SuppressFinalize(this);
     }
 
     public virtual async ValueTask DisposeAsync(bool disposing)
     {
-        await DisposeAsyncCore(disposing);
+        await DisposeAsyncCore();
     }
 
-    private async ValueTask DisposeAsyncCore(bool disposing)
+    private async ValueTask DisposeAsyncCore()
     {
         if (!_disposed)
         {
@@ -360,10 +360,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
                 }
             }
 
-            if (_tokenRefresh != null)
-            {
-                _tokenRefresh.Dispose();
-            }
+            _tokenRefresh?.Dispose();
 
             UnderlyingMqttClient.Dispose();
             _acknowledgementSenderTaskCancellationTokenSource.Dispose();
