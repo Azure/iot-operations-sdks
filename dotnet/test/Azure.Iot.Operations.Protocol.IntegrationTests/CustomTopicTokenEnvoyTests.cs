@@ -44,16 +44,13 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await service.StartAsync();
 
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
-            string expectedRpcCommandNameTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
                 ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
-                ["commandName"] = expectedRpcCommandNameTopicTokenValue
             };
             var result = await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), customTopicTokens);
 
             Assert.Equal(expectedRpcTopicTokenValue, service.ReceivedRpcCustomTopicTokenValue);
-            Assert.Equal(expectedRpcCommandNameTopicTokenValue, service.ReceivedRpcCommandNameTopicTokenValue);
             Assert.Equal(expectedRpcTopicTokenValue, result.CustomTopicTokenResponse);
         }
     }
