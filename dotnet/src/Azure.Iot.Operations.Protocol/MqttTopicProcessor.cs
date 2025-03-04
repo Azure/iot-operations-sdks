@@ -141,7 +141,7 @@ namespace Azure.Iot.Operations.Protocol
                         {
                             if (requireReplacement)
                             {
-                                errMsg = $"Token '{level}' in MQTT topic pattern, but key '{token}' not found in replacement map. ";
+                                errMsg = $"Token '{level}' in MQTT topic pattern, but key '{token}' not found in replacement map";
                                 errToken = token;
                                 return PatternValidity.MissingReplacement;
                             }
