@@ -444,8 +444,6 @@ where
     /// - The response has a [`UserProperty::Status`] that isn't one of [`StatusCode`]
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`], the [`UserProperty::IsApplicationError`] is false, and a [`UserProperty::InvalidPropertyName`] isn't provided
     ///
-    /// [`AIOProtocolError`] of kind [`InvocationException`](AIOProtocolErrorKind::InvocationException) if the response has a [`UserProperty::Status`] of [`StatusCode::UnprocessableContent`]
-    ///
     /// [`AIOProtocolError`] of kind [`ExecutionException`](AIOProtocolErrorKind::ExecutionException) if the response has a [`UserProperty::Status`] of [`StatusCode::InternalServerError`] and the [`UserProperty::IsApplicationError`] is true
     ///
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](AIOProtocolErrorKind::InternalLogicError) if
@@ -977,6 +975,9 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     if let Some(mut e) = unknown_status_error {
         if let Some(m) = response_error.message {
             e.message = Some(m);
+            // if property name/value information was included, include it in the error returned
+            e.property_name = invalid_property_name;
+            e.property_value = invalid_property_value.map(Value::String);
         }
         return Err(e);
     }
@@ -1029,12 +1030,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     response_error.kind = AIOProtocolErrorKind::HeaderInvalid;
                     response_error.header_name = invalid_property_name;
                     response_error.header_value = invalid_property_value;
-                }
-                StatusCode::UnprocessableContent => {
-                    response_error.kind = AIOProtocolErrorKind::InvocationException;
-                    response_error.in_application = true;
-                    response_error.property_name = invalid_property_name;
-                    response_error.property_value = invalid_property_value.map(Value::String);
                 }
                 StatusCode::InternalServerError => {
                     response_error.property_value = invalid_property_value.map(Value::String);

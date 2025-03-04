@@ -7,10 +7,6 @@
             "title": "No error."
         },
         {
-            "const": "content",
-            "title": "User code identified an error in the request."
-        },
-        {
             "const": "execution",
             "title": "User code encountered an error while executing the command."
         }
