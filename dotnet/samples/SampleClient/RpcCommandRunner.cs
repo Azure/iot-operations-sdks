@@ -7,7 +7,6 @@ using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
 using TestEnvoys.Math;
 using TestEnvoys.Greeter;
-using System.CodeDom.Compiler;
 using TestEnvoys.CustomTopicTokens;
 
 namespace SampleClient;
@@ -169,7 +168,6 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             Dictionary<string, string> transientTopicTokenMap = new Dictionary<string, string>
             {
                 ["myCustomTopicToken"] = customTopicTokenValue,
-                ["commandName"] = "myCustomCommandName"
             };
             ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, reqMd, transientTopicTokenMap).WithMetadata();
             logger.LogInformation("Invoked custom topic token RPC with custom topic token value " + customTopicTokenValue);
