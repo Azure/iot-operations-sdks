@@ -3,15 +3,17 @@
 
 use std::{sync::Arc, time::Duration};
 
-use tokio::{sync::Mutex, time::sleep};
+use tokio::sync::{Mutex, Notify};
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::leased_lock::{self, AcquireAndUpdateKeyOption};
-use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
+use azure_iot_operations_services::leased_lock::{
+    self, AcquireAndUpdateKeyOption, SetCondition, SetOptions,
+};
+use azure_iot_operations_services::state_store::{self};
 use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
@@ -32,22 +34,25 @@ async fn main() {
     let (mut session2, exit_handle2, state_store_client_arc_mutex2, leased_lock_client2) =
         create_clients(client_id2, lock_name);
 
-    let client_2_task = tokio::task::spawn(async move {
-        leased_lock_client_2_operations(
-            state_store_client_arc_mutex2,
-            leased_lock_client2,
-            exit_handle2,
-        )
-        .await;
-    });
-
-    sleep(Duration::from_secs(1)).await; // Give client 2 chance to observe first.
+    let client_1_notify = Arc::new(Notify::new());
+    let client_2_notify = client_1_notify.clone();
 
     let client_1_task = tokio::task::spawn(async move {
         leased_lock_client_1_operations(
             state_store_client_arc_mutex1,
             leased_lock_client1,
             exit_handle1,
+            client_1_notify,
+        )
+        .await;
+    });
+
+    let client_2_task = tokio::task::spawn(async move {
+        leased_lock_client_2_operations(
+            state_store_client_arc_mutex2,
+            leased_lock_client2,
+            exit_handle2,
+            client_2_notify,
         )
         .await;
     });
@@ -95,6 +100,7 @@ fn create_clients(
     let state_store_client = state_store::Client::new(
         application_context,
         session.create_managed_client(),
+        session.create_connection_monitor(),
         crate::state_store::ClientOptionsBuilder::default()
             .build()
             .unwrap(),
@@ -131,6 +137,7 @@ async fn leased_lock_client_1_operations(
     state_store_client_arc_mutex: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
     leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
+    notify: Arc<Notify>,
 ) {
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(120);
@@ -141,6 +148,9 @@ async fn leased_lock_client_1_operations(
         set_condition: SetCondition::Unconditional,
         expires: Some(Duration::from_secs(15)),
     };
+
+    notify.notified().await; // Wait for Client 2 to observe lock.
+    log::info!("Client 1 notified that Client 2 is observing lock.");
 
     // 1.
     let fencing_token = match leased_lock_client
@@ -191,13 +201,8 @@ async fn leased_lock_client_1_operations(
 
     // 4.
     match leased_lock_client.release_lock(request_timeout).await {
-        Ok(release_lock_response) => {
-            if release_lock_response.response == 1 {
-                log::info!("Lock released successfuly");
-            } else {
-                log::error!("Could not release lock {:?}", release_lock_response);
-                return;
-            }
+        Ok(()) => {
+            log::info!("Lock released successfuly");
         }
         Err(e) => {
             log::error!("Failed releasing lock {:?}", e);
@@ -220,6 +225,7 @@ async fn leased_lock_client_2_operations(
     state_store_client_arc_mutex: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
     leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
+    notify: Arc<Notify>,
 ) {
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(10);
@@ -227,8 +233,7 @@ async fn leased_lock_client_2_operations(
     let shared_resource_key_name = b"someKey";
     let shared_resource_key_value1 = b"someValue1";
     let shared_resource_key_value2 = b"someValue2";
-    let _shared_resource_key_set_options = SetOptions {
-        // TODO: use in acquire_lock_and_update_value
+    let shared_resource_key_set_options = SetOptions {
         set_condition: SetCondition::Unconditional,
         expires: Some(Duration::from_secs(15)),
     };
@@ -240,6 +245,8 @@ async fn leased_lock_client_2_operations(
             .observe_lock(request_timeout)
             .await
             .unwrap();
+
+        notify.notify_one();
 
         loop {
             let Some((notification, _)) = observe_response.response.recv_notification().await
@@ -277,10 +284,7 @@ async fn leased_lock_client_2_operations(
                 if key_current_value.unwrap() == shared_resource_key_value1.to_vec() {
                     AcquireAndUpdateKeyOption::Update(
                         shared_resource_key_value2.to_vec(),
-                        SetOptions {
-                            set_condition: SetCondition::Unconditional,
-                            expires: Some(Duration::from_secs(10)),
-                        },
+                        shared_resource_key_set_options.clone(),
                     )
                 } else {
                     AcquireAndUpdateKeyOption::DoNotUpdate

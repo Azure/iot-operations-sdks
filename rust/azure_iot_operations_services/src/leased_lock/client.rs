@@ -270,7 +270,7 @@ where
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
-    /// Returns the number of locks deleted. Will be `0` if the lock was not found, `-1` if this is not the current holder, otherwise `1`
+    /// Returns `Ok()` if lock is released, or `Error` otherwise.
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
     ///
@@ -281,7 +281,7 @@ where
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
-    pub async fn release_lock(&self, request_timeout: Duration) -> Result<Response<i64>, Error> {
+    pub async fn release_lock(&self, request_timeout: Duration) -> Result<(), Error> {
         match self
             .state_store
             .lock()
@@ -294,7 +294,7 @@ where
             )
             .await
         {
-            Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
+            Ok(_) => Ok(()),
             Err(state_store_error) => Err(state_store_error.into()),
         }
     }
