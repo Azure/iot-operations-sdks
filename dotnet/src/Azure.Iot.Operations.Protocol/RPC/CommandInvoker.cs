@@ -92,22 +92,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            this._applicationContext = applicationContext;
+            _applicationContext = applicationContext;
             if (commandName == null || commandName == string.Empty)
             {
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(commandName), string.Empty);
             }
 
-            this._mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
-            this._commandName = commandName;
-            this._serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
+            _mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
+            _commandName = commandName;
+            _serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
 
             _subscribedTopics = [];
             _requestIdMap = [];
 
             RequestTopicPattern = AttributeRetriever.GetAttribute<CommandTopicAttribute>(this)?.RequestTopic ?? string.Empty;
 
-            this._mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
+            _mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
         }
 
         private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
@@ -218,13 +218,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
             MqttClientSubscribeOptions mqttSubscribeOptions = new(responseTopicFilter, qos);
 
             MqttClientSubscribeResult subAck = await _mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
-            subAck.ThrowIfNotSuccessSubAck(qos, this._commandName);
+            subAck.ThrowIfNotSuccessSubAck(qos, _commandName);
 
             lock (_subscribedTopicsSetLock)
             {
                 _subscribedTopics.Add(responseTopicFilter);
             }
-            Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{this._commandName}'");
+            Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{_commandName}'");
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -284,7 +284,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     MqttUserProperty? statusProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.Status);
 
-                    if (!TryValidateResponseHeaders(args.ApplicationMessage, statusProperty, requestGuidString, out AkriMqttErrorKind errorKind, out string message, out string? headerName, out string? headerValue))
+                    if (!TryValidateResponseHeaders(statusProperty, requestGuidString, out AkriMqttErrorKind errorKind, out string message, out string? headerName, out string? headerValue))
                     {
                         AkriMqttException akriException = new(message)
                         {
@@ -393,7 +393,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         private static bool TryValidateResponseHeaders(
-            MqttApplicationMessage responseMsg,
             MqttUserProperty? statusProperty,
             string correlationId,
             out AkriMqttErrorKind errorKind,
@@ -497,13 +496,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (_requestIdMap.ContainsKey(requestGuid.ToString()))
             {
-                throw new AkriMqttException($"Command '{this._commandName}' invocation failed due to duplicate request with same correlationId")
+                throw new AkriMqttException($"Command '{_commandName}' invocation failed due to duplicate request with same correlationId")
                 {
                     Kind = AkriMqttErrorKind.StateInvalid,
                     InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
-                    CommandName = this._commandName,
+                    CommandName = _commandName,
                     CorrelationId = requestGuid,
                 };
             }
@@ -541,7 +540,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     MessageExpiryInterval = (uint)reifiedCommandTimeout.TotalSeconds,
                 };
 
-                string? clientId = this._mqttClient.ClientId;
+                string? clientId = _mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking a command");
@@ -585,27 +584,27 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                     if (pubReasonCode != MqttClientPublishReasonCode.Success)
                     {
-                        throw new AkriMqttException($"Command '{this._commandName}' invocation failed due to an unsuccessful publishing with the error code {pubReasonCode}.")
+                        throw new AkriMqttException($"Command '{_commandName}' invocation failed due to an unsuccessful publishing with the error code {pubReasonCode}.")
                         {
                             Kind = AkriMqttErrorKind.MqttError,
                             InApplication = false,
                             IsShallow = false,
                             IsRemote = false,
-                            CommandName = this._commandName,
+                            CommandName = _commandName,
                             CorrelationId = requestGuid,
                         };
                     }
-                    Trace.TraceInformation($"Invoked command '{this._commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
+                    Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {
-                    throw new AkriMqttException($"Command '{this._commandName}' invocation failed due to an exception thrown by MQTT Publish.", ex)
+                    throw new AkriMqttException($"Command '{_commandName}' invocation failed due to an exception thrown by MQTT Publish.", ex)
                     {
                         Kind = AkriMqttErrorKind.MqttError,
                         InApplication = false,
                         IsShallow = false,
                         IsRemote = false,
-                        CommandName = this._commandName,
+                        CommandName = _commandName,
                         CorrelationId = requestGuid,
                     };
                 }
@@ -747,7 +746,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, CancellationToken.None).ConfigureAwait(false);
                     if (!unsubAck.IsUnsubAckSuccessful())
                     {
-                        Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{this._commandName}'.");
+                        Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{_commandName}'.");
                     }
                 }
             }

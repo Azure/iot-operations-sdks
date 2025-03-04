@@ -128,8 +128,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             for (int i = 0; i < tasks.Length; i++)
             {
                 CommandRequestMetadata reqMd2 = new();
-                IncrementRequestPayload payload = new IncrementRequestPayload();
-                payload.IncrementValue = 1;
+                IncrementRequestPayload payload = new IncrementRequestPayload
+                {
+                    IncrementValue = 1
+                };
                 logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
                 Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
                 tasks[i] = incrCounterTask;

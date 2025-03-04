@@ -25,8 +25,10 @@ public class CounterEnvoyTests
 
         await counterService.StartAsync(null, CancellationToken.None);
 
-        IncrementRequestPayload payload = new IncrementRequestPayload();
-        payload.IncrementValue = 1;
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = 1
+        };
 
         var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
@@ -68,8 +70,10 @@ public class CounterEnvoyTests
         Assert.Equal(0, resp.Response.CounterResponse);
         
         CommandRequestMetadata reqMd2 = new();
-        IncrementRequestPayload payload = new IncrementRequestPayload();
-        payload.IncrementValue = 1;
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = 1
+        };
         Task[] tasks = new Task[2];
         for (int i = 0; i < tasks.Length; i++)
         {

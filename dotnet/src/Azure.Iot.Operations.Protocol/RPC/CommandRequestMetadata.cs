@@ -79,7 +79,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             CorrelationId = Guid.NewGuid();
             InvokerClientId = null;
-
+            TopicTokens = new();
             UserData = [];
             Timestamp = null;
         }

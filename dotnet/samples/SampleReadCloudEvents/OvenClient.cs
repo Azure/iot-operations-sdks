@@ -13,7 +13,7 @@ public class OvenClient(ApplicationContext applicationContext, MqttSessionClient
     :Oven.Client(applicationContext, mqttClient)
 {
 
-    Dictionary<string, string> schemaCache = new();
+    private readonly Dictionary<string, string> schemaCache = new();
 
     public override async Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
     {

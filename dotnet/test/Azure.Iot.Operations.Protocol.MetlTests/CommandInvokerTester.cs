@@ -27,9 +27,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             "CommandInvokerResponseIndicatesInvocationError_ThrowsException"
         };
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static FreezableWallClock freezableWallClock;
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly FreezableWallClock freezableWallClock;
 
         static CommandInvokerTester()
         {
@@ -500,7 +500,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Assert.True(correlationIds.TryGetValue((int)publishedMessage.CorrelationIndex, out correlationId));
             }
 
-            byte[]? lookupKey = correlationId != null ? correlationId.Value.ToByteArray() : null;
+            byte[]? lookupKey = correlationId?.ToByteArray();
             MQTTnet.MqttApplicationMessage? appMsg = stubMqttClient.GetPublishedMessage(lookupKey);
             Assert.NotNull(appMsg);
 

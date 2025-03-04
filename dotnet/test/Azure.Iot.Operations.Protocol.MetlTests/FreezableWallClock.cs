@@ -9,9 +9,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class FreezableWallClock : IWallClock, IDisposable
     {
-        private SemaphoreSlim _mutexSemaphore;
+        private readonly SemaphoreSlim _mutexSemaphore;
         private int _nextTicket;
-        private HashSet<int> _activeTickets;
+        private readonly HashSet<int> _activeTickets;
         private bool _isFrozen;
         private TimeSpan _timeOffset;
         private DateTime _frozenTime;
@@ -96,7 +96,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public Task WaitUntilAsync(DateTime desiredTime, CancellationToken cancellationToken = default)
         {
-            return WaitForAsync(desiredTime - this.UtcNow, cancellationToken);
+            return WaitForAsync(desiredTime - UtcNow, cancellationToken);
         }
 
         public async Task<int> FreezeTimeAsync()

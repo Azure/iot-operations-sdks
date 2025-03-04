@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.StateStore
     // layer doesn't expose an interface that allows for mocking
     internal class StateStoreGeneratedClientHolder : IStateStoreGeneratedClientHolder
     {
-        StateStore.StateStore.Client? _generatedClient;
+        private readonly StateStore.StateStore.Client? _generatedClient;
 
         internal StateStoreGeneratedClientHolder(StateStore.StateStore.Client generatedClient)
         { 

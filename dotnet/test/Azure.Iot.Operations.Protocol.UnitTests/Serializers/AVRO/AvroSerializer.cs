@@ -18,11 +18,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
         where T1 : class, ISpecificRecord, new()
         where T2 : class, ISpecificRecord, new()
     {
-        private SpecificDatumReader<T1> datumReader1;
-        private SpecificDatumWriter<T1> datumWriter1;
+        private readonly SpecificDatumReader<T1> datumReader1;
+        private readonly SpecificDatumWriter<T1> datumWriter1;
 
-        private SpecificDatumReader<T2> datumReader2;
-        private SpecificDatumWriter<T2> datumWriter2;
+        private readonly SpecificDatumReader<T2> datumReader2;
+        private readonly SpecificDatumWriter<T2> datumWriter2;
 
         public AvroSerializer()
         {

@@ -13,19 +13,19 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestSerializer : IPayloadSerializer
     {
-        private string? _outContentType;
-        private List<string> _acceptContentTypes;
-        private MqttPayloadFormatIndicator _outPayloadFormat;
-        private bool _allowCharacterData;
-        private bool _failDeserialization;
+        private readonly string? _outContentType;
+        private readonly List<string> _acceptContentTypes;
+        private readonly MqttPayloadFormatIndicator _outPayloadFormat;
+        private readonly bool _allowCharacterData;
+        private readonly bool _failDeserialization;
 
         public TestSerializer(TestCaseSerializer testCaseSerializer)
         {
-            this._outContentType = testCaseSerializer.OutContentType;
-            this._acceptContentTypes = testCaseSerializer.AcceptContentTypes;
-            this._outPayloadFormat = testCaseSerializer.IndicateCharacterData ? MqttPayloadFormatIndicator.CharacterData : MqttPayloadFormatIndicator.Unspecified;
-            this._allowCharacterData = testCaseSerializer.AllowCharacterData;
-            this._failDeserialization = testCaseSerializer.FailDeserialization;
+            _outContentType = testCaseSerializer.OutContentType;
+            _acceptContentTypes = testCaseSerializer.AcceptContentTypes;
+            _outPayloadFormat = testCaseSerializer.IndicateCharacterData ? MqttPayloadFormatIndicator.CharacterData : MqttPayloadFormatIndicator.Unspecified;
+            _allowCharacterData = testCaseSerializer.AllowCharacterData;
+            _failDeserialization = testCaseSerializer.FailDeserialization;
         }
 
         public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)

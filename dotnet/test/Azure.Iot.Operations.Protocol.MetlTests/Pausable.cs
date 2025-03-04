@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             _source = new T();
 
             _timer = new System.Timers.Timer { Interval = delay.TotalMilliseconds, AutoReset = false, Enabled = !startPaused };
-            _timer.Elapsed += this.TimerElapsed;
+            _timer.Elapsed += TimerElapsed;
 
             _timerState = startPaused ? TimerState.Paused : TimerState.Running;
             _remainingDelay = delay;
