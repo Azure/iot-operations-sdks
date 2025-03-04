@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using CustomTopicTokenService service = new(new(), mqttClient1);
             await using CustomTopicTokenClient client = new(new(), mqttClient1);
 
-            await client.StartAsync();
+            await service.StartAsync();
 
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             string expectedRpcCommandNameTopicTokenValue = Guid.NewGuid().ToString();
