@@ -41,7 +41,7 @@ impl IncrementRequestBuilder {
     /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        for (k, v) in topic_tokens.into_iter() {
+        for (k, v) in topic_tokens {
             self.topic_tokens.insert(format!("ex:{k}"), v);
         }
         self
