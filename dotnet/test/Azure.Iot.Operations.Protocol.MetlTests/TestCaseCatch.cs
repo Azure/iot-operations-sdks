@@ -43,7 +43,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 "invalid state" => AkriMqttErrorKind.StateInvalid,
                 "internal logic error" => AkriMqttErrorKind.InternalLogicError,
                 "unknown error" => AkriMqttErrorKind.UnknownError,
-                "invocation error" => AkriMqttErrorKind.InvocationException,
                 "execution error" => AkriMqttErrorKind.ExecutionException,
                 "mqtt error" => AkriMqttErrorKind.MqttError,
                 "request version not supported" => AkriMqttErrorKind.UnsupportedRequestVersion,
