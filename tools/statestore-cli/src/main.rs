@@ -9,7 +9,8 @@ use clap::{Parser, Subcommand};
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder, SessionConnectionMonitor
+    Session, SessionConnectionMonitor, SessionExitHandle, SessionManagedClient,
+    SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
