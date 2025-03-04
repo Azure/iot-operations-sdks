@@ -6,8 +6,9 @@ The following components groups are included:
 * [MQTT](#mqtt)
 * [Protocol](#protocol)
 * [Services](#services)
-* [Protocol compiler](#protocol-compiler-codegen)
+* [Protocol compiler (Codegen)](#protocol-compiler-codegen)
 * [Akri Services *(Private Preview)*](#akri-services-private-preview)
+* [Component limitations](#component-limitations)
 
 ## MQTT 
 
@@ -77,3 +78,22 @@ The Asset monitor client provides the Akri connector with the AEP *(Asset Endpoi
 
 Notifies of newly discovered assets, which can then be triaged by the operator.
 
+## Component limitations
+
+### State store
+
+The state store does not support resuming connections. In the case of a disconnect of the client, the client will need to re-observe keys of interest. This has the following implications:
+
+1. Any key notifications that occurred when the client was disconnected are lost, the notifications should not be used for auditing or any other purpose that requires a guarantee of all notifications being delivered.
+
+1. When reconnecting, the application is responsible for reading the state of any observed keys for changes that occurred while disconnected. The client will notify the application that a reconnect has occurred.
+
+### Session client
+
+The session client sets `clean_start = false` when reconnecting which will automatically resume the last session, assuming the session hasn't expired.
+
+However, if the application is restarted, 
+
+In edge cases, such as when an application using the session client is restarted **after** a `PUBLISH` is sent, but **before** the `PUBACK` is received,
+
+There are some edge cases where the application might be restarted after a PUBLISH is sent and an ACK is received. In these cases, the SDK has no way to resend the PUBLISH, as required by [4.1.0-1](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901231) of the MQTT spec.

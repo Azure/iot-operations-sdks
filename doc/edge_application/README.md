@@ -1,5 +1,7 @@
 # Edge application development
 
+## SDK client
+
 The Azure IoT Operations SDKs directly support building edge applications in a number of ways:
 
 1. Provides a MQTT `session client` enabling simple secure connectivity to MQTT broker including automatic online credential renewal and session resuming on reconnection to minimum message loss.
@@ -20,12 +22,20 @@ Developing an edge application requires a Kubernetes cluster with Azure IoT Oper
 
 1. Follow the [setup instructions](../setup.md) to get your development environment ready.
 
+## Developing edge applications
+
+
+
 ## Creating your first application
 
 Once your development environment is setup, its time to create your first application. The first step is to choose your preferred language. Currently the SDKs are available in .NET, Go and Rust.
 
-Refer to each language directory for instructions on setting up for that particular language:
+1. Refer to each language directory for instructions on setting up for that SDK and building your application:
 
-* [.NET SDK](/dotnet)
-* [Go SDK](/go)
-* [Rust SDK](/rust)
+   * [.NET SDK](/dotnet)
+   * [Go SDK](/go)
+   * [Rust SDK](/rust)
+
+1. Review the [samples](/samples) directory for samples and tutorials
+
+1. Learn how to [deploy](deploy.md) your application to the cluster
