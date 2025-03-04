@@ -43,7 +43,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
                 transientTopicTokens["ex:myCustomTopicToken"] = Guid.NewGuid().ToString();
                 await _customTopicTokenService.SendTelemetryAsync(new(), new(), transientTopicTokens);
             }
-        });
+        }, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {
