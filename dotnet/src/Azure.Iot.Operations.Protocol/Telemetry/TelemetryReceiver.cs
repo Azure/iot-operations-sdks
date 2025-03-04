@@ -27,8 +27,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
 
-        private readonly Dictionary<string, string> _topicTokenMap = [];
-
         private Dispatcher? _dispatcher;
 
         private bool _isRunning;
@@ -43,17 +41,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public string? TopicNamespace { get; set; }
 
-        /// <summary>
-        /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
-
-        /// <summary>
-        /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
+        public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
@@ -71,6 +59,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
+            TopicTokenMap = new();
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
