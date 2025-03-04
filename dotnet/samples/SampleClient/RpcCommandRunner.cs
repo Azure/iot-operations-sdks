@@ -34,7 +34,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             await RunGreeterCommands();
             await RunMathCommands();
             await RunCustomTopicTokenCommand(customTopicTokenClient, executorId);
-            await StartReceivingCustomTopicTokenTelemetry(customTopicTokenClient);
+            await customTopicTokenClient.StartAsync();
             await memMonClient.StopTelemetryAsync(executorId, null, null, null, stoppingToken);
             await Console.Out.WriteLineAsync("Run again? (y), type q to exit");
             userResponse = Console.ReadLine()!;
@@ -171,18 +171,6 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             };
             ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, reqMd, transientTopicTokenMap).WithMetadata();
             logger.LogInformation("Invoked custom topic token RPC with custom topic token value " + customTopicTokenValue);
-        }
-        catch (Exception ex)
-        {
-            logger.LogWarning("{msg}", ex.Message);
-        }
-    }
-
-    private async Task StartReceivingCustomTopicTokenTelemetry(CustomTopicTokenClient customTopicTokenClient)
-    {
-        try
-        {
-            await customTopicTokenClient.StartAsync();
         }
         catch (Exception ex)
         {
