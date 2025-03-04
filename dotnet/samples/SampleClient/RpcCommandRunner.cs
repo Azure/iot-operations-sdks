@@ -5,6 +5,7 @@ using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.CustomTopicTokens;
+using System.Collections.ObjectModel;
 
 namespace SampleClient;
 
@@ -40,22 +41,16 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         CommandRequestMetadata cmdMetadata = new();
         logger.LogInformation("topic tokens is null? " + (cmdMetadata.TopicTokens == null));
         
-        cmdMetadata.TopicTokens["ex:myCustomTopicToken"] = "someCustomValue1";
-        cmdMetadata.TopicTokens["myCustomTopicToken"] = "someCustomValue2";
-        cmdMetadata.TopicTokens["ex:commandName"] = "someCommandName1";
-        cmdMetadata.TopicTokens["commandName"] = "someCommandName2";
-        customTopicTokenClient.CustomTopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
-        customTopicTokenClient.CustomTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
-        customTopicTokenClient.CustomTopicTokenMap["ex:commandName"] = "someCommandName1";
-        customTopicTokenClient.CustomTopicTokenMap["commandName"] = "someCommandName2";
-        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
-        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
-        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["ex:commandName"] = "someCommandName1";
-        customTopicTokenClient.ReadCustomTopicTokenCommandInvoker.TopicTokenMap["commandName"] = "someCommandName2";
+        Dictionary<string, string> transientTopicTokenMap = new Dictionary<string, string>();
+        transientTopicTokenMap["ex:myCustomTopicToken"] = "someCustomValue1";
+        transientTopicTokenMap["myCustomTopicToken"] = "someCustomValue2";
+        transientTopicTokenMap["ex:commandName"] = "someCommandName1";
+        transientTopicTokenMap["commandName"] = "someCommandName2";
+
         try
         {
 
-            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, cmdMetadata).WithMetadata();
+            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, cmdMetadata, transientTopicTokenMap).WithMetadata();
             logger.LogInformation("Sent custom topic token request");
         }
         catch (Exception ex)
