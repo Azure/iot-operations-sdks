@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken = default)
+        public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -163,7 +163,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+                var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
@@ -226,7 +228,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, TopicTokenMap));
 
             return telemTopic.ToString();
         }
