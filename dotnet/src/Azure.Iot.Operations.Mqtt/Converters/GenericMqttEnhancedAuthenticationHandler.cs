@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
         public Task HandleEnhancedAuthenticationAsync(MqttEnhancedAuthenticationEventArgs eventArgs)
         {
             var hiddenField = typeof(MQTTnet.MqttClient).GetField("_adapter", BindingFlags.NonPublic | BindingFlags.Instance);
-            MQTTnet.Adapter.IMqttChannelAdapter? channelAdapter = (MQTTnet.Adapter.IMqttChannelAdapter?)hiddenField.GetValue(_underlyingClient);
+            MQTTnet.Adapter.IMqttChannelAdapter? channelAdapter = (MQTTnet.Adapter.IMqttChannelAdapter?)hiddenField!.GetValue(_underlyingClient);
 
             return _mqttNetHandler.HandleEnhancedAuthenticationAsync(
             new(

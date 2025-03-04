@@ -9,11 +9,11 @@ namespace SampleServer;
 
 public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProvider provider, ILogger<RpcHostBackgroundService> logger, IConfiguration configuration) : BackgroundService
 {
-    CounterService? _counterService;
-    GreeterService? _greetService;
-    MathService? _mathService;
-    MemMonService? _memMonService;
-    CustomTopicTokenService? _customTopicTokenService;
+    private CounterService? _counterService;
+    private GreeterService? _greetService;
+    private MathService? _mathService;
+    private MemMonService? _memMonService;
+    private CustomTopicTokenService? _customTopicTokenService;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {

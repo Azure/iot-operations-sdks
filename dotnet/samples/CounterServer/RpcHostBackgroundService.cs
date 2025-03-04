@@ -7,7 +7,7 @@ using Azure.Iot.Operations.Mqtt.Session;
 
 namespace CounterServer;
 
-public class RpcHostBackgroundService(MqttSessionClient mqttClient, CounterService counterService, ILogger<RpcHostBackgroundService> logger, IConfiguration configuration) : BackgroundService
+public class RpcHostBackgroundService(MqttSessionClient mqttClient, CounterService counterService, ILogger<RpcHostBackgroundService> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {

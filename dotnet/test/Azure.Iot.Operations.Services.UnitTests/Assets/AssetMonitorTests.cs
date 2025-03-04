@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 var assetMonitor = new AssetMonitor();
                 var assetEndpointProfile = await assetMonitor.GetAssetEndpointProfileAsync();
 
-                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}"), assetEndpointProfile.TargetAddress);
+                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}"), assetEndpointProfile!.TargetAddress);
                 Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepAuthenticationMethodRelativeMountPath}"), assetEndpointProfile.AuthenticationMethod);
                 Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.EndpointProfileTypeRelativeMountPath}"), assetEndpointProfile.EndpointProfileType);
                 Assert.NotNull(assetEndpointProfile.AdditionalConfiguration);
@@ -377,21 +377,21 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress);
                 });
 
                 string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod);
                 });
 
                 string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType);
                 });
 
                 string expectedNewDataSourceType = Guid.NewGuid().ToString();
@@ -400,7 +400,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 JsonElement property = new();
                 await WaitUntilAsync(() =>
                 {
-                    return !latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType);
+                    return !latestAssetEndpointProfileState!.AssetEndpointProfile!.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType);
                 });
 
                 Assert.Equal(JsonValueKind.String, property.ValueKind);
@@ -409,21 +409,21 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.Credentials!.Certificate, expectedNewCertValue);
                 });
 
                 string expectedNewUsernameValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.Credentials!.Username, expectedNewUsernameValue);
                 });
 
                 string expectedNewPasswordValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue);
+                    return !string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState!.AssetEndpointProfile!.Credentials!.Password!), expectedNewPasswordValue);
                 });
             }
             finally
@@ -459,21 +459,21 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_TARGET_ADDRESS", expectedNewTargetAddress);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.TargetAddress, expectedNewTargetAddress);
                 });
 
                 string expectedNewAuthenticationMethod = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/AEP_AUTHENTICATION_METHOD", expectedNewAuthenticationMethod);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.AuthenticationMethod, expectedNewAuthenticationMethod);
                 });
 
                 string expectedNewEndpointProfileType = Guid.NewGuid().ToString();
                 File.WriteAllText("./AssetMonitorTestFiles/config/aep_config/ENDPOINT_PROFILE_TYPE", expectedNewEndpointProfileType);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.EndpointProfileType, expectedNewEndpointProfileType);
                 });
 
                 string expectedNewDataSourceType = Guid.NewGuid().ToString();
@@ -482,7 +482,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 JsonElement property = new();
                 await WaitUntilAsync(() =>
                 {
-                    return !latestAssetEndpointProfileState.AssetEndpointProfile.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType);
+                    return !latestAssetEndpointProfileState!.AssetEndpointProfile!.AdditionalConfiguration!.RootElement.TryGetProperty("DataSourceType", out property) && !string.Equals(property.GetString(), expectedNewDataSourceType);
                 });
 
                 Assert.Equal(JsonValueKind.String, property.ValueKind);
@@ -491,21 +491,21 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate", expectedNewCertValue);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Certificate, expectedNewCertValue);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.Credentials!.Certificate, expectedNewCertValue);
                 });
 
                 string expectedNewUsernameValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", expectedNewUsernameValue);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Username, expectedNewUsernameValue);
+                    return !string.Equals(latestAssetEndpointProfileState!.AssetEndpointProfile!.Credentials!.Username, expectedNewUsernameValue);
                 });
 
                 string expectedNewPasswordValue = Guid.NewGuid().ToString();
                 File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", expectedNewPasswordValue);
                 await WaitUntilAsync(() =>
                 {
-                    return !string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState.AssetEndpointProfile.Credentials.Password), expectedNewPasswordValue);
+                    return !string.Equals(Encoding.UTF8.GetString(latestAssetEndpointProfileState!.AssetEndpointProfile!.Credentials!.Password!), expectedNewPasswordValue);
                 });
             }
             finally

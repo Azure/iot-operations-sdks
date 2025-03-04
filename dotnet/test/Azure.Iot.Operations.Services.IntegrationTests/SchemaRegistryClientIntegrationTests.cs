@@ -15,7 +15,7 @@ using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.S
 [Trait("Category", "SchemaRegistry")]
 public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 {
-    const string DefaultVersion = "1";
+    private const string DefaultVersion = "1";
 
     [Fact]
     public async Task JsonRegisterGet()
@@ -103,7 +103,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.GetAsync("irrelevant", cancellationToken: cts.Token));
     }
 
-    static readonly string jsonSchema1 = """
+    private static readonly string jsonSchema1 = """
     {
         "$schema": "https://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -118,7 +118,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     }
     """;
 
-    static readonly string avroSchema1 = """
+    private static readonly string avroSchema1 = """
     {
         "type": "record",
         "name": "Weather",

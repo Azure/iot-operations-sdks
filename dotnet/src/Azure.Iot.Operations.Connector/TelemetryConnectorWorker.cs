@@ -328,20 +328,7 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
-            Topic topic;
-            if (dataset.Topic != null)
-            {
-                topic = dataset.Topic;
-            }
-            else if (asset.DefaultTopic != null)
-            {
-                topic = asset.DefaultTopic;
-            }
-            else
-            {
-                throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
-            }
-
+            Topic topic = dataset.Topic ?? asset.DefaultTopic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
             var mqttMessage = new MqttApplicationMessage(topic.Path)
             {
                 PayloadSegment = serializedPayload,
@@ -369,20 +356,7 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
-            Topic topic;
-            if (assetEvent.Topic != null)
-            {
-                topic = assetEvent.Topic;
-            }
-            else if (asset.DefaultTopic != null)
-            {
-                topic = asset.DefaultTopic;
-            }
-            else
-            {
-                throw new AssetConfigurationException($"Event with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this event.");
-            }
-
+            Topic topic = assetEvent.Topic ?? asset.DefaultTopic ?? throw new AssetConfigurationException($"Event with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this event.");
             var mqttMessage = new MqttApplicationMessage(topic.Path)
             {
                 PayloadSegment = serializedPayload,

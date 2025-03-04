@@ -388,7 +388,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (!MqttTopicProcessor.IsValidReplacement(requestMsg.ResponseTopic))
             {
-                Trace.TraceError($"Command '{this._commandName}' with CorrelationId {requestMsg.CorrelationData} specified invalid response topic '{requestMsg.ResponseTopic}'. The command response will not be published.");
+                Trace.TraceError($"Command '{_commandName}' with CorrelationId {requestMsg.CorrelationData} specified invalid response topic '{requestMsg.ResponseTopic}'. The command response will not be published.");
 
                 status = null;
                 statusMessage = null;

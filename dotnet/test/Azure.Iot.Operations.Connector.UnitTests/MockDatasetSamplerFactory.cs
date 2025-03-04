@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 {
     internal class MockDatasetSamplerFactory : IDatasetSamplerFactory
     {
-        private bool _isFaulty;
+        private readonly bool _isFaulty;
         public MockDatasetSamplerFactory(bool isFaulty = false)
         {
             _isFaulty = isFaulty;
