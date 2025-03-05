@@ -27,22 +27,23 @@ namespace TestEnvoys.Math
             private readonly FibCommandExecutor fibCommandExecutor;
             private readonly GetRandomCommandExecutor getRandomCommandExecutor;
 
-            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt};
+                this.isPrimeCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
+                this.fibCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
+                this.getRandomCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }
             public FibCommandExecutor FibCommandExecutor { get => this.fibCommandExecutor; }
             public GetRandomCommandExecutor GetRandomCommandExecutor { get => this.getRandomCommandExecutor; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
             public abstract Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeAsync(IsPrimeRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -50,23 +51,21 @@ namespace TestEnvoys.Math
 
             public abstract Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
+                topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string>? transientTopicTokenMap = new()
-                {
-                    { "executorId", clientId },
-                };
+                topicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
-                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken),
-                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
+                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
+                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -115,24 +114,25 @@ namespace TestEnvoys.Math
             private readonly FibCommandInvoker fibCommandInvoker;
             private readonly GetRandomCommandInvoker getRandomCommandInvoker;
 
-            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
-                this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
-                this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(applicationContext, mqttClient);
+                this.isPrimeCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient);
+                this.fibCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient);
+                this.getRandomCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public IsPrimeCommandInvoker IsPrimeCommandInvoker { get => this.isPrimeCommandInvoker; }
             public FibCommandInvoker FibCommandInvoker { get => this.fibCommandInvoker; }
             public GetRandomCommandInvoker GetRandomCommandInvoker { get => this.getRandomCommandInvoker; }
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 
-            public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -141,20 +141,15 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                    { "executorId", executorId },
-                };
+                topicTokenMap ??= new();
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -163,20 +158,15 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                    { "executorId", executorId },
-                };
+                topicTokenMap ??= new();
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -185,17 +175,12 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
-                {
-                    { "invokerClientId", clientId },
-                    { "executorId", executorId },
-                };
+                topicTokenMap ??= new();
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()
