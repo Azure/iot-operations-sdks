@@ -34,17 +34,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.putCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.putCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
             }
@@ -118,7 +118,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.putCommandInvoker = new PutCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.putCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -126,7 +126,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.getCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -150,7 +150,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
                 additionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -166,7 +166,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
                 additionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

@@ -33,9 +33,9 @@ namespace TestEnvoys.Passthrough
                 this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.passCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.passCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace TestEnvoys.Passthrough
                 this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.passCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -120,7 +120,7 @@ namespace TestEnvoys.Passthrough
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

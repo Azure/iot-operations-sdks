@@ -39,31 +39,31 @@ namespace TestEnvoys.Memmon
                 this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StartTelemetryInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.startTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.startTelemetryCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.stopTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.stopTelemetryCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getRuntimeStatsCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getRuntimeStatsCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.workingSetTelemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -71,7 +71,7 @@ namespace TestEnvoys.Memmon
                 this.managedMemoryTelemetrySender = new ManagedMemoryTelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.managedMemoryTelemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -79,7 +79,7 @@ namespace TestEnvoys.Memmon
                 this.memoryStatsTelemetrySender = new MemoryStatsTelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.memoryStatsTelemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -195,7 +195,7 @@ namespace TestEnvoys.Memmon
                 this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.startTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -203,7 +203,7 @@ namespace TestEnvoys.Memmon
                 this.stopTelemetryCommandInvoker = new StopTelemetryCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.stopTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -211,7 +211,7 @@ namespace TestEnvoys.Memmon
                 this.getRuntimeStatsCommandInvoker = new GetRuntimeStatsCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.getRuntimeStatsCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -219,7 +219,7 @@ namespace TestEnvoys.Memmon
                 this.workingSetTelemetryReceiver = new WorkingSetTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.workingSetTelemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -227,7 +227,7 @@ namespace TestEnvoys.Memmon
                 this.managedMemoryTelemetryReceiver = new ManagedMemoryTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.managedMemoryTelemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -235,7 +235,7 @@ namespace TestEnvoys.Memmon
                 this.memoryStatsTelemetryReceiver = new MemoryStatsTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.memoryStatsTelemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -270,7 +270,7 @@ namespace TestEnvoys.Memmon
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -287,7 +287,7 @@ namespace TestEnvoys.Memmon
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -304,7 +304,7 @@ namespace TestEnvoys.Memmon
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)

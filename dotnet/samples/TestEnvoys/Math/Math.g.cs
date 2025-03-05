@@ -35,25 +35,25 @@ namespace TestEnvoys.Math
                 this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.isPrimeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.isPrimeCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.fibCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.fibCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getRandomCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getRandomCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
             }
@@ -140,7 +140,7 @@ namespace TestEnvoys.Math
                 this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.isPrimeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -148,7 +148,7 @@ namespace TestEnvoys.Math
                 this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.fibCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -156,7 +156,7 @@ namespace TestEnvoys.Math
                 this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.getRandomCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -182,7 +182,7 @@ namespace TestEnvoys.Math
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -199,7 +199,7 @@ namespace TestEnvoys.Math
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -216,7 +216,7 @@ namespace TestEnvoys.Math
                 additionalTopicTokenMap["invokerClientId"] = clientId;
                 additionalTopicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

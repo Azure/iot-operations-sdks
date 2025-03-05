@@ -35,17 +35,17 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.createDiscoveredAssetCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
             }
@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -127,7 +127,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.createDiscoveredAssetCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -151,7 +151,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
 
                 additionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<CreateDiscoveredAssetResponsePayload> CreateDiscoveredAssetAsync(CreateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -167,7 +167,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
 
                 additionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<CreateDiscoveredAssetResponsePayload>(this.createDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<CreateDiscoveredAssetResponsePayload>(this.createDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

@@ -33,9 +33,9 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.invokeCommandExecutor = new InvokeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = InvokeInt};
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.invokeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.invokeCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.invokeCommandInvoker = new InvokeCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.invokeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
 
                 additionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

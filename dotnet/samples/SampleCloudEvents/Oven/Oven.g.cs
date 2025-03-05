@@ -33,7 +33,7 @@ namespace SampleCloudEvents.Oven
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.telemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
@@ -73,7 +73,7 @@ namespace SampleCloudEvents.Oven
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 if (topicTokenMap != null)
                 {
-                    foreach (string topicTokenKey in topicTokenMap)
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.telemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
                     }
