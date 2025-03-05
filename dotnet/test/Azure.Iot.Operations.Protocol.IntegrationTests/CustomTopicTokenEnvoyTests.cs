@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedTelemetryTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["myCustomTopicToken"] = expectedTelemetryTopicTokenValue
+                ["ex:myCustomTopicToken"] = expectedTelemetryTopicTokenValue
             };
             await service.SendTelemetryAsync(new(), new(), customTopicTokens);
 
@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedTelemetryTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["myCustomTopicToken"] = expectedTelemetryTopicTokenValue
+                ["ex:myCustomTopicToken"] = expectedTelemetryTopicTokenValue
             };
             await using CustomTopicTokenService service = new(new(), mqttClient1, customTopicTokens);
             await using CustomTopicTokenClient client = new(new(), mqttClient1);
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
             var result = await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), customTopicTokens);
 
@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
             await using CustomTopicTokenService service = new(new(), mqttClient1);
             await using CustomTopicTokenClient client = new(new(), mqttClient1, customTopicTokens);
@@ -109,7 +109,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
 
             await service.StartAsync(customTopicTokens);
@@ -121,7 +121,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Dictionary<string, string> otherCustomTopicTokens = new()
             {
-                ["myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
+                ["ex:myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
             };
             await Assert.ThrowsAsync<InvalidTimeZoneException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
         }
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
 
             await using CustomTopicTokenService service = new(new(), mqttClient1, customTopicTokens);
@@ -150,7 +150,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Dictionary<string, string> otherCustomTopicTokens = new()
             {
-                ["myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
+                ["ex:myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
             };
             await Assert.ThrowsAsync<InvalidTimeZoneException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
         }
