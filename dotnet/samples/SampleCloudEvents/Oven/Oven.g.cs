@@ -73,7 +73,7 @@ namespace SampleCloudEvents.Oven
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 
-            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
             {
                 topicTokenMap ??= new();
 

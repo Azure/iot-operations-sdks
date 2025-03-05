@@ -39,7 +39,7 @@ namespace TestEnvoys.Passthrough
 
             public abstract Task<ExtendedResponse<byte[]>> PassAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
@@ -48,7 +48,7 @@ namespace TestEnvoys.Passthrough
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId 
+                topicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
                     this.passCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);

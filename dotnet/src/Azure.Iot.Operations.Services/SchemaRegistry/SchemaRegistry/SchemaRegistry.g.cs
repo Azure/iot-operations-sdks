@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
             public abstract Task<ExtendedResponse<GetResponsePayload>> GetAsync(GetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
@@ -54,7 +54,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId 
+                topicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
                     this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),

@@ -79,7 +79,7 @@ namespace TestEnvoys.Memmon
                 await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap?.Select(kvp => new KeyValuePair<string, string>($"ex:{kvp.Key}", kvp.Value))?.ToDictionary(), qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 topicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
@@ -88,7 +88,7 @@ namespace TestEnvoys.Memmon
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId 
+                topicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
                     this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
@@ -238,7 +238,7 @@ namespace TestEnvoys.Memmon
                 return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public async Task StartAsync(Dictionary<string, string> topicTokenMap = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
             {
                 topicTokenMap ??= new();
 
