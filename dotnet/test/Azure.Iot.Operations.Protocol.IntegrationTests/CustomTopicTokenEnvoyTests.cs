@@ -123,8 +123,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             {
                 ["myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
             };
-            await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens);
-            //await Assert.ThrowsAsync<Exception>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
+            await Assert.ThrowsAsync<InvalidTimeZoneException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
         }
 
         [Fact]
@@ -153,8 +152,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             {
                 ["myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
             };
-            await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens);
-            //await Assert.ThrowsAsync<Exception>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
+            await Assert.ThrowsAsync<InvalidTimeZoneException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
         }
     }
 }

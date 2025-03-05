@@ -606,9 +606,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            MqttTopicProcessor.SplitTopicTokenMap(topicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
-
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, effectiveTopicTokenMap, transientTopicTokenMap));
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, topicTokenMap, null));
 
             return commandTopic.ToString();
         }
