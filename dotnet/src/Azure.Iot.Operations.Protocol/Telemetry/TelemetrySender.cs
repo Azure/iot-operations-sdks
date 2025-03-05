@@ -34,23 +34,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
-        private readonly Dictionary<string, string> _topicTokenMap = [];
-
         public string TopicPattern { get; init; }
 
         public string? TopicNamespace { get; set; }
 
-        /// <summary>
-        /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
-
-        /// <summary>
-        /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
+        public Dictionary<string, string> TopicTokenReplacementMap { get; protected set; }
 
         public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
@@ -60,6 +48,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             _hasBeenValidated = false;
 
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
+            TopicTokenReplacementMap = new();
         }
 
         public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
@@ -67,10 +56,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), null, qos, telemetryTimeout, cancellationToken);
         }
 
-        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? topicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            ValidateAsNeeded(transientTopicTokenMap);
+            ValidateAsNeeded(topicTokenMap);
             cancellationToken.ThrowIfCancellationRequested();
 
             string? clientId = _mqttClient.ClientId;
