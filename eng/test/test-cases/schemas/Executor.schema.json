@@ -87,8 +87,8 @@
             "kind": "drive"
         },
         "raise-error": {
-            "description": "Raise an error from the Command execution function.",
-            "$ref": "Error.schema.json",
+            "description": "Whether to raise an error from the Command execution function.",
+            "type": "boolean",
             "kind": "drive"
         },
         "sync": {

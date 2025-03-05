@@ -510,26 +510,8 @@ func processRequest(
 		}
 	}
 
-	if tce.RaiseError.Kind == Content {
-		var message string
-		if tce.RaiseError.Message != nil {
-			message = *tce.RaiseError.Message
-		}
-		var propertyName string
-		if tce.RaiseError.PropertyName != nil {
-			propertyName = *tce.RaiseError.PropertyName
-		}
-		var propertyValue string
-		if tce.RaiseError.PropertyValue != nil {
-			propertyValue = *tce.RaiseError.PropertyValue
-		}
-		return nil, protocol.InvocationError{
-			Message:       message,
-			PropertyName:  propertyName,
-			PropertyValue: propertyValue,
-		}
-	} else if tce.RaiseError.Kind == Execution {
-		return nil, errors.New(*tce.RaiseError.Message)
+	if tce.RaiseError {
+		return nil, errors.New("error")
 	}
 
 	var response string
