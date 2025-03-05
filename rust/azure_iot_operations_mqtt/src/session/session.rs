@@ -107,7 +107,8 @@ where
 
     /// Begin running the [`Session`].
     ///
-    /// Blocks until either a session exit or a fatal connection error is encountered.
+    /// Consumes the [`Session`] and blocks until either a session exit or a fatal connection
+    /// error is encountered.
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
