@@ -26,7 +26,7 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
             {
                 OnTelemetryReceived = ReceiveTelemetry
             };
-            await receiver.StartAsync(cancellationToken);
+            await receiver.StartAsync(cancellationToken: cancellationToken);
 
             // Enter main loop to process the sensor data
             await ProcessSensorData(sessionClient, cancellationToken);
