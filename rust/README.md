@@ -22,6 +22,8 @@ The following Azure IoT Operations crates are available:
 
 1. Get familiar with the Rust language, there are several resources available in our [Rust Resources](resources.md) guide.
 
+1. Check out the available [samples](samples_applications)
+
 ## Installing the crates
 
 We recommend using Ubuntu or Debian for developing your applications. The instructions below may require modifications for other Linux distributions.
@@ -72,21 +74,4 @@ Refer to the [Deploy the application](/doc/deploy.md) documentation to build you
 
 ## Samples
 
-### Crate samples
-
-Each crate has its own set of samples demonstrating the usage of its API. They can be found in the `examples` directory inside the particular crate.
-
-To run a sample for one of the crates run the command:
-
-```bash
-cargo run --example <sample name>
-```
-
-> [!NOTE]
-> You should **not** include the `.rs` extension in the sample name.
-
-These samples may assume the use of a broker running on `localhost`, or settings/credentials supplied by [environment variables](/doc/reference/connection-settings.md). They can be modified to supply different settings/credentials as necessary.
-
-### SDK samples
-
-Additionally there are higher-level samples that show a set of related applications that can be built using the various components of the Rust SDK, including codegen. They can be found in the [`sample_applications`](sample_applications) directory, along with instructions for running them.
+Refer to the [samples](samples_applications) directory for a comprehensive list of samples using the Rust SDK.
