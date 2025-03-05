@@ -288,7 +288,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -318,7 +318,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    var combinedTopicTokenMap = TopicTokenMap.Concat(additionalTopicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                     await SubscribeAsync(combinedTopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
