@@ -3,7 +3,6 @@
 
 //! Common error types
 
-use crate::control_packet::Request;
 use thiserror::Error;
 
 /// Error type for MQTT connection
@@ -18,7 +17,7 @@ pub type StateError = rumqttc::v5::StateError;
 pub enum PublishError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
-    DetachedClient(Request),
+    DetachedClient(rumqttc::v5::Request),
     /// Invalid topic name provided
     #[error("invalid topic name")]
     InvalidTopicName,
@@ -29,7 +28,7 @@ pub enum PublishError {
 pub enum SubscribeError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
-    DetachedClient(Request),
+    DetachedClient(rumqttc::v5::Request),
     /// Invalid topic filter provided
     #[error("invalid topic filter")]
     InvalidTopicFilter,
@@ -40,7 +39,7 @@ pub enum SubscribeError {
 pub enum UnsubscribeError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
-    DetachedClient(Request),
+    DetachedClient(rumqttc::v5::Request),
     /// Invalid topic filter provided
     #[error("invalid topic filter")]
     InvalidTopicFilter,
@@ -51,7 +50,7 @@ pub enum UnsubscribeError {
 pub enum AckError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
-    DetachedClient(Request),
+    DetachedClient(rumqttc::v5::Request),
     /// The publish has already been sufficiently acknowledged
     #[error("publish already acknowledged")]
     AlreadyAcked,
@@ -62,7 +61,7 @@ pub enum AckError {
 pub enum DisconnectError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
-    DetachedClient(Request),
+    DetachedClient(rumqttc::v5::Request),
 }
 
 /// Error executing an MQTT reauthentication
@@ -70,5 +69,5 @@ pub enum DisconnectError {
 pub enum ReauthError {
     /// Client is detached from connection/event loop. Cannot send requests.
     #[error("client is detached from connection/event loop")]
-    DetachedClient(Request),
+    DetachedClient(rumqttc::v5::Request),
 }

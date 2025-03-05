@@ -8,17 +8,8 @@
 /// Quality of Service
 pub type QoS = rumqttc::v5::mqttbytes::QoS;
 
-/// Enumerates possible packets
-pub type Request = rumqttc::v5::Request;
-
 /// PUBLISH packet
 pub type Publish = rumqttc::v5::mqttbytes::v5::Publish;
-/// SUBSCRIBE packet
-pub type Subscribe = rumqttc::v5::mqttbytes::v5::Subscribe;
-/// UNSUBSCRIBE packet
-pub type Unsubscribe = rumqttc::v5::mqttbytes::v5::Unsubscribe;
-/// AUTH packet
-pub type Auth = rumqttc::v5::mqttbytes::v5::Auth;
 
 /// Properties for a CONNECT packet
 pub type ConnectProperties = rumqttc::v5::mqttbytes::v5::ConnectProperties;
