@@ -8,15 +8,12 @@ use core::fmt::Debug;
 use thiserror::Error;
 
 use crate::state_store::{
-    KeyObservation, Response as StateStoreResponse, ServiceError as StateStoreServiceError,
-    StateStoreError, StateStoreErrorKind,
+    KeyObservation, ServiceError as StateStoreServiceError, StateStoreError, StateStoreErrorKind,
 };
 
-pub use crate::state_store::{SetCondition, SetOptions};
+pub use crate::state_store::{Response, SetCondition, SetOptions};
 
-use azure_iot_operations_protocol::common::{
-    aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock,
-};
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
 type LockObservation = KeyObservation;
 type ServiceError = StateStoreServiceError;
@@ -59,6 +56,9 @@ pub enum ErrorKind {
     /// An error occurred from the State Store Service. See [`ServiceError`] for more information.
     #[error(transparent)]
     ServiceError(#[from] ServiceError),
+    /// The key length must not be zero.
+    #[error("key length must not be zero")]
+    KeyLengthZero,
     /// The lock name length must not be zero.
     #[error("lock name length must not be zero")]
     LockNameLengthZero,
@@ -88,7 +88,7 @@ impl From<StateStoreErrorKind> for ErrorKind {
             StateStoreErrorKind::ServiceError(service_error) => {
                 ErrorKind::ServiceError(service_error)
             }
-            StateStoreErrorKind::KeyLengthZero => ErrorKind::LockNameLengthZero,
+            StateStoreErrorKind::KeyLengthZero => ErrorKind::KeyLengthZero,
             StateStoreErrorKind::SerializationError(error_string) => {
                 ErrorKind::SerializationError(error_string)
             }
@@ -98,39 +98,6 @@ impl From<StateStoreErrorKind> for ErrorKind {
             }
             StateStoreErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve,
         }
-    }
-}
-
-/// Leased Lock Operation Response struct.
-#[derive(Debug)]
-pub struct Response<T>
-where
-    T: Debug,
-{
-    /// The response for the request. Will vary per operation.
-    pub response: T,
-    /// The version of the response as a [`HybridLogicalClock`].
-    pub version: Option<HybridLogicalClock>,
-}
-
-impl<T: Debug> Response<T> {
-    /// Creates a new instance of Response<T>.
-    pub fn new(response: T, version: Option<HybridLogicalClock>) -> Response<T> {
-        Self { response, version }
-    }
-
-    /// Creates a new instance of Response<T> out of the `response` and `version` of a `state_store::Response<T>`.
-    pub fn from_response(state_store_response: StateStoreResponse<T>) -> Response<T> {
-        Self {
-            response: state_store_response.response,
-            version: state_store_response.version,
-        }
-    }
-}
-
-impl From<StateStoreResponse<KeyObservation>> for Response<LockObservation> {
-    fn from(state_store_response: StateStoreResponse<KeyObservation>) -> Self {
-        Response::new(state_store_response.response, state_store_response.version)
     }
 }
 

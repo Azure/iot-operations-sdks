@@ -5,8 +5,8 @@
 
 use std::{sync::Arc, time::Duration};
 
-use crate::leased_lock::{AcquireAndUpdateKeyOption, Error, ErrorKind, LockObservation, Response};
-use crate::state_store::{self, SetCondition, SetOptions};
+use crate::leased_lock::{AcquireAndUpdateKeyOption, Error, ErrorKind, LockObservation};
+use crate::state_store::{self, Response, SetCondition, SetOptions};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
@@ -22,6 +22,10 @@ where
 }
 
 /// Leased Lock client implementation
+///
+/// Notes:
+/// Do not call any of the methods of this client after the `state_store` parameter is shutdown.
+/// Calling any of the methods in this implementation after the `state_store` is shutdown results in undefined behavior.
 impl<C> Client<C>
 where
     C: ManagedClient + Clone + Send + Sync,
@@ -36,7 +40,7 @@ where
     /// # Errors
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
     ///
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
+    /// [`Error`] of kind [`LockHolderNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
     pub fn new(
         state_store: Arc<state_store::Client<C>>,
         lock_name: Vec<u8>,
@@ -152,7 +156,7 @@ where
             loop {
                 let Some((notification, _)) = observe_response.response.recv_notification().await
                 else {
-                    // If the state_store client disconnect, all the observation channels receive a None.
+                    // If the state_store client gets disconnected (or shutdown), all the observation channels receive a None.
                     // In such case, as per design, we must re-observe the lock.
                     observe_response = self.observe_lock(request_timeout).await?;
                     break;
@@ -202,7 +206,7 @@ where
 
         match update_value_function(get_result.response) {
             AcquireAndUpdateKeyOption::Update(new_value, set_options) => {
-                match self
+                let set_response = self
                     .state_store
                     .set(
                         key,
@@ -211,21 +215,18 @@ where
                         Some(fencing_token),
                         set_options,
                     )
-                    .await
-                {
-                    Ok(set_response) => {
-                        let _ = self.release_lock(request_timeout).await;
-                        Ok(Response::from_response(set_response))
-                    }
-                    Err(set_error) => {
-                        let _ = self.release_lock(request_timeout).await;
-                        Err(set_error.into())
-                    }
-                }
+                    .await;
+
+                let _ = self.release_lock(request_timeout).await;
+
+                Ok(set_response?)
             }
             AcquireAndUpdateKeyOption::DoNotUpdate => {
                 let _ = self.release_lock(request_timeout).await;
-                Ok(Response::new(true, None))
+                Ok(Response {
+                    response: true,
+                    version: None,
+                })
             }
             AcquireAndUpdateKeyOption::Delete => {
                 match self
@@ -235,10 +236,10 @@ where
                 {
                     Ok(delete_response) => {
                         let _ = self.release_lock(request_timeout).await;
-                        Ok(Response::new(
-                            delete_response.response > 0,
-                            delete_response.version,
-                        ))
+                        Ok(Response {
+                            response: (delete_response.response > 0),
+                            version: delete_response.version,
+                        })
                     }
                     Err(delete_error) => {
                         let _ = self.release_lock(request_timeout).await;
@@ -301,12 +302,10 @@ where
         &self,
         request_timeout: Duration,
     ) -> Result<Response<LockObservation>, Error> {
-        let observe_result = self
+        Ok(self
             .state_store
             .observe(self.lock_name.clone(), request_timeout)
-            .await?;
-
-        Ok(observe_result.into())
+            .await?)
     }
 
     /// Stops observation of any changes on a lock.
@@ -323,14 +322,10 @@ where
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
     /// - there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn unobserve_lock(&self, request_timeout: Duration) -> Result<Response<bool>, Error> {
-        match self
+        Ok(self
             .state_store
             .unobserve(self.lock_name.clone(), request_timeout)
-            .await
-        {
-            Ok(state_store_response) => Ok(Response::from_response(state_store_response)),
-            Err(state_store_error) => Err(state_store_error.into()),
-        }
+            .await?)
     }
 
     /// Gets the name of the holder of a lock
@@ -350,10 +345,9 @@ where
         &self,
         request_timeout: Duration,
     ) -> Result<Response<Option<Vec<u8>>>, Error> {
-        Ok(Response::from_response(
-            self.state_store
-                .get(self.lock_name.clone(), request_timeout)
-                .await?,
-        ))
+        Ok(self
+            .state_store
+            .get(self.lock_name.clone(), request_timeout)
+            .await?)
     }
 }

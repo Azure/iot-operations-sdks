@@ -568,6 +568,53 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 }
 
 #[tokio::test]
+async fn leased_lock_shutdown_state_store_while_observing_lock_network_tests() {
+    let test_id = "leased_lock_shutdown_state_store_while_observing_lock_network_tests";
+    if !setup_test(test_id) {
+        return;
+    }
+
+    let lock_name1 = format!("{test_id}-lock");
+    let holder_name1 = format!("{test_id}1");
+
+    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+        initialize_client(&holder_name1, &lock_name1.clone());
+
+    let test_task1 = tokio::task::spawn({
+        async move {
+            let request_timeout = Duration::from_secs(50);
+
+            let mut observe_response = leased_lock_client1
+                .observe_lock(request_timeout)
+                .await
+                .unwrap();
+
+            let receive_notifications_task = tokio::task::spawn({
+                async move {
+                    observe_response.response.recv_notification().await
+                }
+            });
+
+            assert!(state_store_client1.shutdown().await.is_ok());
+
+            let receive_notifications_result = receive_notifications_task.await;
+            assert!(receive_notifications_result.is_ok());
+            assert!(receive_notifications_result.unwrap().is_none());
+
+            exit_handle1.try_exit().await.unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task1.await.map_err(|e| { e.to_string() }) },
+        async move { session1.run().await.map_err(|e| { e.to_string() }) },
+    )
+    .is_ok());
+}
+
+#[tokio::test]
 async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
     let test_id = "leased_lock_second_holder_observes_until_lock_expires_network_tests";
     if !setup_test(test_id) {
