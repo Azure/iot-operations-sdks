@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with:
