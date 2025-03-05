@@ -69,21 +69,21 @@ namespace TestEnvoys.Math
 
             public abstract Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId;
+                additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
-                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
-                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
+                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
+                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -168,7 +168,7 @@ namespace TestEnvoys.Math
             public GetRandomCommandInvoker GetRandomCommandInvoker { get => this.getRandomCommandInvoker; }
 
 
-            public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<IsPrimeResponsePayload> IsPrimeAsync(string executorId, IsPrimeRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -177,15 +177,15 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<FibResponsePayload> FibAsync(string executorId, FibRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -194,15 +194,15 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<GetRandomResponsePayload> GetRandomAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -211,10 +211,10 @@ namespace TestEnvoys.Math
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }

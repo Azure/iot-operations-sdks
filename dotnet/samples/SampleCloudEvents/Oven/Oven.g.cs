@@ -43,9 +43,9 @@ namespace SampleCloudEvents.Oven
             public TelemetrySender TelemetrySender { get => this.telemetrySender; }
 
 
-            public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
             public async ValueTask DisposeAsync()
@@ -85,12 +85,12 @@ namespace SampleCloudEvents.Oven
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 
-            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
             {
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(topicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

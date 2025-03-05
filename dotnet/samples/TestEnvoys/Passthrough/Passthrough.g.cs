@@ -45,19 +45,19 @@ namespace TestEnvoys.Passthrough
 
             public abstract Task<ExtendedResponse<byte[]>> PassAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId;
+                additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.passCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.passCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -106,7 +106,7 @@ namespace TestEnvoys.Passthrough
             public PassCommandInvoker PassCommandInvoker { get => this.passCommandInvoker; }
 
 
-            public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<byte[]> PassAsync(string executorId, byte[] request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -115,10 +115,10 @@ namespace TestEnvoys.Passthrough
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }

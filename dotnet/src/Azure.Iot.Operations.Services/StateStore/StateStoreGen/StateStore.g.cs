@@ -45,19 +45,19 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
 
             public abstract Task<ExtendedResponse<byte[]>> InvokeAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId;
+                additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.invokeCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.invokeCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             public InvokeCommandInvoker InvokeCommandInvoker { get => this.invokeCommandInvoker; }
 
 
-            public RpcCallAsync<byte[]> InvokeAsync(byte[] request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<byte[]> InvokeAsync(byte[] request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -115,9 +115,9 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
 
                 return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }

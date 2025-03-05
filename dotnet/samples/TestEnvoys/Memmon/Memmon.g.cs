@@ -100,36 +100,36 @@ namespace TestEnvoys.Memmon
 
             public abstract Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
             {
-                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
             }
 
-            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                topicTokenMap["executorId"] = clientId;
+                additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
-                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken),
-                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, topicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
+                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
+                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -256,7 +256,7 @@ namespace TestEnvoys.Memmon
 
             public abstract Task ReceiveTelemetry(string senderId, MemoryStatsTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
-            public RpcCallAsync<EmptyAvro> StartTelemetryAsync(string executorId, StartTelemetryRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<EmptyAvro> StartTelemetryAsync(string executorId, StartTelemetryRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -265,15 +265,15 @@ namespace TestEnvoys.Memmon
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -282,15 +282,15 @@ namespace TestEnvoys.Memmon
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -299,22 +299,22 @@ namespace TestEnvoys.Memmon
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
-                topicTokenMap["invokerClientId"] = clientId;
-                topicTokenMap["executorId"] = executorId;
+                additionalTopicTokenMap["invokerClientId"] = clientId;
+                additionalTopicTokenMap["executorId"] = executorId;
 
                 return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
-            public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
             {
-                topicTokenMap ??= new();
+                additionalTopicTokenMap ??= new();
 
                 await Task.WhenAll(
-                    this.workingSetTelemetryReceiver.StartAsync(topicTokenMap, cancellationToken),
-                    this.managedMemoryTelemetryReceiver.StartAsync(topicTokenMap, cancellationToken),
-                    this.memoryStatsTelemetryReceiver.StartAsync(topicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.workingSetTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken),
+                    this.managedMemoryTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken),
+                    this.memoryStatsTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
