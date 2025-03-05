@@ -39,7 +39,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.readCounterCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.readCounterCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.incrementCommandExecutor = new IncrementCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IncrementInt};
@@ -47,7 +47,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.incrementCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.incrementCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.resetCommandExecutor = new ResetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ResetInt};
@@ -55,7 +55,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.resetCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.resetCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
@@ -63,7 +63,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.telemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -161,7 +161,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.readCounterCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.readCounterCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.incrementCommandInvoker = new IncrementCommandInvoker(applicationContext, mqttClient);
@@ -169,7 +169,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.incrementCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.incrementCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.resetCommandInvoker = new ResetCommandInvoker(applicationContext, mqttClient);
@@ -177,7 +177,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.resetCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.resetCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
@@ -185,7 +185,7 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.telemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }

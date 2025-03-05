@@ -35,7 +35,7 @@ namespace TestEnvoys.Passthrough
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.passCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.passCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace TestEnvoys.Passthrough
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.passCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
+                        this.passCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
