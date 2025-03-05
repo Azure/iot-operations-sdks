@@ -12,7 +12,7 @@ This directory contains a variety of samples demonstrating how to use the .NET p
 
 ## Setup your environment
 
-Follow the [setup](/doc.setup.md) directions to prepare an Azure IoT Operations cluster for development.
+Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations cluster for development.
 
 ## Run the samples
 
