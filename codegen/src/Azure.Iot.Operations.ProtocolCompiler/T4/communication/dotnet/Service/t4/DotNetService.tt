@@ -202,14 +202,13 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["invokerClientId"] = clientId;
 <# if (this.doesCommandTargetExecutor) { #>
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["executorId"] = executorId;
 <# } #>
 
-                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
 <# if (this.telemNameSchemas.Any()) { #>
