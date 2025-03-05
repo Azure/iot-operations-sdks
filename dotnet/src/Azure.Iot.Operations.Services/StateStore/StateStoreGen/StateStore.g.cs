@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.invokeCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.invokeCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -98,7 +98,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.invokeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.invokeCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }

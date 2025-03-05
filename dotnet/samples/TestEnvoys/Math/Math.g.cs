@@ -37,7 +37,7 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.isPrimeCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.isPrimeCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
@@ -45,7 +45,7 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.fibCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.fibCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
@@ -53,7 +53,7 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getRandomCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getRandomCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -142,7 +142,7 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.isPrimeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.isPrimeCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient);
@@ -150,7 +150,7 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.fibCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.fibCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient);
@@ -158,7 +158,7 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getRandomCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getRandomCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }

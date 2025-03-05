@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.putCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.putCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -120,7 +120,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.putCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.putCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
@@ -128,7 +128,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.getCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }

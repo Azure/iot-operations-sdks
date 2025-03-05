@@ -35,7 +35,7 @@ namespace SampleCloudEvents.Oven
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.telemetrySender.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -75,7 +75,7 @@ namespace SampleCloudEvents.Oven
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.telemetryReceiver.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }

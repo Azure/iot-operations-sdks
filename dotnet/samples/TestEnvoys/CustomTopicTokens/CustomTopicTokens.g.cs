@@ -37,7 +37,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.readCustomTopicTokenCommandExecutor.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.readCustomTopicTokenCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
@@ -45,7 +45,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.telemetrySender.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -117,7 +117,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.readCustomTopicTokenCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
@@ -125,7 +125,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.telemetryReceiver.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
