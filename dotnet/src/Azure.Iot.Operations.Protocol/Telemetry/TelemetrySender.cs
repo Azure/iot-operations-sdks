@@ -106,9 +106,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
             }
 
-            MqttTopicProcessor.SplitTopicTokenMap(combinedTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
-
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, effectiveTopicTokenMap, transientTopicTokenMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, combinedTopicTokenMap));
 
             try
             {
@@ -180,7 +178,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
-        private void ValidateAsNeeded(Dictionary<string, string>? topicTokenMap)
+        private void ValidateAsNeeded(Dictionary<string, string>? additionalTopicTokenMap)
         {
             if (_hasBeenValidated)
             {
@@ -195,10 +193,19 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     "The provided MQTT client is not configured for MQTT version 5");
             }
 
-            var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            MqttTopicProcessor.SplitTopicTokenMap(combinedTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+            Dictionary<string, string> combinedTopicTokenMap = new();
+            foreach (string topicTokenKey in TopicTokenMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
+            }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, effectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+            additionalTopicTokenMap ??= new();
+            foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
+            }
+
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch
