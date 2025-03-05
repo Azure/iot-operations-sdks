@@ -15,8 +15,11 @@ pub use crate::state_store::{Response, SetCondition, SetOptions};
 
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-type LockObservation = KeyObservation;
-type ServiceError = StateStoreServiceError;
+/// A struct to manage receiving notifications for a lock
+pub type LockObservation = KeyObservation;
+
+/// Represents the errors that occur in the Azure IoT Operations State Store Service.
+pub type ServiceError = StateStoreServiceError;
 
 /// Leased Lock Client implementation
 mod client;

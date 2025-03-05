@@ -38,9 +38,9 @@ where
     /// - There must be one instance of `leased_lock::Client` per lock.
     ///
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
+    /// [`struct@Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
     ///
-    /// [`Error`] of kind [`LockHolderNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
+    /// [`struct@Error`] of kind [`LockHolderNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
     pub fn new(
         state_store: Arc<state_store::Client<C>>,
         lock_name: Vec<u8>,
@@ -68,15 +68,15 @@ where
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or Error(LockAlreadyHeld) if lock is not acquired.
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     ///
-    /// [`Error`] of kind [`LockAlreadyHeld`](ErrorKind::LockAlreadyHeld) if the `lock` is already in use by another holder
+    /// [`struct@Error`] of kind [`LockAlreadyHeld`](ErrorKind::LockAlreadyHeld) if the `lock` is already in use by another holder
     /// # Panics
     /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lock is None.
     pub async fn try_acquire_lock(
@@ -111,13 +111,13 @@ where
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an Error if any failure occurs.
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     /// # Panics
     /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lock is None.
     pub async fn acquire_lock(
@@ -177,7 +177,7 @@ where
     /// Waits until a lock is acquired, sets/updates/deletes a key in the State Store (depending on `update_value_function` result) and releases the lock.
     ///
     /// `update_value_function` is a function with signature:
-    ///     fn `should_update_key(key_current_value`: Vec<u8>) -> `AcquireAndUpdateKeyOption`
+    ///     fn `should_update_key(key_current_value`: `Vec<u8>`) -> `AcquireAndUpdateKeyOption`
     /// Where `key_current_value` is the current value of `key` in the State Store (right after the lock is acquired).
     /// If the return is `AcquireAndUpdateKeyOption::Update(key_new_value)` it must contain the new value of the State Store key.
     ///
@@ -185,13 +185,13 @@ where
     ///
     /// Returns `true` if the key is successfully set or deleted, or `false` if it is not.
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     pub async fn acquire_lock_and_update_value(
         &self,
         lock_expiration: Duration,
@@ -254,13 +254,13 @@ where
     ///
     /// Returns `Ok()` if lock is no longer held by this `lock_holder`, or `Error` otherwise.
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     pub async fn release_lock(&self, request_timeout: Duration) -> Result<(), Error> {
         match self
             .state_store
@@ -279,7 +279,7 @@ where
 
     /// Starts observation of any changes on a lock
     ///
-    /// Returns OK([`leased_lock::Response<LockObservation>`]) if the lock is now being observed.
+    /// Returns OK([`Response<LockObservation>`]) if the lock is now being observed.
     /// The [`LockObservation`] can be used to receive lock notifications for this lock
     ///
     /// <div class="warning">
@@ -289,15 +289,15 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Observe` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from the command invoker
     pub async fn observe_lock(
         &self,
         request_timeout: Duration,
@@ -312,15 +312,15 @@ where
     ///
     /// Returns `true` if the lock is no longer being observed or `false` if the lock wasn't being observed
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Unobserve` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from the command invoker
     pub async fn unobserve_lock(&self, request_timeout: Duration) -> Result<Response<bool>, Error> {
         Ok(self
             .state_store
@@ -334,13 +334,13 @@ where
     /// if the lock was not found (i.e., was not acquired by anyone, already released or expired).
     ///
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     pub async fn get_lock_holder(
         &self,
         request_timeout: Duration,
