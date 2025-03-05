@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public int? ExecutionConcurrency { get; set; } = DefaultExecutionConcurrency;
 
-        public TestCaseError? RaiseError { get; set; }
+        public bool RaiseError { get; set; }
 
         public List<TestCaseSync> Sync { get; set; } = new();
     }

@@ -13,6 +13,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
     private GreeterService? _greetService;
     private MathService? _mathService;
     private MemMonService? _memMonService;
+    private CustomTopicTokenService? _customTopicTokenService;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -20,6 +21,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         _greetService = provider.GetService<GreeterService>()!;
         _mathService = provider.GetService<MathService>()!;
         _memMonService = provider.GetService<MemMonService>()!;
+        _customTopicTokenService = provider.GetService<CustomTopicTokenService>()!;
 
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
@@ -29,6 +31,28 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         await _greetService!.StartAsync(null, stoppingToken);
         await _mathService!.StartAsync(null, stoppingToken);
         await _memMonService!.StartAsync(null, stoppingToken);
+        await _customTopicTokenService.StartAsync(null, stoppingToken);
+
+        _ = Task.Run(async () =>
+        {
+            // Periodically send telemetry from custom topic token service to the custom topic token client
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    Dictionary<string, string> transientTopicTokens = new()
+                    {
+                        ["myCustomTopicToken"] = Guid.NewGuid().ToString()
+                    };
+                    await _customTopicTokenService.SendTelemetryAsync(new(), new(), transientTopicTokens);
+                }
+                catch (Exception)
+                {
+                    // Likely no matching subscribers. Safe to ignore.
+                }
+            }
+        }, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {

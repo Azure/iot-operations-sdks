@@ -70,8 +70,6 @@ See below for categorized tests.
 | During initialization, CommandExecutor subscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
 | CommandExecutor receives request that stalls during processing until execution timeout reached. | CommandExecutor responds with RequestTimeout. |
 | During finalization, CommandExecutor unsubscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
-| CommandExecutor user code raises error indicating problem with request content. | CommandExecutor sends error response. |
-| CommandExecutor user code raises error indicating problem with request content. | CommandExecutor sends error response. |
 | CommandExecutor user code raises error indicating problem with request execution. | CommandExecutor sends error response. |
 | CommandExecutor initialized with a topic namespace that is valid. | CommandExecutor starts successfully. |
 | CommandExecutor initialized with an execution timeout of zero. | CommandExecutor throws 'invalid configuration' exception. |
@@ -110,7 +108,7 @@ See below for categorized tests.
 | CommandInvoker receives response message with status indicating Bad Request and no invalid property name. | Invocation throws 'invalid payload' exception. |
 | CommandInvoker receives response message with status indicating an invalid state. | Invocation throws 'invalid state' exception. |
 | CommandInvoker receives response message indicating the execution function set an illegal metadata property. | Invocation throws 'execution error' exception. |
-| CommandInvoker receives response message with status indicating the request data is not valid at the application level. | Invocation throws 'invocation error' exception. |
+| CommandInvoker receives response message with a deprecated status indicating the request data is not valid at the application level. | Invocation throws 'unknown error' exception, but includes details. |
 | CommandInvoker receives response message with status indicating Bad Request and invalid property name. | Invocation throws 'missing header' exception. |
 | CommandInvoker receives response message with status indicating Request Timeout. | Invocation throws 'timeout' exception. |
 | CommandInvoker receives response message with status indicating an unknown error condition. | Invocation throws 'unknown error' exception. |

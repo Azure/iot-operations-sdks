@@ -39,7 +39,7 @@ namespace SampleCloudEvents.Oven
             /// Initializes a new instance of the <see cref="TelemetrySender"/> class.
             /// </summary>
             public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-                : base(applicationContext, mqttClient,  new Utf8JsonSerializer())
+                : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
