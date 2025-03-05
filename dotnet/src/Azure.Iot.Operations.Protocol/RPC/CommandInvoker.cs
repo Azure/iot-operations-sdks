@@ -5,7 +5,6 @@ using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -518,9 +517,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             try
             {
-                string requestTopic = GetCommandTopic(RequestTopicPattern, transientTopicTokenMap);
+                string requestTopic = GetCommandTopic(RequestTopicPattern, combinedTopicTokenMap);
                 string responseTopicPattern = GenerateResponseTopicPattern(transientTopicTokenMap);
-                string responseTopic = GetCommandTopic(responseTopicPattern, transientTopicTokenMap);
+                string responseTopic = GetCommandTopic(responseTopicPattern, combinedTopicTokenMap);
                 string responseTopicFilter = GetCommandTopic(responseTopicPattern, null);
 
                 ResponsePromise responsePromise = new(responseTopic);
