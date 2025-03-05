@@ -48,6 +48,10 @@ namespace TestEnvoys.Counter
                 {
                     base.TopicTokenMap["senderId"] = mqttClient.ClientId;
                 }
+                else
+                {
+                    base.TopicTokenMap["senderId"] = Guid.NewGuid().ToString();
+                }
             }
         }
     }

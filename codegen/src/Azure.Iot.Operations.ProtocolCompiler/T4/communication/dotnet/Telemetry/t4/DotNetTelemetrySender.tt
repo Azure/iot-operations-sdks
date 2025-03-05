@@ -49,6 +49,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     base.TopicTokenMap["senderId"] = mqttClient.ClientId;
                 }
+                else
+                {
+                    base.TopicTokenMap["senderId"] = Guid.NewGuid().ToString();
+                }
 <# if (!this.telemetryName.IsEmpty) { #>
                 base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
 <# } #>

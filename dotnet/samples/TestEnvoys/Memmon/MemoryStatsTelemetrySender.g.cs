@@ -48,6 +48,10 @@ namespace TestEnvoys.Memmon
                 {
                     base.TopicTokenMap["senderId"] = mqttClient.ClientId;
                 }
+                else
+                {
+                    base.TopicTokenMap["senderId"] = Guid.NewGuid().ToString();
+                }
                 base.TopicTokenMap["telemetryName"] = "memoryStats";
             }
         }
