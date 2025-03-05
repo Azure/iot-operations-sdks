@@ -121,9 +121,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Dictionary<string, string> otherCustomTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
+                ["ex:myCustomTopicToken"] = "someNewValueThatShouldNotBeHandledByExecutor",
             };
-            await Assert.ThrowsAsync<InvalidTimeZoneException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
+            var error = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens, TimeSpan.FromSeconds(3)));
+            Assert.True(error.Kind == AkriMqttErrorKind.Timeout);
         }
 
         [Fact]
@@ -150,9 +151,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Dictionary<string, string> otherCustomTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = "some new value that shouldn't be handled by executor",
+                ["ex:myCustomTopicToken"] = "someNewValueThatShouldNotBeHandledByExecutor",
             };
-            await Assert.ThrowsAsync<InvalidTimeZoneException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens));
+            var error = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens, TimeSpan.FromSeconds(3)));
+            Assert.True(error.Kind == AkriMqttErrorKind.Timeout);
         }
     }
 }
