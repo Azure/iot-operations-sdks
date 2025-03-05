@@ -616,7 +616,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, topicTokenMap, null));
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, topicTokenMap));
 
             return commandTopic.ToString();
         }
@@ -628,9 +628,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid", commandName: _commandName);
             }
 
-            MqttTopicProcessor.SplitTopicTokenMap(TopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
-
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, effectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, TopicTokenMap, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch
