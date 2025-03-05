@@ -53,7 +53,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
 <# } #>
@@ -63,7 +63,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
 <# } #>
@@ -182,7 +182,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
 <# } #>
@@ -192,7 +192,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
 <# } #>
