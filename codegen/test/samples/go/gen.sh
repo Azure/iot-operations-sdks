@@ -1,6 +1,6 @@
 set -e
 
-gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler 
+gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler
 
 [[ -d ./CommandVariantsSample ]] && rm -r ./CommandVariantsSample
 $gen --modelFile ../dtdl/CommandVariants.json --outDir ./CommandVariantsSample --lang go

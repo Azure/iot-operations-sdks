@@ -10,8 +10,12 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-<# foreach (var referencedSchema in this.referencedSchemaNames) { #>
-use super::<#=referencedSchema.GetFileName(TargetLanguage.Rust)#>::<#=referencedSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# foreach (var referencedSchema in this.referencedSchemas) { #>
+<# if (referencedSchema.Namespace.Equals(this.objectType.Namespace)) { #>
+use super::<#=referencedSchema.SchemaName.GetFileName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetTypeName(TargetLanguage.Rust)#>;
+<# } else { #>
+use super::super::<#=referencedSchema.Namespace.GetFolderName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetFileName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 <# } #>
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 

@@ -7,15 +7,15 @@
 
     public class RustTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder)
+        public void GenerateTypeFromSchema(string projectName, SchemaType schemaType, SerializationFormat serFormat, string outputFolder)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new RustObject(genNamespace, objectType, GetReferencedSchemaNames(objectType), allowSkipping: serFormat == SerializationFormat.Json),
+                ObjectType objectType => new RustObject(objectType, allowSkipping: serFormat == SerializationFormat.Json),
                 EnumType enumType =>
-                    enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new RustStringEnum(genNamespace, enumType) :
-                    enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new RustIntegerEnum(genNamespace, enumType) :
-                    new RustBareEnum(genNamespace, enumType),
+                    enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new RustStringEnum(enumType) :
+                    enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new RustIntegerEnum(enumType) :
+                    new RustBareEnum(enumType),
                 _ => throw new Exception("unrecognized schema type"),
             };
 
@@ -29,35 +29,6 @@
             string outFilePath = Path.Combine(outDirPath, templateTransform.FileName);
             File.WriteAllText(outFilePath, generatedCode);
             Console.WriteLine($"  generated {outFilePath}");
-        }
-
-        private IReadOnlyCollection<CodeName> GetReferencedSchemaNames(SchemaType schemaType)
-        {
-            HashSet<CodeName> referencedSchemaNames = new();
-            AddReferencedSchemaNames(referencedSchemaNames, schemaType);
-            return referencedSchemaNames;
-        }
-
-        private void AddReferencedSchemaNames(HashSet<CodeName> referencedSchemaNames, SchemaType schemaType)
-        {
-            switch (schemaType)
-            {
-                case ArrayType arrayType:
-                    AddReferencedSchemaNames(referencedSchemaNames, arrayType.ElementSchema);
-                    break;
-                case MapType mapType:
-                    AddReferencedSchemaNames(referencedSchemaNames, mapType.ValueSchema);
-                    break;
-                case ObjectType objectType:
-                    foreach (var fieldInfo in objectType.FieldInfos)
-                    {
-                        AddReferencedSchemaNames(referencedSchemaNames, fieldInfo.Value.SchemaType);
-                    }
-                    break;
-                case ReferenceType referenceType:
-                    referencedSchemaNames.Add(referenceType.SchemaName);
-                    break;
-            }
         }
     }
 }

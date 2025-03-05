@@ -13,9 +13,9 @@
     {
         private static readonly Dictionary<string, LanguageInfo> LanguageInfos = new()
         {
-            { "csharp", new LanguageInfo(TargetLanguage.CSharp, $"obj{Path.DirectorySeparatorChar}Akri", string.Empty) },
-            { "go", new LanguageInfo(TargetLanguage.Go, $"akri", string.Empty) },
-            { "rust", new LanguageInfo(TargetLanguage.Rust, $"target{Path.DirectorySeparatorChar}akri", "src") },
+            { "csharp", new LanguageInfo(TargetLanguage.CSharp, $"obj{Path.DirectorySeparatorChar}Akri", string.Empty, SupportsSharing: true) },
+            { "go", new LanguageInfo(TargetLanguage.Go, $"akri", string.Empty, SupportsSharing: false) },
+            { "rust", new LanguageInfo(TargetLanguage.Rust, $"target{Path.DirectorySeparatorChar}akri", "src", SupportsSharing: true) },
         };
 
         public static readonly string[] SupportedLanguages = LanguageInfos.Keys.ToArray();
@@ -41,6 +41,7 @@
                 WarnOnSuspiciousOption("workingDir", options.WorkingDir);
                 WarnOnSuspiciousOption("sdkPath", options.SdkPath);
                 WarnOnSuspiciousOption("namespace", options.GenNamespace);
+                WarnOnSuspiciousOption("shared", options.SharedPrefix);
                 if (!options.OutDir.Exists)
                 {
                     WarnOnSuspiciousOption("outDir", options.OutDir.Name);
@@ -58,7 +59,22 @@
                     return 1;
                 }
 
+                if (options.SharedPrefix != null && !LanguageInfos[options.Lang].SupportsSharing)
+                {
+                    Console.WriteLine($"option --shared is not compatible with --lang {options.Lang}");
+                    return 1;
+                }
+
                 CodeName? genNamespace = options.GenNamespace != null ? new(options.GenNamespace) : null;
+
+                Dtmi? sharedDtmi = null;
+                if (options.SharedPrefix != null && (!Dtmi.TryCreateDtmi(options.SharedPrefix, out sharedDtmi) || sharedDtmi.MajorVersion != 0))
+                {
+                    Console.WriteLine($"shared prefix \"{options.SharedPrefix}\" must parse as a valid versionless DTMI, e.g. 'dtmi:foo:bar'");
+                    return 1;
+                }
+
+                CodeName? sharedPrefix = sharedDtmi != null ? new(sharedDtmi) : null;
 
                 string genRoot = Path.Combine(options.OutDir.FullName, options.NoProj ? string.Empty : LanguageInfos[options.Lang].GenSubdir);
                 string projectName = LegalizeName(options.OutDir.Name);
@@ -121,7 +137,7 @@
 
                     var modelParser = new ModelParser();
 
-                    SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace);
+                    SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace, sharedPrefix);
                 }
 
                 string schemaFolder = Path.Combine(workingDir.FullName, genNamespace!.GetFolderName(TargetLanguage.Independent));
@@ -137,6 +153,18 @@
                     TypesGenerator.GenerateType(options.Lang, LanguageInfos[options.Lang].Language, projectName, schemaFileName, workingDir, genRoot, genNamespace!);
                 }
 
+                if (sharedPrefix != null)
+                {
+                    string sharedSchemaFolder = new(Path.Combine(workingDir.FullName, sharedPrefix.GetFolderName(TargetLanguage.Independent)));
+                    if (Directory.Exists(sharedSchemaFolder))
+                    {
+                        foreach (string schemaFileName in Directory.GetFiles(sharedSchemaFolder))
+                        {
+                            TypesGenerator.GenerateType(options.Lang, LanguageInfos[options.Lang].Language, projectName, schemaFileName, workingDir, genRoot, sharedPrefix);
+                        }
+                    }
+                }
+
                 string[] annexFiles = Directory.GetFiles(schemaFolder, $"*.annex.json");
                 switch (annexFiles.Length)
                 {
@@ -144,7 +172,7 @@
                         Console.WriteLine("No annex file present in working directory, so no envoy files generated");
                         break;
                     case 1:
-                        EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFiles.First(), options.OutDir, workingDir, genRoot, genNamespace!, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, options.DefaultImpl, !options.NoProj);
+                        EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFiles.First(), options.OutDir, workingDir, genRoot, genNamespace!, sharedPrefix, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, options.DefaultImpl, !options.NoProj);
                         break;
                     default:
                         Console.WriteLine("Multiple annex files in working directory. To generate envoy files, remove all but one annex file:");
@@ -164,7 +192,7 @@
             return 0;
         }
 
-        private record LanguageInfo(TargetLanguage Language, string DefaultWorkingPath, string GenSubdir);
+        private record LanguageInfo(TargetLanguage Language, string DefaultWorkingPath, string GenSubdir, bool SupportsSharing);
 
         private static string LegalizeName(string fsName)
         {
