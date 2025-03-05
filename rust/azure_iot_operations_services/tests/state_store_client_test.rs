@@ -190,22 +190,7 @@ async fn state_store_basic_set_delete_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -338,22 +323,7 @@ async fn state_store_fencing_token_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -417,22 +387,7 @@ async fn state_store_key_not_found_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -555,22 +510,7 @@ async fn state_store_set_conditions_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -656,22 +596,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -767,22 +692,7 @@ async fn state_store_set_key_notifications_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -876,22 +786,7 @@ async fn state_store_del_key_notifications_network_tests() {
             // Also validates that recv gets None after shutdown.
             assert!(receive_notifications_task.await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -998,22 +893,7 @@ async fn state_store_observe_unobserve_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -1215,22 +1095,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
