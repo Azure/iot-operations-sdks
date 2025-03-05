@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             TopicTokenMap = new();
         }
 
-        private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? combinedTopicTokenMap)
+        private string GenerateResponseTopicPattern(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
         {
             if (ResponseTopicPattern != null)
             {
@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseTopicPrefix != null)
             {
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicPrefix, combinedTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicPrefix, TopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
@@ -139,7 +139,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseTopicSuffix != null)
             {
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicSuffix, combinedTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(ResponseTopicSuffix, TopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
@@ -174,7 +174,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(pattern, topicTokenMap));
+            MqttTopicProcessor.SplitTopicTokenMap(topicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(pattern, effectiveTopicTokenMap, transientTopicTokenMap));
 
             return commandTopic.ToString();
         }
@@ -510,7 +512,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
             }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, combinedTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+            MqttTopicProcessor.SplitTopicTokenMap(combinedTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(RequestTopicPattern, effectiveTopicTokenMap, additionalTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch
