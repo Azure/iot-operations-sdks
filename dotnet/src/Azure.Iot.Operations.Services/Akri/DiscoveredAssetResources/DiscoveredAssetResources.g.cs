@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetEndpointProfileCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetCommandExecutor.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
             }
@@ -121,7 +121,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
                 this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
@@ -129,7 +129,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetCommandInvoker.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey])
                     }
                 }
             }
