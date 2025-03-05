@@ -5,8 +5,11 @@
 
 use std::{sync::Arc, time::Duration};
 
-use crate::leased_lock::{AcquireAndUpdateKeyOption, Error, ErrorKind, LockObservation};
-use crate::state_store::{self, Response, SetCondition, SetOptions};
+use crate::leased_lock::{
+    AcquireAndUpdateKeyOption, Error, ErrorKind, LockObservation, Response, SetCondition,
+    SetOptions,
+};
+use crate::state_store::{self};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
@@ -175,6 +178,8 @@ where
     }
 
     /// Waits until a lock is acquired, sets/updates/deletes a key in the State Store (depending on `update_value_function` result) and releases the lock.
+    ///
+    /// `lock_expiration` should be long enough to last through underlying key operations, otherwise it's possible for updating the value to fail if the lock is no longer held.
     ///
     /// `update_value_function` is a function with signature:
     ///     fn `should_update_key(key_current_value`: `Vec<u8>`) -> `AcquireAndUpdateKeyOption`

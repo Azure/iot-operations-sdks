@@ -230,7 +230,7 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
             let release_result = leased_lock_client1.release_lock(request_timeout).await;
             assert!(release_result.is_ok());
 
-            task1_notify.notified().await; // Wait task2 acquire.
+            sleep(Duration::from_secs(1)).await; // Wait task2 acquire.
 
             let get_lock_holder_response = leased_lock_client1
                 .get_lock_holder(request_timeout)
@@ -264,8 +264,6 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
                 get_lock_holder_response.response.unwrap(),
                 test_task1_holder_name1.into_bytes()
             );
-
-            task2_notify.notify_one(); // Let task1 release.
 
             let _ = leased_lock_client2
                 .acquire_lock(lock_expiry, request_timeout)
@@ -590,9 +588,7 @@ async fn leased_lock_shutdown_state_store_while_observing_lock_network_tests() {
                 .unwrap();
 
             let receive_notifications_task = tokio::task::spawn({
-                async move {
-                    observe_response.response.recv_notification().await
-                }
+                async move { observe_response.response.recv_notification().await }
             });
 
             assert!(state_store_client1.shutdown().await.is_ok());
@@ -707,6 +703,7 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
     let shared_resource_key_name = format!("{test_id}-key");
+    let shared_resource_key_value = format!("{test_id}-value");
 
     let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
@@ -725,7 +722,7 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
                         &|key_current_value: Option<Vec<u8>>| {
                             assert!(key_current_value.is_none());
                             AcquireAndUpdateKeyOption::Update(
-                                holder_name1.clone().into_bytes(),
+                                shared_resource_key_value.clone().into_bytes(),
                                 SetOptions {
                                     set_condition: SetCondition::Unconditional,
                                     expires: Some(Duration::from_secs(10)),
@@ -755,7 +752,7 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
                     .unwrap()
                     .response
                     .unwrap(),
-                holder_name1.into_bytes()
+                shared_resource_key_value.into_bytes()
             );
 
             assert!(
@@ -1001,39 +998,10 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
                 .await
                 .unwrap();
             // Looks like this never fails. That is expected:
-            // vaava: "Since a key being deleted doesn't end your observation,
+            // vaavva: "Since a key being deleted doesn't end your observation,
             // it makes sense that if you observe a key that doesn't exist,
             // you might expect it to exist in the future and want notifications"
 
-            // Shutdown state store client and underlying resources
-            assert!(state_store_client.shutdown().await.is_ok());
-
-            exit_handle.try_exit().await.unwrap();
-        }
-    });
-
-    // if an assert fails in the test task, propagate the panic to end the test,
-    // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
-}
-
-#[ignore]
-#[tokio::test]
-async fn leased_lock_shutdown_right_away_network_tests() {
-    let test_id = "leased_lock_shutdown_right_away_network_tests";
-    if !setup_test(test_id) {
-        return;
-    }
-
-    let (mut session, state_store_client, _leased_lock_client, exit_handle) =
-        initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
-
-    let test_task = tokio::task::spawn({
-        async move {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 

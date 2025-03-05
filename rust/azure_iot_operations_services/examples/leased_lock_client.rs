@@ -3,6 +3,7 @@
 
 use std::{sync::Arc, time::Duration};
 
+use env_logger::Builder;
 use tokio::sync::Notify;
 
 use azure_iot_operations_mqtt::session::{
@@ -13,8 +14,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{
     self, AcquireAndUpdateKeyOption, SetCondition, SetOptions,
 };
-use azure_iot_operations_services::state_store::{self};
-use env_logger::Builder;
+use azure_iot_operations_services::state_store;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -154,7 +154,7 @@ async fn leased_lock_client_1_operations(
         .await
     {
         Ok(acquire_lock_result) => {
-            log::info!("Lock acquired successfuly");
+            log::info!("Lock acquired successfully");
             acquire_lock_result // a.k.a., the fencing token.
         }
         Err(e) => {
@@ -177,7 +177,7 @@ async fn leased_lock_client_1_operations(
     {
         Ok(set_response) => {
             if set_response.response {
-                log::info!("Key set successfuly");
+                log::info!("Key set successfully");
             } else {
                 log::error!("Could not set key {:?}", set_response);
                 return;
@@ -195,7 +195,7 @@ async fn leased_lock_client_1_operations(
     // 4.
     match leased_lock_client.release_lock(request_timeout).await {
         Ok(()) => {
-            log::info!("Lock released successfuly");
+            log::info!("Lock released successfully");
         }
         Err(e) => {
             log::error!("Failed releasing lock {:?}", e);
@@ -210,7 +210,7 @@ async fn leased_lock_client_1_operations(
 
 /// In `leased_lock_client_2_operations` you will find the following examples:
 /// 5. Start observing a lock, waiting for it to be released.
-/// 6. Stopt observing a lock.
+/// 6. Stop observing a lock.
 /// 7. Make a call to `acquire_lock_and_update_value()` to set a key.
 /// 8. Make a call to `acquire_lock_and_update_value()` to delete a key.
 async fn leased_lock_client_2_operations(
@@ -288,7 +288,7 @@ async fn leased_lock_client_2_operations(
     {
         Ok(acquire_lock_and_update_value_result) => {
             if acquire_lock_and_update_value_result.response {
-                log::info!("Key successfuly set");
+                log::info!("Key successfully set");
             } else {
                 log::error!(
                     "Could not set key {:?}",
@@ -320,7 +320,7 @@ async fn leased_lock_client_2_operations(
     {
         Ok(acquire_lock_and_update_value_result) => {
             if acquire_lock_and_update_value_result.response {
-                log::info!("Key successfuly deleted");
+                log::info!("Key successfully deleted");
             } else {
                 log::error!(
                     "Could not delete key {:?}",
