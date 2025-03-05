@@ -8,9 +8,7 @@ description:
 
 prologue:
   executors:
-  - raise-error:
-      kind: execution
-      message: "This is an execution error"
+  - raise-error: true
 
 actions:
 - action: receive request

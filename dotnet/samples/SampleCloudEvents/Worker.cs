@@ -8,12 +8,13 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
+using SampleCloudEvents.Oven;
 
 namespace SampleCloudEvents;
 
 public class Worker(MqttSessionClient mqttClient, OvenService ovenService, SchemaRegistryClient srClient, ILogger<Worker> logger, IConfiguration configuration) : BackgroundService
 {
-    private readonly DateTime started = DateTime.UtcNow;
+    private readonly DateTime _started = DateTime.UtcNow;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -36,23 +37,23 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
         int counter = 0;
         while (!stoppingToken.IsCancellationRequested)
         {
-            await ovenService.SendTelemetryAsync(new dtmi_akri_samples_oven__1.TelemetryCollection()
+            await ovenService.SendTelemetryAsync(new TelemetryCollection()
             {
                 ExternalTemperature = 100 - counter,
                 InternalTemperature = 200 + counter,
-            }, metadata, MqttQualityOfServiceLevel.AtMostOnce);
+            }, metadata, null, MqttQualityOfServiceLevel.AtMostOnce);
             
             if (counter % 2 == 0)
             {
-                await ovenService.SendTelemetryAsync(new dtmi_akri_samples_oven__1.TelemetryCollection()
+                await ovenService.SendTelemetryAsync(new TelemetryCollection()
                 {
                     OperationSummary = new()
                     {
                         NumberOfCakes = counter,
-                        StartingTime = started,
-                        TotalDuration = DateTime.UtcNow - started
+                        StartingTime = _started,
+                        TotalDuration = DateTime.UtcNow - _started
                     }
-                }, metadata, MqttQualityOfServiceLevel.AtMostOnce);
+                }, metadata, null, MqttQualityOfServiceLevel.AtMostOnce);
             }
             logger.LogInformation("messages sent {counter}", counter++);
             await Task.Delay(1000, stoppingToken);

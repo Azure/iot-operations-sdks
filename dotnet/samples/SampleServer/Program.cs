@@ -14,6 +14,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<MathService>();
         services.AddTransient<GreeterService>();
         services.AddTransient<MemMonService>();
+        services.AddTransient<CustomTopicTokenService>();
     })
     .Build();
 
