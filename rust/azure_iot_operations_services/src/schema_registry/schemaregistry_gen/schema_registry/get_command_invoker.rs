@@ -26,6 +26,7 @@ pub type GetRequestBuilderError = CommandRequestBuilderError;
 /// Builder for [`GetRequest`]
 pub struct GetRequestBuilder {
     inner_builder: CommandRequestBuilder<GetRequestPayload>,
+    topic_tokens: HashMap<String, String>,
 }
 
 impl GetRequestBuilder {
@@ -39,12 +40,9 @@ impl GetRequestBuilder {
     /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        self.inner_builder.topic_tokens(
-            topic_tokens
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect::<HashMap<String, String>>(),
-        );
+        for (k, v) in topic_tokens {
+            self.topic_tokens.insert(format!("ex:{k}"), v);
+        }
         self
     }
 
@@ -69,6 +67,8 @@ impl GetRequestBuilder {
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<GetRequest, GetRequestBuilderError> {
+        self.inner_builder.topic_tokens(self.topic_tokens.clone());
+
         self.inner_builder.build()
     }
 }
