@@ -17,7 +17,14 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 
         public X509Certificate HandleCertificateSelection(MqttClientCertificateSelectionEventArgs args)
         {
-            return _mqttNetFunc.Invoke(new MQTTnet.MqttClientCertificateSelectionEventArgs(args.TargetHost, args.LocalCertificates, args.RemoteCertificate, args.AcceptableIssuers, MqttNetConverter.FromGeneric(args.TcpOptions)));
+            try
+            {
+                return _mqttNetFunc.Invoke(new MQTTnet.MqttClientCertificateSelectionEventArgs(args.TargetHost, args.LocalCertificates, args.RemoteCertificate, args.AcceptableIssuers, MqttNetConverter.FromGeneric(args.TcpOptions)));
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("func null? " + (_mqttNetFunc == null) + " args null? " + (args == null) + " tcpOptions null? " + (args?.TcpOptions == null));
+            }
         }
     }
 }
