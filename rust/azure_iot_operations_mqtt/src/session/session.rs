@@ -101,7 +101,6 @@ where
         SessionManagedClient {
             client_id: self.client_id.clone(),
             pub_sub: self.client.clone(),
-            //state: self.state.clone(),
             receiver_manager: self.receiver_manager.clone(),
         }
     }

@@ -28,8 +28,6 @@ where
     pub(crate) client_id: String,
     // PubSub for sending outgoing MQTT messages
     pub(crate) pub_sub: PS,
-    // /// State
-    // pub(crate) state: Arc<SessionState>,
     /// Manager for receivers
     pub(crate) receiver_manager: Arc<Mutex<PublishReceiverManager>>,
 }
@@ -79,17 +77,6 @@ where
         retain: bool,
         payload: impl Into<Bytes> + Send,
     ) -> Result<CompletionToken, PublishError> {
-        // TODO: check state is what we want, otherwise return error with spoofed request
-        // Actually.... it should be a select loop? where if the state changes to exited, we error?
-
-        // tokio::select! {
-        //     self.state.condition_exited().await => {
-        //         Err(PublishError::DetachedClient(rumqttc::v5::Request::Publish))
-        //     }
-        //     self.pub_sub.publish(topic, qos, retain, payload).await => {
-        //         Ok(CompletionToken::new())
-        //     }
-        // }
         self.pub_sub.publish(topic, qos, retain, payload).await
     }
 

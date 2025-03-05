@@ -13,36 +13,6 @@ pub type CompletionError = rumqttc::NoticeError;
 /// Error subtype for MQTT connection error caused by state
 pub type StateError = rumqttc::v5::StateError;
 
-// WAIT CAN THIS JUST PUT A PUBLISH IN THE DETACHED CLIENT ERROR?
-// Should these be separate errors structs? I think yes
-
-// #[derive(Debug, Error)]
-// pub struct PublishError {
-//     #[from]
-//     kind: PublishErrorKind,
-// }
-
-// impl PublishError {
-//     // pub fn new(kind: PublishErrorKind, publish: Publish) -> Self {
-//     //     Self { publish, kind }
-//     // }
-
-//     pub fn kind(&self) -> &PublishErrorKind {
-//         &self.kind
-//     }
-// }
-
-// /// Error executing an MQTT publish
-// #[derive(Debug, Error)]
-// pub enum PublishErrorKind {
-//     /// Client is detached from connection/event loop. Cannot send requests.
-//     #[error("client is detached from connection/event loop")]
-//     DetachedClient,
-//     /// Invalid topic name provided
-//     #[error("invalid topic name")]
-//     InvalidTopicName,
-// }
-
 /// Error executing an MQTT publish
 #[derive(Debug, Error)]
 pub enum PublishError {
