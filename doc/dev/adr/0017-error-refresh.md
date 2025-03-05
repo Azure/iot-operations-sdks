@@ -46,7 +46,9 @@ ADR. This ADR is to collect them in a single place and propose updates.
 -   Merge `unsupported request version` and `unsupported response version` into
     `unsupported version`. The source of the error (e.g. invoker or executor) is
     already communicated by `is remote` (or the equivalent), and the information
-    communicated by the `error kind` is otherwise the same.
+    communicated by the `error kind` is otherwise the same. The SDKs should
+    still, however, distinguish these cases in the error message for ease of
+    logging.
 
 [1]: ../../reference/error-model.md
 [2]: ./0015-remove-422-status-code.md
