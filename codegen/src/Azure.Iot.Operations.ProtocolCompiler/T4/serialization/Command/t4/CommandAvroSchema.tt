@@ -6,7 +6,7 @@
   "fields": [
     {
       "name": "<#=this.paramName#>",
-<#=AvroSchemaSupport.GetTypeAndAddenda(this.paramSchema, indent: 6, this.isNullable, nestNamedType: true)#>
+<#=AvroSchemaSupport.GetTypeAndAddenda(this.paramSchema, indent: 6, this.sharedPrefix, this.isNullable, nestNamedType: true)#>
     }
   ]
 }

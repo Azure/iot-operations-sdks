@@ -17,6 +17,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     using Azure.Iot.Operations.Protocol.RPC;
     using Azure.Iot.Operations.Protocol.Telemetry;
     using <#=this.projectName#>;
+<# if (this.sharedNamespace != null) { #>
+    using <#=this.projectName#>.<#=this.sharedNamespace.GetTypeName(TargetLanguage.CSharp)#>;
+<# } #>
 
 <# if (this.commandTopic != null) { #>
     [CommandTopic("<#=this.commandTopic#>")]

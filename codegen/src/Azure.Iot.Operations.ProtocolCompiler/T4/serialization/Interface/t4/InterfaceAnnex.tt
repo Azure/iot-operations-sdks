@@ -2,6 +2,9 @@
 {
   "<#=InterfaceAnnex.ProjectName#>": "<#=this.projectName#>",
   "<#=InterfaceAnnex.Namespace#>": "<#=this.genNamespace.GetTypeName(TargetLanguage.Independent)#>",
+<# if (this.sharedPrefix != null) { #>
+      "<#=InterfaceAnnex.Shared#>": "<#=this.sharedPrefix.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
   "<#=InterfaceAnnex.ModelId#>": "<#=this.modelId#>",
   "<#=InterfaceAnnex.ServiceName#>": "<#=this.serviceName.GetTypeName(TargetLanguage.Independent)#>",
   "<#=InterfaceAnnex.PayloadFormat#>": "<#=this.serializationFormat#>",
@@ -33,19 +36,27 @@
     {
       "<#=InterfaceAnnex.CommandName#>": "<#=cmdNameReqRespIdemStale.Item1#>",
 <# if (cmdNameReqRespIdemStale.Item2 != null) { #>
-      "<#=InterfaceAnnex.CmdRequestSchema#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item2.GetTypeName(TargetLanguage.Independent))#>,
+      "<#=InterfaceAnnex.CmdRequestSchema#>": "<#=cmdNameReqRespIdemStale.Item2.GetTypeName(TargetLanguage.Independent)#>",
+<# string reqNamespace = this.GetNamespace(cmdNameReqRespIdemStale.Item2); if (reqNamespace != null) { #>
+      "<#=InterfaceAnnex.CmdRequestNamespace#>": "<#=reqNamespace#>",
+<# } #>
 <# } #>
 <# if (cmdNameReqRespIdemStale.Item3 != null) { #>
-      "<#=InterfaceAnnex.CmdResponseSchema#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item3.GetTypeName(TargetLanguage.Independent))#>,
+      "<#=InterfaceAnnex.CmdResponseSchema#>": "<#=cmdNameReqRespIdemStale.Item3.GetTypeName(TargetLanguage.Independent)#>",
+<# string respNamespace = this.GetNamespace(cmdNameReqRespIdemStale.Item3); if (respNamespace != null) { #>
+      "<#=InterfaceAnnex.CmdResponseNamespace#>": "<#=respNamespace#>",
+<# } #>
 <# } #>
       "<#=InterfaceAnnex.CmdIsIdempotent#>": <#=cmdNameReqRespIdemStale.Item4 ? "true" : "false"#>,
-      "<#=InterfaceAnnex.CmdCacheability#>": <#=this.GetSchema(cmdNameReqRespIdemStale.Item5)#>
+      "<#=InterfaceAnnex.CmdCacheability#>": <#=this.QuoteOrNull(cmdNameReqRespIdemStale.Item5)#>
     }<#=this.IsLastCmd(cmdNameReqRespIdemStale) ? "" : ","#>
 <# } #>
   ]
 }
 <#+
-    private string GetSchema(string schema) => schema != null ? $"\"{schema}\"" : "null";
+    private string QuoteOrNull(string value) => value != null ? $"\"{value}\"" : "null";
+
+    private string GetNamespace(ITypeName typeName) => typeName is CodeName schema && schema.AsDtmi != null ? CommonSchemaSupport.GetNamespace(schema.AsDtmi, this.sharedPrefix)?.GetTypeName(TargetLanguage.Independent) : null;
 
     private bool IsLastTelem((string, ITypeName) telemNameSchema) => telemNameSchema.Item1 == this.telemNameSchemas.Last().Item1;
 
