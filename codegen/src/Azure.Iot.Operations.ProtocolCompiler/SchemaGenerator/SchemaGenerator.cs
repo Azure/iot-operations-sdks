@@ -49,7 +49,9 @@
             if (schemaCounts.Any(kv => kv.Value > 1))
             {
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Aborting schema generation due to duplicate generated names:");
+                Console.ResetColor();
                 foreach (KeyValuePair<string, int> schemaCount in schemaCounts.Where(kv => kv.Value > 1))
                 {
                     Console.WriteLine($"  {schemaCount.Key}");
@@ -61,12 +63,33 @@
                 Console.WriteLine();
                 Console.WriteLine(@"HINT: You can force a generated name by assigning an ""@id"" value, whose last label will determine the name, like this:");
                 Console.WriteLine();
-                Console.WriteLine($"  \"name\": \"{preName}\",");
-                Console.WriteLine(@"  ""schema"": {");
+                Console.WriteLine($"    \"name\": \"{preName}\",");
+                Console.WriteLine(@"    ""schema"": {");
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(@"    ""@id"": ""dtmi:foo:bar:baz:SomeNameYouLike;1"",");
+                Console.WriteLine(@"      ""@id"": ""dtmi:foo:bar:baz:SomeNameYouLike;1"",");
                 Console.ResetColor();
-                Console.WriteLine(@"    ""@type"": ""Object"",");
+                Console.WriteLine(@"      ""@type"": . . .");
+                Console.WriteLine();
+
+                Console.WriteLine(@"HINT: If your model contains a duplicated definition, you can outline it to the ""schemas"" section of the Interface, like this:");
+                Console.WriteLine();
+                Console.WriteLine(@"  ""schemas"": [");
+                Console.WriteLine(@"    {");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"      \"@id\": \"dtmi:foo:bar:sharedSchemas:{exampleName};1\",");
+                Console.ResetColor();
+                Console.WriteLine(@"      ""@type"": . . .");
+                Console.WriteLine(@"    }");
+                Console.WriteLine(@"  ]");
+                Console.WriteLine();
+                Console.WriteLine(@"and then refer to the identifier (instead of an inline definition) from multiple places:");
+                Console.WriteLine();
+                Console.WriteLine($"    \"name\": \"{preName}\",");
+                Console.Write(@"    ""schema"":");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($" \"dtmi:foo:bar:sharedSchemas:{exampleName};1\",");
+                Console.ResetColor();
+
                 Console.WriteLine();
 
                 return false;
