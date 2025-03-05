@@ -33,9 +33,21 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.mqttClient = mqttClient;
 
                 this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt};
-                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
-                this.createDiscoveredAssetCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.createDiscoveredAssetCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }
@@ -105,9 +117,21 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.mqttClient = mqttClient;
 
                 this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(applicationContext, mqttClient);
-                this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
-                this.createDiscoveredAssetCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.createDiscoveredAssetCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandInvoker CreateDiscoveredAssetEndpointProfileCommandInvoker { get => this.createDiscoveredAssetEndpointProfileCommandInvoker; }

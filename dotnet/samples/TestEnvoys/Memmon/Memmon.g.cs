@@ -37,17 +37,53 @@ namespace TestEnvoys.Memmon
                 this.mqttClient = mqttClient;
 
                 this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StartTelemetryInt};
-                this.startTelemetryCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.startTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt};
-                this.stopTelemetryCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.stopTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt};
-                this.getRuntimeStatsCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.getRuntimeStatsCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient);
-                this.workingSetTelemetrySender.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.workingSetTelemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.managedMemoryTelemetrySender = new ManagedMemoryTelemetrySender(applicationContext, mqttClient);
-                this.managedMemoryTelemetrySender.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.managedMemoryTelemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.memoryStatsTelemetrySender = new MemoryStatsTelemetrySender(applicationContext, mqttClient);
-                this.memoryStatsTelemetrySender.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.memoryStatsTelemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public StartTelemetryCommandExecutor StartTelemetryCommandExecutor { get => this.startTelemetryCommandExecutor; }
@@ -157,17 +193,53 @@ namespace TestEnvoys.Memmon
                 this.mqttClient = mqttClient;
 
                 this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(applicationContext, mqttClient);
-                this.startTelemetryCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.startTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.stopTelemetryCommandInvoker = new StopTelemetryCommandInvoker(applicationContext, mqttClient);
-                this.stopTelemetryCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.stopTelemetryCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.getRuntimeStatsCommandInvoker = new GetRuntimeStatsCommandInvoker(applicationContext, mqttClient);
-                this.getRuntimeStatsCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.getRuntimeStatsCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.workingSetTelemetryReceiver = new WorkingSetTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.workingSetTelemetryReceiver.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.workingSetTelemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.managedMemoryTelemetryReceiver = new ManagedMemoryTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.managedMemoryTelemetryReceiver.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.managedMemoryTelemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.memoryStatsTelemetryReceiver = new MemoryStatsTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.memoryStatsTelemetryReceiver.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.memoryStatsTelemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public StartTelemetryCommandInvoker StartTelemetryCommandInvoker { get => this.startTelemetryCommandInvoker; }

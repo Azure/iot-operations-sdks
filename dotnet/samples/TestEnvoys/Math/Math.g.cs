@@ -33,11 +33,29 @@ namespace TestEnvoys.Math
                 this.mqttClient = mqttClient;
 
                 this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt};
-                this.isPrimeCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.isPrimeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
-                this.fibCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.fibCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
-                this.getRandomCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.getRandomCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }
@@ -120,11 +138,29 @@ namespace TestEnvoys.Math
                 this.mqttClient = mqttClient;
 
                 this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(applicationContext, mqttClient);
-                this.isPrimeCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.isPrimeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient);
-                this.fibCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.fibCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient);
-                this.getRandomCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.getRandomCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public IsPrimeCommandInvoker IsPrimeCommandInvoker { get => this.isPrimeCommandInvoker; }

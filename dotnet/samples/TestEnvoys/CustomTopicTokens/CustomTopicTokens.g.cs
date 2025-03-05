@@ -33,9 +33,21 @@ namespace TestEnvoys.CustomTopicTokens
                 this.mqttClient = mqttClient;
 
                 this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt};
-                this.readCustomTopicTokenCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
-                this.telemetrySender.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.telemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public ReadCustomTopicTokenCommandExecutor ReadCustomTopicTokenCommandExecutor { get => this.readCustomTopicTokenCommandExecutor; }
@@ -101,9 +113,21 @@ namespace TestEnvoys.CustomTopicTokens
                 this.mqttClient = mqttClient;
 
                 this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient);
-                this.readCustomTopicTokenCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.telemetryReceiver.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.telemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public ReadCustomTopicTokenCommandInvoker ReadCustomTopicTokenCommandInvoker { get => this.readCustomTopicTokenCommandInvoker; }

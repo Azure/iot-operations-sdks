@@ -32,9 +32,21 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.mqttClient = mqttClient;
 
                 this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt};
-                this.putCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.putCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
-                this.getCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.getCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }
@@ -104,9 +116,21 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.mqttClient = mqttClient;
 
                 this.putCommandInvoker = new PutCommandInvoker(applicationContext, mqttClient);
-                this.putCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.putCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
                 this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
-                this.getCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.getCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public PutCommandInvoker PutCommandInvoker { get => this.putCommandInvoker; }

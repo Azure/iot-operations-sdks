@@ -31,7 +31,13 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.mqttClient = mqttClient;
 
                 this.invokeCommandExecutor = new InvokeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = InvokeInt};
-                this.invokeCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.invokeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public InvokeCommandExecutor InvokeCommandExecutor { get => this.invokeCommandExecutor; }
@@ -88,7 +94,13 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.mqttClient = mqttClient;
 
                 this.invokeCommandInvoker = new InvokeCommandInvoker(applicationContext, mqttClient);
-                this.invokeCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.invokeCommandInvoker.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public InvokeCommandInvoker InvokeCommandInvoker { get => this.invokeCommandInvoker; }

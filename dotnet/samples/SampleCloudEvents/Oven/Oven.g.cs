@@ -31,7 +31,13 @@ namespace SampleCloudEvents.Oven
                 this.mqttClient = mqttClient;
 
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
-                this.telemetrySender.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.telemetrySender.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public TelemetrySender TelemetrySender { get => this.telemetrySender; }
@@ -65,7 +71,13 @@ namespace SampleCloudEvents.Oven
                 this.mqttClient = mqttClient;
 
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                this.telemetryReceiver.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap)
+                    {
+                        this.telemetryReceiver.TopicTokenMap[topicTokenKey] = topicTokenMap[topicTokenKey];
+                    }
+                }
             }
 
             public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
