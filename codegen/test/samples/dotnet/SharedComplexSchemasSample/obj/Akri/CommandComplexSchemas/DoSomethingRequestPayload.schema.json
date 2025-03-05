@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "dtmi_jsonTest_CommandComplexSchemas_1_DoSomethingRequestPayload",
+  "title": "DoSomethingRequestPayload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "input" ],
+  "properties": {
+    "input": {
+      "description": "The Command request argument.",
+      "$ref": "DoSomethingRequestSchema.schema.json"
+    }
+  }
+}

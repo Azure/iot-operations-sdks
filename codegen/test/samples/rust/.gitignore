@@ -2,3 +2,4 @@
 *.rs
 *.md
 Cargo.toml
+!SharedComplexSchemasSample/**

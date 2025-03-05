@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "dtmi_jsonTest_TelemetryComplexSchemas__contents___speed__schema_1_SpeedSchema",
+  "title": "SpeedSchema",
+  "type": "string",
+  "x-enumNames": [
+    "fast",
+    "slow"
+  ],
+  "enum": [
+    "rapide",
+    "lente"
+  ]
+}
