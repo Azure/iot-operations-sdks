@@ -121,7 +121,10 @@
 
                     var modelParser = new ModelParser();
 
-                    SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace);
+                    if (!SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace))
+                    {
+                        return 1;
+                    }
                 }
 
                 string schemaFolder = Path.Combine(workingDir.FullName, genNamespace!.GetFolderName(TargetLanguage.Independent));

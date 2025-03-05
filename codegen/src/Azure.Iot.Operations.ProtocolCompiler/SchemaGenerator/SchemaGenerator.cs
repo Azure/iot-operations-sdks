@@ -20,7 +20,7 @@
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
 
-        public static void GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace)
+        public static bool GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace)
         {
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
 
@@ -32,15 +32,47 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, projectName, dtInterface, mqttVersion, genNamespace);
 
-            schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName), mqttVersion);
+            Dictionary<string, int> schemaCounts = new();
 
-            schemaGenerator.GenerateTelemetrySchemas(GetWriter(workingDir.FullName), mqttVersion);
-            schemaGenerator.GenerateCommandSchemas(GetWriter(workingDir.FullName), mqttVersion);
-            schemaGenerator.GenerateObjects(GetWriter(workingDir.FullName), mqttVersion);
-            schemaGenerator.GenerateEnums(GetWriter(workingDir.FullName), mqttVersion);
-            schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName));
-            schemaGenerator.GenerateMaps(GetWriter(workingDir.FullName));
-            schemaGenerator.CopyIncludedSchemas(GetWriter(workingDir.FullName));
+            var schemaWriter = new SchemaWriter(workingDir.FullName, schemaCounts);
+
+            schemaGenerator.GenerateInterfaceAnnex(schemaWriter.Accept, mqttVersion);
+
+            schemaGenerator.GenerateTelemetrySchemas(schemaWriter.Accept, mqttVersion);
+            schemaGenerator.GenerateCommandSchemas(schemaWriter.Accept, mqttVersion);
+            schemaGenerator.GenerateObjects(schemaWriter.Accept, mqttVersion);
+            schemaGenerator.GenerateEnums(schemaWriter.Accept, mqttVersion);
+            schemaGenerator.GenerateArrays(schemaWriter.Accept);
+            schemaGenerator.GenerateMaps(schemaWriter.Accept);
+            schemaGenerator.CopyIncludedSchemas(schemaWriter.Accept);
+
+            if (schemaCounts.Any(kv => kv.Value > 1))
+            {
+                Console.WriteLine();
+                Console.WriteLine("Aborting schema generation due to duplicate generated names:");
+                foreach (KeyValuePair<string, int> schemaCount in schemaCounts.Where(kv => kv.Value > 1))
+                {
+                    Console.WriteLine($"  {schemaCount.Key}");
+                }
+
+                string exampleName = schemaCounts.FirstOrDefault(kv => kv.Value > 1 && kv.Key.EndsWith("Schema")).Key ?? "somethingSchema";
+                string preName = exampleName.Substring(0, exampleName.Length - "Schema".Length);
+
+                Console.WriteLine();
+                Console.WriteLine(@"HINT: You can force a generated name by assigning an ""@id"" value, whose last label will determine the name, like this:");
+                Console.WriteLine();
+                Console.WriteLine($"  \"name\": \"{preName}\",");
+                Console.WriteLine(@"  ""schema"": {");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(@"    ""@id"": ""dtmi:foo:bar:baz:SomeNameYouLike;1"",");
+                Console.ResetColor();
+                Console.WriteLine(@"    ""@type"": ""Object"",");
+                Console.WriteLine();
+
+                return false;
+            }
+
+            return true;
         }
 
         public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion, CodeName genNamespace)
@@ -285,23 +317,6 @@
         private static bool IsCommandPayloadTransparent(DTCommandPayloadInfo dtCommandPayload, int mqttVersion)
         {
             return dtCommandPayload.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.TransparentAdjunctTypeFormat, mqttVersion)));
-        }
-
-        private static Action<string, string, string> GetWriter(string parentPath)
-        {
-            return (schemaText, fileName, subFolder) =>
-            {
-                string folderPath = Path.Combine(parentPath, subFolder);
-
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-
-                string filePath = Path.Combine(folderPath, fileName);
-                File.WriteAllText(filePath, schemaText);
-                Console.WriteLine($"  generated {filePath}");
-            };
         }
     }
 }
