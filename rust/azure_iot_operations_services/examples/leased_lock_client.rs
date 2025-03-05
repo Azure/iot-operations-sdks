@@ -3,7 +3,7 @@
 
 use std::{sync::Arc, time::Duration};
 
-use tokio::sync::{Mutex, Notify};
+use tokio::sync::Notify;
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
@@ -28,10 +28,10 @@ async fn main() {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    let (mut session1, exit_handle1, state_store_client_arc_mutex1, leased_lock_client1) =
+    let (mut session1, exit_handle1, state_store_client_arc1, leased_lock_client1) =
         create_clients(client_id1, lock_name);
 
-    let (mut session2, exit_handle2, state_store_client_arc_mutex2, leased_lock_client2) =
+    let (mut session2, exit_handle2, state_store_client_arc2, leased_lock_client2) =
         create_clients(client_id2, lock_name);
 
     let client_1_notify = Arc::new(Notify::new());
@@ -39,7 +39,7 @@ async fn main() {
 
     let client_1_task = tokio::task::spawn(async move {
         leased_lock_client_1_operations(
-            state_store_client_arc_mutex1,
+            state_store_client_arc1,
             leased_lock_client1,
             exit_handle1,
             client_1_notify,
@@ -49,7 +49,7 @@ async fn main() {
 
     let client_2_task = tokio::task::spawn(async move {
         leased_lock_client_2_operations(
-            state_store_client_arc_mutex2,
+            state_store_client_arc2,
             leased_lock_client2,
             exit_handle2,
             client_2_notify,
@@ -57,10 +57,6 @@ async fn main() {
         .await;
     });
 
-    // let _ = tokio::join!(
-    //     session1.run(),
-    //     session2.run(),
-    // );
     let _ = tokio::try_join!(
         async move { client_1_task.await.map_err(|e| { e.to_string() }) },
         async move { session1.run().await.map_err(|e| { e.to_string() }) },
@@ -75,7 +71,7 @@ fn create_clients(
 ) -> (
     Session,
     SessionExitHandle,
-    Arc<Mutex<state_store::Client<SessionManagedClient>>>,
+    Arc<state_store::Client<SessionManagedClient>>,
     leased_lock::Client<SessionManagedClient>,
 ) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
@@ -107,19 +103,19 @@ fn create_clients(
     )
     .unwrap();
 
-    let state_store_client_arc_mutex = Arc::new(Mutex::new(state_store_client));
+    let state_store_client_arc = Arc::new(state_store_client);
 
     let leased_lock_client = leased_lock::Client::new(
-        state_store_client_arc_mutex.clone(),
-        client_id.as_bytes().to_vec(),
+        state_store_client_arc.clone(),
         lock_name.as_bytes().to_vec(),
+        client_id.as_bytes().to_vec(),
     )
     .unwrap();
 
     (
         session,
         exit_handle,
-        state_store_client_arc_mutex,
+        state_store_client_arc,
         leased_lock_client,
     )
 }
@@ -134,7 +130,7 @@ fn create_clients(
 /// 3. Gets the current lock holder name.
 /// 4. Releases a lock.
 async fn leased_lock_client_1_operations(
-    state_store_client_arc_mutex: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
+    state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
     leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
     notify: Arc<Notify>,
@@ -168,10 +164,8 @@ async fn leased_lock_client_1_operations(
     };
 
     // The purpose of the lock is to protect setting a shared key in the state store.
-    let locked_state_store_client = state_store_client_arc_mutex.lock().await;
-
     // 2.
-    match locked_state_store_client
+    match state_store_client_arc
         .set(
             shared_resource_key_name.to_vec(),
             shared_resource_key_value1.to_vec(),
@@ -194,7 +188,6 @@ async fn leased_lock_client_1_operations(
             return;
         }
     };
-    drop(locked_state_store_client); // Important to release the local lock on `state_store_client`.
 
     // 3.
     get_lock_holder(&leased_lock_client, request_timeout).await;
@@ -210,8 +203,7 @@ async fn leased_lock_client_1_operations(
         }
     };
 
-    let locked_state_store_client = state_store_client_arc_mutex.lock().await;
-    locked_state_store_client.shutdown().await.unwrap();
+    state_store_client_arc.shutdown().await.unwrap();
 
     exit_handle.try_exit().await.unwrap();
 }
@@ -222,7 +214,7 @@ async fn leased_lock_client_1_operations(
 /// 7. Make a call to `acquire_lock_and_update_value()` to set a key.
 /// 8. Make a call to `acquire_lock_and_update_value()` to delete a key.
 async fn leased_lock_client_2_operations(
-    state_store_client_arc_mutex: Arc<Mutex<state_store::Client<SessionManagedClient>>>,
+    state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
     leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
     notify: Arc<Notify>,
@@ -343,8 +335,7 @@ async fn leased_lock_client_2_operations(
         }
     };
 
-    let locked_state_store_client = state_store_client_arc_mutex.lock().await;
-    locked_state_store_client.shutdown().await.unwrap();
+    state_store_client_arc.shutdown().await.unwrap();
 
     exit_handle.try_exit().await.unwrap();
 }

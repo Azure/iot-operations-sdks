@@ -5,8 +5,6 @@
 
 use std::{sync::Arc, time::Duration};
 
-use tokio::sync::Mutex;
-
 use crate::leased_lock::{AcquireAndUpdateKeyOption, Error, ErrorKind, LockObservation, Response};
 use crate::state_store::{self, SetCondition, SetOptions};
 use azure_iot_operations_mqtt::interface::ManagedClient;
@@ -18,7 +16,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    state_store: Arc<Mutex<state_store::Client<C>>>,
+    state_store: Arc<state_store::Client<C>>,
     lock_name: Vec<u8>,
     lock_holder_name: Vec<u8>,
 }
@@ -40,7 +38,7 @@ where
     ///
     /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
     pub fn new(
-        state_store: Arc<Mutex<state_store::Client<C>>>,
+        state_store: Arc<state_store::Client<C>>,
         lock_name: Vec<u8>,
         lock_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
@@ -86,8 +84,6 @@ where
     ) -> Result<HybridLogicalClock, Error> {
         match self
             .state_store
-            .lock()
-            .await
             .set(
                 self.lock_name.clone(),
                 self.lock_holder_name.clone(),
@@ -210,8 +206,6 @@ where
         /* lock acquired, let's proceed. */
         let get_result = self
             .state_store
-            .lock()
-            .await
             .get(key.clone(), request_timeout)
             .await?;
 
@@ -219,8 +213,6 @@ where
             AcquireAndUpdateKeyOption::Update(new_value, set_options) => {
                 match self
                     .state_store
-                    .lock()
-                    .await
                     .set(
                         key,
                         new_value,
@@ -247,8 +239,6 @@ where
             AcquireAndUpdateKeyOption::Delete => {
                 match self
                     .state_store
-                    .lock()
-                    .await
                     .del(key, Some(fencing_token), request_timeout)
                     .await
                 {
@@ -284,8 +274,6 @@ where
     pub async fn release_lock(&self, request_timeout: Duration) -> Result<(), Error> {
         match self
             .state_store
-            .lock()
-            .await
             .vdel(
                 self.lock_name.clone(),
                 self.lock_holder_name.clone(),
@@ -329,8 +317,6 @@ where
     ) -> Result<Response<LockObservation>, Error> {
         let observe_result = self
             .state_store
-            .lock()
-            .await
             .observe(self.lock_name.clone(), request_timeout)
             .await?;
 
@@ -356,8 +342,6 @@ where
     pub async fn unobserve_lock(&self, request_timeout: Duration) -> Result<Response<bool>, Error> {
         match self
             .state_store
-            .lock()
-            .await
             .unobserve(self.lock_name.clone(), request_timeout)
             .await
         {
@@ -387,8 +371,6 @@ where
     ) -> Result<Response<Option<Vec<u8>>>, Error> {
         Ok(Response::from_response(
             self.state_store
-                .lock()
-                .await
                 .get(self.lock_name.clone(), request_timeout)
                 .await?,
         ))
