@@ -194,12 +194,11 @@ namespace TestEnvoys.Memmon
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -212,12 +211,11 @@ namespace TestEnvoys.Memmon
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -230,12 +228,11 @@ namespace TestEnvoys.Memmon
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)

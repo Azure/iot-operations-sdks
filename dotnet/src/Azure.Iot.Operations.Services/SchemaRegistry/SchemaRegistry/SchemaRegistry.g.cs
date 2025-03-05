@@ -123,11 +123,10 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -140,11 +139,10 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

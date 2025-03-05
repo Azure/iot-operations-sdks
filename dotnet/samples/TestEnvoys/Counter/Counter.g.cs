@@ -160,12 +160,11 @@ namespace TestEnvoys.Counter
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<IncrementResponsePayload> IncrementAsync(string executorId, IncrementRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -178,12 +177,11 @@ namespace TestEnvoys.Counter
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(request, metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(request, metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public RpcCallAsync<EmptyJson> ResetAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? topicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
@@ -196,12 +194,11 @@ namespace TestEnvoys.Counter
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 topicTokenMap ??= new();
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                combinedTopicTokenMap["invokerClientId"] = clientId;
-                combinedTopicTokenMap["executorId"] = executorId;
+                topicTokenMap["invokerClientId"] = clientId;
+                topicTokenMap["executorId"] = executorId;
 
-                return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, combinedTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, topicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async Task StartAsync(Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
