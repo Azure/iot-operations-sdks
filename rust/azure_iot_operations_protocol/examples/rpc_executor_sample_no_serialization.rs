@@ -90,8 +90,14 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                 request.complete(response).await.unwrap();
             }
             _ => {
-                log::warn!("Ignored file");
-                request.error("Ignored File".to_string()).await.unwrap();
+                log::warn!("unknown type file type, not saved");
+
+                let response = CommandResponseBuilder::default()
+                    .payload(b"unknown file type, not saved".to_vec())
+                    .unwrap()
+                    .build()
+                    .unwrap();
+                request.complete(response).await.unwrap();
             }
         }
     }

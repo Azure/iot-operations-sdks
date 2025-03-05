@@ -10,8 +10,8 @@ namespace Azure.Iot.Operations.Connector
 {
     public class PollingTelemetryConnectorWorker : TelemetryConnectorWorker
     {
-        Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
-        private IDatasetSamplerFactory _datasetSamplerFactory;
+        private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
+        private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
         public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<TelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAssetMonitor assetMonitor) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor)
         {
@@ -68,8 +68,15 @@ namespace Azure.Iot.Operations.Connector
 
                 _assetsSamplingTimers[args.AssetName][dataset.Name] = new Timer(async (state) =>
                 {
-                    byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                    await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
+                    try
+                    {
+                        byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                        await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to sample the dataset");
+                    }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
             }
         }

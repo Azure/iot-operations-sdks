@@ -10,7 +10,7 @@ namespace EventDrivenApp;
 public class WindowTelemetrySender : TelemetrySender<WindowData>
 {
     internal WindowTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-        : base(applicationContext, mqttClient, "WindowSender", new Utf8JsonSerializer())
+        : base(applicationContext, mqttClient, new Utf8JsonSerializer())
     {
     }
 }

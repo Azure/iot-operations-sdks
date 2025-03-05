@@ -19,7 +19,7 @@ type testCaseExecutor struct {
 	ResponseMetadata     map[string]*string  `yaml:"response-metadata"`
 	TokenMetadataPrefix  *string             `yaml:"token-metadata-prefix"`
 	ExecutionConcurrency *uint               `yaml:"execution-concurrency"`
-	RaiseError           TestCaseError       `yaml:"raise-error"`
+	RaiseError           bool                `yaml:"raise-error"`
 	Sync                 []TestCaseSync      `yaml:"sync"`
 }
 

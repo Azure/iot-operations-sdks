@@ -8,7 +8,6 @@
 		<PackAsTool>True</PackAsTool>
 		<IsPackable>true</IsPackable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<NoWarn>1701;1702;CA1848</NoWarn>
 		<ToolCommandName>dsscli</ToolCommandName>
 		<Title>IoTMqttBroker DSS CLI</Title>

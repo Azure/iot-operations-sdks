@@ -8,8 +8,8 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class MemMonService : Memmon.Service
 {
-    bool _enabled = false;
-    int _interval = 5000;
+    private bool _enabled = false;
+    private int _interval = 5000;
 
     public MemMonService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {

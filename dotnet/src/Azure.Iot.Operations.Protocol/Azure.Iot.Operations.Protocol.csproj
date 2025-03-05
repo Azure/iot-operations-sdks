@@ -5,8 +5,7 @@
     <VersionPrefix>0.9.0</VersionPrefix>
     <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
   <ItemGroup>

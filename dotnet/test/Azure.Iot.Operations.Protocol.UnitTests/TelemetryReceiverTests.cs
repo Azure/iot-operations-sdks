@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class StringTelemetryReceiver : TelemetryReceiver<string>
     {
-        public StringTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient, "test", new Utf8JsonSerializer()) { }
+        public StringTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient, new Utf8JsonSerializer()) { }
     }
 
     public class TelemetryReceiverTests

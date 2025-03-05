@@ -23,17 +23,17 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             IsSessionPresent = true,
         };
 
-        private AsyncAtomicInt _packetIdSequencer;
-        private AsyncQueue<TestAckKind> _pubAckQueue;
-        private AsyncQueue<TestAckKind> _subAckQueue;
-        private AsyncQueue<TestAckKind> _unsubAckQueue;
-        private AsyncQueue<ushort> _ackedPacketIds;
-        private AsyncAtomicInt _publicationCount;
-        private AsyncAtomicInt _acknowledgementCount;
-        private AsyncQueue<byte[]> _publishedCorrelationIds;
-        private ConcurrentDictionary<string, bool> _subscribedTopics;
-        private ConcurrentDictionary<Guid, MqttApplicationMessage> _publishedMessages;
-        private ConcurrentDictionary<int, MqttApplicationMessage> _publishedMessageSeq;
+        private readonly AsyncAtomicInt _packetIdSequencer;
+        private readonly AsyncQueue<TestAckKind> _pubAckQueue;
+        private readonly AsyncQueue<TestAckKind> _subAckQueue;
+        private readonly AsyncQueue<TestAckKind> _unsubAckQueue;
+        private readonly AsyncQueue<ushort> _ackedPacketIds;
+        private readonly AsyncAtomicInt _publicationCount;
+        private readonly AsyncAtomicInt _acknowledgementCount;
+        private readonly AsyncQueue<byte[]> _publishedCorrelationIds;
+        private readonly ConcurrentDictionary<string, bool> _subscribedTopics;
+        private readonly ConcurrentDictionary<Guid, MqttApplicationMessage> _publishedMessages;
+        private readonly ConcurrentDictionary<int, MqttApplicationMessage> _publishedMessageSeq;
 
         public StubMqttClient(string clientId)
         {
@@ -273,11 +273,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         internal MqttApplicationMessage? GetPublishedMessage(int sequenceIndex)
         {
             return _publishedMessageSeq.TryGetValue(sequenceIndex, out MqttApplicationMessage? publishedMessage) ? publishedMessage : null;
-        }
-
-        public ValueTask DisposeAsync(bool disposing)
-        {
-            return new ValueTask();
         }
 
         public ValueTask DisposeAsync()

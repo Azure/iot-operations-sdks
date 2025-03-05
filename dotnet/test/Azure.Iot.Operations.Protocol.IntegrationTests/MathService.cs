@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class MathService : TestEnvoys.Math.Math.Service
 {
-    IMqttPubSubClient _mqttClient;
+    private readonly IMqttPubSubClient _mqttClient;
     public MathService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient)
     {
         _mqttClient = mqttClient;

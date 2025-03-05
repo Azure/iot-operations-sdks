@@ -40,7 +40,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// Initializes a new instance of the <see cref="<#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>"/> class.
             /// </summary>
             public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-                : base(applicationContext, mqttClient, <#=this.telemetryName.IsEmpty ? "null" : $"\"{this.telemetryName.AsGiven}\""#>, new <#=this.serializerClassName#>())
+                : base(applicationContext, mqttClient, new <#=this.serializerClassName#>())
             {
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 

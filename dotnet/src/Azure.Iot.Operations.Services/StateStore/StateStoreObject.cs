@@ -63,37 +63,16 @@ namespace Azure.Iot.Operations.Services.StateStore
 
         public StateStoreObject(ArraySegment<byte> value)
         {
-            if (value.Array == null)
-            {
-                Bytes = Array.Empty<byte>();
-            }
-            else
-            {
-                Bytes = value.ToArray();
-            }
+            Bytes = value.Array == null ? Array.Empty<byte>() : value.ToArray();
         }
 
         public StateStoreObject(IEnumerable<byte> value)
         {
-            if (value is byte[] byteArray)
-            {
-                Bytes = byteArray;
-            }
-            else if (value is ArraySegment<byte> arraySegment)
-            {
-                if (arraySegment.Array == null)
-                {
-                    Bytes = Array.Empty<byte>();
-                }
-                else
-                { 
-                    Bytes = arraySegment.Array;
-                }
-            }
-            else 
-            { 
-                Bytes = value.ToArray();
-            }
+            Bytes = value is byte[] byteArray
+                ? byteArray
+                : value is ArraySegment<byte> arraySegment
+                    ? arraySegment.Array ?? Array.Empty<byte>()
+                    : value.ToArray();
         }
 
         public string GetString()

@@ -128,6 +128,9 @@ where
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.
     ///
+    /// [`SchemaRegistryError`] of kind [`ServiceError`](SchemaRegistryErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service.
+    ///
     /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get(
@@ -185,6 +188,9 @@ where
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.
+    ///
+    /// [`SchemaRegistryError`] of kind [`ServiceError`](SchemaRegistryErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service.
     ///
     /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.

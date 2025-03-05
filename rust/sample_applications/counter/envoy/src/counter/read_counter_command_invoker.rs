@@ -26,6 +26,7 @@ pub type ReadCounterRequestBuilderError = CommandRequestBuilderError;
 pub struct ReadCounterRequestBuilder {
     inner_builder: CommandRequestBuilder<EmptyJson>,
     set_executor_id: bool,
+    topic_tokens: HashMap<String, String>,
 }
 
 impl ReadCounterRequestBuilder {
@@ -39,12 +40,9 @@ impl ReadCounterRequestBuilder {
     /// A prefix of "ex:" will be prepended to each key before scanning the topic pattern.
     /// Thus, only tokens of the form `{ex:SOMEKEY}` will be replaced.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        self.inner_builder.topic_tokens(
-            topic_tokens
-                .into_iter()
-                .map(|(k, v)| (format!("ex:{k}"), v))
-                .collect::<HashMap<String, String>>(),
-        );
+        for (k, v) in topic_tokens {
+            self.topic_tokens.insert(format!("ex:{k}"), v);
+        }
         self
     }
 
@@ -56,8 +54,8 @@ impl ReadCounterRequestBuilder {
 
     /// Target executor ID
     pub fn executor_id(&mut self, executor_id: String) -> &mut Self {
-        self.inner_builder
-            .topic_tokens(HashMap::from([("executorId".to_string(), executor_id)]));
+        self.topic_tokens
+            .insert("executorId".to_string(), executor_id.clone());
         self.set_executor_id = true;
         self
     }
@@ -75,6 +73,8 @@ impl ReadCounterRequestBuilder {
         }
 
         self.inner_builder.payload(EmptyJson {}).unwrap();
+
+        self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
     }
