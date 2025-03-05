@@ -23,7 +23,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         await using MemMonClient memMonClient = serviceProvider.GetService<MemMonClient>()!;
         await using CustomTopicTokenClient customTopicTokenClient = serviceProvider.GetService<CustomTopicTokenClient>()!;
 
-        await memMonClient.StartAsync(stoppingToken);
+        await memMonClient.StartAsync(cancellationToken: stoppingToken);
 
         string userResponse = "y";
         while (userResponse == "y")

@@ -23,7 +23,7 @@ public class CounterEnvoyTests
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
         await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
 
-        await counterService.StartAsync(null, CancellationToken.None);
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
         IncrementRequestPayload payload = new IncrementRequestPayload
         {
@@ -64,7 +64,7 @@ public class CounterEnvoyTests
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
         await using CounterClient counterClient = new CounterClient(appContext, mqttInvoker);
 
-        await counterService.StartAsync(null, CancellationToken.None);
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
         var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
@@ -91,7 +91,7 @@ public class CounterEnvoyTests
         ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
         await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
-        await counterService.StartAsync(null, CancellationToken.None);
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("counter-client-bad");
 

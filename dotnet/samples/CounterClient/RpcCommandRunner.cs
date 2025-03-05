@@ -20,7 +20,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
             await mqttClient.ConnectAsync(mcs, stoppingToken);
             await Console.Out.WriteLineAsync($"Connected to: {mcs}");
             var server_id = configuration.GetValue<string>("COUNTER_SERVER_ID") ?? "CounterServer";
-            await counterClient.StartAsync(stoppingToken);
+            await counterClient.StartAsync(cancellationToken: stoppingToken);
             await RunCounterCommands(server_id);
             await mqttClient.DisconnectAsync();
             Environment.Exit(0);

@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             
             await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
             await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
-            await counterService.StartAsync(null, CancellationToken.None);
+            await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
             var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(0, resp.Response.CounterResponse);
@@ -82,7 +82,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 return Task.CompletedTask;
             };
             
-            await counterService.StartAsync(null, CancellationToken.None);
+            await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
             var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(0, resp.Response.CounterResponse);
             
