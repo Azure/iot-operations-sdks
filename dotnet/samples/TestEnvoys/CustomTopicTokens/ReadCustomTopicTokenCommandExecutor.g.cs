@@ -26,12 +26,12 @@ namespace TestEnvoys.CustomTopicTokens
             public ReadCustomTopicTokenCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "readCustomTopicToken", new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:CustomTopicTokens;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:CustomTopicTokens;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "readCustomTopicToken";
+                TopicTokenMap["commandName"] = "readCustomTopicToken";
             }
         }
     }

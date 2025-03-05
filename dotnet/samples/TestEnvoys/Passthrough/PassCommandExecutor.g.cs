@@ -26,12 +26,12 @@ namespace TestEnvoys.Passthrough
             public PassCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "pass", new PassthroughSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:Passthrough;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:Passthrough;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "pass";
+                TopicTokenMap["commandName"] = "pass";
             }
         }
     }

@@ -26,12 +26,12 @@ namespace TestEnvoys.Counter
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:Counter;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "reset";
+                TopicTokenMap["commandName"] = "reset";
             }
         }
     }

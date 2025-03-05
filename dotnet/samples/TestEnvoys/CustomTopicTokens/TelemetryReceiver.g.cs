@@ -24,7 +24,7 @@ namespace TestEnvoys.CustomTopicTokens
             public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:CustomTopicTokens;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:CustomTopicTokens;1";
             }
         }
     }

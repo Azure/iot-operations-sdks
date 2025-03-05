@@ -26,12 +26,12 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             public InvokeCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "invoke", new PassthroughSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:ms:aio:mq:StateStore;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:aio:mq:StateStore;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "invoke";
+                TopicTokenMap["commandName"] = "invoke";
             }
         }
     }

@@ -24,8 +24,8 @@ namespace TestEnvoys.Memmon
             public WorkingSetTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new AvroSerializer<WorkingSetTelemetry, EmptyAvro>())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:memmon;1";
-                TopicTokenReplacementMap["telemetryName"] = "workingSet";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                TopicTokenMap["telemetryName"] = "workingSet";
             }
         }
     }

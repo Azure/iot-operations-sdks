@@ -26,12 +26,12 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             public PutCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "put", new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "put";
+                TopicTokenMap["commandName"] = "put";
             }
         }
     }

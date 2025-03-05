@@ -27,12 +27,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "<#=this.modelId#>";
+                TopicTokenMap["modelId"] = "<#=this.modelId#>";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "<#=this.commandName.AsGiven#>";
+                TopicTokenMap["commandName"] = "<#=this.commandName.AsGiven#>";
             }
         }
     }

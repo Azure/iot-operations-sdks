@@ -24,8 +24,8 @@ namespace TestEnvoys.Memmon
             public MemoryStatsTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new AvroSerializer<MemoryStatsTelemetry, EmptyAvro>())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:memmon;1";
-                TopicTokenReplacementMap["telemetryName"] = "memoryStats";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                TopicTokenMap["telemetryName"] = "memoryStats";
             }
         }
     }

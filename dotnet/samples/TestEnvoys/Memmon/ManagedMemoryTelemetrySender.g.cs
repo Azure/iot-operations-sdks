@@ -23,12 +23,12 @@ namespace TestEnvoys.Memmon
             public ManagedMemoryTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new AvroSerializer<ManagedMemoryTelemetry, EmptyAvro>())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["senderId"] = mqttClient.ClientId;
+                    TopicTokenMap["senderId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["telemetryName"] = "managedMemory";
+                TopicTokenMap["telemetryName"] = "managedMemory";
             }
         }
     }

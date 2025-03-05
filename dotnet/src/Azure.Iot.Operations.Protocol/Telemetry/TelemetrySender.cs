@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
@@ -38,7 +39,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public string? TopicNamespace { get; set; }
 
-        public Dictionary<string, string> TopicTokenReplacementMap { get; protected set; }
+        public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
@@ -48,7 +49,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             _hasBeenValidated = false;
 
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
-            TopicTokenReplacementMap = new();
+            TopicTokenMap = new();
         }
 
         public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
@@ -93,7 +94,11 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap));
+            var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            MqttTopicProcessor.SplitTopicTokenMap(combinedTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, effectiveTopicTokenMap, transientTopicTokenMap));
 
             try
             {
@@ -165,7 +170,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
-        private void ValidateAsNeeded(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
+        private void ValidateAsNeeded(Dictionary<string, string>? topicTokenMap)
         {
             if (_hasBeenValidated)
             {
@@ -180,7 +185,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     "The provided MQTT client is not configured for MQTT version 5");
             }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+            var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            MqttTopicProcessor.SplitTopicTokenMap(combinedTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
+
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, effectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch

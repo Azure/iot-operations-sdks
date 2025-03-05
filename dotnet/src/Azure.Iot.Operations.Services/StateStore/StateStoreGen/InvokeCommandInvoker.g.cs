@@ -26,12 +26,12 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "dtmi:ms:aio:mq:StateStore;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:aio:mq:StateStore;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "invoke";
+                TopicTokenMap["commandName"] = "invoke";
             }
         }
     }

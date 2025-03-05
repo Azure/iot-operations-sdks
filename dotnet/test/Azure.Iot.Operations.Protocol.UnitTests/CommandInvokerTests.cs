@@ -95,7 +95,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             stub.TopicTokenMap["invokerClientId"] = "mockClient";
 
-            var invokeTask = stub.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
+            var invokeTask = stub.InvokeCommandAsync("req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
             Assert.Equal("not-uns/prefix/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
             Assert.Equal("command/stubServer/mockCommand", mock.MessagePublished.Topic);
 
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 var tasks = new Task[maxConcurrentRequests];
                 for (int j = 0; j < maxConcurrentRequests; j++)
                 {
-                    var task = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", $"executor{j}" } });
+                    var task = invoker.InvokeCommandAsync("req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", $"executor{j}" } });
                     Assert.Equal("clients/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
                     Assert.Equal($"command/executor{j}/mockCommand", mock.MessagePublished.Topic);
 
@@ -178,7 +178,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 var tasks = new Task[maxConcurrentRequests];
                 for (int j = 0; j < maxConcurrentRequests; j++)
                 {
-                    var task = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
+                    var task = invoker.InvokeCommandAsync("req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                     Assert.Equal("clients/mockClient/command/+/mockCommand", mock.SubscribedTopicReceived);
                     Assert.Equal($"command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
@@ -241,7 +241,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             for (int i = 0; i < numberOfRequests; i++)
             {
-                var invokeTask = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
+                var invokeTask = invoker.InvokeCommandAsync("req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                 Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
                 var response = new MqttApplicationMessage($"clients/mockClient/command/someExecutor/mockCommand")
@@ -281,7 +281,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             for (int i = 0; i < numberOfRequests; i++)
             {
                 // Each request is different
-                var invokeTask = invoker.InvokeCommandAsync($"req Payload{i}", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
+                var invokeTask = invoker.InvokeCommandAsync($"req Payload{i}", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
                 Assert.Equal($"command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
                 var response = new MqttApplicationMessage($"clients/mockClient/command/someExecutor/mockCommand")
@@ -331,7 +331,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             for (int i = 0; i < numberOfRequests; i++)
             {
-                var invokeTask = invoker.InvokeCommandAsync($"req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
+                var invokeTask = invoker.InvokeCommandAsync($"req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
                 Assert.Equal($"command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
                 if (i == 0)
@@ -395,7 +395,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             var invokeRequest = invoker.InvokeCommandAsync(
                 "req Payload",
                 requestMetadata,
-                transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } },
+                topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } },
                 commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
@@ -410,7 +410,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
             // Invoker reconnects and receives response
-            invokeRequest = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
+            invokeRequest = invoker.InvokeCommandAsync("req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
 
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
             {
@@ -441,7 +441,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CommandRequestMetadata requestMetadata = new();
             requestMetadata.UserData["_dropPubAck"] = "true";
 
-            var firstInvoke = invoker.InvokeCommandAsync("req Payload", requestMetadata, transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
+            var firstInvoke = invoker.InvokeCommandAsync("req Payload", requestMetadata, topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, commandTimeout: TimeSpan.FromSeconds(3));
             Assert.Equal("command/someExecutor/mockCommand", mock.MessagePublished.Topic);
 
             // Puback dropped, invoker disconnects
@@ -453,7 +453,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Null(ex.HttpStatusCode);
             Assert.Equal(new Guid(mock.MessagePublished.CorrelationData!), ex.CorrelationId);
 
-            var secondInvoke = invoker.InvokeCommandAsync("req Payload", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
+            var secondInvoke = invoker.InvokeCommandAsync("req Payload", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } });
             // Invoker reconnects and receives response
             var response = new MqttApplicationMessage("clients/mockClient/command/someExecutor/mockCommand")
             {
@@ -481,7 +481,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await invoker.DisposeAsync();
 
-            await Assert.ThrowsAsync<ObjectDisposedException>(() => invoker.InvokeCommandAsync("someRequest", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => invoker.InvokeCommandAsync("someRequest", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }));
         }
 
         [Fact]
@@ -496,7 +496,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             CancellationTokenSource cts = new CancellationTokenSource();
             cts.Cancel();
 
-            await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.InvokeCommandAsync("someRequest", transientTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, cancellationToken: cts.Token));
+            await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.InvokeCommandAsync("someRequest", topicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, cancellationToken: cts.Token));
         }
     }
 }

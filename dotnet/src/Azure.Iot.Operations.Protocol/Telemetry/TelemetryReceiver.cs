@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public string? TopicNamespace { get; set; }
 
-        public Dictionary<string, string> TopicTokenReplacementMap { get; protected set; }
+        public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
@@ -59,7 +59,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
-            TopicTokenReplacementMap = new();
+            TopicTokenMap = new();
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -163,7 +163,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                var combinedTopicTokenMap = TopicTokenReplacementMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                 PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
@@ -228,7 +228,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, TopicTokenReplacementMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, TopicTokenMap));
 
             return telemTopic.ToString();
         }

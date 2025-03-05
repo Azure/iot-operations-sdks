@@ -26,12 +26,12 @@ namespace TestEnvoys.Memmon
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "startTelemetry";
+                TopicTokenMap["commandName"] = "startTelemetry";
             }
         }
     }

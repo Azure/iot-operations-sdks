@@ -26,12 +26,12 @@ namespace TestEnvoys.Memmon
             public GetRuntimeStatsCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "getRuntimeStats", new AvroSerializer<GetRuntimeStatsRequestPayload, GetRuntimeStatsResponsePayload>())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "getRuntimeStats";
+                TopicTokenMap["commandName"] = "getRuntimeStats";
             }
         }
     }

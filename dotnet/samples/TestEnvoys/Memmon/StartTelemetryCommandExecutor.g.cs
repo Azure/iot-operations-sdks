@@ -26,12 +26,12 @@ namespace TestEnvoys.Memmon
             public StartTelemetryCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "startTelemetry", new AvroSerializer<StartTelemetryRequestPayload, EmptyAvro>())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:memmon;1";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:memmon;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "startTelemetry";
+                TopicTokenMap["commandName"] = "startTelemetry";
             }
         }
     }

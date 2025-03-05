@@ -26,12 +26,12 @@ namespace TestEnvoys.Counter
             public ResetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "reset", new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:Counter;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "reset";
+                TopicTokenMap["commandName"] = "reset";
             }
         }
     }

@@ -25,9 +25,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new <#=this.serializerClassName#>())
             {
-                TopicTokenReplacementMap["modelId"] = "<#=this.modelId#>";
+                TopicTokenMap["modelId"] = "<#=this.modelId#>";
 <# if (!this.telemetryName.IsEmpty) { #>
-                TopicTokenReplacementMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
+                TopicTokenMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
 <# } #>
             }
         }

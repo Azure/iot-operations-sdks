@@ -26,12 +26,12 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "get";
+                TopicTokenMap["commandName"] = "get";
             }
         }
     }

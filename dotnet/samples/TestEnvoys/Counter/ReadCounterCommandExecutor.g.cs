@@ -26,12 +26,12 @@ namespace TestEnvoys.Counter
             public ReadCounterCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "readCounter", new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:Counter;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "readCounter";
+                TopicTokenMap["commandName"] = "readCounter";
             }
         }
     }

@@ -26,12 +26,12 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:microsoft:deviceregistry:DiscoveredAssetResources;1";
+                TopicTokenMap["modelId"] = "dtmi:com:microsoft:deviceregistry:DiscoveredAssetResources;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "createDiscoveredAssetEndpointProfile";
+                TopicTokenMap["commandName"] = "createDiscoveredAssetEndpointProfile";
             }
         }
     }

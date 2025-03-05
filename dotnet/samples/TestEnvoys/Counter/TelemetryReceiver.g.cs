@@ -24,7 +24,7 @@ namespace TestEnvoys.Counter
             public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:Counter;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
             }
         }
     }

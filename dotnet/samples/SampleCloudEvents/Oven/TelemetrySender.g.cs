@@ -23,10 +23,10 @@ namespace SampleCloudEvents.Oven
             public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:oven;1";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:oven;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["senderId"] = mqttClient.ClientId;
+                    TopicTokenMap["senderId"] = mqttClient.ClientId;
                 }
             }
         }

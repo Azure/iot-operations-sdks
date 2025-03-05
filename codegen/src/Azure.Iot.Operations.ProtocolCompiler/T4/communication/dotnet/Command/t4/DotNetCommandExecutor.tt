@@ -36,12 +36,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public <#=this.commandName.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "<#=this.commandName.AsGiven#>", new <#=string.Format(this.serializerClassName, this.TypeParams())#>())
             {
-                TopicTokenReplacementMap["modelId"] = "<#=this.modelId#>";
+                TopicTokenMap["modelId"] = "<#=this.modelId#>";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "<#=this.commandName.AsGiven#>";
+                TopicTokenMap["commandName"] = "<#=this.commandName.AsGiven#>";
             }
         }
     }

@@ -26,12 +26,12 @@ namespace TestEnvoys.Passthrough
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:example:Passthrough;1";
+                TopicTokenMap["modelId"] = "dtmi:com:example:Passthrough;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["invokerClientId"] = mqttClient.ClientId;
+                    TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "pass";
+                TopicTokenMap["commandName"] = "pass";
             }
         }
     }

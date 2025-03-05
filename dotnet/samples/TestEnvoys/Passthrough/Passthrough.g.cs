@@ -31,7 +31,7 @@ namespace TestEnvoys.Passthrough
                 this.mqttClient = mqttClient;
 
                 this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt};
-                this.passCommandExecutor.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.passCommandExecutor.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
@@ -88,7 +88,7 @@ namespace TestEnvoys.Passthrough
                 this.mqttClient = mqttClient;
 
                 this.passCommandInvoker = new PassCommandInvoker(applicationContext, mqttClient);
-                this.passCommandInvoker.TopicTokenReplacementMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                this.passCommandInvoker.TopicTokenMap.Concat(topicTokenMap ?? new Dictionary<string, string>()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
 
             public PassCommandInvoker PassCommandInvoker { get => this.passCommandInvoker; }

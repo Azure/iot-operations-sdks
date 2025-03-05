@@ -26,12 +26,12 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
             public CreateDiscoveredAssetEndpointProfileCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "createDiscoveredAssetEndpointProfile", new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:com:microsoft:deviceregistry:DiscoveredAssetResources;1";
+                TopicTokenMap["modelId"] = "dtmi:com:microsoft:deviceregistry:DiscoveredAssetResources;1";
                 if (mqttClient.ClientId != null)
                 {
-                    TopicTokenReplacementMap["executorId"] = mqttClient.ClientId;
+                    TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenReplacementMap["commandName"] = "createDiscoveredAssetEndpointProfile";
+                TopicTokenMap["commandName"] = "createDiscoveredAssetEndpointProfile";
             }
         }
     }

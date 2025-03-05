@@ -24,7 +24,7 @@ namespace SampleReadCloudEvents.Oven
             public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
-                TopicTokenReplacementMap["modelId"] = "dtmi:akri:samples:oven;1";
+                TopicTokenMap["modelId"] = "dtmi:akri:samples:oven;1";
             }
         }
     }
