@@ -30,7 +30,7 @@ The following Azure IoT Operations modules are available:
 
 ## Getting Started
 
-1. Complete the [Getting started](../README.md#getting-started) steps to setup
+1. Complete the [Getting started](/README.md#getting-started) steps to setup
    your cluster and install Azure IoT Operations.
 
 2. Install [Go](https://go.dev/doc/install).
@@ -43,7 +43,7 @@ The following Azure IoT Operations modules are available:
 > Go tooling must be given access to it in order to install these modules in 
 > external projects. Instructions on how to do so via SSH are provided below.
 
-## Installing Modules
+## Installing modules
 
 1. Ensure you have access to GitHub via
    [SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
