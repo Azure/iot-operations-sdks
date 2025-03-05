@@ -66,7 +66,7 @@ async fn trigger_session_exit(exit_handle: SessionExitHandle) -> Result<(), Stri
 #[tokio::test]
 async fn test_simple_recv(qos: QoS) {
     let client_id = "network_test_simple_recv";
-    let Ok(mut session) = setup_test(client_id) else {
+    let Ok(session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
         return;
     };
@@ -142,7 +142,7 @@ async fn test_simple_recv(qos: QoS) {
 #[tokio::test]
 async fn test_simple_recv_manual_ack(qos: QoS) {
     let client_id = "network_test_simple_recv_manual_ack";
-    let Ok(mut session) = setup_test(client_id) else {
+    let Ok(session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
         return;
     };

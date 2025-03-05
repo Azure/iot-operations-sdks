@@ -104,6 +104,7 @@ where
         SessionManagedClient {
             client_id: self.client_id.clone(),
             pub_sub: self.client.clone(),
+            //state: self.state.clone(),
             receiver_manager: self.receiver_manager.clone(),
         }
     }
@@ -114,7 +115,7 @@ where
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(&mut self) -> Result<(), SessionError> {
+    pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
         // TODO: This is a temporary solution to prevent re-use of the session.
         // Re-use should be available in the future.

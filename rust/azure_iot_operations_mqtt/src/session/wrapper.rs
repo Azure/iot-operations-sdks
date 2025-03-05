@@ -101,7 +101,7 @@ impl Session {
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(&mut self) -> Result<(), SessionError> {
+    pub async fn run(self) -> Result<(), SessionError> {
         self.0.run().await
     }
 }
