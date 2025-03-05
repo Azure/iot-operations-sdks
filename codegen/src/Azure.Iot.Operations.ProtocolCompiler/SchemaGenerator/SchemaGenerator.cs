@@ -20,7 +20,7 @@
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
 
-        public static bool GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace)
+        public static bool GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace, CodeName? sharedPrefix)
         {
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
 
@@ -36,12 +36,12 @@
 
             var schemaWriter = new SchemaWriter(workingDir.FullName, schemaCounts);
 
-            schemaGenerator.GenerateInterfaceAnnex(schemaWriter.Accept, mqttVersion);
+            schemaGenerator.GenerateInterfaceAnnex(schemaWriter.Accept, mqttVersion, sharedPrefix);
 
-            schemaGenerator.GenerateTelemetrySchemas(schemaWriter.Accept, mqttVersion);
-            schemaGenerator.GenerateCommandSchemas(schemaWriter.Accept, mqttVersion);
-            schemaGenerator.GenerateObjects(schemaWriter.Accept, mqttVersion);
-            schemaGenerator.GenerateEnums(schemaWriter.Accept, mqttVersion);
+            schemaGenerator.GenerateTelemetrySchemas(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateCommandSchemas(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateObjects(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateEnums(schemaWriter.Accept, mqttVersion, sharedPrefix);
             schemaGenerator.GenerateArrays(schemaWriter.Accept);
             schemaGenerator.GenerateMaps(schemaWriter.Accept);
             schemaGenerator.CopyIncludedSchemas(schemaWriter.Accept);
@@ -127,7 +127,7 @@
             }
         }
 
-        public void GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion)
+        public void GenerateInterfaceAnnex(Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix)
         {
             CodeName serviceName = new(dtInterface.Id);
 
@@ -138,11 +138,11 @@
 
             List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales = dtInterface.Commands.Values.Select(c => (c.Name, GetRequestSchema(c, mqttVersion), GetResponseSchema(c, mqttVersion), IsCommandIdempotent(c, mqttVersion), GetTtl(c, mqttVersion))).ToList();
 
-            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales, separateTelemetries);
+            ITemplateTransform interfaceAnnexTransform = new InterfaceAnnex(projectName, genNamespace, sharedPrefix, dtInterface.Id.ToString(), payloadFormat, serviceName, telemetryTopic, commandTopic, telemServiceGroupId, cmdServiceGroupId, telemNameSchemas, cmdNameReqRespIdemStales, separateTelemetries);
             acceptor(interfaceAnnexTransform.TransformText(), interfaceAnnexTransform.FileName, interfaceAnnexTransform.FolderPath);
         }
 
-        public void GenerateTelemetrySchemas(Action<string, string, string> acceptor, int mqttVersion)
+        public void GenerateTelemetrySchemas(Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix)
         {
             if (dtInterface.Telemetries.Any())
             {
@@ -151,7 +151,7 @@
                     foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in dtInterface.Telemetries)
                     {
                         var nameDescSchemaRequiredIndices = new List<(string, string, DTSchemaInfo, bool, int)> { (dtTelemetry.Key, dtTelemetry.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtTelemetry.Key}' Telemetry.", dtTelemetry.Value.Schema, true, 1) };
-                        WriteTelemetrySchema(GetTelemSchema(dtTelemetry.Value), nameDescSchemaRequiredIndices, acceptor, isSeparate: true);
+                        WriteTelemetrySchema(GetTelemSchema(dtTelemetry.Value), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, isSeparate: true);
                     }
                 }
                 else
@@ -160,12 +160,12 @@
                     nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
                     int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
                     nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
-                    WriteTelemetrySchema(GetAggregateTelemSchema(), nameDescSchemaRequiredIndices, acceptor, isSeparate: false);
+                    WriteTelemetrySchema(GetAggregateTelemSchema(), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, isSeparate: false);
                 }
             }
         }
 
-        public void GenerateCommandSchemas(Action<string, string, string> acceptor, int mqttVersion)
+        public void GenerateCommandSchemas(Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix)
         {
             foreach (KeyValuePair<string, DTCommandInfo> dtCommand in dtInterface.Commands)
             {
@@ -174,7 +174,7 @@
                     ITypeName reqSchema = GetRequestSchema(dtCommand.Value, mqttVersion)!;
 
                     foreach (ITemplateTransform reqSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
-                        payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, dtCommand.Value.Request.Nullable))
+                        payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, sharedPrefix, dtCommand.Value.Request.Nullable))
                     {
                         acceptor(reqSchemaTransform.TransformText(), reqSchemaTransform.FileName, reqSchemaTransform.FolderPath);
                     }
@@ -185,7 +185,7 @@
                     ITypeName respSchema = GetResponseSchema(dtCommand.Value, mqttVersion)!;
 
                     foreach (ITemplateTransform respSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
-                        payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema, dtCommand.Key, "response", dtCommand.Value.Response.Name, dtCommand.Value.Response.Schema, dtCommand.Value.Response.Nullable))
+                        payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema, dtCommand.Key, "response", dtCommand.Value.Response.Name, dtCommand.Value.Response.Schema, sharedPrefix, dtCommand.Value.Response.Nullable))
                     {
                         acceptor(respSchemaTransform.TransformText(), respSchemaTransform.FileName, respSchemaTransform.FolderPath);
                     }
@@ -193,7 +193,7 @@
             }
         }
 
-        public void GenerateObjects(Action<string, string, string> acceptor, int mqttVersion)
+        public void GenerateObjects(Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix)
         {
             foreach (DTObjectInfo dtObject in modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Object).Select(e => (DTObjectInfo)e))
             {
@@ -205,14 +205,14 @@
                 int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
                 nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
 
-                foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, dtObject.Id, description, schemaName, nameDescSchemaRequiredIndices))
+                foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, dtObject.Id, description, schemaName, nameDescSchemaRequiredIndices, sharedPrefix))
                 {
                     acceptor(objectSchemaTransform.TransformText(), objectSchemaTransform.FileName, objectSchemaTransform.FolderPath);
                 }
             }
         }
 
-        public void GenerateEnums(Action<string, string, string> acceptor, int mqttVersion)
+        public void GenerateEnums(Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix)
         {
             foreach (DTEnumInfo dtEnum in modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Enum).Select(e => (DTEnumInfo)e))
             {
@@ -224,7 +224,7 @@
                 int ix = nameValueIndices.FirstOrDefault().Item3;
                 nameValueIndices = nameValueIndices.Select(x => (x.Item1, x.Item2, x.Item3 == 0 ? ++ix : x.Item3)).ToList();
 
-                foreach (ITemplateTransform enumSchemaTransform in SchemaTransformFactory.GetEnumSchemaTransforms(payloadFormat, projectName, genNamespace, dtEnum.Id, description, schemaName, dtEnum.ValueSchema.Id, nameValueIndices))
+                foreach (ITemplateTransform enumSchemaTransform in SchemaTransformFactory.GetEnumSchemaTransforms(payloadFormat, projectName, genNamespace, dtEnum.Id, description, schemaName, dtEnum.ValueSchema.Id, nameValueIndices, sharedPrefix))
                 {
                     acceptor(enumSchemaTransform.TransformText(), enumSchemaTransform.FileName, enumSchemaTransform.FolderPath);
                 }
@@ -267,9 +267,9 @@
             }
         }
 
-        private void WriteTelemetrySchema(ITypeName telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor, bool isSeparate)
+        private void WriteTelemetrySchema(ITypeName telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor, CodeName? sharedPrefix, bool isSeparate)
         {
-            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices, isSeparate))
+            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices, sharedPrefix, isSeparate))
             {
                 acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
             }
@@ -327,6 +327,11 @@
             };
         }
 
+        private bool IsCommandPayloadTransparent(DTCommandPayloadInfo dtCommandPayload, int mqttVersion)
+        {
+            return payloadFormat == PayloadFormat.Json && dtCommandPayload.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.TransparentAdjunctTypeFormat, mqttVersion)));
+        }
+
         private static bool IsCommandIdempotent(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IdempotentAdjunctTypeFormat, mqttVersion)));
@@ -335,11 +340,6 @@
         private static string? GetTtl(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.CacheableAdjunctTypeFormat, mqttVersion))) ? XmlConvert.ToString((TimeSpan)dtCommand.SupplementalProperties[string.Format(DtdlMqttExtensionValues.TtlPropertyFormat, mqttVersion)]) : null;
-        }
-
-        private static bool IsCommandPayloadTransparent(DTCommandPayloadInfo dtCommandPayload, int mqttVersion)
-        {
-            return dtCommandPayload.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.TransparentAdjunctTypeFormat, mqttVersion)));
         }
     }
 }

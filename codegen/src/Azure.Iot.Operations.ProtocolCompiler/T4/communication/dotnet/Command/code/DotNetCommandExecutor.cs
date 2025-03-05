@@ -13,10 +13,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly EmptyTypeName serializerEmptyType;
         private readonly ITypeName? reqSchema;
         private readonly ITypeName? respSchema;
+        private readonly CodeName? reqNamespace;
+        private readonly CodeName? respNamespace;
         private readonly bool isIdempotent;
         private readonly string? ttl;
 
-        public DotNetCommandExecutor(CodeName commandName, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string serializerSubNamespace, string serializerClassName, EmptyTypeName serializerEmptyType, ITypeName? reqSchema, ITypeName? respSchema, bool isIdempotent, string? ttl)
+        public DotNetCommandExecutor(CodeName commandName, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string serializerSubNamespace, string serializerClassName, EmptyTypeName serializerEmptyType, ITypeName? reqSchema, ITypeName? respSchema, CodeName? reqNamespace, CodeName? respNamespace, bool isIdempotent, string? ttl)
         {
             this.commandName = commandName;
             this.projectName = projectName;
@@ -28,6 +30,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.serializerEmptyType = serializerEmptyType;
             this.reqSchema = reqSchema;
             this.respSchema = respSchema;
+            this.reqNamespace = reqNamespace;
+            this.respNamespace = respNamespace;
             this.isIdempotent = isIdempotent;
             this.ttl = ttl;
         }

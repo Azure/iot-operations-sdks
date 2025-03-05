@@ -11,9 +11,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string subType;
         private readonly string paramName;
         private readonly DTSchemaInfo paramSchema;
+        private readonly CodeName? sharedPrefix;
         private readonly bool isNullable;
 
-        public CommandAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, bool isNullable)
+        public CommandAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, CodeName? sharedPrefix, bool isNullable)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -22,6 +23,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.subType = subType;
             this.paramName = paramName;
             this.paramSchema = paramSchema;
+            this.sharedPrefix = sharedPrefix;
             this.isNullable = isNullable;
         }
 
