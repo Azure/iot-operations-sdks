@@ -44,14 +44,7 @@ namespace TestEnvoys.Counter
                 this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
 
                 base.TopicTokenMap["modelId"] = "dtmi:com:example:Counter;1";
-                if (mqttClient.ClientId != null)
-                {
-                    base.TopicTokenMap["senderId"] = mqttClient.ClientId;
-                }
-                else
-                {
-                    base.TopicTokenMap["senderId"] = Guid.NewGuid().ToString();
-                }
+                base.TopicTokenMap["senderId"] = mqttClient.ClientId ?? Guid.NewGuid().ToString();
             }
         }
     }
