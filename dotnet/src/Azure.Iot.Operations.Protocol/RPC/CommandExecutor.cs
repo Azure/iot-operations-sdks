@@ -288,7 +288,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? TopicTokenMap = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? topicTokenMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -318,7 +318,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
+                    var combinedTopicTokenMap = TopicTokenMap.Concat(topicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    await SubscribeAsync(combinedTopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
                 _isRunning = true;
@@ -344,7 +345,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Trace.TraceInformation($"Command executor for '{_commandName}' stopped.");
         }
 
-        private async Task SubscribeAsync(Dictionary<string, string>? TopicTokenMap, CancellationToken cancellationToken = default)
+        private async Task SubscribeAsync(Dictionary<string, string>? TopicTokenMap = null, CancellationToken cancellationToken = default)
         {
             string requestTopicFilter = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{GetCommandTopic(TopicTokenMap)}" : GetCommandTopic(TopicTokenMap);
 

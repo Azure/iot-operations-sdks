@@ -253,7 +253,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 foreach (string topic in testCase.Epilogue.SubscribedTopics)
                 {
-                    Assert.True(stubMqttClient.HasSubscribed(topic));
+                    Assert.True(stubMqttClient.HasSubscribed(topic), "Never subscribed to the expected topic: " + topic);
                 }
 
                 if (testCase.Epilogue.PublicationCount != null)
