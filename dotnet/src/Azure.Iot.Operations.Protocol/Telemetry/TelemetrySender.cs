@@ -94,7 +94,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            var combinedTopicTokenMap = TopicTokenMap.Concat(additionalTopicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            Dictionary<string, string> combinedTopicTokenMap = new();
+            foreach (string topicTokenKey in TopicTokenMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
+            }
+
+            additionalTopicTokenMap ??= new();
+            foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
+            }
 
             MqttTopicProcessor.SplitTopicTokenMap(combinedTopicTokenMap, out var effectiveTopicTokenMap, out var transientTopicTokenMap);
 

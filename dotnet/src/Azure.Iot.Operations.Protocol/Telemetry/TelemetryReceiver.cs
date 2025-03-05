@@ -163,7 +163,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                var combinedTopicTokenMap = TopicTokenMap.Concat(additionalTopicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                Dictionary<string, string> combinedTopicTokenMap = new();
+                foreach (string topicTokenKey in TopicTokenMap.Keys)
+                {
+                    combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
+                }
+
+                additionalTopicTokenMap ??= new();
+                foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
+                {
+                    combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
+                }
 
                 PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)

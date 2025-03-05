@@ -318,7 +318,17 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    var combinedTopicTokenMap = TopicTokenMap.Concat(additionalTopicTokenMap ?? new()).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    Dictionary<string, string> combinedTopicTokenMap = new();
+                    foreach (string topicTokenKey in TopicTokenMap.Keys)
+                    {
+                        combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
+                    }
+
+                    additionalTopicTokenMap ??= new();
+                    foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
+                    {
+                        combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
+                    }
                     await SubscribeAsync(combinedTopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
