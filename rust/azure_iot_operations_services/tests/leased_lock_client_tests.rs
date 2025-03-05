@@ -7,11 +7,7 @@ use std::{env, sync::Arc, time::Duration};
 
 use env_logger::Builder;
 
-use tokio::{
-    sync::Notify,
-    time::sleep,
-    time::timeout,
-};
+use tokio::{sync::Notify, time::sleep, time::timeout};
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
@@ -108,12 +104,7 @@ fn initialize_client(
     )
     .unwrap();
 
-    (
-        session,
-        state_store_client,
-        leased_lock_client,
-        exit_handle,
-    )
+    (session, state_store_client, leased_lock_client, exit_handle)
 }
 
 #[tokio::test]
@@ -743,10 +734,7 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
                 .is_none());
 
             // Shutdown state store client and underlying resources
-            assert!(state_store_client1
-                .shutdown()
-                .await
-                .is_ok());
+            assert!(state_store_client1.shutdown().await.is_ok());
 
             exit_handle1.try_exit().await.unwrap();
         }
@@ -836,10 +824,7 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
             task1_notify.notify_one();
 
             // Shutdown state store client and underlying resources
-            assert!(state_store_client1
-                .shutdown()
-                .await
-                .is_ok());
+            assert!(state_store_client1.shutdown().await.is_ok());
 
             exit_handle1.try_exit().await.unwrap();
         }
@@ -891,10 +876,7 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
                 .is_none());
 
             // Shutdown state store client and underlying resources
-            assert!(state_store_client2
-                .shutdown()
-                .await
-                .is_ok());
+            assert!(state_store_client2.shutdown().await.is_ok());
 
             exit_handle2.try_exit().await.unwrap();
         }

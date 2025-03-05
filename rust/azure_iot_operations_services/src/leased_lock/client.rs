@@ -64,8 +64,6 @@ where
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or Error(LockAlreadyHeld) if lock is not acquired.
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
@@ -82,7 +80,7 @@ where
         lock_expiration: Duration,
         request_timeout: Duration,
     ) -> Result<HybridLogicalClock, Error> {
-        match self
+        let state_store_response = self
             .state_store
             .set(
                 self.lock_name.clone(),
@@ -94,18 +92,14 @@ where
                     expires: Some(lock_expiration),
                 },
             )
-            .await
-        {
-            Ok(state_store_response) => {
-                if state_store_response.response {
-                    Ok(state_store_response.version.expect(
-                        "Got None for fencing token. A lock without a fencing token is of no use.",
-                    ))
-                } else {
-                    Err(Error(ErrorKind::LockAlreadyHeld))
-                }
-            }
-            Err(state_store_error) => Err(state_store_error.into()),
+            .await?;
+
+        if state_store_response.response {
+            Ok(state_store_response
+                .version
+                .expect("Got None for fencing token. A lock without a fencing token is of no use."))
+        } else {
+            Err(Error(ErrorKind::LockAlreadyHeld))
         }
     }
 
@@ -117,7 +111,7 @@ where
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     /// # Panics
@@ -191,7 +185,7 @@ where
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
     pub async fn acquire_lock_and_update_value(
@@ -204,10 +198,7 @@ where
         let fencing_token = self.acquire_lock(lock_expiration, request_timeout).await?;
 
         /* lock acquired, let's proceed. */
-        let get_result = self
-            .state_store
-            .get(key.clone(), request_timeout)
-            .await?;
+        let get_result = self.state_store.get(key.clone(), request_timeout).await?;
 
         match update_value_function(get_result.response) {
             AcquireAndUpdateKeyOption::Update(new_value, set_options) => {
@@ -245,7 +236,7 @@ where
                     Ok(delete_response) => {
                         let _ = self.release_lock(request_timeout).await;
                         Ok(Response::new(
-                            delete_response.response != 0,
+                            delete_response.response > 0,
                             delete_response.version,
                         ))
                     }
@@ -260,10 +251,8 @@ where
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
-    /// Returns `Ok()` if lock is released, or `Error` otherwise.
+    /// Returns `Ok()` if lock is no longer held by this `lock_holder`, or `Error` otherwise.
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
@@ -299,9 +288,6 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if
-    /// - the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `request_timeout` is < 1 ms or > `u32::max`
     ///
@@ -327,9 +313,6 @@ where
     ///
     /// Returns `true` if the lock is no longer being observed or `false` if the lock wasn't being observed
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if
-    /// - the `lock` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `request_timeout` is < 1 ms or > `u32::max`
     ///
@@ -356,8 +339,6 @@ where
     /// if the lock was not found (i.e., was not acquired by anyone, already released or expired).
     ///
     /// # Errors
-    /// [`Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
-    ///
     /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
     ///
     /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response

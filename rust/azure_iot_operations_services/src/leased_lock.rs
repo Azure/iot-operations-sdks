@@ -74,7 +74,7 @@ pub enum ErrorKind {
     /// The payload of the response does not match the expected type for the request.
     #[error("Unexpected response payload for the request type: {0}")]
     UnexpectedPayload(String),
-    /// A lock may only have one [`KeyObservation`] at a time.
+    /// A lock may only have one [`LockObservation`] at a time.
     #[error("lock may only be observed once at a time")]
     DuplicateObserve,
 }
@@ -134,8 +134,6 @@ impl From<StateStoreResponse<KeyObservation>> for Response<LockObservation> {
     }
 }
 
-// #[derive(Error, Debug)]
-// #[allow(clippy::large_enum_variant)]
 /// Enumeration used as a response for `leased_lock::Client::acquire_lock_and_update_value`.
 pub enum AcquireAndUpdateKeyOption {
     /// Indicates a State Store key shall be updated.
