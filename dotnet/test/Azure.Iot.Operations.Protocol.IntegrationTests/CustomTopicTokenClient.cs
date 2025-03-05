@@ -17,7 +17,7 @@ internal class CustomTopicTokenClient : CustomTopicTokens.Client
     // This TCS triggers upon the first telemetry received
     public TaskCompletionSource OnTelemetryReceived = new();
 
-    public CustomTopicTokenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
+    public CustomTopicTokenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, Dictionary<string, string>? topicTokenMap = null) : base(applicationContext, mqttClient, topicTokenMap)
     {
     }
 
