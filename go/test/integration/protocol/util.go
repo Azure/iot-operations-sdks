@@ -22,10 +22,10 @@ func sessionClients(
 ) (client, server *mqtt.SessionClient, done func()) {
 	conn := mqtt.TCPConnection("localhost", 1883)
 
-	client = mqtt.NewSessionClient(conn)
+	client = mqtt.NewSessionClient(mqtt.RandomClientID(), conn)
 	require.NoError(t, client.Start())
 
-	server = mqtt.NewSessionClient(conn)
+	server = mqtt.NewSessionClient(mqtt.RandomClientID(), conn)
 	require.NoError(t, server.Start())
 
 	return client, server, func() {

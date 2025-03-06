@@ -23,7 +23,10 @@ const (
 )
 
 func TestConnect(t *testing.T) {
-	client := mqtt.NewSessionClient(mqtt.TCPConnection(serverHost, serverPort))
+	client := mqtt.NewSessionClient(
+		mqtt.RandomClientID(),
+		mqtt.TCPConnection(serverHost, serverPort),
+	)
 
 	conn := make(ChannelCallback[*mqtt.ConnectEvent])
 	connDone := client.RegisterConnectEventHandler(conn.Func)
@@ -35,7 +38,10 @@ func TestConnect(t *testing.T) {
 }
 
 func TestDisconnectWithoutConnect(t *testing.T) {
-	client := mqtt.NewSessionClient(mqtt.TCPConnection(serverHost, serverPort))
+	client := mqtt.NewSessionClient(
+		mqtt.RandomClientID(),
+		mqtt.TCPConnection(serverHost, serverPort),
+	)
 
 	require.Error(t, client.Stop())
 }
@@ -43,7 +49,10 @@ func TestDisconnectWithoutConnect(t *testing.T) {
 func TestSubscribePublishUnsubscribe(t *testing.T) {
 	ctx := context.Background()
 
-	client := mqtt.NewSessionClient(mqtt.TCPConnection(serverHost, serverPort))
+	client := mqtt.NewSessionClient(
+		mqtt.RandomClientID(),
+		mqtt.TCPConnection(serverHost, serverPort),
+	)
 
 	require.NoError(t, client.Start())
 	defer func() { require.NoError(t, client.Stop()) }()
@@ -79,7 +88,7 @@ func TestRequestQueue(t *testing.T) {
 	conn := WaitConn{Wait: make(chan struct{}, 1)}
 	conn.Wait <- struct{}{}
 
-	client := mqtt.NewSessionClient(conn.Provider)
+	client := mqtt.NewSessionClient(mqtt.RandomClientID(), conn.Provider)
 
 	require.NoError(t, client.Start())
 	defer func() { require.NoError(t, client.Stop()) }()

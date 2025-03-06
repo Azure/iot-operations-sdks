@@ -50,6 +50,7 @@ type (
 		// Paho's internal MQTT session tracker.
 		session session.SessionManager
 
+		clientID           string
 		connectionProvider ConnectionProvider
 		options            SessionClientOptions
 
@@ -59,11 +60,13 @@ type (
 
 // NewSessionClient constructs a new session client with user options.
 func NewSessionClient(
+	clientID string,
 	connectionProvider ConnectionProvider,
 	opts ...SessionClientOption,
 ) *SessionClient {
 	// Default client options.
 	client := &SessionClient{
+		clientID:           clientID,
 		connectionProvider: connectionProvider,
 
 		conn:                    internal.NewConnectionTracker[*paho.Client](),
@@ -78,10 +81,6 @@ func NewSessionClient(
 	}
 
 	client.options.Apply(opts)
-
-	if client.options.ClientID == "" {
-		client.options.ClientID = internal.RandomClientID()
-	}
 
 	if client.options.KeepAlive == 0 {
 		client.options.KeepAlive = 60
@@ -108,5 +107,5 @@ func NewSessionClient(
 
 // ID returns the MQTT client ID for this session client.
 func (c *SessionClient) ID() string {
-	return c.options.ClientID
+	return c.clientID
 }

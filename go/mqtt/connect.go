@@ -177,7 +177,7 @@ func (c *SessionClient) connect(
 	}
 
 	pahoClient := paho.NewClient(paho.ClientConfig{
-		ClientID:    c.options.ClientID,
+		ClientID:    c.clientID,
 		Session:     c.session,
 		Conn:        conn,
 		AuthHandler: auther,
@@ -322,7 +322,7 @@ func (c *SessionClient) buildConnectPacket(
 	reconnect bool,
 ) (*paho.Connect, error) {
 	packet := &paho.Connect{
-		ClientID:   c.options.ClientID,
+		ClientID:   c.clientID,
 		CleanStart: !reconnect && c.options.CleanStart,
 		KeepAlive:  c.options.KeepAlive,
 		Properties: &paho.ConnectProperties{

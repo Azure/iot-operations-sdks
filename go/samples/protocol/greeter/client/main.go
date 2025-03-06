@@ -25,6 +25,7 @@ func main() {
 	app := must(protocol.NewApplication())
 
 	mqttClient := mqtt.NewSessionClient(
+		"greetersampleclient",
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
 	)
