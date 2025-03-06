@@ -5,16 +5,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public static class JsonSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, CodeName? sharedPrefix, CodeName srcNamespace)
         {
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
-                return $"\"type\": \"array\", \"items\": {{ {GetTypeAndAddenda(((DTArrayInfo)dtSchema).ElementSchema)} }}";
+                return $"\"type\": \"array\", \"items\": {{ {GetTypeAndAddenda(((DTArrayInfo)dtSchema).ElementSchema, sharedPrefix, srcNamespace)} }}";
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
-                return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(((DTMapInfo)dtSchema).MapValue.Schema)} }}";
+                return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(((DTMapInfo)dtSchema).MapValue.Schema, sharedPrefix, srcNamespace)} }}";
             }
 
             return dtSchema.Id.AbsoluteUri switch
@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:uuid;4" => @"""type"": ""string"", ""format"": ""uuid""",
                 "dtmi:dtdl:instance:Schema:bytes;4" => @"""type"": ""string"", ""contentEncoding"": ""base64""",
                 "dtmi:dtdl:instance:Schema:decimal;4" => @"""type"": ""string"", ""pattern"": ""^(?:\\+|-)?(?:[1-9][0-9]*|0)(?:\\.[0-9]*)?$""",
-                _ => $"\"$ref\": \"{new CodeName(dtSchema.Id).GetFileName(TargetLanguage.Independent)}.schema.json\"",
+                _ => $"\"$ref\": \"{GetReference(dtSchema.Id, sharedPrefix, srcNamespace)}\"",
             };
         }
 
@@ -67,6 +67,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:decimal;4" => "string",
                 _ => "null",
             };
+        }
+
+        private static string GetReference(Dtmi schemaId, CodeName? sharedPrefix, CodeName srcNamespace)
+        {
+            string filename = $"{new CodeName(schemaId).GetFileName(TargetLanguage.Independent)}.schema.json";
+
+            CodeName? dstNamespace = CommonSchemaSupport.GetNamespace(schemaId, sharedPrefix, srcNamespace);
+            string folder = dstNamespace != null && dstNamespace != srcNamespace ? $"../{dstNamespace.GetFolderName(TargetLanguage.Independent)}/" : string.Empty;
+            return $"{folder}{filename}";
         }
     }
 }

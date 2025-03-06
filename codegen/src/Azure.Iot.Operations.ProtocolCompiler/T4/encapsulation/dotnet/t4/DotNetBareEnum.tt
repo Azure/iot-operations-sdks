@@ -8,7 +8,7 @@
 #pragma warning disable CS8981 // The type name '<#=this.enumType.SchemaName.AsGiven#>' only contains lower-cased ascii characters.
 <# } #>
 
-namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
+namespace <#=this.projectName#>.<#=this.enumType.Namespace.GetTypeName(TargetLanguage.CSharp)#>
 {
 <# if (this.enumType.Description != null) { #>
     /// <summary>

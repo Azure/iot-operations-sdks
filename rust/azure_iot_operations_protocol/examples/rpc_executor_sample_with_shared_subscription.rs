@@ -53,7 +53,7 @@ async fn main() {
         .connection_settings(connection_settings_client_1)
         .build()
         .unwrap();
-    let mut session_client_1 = Session::new(session_options_client_1).unwrap();
+    let session_client_1 = Session::new(session_options_client_1).unwrap();
     let application_context_client_1 = ApplicationContextBuilder::default().build().unwrap();
 
     // Create a session for client 2
@@ -70,7 +70,7 @@ async fn main() {
         .connection_settings(connection_settings_client_2)
         .build()
         .unwrap();
-    let mut session_client_2 = Session::new(session_options_client_2).unwrap();
+    let session_client_2 = Session::new(session_options_client_2).unwrap();
     let application_context_client_2 = ApplicationContextBuilder::default().build().unwrap();
 
     // Creating shared counter

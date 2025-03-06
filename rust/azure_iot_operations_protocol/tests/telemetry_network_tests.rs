@@ -143,7 +143,7 @@ impl PayloadSerialize for EmptyPayload {
 #[tokio::test]
 async fn telemetry_basic_send_receive_network_tests() {
     let sender_id = "telemetry_basic_send_receive_network_tests-rust";
-    let Ok((mut session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
+    let Ok((session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
         setup_test::<EmptyPayload>(sender_id, "protocol/tests/basic/telemetry", true)
     else {
         // Network tests disabled, skipping tests
@@ -299,7 +299,7 @@ impl PayloadSerialize for DataPayload {
 async fn telemetry_complex_send_receive_network_tests() {
     let topic = "protocol/tests/complex/telemetry";
     let client_id = "telemetry_complex_send_receive_network_tests-rust";
-    let Ok((mut session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
+    let Ok((session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
         setup_test::<DataPayload>(client_id, topic, false)
     else {
         // Network tests disabled, skipping tests

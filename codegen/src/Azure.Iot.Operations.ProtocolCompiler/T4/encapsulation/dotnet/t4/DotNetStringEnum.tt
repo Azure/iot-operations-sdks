@@ -3,7 +3,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
+namespace <#=this.projectName#>.<#=this.enumType.Namespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using System.Runtime.Serialization;
     using System.Text.Json.Serialization;

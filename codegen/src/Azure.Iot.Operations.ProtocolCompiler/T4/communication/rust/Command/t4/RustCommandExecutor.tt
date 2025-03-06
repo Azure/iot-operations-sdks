@@ -19,10 +19,18 @@ use iso8601_duration;
 <# } #>
 
 <# if (this.reqSchema is CodeName) { #>
+<# if (this.reqNamespace == null) { #>
 use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } else { #>
+use super::super::<#=this.reqNamespace.GetFolderName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 <# } #>
 <# if (this.respSchema is CodeName) { #>
+<# if (this.respNamespace == null) { #>
 use super::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } else { #>
+use super::super::<#=this.respNamespace.GetFolderName(TargetLanguage.Rust)#>::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 <# } #>
 <# if (this.useSharedSubscription) { #>
 use super::COMMAND_SERVICE_GROUP_ID;

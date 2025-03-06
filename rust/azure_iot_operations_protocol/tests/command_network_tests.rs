@@ -135,7 +135,7 @@ impl PayloadSerialize for EmptyPayload {
 #[tokio::test]
 async fn command_basic_invoke_response_network_tests() {
     let invoker_id = "command_basic_invoke_response_network_tests-rust";
-    let Ok((mut session, invoker, mut executor, exit_handle)) =
+    let Ok((session, invoker, mut executor, exit_handle)) =
         setup_test::<EmptyPayload, EmptyPayload>(invoker_id, "protocol/tests/basic/command")
     else {
         // Network tests disabled, skipping tests
@@ -355,7 +355,7 @@ impl PayloadSerialize for DataResponsePayload {
 #[tokio::test]
 async fn command_complex_invoke_response_network_tests() {
     let invoker_id = "command_complex_invoke_response_network_tests-rust";
-    let Ok((mut session, invoker, mut executor, exit_handle)) =
+    let Ok((session, invoker, mut executor, exit_handle)) =
         setup_test::<DataRequestPayload, DataResponsePayload>(
             invoker_id,
             "protocol/tests/complex/command",

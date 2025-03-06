@@ -124,7 +124,7 @@ fn setup_test(
 #[tokio::test]
 async fn state_store_basic_set_delete_network_tests() {
     let log_identifier = "basic_set_delete";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_basic_set_delete_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -208,7 +208,7 @@ async fn state_store_basic_set_delete_network_tests() {
 #[tokio::test]
 async fn state_store_fencing_token_network_tests() {
     let log_identifier = "fencing_token";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_fencing_token_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -341,7 +341,7 @@ async fn state_store_fencing_token_network_tests() {
 #[tokio::test]
 async fn state_store_key_not_found_network_tests() {
     let log_identifier = "key_not_found";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_key_not_found_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -405,7 +405,7 @@ async fn state_store_key_not_found_network_tests() {
 #[tokio::test]
 async fn state_store_set_conditions_network_tests() {
     let log_identifier = "set_conditions";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_set_conditions_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -528,7 +528,7 @@ async fn state_store_set_conditions_network_tests() {
 #[tokio::test]
 async fn state_store_key_set_conditions_2_network_tests() {
     let log_identifier = "set_conditions_2";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_set_conditions_2_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -614,7 +614,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
 #[tokio::test]
 async fn state_store_set_key_notifications_network_tests() {
     let log_identifier = "set_key_notifications";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_set_key_notifications_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -710,7 +710,7 @@ async fn state_store_set_key_notifications_network_tests() {
 #[tokio::test]
 async fn state_store_del_key_notifications_network_tests() {
     let log_identifier = "del_key_notifications";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_del_key_notifications_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -804,7 +804,7 @@ async fn state_store_del_key_notifications_network_tests() {
 #[tokio::test]
 async fn state_store_observe_unobserve_network_tests() {
     let log_identifier = "observe_unobserve";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_observe_unobserve_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -912,7 +912,7 @@ async fn state_store_observe_unobserve_network_tests() {
 #[tokio::test]
 async fn state_store_complicated_recv_key_notifications_network_tests() {
     let log_identifier = "complicated_recv_key_notifications";
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_complicated_recv_key_notifications_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
@@ -1092,6 +1092,34 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
 
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
+
+#[ignore]
+#[tokio::test]
+async fn state_store_shutdown_right_away_network_tests() {
+    let Ok((session, state_store_client, exit_handle)) =
+        setup_test("state_store_shutdown_right_away_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
 
