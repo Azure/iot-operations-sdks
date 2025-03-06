@@ -397,7 +397,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         return ExtendedResponse<string>.CreateFromResponse(response);
                     });
 
-                await commandExecutor.StartAsync(testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
+                await commandExecutor.StartAsync(preferredDispatchConcurrency: testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
 
                 if (testCaseCatch != null)
                 {
