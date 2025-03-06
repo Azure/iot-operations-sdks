@@ -114,7 +114,7 @@ async fn leased_lock_basic_try_acquire_network_tests() {
         return;
     }
 
-    let (mut session, state_store_client, leased_lock_client, exit_handle) =
+    let (session, state_store_client, leased_lock_client, exit_handle) =
         initialize_client(test_id, &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({
@@ -153,7 +153,7 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let lock_name1 = format!("{test_id}-lock");
 
-    let (mut session, state_store_client, leased_lock_client, exit_handle) =
+    let (session, state_store_client, leased_lock_client, exit_handle) =
         initialize_client(&holder_name1, &lock_name1);
 
     let test_task = tokio::task::spawn({
@@ -204,10 +204,10 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (mut session2, state_store_client2, leased_lock_client2, exit_handle2) =
+    let (session2, state_store_client2, leased_lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -301,10 +301,10 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (mut session2, state_store_client2, leased_lock_client2, exit_handle2) =
+    let (session2, state_store_client2, leased_lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -418,10 +418,10 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (mut session2, state_store_client2, leased_lock_client2, exit_handle2) =
+    let (session2, state_store_client2, leased_lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1);
 
     let test_task1 = tokio::task::spawn({
@@ -484,10 +484,10 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (mut session2, state_store_client2, leased_lock_client2, exit_handle2) =
+    let (session2, state_store_client2, leased_lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -575,7 +575,7 @@ async fn leased_lock_shutdown_state_store_while_observing_lock_network_tests() {
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
     let test_task1 = tokio::task::spawn({
@@ -621,10 +621,10 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (mut session2, state_store_client2, leased_lock_client2, exit_handle2) =
+    let (session2, state_store_client2, leased_lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1);
 
     let test_task1 = tokio::task::spawn({
@@ -705,7 +705,7 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
     let shared_resource_key_name = format!("{test_id}-key");
     let shared_resource_key_value = format!("{test_id}-value");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
     let test_task1 = tokio::task::spawn({
@@ -807,10 +807,10 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
     let holder_name2 = format!("{test_id}2");
     let shared_resource_key_name = format!("{test_id}-key");
 
-    let (mut session1, state_store_client1, leased_lock_client1, exit_handle1) =
+    let (session1, state_store_client1, leased_lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (mut session2, state_store_client2, leased_lock_client2, exit_handle2) =
+    let (session2, state_store_client2, leased_lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -944,7 +944,7 @@ async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
         return;
     }
 
-    let (mut session, state_store_client, leased_lock_client, exit_handle) =
+    let (session, state_store_client, leased_lock_client, exit_handle) =
         initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({
@@ -986,7 +986,7 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
         return;
     }
 
-    let (mut session, state_store_client, leased_lock_client, exit_handle) =
+    let (session, state_store_client, leased_lock_client, exit_handle) =
         initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
 
     let test_task = tokio::task::spawn({

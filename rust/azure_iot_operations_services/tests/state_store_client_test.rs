@@ -1111,7 +1111,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
 #[ignore]
 #[tokio::test]
 async fn state_store_shutdown_right_away_network_tests() {
-    let Ok((mut session, state_store_client, exit_handle)) =
+    let Ok((session, state_store_client, exit_handle)) =
         setup_test("state_store_shutdown_right_away_network_tests-rust")
     else {
         // Network tests disabled, skipping tests

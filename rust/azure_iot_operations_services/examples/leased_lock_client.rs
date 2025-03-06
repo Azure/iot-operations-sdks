@@ -28,10 +28,10 @@ async fn main() {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    let (mut session1, exit_handle1, state_store_client_arc1, leased_lock_client1) =
+    let (session1, exit_handle1, state_store_client_arc1, leased_lock_client1) =
         create_clients(client_id1, lock_name);
 
-    let (mut session2, exit_handle2, state_store_client_arc2, leased_lock_client2) =
+    let (session2, exit_handle2, state_store_client_arc2, leased_lock_client2) =
         create_clients(client_id2, lock_name);
 
     let client_1_notify = Arc::new(Notify::new());
