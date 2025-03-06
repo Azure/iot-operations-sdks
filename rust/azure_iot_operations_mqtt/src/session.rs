@@ -55,41 +55,7 @@ enum SessionErrorRepr {
 #[error(transparent)]
 pub struct SessionConfigError(#[from] adapter::MqttAdapterError);
 
-
-// #[derive(Error, Debug)]
-// #[error(transparent)]
-// pub struct SessionExitError(#[from] SessionExitErrorRepr);
-
-// impl SessionExitError {
-//     // should retry?
-
-//     // pub fn is_fatal(&self) -> bool {
-//     //     matches!(self.0, SessionExitErrorRepr::Dropped(_))
-//     // }
-
-//     pub fn should_retry(&self) -> bool {
-//         matches!(self.0, SessionExitErrorRepr::BrokerUnavailable { .. })
-//     }
-// }
-
-
-// /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
-// #[derive(Error, Debug)]
-// pub enum SessionExitErrorRepr {
-//     /// Session was dropped before it could be exited.
-//     #[error("session dropped")]
-//     Dropped(#[from] DisconnectError),
-//     /// Session is not currently able to contact the broker for graceful exit.
-//     #[error("cannot gracefully exit session while disconnected from broker - issued attempt = {attempted}")]
-//     BrokerUnavailable {
-//         /// Indicates if a disconnect attempt was made.
-//         attempted: bool,
-//     },
-//     /// Attempt to exit the Session gracefully timed out.
-//     #[error("exit attempt timed out")]
-//     Timeout(#[from] tokio::time::error::Elapsed),
-// }
-
+/// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
 #[derive(Error, Debug)]
 #[error("{kind} (network attempt = {attempted})")]
 pub struct SessionExitError {
@@ -98,18 +64,34 @@ pub struct SessionExitError {
 }
 
 impl SessionExitError {
+    /// Return the corresponding [`SessionExitErrorKind`] for this error
+    #[must_use]
     pub fn kind(&self) -> SessionExitErrorKind {
         self.kind
     }
 
+    /// Return whether a network attempt was made before the error occurred
+    #[must_use]
     pub fn attempted(&self) -> bool {
         self.attempted
     }
 }
 
+impl From<DisconnectError> for SessionExitError {
+    fn from(_: DisconnectError) -> Self {
+        Self {
+            attempted: true,
+            kind: SessionExitErrorKind::Detached,
+        }
+    }
+}
+
+/// An enumeration of categories of [`SessionExitError`]
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum SessionExitErrorKind {
+    /// The exit handle was detached from the session
     Detached,
+    /// The broker could not be reached
     BrokerUnavailable,
 }
 

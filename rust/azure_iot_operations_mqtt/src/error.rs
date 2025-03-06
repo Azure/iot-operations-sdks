@@ -39,7 +39,7 @@ impl PublishError {
     }
 }
 
-/// An enumeration of categories of Publish errors
+/// An enumeration of categories of [`PublishError`]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum PublishErrorKind {
     /// Client is detached from connection/event loop. Cannot send requests.
@@ -80,7 +80,7 @@ impl SubscribeError {
     }
 }
 
-/// An enumeration of categories of Subscribe errors
+/// An enumeration of categories of [`SubscribeError`]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SubscribeErrorKind {
     /// Client is detached from connection/event loop. Cannot send requests.
@@ -121,7 +121,7 @@ impl UnsubscribeError {
     }
 }
 
-/// An enumeration of categories of Unsubscribe errors
+/// An enumeration of categories of [`UnsubscribeError`]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum UnsubscribeErrorKind {
     /// Client is detached from connection/event loop. Cannot send requests.
@@ -162,7 +162,7 @@ impl AckError {
     }
 }
 
-/// An enumeration of categories of Ack errors
+/// An enumeration of categories of [`AckError`]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum AckErrorKind {
     /// Client is detached from connection/event loop. Cannot send requests.
@@ -203,7 +203,7 @@ impl DisconnectError {
     }
 }
 
-/// An enumeration of categories of Disconnect errors
+/// An enumeration of categories of [`DisconnectError`]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DisconnectErrorKind {
     /// Client is detached from connection/event loop. Cannot send requests.
@@ -241,7 +241,7 @@ impl ReauthError {
     }
 }
 
-/// An enumeration of categories of Reauth errors
+/// An enumeration of categories of [`ReauthError`]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ReauthErrorKind {
     /// Client is detached from connection/event loop. Cannot send requests.
