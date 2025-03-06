@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>dotnet-CounterServer-89680ac1-95ed-4691-98ed-9604c4895e91</UserSecretsId>
-	</PropertyGroup>
+  </PropertyGroup>
 
 	<PropertyGroup>
 		<ContainerRepository>counter-server-dotnet</ContainerRepository>

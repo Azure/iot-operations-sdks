@@ -1,6 +1,6 @@
 set -e
 
-gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler 
+gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler
 
 [[ -d ./CommandVariantsSample ]] && rm -r ./CommandVariantsSample
 $gen --modelFile ../dtdl/CommandVariants.json --outDir ./CommandVariantsSample/command_variants_gen --lang rust --sdkPath ../../../../rust
@@ -38,3 +38,7 @@ $gen --modelFile ../dtdl/TelemetryRawSeparate.json --outDir ./TelemetryRawSepara
 [[ -d ./TelemetryAndCommandNestedRaw ]] && rm -r ./TelemetryAndCommandNestedRaw
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen/src/command_raw_gen --lang rust --noProj --sdkPath ../../../../rust
+
+[[ -d ./SharedComplexSchemasSample ]] && rm -r ./SharedComplexSchemasSample
+$gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
+$gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas

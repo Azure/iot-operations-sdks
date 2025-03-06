@@ -49,9 +49,9 @@
                 ITypeGenerator typeGenerator = TypeGenerators[langName];
                 ISchemaStandardizer schemaStandardizer = SchemaStandardizers.First(ss => schemaFileName.EndsWith(ss.Key)).Value;
 
-                foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath))
+                foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schemaFilePath, genNamespace))
                 {
-                    typeGenerator.GenerateTypeFromSchema(projectName, genNamespace, schemaType, schemaStandardizer.SerializationFormat, genRoot);
+                    typeGenerator.GenerateTypeFromSchema(projectName, schemaType, schemaStandardizer.SerializationFormat, genRoot);
                 }
             }
         }

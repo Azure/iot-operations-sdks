@@ -10,14 +10,14 @@ using System.Runtime.Serialization;
 namespace Azure.Iot.Operations.Protocol.UnitTests;
 
 public class StringTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(applicationContext, mqttClient, "test", new Utf8JsonSerializer())
+    : TelemetrySender<string>(applicationContext, mqttClient, new Utf8JsonSerializer())
 { }
 
-public class FaultyTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : TelemetrySender<string>(applicationContext, mqttClient, "test", new FaultySerializer()) { }
+public class FaultyTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : TelemetrySender<string>(applicationContext, mqttClient, new FaultySerializer()) { }
 
 
 public class TelemetrySenderWithCE(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(applicationContext, mqttClient, "test", new Utf8JsonSerializer())
+    : TelemetrySender<string>(applicationContext, mqttClient, new Utf8JsonSerializer())
 { }
 
 public class TelemetrySenderTests

@@ -21,10 +21,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serialization
 
     public class JsonSerializerTests
     {
-        static readonly Guid SomeGuidValue = Guid.Parse("A3EEA49F-81DC-4374-8F73-2E2125B4A1A2");
-        static readonly byte[] SomeByteArray = Encoding.UTF8.GetBytes("Hello, I'm a UTF-8 string.");
+        private static readonly Guid SomeGuidValue = Guid.Parse("A3EEA49F-81DC-4374-8F73-2E2125B4A1A2");
+        private static readonly byte[] SomeByteArray = Encoding.UTF8.GetBytes("Hello, I'm a UTF-8 string.");
 
-        Utf8JsonSerializer _ser;
+        private readonly Utf8JsonSerializer _ser;
         public JsonSerializerTests()
         {
             _ser = new Utf8JsonSerializer();

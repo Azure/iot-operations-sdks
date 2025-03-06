@@ -7,20 +7,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TriggerableCancellationTokenSource : ITriggerable, IDisposable
     {
-        private readonly CancellationTokenSource _cts;
-
-        public CancellationTokenSource TokenSource { get => _cts; }
+        public CancellationTokenSource TokenSource { get; }
 
         public TriggerableCancellationTokenSource()
         {
-            _cts = new CancellationTokenSource();
+            TokenSource = new CancellationTokenSource();
         }
 
         public void Trigger()
         {
             try
             {
-                _cts.Cancel();
+                TokenSource.Cancel();
             }
             catch
             {
@@ -29,7 +27,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public void Dispose()
         {
-            _cts.Dispose();
+            TokenSource.Dispose();
             GC.SuppressFinalize(this);
         }
     }

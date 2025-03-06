@@ -3,6 +3,6 @@
 <# this.PushIndent(new string(' ', this.indent)); #>
 "type": "array",
 "items": {
-<#=AvroSchemaSupport.GetTypeAndAddenda(this.elementSchema, 2, nullable: false, nestNamedType: false)#>
+<#=AvroSchemaSupport.GetTypeAndAddenda(this.elementSchema, 2, this.sharedPrefix, nullable: false, nestNamedType: false)#>
 },
 "default": []<# this.PopIndent(); #>

@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TestTelemetryReceiver : TelemetryReceiver<string>
     {
-        private AsyncAtomicInt _telemetryCount;
+        private readonly AsyncAtomicInt _telemetryCount;
 
         public async Task<int> GetTelemetryCount()
         {
@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         }
 
         internal TestTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer payloadSerializer)
-            : base(applicationContext, mqttClient, null, payloadSerializer)
+            : base(applicationContext, mqttClient, payloadSerializer)
         {
             _telemetryCount = new(0);
         }

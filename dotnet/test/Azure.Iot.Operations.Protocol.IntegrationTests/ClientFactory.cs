@@ -18,20 +18,13 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")}";
             if (!omitClientId)
             {
-                cs = cs + $";ClientId={clientId}";
+                cs += $";ClientId={clientId}";
             }
 
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
-            MQTTnet.IMqttClient mqttClient;
-            if (withTraces)
-            {
-                mqttClient = new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger());
-            }
-            else
-            {
-                mqttClient = new MQTTnet.MqttClientFactory().CreateMqttClient();
-            }
-
+            MQTTnet.IMqttClient mqttClient = withTraces
+                ? new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
+                : new MQTTnet.MqttClientFactory().CreateMqttClient();
             var orderedAckClient = new OrderedAckMqttClient(mqttClient);
             await orderedAckClient.ConnectAsync(new MqttClientOptions(mcs), cancellationToken);
 
@@ -80,7 +73,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                     clientId = Guid.NewGuid().ToString();
                 }
 
-                cs = cs + $";ClientId={clientId}";
+                cs += $";ClientId={clientId}";
             }
 
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);

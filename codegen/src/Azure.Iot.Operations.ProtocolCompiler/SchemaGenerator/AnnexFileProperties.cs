@@ -6,6 +6,8 @@
 
         public const string Namespace = "namespace";
 
+        public const string Shared = "shared";
+
         public const string ModelId = "modelId";
 
         public const string ServiceName = "serviceName";
@@ -33,6 +35,10 @@
         public const string CmdRequestSchema = "requestSchemaClass";
 
         public const string CmdResponseSchema = "responseSchemaClass";
+
+        public const string CmdRequestNamespace = "requestSchemaNamespace";
+
+        public const string CmdResponseNamespace = "responseSchemaNamespace";
 
         public const string CmdIsIdempotent = "idempotent";
 

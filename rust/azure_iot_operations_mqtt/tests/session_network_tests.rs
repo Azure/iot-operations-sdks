@@ -8,7 +8,7 @@ use tokio::sync::Notify;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
-use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 fn setup_test(client_id: &str) -> Result<Session, ()> {
@@ -40,33 +40,12 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
     Ok(session)
 }
 
-// NOTE: This function wouldn't be necessary if there weren't a race condition on using exit handles.
-async fn trigger_session_exit(exit_handle: SessionExitHandle) -> Result<(), String> {
-    match exit_handle.try_exit().await {
-        Ok(()) => Ok(()),
-        Err(e) => {
-            match e {
-                azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
-                    attempted,
-                } => {
-                    // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                    if !attempted {
-                        return Err(e.to_string());
-                    }
-                    Ok(())
-                }
-                _ => Err(e.to_string()),
-            }
-        }
-    }
-}
-
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
 //#[test_case(QoS::ExactlyOnce; "QoS 2")]
 #[tokio::test]
 async fn test_simple_recv(qos: QoS) {
     let client_id = "network_test_simple_recv";
-    let Ok(mut session) = setup_test(client_id) else {
+    let Ok(session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
         return;
     };
@@ -121,7 +100,7 @@ async fn test_simple_recv(qos: QoS) {
     let test_complete = async move {
         sender_done.notified().await;
         receiver_done.notified().await;
-        trigger_session_exit(exit_handle).await
+        exit_handle.try_exit().await
     };
 
     assert!(tokio::try_join!(
@@ -142,7 +121,7 @@ async fn test_simple_recv(qos: QoS) {
 #[tokio::test]
 async fn test_simple_recv_manual_ack(qos: QoS) {
     let client_id = "network_test_simple_recv_manual_ack";
-    let Ok(mut session) = setup_test(client_id) else {
+    let Ok(session) = setup_test(client_id) else {
         // Network tests disabled, skipping tests
         return;
     };
@@ -209,7 +188,7 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
     let test_complete = async move {
         sender_done.notified().await;
         receiver_done.notified().await;
-        trigger_session_exit(exit_handle).await
+        exit_handle.try_exit().await
     };
 
     let sender_jh = tokio::task::spawn(sender);

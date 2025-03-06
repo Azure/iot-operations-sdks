@@ -55,7 +55,13 @@ fi
 # NOTE: If rustup was already installed, make sure it's up-to-date.  If
 # it was just installed above, create the hardlinks for cargo, rustc,
 # etc.
-rustup self update
+# UPDATE 3/3/2025: self update broke with version 1.28 and associated behavioral changes.
+# For now, disable update as a mitigation, revisit after updating to Rust 2024 edition
+# and when the changes for rustup 1.28 are stabilized for CI.
+#
+# Ref: https://www.linuxcompatible.org/story/rustup-1280-released/
+#rustup self update
+rustup set auto-self-update disable
 
 # NOTE: The toolchain specified by rust-toolchain will be automatically
 # installed if it doesn't already exist when `cargo` is run later.  We'd

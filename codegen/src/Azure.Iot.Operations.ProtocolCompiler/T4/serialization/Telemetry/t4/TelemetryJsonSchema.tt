@@ -16,7 +16,7 @@
 <# if (this.setIndex && nameDescSchemaRequiredIndex.Item5 > 0) { #>
       "index": <#=nameDescSchemaRequiredIndex.Item5#>,
 <# } #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3)#>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.sharedPrefix, this.genNamespace)#>
     }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
 <# } #>
   }

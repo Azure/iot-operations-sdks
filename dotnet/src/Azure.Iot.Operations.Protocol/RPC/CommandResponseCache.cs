@@ -182,7 +182,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             _isMaintenanceActive = false;
-            Task expiryTask = this._expiryTask;
+            Task expiryTask = _expiryTask;
 
             _semaphore.Release();
 

@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public class CodeName : ITypeName, IEquatable<CodeName>
     {
+        private readonly Dtmi? givenDtmi;
         private readonly string givenName;
         private readonly string[] components;
         private readonly string lowerName;
@@ -18,6 +19,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public CodeName(Dtmi dtmi)
             : this(NameFromDtmi(dtmi))
         {
+            this.givenDtmi = dtmi;
         }
 
         public CodeName(string givenName = "")
@@ -123,6 +125,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         };
 
         public bool IsEmpty => string.IsNullOrEmpty(givenName);
+
+        public Dtmi? AsDtmi => givenDtmi;
 
         public string AsGiven => givenName;
 
