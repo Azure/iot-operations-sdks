@@ -13,7 +13,7 @@ publish = true
 
 [features]
 default = []
-all = ["state_store", "schema_registry"]
+all = ["state_store", "schema_registry", "leased_lock"]
 state_store = []
 schema_registry = [
   "serde",
@@ -25,6 +25,7 @@ schema_registry = [
   "time",
   "uuid"
 ]
+leased_lock = ["state_store"]
 
 [dependencies]
 azure_iot_operations_protocol = { version = "0.8", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
@@ -57,6 +58,10 @@ required-features = ["state_store"]
 [[example]]
 name = "schema_registry_client"
 required-features = ["schema_registry"]
+
+[[example]]
+name = "leased_lock_client"
+required-features = ["leased_lock"]
 
 [package.metadata.docs.rs]
 all-features = true

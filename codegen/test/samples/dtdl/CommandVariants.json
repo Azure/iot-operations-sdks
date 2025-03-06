@@ -14,13 +14,12 @@
         "name": "noop"
       },
       {
-        "@type": [ "Command", "Idempotent", "Cacheable" ],
+        "@type": [ "Command", "Idempotent" ],
         "name": "peek",
         "response": {
           "name": "outVal",
           "schema": "integer"
-        },
-        "ttl": "PT15S"
+        }
       },
       {
         "@type": "Command",

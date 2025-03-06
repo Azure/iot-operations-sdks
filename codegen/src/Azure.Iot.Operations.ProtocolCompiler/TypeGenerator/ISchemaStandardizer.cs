@@ -6,6 +6,6 @@
     {
         SerializationFormat SerializationFormat { get; }
 
-        IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath);
+        IEnumerable<SchemaType> GetStandardizedSchemas(string schemaFilePath, CodeName genNamespace);
     }
 }

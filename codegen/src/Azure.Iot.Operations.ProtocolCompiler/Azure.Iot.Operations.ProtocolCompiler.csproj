@@ -207,6 +207,11 @@
 			<LastGenOutput>RustService.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
+		<None Update="T4\communication\rust\Service\t4\RustShared.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustShared.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
 		<None Update="T4\communication\rust\Telemetry\t4\RustTelemetryReceiver.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>RustTelemetryReceiver.cs</LastGenOutput>
@@ -563,6 +568,11 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>RustService.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\rust\Service\t4\RustShared.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustShared.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\rust\Telemetry\t4\RustTelemetryReceiver.cs">
 			<DesignTime>True</DesignTime>

@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         private static Dictionary<string, int> uniquifiers = new();
 
-        public static IEnumerable<ITemplateTransform> GetTelemetrySchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, bool isSeparate)
+        public static IEnumerable<ITemplateTransform> GetTelemetrySchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix, bool isSeparate)
         {
             switch (payloadFormat)
             {
@@ -29,13 +29,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                     yield break;
                 case PayloadFormat.Avro:
-                    yield return new TelemetryAvroSchema(projectName, genNamespace, schema, nameDescSchemaRequiredIndices);
+                    yield return new TelemetryAvroSchema(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, sharedPrefix);
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new TelemetryJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, nameDescSchemaRequiredIndices, setIndex: true);
+                    yield return new TelemetryJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: true);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new TelemetryJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, nameDescSchemaRequiredIndices, setIndex: false);
+                    yield return new TelemetryJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: false);
                     yield break;
                 case PayloadFormat.Proto2:
                     yield return new TelemetryProto2(projectName, genNamespace, schema, nameDescSchemaRequiredIndices);
@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetCommandSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, ITypeName schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, bool isNullable)
+        public static IEnumerable<ITemplateTransform> GetCommandSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, ITypeName schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, CodeName? sharedPrefix, bool isNullable)
         {
             switch (payloadFormat)
             {
@@ -61,13 +61,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                     yield break;
                 case PayloadFormat.Avro:
-                    yield return new CommandAvroSchema(projectName, genNamespace, schema, commandName, subType, paramName, paramSchema, isNullable);
+                    yield return new CommandAvroSchema(projectName, genNamespace, schema, commandName, subType, paramName, paramSchema, sharedPrefix, isNullable);
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new CommandJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, commandName, subType, paramName, paramSchema, isNullable, setIndex: true);
+                    yield return new CommandJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, commandName, subType, paramName, paramSchema, sharedPrefix, isNullable, setIndex: true);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new CommandJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, commandName, subType, paramName, paramSchema, isNullable, setIndex: false);
+                    yield return new CommandJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, commandName, subType, paramName, paramSchema, sharedPrefix, isNullable, setIndex: false);
                     yield break;
                 case PayloadFormat.Proto2:
                     yield return new CommandProto2(projectName, genNamespace, schema, paramName, paramSchema, isNullable);
@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, Dtmi objectId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
+        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, Dtmi objectId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix)
         {
             switch (payloadFormat)
             {
@@ -91,10 +91,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case PayloadFormat.Avro:
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new ObjectJsonSchema(genNamespace, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, setIndex: true);
+                    yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: true);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new ObjectJsonSchema(genNamespace, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, setIndex: false);
+                    yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: false);
                     yield break;
                 case PayloadFormat.Proto2:
                     yield return new ObjectProto2(projectName, genNamespace, schema, nameDescSchemaRequiredIndices);
@@ -107,7 +107,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetEnumSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi enumId, string description, CodeName schema, Dtmi valueSchemaId, List<(string, string, int)> nameValueIndices)
+        public static IEnumerable<ITemplateTransform> GetEnumSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi enumId, string description, CodeName schema, Dtmi valueSchemaId, List<(string, string, int)> nameValueIndices, CodeName? sharedPrefix)
         {
             switch (payloadFormat)
             {
@@ -118,10 +118,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case PayloadFormat.Avro:
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new EnumJsonSchema(genNamespace, GetSchemaId(enumId, schema), description, schema, valueSchemaId, nameValueIndices);
+                    yield return new EnumJsonSchema(CommonSchemaSupport.GetNamespace(enumId, sharedPrefix, genNamespace)!, GetSchemaId(enumId, schema), description, schema, valueSchemaId, nameValueIndices);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new EnumJsonSchema(genNamespace, GetSchemaId(enumId, schema), description, schema, valueSchemaId, nameValueIndices);
+                    yield return new EnumJsonSchema(CommonSchemaSupport.GetNamespace(enumId, sharedPrefix, genNamespace)!, GetSchemaId(enumId, schema), description, schema, valueSchemaId, nameValueIndices);
                     yield break;
                 case PayloadFormat.Proto2:
                     yield return new EnumProto2(projectName, genNamespace, schema, valueSchemaId, nameValueIndices);

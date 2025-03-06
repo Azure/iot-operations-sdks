@@ -5,12 +5,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class EnumAvroSchema : ITemplateTransform
     {
         private readonly CodeName? schema;
+        private readonly CodeName? sharedNamespace;
         private readonly List<string> names;
         private readonly int indent;
 
-        public EnumAvroSchema(CodeName? schema, List<string> names, int indent)
+        public EnumAvroSchema(CodeName? schema, CodeName? sharedNamespace, List<string> names, int indent)
         {
             this.schema = schema;
+            this.sharedNamespace = sharedNamespace;
             this.names = names;
             this.indent = indent;
         }
