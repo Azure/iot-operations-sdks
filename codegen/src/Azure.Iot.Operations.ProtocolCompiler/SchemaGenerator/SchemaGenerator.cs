@@ -20,7 +20,7 @@
         private string? cmdServiceGroupId;
         private bool separateTelemetries;
 
-        public static void GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace, CodeName? sharedPrefix)
+        public static bool GenerateSchemas(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, Dtmi interfaceId, int mqttVersion, string projectName, DirectoryInfo workingDir, CodeName genNamespace, CodeName? sharedPrefix)
         {
             DTInterfaceInfo dtInterface = (DTInterfaceInfo)modelDict[interfaceId];
 
@@ -32,15 +32,70 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, projectName, dtInterface, mqttVersion, genNamespace);
 
-            schemaGenerator.GenerateInterfaceAnnex(GetWriter(workingDir.FullName), mqttVersion, sharedPrefix);
+            Dictionary<string, int> schemaCounts = new();
 
-            schemaGenerator.GenerateTelemetrySchemas(GetWriter(workingDir.FullName), mqttVersion, sharedPrefix);
-            schemaGenerator.GenerateCommandSchemas(GetWriter(workingDir.FullName), mqttVersion, sharedPrefix);
-            schemaGenerator.GenerateObjects(GetWriter(workingDir.FullName), mqttVersion, sharedPrefix);
-            schemaGenerator.GenerateEnums(GetWriter(workingDir.FullName), mqttVersion, sharedPrefix);
-            schemaGenerator.GenerateArrays(GetWriter(workingDir.FullName));
-            schemaGenerator.GenerateMaps(GetWriter(workingDir.FullName));
-            schemaGenerator.CopyIncludedSchemas(GetWriter(workingDir.FullName));
+            var schemaWriter = new SchemaWriter(workingDir.FullName, schemaCounts);
+
+            schemaGenerator.GenerateInterfaceAnnex(schemaWriter.Accept, mqttVersion, sharedPrefix);
+
+            schemaGenerator.GenerateTelemetrySchemas(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateCommandSchemas(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateObjects(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateEnums(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateArrays(schemaWriter.Accept);
+            schemaGenerator.GenerateMaps(schemaWriter.Accept);
+            schemaGenerator.CopyIncludedSchemas(schemaWriter.Accept);
+
+            if (schemaCounts.Any(kv => kv.Value > 1))
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Aborting schema generation due to duplicate generated names:");
+                Console.ResetColor();
+                foreach (KeyValuePair<string, int> schemaCount in schemaCounts.Where(kv => kv.Value > 1))
+                {
+                    Console.WriteLine($"  {schemaCount.Key}");
+                }
+
+                string exampleName = schemaCounts.FirstOrDefault(kv => kv.Value > 1 && kv.Key.EndsWith("Schema")).Key ?? "somethingSchema";
+                string preName = exampleName.Substring(0, exampleName.Length - "Schema".Length);
+
+                Console.WriteLine();
+                Console.WriteLine(@"HINT: You can force a generated name by assigning an ""@id"" value, whose last label will determine the name, like this:");
+                Console.WriteLine();
+                Console.WriteLine($"    \"name\": \"{preName}\",");
+                Console.WriteLine(@"    ""schema"": {");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(@"      ""@id"": ""dtmi:foo:bar:baz:SomeNameYouLike;1"",");
+                Console.ResetColor();
+                Console.WriteLine(@"      ""@type"": . . .");
+                Console.WriteLine();
+
+                Console.WriteLine(@"HINT: If your model contains a duplicated definition, you can outline it to the ""schemas"" section of the Interface, like this:");
+                Console.WriteLine();
+                Console.WriteLine(@"  ""schemas"": [");
+                Console.WriteLine(@"    {");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"      \"@id\": \"dtmi:foo:bar:sharedSchemas:{exampleName};1\",");
+                Console.ResetColor();
+                Console.WriteLine(@"      ""@type"": . . .");
+                Console.WriteLine(@"    }");
+                Console.WriteLine(@"  ]");
+                Console.WriteLine();
+                Console.WriteLine(@"and then refer to the identifier (instead of an inline definition) from multiple places:");
+                Console.WriteLine();
+                Console.WriteLine($"    \"name\": \"{preName}\",");
+                Console.Write(@"    ""schema"":");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($" \"dtmi:foo:bar:sharedSchemas:{exampleName};1\",");
+                Console.ResetColor();
+
+                Console.WriteLine();
+
+                return false;
+            }
+
+            return true;
         }
 
         public SchemaGenerator(IReadOnlyDictionary<Dtmi, DTEntityInfo> modelDict, string projectName, DTInterfaceInfo dtInterface, int mqttVersion, CodeName genNamespace)
@@ -285,23 +340,6 @@
         private static string? GetTtl(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.CacheableAdjunctTypeFormat, mqttVersion))) ? XmlConvert.ToString((TimeSpan)dtCommand.SupplementalProperties[string.Format(DtdlMqttExtensionValues.TtlPropertyFormat, mqttVersion)]) : null;
-        }
-
-        private static Action<string, string, string> GetWriter(string parentPath)
-        {
-            return (schemaText, fileName, subFolder) =>
-            {
-                string folderPath = Path.Combine(parentPath, subFolder);
-
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
-
-                string filePath = Path.Combine(folderPath, fileName);
-                File.WriteAllText(filePath, schemaText);
-                Console.WriteLine($"  generated {filePath}");
-            };
         }
     }
 }
