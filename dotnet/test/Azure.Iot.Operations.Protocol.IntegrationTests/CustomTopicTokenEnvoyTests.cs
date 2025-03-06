@@ -126,7 +126,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             // This RPC call should fail because the executor isn't listening for invocations with the above topic token value
             var error = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens, TimeSpan.FromSeconds(3)));
-            Assert.True(error.Kind == AkriMqttErrorKind.Timeout);
+            Assert.Equal(AkriMqttErrorKind.Timeout, error.Kind);
         }
 
         [Fact]
@@ -158,7 +158,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             // This RPC call should fail because the executor isn't listening for invocations with the above topic token value
             var error = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens, TimeSpan.FromSeconds(3)));
-            Assert.True(error.Kind == AkriMqttErrorKind.Timeout);
+            Assert.Equal(AkriMqttErrorKind.Timeout, error.Kind);
         }
     }
 }
