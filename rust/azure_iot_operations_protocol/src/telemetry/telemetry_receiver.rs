@@ -258,7 +258,7 @@ pub struct TelemetryReceiverOptions {
 /// # let mut session_options = SessionOptionsBuilder::default()
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
-/// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")

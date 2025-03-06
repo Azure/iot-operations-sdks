@@ -3,7 +3,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
+namespace <#=this.projectName#>.<#=this.objectType.Namespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using System;
     using System.Collections.Generic;
@@ -14,12 +14,15 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     using System.Text.Json.Serialization;
 <# } #>
     using <#=this.projectName#>;
+<# foreach (CodeName referencedNamespace in this.referencedNamespaces) { #>
+    using <#=this.projectName#>.<#=referencedNamespace.GetTypeName(TargetLanguage.CSharp)#>;
+<# } #>
 
 <# if (this.serFormat == SerializationFormat.Avro) { #>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#>")]
     public class <#=this.objectType.SchemaName.GetTypeName(TargetLanguage.CSharp, "base")#>
     {
-        public virtual Schema Schema { get => Schema.Parse(@"{""namespace"":""<#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>"",""name"":""<#=this.objectType.SchemaName.AsGiven#>"",""type"":""record"",""fields"":[]}"); }
+        public virtual Schema Schema { get => Schema.Parse(@"{""namespace"":""<#=this.projectName#>.<#=this.objectType.Namespace.GetTypeName(TargetLanguage.CSharp)#>"",""name"":""<#=this.objectType.SchemaName.AsGiven#>"",""type"":""record"",""fields"":[]}"); }
     }
 
 <# } #>
