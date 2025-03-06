@@ -8,6 +8,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -103,6 +104,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
             string requestTopicFilter = GetCommandTopic(null);
+            File.AppendAllText("C:\\Users\\timtay\\source\\iot\\temp.txt", "requestTopicFilter: " + requestTopicFilter + "\n");
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, requestTopicFilter))
             {
@@ -605,9 +607,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return _dispatcher;
         }
 
-        private string GetCommandTopic(Dictionary<string, string>? topicTokenMap = null)
+        private string GetCommandTopic(Dictionary<string, string>? additionalTopicTokenMap = null)
         {
-            topicTokenMap ??= new();
+            additionalTopicTokenMap ??= new();
             StringBuilder commandTopic = new();
 
             if (TopicNamespace != null)
@@ -616,7 +618,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, topicTokenMap));
+            Dictionary<string, string> combinedTopicTokenMap = new();
+            foreach (string topicTokenKey in TopicTokenMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
+            }
+
+            additionalTopicTokenMap ??= new();
+            foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
+            }
+
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, combinedTopicTokenMap));
 
             return commandTopic.ToString();
         }
