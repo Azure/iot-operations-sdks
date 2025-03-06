@@ -147,7 +147,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         /// <param name="additionalTopicTokenMap">
         /// The topic token replacements to use in addition to any topic tokens specified in <see cref="TopicTokenMap"/>. If this map
-        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
         /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>

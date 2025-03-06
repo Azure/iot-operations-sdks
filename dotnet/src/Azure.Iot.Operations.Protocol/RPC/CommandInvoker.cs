@@ -472,8 +472,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="request">The payload of command request.</param>
         /// <param name="metadata">The metadata of the command request.</param>
         /// <param name="additionalTopicTokenMap">
-        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>.If this map
-        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>. If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
         /// </param>
         /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
         /// <param name="cancellationToken">Cancellation token.</param>

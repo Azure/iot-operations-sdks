@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// <param name="telemetry">The payload of the telemetry.</param>
         /// <param name="additionalTopicTokenMap">
         /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>.If this map
-        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
         /// </param>
         /// <param name="qos">The quality of service to send the telemetry with.</param>
         /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// <param name="metadata">The telemetry metadata.</param>
         /// <param name="additionalTopicTokenMap">
         /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>.If this map
-        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
         /// </param>
         /// <param name="qos">The quality of service to send the telemetry with.</param>
         /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
