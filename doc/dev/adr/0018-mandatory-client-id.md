@@ -1,4 +1,4 @@
-# ADR 18: Mandatory Client ID in Session Client
+# ADR 18: Mandatory Client ID in Connection Settings
 
 ## Status
 
@@ -17,6 +17,8 @@ However, allowing the broker to assign the Client ID has logical implications fo
 Since we are building an SDK based around Session Clients that maintain MQTT Session, we should not entertain the broker-assigned client ID scenario, and require customers to provide a client ID in the Connection Settings.
 
 ## Consequences
+
+Connection Settings specification should be updated.
 
 Go and .NET SDKs must modify the Connection Settings implementation to require a Client ID. Rust has no action, as it was already required there.
 
