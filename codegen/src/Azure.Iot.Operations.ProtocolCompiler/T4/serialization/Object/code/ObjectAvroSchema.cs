@@ -6,14 +6,18 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class ObjectAvroSchema : ITemplateTransform
     {
         private readonly CodeName schema;
+        private readonly CodeName? sharedNamespace;
         private readonly List<(string, DTSchemaInfo, bool)> nameSchemaRequireds;
         private readonly int indent;
+        private readonly CodeName? sharedPrefix;
 
-        public ObjectAvroSchema(CodeName schema, List<(string, DTSchemaInfo, bool)> nameSchemaRequireds, int indent)
+        public ObjectAvroSchema(CodeName schema, CodeName? sharedNamespace, List<(string, DTSchemaInfo, bool)> nameSchemaRequireds, int indent, CodeName? sharedPrefix)
         {
             this.schema = schema;
+            this.sharedNamespace = sharedNamespace;
             this.nameSchemaRequireds = nameSchemaRequireds;
             this.indent = indent;
+            this.sharedPrefix = sharedPrefix;
         }
 
         public string FileName { get => string.Empty; }

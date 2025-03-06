@@ -15,7 +15,7 @@ async fn mock_event_injection() {
     let (event_loop, injector) = MockEventLoop::new();
     let client = MockClient::new();
 
-    let mut session = Session::new_from_injection(
+    let session = Session::new_from_injection(
         client,
         event_loop,
         Box::new(ExponentialBackoffWithJitter::default()),

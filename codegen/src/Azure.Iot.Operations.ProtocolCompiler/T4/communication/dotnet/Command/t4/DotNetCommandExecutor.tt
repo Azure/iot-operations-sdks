@@ -13,6 +13,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     using Azure.Iot.Operations.Protocol.RPC;
     using Azure.Iot.Operations.Protocol.Models;
     using <#=this.projectName#>;
+<# if (this.reqNamespace != null) { #>
+    using <#=this.projectName#>.<#=this.reqNamespace.GetTypeName(TargetLanguage.CSharp)#>;
+<# } #>
+<# if (this.respNamespace != null && this.respNamespace != this.reqNamespace) { #>
+    using <#=this.projectName#>.<#=this.respNamespace.GetTypeName(TargetLanguage.CSharp)#>;
+<# } #>
 
     public static partial class <#=this.serviceName.GetTypeName(TargetLanguage.CSharp)#>
     {

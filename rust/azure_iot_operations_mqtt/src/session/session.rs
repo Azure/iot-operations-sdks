@@ -47,8 +47,6 @@ where
     state: Arc<SessionState>,
     /// Notifier for a force exit signal
     notify_force_exit: Arc<Notify>,
-    /// Indicates if Session was previously run. Temporary until re-use is supported.
-    previously_run: bool,
 }
 
 impl<C, EL> Session<C, EL>
@@ -79,7 +77,6 @@ where
             reconnect_policy,
             state: Arc::new(SessionState::default()),
             notify_force_exit: Arc::new(Notify::new()),
-            previously_run: false,
         }
     }
 
@@ -110,25 +107,13 @@ where
 
     /// Begin running the [`Session`].
     ///
-    /// Blocks until either a session exit or a fatal connection error is encountered.
+    /// Consumes the [`Session`] and blocks until either a session exit or a fatal connection
+    /// error is encountered.
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(&mut self) -> Result<(), SessionError> {
+    pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
-        // TODO: This is a temporary solution to prevent re-use of the session.
-        // Re-use should be available in the future.
-        if self.previously_run {
-            log::error!("Session re-use is not currently supported. Ending session.");
-            return Err(std::convert::Into::into(SessionErrorKind::InvalidState(
-                "Session re-use is not currently supported".to_string(),
-            )));
-        }
-        self.previously_run = true;
-
-        // TODO: add logic for for re-use here re: resetting any necessary data in the dispatcher, etc.
-        // NOTE: Another necessary change here to support re-use is to handle clean-start. It gets changed from its
-        // original setting during the operation of .run(), and thus, the original setting is lost.
 
         let mut sat_auth_context = None;
         let mut sat_auth_tx = None;

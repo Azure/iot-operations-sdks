@@ -44,9 +44,14 @@ internal class Program
 #else
             description: "Namespace for generated code (overrides namespace from model)")
 #endif
-        { ArgumentHelpName = "NAMESPACE" };
+            { ArgumentHelpName = "NAMESPACE" };
 
 #if DEBUG
+        var sharedOption = new Option<string?>(
+            name: "--shared",
+            description: "DTMI prefix of shared schemas")
+            { ArgumentHelpName = "IDPREFIX" };
+
         var syncOption = new Option<bool>(
             name: "--sync",
             description: "Generate synchronous API");
@@ -88,6 +93,7 @@ internal class Program
             outDirOption,
             namespaceOption,
 #if DEBUG
+            sharedOption,
             syncOption,
             sdkPathOption,
 #endif
@@ -106,6 +112,7 @@ internal class Program
             outDirOption,
             namespaceOption,
 #if DEBUG
+            sharedOption,
             syncOption,
             sdkPathOption,
 #endif

@@ -5,38 +5,40 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public static class AvroSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, bool nullable, bool nestNamedType)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, bool nestNamedType)
         {
+            CodeName? sharedNamespace = CommonSchemaSupport.GetNamespace(dtSchema.Id, sharedPrefix);
+
             if (nullable)
             {
-                var templateTransform = new NullableAvroSchema(dtSchema, indent);
+                var templateTransform = new NullableAvroSchema(dtSchema, indent, sharedPrefix);
                 return templateTransform.TransformText();
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
-                var templateTransform = new ObjectAvroSchema(new CodeName(dtSchema.Id), ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent + (nestNamedType ? 2 : 0));
+                var templateTransform = new ObjectAvroSchema(new CodeName(dtSchema.Id), sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent + (nestNamedType ? 2 : 0), sharedPrefix);
                 string code = templateTransform.TransformText();
                 return nestNamedType ? NestCode(code, indent) : code;
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Enum)
             {
-                var templateTransform = new EnumAvroSchema(new CodeName(dtSchema.Id), ((DTEnumInfo)dtSchema).EnumValues.Select(v => v.Name).ToList(), indent + (nestNamedType ? 2 : 0));
+                var templateTransform = new EnumAvroSchema(new CodeName(dtSchema.Id), sharedNamespace, ((DTEnumInfo)dtSchema).EnumValues.Select(v => v.Name).ToList(), indent + (nestNamedType ? 2 : 0));
                 string code = templateTransform.TransformText();
                 return nestNamedType ? NestCode(code, indent) : code;
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
-                var templateTransform = new ArrayAvroSchema(((DTArrayInfo)dtSchema).ElementSchema, indent + (nestNamedType ? 2 : 0));
+                var templateTransform = new ArrayAvroSchema(((DTArrayInfo)dtSchema).ElementSchema, indent + (nestNamedType ? 2 : 0), sharedPrefix);
                 string code = templateTransform.TransformText();
                 return nestNamedType ? NestCode(code, indent) : code;
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
-                var templateTransform = new MapAvroSchema(((DTMapInfo)dtSchema).MapValue.Schema, indent + (nestNamedType ? 2 : 0));
+                var templateTransform = new MapAvroSchema(((DTMapInfo)dtSchema).MapValue.Schema, indent + (nestNamedType ? 2 : 0), sharedPrefix);
                 string code = templateTransform.TransformText();
                 return nestNamedType ? NestCode(code, indent) : code;
             }
