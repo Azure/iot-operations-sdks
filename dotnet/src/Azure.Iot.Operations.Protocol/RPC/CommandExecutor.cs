@@ -314,7 +314,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
         /// instead need to create a command executor per topic token set.
         /// </remarks>
-        public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int ? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);

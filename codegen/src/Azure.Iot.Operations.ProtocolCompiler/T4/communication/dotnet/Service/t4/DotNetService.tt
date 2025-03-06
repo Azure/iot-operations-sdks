@@ -110,7 +110,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
                 await Task.WhenAll(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 
