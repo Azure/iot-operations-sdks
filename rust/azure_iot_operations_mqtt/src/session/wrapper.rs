@@ -14,7 +14,7 @@ use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::session;
-use crate::session::{SessionError, SessionErrorKind, SessionExitError};
+use crate::session::{SessionConfigError, SessionError, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::MqttConnectionSettings;
 
@@ -65,12 +65,11 @@ impl Session {
     ///
     /// # Errors
     /// Returns a [`SessionError`] if there are errors using the session options.
-    pub fn new(options: SessionOptions) -> Result<Self, SessionError> {
+    pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
         let sat_file = options.connection_settings.sat_file.clone();
         let (client, event_loop) =
-            adapter::client(options.connection_settings, options.outgoing_max, true)
-                .map_err(SessionErrorKind::from)?;
+            adapter::client(options.connection_settings, options.outgoing_max, true)?;
         Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
