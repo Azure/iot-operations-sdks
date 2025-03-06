@@ -127,9 +127,9 @@ namespace TestEnvoys.Memmon
                 additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
-                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
-                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.startTelemetryCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.stopTelemetryCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.getRuntimeStatsCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

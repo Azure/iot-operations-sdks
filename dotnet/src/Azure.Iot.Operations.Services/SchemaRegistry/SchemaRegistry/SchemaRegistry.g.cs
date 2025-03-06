@@ -69,8 +69,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
-                    this.getCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.putCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.getCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

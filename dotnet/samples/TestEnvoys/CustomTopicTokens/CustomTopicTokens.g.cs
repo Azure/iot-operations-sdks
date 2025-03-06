@@ -73,7 +73,7 @@ namespace TestEnvoys.CustomTopicTokens
                 additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.readCustomTopicTokenCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.readCustomTopicTokenCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

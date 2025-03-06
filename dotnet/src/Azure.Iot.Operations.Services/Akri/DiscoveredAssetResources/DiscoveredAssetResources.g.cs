@@ -70,8 +70,8 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 additionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken),
-                    this.createDiscoveredAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.createDiscoveredAssetCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
