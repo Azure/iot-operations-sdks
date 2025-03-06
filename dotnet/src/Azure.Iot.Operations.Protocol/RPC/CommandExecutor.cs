@@ -68,6 +68,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public TimeSpan CacheTtl { get; init; }
 
+        /// <summary>
+        /// The topic token replacement map that this executor will use by default. Generally, this will include the token values
+        /// for topic tokens such as "executorId" which should be the same for the duration of this command executor's lifetime.
+        /// </summary>
+        /// <remarks>
+        /// Tokens replacement values can also be specified when starting the executor by specifying the additionalTopicToken map in <see cref="StartAsync(int?, Dictionary{string, string}?, CancellationToken)"/>.
+        /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public CommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
@@ -290,6 +297,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
+        /// <summary>
+        /// Begin accepting command invocations.
+        /// </summary>
+        /// <param name="preferredDispatchConcurrency">The dispatch concurrency count for the command response cache to use.</param>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacements to use in addition to any topic tokens specified in <see cref="TopicTokenMap"/>. If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// </param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make this command executor only
+        /// accept commands over a specific topic.
+        ///
+        /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
+        /// to only handle commands for several sets of topic token values, then you will instead need to create a command executor per topic token set.
+        /// </remarks>
         public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

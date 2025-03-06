@@ -36,6 +36,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly object _requestIdMapLock = new();
         private readonly Dictionary<string, ResponsePromise> _requestIdMap;
 
+        /// <summary>
+        /// The topic token replacement map that this command invoker will use by default. Generally, this will include the token values
+        /// for topic tokens such as "modelId" which should be the same for the duration of this command invoker's lifetime.
+        /// </summary>
+        /// <remarks>
+        /// Tokens replacement values can also be specified per-method invocation by specifying the additionalTopicToken map in <see cref="InvokeCommandAsync(TReq, CommandRequestMetadata?, Dictionary{string, string}?, TimeSpan?, CancellationToken)"/>.
+        /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         private bool _isDisposed;
@@ -179,13 +186,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return commandTopic.ToString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="responseTopicFilter"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <exception cref="AkriMqttException"></exception>
         internal async Task SubscribeAsNeededAsync(string responseTopicFilter, CancellationToken cancellationToken = default)
         {
             lock (_subscribedTopicsSetLock)
@@ -466,6 +466,18 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return value != null ? XmlConvert.ToTimeSpan(value) : null;
         }
 
+        /// <summary>
+        /// Invoke the specified command.
+        /// </summary>
+        /// <param name="request">The payload of command request.</param>
+        /// <param name="metadata">The metadata of the command request.</param>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>.If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// </param>
+        /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The command response including the command response metadata</returns>
         public async Task<ExtendedResponse<TResp>> InvokeCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

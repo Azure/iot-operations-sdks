@@ -41,6 +41,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public string? TopicNamespace { get; set; }
 
+        /// <summary>
+        /// The topic token replacement map that this receiver will use by default. Generally, this will include the token values
+        /// for topic tokens such as "modelId" which should be the same for the duration of this receiver's lifetime.
+        /// </summary>
+        /// <remarks>
+        /// Tokens replacement values can also be specified when starting the receiver by specifying the additionalTopicToken map in <see cref="StartAsync(Dictionary{string, string}?, CancellationToken)"/>.
+        /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
@@ -135,6 +142,21 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
+        /// <summary>
+        /// Begin accepting telemetry.
+        /// </summary>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacements to use in addition to any topic tokens specified in <see cref="TopicTokenMap"/>. If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will be used.
+        /// </param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make this telemetry receiver only
+        /// accept telemetry over a specific topic.
+        ///
+        /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
+        /// to only handle telemetry for several sets of topic token values, then you will instead need to create a telemetry receiver per topic token set.
+        /// </remarks>
         public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
