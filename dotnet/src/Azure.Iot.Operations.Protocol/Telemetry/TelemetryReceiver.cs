@@ -155,7 +155,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// accept telemetry over a specific topic.
         ///
         /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
-        /// to only handle telemetry for several sets of topic token values, then you will instead need to create a telemetry receiver per topic token set.
+        /// to only receive telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+        /// instead need to create a command executor per topic token set.
         /// </remarks>
         public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
         {

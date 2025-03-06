@@ -311,7 +311,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// accept commands over a specific topic.
         ///
         /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
-        /// to only handle commands for several sets of topic token values, then you will instead need to create a command executor per topic token set.
+        /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+        /// instead need to create a command executor per topic token set.
         /// </remarks>
         public async Task StartAsync(int? preferredDispatchConcurrency = null, Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
         {
