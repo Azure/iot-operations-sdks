@@ -111,7 +111,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
             string requestTopicFilter = GetCommandTopic(null);
-            File.AppendAllText("C:\\Users\\timtay\\source\\iot\\temp.txt", "requestTopicFilter: " + requestTopicFilter + "\n");
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, requestTopicFilter))
             {
