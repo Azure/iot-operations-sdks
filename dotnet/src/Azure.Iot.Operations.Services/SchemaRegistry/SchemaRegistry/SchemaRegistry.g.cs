@@ -26,6 +26,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             private readonly PutCommandExecutor putCommandExecutor;
             private readonly GetCommandExecutor getCommandExecutor;
 
+            /// <summary>
+            /// Construct a new instance of this service.
+            /// </summary>
+            /// <param name="applicationContext">The shared context for your application.</param>
+            /// <param name="mqttClient">The MQTT client to use.</param>
+            /// <param name="topicTokenMap">
+            /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
+            /// for topic tokens such as "modelId" which should be the same for the duration of this service's lifetime. Note that
+            /// additional topic tokens can be specified when starting the service with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/> and
+            /// can be specified per-telemetry message.
+            /// </param>
             public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
@@ -57,6 +68,23 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
             public abstract Task<ExtendedResponse<GetResponsePayload>> GetAsync(GetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
+            /// <summary>
+            /// Begin accepting command invocations for all command executors.
+            /// </summary>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
+            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="preferredDispatchConcurrency">The dispatch concurrency count for the command response cache to use.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <remarks>
+            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make command executors only
+            /// accept commands over a specific topic.
+            ///
+            /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
+            /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+            /// instead need to create a command executor per topic token set.
+            /// </remarks>
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
@@ -110,6 +138,16 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             private readonly PutCommandInvoker putCommandInvoker;
             private readonly GetCommandInvoker getCommandInvoker;
 
+            /// <summary>
+            /// Construct a new instance of this client.
+            /// </summary>
+            /// <param name="applicationContext">The shared context for your application.</param>
+            /// <param name="mqttClient">The MQTT client to use.</param>
+            /// <param name="topicTokenMap">
+            /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
+            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime. Note that
+            /// additional topic tokens can be specified when starting the client with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/>.
+            /// </param>
             public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
@@ -137,6 +175,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             public GetCommandInvoker GetCommandInvoker { get => this.getCommandInvoker; }
 
 
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
             public RpcCallAsync<PutResponsePayload> PutAsync(PutRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -153,6 +202,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
             public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;

@@ -31,6 +31,17 @@ namespace TestEnvoys.Memmon
             private readonly ManagedMemoryTelemetrySender managedMemoryTelemetrySender;
             private readonly MemoryStatsTelemetrySender memoryStatsTelemetrySender;
 
+            /// <summary>
+            /// Construct a new instance of this service.
+            /// </summary>
+            /// <param name="applicationContext">The shared context for your application.</param>
+            /// <param name="mqttClient">The MQTT client to use.</param>
+            /// <param name="topicTokenMap">
+            /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
+            /// for topic tokens such as "modelId" which should be the same for the duration of this service's lifetime. Note that
+            /// additional topic tokens can be specified when starting the service with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/> and
+            /// can be specified per-telemetry message.
+            /// </param>
             public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
@@ -100,21 +111,74 @@ namespace TestEnvoys.Memmon
 
             public abstract Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsAsync(GetRuntimeStatsRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
-            public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
-            public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, messageExpiryInterval, cancellationToken);
+                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
+            /// <summary>
+            /// Begin accepting command invocations for all command executors.
+            /// </summary>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
+            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="preferredDispatchConcurrency">The dispatch concurrency count for the command response cache to use.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <remarks>
+            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make command executors only
+            /// accept commands over a specific topic.
+            ///
+            /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
+            /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+            /// instead need to create a command executor per topic token set.
+            /// </remarks>
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
@@ -187,6 +251,16 @@ namespace TestEnvoys.Memmon
             private readonly ManagedMemoryTelemetryReceiver managedMemoryTelemetryReceiver;
             private readonly MemoryStatsTelemetryReceiver memoryStatsTelemetryReceiver;
 
+            /// <summary>
+            /// Construct a new instance of this client.
+            /// </summary>
+            /// <param name="applicationContext">The shared context for your application.</param>
+            /// <param name="mqttClient">The MQTT client to use.</param>
+            /// <param name="topicTokenMap">
+            /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
+            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime. Note that
+            /// additional topic tokens can be specified when starting the client with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/>.
+            /// </param>
             public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
@@ -256,6 +330,17 @@ namespace TestEnvoys.Memmon
 
             public abstract Task ReceiveTelemetry(string senderId, MemoryStatsTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
             public RpcCallAsync<EmptyAvro> StartTelemetryAsync(string executorId, StartTelemetryRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -273,6 +358,17 @@ namespace TestEnvoys.Memmon
                 return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
             public RpcCallAsync<EmptyAvro> StopTelemetryAsync(string executorId, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -290,6 +386,17 @@ namespace TestEnvoys.Memmon
                 return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
             public RpcCallAsync<GetRuntimeStatsResponsePayload> GetRuntimeStatsAsync(string executorId, GetRuntimeStatsRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -307,6 +414,22 @@ namespace TestEnvoys.Memmon
                 return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Begin accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
+            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <remarks>
+            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make telemetry receivers only
+            /// accept telemetry over a specific topic.
+            ///
+            /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
+            /// to only handle telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+            /// instead need to create a telemetry receiver per topic token set.
+            /// </remarks>
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
@@ -317,6 +440,10 @@ namespace TestEnvoys.Memmon
                     this.memoryStatsTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
