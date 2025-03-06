@@ -1,5 +1,5 @@
 ## Retry policies
-All SDKs use retry policy of exponential back off with jitter. The name of the classes are only incuded for reference.
+All SDKs use retry policy of exponential back off with jitter. The name of the classes are only included for reference.
 | Language | C# | Rust | Go |
 |----------|------|------|------|
 | **Name** | ExponentialBackoffRetryPolicy | ExponentialBackoffWithJitter | ExponentialBackoff |
