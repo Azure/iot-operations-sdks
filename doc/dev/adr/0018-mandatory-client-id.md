@@ -14,11 +14,11 @@ However, allowing the broker to assign the Client ID has logical implications fo
 
 ## Decision
 
-Since we are building an SDK based around Session Clients that maintain MQTT Session, we should not entertain the broker-assigned client ID scenario, and require customers to provide a client ID in the Connection Settings.
+Since we are building an SDK based around Session Clients that maintain MQTT Session, we should not entertain the broker-assigned client ID scenario, and require customers to provide a client ID in the Connection Settings or Session Client constructor as appropriate.
 
 ## Consequences
 
 Connection Settings specification should be updated.
 
-Go and .NET SDKs must modify the Connection Settings implementation to require a Client ID. Rust has no action, as it was already required there.
+Go and .NET SDKs must modify the Connection Settings or Session Client constructor implementation to require a Client ID. Rust has no action, as it was already required there.
 
