@@ -135,8 +135,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task DedupCachesByValueNotByReference()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -155,8 +157,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task DedupCachesNullPayload()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -175,8 +179,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task DedupBySameTopicSucceedsWithReuseAcrossTopicsOption()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -195,8 +201,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task DedupBySameTopicSucceedsWithoutReuseAcrossTopicsOption()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -215,8 +223,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task DedupByDifferentTopicFailsWithReuseAcrossTopicsOption()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -233,8 +243,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task DedupByDifferentTopicFailsWithoutReuseAcrossTopicsOption()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -251,8 +263,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task ReuseByDifferentInvokerFailsWithoutReuseAcrossInvokersOption()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -269,8 +283,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task UnexpiredUncacheableMessageIsRetrievableForDedup()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -289,8 +305,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task UnexpiredUncacheableMessageIsNotRetrievableForReuse()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -324,8 +342,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task UnexpiredOverlyStaleMessageIsRetrievableForDedup()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -344,8 +364,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task UnexpiredOverlyStaleMessageIsNotRetrievableForReuse()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -362,8 +384,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task SecondRetrieveReturnsFutureForDedupWhenCacheable()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -387,8 +411,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task SecondRetrieveReturnsFutureForDedupWhenUncacheable()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -412,8 +438,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task SecondRetrieveReturnsNullForReuseWhenUncacheable()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -429,8 +457,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task RetrieveForDedupRequiresMatchingTopic()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -452,8 +482,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task RetrieveForDedupDoesNotRequireMatchingCommandName()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -472,9 +504,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheNotTrimmedOnStoreWhenSufficientEntriesAndSpace()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 3;
-            commandResponseCache.MaxAggregatePayloadBytes = 160;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 3,
+                MaxAggregatePayloadBytes = 160
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -514,9 +548,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheNotTrimmedOnStoreWhenNoEntriesEligibleForEviction()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 2;
-            commandResponseCache.MaxAggregatePayloadBytes = 130;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 2,
+                MaxAggregatePayloadBytes = 130
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -556,9 +592,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnLowValueStoreWhenTooManyEntries()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 2;
-            commandResponseCache.MaxAggregatePayloadBytes = 160;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 2,
+                MaxAggregatePayloadBytes = 160
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -596,9 +634,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnHighValueStoreWhenTooManyEntries()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 2;
-            commandResponseCache.MaxAggregatePayloadBytes = 160;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 2,
+                MaxAggregatePayloadBytes = 160
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -636,9 +676,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnLowValueStoreWhenTooMuchSpace()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 3;
-            commandResponseCache.MaxAggregatePayloadBytes = 130;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 3,
+                MaxAggregatePayloadBytes = 130
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -676,9 +718,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnHighValueStoreWhenTooMuchSpace()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 3;
-            commandResponseCache.MaxAggregatePayloadBytes = 130;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 3,
+                MaxAggregatePayloadBytes = 130
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -716,9 +760,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnLowValueExpiryWhenTooManyEntries()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 2;
-            commandResponseCache.MaxAggregatePayloadBytes = 160;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 2,
+                MaxAggregatePayloadBytes = 160
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -764,9 +810,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnHighValueExpiryWhenTooManyEntries()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 2;
-            commandResponseCache.MaxAggregatePayloadBytes = 160;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 2,
+                MaxAggregatePayloadBytes = 160
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -812,9 +860,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnLowValueExpiryWhenTooMuchSpace()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 3;
-            commandResponseCache.MaxAggregatePayloadBytes = 130;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 3,
+                MaxAggregatePayloadBytes = 130
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -860,9 +910,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task CacheTrimmedOnHighValueExpiryWhenTooMuchSpace()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.MaxEntryCount = 3;
-            commandResponseCache.MaxAggregatePayloadBytes = 130;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                MaxEntryCount = 3,
+                MaxAggregatePayloadBytes = 130
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -908,8 +960,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task ExpiringOverlyStaleMessageBecomesUnretrievableForDedup()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -934,8 +988,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task RefreshedExpiredMessageBecomesUnretrievableForDedup()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -960,8 +1016,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task RefreshedExpiredMessageBecomesUnretrievableForReuse()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -986,8 +1044,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task RefreshedUnexpiredMessageRemainsRetrievableForDedup()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 
@@ -1014,8 +1074,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         [Fact]
         public async Task RefreshedUnexpiredMessageBecomesUnretrievableForReuse()
         {
-            var commandResponseCache = new TestCommandResponseCache();
-            commandResponseCache.CachingBenefit = 0.3;
+            var commandResponseCache = new TestCommandResponseCache
+            {
+                CachingBenefit = 0.3
+            };
 
             await commandResponseCache.StartAsync();
 

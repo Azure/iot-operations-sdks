@@ -362,10 +362,7 @@ namespace Azure.Iot.Operations.Protocol
         {
             if (!_disposed)
             {
-                if (_semaphoreHlc != null)
-                {
-                    _semaphoreHlc.Dispose();
-                }
+                _semaphoreHlc?.Dispose();
                 _disposed = true;
             }
 

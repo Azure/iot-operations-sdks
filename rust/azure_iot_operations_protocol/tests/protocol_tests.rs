@@ -30,8 +30,6 @@ static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
-    "CommandExecutorUserCodeRaisesContentError_RespondsError",
-    "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
@@ -39,7 +37,6 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
-    "CommandInvokerWithCustomResponseTopic_Success",
 ];
 
 /*
@@ -128,7 +125,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -174,7 +171,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
         let mqtt_client_id =
             get_client_id(&test_case, "SessionExecutorTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -220,7 +217,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
         let mqtt_client_id =
             get_client_id(&test_case, "SessionReceiverTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -265,7 +262,7 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionSenderTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),

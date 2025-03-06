@@ -15,12 +15,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? Id { get; set; }
 
-        public object Time { get; set; } = false;
+        public object? Time { get; set; } = false;
 
         public string? DataContentType { get; set; }
 
-        public object Subject { get; set; } = false;
+        public object? Subject { get; set; } = false;
 
-        public object DataSchema { get; set; } = false;
+        public object? DataSchema { get; set; } = false;
     }
 }

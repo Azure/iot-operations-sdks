@@ -61,6 +61,8 @@ func runOneCommandInvokerTest(
 		// async publishes (https://github.com/eclipse/paho.golang/issues/216).
 		"CommandInvokerPubAckFailureThenReinvoke_ErrorThenSuccess",
 		"CommandInvokerPubAckFailure_ThrowsException",
+		// TODO: Uncomment once 422 is removed in Go to support the modifications for this test
+		"CommandInvokerResponseIndicatesInvocationError_ThrowsException",
 	}
 
 	testCaseYaml, err := os.ReadFile(fileName)

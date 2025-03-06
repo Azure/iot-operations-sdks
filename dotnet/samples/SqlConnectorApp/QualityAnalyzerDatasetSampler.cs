@@ -11,12 +11,12 @@ namespace SqlQualityAnalyzerConnectorApp
 {
     internal class QualityAnalyzerDatasetSampler : IDatasetSampler
     {
-        private string _connectionString;
+        private readonly string _connectionString;
         private string _fullConnectionString = "";
-        private string _assetName;
-        private AssetEndpointProfileCredentials _credentials;
+        private readonly string _assetName;
+        private readonly AssetEndpointProfileCredentials? _credentials;
 
-        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, AssetEndpointProfileCredentials credentials)
+        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, AssetEndpointProfileCredentials? credentials)
         {
             _connectionString = connectionString;
             _assetName = assetName;
@@ -59,12 +59,14 @@ namespace SqlQualityAnalyzerConnectorApp
                             {
                                 while (await reader.ReadAsync())
                                 {
-                                    QualityAnalyzerData analyzerData = new QualityAnalyzerData();
-                                    analyzerData.Viscosity = double.Parse(reader["Viscosity"]?.ToString() ?? "0.0");
-                                    analyzerData.Sweetness = double.Parse(reader["Sweetness"]?.ToString() ?? "0.0");
-                                    analyzerData.ParticleSize = double.Parse(reader["ParticleSize"]?.ToString() ?? "0.0");
-                                    analyzerData.Overall = double.Parse(reader["Overall"]?.ToString() ?? "0.0");
-                                    analyzerData.Country = reader["Country"]?.ToString();
+                                    QualityAnalyzerData analyzerData = new QualityAnalyzerData
+                                    {
+                                        Viscosity = double.Parse(reader["Viscosity"]?.ToString() ?? "0.0"),
+                                        Sweetness = double.Parse(reader["Sweetness"]?.ToString() ?? "0.0"),
+                                        ParticleSize = double.Parse(reader["ParticleSize"]?.ToString() ?? "0.0"),
+                                        Overall = double.Parse(reader["Overall"]?.ToString() ?? "0.0"),
+                                        Country = reader["Country"]?.ToString()
+                                    };
                                     qualityAnalyzerDataList.Add(analyzerData);
                                 }
                             }
@@ -77,12 +79,6 @@ namespace SqlQualityAnalyzerConnectorApp
             {
                 throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
-        }
-
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken = default)
-        {
-            // By returning null, no message schema will be registered for telemetry sent for this dataset.
-            return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
         public ValueTask DisposeAsync()

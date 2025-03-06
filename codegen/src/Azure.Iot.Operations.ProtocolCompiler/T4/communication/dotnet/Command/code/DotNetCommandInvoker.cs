@@ -13,8 +13,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly EmptyTypeName serializerEmptyType;
         private readonly ITypeName? reqSchema;
         private readonly ITypeName? respSchema;
+        private readonly CodeName? reqNamespace;
+        private readonly CodeName? respNamespace;
 
-        public DotNetCommandInvoker(CodeName commandName, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string serializerSubNamespace, string serializerClassName, EmptyTypeName serializerEmptyType, ITypeName? reqSchema, ITypeName? respSchema)
+        public DotNetCommandInvoker(CodeName commandName, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string serializerSubNamespace, string serializerClassName, EmptyTypeName serializerEmptyType, ITypeName? reqSchema, ITypeName? respSchema, CodeName? reqNamespace, CodeName? respNamespace)
         {
             this.commandName = commandName;
             this.projectName = projectName;
@@ -26,6 +28,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.serializerEmptyType = serializerEmptyType;
             this.reqSchema = reqSchema;
             this.respSchema = respSchema;
+            this.reqNamespace = reqNamespace;
+            this.respNamespace = respNamespace;
         }
 
         public string FileName { get => $"{this.commandName.GetFileName(TargetLanguage.CSharp, "command", "invoker")}.g.cs"; }

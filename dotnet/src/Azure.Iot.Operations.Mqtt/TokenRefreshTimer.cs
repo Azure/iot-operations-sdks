@@ -22,13 +22,13 @@ internal class TokenRefreshTimer : IDisposable
         Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
     }
 
-    static int GetTokenExpiry(byte[] token)
+    private static int GetTokenExpiry(byte[] token)
     {
         JwtSecurityToken jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(Encoding.UTF8.GetString(token));
         return (int)jwtToken.ValidTo.Subtract(DateTime.UtcNow).TotalSeconds - 5;
     }
 
-    void RefreshToken(object? state)
+    private void RefreshToken(object? state)
     {
         Trace.TraceInformation("Refresh token Timer");
         IMqttClient? mqttClient = state! as IMqttClient;

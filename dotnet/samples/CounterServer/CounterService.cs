@@ -11,7 +11,7 @@ namespace CounterServer;
 
 public class CounterService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<CounterService> logger) : Counter.Service(applicationContext, mqttClient)
 {
-    int counter = 0;
+    private int counter = 0;
 
     public async override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
@@ -28,7 +28,7 @@ public class CounterService(ApplicationContext applicationContext, MqttSessionCl
 
         // Send telemetry using the telemetry sender
         var metadata = new OutgoingTelemetryMetadata();
-        await this.SendTelemetryAsync(telemetryPayload, metadata, cancellationToken: cancellationToken);
+        await SendTelemetryAsync(telemetryPayload, metadata, cancellationToken: cancellationToken);
 
         return new ExtendedResponse<IncrementResponsePayload>
         {

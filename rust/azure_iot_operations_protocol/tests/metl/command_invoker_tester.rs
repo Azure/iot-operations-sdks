@@ -193,13 +193,8 @@ where
 
         if let Some(request_topic) = tci.request_topic.as_ref() {
             invoker_options_builder.request_topic_pattern(request_topic);
-            if let Some(response_topic_map) = &tci.response_topic_map {
-                if let Some(response_topic) = response_topic_map.get(request_topic) {
-                    invoker_options_builder.response_topic_pattern(response_topic.clone());
-                }
-            }
         }
-
+        invoker_options_builder.response_topic_pattern(tci.response_topic_pattern.clone());
         invoker_options_builder.topic_namespace(tci.topic_namespace.clone());
         invoker_options_builder.response_topic_prefix(tci.response_topic_prefix.clone());
         invoker_options_builder.response_topic_suffix(tci.response_topic_suffix.clone());

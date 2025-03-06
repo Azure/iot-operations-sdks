@@ -35,12 +35,14 @@ public class CloudEventsMetadataTests
         var subject = "test";
         var time = DateTime.Now;
 
-        var metadata = new CloudEvent(source, type, specVersion);
-        metadata.Id = id;
-        metadata.DataContentType = dataContentType;
-        metadata.DataSchema = dataSchema;
-        metadata.Subject = subject;
-        metadata.Time = time;
+        var metadata = new CloudEvent(source, type, specVersion)
+        {
+            Id = id,
+            DataContentType = dataContentType,
+            DataSchema = dataSchema,
+            Subject = subject,
+            Time = time
+        };
 
         Assert.Equal(id, metadata.Id);
         Assert.Equal(source, metadata.Source);

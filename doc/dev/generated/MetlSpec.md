@@ -244,7 +244,7 @@ Each element of the `executors` array can have the following child keys:
 | response-metadata | drive | no | map from string to string or null | { } | Keys and values for header fields to be set in the Command response; a null value should be replaced from the matching key in the Command request. |
 | token-metadata-prefix | drive | no | string |  | When present, indicates that resolved topic tokens should be copied into response metadata, with keys prepended by the indicated prefix. |
 | execution-concurrency | drive | no | integer or null | null | A limit on the count of concurrent executions to reqest from the command dispatcher. |
-| raise-error | drive | no | [Error](#error) |  | Raise an error from the Command execution function. |
+| raise-error | drive | no | boolean | false | Whether to raise an error from the Command execution function. |
 | sync | drive | no | array of [Sync](#sync) | [ ] | A sequence of synchronization operations to perform during execution of the Command. |
 
 The value of `request-responses-map` is used to emulate a user-code command execution function.
@@ -253,7 +253,7 @@ The values in each array are used in sequence, wrapping if the count of request 
 If the request value is not found in the map, or if the mapped array has no elements, a null response is used.
 
 The value type for `cacheable-duration` and `executor-timeout` is common across classes, so it is defined towards the end of this document.
-The value types for `raise-error` and `sync` are specific to CommandExecutor and are defined in the next subsections.
+The value type for `sync` is specific to CommandExecutor and is defined in the next subsection.
 
 #### ExecutorSerializer
 
@@ -274,39 +274,6 @@ A CommandExecutor serializer can have the following child keys:
 | indicate-character-data | drive | no | boolean | true | Whether the outgoing serialized data should have a payload format indicator that specifies character data. |
 | allow-character-data | check | no | boolean | true | Whether to allow a payload format indicator that specifies character data for incoming data to deserialize. |
 | fail-deserialization | drive | no | boolean | false | Whether to fail the deserialization of incoming data. |
-
-#### Error
-
-The 'raise-error' key causes the CommandExecutor's execution function to raise an error, as in the following example:
-
-```yaml
-  - raise-error:
-      kind: content
-      message: "This is a content error with details"
-      property-name: "requestHeader"
-      property-value: "requestValue"
-```
-
-The Error can have the following child keys:
-
-| Key | Test Kind | Required | Value Type | Description |
-| --- | --- | --- | --- | --- |
-| kind | drive | yes | [ErrorKind](#errorkind) | The kind of error to raise. |
-| message | drive | no | string | The error message. |
-| property-name | drive | no | string | The name of the property that is invalid; only used for content errors. |
-| property-value | drive | no | string | The value of the property that is invalid; only used for content errors. |
-
-The error kind is defined in the next subsection.
-
-#### ErrorKind
-
-The error kind includes the following enumerated values:
-
-| Value | Description |
-| --- | --- |
-| none | No error. |
-| content | User code identified an error in the request. |
-| execution | User code encountered an error while executing the command. |
 
 #### Sync
 
@@ -866,7 +833,7 @@ Each element of the `receivers` array can have the following child keys:
 | telemetry-topic | drive | no | string or null | "mock/test" | The MQTT topic pattern for the Telemetry. |
 | topic-namespace | drive | no | string or null | null | A leading namespace for the Telemetry MQTT topic patterns. |
 | topic-token-map | drive | no | map from string to string | { } | A map from topic tokens to replacement values. |
-| raise-error | drive | no | [Error](#error) |  | Raise an error from the Telemetry receive function. |
+| raise-error | drive | no | boolean | false | Whether to raise an error from the Telemetry receive function. |
 
 #### ReceiverSerializer
 
@@ -1401,15 +1368,15 @@ The value of `catch` defines an error that is expected to be caught, as in the f
 
 ```yaml
   catch:
-    error-kind: invocation error
-    in-application: !!bool true
+    error-kind: request version not supported
+    in-application: !!bool false
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 422
-    message: "This is a content error with details"
+    status-code: 505
+    message: "This is a not supported version exception"
     supplemental:
-      property-name: 'requestheader'
-      property-value: "requestValue"
+      protocol-version: '1.0'
+      supported-protocols: "2 3 4"
 ```
 
 The catch can have the following child keys:
