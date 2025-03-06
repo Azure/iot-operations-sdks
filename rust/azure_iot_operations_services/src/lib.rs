@@ -21,6 +21,8 @@
 #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
+#[cfg(feature = "leased_lock")]
+pub mod leased_lock;
 #[cfg(feature = "schema_registry")]
 pub mod schema_registry;
 #[cfg(feature = "state_store")]
