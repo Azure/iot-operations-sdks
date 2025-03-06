@@ -343,18 +343,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (!_hasSubscribed)
                 {
-                    Dictionary<string, string> combinedTopicTokenMap = new();
-                    foreach (string topicTokenKey in TopicTokenMap.Keys)
-                    {
-                        combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
-                    }
-
-                    additionalTopicTokenMap ??= new();
-                    foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
-                    {
-                        combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
-                    }
-                    await SubscribeAsync(combinedTopicTokenMap, cancellationToken).ConfigureAwait(false);
+                    
+                    await SubscribeAsync(CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap), cancellationToken).ConfigureAwait(false);
                 }
 
                 _isRunning = true;
@@ -641,19 +631,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 commandTopic.Append('/');
             }
 
-            Dictionary<string, string> combinedTopicTokenMap = new();
-            foreach (string topicTokenKey in TopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
-            }
-
-            additionalTopicTokenMap ??= new();
-            foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
-            }
-
-            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, combinedTopicTokenMap));
+            commandTopic.Append(MqttTopicProcessor.ResolveTopic(RequestTopicPattern, CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap)));
 
             return commandTopic.ToString();
         }
@@ -741,6 +719,23 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 _isDisposed = true;
             }
+        }
+
+        private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
+        {
+            Dictionary<string, string> combinedTopicTokenMap = new();
+            foreach (string topicTokenKey in baseMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, baseMap[topicTokenKey]);
+            }
+
+            additionalMap ??= new();
+            foreach (string topicTokenKey in additionalMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalMap[topicTokenKey]);
+            }
+
+            return combinedTopicTokenMap;
         }
     }
 }
