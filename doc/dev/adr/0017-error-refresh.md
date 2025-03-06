@@ -23,16 +23,13 @@ ADR. This ADR is to collect them in a single place and propose updates.
 -   Allow all client-side errors to expose a `nested error` independent of
     `error kind`. This allows us to expose any dependency- or language-specific
     errors that may be relevant.
--   Ensure that the supplementary fields are only informational; if the user is
-    expected to take different action in response to the error, that information
-    should be encoded in a more code-friendly format.
 
 ### Error Kinds
 
--   Remove `invalid configuration`. This has heavy overlap with
-    `invalid argument` (which will largely replace it), and in some languages
-    the distinction goes as far as being somewhat arbitrary. In addition, there
-    are a number of cases where it interferes with code reuse.
+-   Remove `invalid argument`. This has heavy overlap with
+    `invalid configuration` (which will largely replace it), and in some
+    languages the distinction goes as far as being somewhat arbitrary. In
+    addition, there are a number of cases where it interferes with code reuse.
 -   Clarify the distinction of `invalid state`, `internal logic error`, and
     `unknown error`, and revisit usage in this context. The current thought is
     that the distinction relies primarily in the component at fault:
