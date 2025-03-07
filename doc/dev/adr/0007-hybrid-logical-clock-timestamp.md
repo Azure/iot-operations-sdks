@@ -1,9 +1,5 @@
 # ADR7: Hybrid Logical Clock Use and Timestamp User Property
 
-## Status: 
-
-PROPOSED
-
 ## Context: 
 
 Rust has an "implementation" of the HLC (Hybrid Logical Clock) in that it supports the data type (timestamp, counter, and node_id) and creating a new HLC from SystemTime::now(). The other languages also have additional functionality such as Update, CompareTo, Validate, etc. To reach feature completeness in Rust, I started investigating what this additional functionality should be used for in Rust, and to make sure it was needed (since nothing seemed to be broken yet without it). What I learned:
