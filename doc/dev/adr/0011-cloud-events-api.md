@@ -1,9 +1,5 @@
 # ADR11: Cloud Event API Relationship
 
-## Status: 
-
-APPROVED
-
 ## Context: 
 
 Cloud Events should be added for most/all MQ Telemetry Messages, and they must be optional. They must use the public format within user properties, which does not start with our reserved prefix. They are something we currently must easily support, but including cloud events on the Telemetry Message object opens the door for breaking API changes if we want to add easy functionality for other similar concepts in the future.

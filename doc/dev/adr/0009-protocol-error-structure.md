@@ -1,9 +1,5 @@
 # ADR9: Protocol Package Error Structure Revisions
 
-## Status
-
-ACCEPTED
-
 ## Context
 
 As of [ADR 0008](./0008-protocol-split.md), Telemetry, RPC Command and any other future patterns will each have their own unique protocol version on the wire, and should each be considered a distinct protocol.
