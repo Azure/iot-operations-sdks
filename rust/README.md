@@ -22,7 +22,7 @@ The following Azure IoT Operations crates are available:
 
 1. Get familiar with the [Rust language](https://www.rust-lang.org/learn)
 
-1. Check out our [Rust samples](./samples_applications)
+1. Check out our [Rust samples](./sample_applications)
 
 1. Read through [Deploy the application](/doc/edge_application/deploy.md) for building and deploying the container to your K8s cluster
 
