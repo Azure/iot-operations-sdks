@@ -137,7 +137,6 @@ impl HybridLogicalClock {
                 true,
                 false,
                 None,
-                None,
                 "Counter",
                 None,
                 Some("Integer overflow on HybridLogicalClock counter".to_string()),
@@ -189,7 +188,6 @@ impl FromStr for HybridLogicalClock {
                 false,
                 None,
                 None,
-                None,
             ));
         }
 
@@ -201,7 +199,6 @@ impl FromStr for HybridLogicalClock {
                     "HybridLogicalClock",
                     s,
                     false,
-                    None,
                     Some(format!(
                         "Malformed HLC. Could not parse first segment as an integer: {e}"
                     )),
@@ -214,7 +211,6 @@ impl FromStr for HybridLogicalClock {
                 "HybridLogicalClock",
                 s,
                 false,
-                None,
                 Some("Malformed HLC. Timestamp is out of range.".to_string()),
                 None,
             ));
@@ -228,7 +224,6 @@ impl FromStr for HybridLogicalClock {
                     "HybridLogicalClock",
                     s,
                     false,
-                    None,
                     Some(format!(
                         "Malformed HLC. Could not parse second segment as an integer: {e}"
                     )),
@@ -386,7 +381,6 @@ mod tests {
                 assert_eq!(e.kind, AIOProtocolErrorKind::InternalLogicError);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("Counter".to_string()));
                 assert_eq!(e.property_value, None);
             }
