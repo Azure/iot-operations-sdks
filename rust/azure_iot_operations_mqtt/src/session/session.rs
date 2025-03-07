@@ -18,7 +18,7 @@ use crate::session::managed_client::SessionManagedClient;
 use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
 use crate::session::reconnect_policy::ReconnectPolicy;
 use crate::session::state::SessionState;
-use crate::session::{SessionError, SessionErrorKind, SessionExitError};
+use crate::session::{SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind};
 
 /// Client that manages connections over a single MQTT session.
 ///
@@ -133,7 +133,7 @@ where
                 Err(e) => {
                     log::error!("Cannot read SAT auth file: {sat_file}");
                     // TODO: This should happen in the auth module, it should be fixed in the future.
-                    return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                    return Err(SessionErrorRepr::IoError(e))?;
                 }
             }
 
@@ -143,7 +143,7 @@ where
             sat_auth_context = Some(
                 SatAuthContext::new(sat_file.clone(), auth_watch_channel_rx).map_err(|e| {
                     log::error!("Error while creating SAT auth context: {e:?}");
-                    SessionError::from(SessionErrorKind::from(e))
+                    SessionErrorRepr::SatAuthError(e)
                 })?,
             );
         }
@@ -186,7 +186,7 @@ where
                         log::error!(
                             "Session state not present on broker after reconnect. Ending session."
                         );
-                        result = Err(SessionErrorKind::SessionLost);
+                        result = Err(SessionErrorRepr::SessionLost);
                         if self.state.desire_exit() {
                             // NOTE: this could happen if the user was exiting when the connection was dropped,
                             // while the Session was not aware of the connection drop. Then, the drop has to last
@@ -289,7 +289,7 @@ where
                 // Connection refused by broker - unrecoverable
                 Err(ConnectionError::ConnectionRefused(rc)) => {
                     log::error!("Connection Refused: rc: {rc:?}");
-                    result = Err(SessionErrorKind::ConnectionError(next.unwrap_err()));
+                    result = Err(SessionErrorRepr::ConnectionError(next.unwrap_err()));
                     break;
                 }
 
@@ -311,13 +311,13 @@ where
                             () = tokio::time::sleep(delay) => {}
                             () = self.notify_force_exit.notified() => {
                                 log::info!("Reconnect attempts halted by force exit");
-                                result = Err(SessionErrorKind::ForceExit);
+                                result = Err(SessionErrorRepr::ForceExit);
                                 break;
                             }
                         }
                     } else {
                         log::info!("Reconnect attempts halted by reconnect policy");
-                        result = Err(SessionErrorKind::ReconnectHalted);
+                        result = Err(SessionErrorRepr::ReconnectHalted);
                         break;
                     }
                     prev_reconnect_attempts += 1;
@@ -419,13 +419,24 @@ where
     /// and may eventually succeed even if this method returns the error
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`] if the Session is not connected to the broker.
     pub async fn try_exit(&self) -> Result<(), SessionExitError> {
         log::debug!("Attempting to exit session gracefully");
+        // Check if the session has already exited
+        if self.state.has_exited() {
+            return Err(SessionExitError {
+                attempted: false,
+                kind: SessionExitErrorKind::Detached,
+            });
+        }
+
         // Check if the session is connected (to best of knowledge)
         if !self.state.is_connected() {
-            return Err(SessionExitError::BrokerUnavailable { attempted: false });
+            return Err(SessionExitError {
+                attempted: false,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            });
         }
         // Initiate the exit
         self.trigger_exit_user().await?;
@@ -440,7 +451,10 @@ where
             // unreliable behavior in rumqttc). These would be less identical conditions if we tightened
             // that matching back up, and that's why they're here.
             () = self.state.condition_exited() => Ok(()),
-            () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
+            () = self.state.condition_disconnected() => Err(SessionExitError {
+                attempted: true,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            }),
         }
     }
 
@@ -454,17 +468,22 @@ where
     /// after which point this method will return an error. Under this circumstance, the attempt was still made,
     /// and may eventually succeed even if this method returns the error
     /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
-    /// will return an error indicating such.
+    /// will return an error.
     ///
     /// # Arguments
     /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
-    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`] if the Session is not connected to the broker within the specified timeout interval.
+    ///   within the timeout interval.
     pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
-        tokio::time::timeout(timeout, self.try_exit()).await?
+        tokio::time::timeout(timeout, self.try_exit())
+            .await
+            .map_err(|_| SessionExitError {
+                attempted: true,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            })?
     }
 
     /// Forcefully end the MQTT session running in the [`Session`] that created this handle.
