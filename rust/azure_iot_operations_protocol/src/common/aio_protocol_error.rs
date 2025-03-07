@@ -60,16 +60,12 @@ pub struct AIOProtocolError {
     pub message: Option<String>,
     /// The specific kind of error that occurred
     pub kind: AIOProtocolErrorKind,
-    /// True if the error occurred in user-supplied code rather than the SDK or its dependent components
-    pub in_application: bool,
     /// True if the error was identified immediately after the API was called, prior to any attempted network communication
     pub is_shallow: bool,
     /// True if the error was detected by a remote component
     pub is_remote: bool,
     /// Error from a dependent component that caused this error
     pub nested_error: Option<Box<dyn Error + Send + Sync>>,
-    /// An HTTP status code received from a remote service that caused the error being reported
-    pub http_status_code: Option<u16>,
     /// The name of a MQTT header that is missing or has an invalid value
     pub header_name: Option<String>,
     /// The value of a MQTT header that is invalid
@@ -277,18 +273,15 @@ impl AIOProtocolError {
     pub fn new_header_missing_error(
         header_name: &str,
         is_remote: bool,
-        http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::HeaderMissing,
-            in_application: false,
             is_shallow: false,
             is_remote,
             nested_error: None,
-            http_status_code,
             header_name: Some(header_name.to_string()),
             header_value: None,
             timeout_name: None,
@@ -309,18 +302,15 @@ impl AIOProtocolError {
         header_name: &str,
         header_value: &str,
         is_remote: bool,
-        http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::HeaderInvalid,
-            in_application: false,
             is_shallow: false,
             is_remote,
             nested_error: None,
-            http_status_code,
             header_name: Some(header_name.to_string()),
             header_value: Some(header_value.to_string()),
             timeout_name: None,
@@ -341,18 +331,15 @@ impl AIOProtocolError {
         is_shallow: bool,
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
-        http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::PayloadInvalid,
-            in_application: false,
             is_shallow,
             is_remote,
             nested_error,
-            http_status_code,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -372,7 +359,6 @@ impl AIOProtocolError {
     pub fn new_timeout_error(
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
-        http_status_code: Option<u16>,
         timeout_name: &str,
         timeout_value: Duration,
         message: Option<String>,
@@ -381,11 +367,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::Timeout,
-            in_application: false,
             is_shallow: false,
             is_remote,
             nested_error,
-            http_status_code,
             header_name: None,
             header_value: None,
             timeout_name: Some(timeout_name.to_string()),
@@ -405,18 +389,15 @@ impl AIOProtocolError {
     pub fn new_cancellation_error(
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
-        http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::Cancellation,
-            in_application: false,
             is_shallow: false,
             is_remote,
             nested_error,
-            http_status_code,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -443,11 +424,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::ConfigurationInvalid,
-            in_application: false,
             is_shallow: true,
             is_remote: false,
             nested_error,
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -473,11 +452,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::ArgumentInvalid,
-            in_application: false,
             is_shallow: true,
             is_remote: false,
             nested_error: None,
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -503,11 +480,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::StateInvalid,
-            in_application: false,
             is_shallow: true,
             is_remote: false,
             nested_error: None,
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -529,7 +504,6 @@ impl AIOProtocolError {
         is_shallow: bool,
         is_remote: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
-        http_status_code: Option<u16>,
         property_name: &str,
         property_value: Option<Value>,
         message: Option<String>,
@@ -538,11 +512,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::InternalLogicError,
-            in_application: false,
             is_shallow,
             is_remote,
             nested_error,
-            http_status_code,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -563,18 +535,15 @@ impl AIOProtocolError {
         is_remote: bool,
         is_shallow: bool,
         nested_error: Option<Box<dyn Error + Send + Sync>>,
-        http_status_code: Option<u16>,
         message: Option<String>,
         command_name: Option<String>,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::UnknownError,
-            in_application: false,
             is_shallow,
             is_remote,
             nested_error,
-            http_status_code,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -592,7 +561,6 @@ impl AIOProtocolError {
     /// Creates a new [`AIOProtocolError`] for an execution exception error
     #[must_use]
     pub fn new_execution_exception_error(
-        http_status_code: u16,
         property_name: Option<&str>,
         property_value: Option<Value>,
         message: Option<String>,
@@ -601,11 +569,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::ExecutionException,
-            in_application: true,
             is_shallow: false,
             is_remote: true,
             nested_error: None,
-            http_status_code: Some(http_status_code),
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -630,11 +596,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::ClientError,
-            in_application: false,
             is_shallow: false,
             is_remote: false,
             nested_error: Some(nested_error),
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -653,7 +617,6 @@ impl AIOProtocolError {
     #[must_use]
     pub fn new_unsupported_request_version_error(
         message: Option<String>,
-        http_status_code: u16,
         request_protocol_version: String,
         supported_request_protocol_major_versions: Vec<u16>,
         command_name: Option<String>,
@@ -661,11 +624,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::UnsupportedRequestVersion,
-            in_application: false,
             is_shallow: false,
             is_remote: true,
             nested_error: None,
-            http_status_code: Some(http_status_code),
             header_name: None,
             header_value: None,
             timeout_name: None,
@@ -691,11 +652,9 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::UnsupportedResponseVersion,
-            in_application: false,
             is_shallow: false,
             is_remote: false,
             nested_error: None,
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,
