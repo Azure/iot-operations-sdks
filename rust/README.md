@@ -20,8 +20,6 @@ The following Azure IoT Operations crates are available:
 
 1. To set up your cluster and install Azure IoT Operations, refer to the [setup guide](/doc/setup.md)
 
-1. Get familiar with the [Rust language](https://www.rust-lang.org/learn)
-
 1. Check out our [Rust samples](./sample_applications)
 
 1. Read through [Deploy the application](/doc/edge_application/deploy.md) for building and deploying the container to your K8s cluster
