@@ -3,7 +3,7 @@
 
 //! Generic MQTT connection settings implementations
 
-use std::env;
+use std::env::{self, VarError};
 use std::time::Duration;
 
 // TODO: Split up this struct to avoid weird combinations and separate concern.
@@ -78,7 +78,7 @@ impl MqttConnectionSettingsBuilder {
     /// ```
     /// # use azure_iot_operations_mqtt::{MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError};
     /// # fn try_main() -> Result<MqttConnectionSettings, MqttConnectionSettingsBuilderError> {
-    /// let connection_settings = MqttConnectionSettingsBuilder::from_environment().build()?;
+    /// let connection_settings = MqttConnectionSettingsBuilder::from_environment().unwrap().build()?;
     /// # Ok(connection_settings)
     /// # }
     /// # fn main() {
@@ -86,46 +86,43 @@ impl MqttConnectionSettingsBuilder {
     /// #     try_main().ok();
     /// # }
     /// ```
-    #[must_use]
-    pub fn from_environment() -> Self {
-        let client_id = env::var("AIO_MQTT_CLIENT_ID").ok();
-        let hostname = env::var("AIO_BROKER_HOSTNAME").ok();
-        let tcp_port = env::var("AIO_BROKER_TCP_PORT")
-            .ok()
+    ///
+    /// # Errors
+    /// Returns a `String` describing the error if any of the environment variables are invalid.
+    pub fn from_environment() -> Result<Self, String> {
+        let client_id = string_from_environment("AIO_MQTT_CLIENT_ID")?;
+        let hostname = string_from_environment("AIO_BROKER_HOSTNAME")?;
+        let tcp_port = string_from_environment("AIO_BROKER_TCP_PORT")?
             .map(|v| v.parse::<u16>())
             .transpose()
-            .unwrap_or(None);
-        let keep_alive = env::var("AIO_MQTT_KEEP_ALIVE")
-            .ok()
+            .map_err(|e| format!("AIO_BROKER_TCP_PORT: {e}"))?;
+        let keep_alive = string_from_environment("AIO_MQTT_KEEP_ALIVE")?
             .map(|v| v.parse::<u32>().map(u64::from).map(Duration::from_secs))
             .transpose()
-            .unwrap_or(None);
-        let session_expiry = env::var("AIO_MQTT_SESSION_EXPIRY")
-            .ok()
+            .map_err(|e| format!("AIO_MQTT_KEEP_ALIVE: {e}"))?;
+        let session_expiry = string_from_environment("AIO_MQTT_SESSION_EXPIRY")?
             .map(|v| v.parse::<u32>().map(u64::from).map(Duration::from_secs))
             .transpose()
-            .unwrap_or(None);
-        let clean_start = env::var("AIO_MQTT_CLEAN_START")
-            .ok()
+            .map_err(|e| format!("AIO_MQTT_SESSION_EXPIRY: {e}"))?;
+        let clean_start = string_from_environment("AIO_MQTT_CLEAN_START")?
             .map(|v| v.parse::<bool>())
             .transpose()
-            .unwrap_or(None);
-        let username = Some(env::var("AIO_MQTT_USERNAME").ok());
-        let password_file = Some(env::var("AIO_MQTT_PASSWORD_FILE").ok());
-        let use_tls = env::var("AIO_MQTT_USE_TLS")
-            .ok()
+            .map_err(|e| format!("AIO_MQTT_CLEAN_START: {e}"))?;
+        let username = Some(string_from_environment("AIO_MQTT_USERNAME")?);
+        let password_file = Some(string_from_environment("AIO_MQTT_PASSWORD_FILE")?);
+        let use_tls = string_from_environment("AIO_MQTT_USE_TLS")?
             .map(|v| v.parse::<bool>())
             .transpose()
-            .unwrap_or(None);
-        let ca_file = Some(env::var("AIO_TLS_CA_FILE").ok());
-        let cert_file = Some(env::var("AIO_TLS_CERT_FILE").ok());
-        let key_file = Some(env::var("AIO_TLS_KEY_FILE").ok());
-        let key_password_file = Some(env::var("AIO_TLS_KEY_PASSWORD_FILE").ok());
-        let sat_file = Some(env::var("AIO_SAT_FILE").ok());
+            .map_err(|e| format!("AIO_MQTT_USE_TLS: {e}"))?;
+        let ca_file = Some(string_from_environment("AIO_TLS_CA_FILE")?);
+        let cert_file = Some(string_from_environment("AIO_TLS_CERT_FILE")?);
+        let key_file = Some(string_from_environment("AIO_TLS_KEY_FILE")?);
+        let key_password_file = Some(string_from_environment("AIO_TLS_KEY_PASSWORD_FILE")?);
+        let sat_file = Some(string_from_environment("AIO_SAT_FILE")?);
 
         // TODO: consider removing some of the Option wrappers in the Builder definition to avoid these spurious Some() wrappers.
 
-        Self {
+        Ok(Self {
             client_id,
             hostname,
             tcp_port,
@@ -144,7 +141,7 @@ impl MqttConnectionSettingsBuilder {
             key_file,
             key_password_file,
             sat_file,
-        }
+        })
     }
 
     /// Validate the MQTT Connection Settings.
@@ -203,6 +200,15 @@ impl MqttConnectionSettingsBuilder {
             }
         }
         Ok(())
+    }
+}
+
+/// Helper function to get an environment variable as a string.
+fn string_from_environment(key: &str) -> Result<Option<String>, String> {
+    match env::var(key) {
+        Ok(value) => Ok(Some(value)),
+        Err(VarError::NotPresent) => Ok(None), // Handled by the validate function if required
+        Err(e) => Err(format!("Parsing {key} from environment failed: {e}")),
     }
 }
 

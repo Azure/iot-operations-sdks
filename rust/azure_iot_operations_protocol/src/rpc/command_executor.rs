@@ -126,7 +126,6 @@ where
         AIOProtocolError::new_cancellation_error(
             false,
             None,
-            None,
             Some(
                 "Command Executor has been shutdown and can no longer respond to commands"
                     .to_string(),
@@ -177,7 +176,6 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
                 true,
                 false,
                 Some(e.into()),
-                None,
                 Some("Payload serialization error".to_string()),
                 None,
             )),
@@ -998,7 +996,6 @@ where
                         true,
                         false,
                         None,
-                        None,
                         "command_expiration_time",
                         None,
                         Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string()),
@@ -1072,7 +1069,6 @@ where
                         if let Some(completion_tx) = completion_tx {
                             let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
                                 false,
-                                None,
                                 None,
                                 &response_arguments.command_name,
                                 Duration::from_secs(
@@ -1192,7 +1188,6 @@ where
                     let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
                         false,
                         None,
-                        None,
                         &response_arguments.command_name,
                         Duration::from_secs(
                             response_arguments
@@ -1308,7 +1303,6 @@ where
                         false,
                         false,
                         Some(Box::new(e)),
-                        None,
                         "response_publish",
                         None,
                         Some("Error publishing response".to_string()),
@@ -1492,10 +1486,8 @@ mod tests {
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("command_name".to_string()));
                 assert!(e.property_value == Some(Value::String(command_name.to_string())));
             }
@@ -1530,10 +1522,8 @@ mod tests {
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(
                     e.property_name,
                     Some("executor_options.request_topic_pattern".to_string())
@@ -1570,10 +1560,8 @@ mod tests {
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("topic_namespace".to_string()));
                 assert!(e.property_value == Some(Value::String(topic_namespace.to_string())));
             }
@@ -1640,10 +1628,8 @@ mod tests {
         match resp_builder {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("content_type".to_string()));
                 assert!(
                     e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
