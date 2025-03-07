@@ -20,9 +20,9 @@ The following Azure IoT Operations crates are available:
 
 1. To set up your cluster and install Azure IoT Operations, refer to the [setup guide](/doc/setup.md)
 
-1. Get familiar with the Rust language, there are several resources available in our [Rust Resources](resources.md) guide.
+1. Get familiar with the [Rust language](https://www.rust-lang.org/learn)
 
-1. Check out the available [samples](samples_applications)
+1. Check out our [Rust samples](samples_applications)
 
 ## Installing the crates
 
