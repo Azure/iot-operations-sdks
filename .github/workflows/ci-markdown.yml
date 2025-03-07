@@ -26,8 +26,10 @@ jobs:
           suggestions: true
           incremental_files_only: true
 
+      # Run link checking, allow unpriveleged user namespace
       - name: Link check
         continue-on-error: true
         run: |
+          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns 
           npm install -g @umbrelladocs/linkspector
           linkspector check -c ./.github/.linkspector.yml
