@@ -110,7 +110,6 @@ k3d image import <image-name>
 ```
 
 > [!TIP]
->
 > If using the k3d import method described here, then make sure the `imagePullPolicy` in the container definition is set to `Never`, otherwise the cluster will attempt to download the image.
 
 ## Deploying to the cluster

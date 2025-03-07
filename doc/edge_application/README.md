@@ -21,7 +21,6 @@ The following overview the various components that an edge application will inte
 Developing an edge application requires a Kubernetes cluster with Azure IoT Operations deployed. In additional, the MQTT broker should be configured to allow access from off cluster.
 
 > [!TIP]
-> 
 > Follow the [setup instructions](../setup.md) to setup your development environment and configure Azure IoT Operations.
 
 ## Developing edge applications
