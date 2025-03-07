@@ -35,14 +35,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      
+      - name: Run linkspector
+        uses: umbrelladocs/action-linkspector@v1
         with:
-          node-version: 20
-
-      # Run link checking, allow unpriveleged user namespace
-      - name: Link check
-        run: |
-          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns 
-          npm install -g @umbrelladocs/linkspector
-          linkspector check -c ./.github/.linkspector.yml
+          config_file: .github/.linkspector.yml
+          fail_on_error: true
+          filter_mode: nofilter
