@@ -74,7 +74,6 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
                 true,
                 false,
                 Some(e.into()),
-                None,
                 Some("Payload serialization error".to_string()),
                 None,
             )),
@@ -477,7 +476,6 @@ where
                 Err(AIOProtocolError::new_timeout_error(
                     false,
                     Some(Box::new(e)),
-                    None,
                     &self.command_name,
                     command_timeout,
                     None,
@@ -601,7 +599,6 @@ where
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
                         None,
-                        None,
                         Some(
                             "Command Invoker has been shutdown and can no longer invoke commands"
                                 .to_string(),
@@ -682,7 +679,6 @@ where
                         return Err(AIOProtocolError::new_cancellation_error(
                             false,
                             None,
-                            None,
                             Some(
                                 "Command Invoker has been shutdown and will no longer receive a response"
                                     .to_string(),
@@ -702,7 +698,6 @@ where
                     log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
-                        None,
                         None,
                         Some(
                             "MQTT Receiver has been cleaned up and will no longer send a response"
@@ -830,11 +825,9 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut response_error = AIOProtocolError {
         kind: AIOProtocolErrorKind::UnknownError, // should be overwritten
         message: None,                            // should be overwritten
-        in_application: false,                    // for most scenarios, this will be false
         is_shallow: false,                        // this is always false here
         is_remote: true,                          // this should be overwritten as needed
         nested_error: None,
-        http_status_code: None,
         header_name: None,
         header_value: None,
         timeout_name: None,
@@ -845,6 +838,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         protocol_version: None,
         supported_protocol_major_versions: None,
     };
+
+    let mut is_application_error = false;
 
     // parse user properties
     let mut response_custom_user_data = vec![];
@@ -911,7 +906,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 // validate that status is one of valid values. Must be present
                 match StatusCode::from_str(&value) {
                     Ok(code) => {
-                        response_error.http_status_code = Some(code as u16);
                         status = Some(code);
                     }
                     Err(mut e) => {
@@ -933,7 +927,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             Ok(UserProperty::IsApplicationError) => {
                 // Nothing to validate, but save info
                 // IsApplicationError is interpreted as false if the property is omitted, or has no value, or has a value that case-insensitively equals "false". Otherwise, the property is interpreted as true.
-                response_error.in_application = value.eq_ignore_ascii_case("true");
+                is_application_error = value.eq_ignore_ascii_case("true");
             }
             Ok(UserProperty::InvalidPropertyName) => {
                 // Nothing to validate, but save info
@@ -1034,7 +1028,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 StatusCode::InternalServerError => {
                     response_error.property_value = invalid_property_value.map(Value::String);
                     response_error.property_name = invalid_property_name;
-                    if response_error.in_application {
+                    if is_application_error {
                         response_error.kind = AIOProtocolErrorKind::ExecutionException;
                     } else if response_error.property_name.is_some() {
                         response_error.kind = AIOProtocolErrorKind::InternalLogicError;
@@ -1061,7 +1055,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         return Err(AIOProtocolError::new_header_missing_error(
             "__stat",
             false,
-            None,
             Some(format!(
                 "Response missing MQTT user property '{}'",
                 UserProperty::Status
@@ -1092,7 +1085,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     false,
                     Some(deserialization_e.into()),
                     None,
-                    None,
                     Some(command_name),
                 ));
             }
@@ -1103,7 +1095,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                         .content_type
                         .unwrap_or("None".to_string()),
                     false,
-                    None,
                     Some(message),
                     Some(command_name),
                 ));
@@ -1328,10 +1319,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some(error_property_name.to_string()));
                 assert!(e.property_value == Some(Value::String(error_property_value.to_string())));
             }
@@ -1565,10 +1554,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::Timeout);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.timeout_name, Some("test_command_name".to_string()));
                 assert!(e.timeout_value == Some(Duration::from_millis(2)));
             }
@@ -1645,10 +1632,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert!(e.nested_error.is_some());
             }
         }
@@ -1701,10 +1686,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
                 assert!(e.property_value == Some(Value::String("+++".to_string())));
             }
@@ -1756,10 +1739,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
                 assert_eq!(e.property_value, Some(Value::String(String::new())));
             }
@@ -1805,10 +1786,8 @@ mod tests {
         match req_builder {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("content_type".to_string()));
                 assert!(
                     e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
