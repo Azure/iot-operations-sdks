@@ -8,17 +8,17 @@ spec:
   description: A sample for an Asset modeling a device with TCP endpoint
   assetEndpointProfileRef: azure-iot-operations/my-tcp-thermostat-profile # <namespace>/<assetEndpointProfile.metadata.name>
   defaultEventsConfiguration: |-
-   {
-   }
+    {
+    }
   defaultTopic:
     path: /mqtt/machine/status
-    retain: Keep         
+    retain: Keep
   events:
     - name: thermostat_status_changed
       eventConfiguration: |-
-       {
-       }
+        {
+        }
       eventNotifier: "80" # The port that the TCP server asset uses
       topic:
         path: /mqtt/machine/status/change_event
-        retain: Keep 
+        retain: Keep

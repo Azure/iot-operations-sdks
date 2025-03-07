@@ -49,9 +49,9 @@ runs:
       with:
         go-version: 1.24
 
-    # - name: Setup Rust
-      # if: inputs.install-rust == 'true'
-    #   uses: actions-rust-lang/setup-rust-toolchain@v1
+    - name: Setup Rust
+      if: inputs.install-rust == 'true'
+      uses: actions-rust-lang/setup-rust-toolchain@v1
 
     - name: Wait for Mqtt Broker
       if: inputs.wait-for-broker == 'true'
