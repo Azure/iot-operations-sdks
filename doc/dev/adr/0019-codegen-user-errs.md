@@ -36,6 +36,7 @@ To facilitate review, following are links to key sections:
 * Using [Result, NormalResult, and ErrorResult](#result-normalresult-and-errorresult-adjunct-types) adjunct types to define schemas for normal and error results
 * Using [Message and ErrorMessage](#message-and-errormessage-adjunct-types) adjunct types to define error information for a language-appropriate error type
 * An illustration of [C# code generation and usage](#c-code-generation), including both [server](#c-server-side-code)- and [client](#c-client-side-code)-side code
+* An illustration of [Go code generation and usage](#go-code-generation), including both [server](#go-server-side-code)- and [client](#go-client-side-code)-side code
 * A [brief note](#code-generation-in-other-languages) on code-generation in other languages
 
 ## MQTT extension, version 3
@@ -192,10 +193,54 @@ to this:
 
 The original information (`"name": "counterValue", "schema": "integer"`) is still present, but it is now in a `Field` cotyped `NormalResult`, which is nested inside an `Object` that is cotyped `Result`.
 In words, the Command response is no longer merely an integer named "counterValue".
-It is now a composite result that normally contains an integer named "counterValue".
+It is now a composite result with _normal_ and _error_ components.
 
-When the composite result reflects an error, it contains a collection of error information instead of the "counterValue" integer.
-The specific error information is defined by the `Field` cotyped `ErrorResult`.
+The DTDL definition for the response above generates a JSON Schema definition for the response as follows:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "IncrementResponseSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "counterValue": {
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    },
+    "incrementError": {
+      "$ref": "CounterError.schema.json"
+    }
+  }
+}
+```
+
+The above schema, `IncrementResponseSchema`, defines the representation of the response on the wire.
+The JSON object has two fields, both of which are optional (although in practice one must have a value):
+
+* a `counterValue` field that conveys the incremented counter value under normal circumstances
+* an `incrementError` field that conveys error information under exceptional circumstances
+
+The above schema is not seen by user-level code on either the client or server side.
+User code sees the same response schema that was generated for the un-enhanced model, which has a single required `counterValue` field:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "IncrementResponsePayload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "counterValue" ],
+  "properties": {
+    "counterValue": {
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    }
+  }
+}
+```
+
+This schema, `IncrementResponsePayload`, defines the representation of the normal response from user service code to user client code, as illustrated below in the code-generation sections.
+
+When an error is returned instead of the normal response, the specific error information is defined in the model by the `Field` cotyped `ErrorResult`.
 The schema for this error information is defined elsewhere in the model for cleanliness, and it will be described in the next section.
 
 ### Message and ErrorMessage adjunct types
@@ -275,7 +320,7 @@ public partial class CounterErrorException : Exception
 ```
 
 Note that the constructor calls the base constructor with an exception message that is the value of the `CounterError` `Explanation` property.
-This code is generated because the "exception" field in the DTDL `Object` is cotyped `ErrorMessage`.
+This code is generated because the "explanation" field in the DTDL `Object` is cotyped `ErrorMessage`.
 
 The [sample model without error info](#sample-model) generates the following abstract method signature for the user's server code to override:
 
@@ -416,12 +461,206 @@ catch (CounterErrorException counterException)
 ```
 
 Note that this code reads the standard `Message` property of the exception.
-An alternative way to access this same value is via the `Explanation` property of the nested `CounterError`, but the example above ilustrates that the standard C# mechanism for conveying error strings is usable.
+An alternative way to access this same value is via the `Explanation` property of the nested `CounterError`, but the example above illustrates that the standard C# mechanism for conveying error strings is usable.
+
+## Go code generation
+
+The DTDL `Object` with ID `dtmi:com:example:CounterCollection:CounterError;1` will generate a Go struct named `CounterError`, exactly as before:
+
+```go
+type CounterError struct {
+    Condition   *ConditionSchema `json:"condition,omitempty"`
+    Explanation *string          `json:"explanation,omitempty"`
+}
+```
+
+In addition, because the DTDL `Object` has a cotype of `Error`, an `Error` receiver will be generated so that the `CounterError` duck-types to the `error` interface:
+
+```go
+func (e *CounterError) Error() string {
+    return *e.Explanation
+}
+```
+
+Note that the return value for the `Error` receiver is the value of the `CounterError` `Explanation` property.
+This code is generated because the "explanation" field in the DTDL `Object` is cotyped `ErrorMessage`.
+
+The [sample model without error info](#sample-model) generates the following function type for the user-code command handler:
+
+```go
+protocol.CommandHandler[IncrementRequestPayload, IncrementResponsePayload]
+```
+
+This expands to:
+
+```go
+func(
+    context.Context,
+    *protocol.CommandRequest[countercollection.IncrementRequestPayload],
+) (*protocol.CommandResponse[countercollection.IncrementResponsePayload], error)
+```
+
+And it produces a client-side invocation method with this signature:
+
+```go
+func (invoker IncrementCommandInvoker) Increment(
+    ctx context.Context,
+    request IncrementRequestPayload,
+    opt ...protocol.InvokeOption,
+) (*protocol.CommandResponse[IncrementResponsePayload], error)
+```
+
+These signatures remain unchanged when error info is added by replacing the [original model](#sample-model) with the [enhanced model](#enhanced-model).
+What changes is that the server-side generated code becomes able to recognize an error return from user code that is a `CounterError`, and the client-side generated code becomes able to return a `CounterError` as its error return to user code.
+
+### Go Server-side code
+
+Here is an example server-side user-code command handler, which returns an error that is a `CounterError` when it encounters a problem:
+
+```go
+func (h *Handlers) Increment(
+    ctx context.Context,
+    req *protocol.CommandRequest[countercollection.IncrementRequestPayload],
+) (*protocol.CommandResponse[countercollection.IncrementResponsePayload], error) {
+    currentValue := h.counterValues[req.Payload.CounterName]
+    if currentValue == 0 {
+        condition := countercollection.CounterNotFound
+        explanation := fmt.Sprintf("Counter %s not found in counter collection", req.Payload.CounterName)
+        return nil, &countercollection.CounterError{
+            Condition: &condition,
+            Explanation: &explanation,
+        }
+    }
+
+    if currentValue == math.MaxInt32 {
+        condition := countercollection.CounterOverflow
+        explanation := fmt.Sprintf("Counter %s has saturated; no further increment is possible", req.Payload.CounterName)
+        return nil, &countercollection.CounterError{
+            Condition: &condition,
+            Explanation: &explanation,
+        }
+    }
+
+    newValue := currentValue + 1
+    h.counterValues[req.Payload.CounterName] = newValue
+
+    return protocol.Respond(countercollection.IncrementResponsePayload{
+        CounterValue: newValue,
+    })
+}
+```
+
+When the user code returns an error, the server-side generated code checks whether it is a `CounterError`.
+If it is, the generated code maps the error information into a generated C# class that is serialized and returned to the client:
+
+```go
+    response, err := incrementWrapper.handler(ctx, req)
+    if err != nil {
+        counterError, ok := err.(*CounterError)
+        if !ok {
+            return nil, err
+        }
+
+        return protocol.Respond(IncrementResponseSchema{
+            CounterValue:   nil,
+            IncrementError: counterError,
+        })
+    }
+
+    mappedResponse := protocol.CommandResponse[IncrementResponseSchema]{
+        protocol.Message[IncrementResponseSchema]{
+            Payload: IncrementResponseSchema{
+                CounterValue:   &response.Payload.CounterValue,
+                IncrementError: nil,
+            },
+            ClientID:        response.ClientID,
+            CorrelationData: response.CorrelationData,
+            Timestamp:       response.Timestamp,
+            TopicTokens:     response.TopicTokens,
+            Metadata:        response.Metadata,
+        },
+    }
+
+    return &mappedResponse, nil
+```
+
+### Go Client-side code
+
+Generated client-side code checks whether the response received from the server is a `CounterError`.
+If it is, the generated code returns the `CounterError` via the error return to user code.
+
+```go
+response, err := invoker.Invoke(
+    ctx,
+    request,
+    &invokeOpts,
+)
+
+if err != nil {
+    return nil, err
+}
+
+if response.Payload.IncrementError != nil {
+    return nil, response.Payload.IncrementError
+}
+
+if response.Payload.CounterValue == nil {
+    return nil, &errors.Client{
+        Base: errors.Base{
+            Message: "Command response has neither normal nor error payload content",
+            Kind:    errors.PayloadInvalid,
+        },
+        IsShallow: false,
+    }
+}
+
+mappedResponse := protocol.CommandResponse[IncrementResponsePayload]{
+    protocol.Message[IncrementResponsePayload]{
+        Payload: IncrementResponsePayload{
+            CounterValue: *response.Payload.CounterValue,
+        },
+        ClientID:        response.ClientID,
+        CorrelationData: response.CorrelationData,
+        Timestamp:       response.Timestamp,
+        TopicTokens:     response.TopicTokens,
+        Metadata:        response.Metadata,
+    },
+}
+
+return &mappedResponse, nil
+```
+
+Here is example client-side code that invokes the command and is prepared for an error return of `CounterError`:
+
+```go
+incResp, err := counterClient.Increment(ctx, countercollection.IncrementRequestPayload{
+    CounterName: counterName,
+})
+
+if err == nil {
+    fmt.Printf("result = %d", incResp.Payload.CounterValue)
+} else {
+    fmt.Printf("Increment returned error %s", err.Error())
+
+    counterError, ok := err.(*countercollection.CounterError)
+    if ok && counterError.Condition != nil {
+        switch *counterError.Condition {
+        case countercollection.CounterNotFound:
+            fmt.Printf("Counter %s was not found", counterName)
+        case countercollection.CounterOverflow:
+            fmt.Printf("Counter %s has overflowed", counterName)
+        }
+    }
+}
+```
+
+Note that this code calls the standard `Error` handler of the error.
+An alternative way to access this same value is via the `Explanation` property, but the example above illustrates that the standard Go mechanism for conveying error strings is usable.
 
 ## Code generation in other languages
 
-Details for code generation in Go and Rust have not yet been worked out.
-The intention is for these languages to employ error mechanisms that are standard and conventional for the language, analogous to the mechanisms described above for C#.
-This document will be updated with additional information for these other languages as the design is refined.
+Details for code generation in Rust have not yet been worked out.
+The intention is to employ error mechanisms that are standard and conventional for the language, analogous to the mechanisms described above for C# and Go.
+This document will be updated with additional information for Rust as the design is refined.
 
 [1]: ./0015-remove-422-status-code.md
