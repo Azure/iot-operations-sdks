@@ -42,14 +42,14 @@
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             List<string> schemaTexts = new();
-            schemaGenerator.GenerateInterfaceAnnex(GetWriter(schemaTexts), mqttVersion);
+            schemaGenerator.GenerateInterfaceAnnex(GetWriter(schemaTexts), mqttVersion, null);
 
             using (JsonDocument annexDoc = JsonDocument.Parse(schemaTexts.First()))
             {
                 bool passesValidation = true;
                 try
                 {
-                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, true, true, false, string.Empty, true).ToList();
+                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, true, true, false, string.Empty, null, true).ToList();
                 }
                 catch
                 {

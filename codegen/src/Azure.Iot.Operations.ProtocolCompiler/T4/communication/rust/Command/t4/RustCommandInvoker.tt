@@ -17,10 +17,18 @@ use azure_iot_operations_protocol::rpc::command_invoker::{
 use azure_iot_operations_protocol::application::ApplicationContext;
 
 <# if (this.reqSchema is CodeName) { #>
+<# if (this.reqNamespace == null) { #>
 use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } else { #>
+use super::super::<#=this.reqNamespace.GetFolderName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 <# } #>
 <# if (this.respSchema is CodeName) { #>
+<# if (this.respNamespace == null) { #>
 use super::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } else { #>
+use super::super::<#=this.respNamespace.GetFolderName(TargetLanguage.Rust)#>::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 <# } #>
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;

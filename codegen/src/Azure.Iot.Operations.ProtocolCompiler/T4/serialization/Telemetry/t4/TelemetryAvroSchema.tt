@@ -8,7 +8,7 @@
 <# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
     {
       "name": "<#=nameDescSchemaRequiredIndex.Item1#>",
-<#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, indent: 6, nullable: !nameDescSchemaRequiredIndex.Item4, nestNamedType: true)#>
+<#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, indent: 6, this.sharedPrefix, nullable: !nameDescSchemaRequiredIndex.Item4, nestNamedType: true)#>
     }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
 <# } #>
   ]
