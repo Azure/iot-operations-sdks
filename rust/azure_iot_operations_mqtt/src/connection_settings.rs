@@ -86,7 +86,9 @@ impl MqttConnectionSettingsBuilder {
     /// #     try_main().ok();
     /// # }
     /// ```
-    #[must_use]
+    ///
+    /// # Errors
+    /// Returns a `String` describing the error if any of the environment variables are invalid.
     pub fn from_environment() -> Result<Self, String> {
         let client_id = string_from_environment("AIO_MQTT_CLIENT_ID")?;
         let hostname = string_from_environment("AIO_BROKER_HOSTNAME")?;
