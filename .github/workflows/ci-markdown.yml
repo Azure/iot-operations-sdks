@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: '0 8 * * *' # Nightly at 1am PST
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   spellcheck:
     name: Check spelling

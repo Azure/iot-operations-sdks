@@ -82,9 +82,9 @@ jobs:
     - name: Verify Tools
       working-directory: tools/statestore-cli
       run:
-         source ../../rust/ci/build-deps.sh
-         cargo clippy --all-features
-         cargo fmt --verbose --all
+        source ../../rust/ci/build-deps.sh
+        cargo clippy --all-features
+        cargo fmt --verbose --all
 
     # TODO: Enable and configure these once the codegen is ready
     # - name: CodeGen Rust TestEnvoys
