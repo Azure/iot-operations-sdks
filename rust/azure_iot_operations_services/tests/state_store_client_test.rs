@@ -1107,3 +1107,31 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
     )
     .is_ok());
 }
+
+#[ignore]
+#[tokio::test]
+async fn state_store_shutdown_right_away_network_tests() {
+    let Ok((session, state_store_client, exit_handle)) =
+        setup_test("state_store_shutdown_right_away_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(tokio::try_join!(
+        async move { test_task.await.map_err(|e| { e.to_string() }) },
+        async move { session.run().await.map_err(|e| { e.to_string() }) }
+    )
+    .is_ok());
+}
