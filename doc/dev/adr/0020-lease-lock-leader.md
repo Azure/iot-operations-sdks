@@ -77,3 +77,14 @@ For public preview, we will ship the `Lease` and `Lock` components, since they
 have been implemented in all languages (modulo splitting into the two parts) and
 cover the bulk of the original feature as presented. `Leader` will be shipped as
 a follow-up once we have had the opportunity to design its API structure.
+
+## Open Questions
+
+-   When auto-renewing, should the user be utilizing the most recent fencing
+    token or the one obtained when the lease was first acquired? This may change
+    the `get token` pattern (which may in turn change error reporting).
+-   Is exponential backoff the correct pattern to use for crowding prevention?
+    Typically exponential backoff is used to break up a tight loop, but since
+    `lock` (and the Leader semantics) already rely on `observe` to react only
+    when the state changes, a simple static delay (with jitter) may be more
+    appropriate.
