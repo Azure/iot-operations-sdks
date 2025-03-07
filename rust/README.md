@@ -22,7 +22,9 @@ The following Azure IoT Operations crates are available:
 
 1. Get familiar with the [Rust language](https://www.rust-lang.org/learn)
 
-1. Check out our [Rust samples](samples_applications)
+1. Check out our [Rust samples](./samples_applications)
+
+1. Read through [Deploy the application](/doc/edge_application/deploy.md) for building and deploying the container to your K8s cluster
 
 ## Installing the crates
 
@@ -67,11 +69,3 @@ Take a dependency on the crates you wish to use in your applications `Cargo.toml
 > [!NOTE]
 > * Due to the repository being private, using a nightly build requires a GH credential, which is difficult to work with in automated deployments.
 > * Referencing different release tags can create dependency issues, it's recommended to use a common SHA across the packages.
-
-## Deploying your application
-
-Refer to the [Deploy the application](/doc/deploy.md) documentation to build your image and deploy it to your cluster for final validation.
-
-## Samples
-
-Refer to the [samples](samples_applications) directory for a comprehensive list of samples using the Rust SDK.

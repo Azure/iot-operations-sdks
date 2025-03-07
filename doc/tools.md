@@ -1,6 +1,6 @@
 # Tools to assist development
 
-An overview of some of the tools for managing and interacting with the Azure IoT Operations kubernetes cluster.
+An overview of some of the tools for managing and interacting with the Azure IoT Operations Kubernetes cluster.
 
 ## K9s
 

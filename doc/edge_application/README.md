@@ -47,7 +47,7 @@ To get started with your edge application, review the followins steps to familia
    * [Go SDK](/go)
    * [Rust SDK](/rust)
 
-1. Learn how to [deploy](/doc/deploy.md) your application to the cluster
+1. Learn how to [deploy](./deploy.md) your application to the cluster
 
 1. Run the [Event driven app tutorial](/dotnet/tutorials/EventDrivenApp/) to gain an understanding on a simple edge application scenario
 

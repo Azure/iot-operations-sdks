@@ -39,7 +39,7 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 ## Deploying your application
 
-Refer to the [Deploy the application](/doc/deploy.md) documentation to build your image and deploy it to your cluster for final validation.
+Refer to the [Deploy the application](/doc/edge_application/deploy.md) documentation to build your image and deploy it to your cluster for final validation.
 
 ## Packages
 
