@@ -1,5 +1,9 @@
 # ADR 14: Response Topic Prefix
 
+## Status
+
+APPROVED
+
 ## Context
 
 The SDKs originally had a default response topic prefix of

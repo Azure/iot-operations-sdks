@@ -1,5 +1,9 @@
 # ADR8: Protocol Split
 
+## Status:
+
+APPROVED
+
 ## Context
 
 RPC Command and Telemetry are considered the same protocol with a single shared version and all-encompassing error design.

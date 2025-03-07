@@ -1,5 +1,9 @@
 # ADR 16: Response Topic Pattern
 
+## Status
+
+PROPOSED
+
 ## Context
 
 From conversations with stakeholders, there are two primary requirements around

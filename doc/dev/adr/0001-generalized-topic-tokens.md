@@ -1,5 +1,9 @@
 # ADR 1: Generalized Topic Tokens
 
+## Status
+
+APPROVED
+
 ## Context
 
 The current well-known topic tokens are not necessarily applicable to the topic

@@ -1,5 +1,9 @@
 # ADR10: Setting Cloud Event Fields
 
+## Status
+
+APPROVED
+
 ## Context
 
 This ADR addresses several issues:

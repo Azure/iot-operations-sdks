@@ -1,5 +1,9 @@
 # ADR13: Language-Appropriate Generated Names
 
+## Status
+
+APPROVED
+
 ## Context
 
 At present, the ProtocolCompiler generates names for types, methods, files, and folders that are not uniformly consistent with the casing conventions of the language in which the code is generated.
