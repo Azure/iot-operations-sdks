@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   spellcheck:
-    name: Check spelling
+    name: CI-spelling
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
           incremental_files_only: true
 
   linkcheck:
-    name: Check web links
+    name: Ci-links
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
