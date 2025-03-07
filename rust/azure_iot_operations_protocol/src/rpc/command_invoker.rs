@@ -927,7 +927,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             Ok(UserProperty::IsApplicationError) => {
                 // Nothing to validate, but save info
                 // IsApplicationError is interpreted as false if the property is omitted, or has no value, or has a value that case-insensitively equals "false". Otherwise, the property is interpreted as true.
-                //response_error.in_application = value.eq_ignore_ascii_case("true");
                 is_application_error = value.eq_ignore_ascii_case("true");
             }
             Ok(UserProperty::InvalidPropertyName) => {
@@ -1029,7 +1028,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 StatusCode::InternalServerError => {
                     response_error.property_value = invalid_property_value.map(Value::String);
                     response_error.property_name = invalid_property_name;
-                    //if response_error.in_application {
                     if is_application_error {
                         response_error.kind = AIOProtocolErrorKind::ExecutionException;
                     } else if response_error.property_name.is_some() {
