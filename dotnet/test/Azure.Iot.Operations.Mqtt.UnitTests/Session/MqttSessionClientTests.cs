@@ -360,11 +360,10 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
         public async Task MqttSessionClient_ConnectCallsConnect()
         {
             using MockMqttClient mockClient = new MockMqttClient();
-            var connectionSettings = new MqttConnectionSettings("someHostname")
+            var connectionSettings = new MqttConnectionSettings("someHostname", clientId: Guid.NewGuid().ToString())
             {
                 KeepAlive = TimeSpan.FromSeconds(5),
                 CleanStart = true,
-                ClientId = Guid.NewGuid().ToString(),
                 SessionExpiry = TimeSpan.FromSeconds(50),
             };
 
@@ -393,7 +392,12 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
         public async Task MqttSessionClient_DisconnectCallsDisconnect()
         {
             using MockMqttClient mockClient = new MockMqttClient();
-            var connectionSettings = new MqttConnectionSettings("someHostname");
+            var connectionSettings = new MqttConnectionSettings("someHostname", "someClientId")
+            {
+                KeepAlive = TimeSpan.FromSeconds(5),
+                CleanStart = true,
+                SessionExpiry = TimeSpan.FromSeconds(50),
+            };
 
             MqttClientDisconnectOptions expectedOptions = new MqttClientDisconnectOptions()
             {
@@ -2352,7 +2356,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         private static MqttClientOptions GetClientOptions(MqttConnectionSettings? mcs = null)
         {
-            mcs ??= new MqttConnectionSettings("someHostname");
+            mcs ??= new MqttConnectionSettings("someHostname", "someClientId");
 
             return new MqttClientOptions(mcs)
             {

@@ -9,11 +9,11 @@ namespace EventDrivenApp;
 
 public class SessionClientFactory
 {
-    private readonly ILogger logger;
+    private readonly ILogger _logger;
 
     public SessionClientFactory(ILogger<SessionClientFactory> logger)
     {
-        this.logger = logger;
+        this._logger = logger;
     }
 
     public async Task<MqttSessionClient> GetSessionClient(string clientIdExtension)
@@ -23,17 +23,15 @@ public class SessionClientFactory
         if (KubernetesClientConfiguration.IsInCluster())
         {
             // On cluster, read from the environment
-            logger.LogInformation("Running in cluster, load config from environment");
+            _logger.LogInformation("Running in cluster, load config from environment");
             settings = MqttConnectionSettings.FromEnvVars();
-            settings.ClientId += "-" + clientIdExtension;
         }
         else
         {
             // Local development, hard code the values
-            logger.LogInformation("Running locally, setting config directly");
-            settings = new("localhost")
+            _logger.LogInformation("Running locally, setting config directly");
+            settings = new("localhost", "EventDrivenApp-" + clientIdExtension)
             {
-                ClientId = "EventDrivenApp-" + clientIdExtension,
                 TcpPort = 8884,
                 UseTls = true,
                 CaFile = "../../../.session/broker-ca.crt",
@@ -42,7 +40,7 @@ public class SessionClientFactory
             };
         }
 
-        logger.LogInformation("Connecting to: {settings}", settings);
+        _logger.LogInformation("Connecting to: {settings}", settings);
 
         MqttSessionClient sessionClient = new();
         await sessionClient.ConnectAsync(settings);

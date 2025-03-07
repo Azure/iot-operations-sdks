@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void Defaults()
         {
-            MqttConnectionSettings cs = new("TestHost");
+            MqttConnectionSettings cs = new("TestHost", "clientId");
             Assert.Equal("TestHost", cs.HostName);
             Assert.Equal(8883, cs.TcpPort);
             Assert.True(cs.UseTls);
@@ -34,9 +34,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void InitProps()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 CaFile = "cafile",
                 CleanStart = false,
                 CertFile = "TestSdkLiteCertPem.txt",
@@ -211,7 +210,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CertFileSetsClientCertificate()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
                 CertFile = "Connection/TestSdkLiteCertPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertKey.txt",
@@ -225,7 +224,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CertFileSetsClientCertificateWithPassword()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
                 CertFile = "Connection/TestSdkLiteCertPwdPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertPwdKey.txt",
@@ -240,8 +239,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CaFileSetsTrustChain()
         {
-            MqttConnectionSettings cs = new("localhost")
-            { 
+            MqttConnectionSettings cs = new("localhost", "clientId")
+            {
                 CaFile = "Connection/ca.txt"
             };
             cs.ValidateMqttSettings(true);
@@ -252,9 +251,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void ToStringReturnsConnectionString()
         {
-            MqttConnectionSettings mcs = new("localhost")
+            MqttConnectionSettings mcs = new("localhost", "clientId")
             {
-                ClientId="clientId",
                 CertFile = "TestSdkLiteCertPwdPem.txt",
                 KeyFile = "TestSdkLiteCertPwdKey.txt",
                 KeyPasswordFile = "TestSdkLiteKeyPwd.txt"
@@ -265,7 +263,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void KeyFileWithoutCertFileFails()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
                 KeyFile = "TestSdkLiteCertKey.txt",
             };
@@ -513,9 +511,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettings()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -539,9 +536,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsSetsTrustChainCorrectly()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -566,9 +562,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsWithPasswordFile()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 PasswordFile = "Connection/mypassword.txt",
@@ -595,9 +590,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsWithSatAuthFile()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 SatAuthFile = "Connection/mypassword.txt",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -624,9 +618,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsWithPassword()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 PasswordFile = "Connection/TestSdkLitePwd.txt",
@@ -654,9 +647,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithClientCertificates()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 CertFile = "Connection/TestSdkLiteCertPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertKey.txt",
@@ -684,9 +676,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             X509Certificate2Collection expectedTrustChain = new();
             expectedTrustChain.ImportFromPemFile("Connection/ca.txt");
 
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -711,7 +702,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CreateFromFileMount()
         {
-            var expected = new MqttConnectionSettings("somehostname")
+            var expected = new MqttConnectionSettings("somehostname", "someClientId")
             {
                 SatAuthFile = "sat.txt",
                 TcpPort = 1234,

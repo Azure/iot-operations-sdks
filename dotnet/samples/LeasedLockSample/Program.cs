@@ -38,7 +38,7 @@ internal sealed class Program
     private static async Task RunSampleAsync(ApplicationContext applicationContext, CancellationToken cancellationToken)
     {
         await using MqttSessionClient mqttClient = new MqttSessionClient();
-        await mqttClient.ConnectAsync(new MqttConnectionSettings("localhost") { TcpPort = 1883, UseTls = false, ClientId = "someClientId" });
+        await mqttClient.ConnectAsync(new MqttConnectionSettings("localhost", "someClientId") { TcpPort = 1883, UseTls = false});
 
         await using LeasedLockClient leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, "someLock");
         await using StateStoreClient stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
@@ -51,8 +51,8 @@ internal sealed class Program
             TimeSpan leaseDuration = TimeSpan.FromMinutes(1);
             AcquireLockResponse response =
                 await leasedLockClient.AcquireLockAsync(
-                    leaseDuration, 
-                    null, 
+                    leaseDuration,
+                    null,
                     cancellationToken).ConfigureAwait(false);
 
             HybridLogicalClock fencingToken = response.FencingToken!;
