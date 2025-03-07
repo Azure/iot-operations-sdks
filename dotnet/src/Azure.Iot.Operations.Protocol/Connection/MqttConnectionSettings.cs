@@ -218,11 +218,20 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 }
             }
 
-            string clientId = File.ReadAllText(configMapPath + "/BROKER_CLIENT_ID");
-            if (string.IsNullOrEmpty(clientId))
+            string clientId;
+            try
             {
-                throw AkriMqttException.GetConfigurationInvalidException("BROKER_CLIENT_ID", string.Empty, "BROKER_CLIENT_ID is missing.");
+                clientId = File.ReadAllText(configMapPath + "/AIO_MQTT_CLIENT_ID");
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw AkriMqttException.GetConfigurationInvalidException("AIO_MQTT_CLIENT_ID", string.Empty, "AIO_MQTT_CLIENT_ID is missing.");
+                }
             }
+            catch (Exception e)
+            {
+                throw AkriMqttException.GetConfigurationInvalidException("AIO_MQTT_CLIENT_ID", string.Empty, "Missing or malformed client ID configuration file", e);
+            }
+
             try
             {
                 return new MqttConnectionSettings(targetAddress, clientId)
@@ -262,9 +271,9 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 throw new ArgumentException($"{nameof(HostName)} is mandatory.", nameof(HostName));
             }
 
-            if (string.IsNullOrEmpty(ClientId) && !CleanStart)
+            if (string.IsNullOrEmpty(ClientId))
             {
-                throw new ArgumentException($"{nameof(ClientId)} is mandatory when {nameof(CleanStart)} is set to false.", nameof(ClientId));
+                throw new ArgumentException($"{nameof(ClientId)} is mandatory.", nameof(ClientId));
             }
 
             if (!string.IsNullOrEmpty(SatAuthFile) && (!string.IsNullOrEmpty(PasswordFile)))

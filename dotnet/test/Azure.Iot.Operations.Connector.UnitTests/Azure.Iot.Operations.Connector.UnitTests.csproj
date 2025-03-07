@@ -33,6 +33,9 @@
     <None Update="TestMountFiles\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestMountFiles\AIO_MQTT_CLIENT_ID">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
