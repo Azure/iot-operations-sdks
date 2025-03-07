@@ -4,9 +4,9 @@ The following instructions will setup up a development environment for building 
 
 ## Setup the environment
 
-The following development environment setups utilise [k3d](https://k3d.io/#what-is-k3d) to simplify kubernetes cluster creation. Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
+The following development environment setup options utilize [k3d](https://k3d.io/#what-is-k3d) to simplify Kubernetes cluster creation. Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
 
-[VS Code](https://code.visualstudio.com/) is the recommended editor for creating edge application for Azure IoT Operations.
+Follow the steps in **one of the sections** below to get your development environment up and running:
 
 ### Codespaces *(Recommended)*
 
@@ -14,7 +14,7 @@ The following development environment setups utilise [k3d](https://k3d.io/#what-
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Azure/iot-operations-sdks?quickstart=1&editor=vscode)
 
-### Local development container
+### Local container
 
 1. Install [VS Code](https://code.visualstudio.com/) and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
@@ -40,7 +40,7 @@ The following development environment setups utilise [k3d](https://k3d.io/#what-
     git clone https://github.com/Azure/iot-operations-sdks
     ```
 
-### Windows Subsystem for Linux (WSL)
+### Windows Subsystem for Linux
 
 1. Install Ubuntu on [WSL 2](https://learn.microsoft.com/windows/wsl/install):
 
@@ -62,6 +62,8 @@ The following development environment setups utilise [k3d](https://k3d.io/#what-
 > You can [build a custom kernel](https://learn.microsoft.com/community/content/wsl-user-msft-kernel-v6), or install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required features.
 
 ## Install Azure IoT Operations
+
+Azure IoT Operations will be installed to the development cluster, and then the configuration will be altered to provide additional off-cluster access methods to streamline development:
 
 1. Launch a shell, and change to the root directory of the *Azure IoT Operations SDKs* repository.
 
