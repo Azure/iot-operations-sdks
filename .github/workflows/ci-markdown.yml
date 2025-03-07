@@ -7,9 +7,26 @@ on:
     - cron: '0 8 * * *' # Nightly at 1am PST
 
 jobs:
-  check:
-    name: Check spelling and links
+  spellcheck:
+    name: Check spelling
     runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Spell check
+        uses: streetsidesoftware/cspell-action@v6
+        with:
+          files: '**/*'
+          config: '.vscode/cspell.json'
+          suggestions: true
+          incremental_files_only: true
+
+  linkcheck:
+    name: Check web links
+    runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
@@ -18,18 +35,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Spell check
-        uses: streetsidesoftware/cspell-action@v6
-        with:
-          files: '**/*'
-          config: '.vscode/cspell.json'
-          strict: false
-          suggestions: true
-          incremental_files_only: true
-
       # Run link checking, allow unpriveleged user namespace
       - name: Link check
-        continue-on-error: true
         run: |
           echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns 
           npm install -g @umbrelladocs/linkspector

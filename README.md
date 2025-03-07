@@ -8,6 +8,10 @@
 > [!CAUTION]
 > The assets in this repository are currently in **Private Preview** and have been made available for early access and feedback purposes.
 
+# Add test broken link
+
+[broken](https://does-not-exist.com)
+
 ## What is Azure IoT Operations?
 
 *Azure IoT Operations* is a unified data plane for the edge. It's composed of a set of modular, scalable, and highly available data services that run on Azure Arc-enabled edge Kubernetes clusters. It enables data capture from various different systems and integrates with data modeling applications such as Microsoft Fabric to help organizations deploy the industrial metaverse.
