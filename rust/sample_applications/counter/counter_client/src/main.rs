@@ -27,6 +27,7 @@ async fn main() {
 
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .unwrap()
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
