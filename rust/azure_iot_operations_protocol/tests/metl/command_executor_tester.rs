@@ -733,11 +733,9 @@ where
         let mut protocol_error = AIOProtocolError {
             message: None,
             kind: AIOProtocolErrorKind::ConfigurationInvalid,
-            in_application: false,
             is_shallow: true,
             is_remote: false,
             nested_error: Some(Box::new(builder_error)),
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,

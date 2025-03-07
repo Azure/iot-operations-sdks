@@ -1,9 +1,5 @@
 # ADR 17: Error Refresh
 
-## Status
-
-PROPOSED
-
 ## Context
 
 There are various aspects of our [error model][1] that we believe have not held

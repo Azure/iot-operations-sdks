@@ -203,7 +203,6 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
                 true,
                 false,
                 Some(e.into()),
-                None,
                 Some("Payload serialization error".to_string()),
                 None,
             )),
@@ -589,10 +588,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(
                     e.property_name,
                     Some("sender_options.topic_pattern".to_string())
@@ -641,10 +638,8 @@ mod tests {
         match message_builder {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("content_type".to_string()));
                 assert!(
                     e.property_value == Some(Value::String("application/json\u{0000}".to_string()))

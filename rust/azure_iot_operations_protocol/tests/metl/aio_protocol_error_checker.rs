@@ -12,20 +12,12 @@ pub fn check_error(
 ) {
     assert_eq!(test_case_catch.get_error_kind(), aio_protocol_error.kind);
 
-    if let Some(in_application) = test_case_catch.in_application {
-        assert_eq!(in_application, aio_protocol_error.in_application);
-    }
-
     if let Some(is_shallow) = test_case_catch.is_shallow {
         assert_eq!(is_shallow, aio_protocol_error.is_shallow);
     }
 
     if let Some(is_remote) = test_case_catch.is_remote {
         assert_eq!(is_remote, aio_protocol_error.is_remote);
-    }
-
-    if let Some(status_code) = test_case_catch.status_code {
-        assert_eq!(status_code, aio_protocol_error.http_status_code);
     }
 
     if let Some(message) = test_case_catch.message.as_ref() {
