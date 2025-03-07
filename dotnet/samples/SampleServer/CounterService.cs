@@ -10,7 +10,7 @@ namespace SampleServer;
 
 public class CounterService : Counter.Service
 {
-    int _counter = 0;
+    private int _counter = 0;
 
     public CounterService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient) { }
 

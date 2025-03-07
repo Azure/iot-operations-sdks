@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             _mutexSemaphore = new SemaphoreSlim(1);
             _waitSemaphore = new SemaphoreSlim(0);
-            this._maxWaiters = maxWaiters;
+            _maxWaiters = maxWaiters;
             _count = initialCount;
         }
 

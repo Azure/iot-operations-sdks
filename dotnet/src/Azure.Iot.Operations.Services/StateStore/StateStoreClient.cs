@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         private bool _isSubscribedToNotifications = false;
         private const string NotificationsTopicFormat = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{0}/command/notify";
         private const string NotificationsTopicFilter = NotificationsTopicFormat + "/+";
-        string _clientIdHexString = "";
+        private string _clientIdHexString = "";
         private bool _disposed = false;
         private readonly ApplicationContext _applicationContext;
 
@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         // For unit test purposes only
         internal StateStoreClient()
         {
-
+            _applicationContext = new();
         }
 
         /// <inheritdoc/>
@@ -122,8 +122,10 @@ namespace Azure.Iot.Operations.Services.StateStore
                     return;
                 }
 
-                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState, version);
-                keyChangeArgs.NewValue = notification.Value;
+                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState, version)
+                {
+                    NewValue = notification.Value
+                };
                 if (KeyChangeMessageReceivedAsync != null)
                 {
                     await KeyChangeMessageReceivedAsync.Invoke(this, keyChangeArgs);
@@ -226,16 +228,9 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             options ??= new StateStoreDeleteRequestOptions();
 
-            byte[] requestPayload;
-            if (options.OnlyDeleteIfValueEquals != null)
-            {
-                requestPayload = StateStorePayloadParser.BuildVDelRequestPayload(key, options.OnlyDeleteIfValueEquals);
-            }
-            else
-            {
-                requestPayload = StateStorePayloadParser.BuildDelRequestPayload(key);
-            }
-
+            byte[] requestPayload = options.OnlyDeleteIfValueEquals != null
+                ? StateStorePayloadParser.BuildVDelRequestPayload(key, options.OnlyDeleteIfValueEquals)
+                : StateStorePayloadParser.BuildDelRequestPayload(key);
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
 
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();

@@ -14,7 +14,7 @@
 <# if (this.setIndex) { #>
       "index": 1,
 <# } #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema)#>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(this.paramSchema, this.sharedPrefix, this.genNamespace)#>
     }
   }
 }

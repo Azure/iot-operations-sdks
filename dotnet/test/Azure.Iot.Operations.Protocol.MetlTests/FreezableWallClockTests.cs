@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     public class FreezableWallClockTests
     {
         // Insanely, there seems to be no system API to retrieve this value, so instead we'll assume it based on documentation
-        private static TimeSpan AssumedClockResolution = TimeSpan.FromMilliseconds(16);
+        private static readonly TimeSpan AssumedClockResolution = TimeSpan.FromMilliseconds(16);
 
         public class ClockBehavior
         {

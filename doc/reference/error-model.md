@@ -112,7 +112,6 @@ Because the 'command name' field can potentially apply to any error, it is not l
 | invalid state | The current program state is invalid vis-a-vis the method that was called. | false | either | either | no | no | property name, property value? |
 | internal logic error | The client or service observed a condition that was thought to be impossible. | false | either | either | maybe | maybe | property name, property value? |
 | unknown error | The client or service received an unexpected error from a dependent component. | false | either | either | yes | maybe | |
-| invocation error | The command processor identified an error in the request. | true | false | true | no | yes | property name?, property value? |
 | execution error | The command processor encountered an error while executing the command. | true | false | true | no | yes | property name?, property value? |
 | mqtt error | The MQTT communication encountered an error and failed. | false | false | false | maybe | no | |
 | unsupported request version | The command executor that received the request doesn't support the provided protocol version. | false | false | true | no | yes | request protocol version, supported request protocol major versions |
@@ -122,9 +121,6 @@ Because the 'command name' field can potentially apply to any error, it is not l
 >
 > * The 'property name' field should indicate the actual programming-language-specific name of the argument, parameter, or property that is missing or invalid.
 > Since language conventions dictate casing rules, these values are expected to diverge across libraries, but only insofar as necessary to represent names in camelCase, PascalCase, or snake_case as appropriate.
->
-> * When an 'invocation error' is surfaced, the values of 'property name' and 'property value' are set by the user-code execution function, over which the library has no control.
-> The value of 'property value' will always be in the form of a string representation, via whatever string conversion the user code chooses to employ.
 
 To illustrate the use of these error kinds, [Appendix 1](#appendix-1-error-conditions-in-the-c-sdk) tabulates the error conditions currently recognized by the C# SDK and indicates which error kind should be used to express the condition.
 This table also indicates the C# exception type currently thrown for each error condition.
@@ -157,7 +153,6 @@ public enum AkriMqttErrorKind
     StateInvalid,
     InternalLogicError,
     UnknownError,
-    InvocationException,
     ExecutionException,
     MqttError,
     UnsupportedRequestVersion,
@@ -274,7 +269,6 @@ public enum AkriMqttErrorKind {
     STATE_INVALID,
     INTERNAL_LOGIC_ERROR,
     UNKNOWN_ERROR,
-    INVOCATION_EXCEPTION,
     EXECUTION_EXCEPTION,
     MQTT_ERROR,
     UNSUPPORTED_REQUEST_VERSION,
@@ -343,7 +337,6 @@ pub enum AIOProtocolErrorKind {
     StateInvalid,
     InternalLogicError,
     UnknownError,
-    InvocationException,
     ExecutionException,
     MqttError,
     UnsupportedRequestVersion,
@@ -421,7 +414,6 @@ const {
     StateInvalid
     InternalLogicError
     UnknownError
-    InvocationException
     ExecutionException
     MqttError
     UnsupportedRequestVersion
@@ -481,7 +473,6 @@ class AkriMqttErrorKind(Enum):
     STATE_INVALID = 8
     INTERNAL_LOGIC_ERROR = 9
     UNKNOWN_ERROR = 10
-    INVOCATION_EXCEPTION = 11
     EXECUTION_EXCEPTION = 12
     MQTT_ERROR = 13
     UNSUPPORTED_REQUEST_VERSION = 14
@@ -589,7 +580,6 @@ The following table maps from each currently recognized error condition to (a) t
 | response payload cannot be deserialized | SerializationException | invalid payload |
 | request specifies unsupported content type | HttpRequestException w/ UnsupportedMediaType | invalid header |
 | response specifies unsupported content type | NotSupportedException | invalid header |
-| app-level error in request | HttpRequestException w/ UnprocessableContent | invocation error |
 | app-level error during command execution | HttpRequestException w/ InternalServerError | execution error |
 | HLC duplicate node ID | HybridLogicalClockException | internal logic error |
 | HLC integer overflow | HybridLogicalClockException | internal logic error |
@@ -610,7 +600,6 @@ The following table lists the HTTP status codes, conditions on other fields in t
 | 400 | Bad Request | false | no | | invalid payload |
 | 408 | Request Timeout | false | yes | yes | timeout |
 | 415 | Unsupported Media Type | false | yes | yes | invalid header |
-| 422 | Unprocessable Content | true | maybe | maybe | invocation error |
 | 500 | Internal Server Error | false | no | | unknown error |
 | 500 | Internal Server Error | false | yes | | internal logic error |
 | 500 | Internal Server Error | true | maybe | | execution error |

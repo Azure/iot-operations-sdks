@@ -39,7 +39,7 @@ async fn main() {
         .unwrap();
 
     // Create a new session.
-    let mut session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options).unwrap();
 
     // Spawn tasks for sending and receiving messages using managed clients
     // created from the session.

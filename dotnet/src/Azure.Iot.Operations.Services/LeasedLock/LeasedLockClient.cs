@@ -130,18 +130,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 _retryPolicyBaseExponent,
                 _retryPolicyMaxWait);
 
-            if (lockHolderName != null)
-            {
-                LockHolderName = lockHolderName;
-            }
-            else if (mqttClient.ClientId != null)
-            {
-                LockHolderName = mqttClient.ClientId;
-            }
-            else
-            {
-                throw new ArgumentNullException(nameof(mqttClient.ClientId), "Must provide either a non-null MQTT client Id or a non-null lock holder name");
-            }
+            LockHolderName = lockHolderName ?? mqttClient.ClientId ?? throw new ArgumentNullException(nameof(mqttClient.ClientId), "Must provide either a non-null MQTT client Id or a non-null lock holder name");
 
             _automaticRenewalOptions = new LeasedLockAutomaticRenewalOptions();
             _stateStoreClient.KeyChangeMessageReceivedAsync += OnKeyChangeNotification;
@@ -219,16 +208,9 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             options ??= new AcquireLockRequestOptions();
 
-            StateStoreValue value;
-            if (string.IsNullOrEmpty(options.SessionId))
-            {
-                value = new StateStoreValue(LockHolderName);
-            }
-            else
-            {
-                value = new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
-            }
-
+            StateStoreValue value = string.IsNullOrEmpty(options.SessionId)
+                ? new StateStoreValue(LockHolderName)
+                : new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
             Debug.Assert(_lockKey != null);
             StateStoreSetResponse setResponse =
                 await _stateStoreClient.SetAsync(
@@ -497,16 +479,9 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             options ??= new ReleaseLockRequestOptions();
 
-            StateStoreValue value;
-            if (string.IsNullOrEmpty(options.SessionId))
-            {
-                value = new StateStoreValue(LockHolderName);
-            }
-            else
-            {
-                value = new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
-            }
-
+            StateStoreValue value = string.IsNullOrEmpty(options.SessionId)
+                ? new StateStoreValue(LockHolderName)
+                : new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
             Debug.Assert(_lockKey != null);
             StateStoreDeleteResponse deleteResponse =
                 await _stateStoreClient.DeleteAsync(

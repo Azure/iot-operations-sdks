@@ -37,8 +37,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             "TelemetrySenderSendWithCloudEventTypeEmpty_ThrowsException",
         };
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
 
         static TelemetrySenderTester()
         {
@@ -239,7 +239,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 TestSerializer testSerializer = new TestSerializer(testCaseSender.Serializer);
 
-                TestTelemetrySender telemetrySender = new TestTelemetrySender(new ApplicationContext(), mqttClient, testCaseSender.TelemetryName!, testSerializer)
+                TestTelemetrySender telemetrySender = new TestTelemetrySender(new ApplicationContext(), mqttClient, testSerializer)
                 {
                     TopicPattern = testCaseSender.TelemetryTopic!,
                     TopicNamespace = testCaseSender.TopicNamespace,
@@ -302,22 +302,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 Uri sourceUri = new Uri(actionSendTelemetry.CloudEvent.Source!, UriKind.RelativeOrAbsolute);
 
-                if (actionSendTelemetry.CloudEvent.Type != null && actionSendTelemetry.CloudEvent.SpecVersion != null)
-                {
-                    metadata.CloudEvent = new CloudEvent(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion);
-                }
-                else if (actionSendTelemetry.CloudEvent.Type != null)
-                {
-                    metadata.CloudEvent = new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type);
-                }
-                else if (actionSendTelemetry.CloudEvent.SpecVersion != null)
-                {
-                    metadata.CloudEvent = new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion);
-                }
-                else
-                {
-                    metadata.CloudEvent = new CloudEvent(sourceUri);
-                }
+                metadata.CloudEvent = actionSendTelemetry.CloudEvent.Type != null && actionSendTelemetry.CloudEvent.SpecVersion != null
+                    ? new CloudEvent(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion)
+                    : actionSendTelemetry.CloudEvent.Type != null
+                        ? new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type)
+                        : actionSendTelemetry.CloudEvent.SpecVersion != null
+                                            ? new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion)
+                                            : new CloudEvent(sourceUri);
 
                 if (actionSendTelemetry.CloudEvent.Id != null)
                 {

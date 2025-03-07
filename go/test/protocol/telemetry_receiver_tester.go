@@ -435,26 +435,8 @@ func processTelemetry(
 	tcr *TestCaseReceiver,
 	receivedTelemetries chan receivedTelemetry,
 ) error {
-	if tcr.RaiseError.Kind == Content {
-		var message string
-		if tcr.RaiseError.Message != nil {
-			message = *tcr.RaiseError.Message
-		}
-		var propertyName string
-		if tcr.RaiseError.PropertyName != nil {
-			propertyName = *tcr.RaiseError.PropertyName
-		}
-		var propertyValue string
-		if tcr.RaiseError.PropertyValue != nil {
-			propertyValue = *tcr.RaiseError.PropertyValue
-		}
-		return protocol.InvocationError{
-			Message:       message,
-			PropertyName:  propertyName,
-			PropertyValue: propertyValue,
-		}
-	} else if tcr.RaiseError.Kind == Execution {
-		return errors.New(*tcr.RaiseError.Message)
+	if tcr.RaiseError {
+		return errors.New("error")
 	}
 
 	// Used for all telemetry, so ignore the error.

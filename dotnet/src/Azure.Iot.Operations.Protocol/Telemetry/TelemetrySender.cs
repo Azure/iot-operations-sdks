@@ -52,7 +52,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
 
-        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string? telemetryName, IPayloadSerializer serializer)
+        public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
             _applicationContext = applicationContext;
             _mqttClient = mqttClient;

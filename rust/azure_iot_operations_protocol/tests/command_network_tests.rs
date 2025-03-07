@@ -135,7 +135,7 @@ impl PayloadSerialize for EmptyPayload {
 #[tokio::test]
 async fn command_basic_invoke_response_network_tests() {
     let invoker_id = "command_basic_invoke_response_network_tests-rust";
-    let Ok((mut session, invoker, mut executor, exit_handle)) =
+    let Ok((session, invoker, mut executor, exit_handle)) =
         setup_test::<EmptyPayload, EmptyPayload>(invoker_id, "protocol/tests/basic/command")
     else {
         // Network tests disabled, skipping tests
@@ -199,22 +199,7 @@ async fn command_basic_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -370,7 +355,7 @@ impl PayloadSerialize for DataResponsePayload {
 #[tokio::test]
 async fn command_complex_invoke_response_network_tests() {
     let invoker_id = "command_complex_invoke_response_network_tests-rust";
-    let Ok((mut session, invoker, mut executor, exit_handle)) =
+    let Ok((session, invoker, mut executor, exit_handle)) =
         setup_test::<DataRequestPayload, DataResponsePayload>(
             invoker_id,
             "protocol/tests/complex/command",
@@ -465,22 +450,7 @@ async fn command_complex_invoke_response_network_tests() {
             // cleanup should be successful
             assert!(invoker.shutdown().await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 

@@ -4,21 +4,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public partial class RustObject : ITemplateTransform
     {
-        private readonly CodeName genNamespace;
         private readonly ObjectType objectType;
-        private readonly IReadOnlyCollection<CodeName> referencedSchemaNames;
+        private readonly IReadOnlyCollection<ReferenceType> referencedSchemas;
         private readonly bool allowSkipping;
 
-        public RustObject(CodeName genNamespace, ObjectType objectType, IReadOnlyCollection<CodeName> referencedSchemaNames, bool allowSkipping)
+        public RustObject(ObjectType objectType, bool allowSkipping)
         {
-            this.genNamespace = genNamespace;
             this.objectType = objectType;
-            this.referencedSchemaNames = referencedSchemaNames;
+            this.referencedSchemas = TypeGeneratorSupport.GetReferencedSchemas(objectType);
             this.allowSkipping = allowSkipping;
         }
 
         public string FileName { get => $"{this.objectType.SchemaName.GetFileName(TargetLanguage.Rust)}.rs"; }
 
-        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Rust); }
+        public string FolderPath { get => this.objectType.Namespace.GetFolderName(TargetLanguage.Rust); }
     }
 }

@@ -33,7 +33,7 @@ async fn main() {
         .connection_settings(connection_settings)
         .build()
         .unwrap();
-    let mut session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options).unwrap();
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
@@ -109,20 +109,7 @@ async fn counter_telemetry_check(
     counter_value_receiver.shutdown().await.unwrap();
 
     // Exit the session now that we're done
-    match exit_handle.try_exit().await {
-        Ok(()) => { /* Successfully exited */ }
-        Err(e) => {
-            if let azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable {
-                attempted,
-            } = e
-            {
-                // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                assert!(attempted, "{}", e.to_string());
-            } else {
-                panic!("{}", e.to_string())
-            }
-        }
-    }
+    exit_handle.try_exit().await.unwrap();
 }
 
 /// Send a read request, 15 increment requests, and another read request and wait for their responses.
