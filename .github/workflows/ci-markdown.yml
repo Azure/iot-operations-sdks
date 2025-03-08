@@ -30,12 +30,12 @@ jobs:
   linkcheck:
     name: Check web links
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
+        continue-on-error: true
         with:
           config_file: .github/.linkspector.yml
           fail_on_error: true
