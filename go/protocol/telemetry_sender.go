@@ -116,6 +116,13 @@ func (ts *TelemetrySender[T]) Send(
 	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	timeout := opts.Timeout
+
+	remainder := timeout % time.Second
+	if remainder != 0 {
+		// If there is a remainder, round up to the nearest second
+		timeout += time.Second - remainder
+	}
+
 	if timeout == 0 {
 		timeout = DefaultTimeout
 	}
