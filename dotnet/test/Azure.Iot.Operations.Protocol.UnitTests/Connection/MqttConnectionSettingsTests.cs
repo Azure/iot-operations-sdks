@@ -387,7 +387,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         }
 
         [Fact]
-        public void LoadFromEnvVarsDefauts()
+        public void LoadFromEnvVarsDefaults()
         {
             ResetEnvironmentVariables();
 

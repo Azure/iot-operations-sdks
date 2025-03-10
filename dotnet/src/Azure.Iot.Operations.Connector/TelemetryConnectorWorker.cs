@@ -155,7 +155,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _assetMonitor.AssetChanged += (sender, args) =>
                         {
-                            _logger.LogInformation($"Recieved a notification an asset with name {args.AssetName} has been {args.ChangeType.ToString().ToLower()}.");
+                            _logger.LogInformation($"Received a notification an asset with name {args.AssetName} has been {args.ChangeType.ToString().ToLower()}.");
 
                             if (args.ChangeType == ChangeType.Deleted)
                             {

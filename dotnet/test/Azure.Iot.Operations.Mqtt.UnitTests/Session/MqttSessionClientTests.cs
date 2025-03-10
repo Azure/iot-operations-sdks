@@ -1275,7 +1275,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
         [Theory]
         [ClassData(typeof(UnsuccessfulAndUnretriableUnsubackCodesClassData))]
-        public async Task MqttSessionClient_UnubscribeReportsNonSuccessfulUnsubackResultCode(MQTTnet.MqttClientUnsubscribeResultCode reasonCode)
+        public async Task MqttSessionClient_UnsubscribeReportsNonSuccessfulUnsubackResultCode(MQTTnet.MqttClientUnsubscribeResultCode reasonCode)
         {
             using MockMqttClient mockClient = new MockMqttClient();
             await using MqttSessionClient sessionClient = new(mockClient);
@@ -1615,7 +1615,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 Assert.NotEqual(mockCertificate2.Subject, actualCertificate.Subject);
 
                 // Change the credentials and then simulate a transient network drop. The session client should reconnect
-                // sucessfully and use this new certificate.
+                // successfully and use this new certificate.
                 certificateProvider.CurrentCertificate = mockCertificate2;
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some transient error"));
