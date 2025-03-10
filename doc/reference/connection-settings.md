@@ -27,6 +27,19 @@ The MqttConnectionSettings class enables the operator to configure the MQTT Conn
 |`KeyPasswordFile`|`AIO_TLS_KEY_PASSWORD_FILE`|no|string|null|Password (aka pass-phrase) to protect the key| 
 |`SatAuthFile`|`AIO_SAT_FILE`|no|string|null|Path to a file with the token to be used with SAT auth|
 
+## Authentication Priority
+
+The following table defines the different authentication methods, and the priority in which they will be used.
+
+> [!CAUTION]
+> If any configuration for an authentication method is present, then that authentication will be used if it has the highest priority:
+
+| Priority | Authentication | Settings |
+|-|-|-|
+| 1 | SAT |  `SatAuthFile` |
+| 2 | x509 | `CertFile` & `KeyFile` |
+| 3 | Username / password |`Username` & `PasswordFile` |
+
 ## Initialization
 
 The MqttConnectionSettings class can be configured through the API, or with the use of environment variables or connection strings.
