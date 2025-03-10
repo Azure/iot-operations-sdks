@@ -17,6 +17,8 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
   - [func WithLogger\(logger \*slog.Logger\) ClientOption](<#WithLogger>)
 - [type ClientOptions](<#ClientOptions>)
   - [func \(o \*ClientOptions\) Apply\(opts \[\]ClientOption, rest ...ClientOption\)](<#ClientOptions.Apply>)
+- [type Error](<#Error>)
+  - [func \(e \*Error\) Error\(\) string](<#Error.Error>)
 - [type Format](<#Format>)
 - [type GetOption](<#GetOption>)
 - [type GetOptions](<#GetOptions>)
@@ -52,7 +54,7 @@ const (
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L16-L18>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L17-L19>)
 
 Client represents a client of the schema registry.
 
@@ -63,7 +65,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L30-L34>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L38-L42>)
 
 ```go
 func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOption) (*Client, error)
@@ -72,7 +74,7 @@ func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOpt
 New creates a new schema registry client.
 
 <a name="Client.Close"></a>
-### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L55>)
+### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L63>)
 
 ```go
 func (c *Client) Close()
@@ -99,7 +101,7 @@ func (c *Client) Put(ctx context.Context, content string, format Format, opt ...
 Put adds or updates a schema in the schema registry.
 
 <a name="Client.Start"></a>
-### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L50>)
+### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L58>)
 
 ```go
 func (c *Client) Start(ctx context.Context) error
@@ -108,7 +110,7 @@ func (c *Client) Start(ctx context.Context) error
 Start listening to all underlying MQTT topics.
 
 <a name="ClientOption"></a>
-## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L21>)
+## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L22>)
 
 ClientOption represents a single option for the client.
 
@@ -128,7 +130,7 @@ func WithLogger(logger *slog.Logger) ClientOption
 WithLogger enables logging with the provided slog logger.
 
 <a name="ClientOptions"></a>
-## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L24-L26>)
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L25-L27>)
 
 ClientOptions are the resolved options for the client.
 
@@ -139,13 +141,35 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L60-L63>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L86-L89>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
 ```
 
 Apply resolves the provided list of options.
+
+<a name="Error"></a>
+## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L30-L34>)
+
+Error represents an error returned by the schema registry.
+
+```go
+type Error struct {
+    Message       string
+    PropertyName  string
+    PropertyValue any
+}
+```
+
+<a name="Error.Error"></a>
+### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L68>)
+
+```go
+func (e *Error) Error() string
+```
+
+Error returns the error message.
 
 <a name="Format"></a>
 ## type [Format](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/alias.go#L12>)

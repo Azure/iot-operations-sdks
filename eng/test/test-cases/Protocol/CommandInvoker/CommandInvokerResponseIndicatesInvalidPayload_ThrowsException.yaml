@@ -22,8 +22,6 @@ actions:
   invocation-index: 0
   catch:
     error-kind: invalid payload
-    in-application: !!bool false
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 400
 ...
