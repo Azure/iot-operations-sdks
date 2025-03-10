@@ -25,7 +25,7 @@ Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations 
 
 1. [State store](./StateStoreClientSample/) - Set, get and delete a key
 1. [State store observe](./StateStoreObserveKeySample/) - Be notified of changes to an observed key
-1. [Leased lock](./LeasedLockSamples) - Lock a key in the state store shared between applications
+1. [Leased lock](./LeasedLockSample/) - Lock a key in the state store shared between applications
 1. [Passive replication](./PassiveReplicationSample/) - Use the leader election client to perform passive replication
 1. [Schema registry](./SchemaRegistrySample/) - Put and get schemas in the schema registry
 
