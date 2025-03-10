@@ -6,14 +6,17 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     {
         public override SchemaKind Kind { get => SchemaKind.Object; }
 
-        public ObjectType(CodeName schemaName, string? description, Dictionary<CodeName, FieldInfo> fieldInfos)
+        public ObjectType(CodeName schemaName, CodeName genNamespace, string? description, Dictionary<CodeName, FieldInfo> fieldInfos)
         {
             SchemaName = schemaName;
+            Namespace = genNamespace;
             Description = description;
             FieldInfos = fieldInfos;
         }
 
         public CodeName SchemaName { get; }
+
+        public CodeName Namespace { get; }
 
         public string? Description { get; }
 

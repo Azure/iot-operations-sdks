@@ -258,7 +258,7 @@ pub struct TelemetryReceiverOptions {
 /// # let mut session_options = SessionOptionsBuilder::default()
 /// #     .connection_settings(connection_settings)
 /// #     .build().unwrap();
-/// # let mut mqtt_session = Session::new(session_options).unwrap();
+/// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
 /// let receiver_options = TelemetryReceiverOptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
@@ -764,10 +764,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(
                     e.property_name,
                     Some("receiver_options.topic_pattern".to_string())

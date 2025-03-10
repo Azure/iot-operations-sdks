@@ -16,6 +16,7 @@
         private readonly Option<DirectoryInfo> outDir;
         private readonly Option<string?> genNamespace;
 #if DEBUG
+        private readonly Option<string?> sharedPrefix;
         private readonly Option<bool> sync;
         private readonly Option<string?> sdkPath;
 #endif
@@ -33,11 +34,13 @@
         /// <param name="dmrRoot">Directory or URL from which to retrieve referenced models.</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
         /// <param name="outDir">Directory for receiving generated code.</param>
-        /// <param name="lang">Programming language for generated code.</param>
+        /// <param name="genNamespace">Namespace for generated code.</param>
 #if DEBUG
+        /// <param name="sharedPrefix">DTMI prefix of shared schemas.</param>
         /// <param name="sync">Generate synchronous API.</param>
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
 #endif
+        /// <param name="lang">Programming language for generated code.</param>
         /// <param name="clientOnly">Generate only client-side code.</param>
         /// <param name="serverOnly">Generate only server-side code.</param>
         public ArgBinder(
@@ -48,6 +51,7 @@
             Option<DirectoryInfo> outDir,
             Option<string?> genNamespace,
 #if DEBUG
+            Option<string?> sharedPrefix,
             Option<bool> sync,
             Option<string?> sdkPath,
 #endif
@@ -64,6 +68,7 @@
             this.outDir = outDir;
             this.genNamespace = genNamespace;
 #if DEBUG
+            this.sharedPrefix = sharedPrefix;
             this.sync = sync;
             this.sdkPath = sdkPath;
 #endif
@@ -85,9 +90,11 @@
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
 #if DEBUG
+                SharedPrefix = bindingContext.ParseResult.GetValueForOption(this.sharedPrefix),
                 Sync = bindingContext.ParseResult.GetValueForOption(this.sync),
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),
 #else
+                SharedPrefix = null,
                 Sync = false,
                 SdkPath = null,
 #endif

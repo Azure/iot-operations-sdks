@@ -24,20 +24,20 @@ spec:
         app: rest-server-deployment
     spec:
       containers:
-      - name: rest-server-deployment
-        image: rest-server:latest
-        imagePullPolicy: Never # This forces docker to use the locally built image
-        env:
-        - name: SERVICE_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: rest-server-auth-creds
-              key: username
-        - name: SERVICE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: rest-server-auth-creds
-              key: password
+        - name: rest-server-deployment
+          image: rest-server:latest
+          imagePullPolicy: Never # This forces docker to use the locally built image
+          env:
+            - name: SERVICE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rest-server-auth-creds
+                  key: username
+            - name: SERVICE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rest-server-auth-creds
+                  key: password
 ---
 apiVersion: v1
 kind: Service
@@ -48,8 +48,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
+    - port: 80
+      protocol: TCP
+      targetPort: 80
   selector:
     app: rest-server-deployment

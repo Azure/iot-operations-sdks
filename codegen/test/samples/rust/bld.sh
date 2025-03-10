@@ -16,6 +16,10 @@ cd TelemetryAndCommandSample/telemetry_and_command_gen
 cargo build
 cd ../..
 
+cd TelemetryAndCommandSampleFromSchema/telemetry_and_command_gen
+cargo build
+cd ../..
+
 cd TelemetryAndCommandSampleClientOnly/telemetry_and_command_gen
 cargo build
 cd ../..
@@ -41,5 +45,9 @@ cargo build
 cd ../..
 
 cd TelemetryAndCommandNestedRaw/telemetry_and_command_gen
+cargo build
+cd ../..
+
+cd SharedComplexSchemasSample/shared_complex_schemas_gen
 cargo build
 cd ../..

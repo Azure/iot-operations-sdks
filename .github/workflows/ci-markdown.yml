@@ -4,30 +4,40 @@ on:
   workflow_dispatch:
   pull_request:
   schedule:
-    - cron: '0 8 * * *' # Nightly at 1am PST
+    - cron: "0 8 * * *" # Nightly at 1am PST
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 jobs:
-  check:
+  spellcheck:
+    name: CI-spelling
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
+        continue-on-error: true
         with:
-          files: '**/*'
-          config: '.vscode/cspell.json'
-          strict: false
+          files: "**/*"
+          config: ".vscode/cspell.json"
           suggestions: true
           incremental_files_only: true
 
-      - name: Link check
+  linkcheck:
+    name: Ci-links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run linkspector
+        uses: umbrelladocs/action-linkspector@v1
         continue-on-error: true
-        run: |
-          npm install -g @umbrelladocs/linkspector
-          linkspector check -c ./.github/.linkspector.yml
+        with:
+          config_file: .github/.linkspector.yml
+          fail_on_error: true
+          filter_mode: nofilter
+          level: warning

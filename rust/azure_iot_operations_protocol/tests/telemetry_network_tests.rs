@@ -143,7 +143,7 @@ impl PayloadSerialize for EmptyPayload {
 #[tokio::test]
 async fn telemetry_basic_send_receive_network_tests() {
     let sender_id = "telemetry_basic_send_receive_network_tests-rust";
-    let Ok((mut session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
+    let Ok((session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
         setup_test::<EmptyPayload>(sender_id, "protocol/tests/basic/telemetry", true)
     else {
         // Network tests disabled, skipping tests
@@ -207,22 +207,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -314,7 +299,7 @@ impl PayloadSerialize for DataPayload {
 async fn telemetry_complex_send_receive_network_tests() {
     let topic = "protocol/tests/complex/telemetry";
     let client_id = "telemetry_complex_send_receive_network_tests-rust";
-    let Ok((mut session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
+    let Ok((session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
         setup_test::<DataPayload>(client_id, topic, false)
     else {
         // Network tests disabled, skipping tests
@@ -444,22 +429,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
 
-            // exit_handle.try_exit().await.unwrap(); // TODO: uncomment once below race condition is fixed
-            match exit_handle.try_exit().await {
-                Ok(()) => Ok(()),
-                Err(e) => {
-                    match e {
-                        azure_iot_operations_mqtt::session::SessionExitError::BrokerUnavailable { attempted } => {
-                            // Because of a current race condition, we need to ignore this as it isn't indicative of a real error
-                            if !attempted {
-                                return Err(e.to_string());
-                            }
-                            Ok(())
-                        },
-                        _ => Err(e.to_string()),
-                    }
-                }
-            }
+            exit_handle.try_exit().await.unwrap();
         }
     });
 

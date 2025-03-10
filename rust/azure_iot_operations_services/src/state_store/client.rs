@@ -330,7 +330,6 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        // ) -> Result<state_store::Response<bool>, StateStoreError> {
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }

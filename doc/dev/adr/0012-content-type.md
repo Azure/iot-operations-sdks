@@ -1,9 +1,5 @@
 # ADR12: Dynamic Content Type
 
-## Status: 
-
-APPROVED
-
 ## Context: 
 
 The Media Broker needs a way to specify different `content_type`s per telemetry message while using a raw data format. For future proofing, we'd like to make `content_type`s specifiable per any message with or without serialization.

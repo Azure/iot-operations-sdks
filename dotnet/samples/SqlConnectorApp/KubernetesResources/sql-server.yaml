@@ -1,4 +1,3 @@
-# The one that worked
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -51,32 +50,6 @@ data:
     forceencryption = 0
     trustservercertificate = 1
 ---
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: azure-disk
-  namespace: azure-iot-operations
-provisioner: kubernetes.io/azure-disk
-parameters:
-  storageaccounttype: Standard_LRS
-  kind: Managed
-volumeBindingMode: WaitForFirstConsumer
----
-## Applicable for AKS
-# kind: PersistentVolumeClaim
-# apiVersion: v1
-# metadata:
-#   name: mssql-data
-#   namespace: azure-iot-operations
-#   annotations:
-#     volume.beta.kubernetes.io/storage-class: azure-disk
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 8Gi
-## Locally on a k3s cluster this seems to work
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -88,7 +61,7 @@ spec:
   resources:
     requests:
       storage: 8Gi
-  storageClassName: local-path # Changed from azure-disk to local-path
+  storageClassName: local-path
 ---
 apiVersion: v1
 kind: Secret
@@ -120,6 +93,13 @@ spec:
       securityContext:
         fsGroup: 10001
         runAsUser: 10001
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-data
+        - name: mssql-config
+          configMap:
+            name: mssql-config
       containers:
         - name: mssql
           image: mcr.microsoft.com/mssql/server:2022-latest
@@ -136,6 +116,12 @@ spec:
               cpu: "2000m"
           ports:
             - containerPort: 1433
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+              subPath: data
+            - name: mssql-config
+              mountPath: /usr/config
           env:
             - name: MSSQL_PID
               value: "Developer"
@@ -146,12 +132,6 @@ spec:
                 secretKeyRef:
                   name: sql-server-auth-creds
                   key: SA_PASSWORD
-          volumeMounts:
-            - name: mssqldb
-              mountPath: /var/opt/mssql
-              subPath: data
-            - name: mssql-config
-              mountPath: /usr/config
           command: ["/bin/bash"]
           args:
             - "-c"
@@ -166,13 +146,6 @@ spec:
                 exit 1
               fi
               wait $pid
-      volumes:
-        - name: mssqldb
-          persistentVolumeClaim:
-            claimName: mssql-data
-        - name: mssql-config
-          configMap:
-            name: mssql-config
 ---
 apiVersion: v1
 kind: Service

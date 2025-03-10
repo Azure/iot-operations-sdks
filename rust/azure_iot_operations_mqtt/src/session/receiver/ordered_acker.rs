@@ -10,7 +10,7 @@ use thiserror::Error;
 use tokio::sync::Notify;
 
 use crate::control_packet::Publish;
-use crate::error::AckError;
+use crate::error::{AckError, AckErrorKind};
 use crate::interface::{CompletionToken, MqttAck};
 
 /// Error related to PKID
@@ -82,7 +82,7 @@ where
                 // NOTE: This is an AckError since eventually we would want this error to come
                 // directly from the underlying client via AckError, and this entire OrderedAcker
                 // would be irrelevant.
-                return Err(AckError::AlreadyAcked);
+                return Err(AckError::new(AckErrorKind::AlreadyAcked));
             }
             pending_acks.insert(publish.pkid);
         }

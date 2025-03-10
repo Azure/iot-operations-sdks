@@ -250,7 +250,7 @@
 
         <Paragraph>
           The value type for `cacheable-duration` and `executor-timeout` is common across classes, so it is defined towards the end of this document.
-          The value types for `raise-error` and `sync` are specific to CommandExecutor and are defined in the next subsections.
+          The value type for `sync` is specific to CommandExecutor and is defined in the next subsection.
         </Paragraph>
 
       </Subsection>
@@ -271,41 +271,6 @@
         </Paragraph>
 
         <ObjectPropertyTable defaults="prologue.executor.serializer" kinds="include" />
-
-      </Subsection>
-
-      <Subsection item="Error">
-        <Subsubheading />
-
-        <Paragraph>
-          The 'raise-error' key causes the CommandExecutor's execution function to raise an error, as in the following example:
-        </Paragraph>
-
-        <Example key="raise-error" />
-
-        <Paragraph>
-          The Error can have the following child keys:
-        </Paragraph>
-
-        <ObjectPropertyTable kinds="include" />
-
-        <Paragraph>
-          The error kind is defined in the next subsection.
-        </Paragraph>
-
-      </Subsection>
-
-      <Subsection item="ErrorKind">
-        <Subsubheading />
-
-        <Paragraph>
-          The error kind includes the following enumerated values:
-        </Paragraph>
-
-        <EnumValueTable>
-          <Column name="Value" field="const"/>
-          <Column name="Description" field="title" />
-        </EnumValueTable>
 
       </Subsection>
 

@@ -34,7 +34,6 @@ use crate::metl::test_case_catch::TestCaseCatch;
 use crate::metl::test_case_executor::TestCaseExecutor;
 use crate::metl::test_case_published_message::TestCasePublishedMessage;
 use crate::metl::test_case_serializer::TestCaseSerializer;
-use crate::metl::test_error_kind::TestErrorKind;
 use crate::metl::test_payload::TestPayload;
 
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
@@ -223,11 +222,9 @@ where
                     }
                 }
 
-                if let Some(raise_error) = &test_case_executor.raise_error {
-                    if raise_error.kind != TestErrorKind::None {
-                        drop(request);
-                        continue;
-                    }
+                if test_case_executor.raise_error {
+                    drop(request);
+                    continue;
                 }
 
                 let response_value = if let Some(request_value) = request.payload.payload.as_ref() {
@@ -736,11 +733,9 @@ where
         let mut protocol_error = AIOProtocolError {
             message: None,
             kind: AIOProtocolErrorKind::ConfigurationInvalid,
-            in_application: false,
             is_shallow: true,
             is_remote: false,
             nested_error: Some(Box::new(builder_error)),
-            http_status_code: None,
             header_name: None,
             header_value: None,
             timeout_name: None,

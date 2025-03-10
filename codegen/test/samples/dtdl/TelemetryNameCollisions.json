@@ -1,0 +1,96 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;3",
+      "dtmi:dtdl:extension:mqtt;1"
+    ],
+    "@id": "dtmi:test:TelemetryNameCollisions;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "sample/{senderId}/telemetry",
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "region",
+        "description": "The spatial region affected",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "centroid",
+              "description": "Centroid of the region affected",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "angle",
+                    "description": "Angle that points to the centroid of the region",
+                    "schema": "double"
+                  },
+                  {
+                    "name": "distance",
+                    "description": "Distance to the centroid of the region",
+                    "schema": "double"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "extent",
+              "description": "Spatial extent of the region",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "length",
+                    "description": "Length of the region affected",
+                    "schema": "double"
+                  },
+                  {
+                    "name": "width",
+                    "description": "Width of the region affected",
+                    "schema": "double"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "impact",
+        "description": "The impact on the affected region",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "amplitude",
+              "description": "Amplitude of the impact",
+              "schema": "double"
+            },
+            {
+              "name": "extent",
+              "description": "Temporal extent of the impact",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "start",
+                    "description": "Time at which the impact started",
+                    "schema": "dateTime"
+                  },
+                  {
+                    "name": "duration",
+                    "description": "Duration the impact lasted",
+                    "schema": "duration"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

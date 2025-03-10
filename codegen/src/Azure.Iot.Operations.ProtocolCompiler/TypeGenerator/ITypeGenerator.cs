@@ -2,6 +2,6 @@
 {
     public interface ITypeGenerator
     {
-        void GenerateTypeFromSchema(string projectName, CodeName genNamespace, SchemaType schemaType, SerializationFormat serFormat, string outputFolder);
+        void GenerateTypeFromSchema(string projectName, SchemaType schemaType, SerializationFormat serFormat, string outputFolder);
     }
 }

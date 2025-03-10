@@ -650,9 +650,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (testCaseExecutor.RaiseError != null && testCaseExecutor.RaiseError.Kind != TestErrorKind.None)
+            if (testCaseExecutor.RaiseError)
             {
-                throw new ApplicationException(testCaseExecutor.RaiseError.Message);
+                throw new ApplicationException();
             }
 
             if (extReq.Request == null)
