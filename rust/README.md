@@ -20,7 +20,7 @@ The following Azure IoT Operations crates are available:
 
 1. To set up your cluster and install Azure IoT Operations, refer to the [setup guide](/doc/setup.md)
 
-1. Check out our [Rust samples](./sample_applications)
+1. Check out the available [Rust samples](#samples)
 
 1. Read through [Deploy the application](/doc/edge_application/deploy.md) for building and deploying the container to your K8s cluster
 
@@ -67,3 +67,32 @@ Take a dependency on the crates you wish to use in your applications `Cargo.toml
 > [!NOTE]
 > * Due to the repository being private, using a nightly build requires a GH credential, which is difficult to work with in automated deployments.
 > * Referencing different release tags can create dependency issues, it's recommended to use a common SHA across the packages.
+
+## Samples
+
+> [!CAUTION]
+>
+> The samples and tutorials provided in this repository are for **demonstration purposed only**, and should not be deployed to a production system or included within an application without a full understanding of how they operate.
+>
+> Additionally some samples may use a username and password for authentication. This is used for sample simplicity and a production system should use a robust authentication mechanism such as certificates.
+
+### Crate samples
+
+Each crate contains an examples directory containing samples demonstrating the usage of its API:
+
+1. [MQTT samples](/rust/azure_iot_operations_mqtt/examples)
+1. [Protocol samples](/rust/azure_iot_operations_protocol/examples)
+1. [Services samples](/rust/azure_iot_operations_services/examples)
+
+Run the sample, substituting the sample name of your choice:
+
+```bash
+cargo run --example <sample name>
+```
+
+> [!TIP]
+> Do **not** include the `.rs` extension in the sample name.
+
+### SDK samples
+
+There are also higher-level samples that show a set of related applications that can be built using the various components of the Rust SDK. They can be found in the [sample_applications](./sample_applications) directory.
