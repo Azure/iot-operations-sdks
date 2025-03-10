@@ -9,13 +9,18 @@ using System.Text;
 
 namespace ConnectionManagementSample;
 
-public class LibraryManagedConnectionWorker(MqttSessionClient sessionClient, ILogger<LibraryManagedConnectionWorker> logger, IConfiguration configuration) : BackgroundService
+public class LibraryManagedConnectionWorker(MqttSessionClient sessionClient, ILogger<LibraryManagedConnectionWorker> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         sessionClient.SessionLostAsync += OnCrash;
         sessionClient.ApplicationMessageReceivedAsync += OnMessageReceived;
-        MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")! + ";ClientId=LibraryManagedConnectionClient-" + Guid.NewGuid());
+        MqttConnectionSettings mcs = new MqttConnectionSettings("localhost")
+        {
+            TcpPort = 1883,
+            UseTls = false,
+            ClientId = "LibraryManagedConnectionClient"
+        };
 
         await sessionClient.ConnectAsync(mcs, cancellationToken);
 
