@@ -4,7 +4,12 @@ on:
   workflow_dispatch:
   pull_request:
   schedule:
-    - cron: '0 8 * * *' # Nightly at 1am PST
+    - cron: "0 8 * * *" # Nightly at 1am PST
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 permissions:
   contents: read
@@ -13,7 +18,7 @@ permissions:
 
 jobs:
   spellcheck:
-    name: Check spelling
+    name: CI-spelling
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,8 +27,8 @@ jobs:
         uses: streetsidesoftware/cspell-action@v6
         continue-on-error: true
         with:
-          files: '**/*'
-          config: '.vscode/cspell.json'
+          files: "**/*"
+          config: ".vscode/cspell.json"
           suggestions: true
           incremental_files_only: true
 

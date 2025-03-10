@@ -43,7 +43,7 @@ env:
 jobs:
 
   build:
-    name: Build, Test, Lint
+    name: CI-rust
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
