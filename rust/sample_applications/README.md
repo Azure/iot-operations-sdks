@@ -8,7 +8,7 @@
 
 ## Crate samples
 
-Each crate contains a examples directory containing samples demonstrating the usage of its API:
+Each crate contains an examples directory containing samples demonstrating the usage of its API:
 
 1. [MQTT samples](/rust/azure_iot_operations_mqtt/examples)
 1. [Protocol samples](/rust/azure_iot_operations_protocol/examples)
