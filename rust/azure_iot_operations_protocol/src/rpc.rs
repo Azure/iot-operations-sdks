@@ -74,7 +74,6 @@ impl FromStr for StatusCode {
                     true,
                     false,
                     None,
-                    Some(status),
                     Some(format!("Unknown status code: {s}")),
                     None,
                 )),
@@ -83,7 +82,6 @@ impl FromStr for StatusCode {
                 "__stat",
                 s,
                 false,
-                None,
                 Some(format!(
                     "Could not parse status in response '{s}' as an integer: {e}"
                 )),
@@ -124,11 +122,9 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::HeaderInvalid);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
                 assert!(e.nested_error.is_none());
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.header_name, Some("__stat".to_string()));
                 assert_eq!(e.header_value, Some(test_invalid_code.to_string()));
             }
@@ -143,11 +139,9 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::UnknownError);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(e.is_remote);
                 assert!(e.nested_error.is_none());
-                assert_eq!(e.http_status_code, Some(test_unknown_code));
             }
         }
     }

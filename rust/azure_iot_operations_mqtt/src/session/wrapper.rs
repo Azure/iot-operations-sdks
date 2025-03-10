@@ -14,7 +14,7 @@ use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::session;
-use crate::session::{SessionError, SessionErrorKind, SessionExitError};
+use crate::session::{SessionConfigError, SessionError, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::MqttConnectionSettings;
 
@@ -64,13 +64,12 @@ impl Session {
     /// Create a new [`Session`] with the provided options structure.
     ///
     /// # Errors
-    /// Returns a [`SessionError`] if there are errors using the session options.
-    pub fn new(options: SessionOptions) -> Result<Self, SessionError> {
+    /// Returns a [`SessionConfigError`] if there are errors using the session options.
+    pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
         let sat_file = options.connection_settings.sat_file.clone();
         let (client, event_loop) =
-            adapter::client(options.connection_settings, options.outgoing_max, true)
-                .map_err(SessionErrorKind::from)?;
+            adapter::client(options.connection_settings, options.outgoing_max, true)?;
         Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
@@ -214,8 +213,8 @@ impl SessionExitHandle {
     /// and may eventually succeed even if this method returns the error
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`](crate::session::SessionExitErrorKind) if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`](crate::session::SessionExitErrorKind) if the Session is not connected to the broker.
     pub async fn try_exit(&self) -> Result<(), SessionExitError> {
         self.0.try_exit().await
     }
@@ -230,15 +229,14 @@ impl SessionExitHandle {
     /// after which point this method will return an error. Under this circumstance, the attempt was still made,
     /// and may eventually succeed even if this method returns the error
     /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
-    /// will return an error indicating such.
+    /// will return an error.
     ///
     /// # Arguments
     /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
-    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`](crate::session::SessionExitErrorKind) if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`](crate::session::SessionExitErrorKind) if the Session is not connected to the broker within the specified timeout interval.
     pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
         self.0.try_exit_timeout(timeout).await
     }
