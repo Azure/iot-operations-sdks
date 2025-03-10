@@ -78,6 +78,23 @@ Azure IoT Operations will be installed to the development cluster, and then the 
 
 1. Follow the [Azure IoT Operations documentation](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces#connect-cluster-to-azure-arc) to connect Azure Arc and deploy Azure IoT Operations.
 
+1. Check that Azure IoT Operations is successfully installed and **Resolve any errors before continuing**:
+
+    ```bash
+    az iot ops check
+    ```
+
+    Expected output:
+
+    ```
+    ╭─────── Check Summary ───────╮
+    │ 13 check(s) succeeded.      │
+    │ 0 check(s) raised warnings. │
+    │ 0 check(s) raised errors.   │
+    │ 4 check(s) were skipped.    │
+    ╰─────────────────────────────╯
+    ```
+
 1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
 
     ```bash
