@@ -52,8 +52,8 @@ public class LibraryManagedConnectionWorker(MqttSessionClient sessionClient, ILo
         return Task.CompletedTask;
     }
 
-    // Unlike with the user-managed connection code, this callback is only executed on fatal errors. Any non-fatal
-    // error will be handled by the session client instead of reporting it to the application layer to handle.
+    // This callback is only executed on fatal errors. Any non-fatal error will be handled by the 
+    // session client instead of reporting it to the application layer to handle.
     private Task OnCrash(MqttClientDisconnectedEventArgs args)
     {
         logger.LogWarning("The session client encountered a fatal error and is no longer connected. {ex}", args.Exception);
