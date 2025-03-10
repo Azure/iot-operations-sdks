@@ -247,7 +247,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data's` keys is a reserved Cloud Event key
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
-    ///     - `message_expiry` is not zero and < 1 s or > `u32::max`
+    ///     - `message_expiry` is not zero or > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
@@ -261,10 +261,6 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
             validate_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.message_expiry {
-            // If timeout is set, it must be at least 1 s. If zero, message will never expire.
-            if !timeout.is_zero() && timeout.as_millis() < 1 {
-                return Err("Timeout must be at least 1 s if it is greater than 0".to_string());
-            }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
                 Ok(_) => {}
                 Err(_) => {

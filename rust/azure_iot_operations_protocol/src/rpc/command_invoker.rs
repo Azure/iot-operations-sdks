@@ -118,14 +118,14 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
     /// # Errors
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8 or the key is reserved
-    ///     - timeout is < 1 s or > `u32::max`
+    ///     - timeout is zero or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
             if timeout.as_secs() == 0 {
-                return Err("Timeout must be at least 1 s".to_string());
+                return Err("Timeout must not be 0".to_string());
             }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
                 Ok(_) => {}
