@@ -26,13 +26,14 @@ async fn main() {
 
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .unwrap()
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()
         .unwrap();
-    let mut session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options).unwrap();
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 

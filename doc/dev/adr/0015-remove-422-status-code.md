@@ -1,9 +1,5 @@
 # ADR15: Remove 422 Status Code
 
-## Status: 
-
-PROPOSED
-
 ## Context: 
 
 > NOTE: For simplicity in this ADR, when I refer to a 500 status code, I only mean the scenario where it refers to an Execution Error (when the `__apErr` user property is true), and not other determinations that can come out of a 500 status code (Internal Logic Error or Unknown Error).

@@ -47,7 +47,7 @@ async fn main() {
         .build()
         .unwrap();
 
-    let mut session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options).unwrap();
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 

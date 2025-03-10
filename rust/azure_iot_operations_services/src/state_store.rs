@@ -28,10 +28,16 @@ const FENCING_TOKEN_USER_PROPERTY: &str = "__ft";
 pub struct StateStoreError(#[from] StateStoreErrorKind);
 
 impl StateStoreError {
-    /// Returns the [`StateStoreErrorKind`] of the error.
+    /// Returns the [`StateStoreErrorKind`] of the error as a reference.
     #[must_use]
     pub fn kind(&self) -> &StateStoreErrorKind {
         &self.0
+    }
+
+    /// Returns the [`StateStoreErrorKind`] of the error.
+    #[must_use]
+    pub(crate) fn consuming_kind(self) -> StateStoreErrorKind {
+        self.0
     }
 }
 

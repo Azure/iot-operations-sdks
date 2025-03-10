@@ -9,9 +9,9 @@ import (
 type <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#> int32
 
 const (
-<# bool isFirst = true; foreach (var enumValue in this.enumType.EnumValues) { #>
-	<#=enumValue.Name.GetTypeName(TargetLanguage.Go)#> <#=isFirst ? this.enumType.SchemaName.GetTypeName(TargetLanguage.Go) : ""#> = <#=enumValue.IntValue#>
-<# isFirst = false; } #>
+<# foreach (var enumValue in this.enumType.EnumValues) { #>
+	<#=enumValue.Name.GetTypeName(TargetLanguage.Go)#> <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#> = <#=enumValue.IntValue#>
+<# } #>
 )
 
 func (v <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#>) String() string {
