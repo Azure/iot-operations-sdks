@@ -1,6 +1,6 @@
 # Initializing a Kubernetes cluster and installing Azure IoT Operations
 
-These scripts support the general [Setups](/docs/setup.md) documentation.
+These scripts support the general [Setups](/doc/setup.md) documentation.
 
 ## Supported environments
 
