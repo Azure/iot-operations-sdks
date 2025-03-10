@@ -41,7 +41,7 @@ We recommend using Ubuntu or Debian for developing your applications. The instru
     aio-sdks = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/Cargo/index/" }
     ```
 
-3. Add the crates you wish to use to your applications `Cargo.toml`:
+3. Add the crates you wish to use to your application's `Cargo.toml`:
 
     ```toml
     [dependencies]
