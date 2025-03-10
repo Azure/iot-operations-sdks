@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
             File.WriteAllText("./TestFiles/" + fileName, GenerateJwtToken(DateTime.UtcNow.AddMinutes(60)));
             try
             {
-                TokenRefreshTimer tokenRefreshTimer = new(new Mock<IMqttClient>().Object, "./TestFiles/TEST_JWT");
+                TokenRefreshTimer tokenRefreshTimer = new(new Mock<IMqttClient>().Object, "./TestFiles/" + fileName);
             }
             finally
             {
@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
             File.WriteAllText("./TestFiles/" + fileName, GenerateJwtToken(DateTime.UtcNow.AddMinutes(-60)));
             try
             {
-                Assert.Throws<ArgumentException>(() => new TokenRefreshTimer(new Mock<IMqttClient>().Object, "./TestFiles/TEST_JWT"));
+                Assert.Throws<ArgumentException>(() => new TokenRefreshTimer(new Mock<IMqttClient>().Object, "./TestFiles/" + fileName));
             }
             finally
             {
