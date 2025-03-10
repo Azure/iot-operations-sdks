@@ -21,18 +21,27 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _clientStub.GetAsync(
-            new GetRequestPayload()
-            {
-                GetSchemaRequest = new()
+            return (await _clientStub.GetAsync(
+                new GetRequestPayload()
                 {
-                    Name = schemaId,
-                    Version = version
-                }
-            }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+                    GetSchemaRequest = new()
+                    {
+                        Name = schemaId,
+                        Version = version
+                    }
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+        }
+        catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
+        {
+            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
+            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
+            throw new SchemaRegistryServiceException("Invocation error returned by schema registry service", e.PropertyName, e.PropertyValue);
+        }
     }
 
     public async Task<SchemaInfo?> PutAsync(
@@ -44,6 +53,8 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
+        try
+        { 
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -59,6 +70,13 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                     SchemaType = schemaType
                 }
             }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+        }
+        catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
+        {
+            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
+            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
+            throw new SchemaRegistryServiceException("Invocation error returned by schema registry service", e.PropertyName, e.PropertyValue);
+        }
     }
 
     public async ValueTask DisposeAsync()
