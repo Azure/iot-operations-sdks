@@ -19,6 +19,7 @@ env:
 
 jobs:
   cross-language:
+    name: CI-cross-language
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
