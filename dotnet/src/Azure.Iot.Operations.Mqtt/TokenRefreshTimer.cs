@@ -26,12 +26,14 @@ internal class TokenRefreshTimer : IDisposable
     {
         JwtSecurityToken jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(Encoding.UTF8.GetString(token));
 
-        if (jwtToken.ValidTo <= DateTime.UtcNow)
+        DateTime currentTime = DateTime.UtcNow;
+
+        if (jwtToken.ValidTo <= currentTime)
         {
             throw new ArgumentException("Provided authentication token has already expired");
         }
 
-        TimeSpan timeRemaining = jwtToken.ValidTo.Subtract(DateTime.UtcNow);
+        TimeSpan timeRemaining = jwtToken.ValidTo.Subtract(currentTime);
 
         return (int)timeRemaining.TotalSeconds - 5;
     }

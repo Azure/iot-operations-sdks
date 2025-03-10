@@ -17,7 +17,8 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
         [Fact]
         public void TestGetTokenExpirySucceedsWithValidToken()
         {
-            File.WriteAllText("./TestFiles/TEST_JWT", GenerateJwtToken(DateTime.UtcNow.AddMinutes(60)));
+            string fileName = Guid.NewGuid().ToString();
+            File.WriteAllText("./TestFiles/" + fileName, GenerateJwtToken(DateTime.UtcNow.AddMinutes(60)));
             try
             {
                 TokenRefreshTimer tokenRefreshTimer = new(new Mock<IMqttClient>().Object, "./TestFiles/TEST_JWT");
@@ -26,7 +27,7 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
             {
                 try
                 {
-                    File.Delete("./TestFiles/TEST_JWT");
+                    File.Delete("./TestFiles/" + fileName);
                 }
                 catch (Exception)
                 {
@@ -38,7 +39,8 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
         [Fact]
         public void TestGetTokenExpiryThrowsForExpiredToken()
         {
-            File.WriteAllText("./TestFiles/TEST_JWT", GenerateJwtToken(DateTime.UtcNow.AddMinutes(-60)));
+            string fileName = Guid.NewGuid().ToString();
+            File.WriteAllText("./TestFiles/" + fileName, GenerateJwtToken(DateTime.UtcNow.AddMinutes(-60)));
             try
             {
                 Assert.Throws<ArgumentException>(() => new TokenRefreshTimer(new Mock<IMqttClient>().Object, "./TestFiles/TEST_JWT"));
@@ -47,7 +49,7 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
             {
                 try
                 {
-                    File.Delete("./TestFiles/TEST_JWT");
+                    File.Delete("./TestFiles/" + fileName);
                 }
                 catch (Exception)
                 {
