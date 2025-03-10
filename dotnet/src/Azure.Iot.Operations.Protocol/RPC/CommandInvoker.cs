@@ -444,7 +444,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     AkriMqttErrorKind.PayloadInvalid,
                 CommandStatusCode.RequestTimeout => AkriMqttErrorKind.Timeout,
                 CommandStatusCode.UnsupportedMediaType => AkriMqttErrorKind.HeaderInvalid,
-                CommandStatusCode.UnprocessableContent => AkriMqttErrorKind.InvocationException,
                 CommandStatusCode.InternalServerError =>
                     isAppError ? AkriMqttErrorKind.ExecutionException :
                     hasInvalidName ? AkriMqttErrorKind.InternalLogicError :
