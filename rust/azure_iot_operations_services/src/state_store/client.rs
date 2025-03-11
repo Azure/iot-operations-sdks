@@ -27,9 +27,7 @@ use tokio::{
     task,
 };
 
-use crate::state_store::{
-    self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
-};
+use crate::state_store::{self, Error, ErrorKind, SetOptions, FENCING_TOKEN_USER_PROPERTY};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -115,7 +113,7 @@ where
         client: C,
         connection_monitor: SessionConnectionMonitor,
         options: ClientOptions,
-    ) -> Result<Self, StateStoreError> {
+    ) -> Result<Self, Error> {
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -135,7 +133,7 @@ where
             client.clone(),
             command_invoker_options,
         )
-        .map_err(StateStoreErrorKind::from)?;
+        .map_err(ErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
@@ -161,7 +159,7 @@ where
         task::spawn({
             let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
                 TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
-                    .map_err(StateStoreErrorKind::from)?;
+                    .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
             async move {
@@ -191,14 +189,14 @@ where
     /// Returns Ok(()) on success, otherwise returns [`StateStoreError`].
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&self) -> Result<(), StateStoreError> {
+    pub async fn shutdown(&self) -> Result<(), Error> {
         // Notify the receiver loop to shutdown the telemetry receiver
         self.shutdown_notifier.notify_one();
 
         self.command_invoker
             .shutdown()
             .await
-            .map_err(StateStoreErrorKind::from)?;
+            .map_err(ErrorKind::from)?;
 
         log::info!("Shutdown");
         Ok(())
@@ -228,9 +226,9 @@ where
         timeout: Duration,
         fencing_token: Option<HybridLogicalClock>,
         options: SetOptions,
-    ) -> Result<state_store::Response<bool>, StateStoreError> {
+    ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
         let mut request_builder = CommandRequestBuilder::default();
         request_builder
@@ -239,7 +237,7 @@ where
                 value,
                 options: options.clone(),
             })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout);
         if let Some(ft) = fencing_token {
             request_builder.custom_user_data(vec![(
@@ -249,12 +247,12 @@ where
         }
         let request = request_builder
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::NotApplied => Ok(false),
                 state_store::resp3::Response::Ok => Ok(true),
@@ -284,21 +282,21 @@ where
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<Option<Vec<u8>>>, StateStoreError> {
+    ) -> Result<state_store::Response<Option<Vec<u8>>>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
         let request = CommandRequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::Value(value) => Ok(Some(value)),
                 state_store::resp3::Response::NotFound => Ok(None),
@@ -329,9 +327,9 @@ where
         key: Vec<u8>,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<i64>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
         self.del_internal(
             state_store::resp3::Request::Del { key },
@@ -364,9 +362,9 @@ where
         value: Vec<u8>,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<i64>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
         self.del_internal(
             state_store::resp3::Request::VDel { key, value },
@@ -381,11 +379,11 @@ where
         request: state_store::resp3::Request,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<i64>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, Error> {
         let mut request_builder = CommandRequestBuilder::default();
         request_builder
             .payload(request)
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout);
         if let Some(ft) = fencing_token {
             request_builder.custom_user_data(vec![(
@@ -395,12 +393,12 @@ where
         }
         let request = request_builder
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::NotFound => Ok(0),
                 state_store::resp3::Response::NotApplied => Ok(-1),
@@ -415,23 +413,23 @@ where
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<()>, StateStoreError> {
+    ) -> Result<state_store::Response<()>, Error> {
         // Send invoke request for observe
         let request = CommandRequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
             })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
 
         state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::Ok => Ok(()),
                 _ => Err(()),
@@ -472,9 +470,9 @@ where
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<KeyObservation>, StateStoreError> {
+    ) -> Result<state_store::Response<KeyObservation>, Error> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
 
         // add to observed keys before sending command to prevent missing any notifications.
@@ -491,7 +489,7 @@ where
                 }
                 Some(_) => {
                     log::info!("key already is being observed");
-                    return Err(StateStoreError(StateStoreErrorKind::DuplicateObserve));
+                    return Err(Error(ErrorKind::DuplicateObserve));
                 }
                 None => {
                     // There is no KeyObservation for this key, so we can create it
@@ -544,9 +542,9 @@ where
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<bool>, StateStoreError> {
+    ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
         // Send invoke request for unobserve
         let request = CommandRequestBuilder::default()
@@ -554,15 +552,15 @@ where
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
             })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         match state_store::convert_response(
             self.command_invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::Ok => Ok(true),
                 state_store::resp3::Response::NotFound => Ok(false),
@@ -708,7 +706,7 @@ mod tests {
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
-    use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
+    use crate::state_store::{Error, ErrorKind, SetOptions};
 
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
@@ -750,7 +748,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -769,7 +767,7 @@ mod tests {
         let response = state_store_client.get(vec![], Duration::from_secs(1)).await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -790,7 +788,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -811,7 +809,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -832,7 +830,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -853,7 +851,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -880,7 +878,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -901,7 +899,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -922,7 +920,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -948,7 +946,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -969,7 +967,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -990,7 +988,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 }
