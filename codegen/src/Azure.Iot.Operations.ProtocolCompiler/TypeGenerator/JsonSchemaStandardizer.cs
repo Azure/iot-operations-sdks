@@ -17,16 +17,18 @@
         {
             List<SchemaType> schemaTypes = new();
 
-            StreamReader schemaReader = File.OpenText(schemaFilePath);
-            using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))
+            using (StreamReader schemaReader = File.OpenText(schemaFilePath))
             {
-                CollateSchemaTypes(schemaDoc.RootElement, schemaDoc.RootElement, schemaFilePath, genNamespace, schemaTypes);
-
-                if (schemaDoc.RootElement.TryGetProperty(InternalDefsKey, out JsonElement defsElt))
+                using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))
                 {
-                    foreach (JsonProperty defProp in defsElt.EnumerateObject())
+                    CollateSchemaTypes(schemaDoc.RootElement, schemaDoc.RootElement, schemaFilePath, genNamespace, schemaTypes);
+
+                    if (schemaDoc.RootElement.TryGetProperty(InternalDefsKey, out JsonElement defsElt))
                     {
-                        CollateSchemaTypes(schemaDoc.RootElement, defProp.Value, schemaFilePath, genNamespace, schemaTypes);
+                        foreach (JsonProperty defProp in defsElt.EnumerateObject())
+                        {
+                            CollateSchemaTypes(schemaDoc.RootElement, defProp.Value, schemaFilePath, genNamespace, schemaTypes);
+                        }
                     }
                 }
             }
@@ -41,7 +43,7 @@
 
             if (schemaElt.TryGetProperty("properties", out JsonElement propertiesElt) && schemaElt.GetProperty("type").GetString() == "object")
             {
-                HashSet<string> requiredFields = schemaElt.TryGetProperty("required", out JsonElement requredElt) ? requredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
+                HashSet<string> requiredFields = schemaElt.TryGetProperty("required", out JsonElement requiredElt) ? requiredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 schemaTypes.Add(new ObjectType(
                     schemaName,
                     genNamespace,
