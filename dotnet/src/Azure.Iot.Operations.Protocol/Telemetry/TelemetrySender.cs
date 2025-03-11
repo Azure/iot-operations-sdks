@@ -86,6 +86,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw AkriMqttException.GetConfigurationInvalidException("messageExpiryInterval", verifiedMessageExpiryInterval, "message expiry interval must have a positive value");
             }
 
+            // Rounding up to the nearest second
+            verifiedMessageExpiryInterval = TimeSpan.FromSeconds(Math.Ceiling(verifiedMessageExpiryInterval.TotalSeconds));
+
             if (verifiedMessageExpiryInterval.TotalSeconds > uint.MaxValue)
             {
                 throw AkriMqttException.GetConfigurationInvalidException("messageExpiryInterval", verifiedMessageExpiryInterval, $"message expiry interval cannot be larger than {uint.MaxValue} seconds");

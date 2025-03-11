@@ -67,11 +67,11 @@ where
     /// Attempts to acquire a lock, returning if it cannot be acquired after one attempt.
     ///
     /// `lock_expiration` is how long the lock will remain held in the State Store after acquired, if not released before then.
-    /// `request_timeout` is the maximum time the function will wait for receiving a response from the State Store service.
+    /// `request_timeout` is the maximum time the function will wait for receiving a response from the State Store service, it is rounded up to the nearest second.
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or Error(LockAlreadyHeld) if lock is not acquired.
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -112,9 +112,11 @@ where
 
     /// Waits until a lock is available (if not already) and attempts to acquire it.
     ///
+    /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an Error if any failure occurs.
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -188,9 +190,11 @@ where
     ///
     /// The same `request_timeout` is used for all the individual network calls within `acquire_lock_and_update_value`.
     ///
+    /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     /// Returns `true` if the key is successfully set or deleted, or `false` if it is not.
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -257,9 +261,11 @@ where
 
     /// Releases a lock if and only if requested by the lock holder (same client id).
     ///
+    /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     /// Returns `Ok()` if lock is no longer held by this `lock_holder`, or `Error` otherwise.
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -284,6 +290,8 @@ where
 
     /// Starts observation of any changes on a lock
     ///
+    /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     /// Returns OK([`Response<LockObservation>`]) if the lock is now being observed.
     /// The [`LockObservation`] can be used to receive lock notifications for this lock
     ///
@@ -295,7 +303,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
-    /// - the `request_timeout` is < 1 ms or > `u32::max`
+    /// - the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -315,10 +323,12 @@ where
 
     /// Stops observation of any changes on a lock.
     ///
+    /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     /// Returns `true` if the lock is no longer being observed or `false` if the lock wasn't being observed
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
-    /// - the `request_timeout` is < 1 ms or > `u32::max`
+    /// - the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -335,11 +345,13 @@ where
 
     /// Gets the name of the holder of a lock
     ///
+    /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     /// Returns `Some(<holder of the lock>)` if the lock is found or `None`
     /// if the lock was not found (i.e., was not acquired by anyone, already released or expired).
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is < 1 ms or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
