@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
         public void TestGetTokenExpirySucceedsWithValidToken()
         {
             string fileName = Guid.NewGuid().ToString();
+            Directory.CreateDirectory("./TestFiles/");
             File.WriteAllText("./TestFiles/" + fileName, GenerateJwtToken(DateTime.UtcNow.AddMinutes(60)));
             try
             {
@@ -40,6 +41,7 @@ namespace Azure.Iot.Operations.Mqtt.UnitTests
         public void TestGetTokenExpiryThrowsForExpiredToken()
         {
             string fileName = Guid.NewGuid().ToString();
+            Directory.CreateDirectory("./TestFiles/");
             File.WriteAllText("./TestFiles/" + fileName, GenerateJwtToken(DateTime.UtcNow.AddMinutes(-60)));
             try
             {
