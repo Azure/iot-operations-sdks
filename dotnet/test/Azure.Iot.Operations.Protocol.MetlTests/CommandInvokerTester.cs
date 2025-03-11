@@ -23,8 +23,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
-            // TODO: Uncomment once 422 is removed in Dotnet to support the modifications for this test
-            "CommandInvokerResponseIndicatesInvocationError_ThrowsException"
         };
 
         private static readonly IDeserializer yamlDeserializer;

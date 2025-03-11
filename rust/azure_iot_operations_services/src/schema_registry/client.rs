@@ -117,13 +117,13 @@ where
     ///
     /// # Arguments
     /// * `get_request` - The request to get a schema from the schema registry.
-    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
+    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns a [`Schema`] if the schema was found, otherwise returns `None`.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if the `timeout` is < 1 ms or > `u32::max`, or there is an error building the request.
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.
@@ -178,13 +178,13 @@ where
     ///
     /// # Arguments
     /// * `put_request` - The request to put a schema in the schema registry.
-    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
+    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the [`Schema`] that was put if the request was successful.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if the `content` is empty, the `timeout` is < 1 ms or > `u32::max`, or there is an error building the request.
+    /// if the `content` is empty, the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.

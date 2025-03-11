@@ -13,57 +13,58 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 use super::format::Format;
 use super::schema_type::SchemaType;
 
+/// Schema object
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Schema {
-    /// The 'description' Field.
+    /// Human-readable description of the schema.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub description: Option<String>,
 
-    /// The 'displayName' Field.
+    /// Human-readable display name.
     #[serde(rename = "displayName")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub display_name: Option<String>,
 
-    /// The 'format' Field.
+    /// Format of the schema.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub format: Option<Format>,
 
-    /// The 'hash' Field.
+    /// Hash of the schema content.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub hash: Option<String>,
 
-    /// The 'name' Field.
+    /// Schema name.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub name: Option<String>,
 
-    /// The 'namespace' Field.
+    /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub namespace: Option<String>,
 
-    /// The 'schemaContent' Field.
+    /// Content stored in the schema.
     #[serde(rename = "schemaContent")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub schema_content: Option<String>,
 
-    /// The 'schemaType' Field.
+    /// Type of the schema.
     #[serde(rename = "schemaType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub schema_type: Option<SchemaType>,
 
-    /// The 'tags' Field.
+    /// Schema tags.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub tags: Option<HashMap<String, String>>,
 
-    /// The 'version' Field.
+    /// Version of the schema. Allowed between 0-9.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub version: Option<String>,

@@ -9,74 +9,77 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.SchemaRegistry;
 
+    /// <summary>
+    /// Schema object
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.9.0.0")]
     public partial class Schema
     {
         /// <summary>
-        /// The 'description' Field.
+        /// Human-readable description of the schema.
         /// </summary>
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Description { get; set; } = default;
 
         /// <summary>
-        /// The 'displayName' Field.
+        /// Human-readable display name.
         /// </summary>
         [JsonPropertyName("displayName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DisplayName { get; set; } = default;
 
         /// <summary>
-        /// The 'format' Field.
+        /// Format of the schema.
         /// </summary>
         [JsonPropertyName("format")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Format? Format { get; set; } = default;
 
         /// <summary>
-        /// The 'hash' Field.
+        /// Hash of the schema content.
         /// </summary>
         [JsonPropertyName("hash")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Hash { get; set; } = default;
 
         /// <summary>
-        /// The 'name' Field.
+        /// Schema name.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Name { get; set; } = default;
 
         /// <summary>
-        /// The 'namespace' Field.
+        /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
         /// </summary>
         [JsonPropertyName("namespace")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Namespace { get; set; } = default;
 
         /// <summary>
-        /// The 'schemaContent' Field.
+        /// Content stored in the schema.
         /// </summary>
         [JsonPropertyName("schemaContent")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? SchemaContent { get; set; } = default;
 
         /// <summary>
-        /// The 'schemaType' Field.
+        /// Type of the schema.
         /// </summary>
         [JsonPropertyName("schemaType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public SchemaType? SchemaType { get; set; } = default;
 
         /// <summary>
-        /// The 'tags' Field.
+        /// Schema tags.
         /// </summary>
         [JsonPropertyName("tags")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string>? Tags { get; set; } = default;
 
         /// <summary>
-        /// The 'version' Field.
+        /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
