@@ -15,6 +15,7 @@ public class ClientFactory
         Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
         string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+        mcs.ClientId += Guid.NewGuid();
         MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
         {
             // This retry policy prevents the client from retrying forever
