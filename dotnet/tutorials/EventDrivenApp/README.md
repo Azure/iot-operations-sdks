@@ -38,7 +38,6 @@ The application can be run directly from the development environment by fetching
     ```
 
 > [!TIP]
->
 > If the certificate or SAT has expired, you can generate new ones by execution the following script:
 >
 > ```bash
