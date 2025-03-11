@@ -6,7 +6,13 @@ import (
 )
 
 type OperationSummarySchema struct {
+
+	// The 'numberOfCakes' Field.
 	NumberOfCakes *int64 `json:"numberOfCakes,omitempty"`
+
+	// The 'startingTime' Field.
 	StartingTime *iso.Time `json:"startingTime,omitempty"`
+
+	// The 'totalDuration' Field.
 	TotalDuration *iso.Duration `json:"totalDuration,omitempty"`
 }

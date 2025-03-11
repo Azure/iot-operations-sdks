@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly int[] _supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
 
         private static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(10);
-        private static readonly TimeSpan MinimumCommandTimeout = TimeSpan.FromMilliseconds(1);
+        private static readonly TimeSpan MinimumCommandTimeout = TimeSpan.FromSeconds(1);
 
         internal static IWallClock WallClock = new WallClock();
 
@@ -482,6 +482,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Guid requestGuid = metadata?.CorrelationId ?? Guid.NewGuid();
 
             TimeSpan reifiedCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
+            // Rounding up to the nearest second
+            reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
+
 
             if (reifiedCommandTimeout < MinimumCommandTimeout)
             {

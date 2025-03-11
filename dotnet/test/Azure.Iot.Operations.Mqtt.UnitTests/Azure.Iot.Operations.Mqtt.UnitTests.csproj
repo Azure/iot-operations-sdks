@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -31,17 +31,12 @@
     <PackageReference Include="Apache.Avro" Version="1.11.3" />
     <PackageReference Include="Dahomey.Cbor" Version="1.24.3" />
     <PackageReference Include="Google.Protobuf" Version="3.26.1" />
+    <PackageReference Include="Moq" Version="4.20.70" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.Protocol.UnitTests\Azure.Iot.Operations.Protocol.UnitTests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Connection\*.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
