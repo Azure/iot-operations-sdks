@@ -116,7 +116,6 @@ func (ts *TelemetrySender[T]) Send(
 	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	timeout := opts.Timeout
-
 	if timeout == 0 {
 		timeout = DefaultTimeout
 	}

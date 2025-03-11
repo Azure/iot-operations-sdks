@@ -482,11 +482,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Guid requestGuid = metadata?.CorrelationId ?? Guid.NewGuid();
 
             TimeSpan reifiedCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
-            if (reifiedCommandTimeout.TotalSeconds % 1 != 0)
-            {
-                // Rounding up to the nearest second
-                reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
-            }
+            // Rounding up to the nearest second
+            reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
 
 
             if (reifiedCommandTimeout < MinimumCommandTimeout)

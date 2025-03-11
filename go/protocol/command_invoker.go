@@ -48,7 +48,6 @@ type (
 
 	// InvokeOptions are the resolved per-invoke options.
 	InvokeOptions struct {
-		// Timeout specifies the maximum time to wait for a response, it is rounded up to the nearest second.
 		Timeout     time.Duration
 		TopicTokens map[string]string
 		Metadata    map[string]string
@@ -210,7 +209,6 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	opts.Apply(opt)
 
 	timeout := opts.Timeout
-
 	if timeout == 0 {
 		timeout = DefaultTimeout
 	}
