@@ -877,7 +877,7 @@ mod tests {
             .set(
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
-                Duration::from_nanos(50),
+                Duration::from_secs(0),
                 None,
                 SetOptions::default(),
             )
@@ -901,7 +901,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .get(b"testKey".to_vec(), Duration::from_nanos(50))
+            .get(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -922,7 +922,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .del(b"testKey".to_vec(), None, Duration::from_nanos(50))
+            .del(b"testKey".to_vec(), None, Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -947,7 +947,7 @@ mod tests {
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
                 None,
-                Duration::from_nanos(50),
+                Duration::from_secs(0),
             )
             .await;
         assert!(matches!(
@@ -969,7 +969,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .observe(b"testKey".to_vec(), Duration::from_nanos(50))
+            .observe(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -990,7 +990,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .unobserve(b"testKey".to_vec(), Duration::from_nanos(50))
+            .unobserve(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
