@@ -111,7 +111,7 @@ Because the 'command name' and 'nested error' fields can potentially apply to an
 | unknown error | The client or service received an unexpected error from a dependent component. | either | either | |
 | execution error | The command processor encountered an error while executing the command. | false | true | |
 | mqtt error | The MQTT communication encountered an error and failed. | false | false | |
-| unsupported version | The command executor/invoker that received the request/response doesn't support the provided protocol version. | false | true | request protocol version, supported request protocol major versions |
+| unsupported version | The command executor/invoker that received the request/response doesn't support the provided protocol version. | false | either | protocol version, supported protocol major versions |
 
 > Note: The Akri.Mqtt libraries in all languages are expected to be consistent in their use of additional fields, with two exceptions:
 >
