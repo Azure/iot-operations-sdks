@@ -7,14 +7,14 @@ The following instruction outline how to create a container image for your appli
 Some languages have built in container support, however all binaries can be deployed using a Dockerfile. A Dockerfile can be created to support building the project and the creating the deployable container for repeatable container creation by using [multi-stage builds](https://docs.docker.com/build/building/multi-stage/).
 
 > [!NOTE]
-> The Dockerfile examples below are for reference only, and should be adapted for your particular situation.
+> The Dockerfile examples below are for reference only, and will need to be adapted for your project
 
 ### .NET
 
-Refer to [Containerize a .NET app](https://learn.microsoft.com/dotnet/core/docker/build-container) for details on building and creating a container from a .NET 8 project.
+Refer to [Containerize a .NET app](https://learn.microsoft.com/dotnet/core/docker/build-container) for details on building and creating a container from a .NET 9 project.
 
 ```dockerfile
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /App
 
 # Build application
@@ -23,7 +23,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime:8.0
+FROM mcr.microsoft.com/dotnet/runtime:9.0
 WORKDIR /App
 COPY --from=build /App/out .
 ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
