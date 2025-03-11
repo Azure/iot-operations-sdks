@@ -14,7 +14,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestFencing()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         string candidateName = Guid.NewGuid().ToString();
@@ -62,7 +62,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestFencingWithCampaignAndUpdateValueAsync()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         string holderId = Guid.NewGuid().ToString();
@@ -95,7 +95,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestFencingWithSessionId()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         await using var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString(), "someCandidate");
@@ -132,7 +132,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestProactivelyRecampaigning()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         var stateStoreClient = new StateStoreClient(applicationContext, mqttClient);
@@ -173,7 +173,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestAutomaticRenewal()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         await using var leaderElectionClient = new LeaderElectionClient(applicationContext, mqttClient, Guid.NewGuid().ToString(), "someCandidate");
@@ -250,7 +250,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestObserveLeadershipChangesCallback()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         string candidateName = Guid.NewGuid().ToString();
@@ -327,7 +327,7 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestUnobserveLeadershipChangesCallback()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         var sharedResourceName = Guid.NewGuid().ToString();
         ApplicationContext applicationContext = new ApplicationContext();
         string candidateName = Guid.NewGuid().ToString();
@@ -389,8 +389,8 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestCampaignWhenLeadershipPositionIsUnavailable()
     {
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         string leadershipPositionId = Guid.NewGuid().ToString();
         await using var leaderElectionClient1 = new LeaderElectionClient(applicationContext, mqttClient1, leadershipPositionId, Guid.NewGuid().ToString());
@@ -413,8 +413,8 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestAcquireLockAndUpdateValueAsyncWhenLockIsUnavailable()
     {
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
         string lockId = Guid.NewGuid().ToString();
@@ -449,8 +449,8 @@ public class LeaderElectionClientIntegrationTests
     [Fact]
     public async Task TestCampaignAndUpdateValueAsyncDoesNotUpdateValueIfLockNotAcquired()
     {
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
         var sharedResourceInitialValue = Guid.NewGuid().ToString();
@@ -496,8 +496,8 @@ public class LeaderElectionClientIntegrationTests
     public async Task AutomaticRenewalEndsIfItFails()
     {
         ApplicationContext applicationContext = new ApplicationContext();
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
 
         var sharedResourceName = Guid.NewGuid().ToString();
         var sharedResourceInitialValue = Guid.NewGuid().ToString();

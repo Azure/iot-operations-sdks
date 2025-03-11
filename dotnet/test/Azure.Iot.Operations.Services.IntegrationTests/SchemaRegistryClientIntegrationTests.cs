@@ -20,7 +20,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task JsonRegisterGet()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
         Dictionary<string, string> testTags = new() { { "key1", "value1" } };
@@ -44,7 +44,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task NotFoundSchemaReturnsNull()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
@@ -55,7 +55,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task RegisterAvroAsJsonThrows()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
@@ -67,7 +67,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task InvalidJsonThrows()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
@@ -79,7 +79,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task SchemaRegistryClientThrowsIfAccessedWhenDisposed()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
@@ -92,7 +92,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task SchemaRegistryClientThrowsIfCancellationRequested()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
