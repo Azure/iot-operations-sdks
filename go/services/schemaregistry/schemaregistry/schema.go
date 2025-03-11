@@ -2,14 +2,34 @@
 package schemaregistry
 
 type Schema struct {
+
+	// The 'description' Field.
 	Description *string `json:"description,omitempty"`
+
+	// The 'displayName' Field.
 	DisplayName *string `json:"displayName,omitempty"`
+
+	// The 'format' Field.
 	Format *Format `json:"format,omitempty"`
+
+	// The 'hash' Field.
 	Hash *string `json:"hash,omitempty"`
+
+	// The 'name' Field.
 	Name *string `json:"name,omitempty"`
+
+	// The 'namespace' Field.
 	Namespace *string `json:"namespace,omitempty"`
+
+	// The 'schemaContent' Field.
 	SchemaContent *string `json:"schemaContent,omitempty"`
+
+	// The 'schemaType' Field.
 	SchemaType *SchemaType `json:"schemaType,omitempty"`
+
+	// The 'tags' Field.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// The 'version' Field.
 	Version *string `json:"version,omitempty"`
 }
