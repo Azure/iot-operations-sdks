@@ -4,7 +4,7 @@ description:
   condition: >-
     CommandInvoker invokes command and receives response.
   expect: >-
-    CommandInvoker copies Telemetry timeout value into message expiry interval.
+    CommandInvoker rounds up timeout value to nearest second and copies into message expiry interval
 
 prologue:
   invokers:
