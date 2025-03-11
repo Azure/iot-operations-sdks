@@ -3,8 +3,13 @@
 
 //! Generic MQTT connection settings implementations
 
+use openssl::x509::X509;
 use std::env::{self, VarError};
+use std::fs;
+use std::path::Path;
+use std::process;
 use std::time::Duration;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 // TODO: Split up this struct to avoid weird combinations and separate concern.
 // Things like having both password and password_file don't make much sense,
@@ -143,6 +148,238 @@ impl MqttConnectionSettingsBuilder {
             sat_file,
         })
     }
+    /// Construct a builder from the configuration files mounted by the Akri Operator.
+    /// This method is only usable for connector applications deployed as a kubernetes pod.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use azure_iot_operations_mqtt::{MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError};
+    /// # fn try_main() -> Result<MqttConnectionSettings, String> {
+    /// let builder = MqttConnectionSettingsBuilder::from_file_mount()?;
+    /// let connection_settings = builder.build()
+    ///     .map_err(|e| format!("Failed to build settings: {}", e))?;
+    /// # Ok(connection_settings)
+    /// # }
+    /// # fn main() {
+    /// #     // Example not run as part of docs
+    /// #     try_main().ok();
+    /// # }
+    /// ```
+    ///
+    /// # Errors
+    ///
+    /// Returns a `String` describing the error if:
+    /// - Required environment variables are missing
+    /// - Configuration files cannot be read
+    /// - Configuration values are invalid
+    pub fn from_file_mount() -> Result<Self, String> {
+        let config_map_path = string_from_environment("AEP_CONFIGMAP_MOUNT_PATH")?
+            .ok_or_else(|| "AEP_CONFIGMAP_MOUNT_PATH is not set".to_string())?;
+
+        // Read target address (hostname:port)
+        let target_address_path = format!("{}/BROKER_TARGET_ADDRESS", config_map_path);
+        let target_address = std::fs::read_to_string(&target_address_path).map_err(|e| {
+            format!(
+                "Missing or inaccessible target address configuration file: {}",
+                e
+            )
+        })?;
+
+        let target_address_and_port = target_address.trim();
+        if target_address_and_port.is_empty() {
+            return Err(
+                "Malformed target address configuration file: file exists but content is empty"
+                    .to_string(),
+            );
+        }
+
+        // Parse hostname and port
+        let target_address_parts: Vec<&str> = target_address_and_port.split(':').collect();
+        if target_address_parts.len() != 2 {
+            return Err(format!(
+                "BROKER_TARGET_ADDRESS is malformed. Expected format <hostname>:<port>. Found: {}",
+                target_address_and_port
+            ));
+        }
+
+        let hostname = target_address_parts[0].to_string();
+        let tcp_port = target_address_parts[1]
+            .parse::<u16>()
+            .map_err(|e| format!("Cannot parse MQTT port from BROKER_TARGET_ADDRESS: {}", e))?;
+
+        // Read TLS setting
+        let use_tls_path = format!("{}/BROKER_USE_TLS", config_map_path);
+        let use_tls_str = std::fs::read_to_string(&use_tls_path)
+            .map_err(|e| format!("Failed to read BROKER_USE_TLS: {}", e))?;
+
+        let use_tls = use_tls_str.trim().parse::<bool>().map_err(|_| {
+            "BROKER_USE_TLS contains a value that could not be parsed as a boolean".to_string()
+        })?;
+
+        // Optional SAT file path
+        let sat_file = string_from_environment("BROKER_SAT_MOUNT_PATH")?;
+
+        // Optional TLS CA cert mount path
+        // let tls_ca_cert_mount_path =
+        //     string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?;
+        // let ca_file = if let Some(path) = tls_ca_cert_mount_path {
+        //     if !std::path::Path::new(&path).exists() {
+        //         return Err(format!("A TLS cert mount path was provided, but the provided path does not exist. Path: {}", path));
+        //     }
+
+        //     // In Rust we'll just get the first CA file, as we don't have built-in cert chain
+        //     // functionality like in C#. In a real implementation, you might want to use a crate
+        //     // like rustls or openssl to handle multiple CA certificates.
+        //     match std::fs::read_dir(&path) {
+        //         Ok(entries) => {
+        //             let ca_paths: Vec<_> = entries
+        //                 .filter_map(Result::ok)
+        //                 .map(|entry| entry.path())
+        //                 .filter(|path| path.is_file())
+        //                 .collect();
+
+        //             if ca_paths.is_empty() {
+        //                 None
+        //             } else {
+        //                 Some(ca_paths[0].to_string_lossy().to_string())
+        //             }
+        //         }
+        //         Err(e) => return Err(format!("Failed to read TLS cert directory: {}", e)),
+        //     }
+        // } else {
+        //     None
+        // };
+
+        let tls_ca_cert_mount_path =
+            string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?;
+
+        // Create a temporary file to store the concatenated CA certificates
+        let ca_file = if let Some(path) = tls_ca_cert_mount_path {
+            if !Path::new(&path).exists() {
+                return Err(format!("A TLS cert mount path was provided, but the provided path does not exist. Path: {}", path));
+            }
+
+            // Process all certificate files in the directory to build a complete chain
+            match fs::read_dir(&path) {
+                Ok(entries) => {
+                    let cert_paths: Vec<_> = entries
+                        .filter_map(Result::ok)
+                        .map(|entry| entry.path())
+                        .filter(|path| path.is_file())
+                        .collect();
+
+                    if cert_paths.is_empty() {
+                        None
+                    } else {
+                        // Create a temporary file to store the concatenated certificates
+                        let pid = process::id();
+                        let timestamp = SystemTime::now()
+                            .duration_since(UNIX_EPOCH)
+                            .expect("Time went backwards")
+                            .as_secs();
+                        let temp_cert_path = format!("/tmp/ca_chain_{}_{}.pem", pid, timestamp);
+                        // TODO CHeck - didnt want to pull in UUID for naming a file.
+                        // let temp_cert_path = format!("/tmp/ca_chain_{}.pem", Uuid::new_v4());
+                        let mut cert_chain_content = String::new();
+
+                        // Read and validate each certificate before adding to the chain
+                        for cert_path in cert_paths {
+                            match fs::read_to_string(&cert_path) {
+                                Ok(cert_content) => {
+                                    // Validate that this is a valid certificate by parsing it
+                                    match X509::from_pem(cert_content.as_bytes()) {
+                                        Ok(_) => {
+                                            // Valid certificate, add to chain
+                                            cert_chain_content.push_str(&cert_content);
+                                            // Add newline if needed
+                                            if !cert_content.ends_with('\n') {
+                                                cert_chain_content.push('\n');
+                                            }
+                                        }
+                                        Err(e) => {
+                                            // Log warning but continue with other certs
+                                            eprintln!(
+                                                "Warning: Invalid certificate file {}: {}",
+                                                cert_path.display(),
+                                                e
+                                            );
+                                        }
+                                    }
+                                }
+                                Err(e) => {
+                                    eprintln!(
+                                        "Warning: Failed to read certificate file {}: {}",
+                                        cert_path.display(),
+                                        e
+                                    );
+                                }
+                            }
+                        }
+
+                        // Write the combined certificates to the temp file
+                        if !cert_chain_content.is_empty() {
+                            match fs::write(&temp_cert_path, cert_chain_content) {
+                                Ok(_) => Some(temp_cert_path),
+                                Err(e) => {
+                                    eprintln!(
+                                        "Failed to write certificate chain to temporary file: {}",
+                                        e
+                                    );
+                                    None
+                                }
+                            }
+                        } else {
+                            None
+                        }
+                    }
+                }
+                Err(e) => return Err(format!("Failed to read TLS cert directory: {}", e)),
+            }
+        } else {
+            None
+        };
+
+        // Read client ID from configuration file
+        let client_id_path = format!("{}/AIO_MQTT_CLIENT_ID", config_map_path);
+        let client_id = match std::fs::read_to_string(&client_id_path) {
+            Ok(id) => {
+                let id = id.trim();
+                if id.is_empty() {
+                    return Err("AIO_MQTT_CLIENT_ID is missing.".to_string());
+                }
+                id.to_string()
+            }
+            Err(e) => {
+                return Err(format!(
+                    "Missing or malformed client ID configuration file: {}",
+                    e
+                ));
+            }
+        };
+
+        // Return builder with settings
+        Ok(Self {
+            client_id: Some(client_id),
+            hostname: Some(hostname),
+            tcp_port: Some(tcp_port),
+            keep_alive: Some(Duration::from_secs(60)),
+            receive_max: Some(u16::MAX),
+            receive_packet_size_max: None,
+            session_expiry: Some(Duration::from_secs(3600)),
+            connection_timeout: Some(Duration::from_secs(30)),
+            clean_start: Some(true), // Default to true for file mount
+            username: None,
+            password: None,
+            password_file: None,
+            use_tls: Some(use_tls),
+            ca_file: Some(ca_file),
+            cert_file: None,
+            key_file: None,
+            key_password_file: None,
+            sat_file: Some(sat_file),
+        })
+    }
 
     /// Validate the MQTT Connection Settings.
     ///
@@ -215,6 +452,11 @@ fn string_from_environment(key: &str) -> Result<Option<String>, String> {
 #[cfg(test)]
 mod tests {
     use super::MqttConnectionSettingsBuilder;
+    use std::env;
+    use std::fs;
+    use std::path::PathBuf;
+    use std::process;
+    use std::time::{SystemTime, UNIX_EPOCH};
 
     #[test]
     fn test_connection_settings_empty_hostname() {
@@ -395,4 +637,367 @@ mod tests {
             .build();
         assert!(connection_settings_builder_result.is_ok());
     }
+
+    // Helper function to create a unique temporary directory
+    fn create_temp_dir() -> (PathBuf, String) {
+        // Create a unique directory name using process ID and timestamp
+        let pid = process::id();
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs();
+
+        let temp_dir_path = format!("/tmp/mqtt_test_{}_{}", pid, timestamp);
+        let path_buf = PathBuf::from(&temp_dir_path);
+
+        // Create the directory
+        fs::create_dir_all(&path_buf).expect("Failed to create temp directory");
+
+        (path_buf, temp_dir_path)
+    }
+
+    // Helper function to clean up the temporary directory
+    fn cleanup_temp_dir(path: &PathBuf) {
+        if path.exists() {
+            let _ = fs::remove_dir_all(path);
+        }
+    }
+
+    // Helper function to set up a test environment
+    fn setup_test_environment() -> (PathBuf, String) {
+        // Create a temporary directory
+        let (temp_dir, temp_path) = create_temp_dir();
+
+        // Set the environment variable
+        env::set_var("AEP_CONFIGMAP_MOUNT_PATH", &temp_path);
+
+        (temp_dir, temp_path)
+    }
+
+    // Helper to create a file with contents
+    fn create_config_file(dir_path: &str, filename: &str, contents: &str) -> std::io::Result<()> {
+        let file_path = format!("{}/{}", dir_path, filename);
+        fs::write(file_path, contents)
+    }
+
+    #[test]
+    fn test_file_mount_successful_configuration() {
+        // Set up test environment
+        let (temp_dir, temp_path) = setup_test_environment();
+
+        // Create configuration files
+        create_config_file(
+            &temp_path,
+            "BROKER_TARGET_ADDRESS",
+            "test.hostname.com:8883",
+        )
+        .unwrap();
+        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+        // Call the method being tested
+        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+        assert!(builder_result.is_ok());
+
+        // Verify builder values
+        let builder = builder_result.unwrap();
+        assert_eq!(builder.hostname, Some("test.hostname.com".to_string()));
+        assert_eq!(builder.tcp_port, Some(8883));
+        assert_eq!(builder.use_tls, Some(true));
+        assert_eq!(builder.client_id, Some("test-client-id".to_string()));
+
+        // Verify we can build settings from this builder
+        let settings_result = builder.build();
+        assert!(settings_result.is_ok());
+
+        // Clean up
+        cleanup_temp_dir(&temp_dir);
+    }
+
+    #[test]
+    fn test_file_mount_missing_config_path() {
+        env::set_var("AEP_CONFIGMAP_MOUNT_PATH", "/path/that/does/not/exist");
+
+        // Call the method being tested
+        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+        match builder_result {
+            Ok(_) => panic!("Expected error"),
+            Err(e) => {
+                assert!(e.contains("Missing or inaccessible target address configuration file"))
+            }
+        }
+    }
+
+    #[test]
+    fn test_file_mount_missing_env_var() {
+        env::remove_var("AEP_CONFIGMAP_MOUNT_PATH");
+
+        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+        match builder_result {
+            Ok(_) => panic!("Expected error"),
+            Err(e) => assert_eq!(e.to_string(), "AEP_CONFIGMAP_MOUNT_PATH is not set"),
+        }
+    }
+
+    // #[test]
+    // fn test_file_mount_missing_target_address() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create only the TLS and client ID files
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because target address file is missing
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert!(error.contains("Missing or inaccessible target address configuration file"));
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_empty_target_address() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files with empty target address
+    //     create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because target address is empty
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert_eq!(
+    //         error,
+    //         "Malformed target address configuration file: file exists but content is empty"
+    //     );
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_invalid_target_address_format() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files with invalid target address (no port)
+    //     create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "hostname-without-port").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because target address format is invalid
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert!(error.contains("BROKER_TARGET_ADDRESS is malformed"));
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_invalid_port() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files with invalid port
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:not_a_number",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because port is not a number
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert!(error.contains("Cannot parse MQTT port"));
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_missing_use_tls() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files without USE_TLS
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because USE_TLS is missing
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert!(error.contains("Failed to read BROKER_USE_TLS"));
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_invalid_use_tls() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files with invalid USE_TLS
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "not-a-boolean").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because USE_TLS is not a boolean
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert!(
+    //         error.contains("BROKER_USE_TLS contains a value that could not be parsed as a boolean")
+    //     );
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_missing_client_id() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files without client ID
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because client ID is missing
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert!(error.contains("Missing or malformed client ID configuration file"));
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_empty_client_id() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create files with empty client ID
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+
+    //     // Should fail because client ID is empty
+    //     assert!(builder_result.is_err());
+    //     let error = builder_result.unwrap_err();
+    //     assert_eq!(error, "AIO_MQTT_CLIENT_ID is missing.");
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_with_optional_sat_file() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create required files
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+    //     // Set SAT file path
+    //     env::set_var("BROKER_SAT_MOUNT_PATH", "/path/to/sat/file.sat");
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     assert!(builder_result.is_ok());
+
+    //     // Verify builder values
+    //     let builder = builder_result.unwrap();
+    //     assert_eq!(
+    //         builder.sat_file,
+    //         Some(Some("/path/to/sat/file.sat".to_string()))
+    //     );
+
+    //     // Clean up
+    //     env::remove_var("BROKER_SAT_MOUNT_PATH");
+    //     cleanup_temp_dir(&temp_dir);
+    // }
+
+    // #[test]
+    // fn test_file_mount_with_non_default_values() {
+    //     // Set up test environment
+    //     let (temp_dir, temp_path) = setup_test_environment();
+
+    //     // Create required files with non-default values
+    //     create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "custom.host:1234").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "false").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "custom-client-id").unwrap();
+
+    //     // Call the method being tested
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     assert!(builder_result.is_ok());
+
+    //     // Verify builder values
+    //     let builder = builder_result.unwrap();
+    //     assert_eq!(builder.hostname, Some("custom.host".to_string()));
+    //     assert_eq!(builder.tcp_port, Some(1234));
+    //     assert_eq!(builder.use_tls, Some(false));
+    //     assert_eq!(builder.client_id, Some("custom-client-id".to_string()));
+
+    //     // Clean up
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 }
