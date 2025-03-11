@@ -139,8 +139,7 @@ See below for categorized tests.
 | CommandInvoker with custom response topic invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker with custom topic-token map invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker invokes command with metadata and receives response. | CommandInvoker publication includes metadata. |
-| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid argument' exception. |
-| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid argument' exception; error details unchecked. |
+| CommandInvoker invokes command with command timeout of duration between zero and one second. | Command timeout is rounded up. CommandInvoker completes command and acknowledges response.  |
 | CommandInvoker with topic namespace invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception. |
 | CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception; error details unchecked. |
