@@ -120,7 +120,6 @@ It contains the following information:
 
 | Type | Name | Description |
 |-|-|-|
-| ServiceAccount | `sdk-application` | Used for generating the SAT for authentication to the broker |
 | Deployment | `sdk-application` | The edge application deployment definition |
 | Volume | `mqtt-client-token` | The SAT for mounting into the counter |
 | Volume | `aio-ca-trust-bundle` | The broker trust-bundle for validating the server |
@@ -128,25 +127,17 @@ It contains the following information:
 | env | `MQTT_*`, `AIO_*` | The environment variables used to configure the connection to the MQTT broker. Refer to [MQTT broker access](/doc/setup.md#mqtt-broker-access) for details on settings these values to match the development environment |
 
 > [!TIP]
-> Setting the `imagePullPolicy` to `Never`, allows the cached image to be used even when the version is `latest`.
+> Setting the `imagePullPolicy` to `Never`, allows the cached image to be used even when the version is `latest`
 
-1. Create a file called `app.yaml` containing the following
+1. Create a file called `app.yaml` containing the following:
 
     ```yaml
-    apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      name: sdk-application
-      namespace: azure-iot-operations
-
-    ---
     apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: sdk-application
       namespace: azure-iot-operations
     spec:
-      replicas: 1
       selector:
         matchLabels:
           app: sdk-application
@@ -155,44 +146,45 @@ It contains the following information:
           labels:
             app: sdk-application
         spec:
-          serviceAccountName: sdk-application
+          serviceAccountName: mqtt-client
 
           volumes:
-          - name: mqtt-client-token
-            projected:
-              sources:
-              - serviceAccountToken:
-                  path: mqtt-client-token
-                  audience: aio-internal
-                  expirationSeconds: 86400
-          - name: aio-ca-trust-bundle
-            configMap:
-              name: azure-iot-operations-aio-ca-trust-bundle
+            - name: mqtt-client-token
+              projected:
+                sources:
+                  - serviceAccountToken:
+                      path: mqtt-client-token
+                      audience: aio-internal
+                      expirationSeconds: 86400
+
+            - name: aio-ca-trust-bundle
+              configMap:
+                name: azure-iot-operations-aio-ca-trust-bundle
 
           containers:
-          - name: sdk-application
-            image: <image-name>
-            imagePullPolicy: Never # Set to Never to use the imported image
-            
-            volumeMounts:
-            - name: mqtt-client-token
-              mountPath: /var/run/secrets/tokens
-            - name: aio-ca-trust-bundle
-              mountPath: /var/run/certs/aio-ca-cert
+            - name: sdk-application
+              image: <image-name>
+              imagePullPolicy: Never # Set to Never to use the imported image
 
-          env:
-            - name: MQTT_CLIENT_ID
-              value: <my-client-id>
-            - name: AIO_BROKER_HOSTNAME
-              value: aio-broker
-            - name: AIO_BROKER_TCP_PORT
-              value: 18883
-            - name: AIO_MQTT_USE_TLS
-              value: true
-            - name: AIO_TLS_CA_FILE
-              value: var/run/certs/aio-ca/ca.crt
-            - name: AIO_SAT_FILE
-              value: /var/run/secrets/tokens/mqtt-client-token
+              volumeMounts:
+                - name: mqtt-client-token
+                  mountPath: /var/run/secrets/tokens
+                - name: aio-ca-trust-bundle
+                  mountPath: /var/run/certs/aio-ca-cert
+
+              env:
+                - name: MQTT_CLIENT_ID
+                  value: "<client-id>"
+                - name: AIO_BROKER_HOSTNAME
+                  value: "aio-broker"
+                - name: AIO_BROKER_TCP_PORT
+                  value: "18883"
+                - name: AIO_MQTT_USE_TLS
+                  value: "true"
+                - name: AIO_TLS_CA_FILE
+                  value: "/var/run/certs/aio-ca/ca.crt"
+                - name: AIO_SAT_FILE
+                  value: "/var/run/secrets/tokens/mqtt-client-token"
     ```
 
 1. Apply the yaml to the cluster:
