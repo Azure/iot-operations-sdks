@@ -118,35 +118,43 @@ func (invoker GetCommandInvoker) Get(ctx context.Context, request GetRequestPayl
 
 
 <a name="GetRequestPayload"></a>
-## type [GetRequestPayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/get_request_payload.go#L4-L6>)
+## type [GetRequestPayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/get_request_payload.go#L4-L8>)
 
 
 
 ```go
 type GetRequestPayload struct {
+
+    // The Command request argument.
     GetSchemaRequest GetRequestSchema `json:"getSchemaRequest"`
 }
 ```
 
 <a name="GetRequestSchema"></a>
-## type [GetRequestSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/get_request_schema.go#L4-L7>)
+## type [GetRequestSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/get_request_schema.go#L4-L11>)
 
 
 
 ```go
 type GetRequestSchema struct {
-    Name    *string `json:"name,omitempty"`
+
+    // The 'name' Field.
+    Name *string `json:"name,omitempty"`
+
+    // The 'version' Field.
     Version *string `json:"version,omitempty"`
 }
 ```
 
 <a name="GetResponsePayload"></a>
-## type [GetResponsePayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/get_response_payload.go#L4-L6>)
+## type [GetResponsePayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/get_response_payload.go#L4-L8>)
 
 
 
 ```go
 type GetResponsePayload struct {
+
+    // The Command response argument.
     Schema *Schema `json:"schema,omitempty"`
 }
 ```
@@ -181,61 +189,99 @@ func (invoker PutCommandInvoker) Put(ctx context.Context, request PutRequestPayl
 
 
 <a name="PutRequestPayload"></a>
-## type [PutRequestPayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/put_request_payload.go#L4-L6>)
+## type [PutRequestPayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/put_request_payload.go#L4-L8>)
 
 
 
 ```go
 type PutRequestPayload struct {
+
+    // The Command request argument.
     PutSchemaRequest PutRequestSchema `json:"putSchemaRequest"`
 }
 ```
 
 <a name="PutRequestSchema"></a>
-## type [PutRequestSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/put_request_schema.go#L4-L12>)
+## type [PutRequestSchema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/put_request_schema.go#L4-L26>)
 
 
 
 ```go
 type PutRequestSchema struct {
-    Description   *string           `json:"description,omitempty"`
-    DisplayName   *string           `json:"displayName,omitempty"`
-    Format        *Format           `json:"format,omitempty"`
-    SchemaContent *string           `json:"schemaContent,omitempty"`
-    SchemaType    *SchemaType       `json:"schemaType,omitempty"`
-    Tags          map[string]string `json:"tags,omitempty"`
-    Version       *string           `json:"version,omitempty"`
+
+    // The 'description' Field.
+    Description *string `json:"description,omitempty"`
+
+    // The 'displayName' Field.
+    DisplayName *string `json:"displayName,omitempty"`
+
+    // The 'format' Field.
+    Format *Format `json:"format,omitempty"`
+
+    // The 'schemaContent' Field.
+    SchemaContent *string `json:"schemaContent,omitempty"`
+
+    // The 'schemaType' Field.
+    SchemaType *SchemaType `json:"schemaType,omitempty"`
+
+    // The 'tags' Field.
+    Tags map[string]string `json:"tags,omitempty"`
+
+    // The 'version' Field.
+    Version *string `json:"version,omitempty"`
 }
 ```
 
 <a name="PutResponsePayload"></a>
-## type [PutResponsePayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/put_response_payload.go#L4-L6>)
+## type [PutResponsePayload](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/put_response_payload.go#L4-L8>)
 
 
 
 ```go
 type PutResponsePayload struct {
+
+    // The Command response argument.
     Schema Schema `json:"schema"`
 }
 ```
 
 <a name="Schema"></a>
-## type [Schema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/schema.go#L4-L15>)
+## type [Schema](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/schemaregistry/schema.go#L4-L35>)
 
 
 
 ```go
 type Schema struct {
-    Description   *string           `json:"description,omitempty"`
-    DisplayName   *string           `json:"displayName,omitempty"`
-    Format        *Format           `json:"format,omitempty"`
-    Hash          *string           `json:"hash,omitempty"`
-    Name          *string           `json:"name,omitempty"`
-    Namespace     *string           `json:"namespace,omitempty"`
-    SchemaContent *string           `json:"schemaContent,omitempty"`
-    SchemaType    *SchemaType       `json:"schemaType,omitempty"`
-    Tags          map[string]string `json:"tags,omitempty"`
-    Version       *string           `json:"version,omitempty"`
+
+    // The 'description' Field.
+    Description *string `json:"description,omitempty"`
+
+    // The 'displayName' Field.
+    DisplayName *string `json:"displayName,omitempty"`
+
+    // The 'format' Field.
+    Format *Format `json:"format,omitempty"`
+
+    // The 'hash' Field.
+    Hash *string `json:"hash,omitempty"`
+
+    // The 'name' Field.
+    Name *string `json:"name,omitempty"`
+
+    // The 'namespace' Field.
+    Namespace *string `json:"namespace,omitempty"`
+
+    // The 'schemaContent' Field.
+    SchemaContent *string `json:"schemaContent,omitempty"`
+
+    // The 'schemaType' Field.
+    SchemaType *SchemaType `json:"schemaType,omitempty"`
+
+    // The 'tags' Field.
+    Tags map[string]string `json:"tags,omitempty"`
+
+    // The 'version' Field.
+    Version *string `json:"version,omitempty"`
 }
 ```
 
