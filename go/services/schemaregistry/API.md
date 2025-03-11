@@ -52,7 +52,7 @@ const (
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L16-L18>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L16-L21>)
 
 Client represents a client of the schema registry.
 
@@ -63,7 +63,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L30-L34>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L33-L37>)
 
 ```go
 func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOption) (*Client, error)
@@ -72,7 +72,7 @@ func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOpt
 New creates a new schema registry client.
 
 <a name="Client.Close"></a>
-### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L55>)
+### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L58>)
 
 ```go
 func (c *Client) Close()
@@ -99,7 +99,7 @@ func (c *Client) Put(ctx context.Context, content string, format Format, opt ...
 Put adds or updates a schema in the schema registry.
 
 <a name="Client.Start"></a>
-### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L50>)
+### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L53>)
 
 ```go
 func (c *Client) Start(ctx context.Context) error
@@ -108,7 +108,7 @@ func (c *Client) Start(ctx context.Context) error
 Start listening to all underlying MQTT topics.
 
 <a name="ClientOption"></a>
-## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L21>)
+## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L24>)
 
 ClientOption represents a single option for the client.
 
@@ -128,7 +128,7 @@ func WithLogger(logger *slog.Logger) ClientOption
 WithLogger enables logging with the provided slog logger.
 
 <a name="ClientOptions"></a>
-## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L24-L26>)
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L27-L29>)
 
 ClientOptions are the resolved options for the client.
 
@@ -139,7 +139,7 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L60-L63>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L63-L66>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -180,7 +180,7 @@ type GetOptions struct {
 ```
 
 <a name="GetOptions.Apply"></a>
-### func \(\*GetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/get.go#L55>)
+### func \(\*GetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/get.go#L56>)
 
 ```go
 func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
@@ -214,7 +214,7 @@ type PutOptions struct {
 ```
 
 <a name="PutOptions.Apply"></a>
-### func \(\*PutOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L60>)
+### func \(\*PutOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L61>)
 
 ```go
 func (o *PutOptions) Apply(opts []PutOption, rest ...PutOption)
