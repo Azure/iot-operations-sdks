@@ -37,7 +37,7 @@ To facilitate review, following are links to key sections:
 * Using [Message and ErrorMessage](#message-and-errormessage-adjunct-types) adjunct types to define error information for a language-appropriate error type
 * An illustration of [C# code generation and usage](#c-code-generation), including both [server](#c-server-side-code)- and [client](#c-client-side-code)-side code
 * An illustration of [Go code generation and usage](#go-code-generation), including both [server](#go-server-side-code)- and [client](#go-client-side-code)-side code
-* A [brief note](#code-generation-in-other-languages) on code-generation in other languages
+* An illustration of [Rust code generation and usage](#rust-code-generation), including both [server](#rust-server-side-code)- and [client](#rust-client-side-code)-side code
 
 ## MQTT extension, version 3
 
@@ -657,10 +657,246 @@ if err == nil {
 Note that this code calls the standard `Error` handler of the error.
 An alternative way to access this same value is via the `Explanation` property, but the example above illustrates that the standard Go mechanism for conveying error strings is usable.
 
-## Code generation in other languages
+## Rust code generation
 
-Details for code generation in Rust have not yet been worked out.
-The intention is to employ error mechanisms that are standard and conventional for the language, analogous to the mechanisms described above for C# and Go.
-This document will be updated with additional information for Rust as the design is refined.
+The DTDL `Object` with ID `dtmi:com:example:CounterCollection:CounterError;1` will generate a Rust struct named `CounterError`, exactly as before:
+
+```rust
+#[derive(Serialize, Deserialize, Debug, Clone, Builder)]
+pub struct CounterError {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub condition: Option<ConditionSchema>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub explanation: Option<String>,
+}
+```
+
+In addition, because the DTDL `Object` has a cotype of `Error`, implementations of the `Display` and `Error` traits will be generated so that the `CounterError` can be used as an error:
+
+```rust
+impl fmt::Display for CounterError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if let Some(message) = &self.explanation {
+            write!(f, "{message}")
+        } else {
+            write!(f, "CounterError")
+        }
+    }
+}
+
+impl Error for CounterError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        None
+    }
+}
+```
+
+Note that the `fmt` function displays the value of the `CounterError` `explanation` field.
+This code is generated because the "explanation" field in the DTDL `Object` is cotyped `ErrorMessage`.
+
+The [sample model without error info](#sample-model) generates the following signature for the `recv` method of the `IncrementCommandExecutor`:
+
+```rust
+pub async fn recv(&mut self) -> Option<Result<IncrementRequest, AIOProtocolError>> 
+```
+
+And it produces a client-side invocation method with this signature:
+
+```rust
+pub async fn invoke(
+    &self,
+    request: IncrementRequest,
+) -> Result<IncrementResponse, AIOProtocolError>
+```
+
+These signatures remain unchanged when error info is added by replacing the [original model](#sample-model) with the [enhanced model](#enhanced-model).
+
+### Rust Server-side code
+
+Here is an example of server-side user-code that calls `recv` and processes the received request.
+It normally calls the `IncrementResponseBuilder::payload()` method to return a response, but when it encounters a problem, it instead calls `IncrementResponseBuilder::error()`.
+
+```rust
+let request = increment_executor.recv().await.unwrap().unwrap();
+let mut response_builder = IncrementResponseBuilder::default();
+
+let response = match counter_values.get(&request.payload.counter_name) {
+    Some(current_value) => {
+        if *current_value < i32::MAX {
+            let new_value = *current_value + 1;
+            counter_values.insert(request.payload.counter_name.clone(), new_value);
+            response_builder
+                .payload(IncrementResponsePayload {
+                    counter_value: new_value,
+                })
+                .unwrap()
+                .build()
+                .unwrap()
+        } else {
+            response_builder
+                .error(CounterError {
+                    condition: Some(ConditionSchema::CounterOverflow),
+                    explanation: Some(format!(
+                        "Counter {} has saturated; no further increment is possible",
+                        &request.payload.counter_name
+                    )),
+                })
+                .unwrap()
+                .build()
+                .unwrap()
+        }
+    }
+    None => response_builder
+        .error(CounterError {
+            condition: Some(ConditionSchema::CounterNotFound),
+            explanation: Some(format!(
+                "Counter {} not found in counter collection",
+                &request.payload.counter_name
+            )),
+        })
+        .unwrap()
+        .build()
+        .unwrap(),
+};
+
+request.complete(response).await.unwrap();
+```
+
+The server-side `IncrementResponseBuilder` generated from the [original model](#sample-model) provides a `payload()` method that passes the user's payload directly to an embedded builder that accepts the response:
+
+```rust
+pub fn payload(
+    &mut self,
+    payload: IncrementResponsePayload,
+) -> Result<&mut Self, AIOProtocolError> {
+    self.inner_builder.payload(payload)?;
+    Ok(self)
+}
+```
+
+For the [enhanced model](#enhanced-model), the `IncrementResponseBuilder` provides a `payload()` method that wraps the user's payload in a generated response object, and it also provides an `error()` method that wraps the user's error information in this same type of object.
+The object is serialized and returned to the client:
+
+```rust
+pub fn payload(
+    &mut self,
+    payload: IncrementResponsePayload,
+) -> Result<&mut Self, AIOProtocolError> {
+    self.inner_builder.payload(IncrementResponseSchema {
+        counter_value: Some(payload.counter_value),
+        increment_error: None,
+    })?;
+    Ok(self)
+}
+
+pub fn error(&mut self, error: CounterError) -> Result<&mut Self, AIOProtocolError> {
+    self.inner_builder.payload(IncrementResponseSchema {
+        counter_value: None,
+        increment_error: Some(error),
+    })?;
+    Ok(self)
+}
+```
+
+### Rust Client-side code
+
+Generated client-side code checks whether the response received from the server contains a result counter value or an increment error, and it returns the `Result` via the `Ok` variant or the `Err` variant as appropriate.
+
+```rust
+pub async fn invoke(
+    &self,
+    request: IncrementRequest,
+) -> Result<IncrementResponse, AIOProtocolError> {
+    let response = self.0.invoke(request).await;
+    match response {
+        Ok(response) => {
+            if let Some(increment_error) = response.payload.increment_error {
+                Err(get_aio_protocol_error(
+                    increment_error.explanation.clone(),
+                    AIOProtocolErrorKind::ExecutionException,
+                    Some(Box::new(increment_error)),
+                ))
+            } else if let Some(counter_value) = response.payload.counter_value {
+                Ok(IncrementResponse {
+                    payload: IncrementResponsePayload { counter_value },
+                    content_type: response.content_type,
+                    format_indicator: response.format_indicator,
+                    custom_user_data: response.custom_user_data,
+                    timestamp: response.timestamp,
+                })
+            } else {
+                Err(get_aio_protocol_error(
+                    Some(
+                        "Command response has neither normal nor error payload content"
+                            .to_string(),
+                    ),
+                    AIOProtocolErrorKind::PayloadInvalid,
+                    None,
+                ))
+            }
+        }
+        Err(err) => Err(err),
+    }
+}
+```
+
+The generated `CounterError` is embedded in the `nested_error` field of an `AIOProtocolError` whose `kind` is set to `ExecutionException`:
+
+```rust
+fn get_aio_protocol_error(
+    message: Option<String>,
+    kind: AIOProtocolErrorKind,
+    nested_error: Option<Box<dyn Error + Send + Sync>>,
+) -> AIOProtocolError {
+    AIOProtocolError {
+        message,
+        kind,
+        in_application: true,
+        is_shallow: false,
+        is_remote: true,
+        nested_error,
+        http_status_code: None,
+        header_name: None,
+        header_value: None,
+        timeout_name: None,
+        timeout_value: None,
+        property_name: None,
+        property_value: None,
+        command_name: Some("increment".to_string()),
+        protocol_version: None,
+        supported_protocol_major_versions: None,
+    }
+}
+```
+
+> Design alternative: Instead of embedding the `CounterError` in an `AIOProtocolError`, it we could change the signature of `invoke()` to return a `Result<Result<IncrementResponse, CounterError>, AIOProtocolError>`.
+
+Here is example client-side code that invokes the command and is prepared for an `Err` variant that may contain a nested `CounterError`:
+
+```rust
+match increment_response {
+    Ok(increment_response) => {
+        print!(
+            "Increment response = {}",
+            increment_response.payload.counter_value
+        );
+    }
+    Err(err) => {
+        if err.kind == AIOProtocolErrorKind::ExecutionException && err.in_application {
+            if let Some(nested_error) = err.nested_error {
+                print!("Increment error = {}", nested_error);
+                if let Some(counter_error) = nested_error.downcast_ref::<CounterError>() {
+                    print!("error condition = {:?}", counter_error.condition);
+                }
+            }
+        } else {
+            print!("Protocol error = {err:?}");
+        }
+    }
+}
+```
 
 [1]: ./0015-remove-422-status-code.md
