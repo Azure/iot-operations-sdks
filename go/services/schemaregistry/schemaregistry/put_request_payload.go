@@ -2,5 +2,7 @@
 package schemaregistry
 
 type PutRequestPayload struct {
+
+	// The Command request argument.
 	PutSchemaRequest PutRequestSchema `json:"putSchemaRequest"`
 }

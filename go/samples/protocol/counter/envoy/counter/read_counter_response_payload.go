@@ -2,5 +2,7 @@
 package counter
 
 type ReadCounterResponsePayload struct {
+
+	// The Command response argument.
 	CounterResponse int32 `json:"CounterResponse"`
 }
