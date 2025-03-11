@@ -247,7 +247,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data's` keys is a reserved Cloud Event key
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
-    ///     - `message_expiry` is not zero or > `u32::max`
+    ///     - `message_expiry` is > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
