@@ -3,9 +3,9 @@ package schemaregistry
 
 type GetRequestSchema struct {
 
-    // The 'name' Field.
+	// The 'name' Field.
 	Name *string `json:"name,omitempty"`
 
-    // The 'version' Field.
+	// The 'version' Field.
 	Version *string `json:"version,omitempty"`
 }

@@ -3,24 +3,24 @@ package schemaregistry
 
 type PutRequestSchema struct {
 
-    // The 'description' Field.
+	// The 'description' Field.
 	Description *string `json:"description,omitempty"`
 
-    // The 'displayName' Field.
+	// The 'displayName' Field.
 	DisplayName *string `json:"displayName,omitempty"`
 
-    // The 'format' Field.
+	// The 'format' Field.
 	Format *Format `json:"format,omitempty"`
 
-    // The 'schemaContent' Field.
+	// The 'schemaContent' Field.
 	SchemaContent *string `json:"schemaContent,omitempty"`
 
-    // The 'schemaType' Field.
+	// The 'schemaType' Field.
 	SchemaType *SchemaType `json:"schemaType,omitempty"`
 
-    // The 'tags' Field.
+	// The 'tags' Field.
 	Tags map[string]string `json:"tags,omitempty"`
 
-    // The 'version' Field.
+	// The 'version' Field.
 	Version *string `json:"version,omitempty"`
 }

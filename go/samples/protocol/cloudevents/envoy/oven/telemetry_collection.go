@@ -3,12 +3,12 @@ package oven
 
 type TelemetryCollection struct {
 
-    // The 'externalTemperature' Telemetry.
+	// The 'externalTemperature' Telemetry.
 	ExternalTemperature *float64 `json:"externalTemperature,omitempty"`
 
-    // The 'internalTemperature' Telemetry.
+	// The 'internalTemperature' Telemetry.
 	InternalTemperature *float64 `json:"internalTemperature,omitempty"`
 
-    // The 'operationSummary' Telemetry.
+	// The 'operationSummary' Telemetry.
 	OperationSummary *OperationSummarySchema `json:"operationSummary,omitempty"`
 }

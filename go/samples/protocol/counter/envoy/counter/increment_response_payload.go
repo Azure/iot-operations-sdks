@@ -3,6 +3,6 @@ package counter
 
 type IncrementResponsePayload struct {
 
-    // The Command response argument.
+	// The Command response argument.
 	CounterResponse int32 `json:"CounterResponse"`
 }

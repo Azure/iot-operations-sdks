@@ -3,6 +3,6 @@ package counter
 
 type TelemetryCollection struct {
 
-    // The current value of the counter.
+	// The current value of the counter.
 	CounterValue *int32 `json:"CounterValue,omitempty"`
 }
