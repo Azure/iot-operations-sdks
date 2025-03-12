@@ -182,7 +182,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, OptionsBuilder, RequestBuilder, CommandResponse};
+/// # use azure_iot_operations_protocol::rpc::{command_invoker, CommandInvoker};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -194,7 +194,7 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let invoker_options = OptionsBuilder::default()
+/// let invoker_options = command_invoker::OptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
@@ -204,7 +204,7 @@ pub struct Options {
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
 /// let command_invoker: CommandInvoker<Vec<u8>, Vec<u8>, _> = CommandInvoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
-/// let request = RequestBuilder::default()
+/// let request = command_invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))

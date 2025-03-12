@@ -248,7 +248,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, OptionsBuilder};
+/// # use azure_iot_operations_protocol::telemetry::{telemetry_receiver, TelemetryReceiver};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -260,7 +260,7 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let receiver_options = OptionsBuilder::default()
+/// let receiver_options = telemetry_receiver::OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();

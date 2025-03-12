@@ -5,24 +5,21 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandRequest, CommandResponse,
-    CommandResponseBuilder, CommandResponseBuilderError,
-};
+use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type ResetRequest = CommandRequest<EmptyJson, EmptyJson>;
-pub type ResetResponse = CommandResponse<EmptyJson>;
-pub type ResetResponseBuilderError = CommandResponseBuilderError;
+pub type ResetRequest = command_executor::Request<EmptyJson, EmptyJson>;
+pub type ResetResponse = command_executor::Response<EmptyJson>;
+pub type ResetResponseBuilderError = command_executor::ResponseBuilderError;
 
 /// Builder for [`ResetResponse`]
 #[derive(Default)]
 pub struct ResetResponseBuilder {
-    inner_builder: CommandResponseBuilder<EmptyJson>,
+    inner_builder: command_executor::ResponseBuilder<EmptyJson>,
 }
 
 impl ResetResponseBuilder {
@@ -64,7 +61,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
+        let mut executor_options_builder = command_executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
         }

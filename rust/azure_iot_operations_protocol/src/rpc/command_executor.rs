@@ -314,7 +314,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, OptionsBuilder, CommandResponse, ResponseBuilder, CommandRequest};
+/// # use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -326,14 +326,14 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let executor_options = OptionsBuilder::default()
+/// let executor_options = command_executor::OptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
 /// let mut command_executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
 /// // let request = command_executor.recv().await.unwrap();
-/// // let response = ResponseBuilder::default()
+/// // let response = command_executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
 ///  // .build().unwrap();
 /// // let request.complete(response).await.unwrap();

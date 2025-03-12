@@ -6,24 +6,21 @@ use std::time::Duration;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::rpc::command_invoker::{
-    CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
-    CommandRequestBuilderError, CommandResponse,
-};
+use azure_iot_operations_protocol::rpc::{command_invoker, CommandInvoker};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type ResetRequest = CommandRequest<EmptyJson>;
-pub type ResetResponse = CommandResponse<EmptyJson>;
-pub type ResetRequestBuilderError = CommandRequestBuilderError;
+pub type ResetRequest = command_invoker::Request<EmptyJson>;
+pub type ResetResponse = command_invoker::Response<EmptyJson>;
+pub type ResetRequestBuilderError = command_invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`ResetRequest`]
 pub struct ResetRequestBuilder {
-    inner_builder: CommandRequestBuilder<EmptyJson>,
+    inner_builder: command_invoker::RequestBuilder<EmptyJson>,
     set_executor_id: bool,
     topic_tokens: HashMap<String, String>,
 }
@@ -97,7 +94,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        let mut invoker_options_builder = command_invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
         }

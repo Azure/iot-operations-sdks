@@ -7,10 +7,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::command_invoker::{
-    CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
-    CommandRequestBuilderError, CommandResponse,
-};
+use azure_iot_operations_protocol::rpc::{command_invoker, CommandInvoker};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::put_request_payload::PutRequestPayload;
@@ -18,14 +15,14 @@ use super::put_response_payload::PutResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type PutRequest = CommandRequest<PutRequestPayload>;
-pub type PutResponse = CommandResponse<PutResponsePayload>;
-pub type PutRequestBuilderError = CommandRequestBuilderError;
+pub type PutRequest = command_invoker::Request<PutRequestPayload>;
+pub type PutResponse = command_invoker::Response<PutResponsePayload>;
+pub type PutRequestBuilderError = command_invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`PutRequest`]
 pub struct PutRequestBuilder {
-    inner_builder: CommandRequestBuilder<PutRequestPayload>,
+    inner_builder: command_invoker::RequestBuilder<PutRequestPayload>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -93,7 +90,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        let mut invoker_options_builder = command_invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
         }

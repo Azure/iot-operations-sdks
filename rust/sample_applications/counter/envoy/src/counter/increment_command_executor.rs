@@ -6,10 +6,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandRequest, CommandResponse,
-    CommandResponseBuilder, CommandResponseBuilderError,
-};
+use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::increment_request_payload::IncrementRequestPayload;
@@ -17,14 +14,15 @@ use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type IncrementRequest = CommandRequest<IncrementRequestPayload, IncrementResponsePayload>;
-pub type IncrementResponse = CommandResponse<IncrementResponsePayload>;
-pub type IncrementResponseBuilderError = CommandResponseBuilderError;
+pub type IncrementRequest =
+    command_executor::Request<IncrementRequestPayload, IncrementResponsePayload>;
+pub type IncrementResponse = command_executor::Response<IncrementResponsePayload>;
+pub type IncrementResponseBuilderError = command_executor::ResponseBuilderError;
 
 /// Builder for [`IncrementResponse`]
 #[derive(Default)]
 pub struct IncrementResponseBuilder {
-    inner_builder: CommandResponseBuilder<IncrementResponsePayload>,
+    inner_builder: command_executor::ResponseBuilder<IncrementResponsePayload>,
 }
 
 impl IncrementResponseBuilder {
@@ -78,7 +76,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
+        let mut executor_options_builder = command_executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
         }

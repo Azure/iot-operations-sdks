@@ -9,7 +9,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 <# if (this.respSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>
-use azure_iot_operations_protocol::rpc::command_executor::{command_executor, CommandExecutor};
+use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
 use azure_iot_operations_protocol::application::ApplicationContext;
 <# if (this.ttl != null) { #>
 use iso8601_duration;

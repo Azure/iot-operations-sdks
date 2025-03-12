@@ -6,8 +6,8 @@ use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    TelemetryMessage as TelemetryMessageBase, TelemetryReceiver as TelemetryReceiverBase,
-    TelemetryReceiverOptionsBuilder as TelemetryReceiverOptionsBaseBuilder,
+    Message as TelemetryMessageBase, OptionsBuilder as TelemetryReceiverOptionsBaseBuilder,
+    TelemetryReceiver as TelemetryReceiverBase,
 };
 
 use super::super::common_types::common_options::TelemetryOptions;
