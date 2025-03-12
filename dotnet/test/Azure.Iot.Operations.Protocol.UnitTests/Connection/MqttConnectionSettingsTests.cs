@@ -166,10 +166,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "TcpPort=2323";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("HostName", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -182,10 +180,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=me;TcpPort=2323;SatAuthFile=my/token;PasswordFile=Connection/TestSdkLitePwd.txt";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("SatAuthFile", ex.PropertyName);
             Assert.Equal("my/token", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -198,10 +194,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=me;TcpPort=2323;SessionExpiry=200secs";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("SessionExpiry", ex.PropertyName);
             Assert.Equal("200secs", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -280,10 +274,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=localhost;KeyFile=TestSdkLiteCertKey.txt";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("CertFile and KeyFile", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -296,10 +288,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=foo;KeepAlive=12min";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("KeepAlive", ex.PropertyName);
             Assert.Equal("12min", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -312,10 +302,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=foo;TcpPort=something";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("TcpPort", ex.PropertyName);
             Assert.Equal("something", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -328,10 +316,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=foo;CleanStart=something";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("CleanStart", ex.PropertyName);
             Assert.Equal("something", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -423,10 +409,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             LoadEnvVarsFromFile(envPath);
             var ex = Assert.Throws<AkriMqttException>(MqttConnectionSettings.FromEnvVars);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("AIO_BROKER_HOSTNAME", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -444,10 +428,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             LoadEnvVarsFromFile(envPath);
             var ex = Assert.Throws<AkriMqttException>(MqttConnectionSettings.FromEnvVars);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("TcpPort", ex.PropertyName);
             Assert.Null(ex.CorrelationId);
             Assert.Equal("Invalid settings in provided Environment Variables: TcpPort=false. Expecting an integer value. (Parameter 'TcpPort')", ex.Message);

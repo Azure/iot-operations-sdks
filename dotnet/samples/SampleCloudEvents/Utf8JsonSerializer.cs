@@ -14,7 +14,7 @@ namespace SampleCloudEvents
 
     public class Utf8JsonSerializer : IPayloadSerializer
     {
-        protected static readonly JsonSerializerOptions jsonSerializerOptions = new()
+        protected static readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
@@ -42,7 +42,6 @@ namespace SampleCloudEvents
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     HeaderName = "Content Type",
                     HeaderValue = contentType,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };
@@ -61,7 +60,7 @@ namespace SampleCloudEvents
                 }
 
                 Utf8JsonReader reader = new(payload);
-                return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
+                return JsonSerializer.Deserialize<T>(ref reader, _jsonSerializerOptions)!;
             }
             catch (Exception)
             {
@@ -79,7 +78,7 @@ namespace SampleCloudEvents
                     return new(ReadOnlySequence<byte>.Empty, null, 0);
                 }
 
-                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
+                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, _jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {

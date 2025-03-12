@@ -92,7 +92,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, _correlationData01, _requestPayload01, _responseMessage01, isIdempotent, _futureExpirationTime, _cmdExecutionDuration));
             Assert.Equal(AkriMqttErrorKind.StateInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
         }
@@ -116,7 +115,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             bool isIdempotent = true;
             var ex = await Assert.ThrowsAsync<AkriMqttException>(() => commandResponseCache.StoreAsync(CommandName1, InvokerId1, MqttTopic1, _correlationData01, _requestPayload01, _responseMessage01, isIdempotent, _futureExpirationTime, _cmdExecutionDuration));
             Assert.Equal(AkriMqttErrorKind.StateInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
         }

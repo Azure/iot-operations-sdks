@@ -16,13 +16,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
         where T1 : IMessage<T1>, new()
         where T2 : IMessage<T2>, new()
     {
-        private readonly MessageParser<T1> messageParserT1;
-        private readonly MessageParser<T2> messageParserT2;
+        private readonly MessageParser<T1> _messageParserT1;
+        private readonly MessageParser<T2> _messageParserT2;
 
         public ProtobufSerializer()
         {
-            messageParserT1 = new MessageParser<T1>(() => new T1());
-            messageParserT2 = new MessageParser<T2>(() => new T2());
+            _messageParserT1 = new MessageParser<T1>(() => new T1());
+            _messageParserT2 = new MessageParser<T2>(() => new T2());
         }
 
         public const string ContentType = "application/protobuf";
@@ -39,7 +39,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     HeaderName = "Content Type",
                     HeaderValue = contentType,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };
@@ -49,11 +48,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.protobuf
             {
                 if (typeof(T) == typeof(T1))
                 {
-                    return (messageParserT1.ParseFrom(payload) as T)!;
+                    return (_messageParserT1.ParseFrom(payload) as T)!;
                 }
                 else if (typeof(T) == typeof(T2))
                 {
-                    return (messageParserT2.ParseFrom(payload) as T)!;
+                    return (_messageParserT2.ParseFrom(payload) as T)!;
                 }
                 else
                 {
