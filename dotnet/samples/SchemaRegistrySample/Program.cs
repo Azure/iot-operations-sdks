@@ -41,7 +41,6 @@ await using SchemaRegistryClient schemaRegistryClient = new(applicationContext, 
 await mqttClient.ConnectAsync(MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!));
 
 SchemaInfo? schemaInfo = await schemaRegistryClient.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07);
-// "9045385BAD270EE5840D1F88F202B21444920F7A5486B8B69ED86DDC0A30E936"
 SchemaInfo? resolvedSchema = await schemaRegistryClient.GetAsync(schemaInfo?.Name!);
 
 if (resolvedSchema == null)

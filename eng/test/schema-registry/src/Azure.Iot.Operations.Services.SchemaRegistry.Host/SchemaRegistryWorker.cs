@@ -17,7 +17,7 @@ public class SchemaRegistryWorker(MqttSessionClient mqttClient, IServiceProvider
 
     private async Task ConnectAsync(CancellationToken stoppingToken)
     {
-        string cs = configuration.GetConnectionString("Mq")! + $";ClientId={Environment.MachineName}";
+        string cs = configuration.GetConnectionString("Mq");
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
 

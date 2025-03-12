@@ -10,16 +10,12 @@ namespace Azure.Iot.Operations.Services.IntegrationTest;
 
 public class ClientFactory
 {
-    public static async Task<MqttSessionClient> CreateAndConnectClientAsyncFromEnvAsync(string clientId)
+    public static async Task<MqttSessionClient> CreateAndConnectClientAsyncFromEnvAsync()
     {
-        if (string.IsNullOrEmpty(clientId))
-        {
-            clientId = Guid.NewGuid().ToString();
-        }
-
         Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
-        string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")};ClientId={clientId}";
+        string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
         MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+        mcs.ClientId += Guid.NewGuid();
         MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
         {
             // This retry policy prevents the client from retrying forever
