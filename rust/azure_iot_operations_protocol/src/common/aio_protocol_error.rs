@@ -543,12 +543,16 @@ impl AIOProtocolError {
         protocol_version: String,
         supported_request_protocol_major_versions: Vec<u16>,
         command_name: Option<String>,
+        is_shallow: bool,
+        is_remote: bool,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::UnsupportedVersion,
-            is_shallow: false,
-            is_remote: true,
+            // is_shallow: false,
+            // is_remote: true,
+            is_shallow: is_shallow,
+            is_remote: is_remote,
             nested_error: None,
             header_name: None,
             header_value: None,

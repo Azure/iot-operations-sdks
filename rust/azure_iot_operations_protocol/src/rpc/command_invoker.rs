@@ -875,6 +875,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 protocol_version.to_string(),
                 SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
                 Some(command_name),
+                false,
+                false,
             ));
         }
     }
@@ -885,6 +887,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             response_protocol_version.to_string(),
             SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
             Some(command_name),
+            false,
+            false,
         ));
     }
 
