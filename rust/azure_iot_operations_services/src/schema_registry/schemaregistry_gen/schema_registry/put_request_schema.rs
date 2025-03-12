@@ -15,40 +15,40 @@ use super::schema_type::SchemaType;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct PutRequestSchema {
-    /// The 'description' Field.
+    /// Human-readable description of the schema.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub description: Option<String>,
 
-    /// The 'displayName' Field.
+    /// Human-readable display name.
     #[serde(rename = "displayName")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub display_name: Option<String>,
 
-    /// The 'format' Field.
+    /// Format of the schema.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub format: Option<Format>,
 
-    /// The 'schemaContent' Field.
+    /// Content stored in the schema.
     #[serde(rename = "schemaContent")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub schema_content: Option<String>,
 
-    /// The 'schemaType' Field.
+    /// Type of the schema.
     #[serde(rename = "schemaType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub schema_type: Option<SchemaType>,
 
-    /// The 'tags' Field.
+    /// Schema tags.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub tags: Option<HashMap<String, String>>,
 
-    /// The 'version' Field.
+    /// Version of the schema. Allowed between 0-9.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub version: Option<String>,
