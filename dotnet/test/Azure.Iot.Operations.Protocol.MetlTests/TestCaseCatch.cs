@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 "unknown error" => AkriMqttErrorKind.UnknownError,
                 "execution error" => AkriMqttErrorKind.ExecutionException,
                 "mqtt error" => AkriMqttErrorKind.MqttError,
-                "version not supported" => AkriMqttErrorKind.UnsupportedVersion,
+                "unsupported version" => AkriMqttErrorKind.UnsupportedVersion,
                 _ => throw new Exception($"unrecognized error kind string \"{ErrorKind}\""),
             };
         }
