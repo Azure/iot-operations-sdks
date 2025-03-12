@@ -541,7 +541,7 @@ impl AIOProtocolError {
     pub fn new_unsupported_version_error(
         message: Option<String>,
         protocol_version: String,
-        supported_request_protocol_major_versions: Vec<u16>,
+        supported_protocol_major_versions: Vec<u16>,
         command_name: Option<String>,
         is_shallow: bool,
         is_remote: bool,
@@ -560,7 +560,7 @@ impl AIOProtocolError {
             property_value: None,
             command_name,
             protocol_version: Some(protocol_version),
-            supported_protocol_major_versions: Some(supported_request_protocol_major_versions),
+            supported_protocol_major_versions: Some(supported_protocol_major_versions),
         };
         e.ensure_error_message();
         e
