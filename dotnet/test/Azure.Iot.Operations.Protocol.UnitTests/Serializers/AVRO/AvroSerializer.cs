@@ -18,21 +18,21 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
         where T1 : class, ISpecificRecord, new()
         where T2 : class, ISpecificRecord, new()
     {
-        private readonly SpecificDatumReader<T1> _datumReader1;
-        private readonly SpecificDatumWriter<T1> _datumWriter1;
+        private readonly SpecificDatumReader<T1> datumReader1;
+        private readonly SpecificDatumWriter<T1> datumWriter1;
 
-        private readonly SpecificDatumReader<T2> _datumReader2;
-        private readonly SpecificDatumWriter<T2> _datumWriter2;
+        private readonly SpecificDatumReader<T2> datumReader2;
+        private readonly SpecificDatumWriter<T2> datumWriter2;
 
         public AvroSerializer()
         {
             Schema schema1 = new T1().Schema;
-            _datumReader1 = new SpecificDatumReader<T1>(schema1, schema1);
-            _datumWriter1 = new SpecificDatumWriter<T1>(schema1);
+            datumReader1 = new SpecificDatumReader<T1>(schema1, schema1);
+            datumWriter1 = new SpecificDatumWriter<T1>(schema1);
 
             Schema schema2 = new T2().Schema;
-            _datumReader2 = new SpecificDatumReader<T2>(schema2, schema2);
-            _datumWriter2 = new SpecificDatumWriter<T2>(schema2);
+            datumReader2 = new SpecificDatumReader<T2>(schema2, schema2);
+            datumWriter2 = new SpecificDatumWriter<T2>(schema2);
         }
 
         public const string ContentType = "application/avro";
@@ -73,13 +73,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     if (typeof(T) == typeof(T1))
                     {
                         T1 obj1 = new();
-                        _datumReader1.Read(obj1, avroDecoder);
+                        datumReader1.Read(obj1, avroDecoder);
                         return (obj1 as T)!;
                     }
                     else if (typeof(T) == typeof(T2))
                     {
                         T2 obj2 = new();
-                        _datumReader2.Read(obj2, avroDecoder);
+                        datumReader2.Read(obj2, avroDecoder);
                         return (obj2 as T)!;
                     }
                     else
@@ -110,11 +110,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
 
                     if (payload is T1 payload1)
                     {
-                        _datumWriter1.Write(payload1, avroEncoder);
+                        datumWriter1.Write(payload1, avroEncoder);
                     }
                     else if (payload is T2 payload2)
                     {
-                        _datumWriter2.Write(payload2, avroEncoder);
+                        datumWriter2.Write(payload2, avroEncoder);
                     }
                     else
                     {
