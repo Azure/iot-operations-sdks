@@ -542,18 +542,22 @@ where
         let request_topic = self
             .request_topic_pattern
             .as_publish_topic(&request.topic_tokens)
-            .map_err(|e| AIOProtocolError::config_invalid_from_topic_pattern_error(
-                e,
-                "request_topic_pattern",
-            ))?;
+            .map_err(|e| {
+                AIOProtocolError::config_invalid_from_topic_pattern_error(
+                    e,
+                    "request_topic_pattern",
+                )
+            })?;
         // Get response topic. Validates dynamic topic tokens
         let response_topic = self
             .response_topic_pattern
             .as_publish_topic(&request.topic_tokens)
-            .map_err(|e| AIOProtocolError::config_invalid_from_topic_pattern_error(
-                e,
-                "response_topic_pattern",
-            ))?;
+            .map_err(|e| {
+                AIOProtocolError::config_invalid_from_topic_pattern_error(
+                    e,
+                    "response_topic_pattern",
+                )
+            })?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
