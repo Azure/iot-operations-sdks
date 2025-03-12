@@ -106,5 +106,3 @@ dotnet_naming_rule.public_members_must_be_capitalized.severity = error
 #### Core EditorConfig Options ####
 
 file_header_template = Copyright (c) Microsoft Corporation.\nLicensed under the MIT License.
-
-dotnet_diagnostic.CA1701.severity = none
