@@ -253,6 +253,7 @@ func (l *Lock[K, V]) Release(
 
 	if l.done != nil {
 		l.done()
+		l.done = nil
 	}
 
 	// Reset the token.
