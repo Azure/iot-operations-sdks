@@ -116,7 +116,7 @@ func (l *Lock[K, V]) Edit(ctx context.Context, key K, duration time.Duration, ed
 Edit a key under the protection of this lock.
 
 <a name="Lock[K, V].Holder"></a>
-### func \(\*Lock\[K, V\]\) [Holder](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L273-L276>)
+### func \(\*Lock\[K, V\]\) [Holder](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L274-L277>)
 
 ```go
 func (l *Lock[K, V]) Holder(ctx context.Context, opt ...Option) (string, bool, error)
@@ -125,7 +125,7 @@ func (l *Lock[K, V]) Holder(ctx context.Context, opt ...Option) (string, bool, e
 Holder gets the current holder of the lock and an indicator of whether the lock is currently held.
 
 <a name="Lock[K, V].Observe"></a>
-### func \(\*Lock\[K, V\]\) [Observe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L311>)
+### func \(\*Lock\[K, V\]\) [Observe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L312>)
 
 ```go
 func (l *Lock[K, V]) Observe() (<-chan Change, func())
@@ -134,7 +134,7 @@ func (l *Lock[K, V]) Observe() (<-chan Change, func())
 Observe requests a lock holder change notification channel for this lock. It returns the channel and a function to remove and close that channel. Note that ObserveStart must be called to actually start observing \(though changes may be received on this channel if ObserveStart had already been called previously\).
 
 <a name="Lock[K, V].ObserveStart"></a>
-### func \(\*Lock\[K, V\]\) [ObserveStart](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L289>)
+### func \(\*Lock\[K, V\]\) [ObserveStart](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L290>)
 
 ```go
 func (l *Lock[K, V]) ObserveStart(ctx context.Context, opt ...Option) error
@@ -143,7 +143,7 @@ func (l *Lock[K, V]) ObserveStart(ctx context.Context, opt ...Option) error
 ObserveStart initializes observation of lock holder changes. It should be paired with a call to ObserveStop.
 
 <a name="Lock[K, V].ObserveStop"></a>
-### func \(\*Lock\[K, V\]\) [ObserveStop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L299>)
+### func \(\*Lock\[K, V\]\) [ObserveStop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lock.go#L300>)
 
 ```go
 func (l *Lock[K, V]) ObserveStop(ctx context.Context, opt ...Option) error
