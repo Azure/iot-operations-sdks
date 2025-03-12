@@ -64,5 +64,5 @@ func (to *Timeout) Context(
 }
 
 func (to *Timeout) MessageExpiry() uint32 {
-	return uint32(to.Seconds())
+	return uint32(math.Ceil(to.Seconds()))
 }

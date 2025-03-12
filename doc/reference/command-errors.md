@@ -145,7 +145,7 @@ The following table illustrates, for each error condition, which Akri.Mqtt error
 
 | Error Condition | Error Kind |
 | --- | --- |
-| command timeout is less than 1ms (including negative or zero) or greater than u32 max | invalid configuration |
+| command timeout is zero, negative, or greater than u32 max | invalid argument |
 | topic pattern contains {executorId} token but no executor ID supplied | invalid configuration |
 | command times out | timeout |
 | command is canceled | cancellation |

@@ -24,11 +24,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         public MqttClientOptions(MqttConnectionSettings cs)
         {
-            if (cs.ClientId != null)
-            {
-                ClientId = cs.ClientId;
-            }
-
+            ClientId = cs.ClientId;
             KeepAlivePeriod = cs.KeepAlive;
             ProtocolVersion = MqttProtocolVersion.V500;
             CleanSession = cs.CleanStart;

@@ -16,6 +16,9 @@ type (
 	// Client represents a client of the schema registry.
 	Client struct {
 		client *schemaregistry.SchemaRegistryClient
+
+		// TODO: Remove when no longer necessary for compat.
+		invID string
 	}
 
 	// ClientOption represents a single option for the client.
@@ -51,7 +54,7 @@ func New(
 	if err != nil {
 		return nil, err
 	}
-	return &Client{sr}, nil
+	return &Client{sr, client.ID()}, nil
 }
 
 // Start listening to all underlying MQTT topics.

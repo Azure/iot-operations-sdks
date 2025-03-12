@@ -184,6 +184,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     /// Message expiry for the message. Will be used as the `message_expiry_interval` in the MQTT
     /// properties. Default is 10 seconds.
     #[builder(default = "Duration::from_secs(10)")]
+    #[builder(setter(custom))]
     message_expiry: Duration,
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
@@ -227,13 +228,26 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
         }
     }
 
+    /// Set the message expiry for the telemetry.
+    ///
+    /// Note: Will be rounded up to the nearest second.
+    pub fn message_expiry(&mut self, message_expiry: Duration) -> &mut Self {
+        self.message_expiry = Some(if message_expiry.subsec_nanos() != 0 {
+            Duration::from_secs(message_expiry.as_secs().saturating_add(1))
+        } else {
+            message_expiry
+        });
+
+        self
+    }
+
     /// Validate the telemetry message.
     ///
     /// # Errors
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data's` keys is a reserved Cloud Event key
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
-    ///     - `message_expiry` is not zero and < 1 ms or > `u32::max`
+    ///     - `message_expiry` is > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
@@ -247,10 +261,6 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
             validate_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.message_expiry {
-            // If timeout is set, it must be at least 1 ms. If zero, message will never expire.
-            if !timeout.is_zero() && timeout.as_millis() < 1 {
-                return Err("Timeout must be at least 1 ms if it is greater than 0".to_string());
-            }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
                 Ok(_) => {}
                 Err(_) => {
@@ -655,8 +665,6 @@ mod tests {
 
     /// Tests failure: Timeout specified as > u32::max (invalid value) on send and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "send_timeout_u32_max")]
-    /// Tests failure: Timeout specified as < 1ms (invalid value) on send and an `ArgumentInvalid` error is returned
-    #[test_case(Duration::from_nanos(50); "send_timeout_less_1_ms")]
     fn test_send_timeout_invalid_value(timeout: Duration) {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
