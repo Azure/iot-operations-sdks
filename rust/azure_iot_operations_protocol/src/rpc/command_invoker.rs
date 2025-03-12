@@ -542,12 +542,22 @@ where
         let request_topic = self
             .request_topic_pattern
             .as_publish_topic(&request.topic_tokens)
-            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
+            .map_err(|e| {
+                AIOProtocolError::config_invalid_from_topic_pattern_error(
+                    e,
+                    "request_topic_pattern",
+                )
+            })?;
         // Get response topic. Validates dynamic topic tokens
         let response_topic = self
             .response_topic_pattern
             .as_publish_topic(&request.topic_tokens)
-            .map_err(|e| AIOProtocolError::argument_invalid_from_topic_pattern_error(&e))?;
+            .map_err(|e| {
+                AIOProtocolError::config_invalid_from_topic_pattern_error(
+                    e,
+                    "response_topic_pattern",
+                )
+            })?;
 
         // Create correlation id
         let correlation_id = Uuid::new_v4();
@@ -858,23 +868,27 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         if let Some(response_version) = ProtocolVersion::parse_protocol_version(protocol_version) {
             response_protocol_version = response_version;
         } else {
-            return Err(AIOProtocolError::new_unsupported_response_version_error(
+            return Err(AIOProtocolError::new_unsupported_version_error(
                 Some(format!(
                     "Received a response with an unparsable protocol version number: {protocol_version}"
                 )),
                 protocol_version.to_string(),
                 SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
                 Some(command_name),
+                false,
+                false,
             ));
         }
     }
     // Check that the version (or the default version if one isn't provided) is supported
     if !response_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-        return Err(AIOProtocolError::new_unsupported_response_version_error(
+        return Err(AIOProtocolError::new_unsupported_version_error(
             None,
             response_protocol_version.to_string(),
             SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
             Some(command_name),
+            false,
+            false,
         ));
     }
 
@@ -1045,7 +1059,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     response_error.property_value = invalid_property_value.map(Value::String);
                 }
                 StatusCode::VersionNotSupported => {
-                    response_error.kind = AIOProtocolErrorKind::UnsupportedRequestVersion;
+                    response_error.kind = AIOProtocolErrorKind::UnsupportedVersion;
                 }
             }
             response_error.ensure_error_message();
@@ -1685,7 +1699,7 @@ mod tests {
         match response {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
@@ -1738,7 +1752,7 @@ mod tests {
         match response {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
+                assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
