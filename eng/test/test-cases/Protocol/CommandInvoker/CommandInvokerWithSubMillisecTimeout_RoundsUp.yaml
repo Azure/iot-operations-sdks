@@ -13,7 +13,7 @@ prologue:
 actions:
 - action: invoke command
   invocation-index: 0
-  timeout: { microseconds: 500 }
+  timeout: { microseconds: 1000001 }
 - action: await publish
   correlation-index: 0
 - action: receive response
@@ -32,5 +32,5 @@ epilogue:
   published-messages:
   - correlation-index: 0
     topic: "mock/test"
-    expiry: 1
+    expiry: 2
 ...

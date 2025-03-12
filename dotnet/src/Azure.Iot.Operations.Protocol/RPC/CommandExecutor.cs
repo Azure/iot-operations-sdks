@@ -133,7 +133,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     Trace.TraceWarning($"Command '{_commandName}' header validation failed. Status message: {statusMessage}");
 
                     await GetDispatcher()(
-                        status != null ? async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status, statusMessage, null, null, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion).ConfigureAwait(false); }
+                        status != null ? async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status, statusMessage, null, null, false, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion).ConfigureAwait(false); }
                     : null,
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     return;
@@ -210,7 +210,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
 
                     await GetDispatcher()(
-                        async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, ex.Message, null, null, amex?.HeaderName, amex?.HeaderValue, requestedProtocolVersion).ConfigureAwait(false); },
+                        async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, ex.Message, null, null, false, amex?.HeaderName, amex?.HeaderValue, requestedProtocolVersion).ConfigureAwait(false); },
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
 
                     return;
@@ -250,12 +250,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         CommandStatusCode statusCode;
                         string? statusMessage;
+                        bool isAppError;
                         switch (ex)
                         {
                             case OperationCanceledException:
                             case TimeoutException:
                                 statusCode = CommandStatusCode.RequestTimeout;
                                 statusMessage = $"Executor timed out after {cancellationTimeout.TotalSeconds} seconds.";
+                                isAppError = false;
                                 invalidPropertyName = nameof(ExecutionTimeout);
                                 invalidPropertyValue = XmlConvert.ToString(ExecutionTimeout);
                                 Trace.TraceWarning($"Command '{_commandName}' execution timed out after {cancellationTimeout.TotalSeconds} seconds.");
@@ -263,6 +265,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             case AkriMqttException amex:
                                 statusCode = CommandStatusCode.InternalServerError;
                                 statusMessage = amex.Message;
+                                isAppError = true;
                                 invalidPropertyName = amex?.HeaderName ?? amex?.PropertyName;
                                 invalidPropertyValue = amex?.HeaderValue ?? amex?.PropertyValue?.ToString();
                                 Trace.TraceWarning($"Command '{_commandName}' execution failed due to Akri Mqtt error: {amex}.");
@@ -270,13 +273,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             default:
                                 statusCode = CommandStatusCode.InternalServerError;
                                 statusMessage = ex.Message;
+                                isAppError = true;
                                 invalidPropertyName = null;
                                 invalidPropertyValue = null;
                                 Trace.TraceWarning($"Command '{_commandName}' execution failed due to error: {ex}.");
                                 break;
                         }
 
-                        await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, statusMessage, null, null, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
+                        await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, statusMessage, null, null, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
                     }
                     finally
                     {
@@ -437,6 +441,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string? statusMessage = null,
             SerializedPayloadContext? payloadContext = null,
             CommandResponseMetadata? metadata = null,
+            bool? isAppError = null,
             string? invalidPropertyName = null,
             string? invalidPropertyValue = null,
             string? requestedProtocolVersion = null)
@@ -467,6 +472,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
             message.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
 
             metadata?.MarshalTo(message);
+
+            if (isAppError != null)
+            {
+                message.AddUserProperty(AkriSystemProperties.IsApplicationError, (bool)isAppError ? "true" : "false");
+            }
 
             if (invalidPropertyName != null)
             {
@@ -501,11 +511,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
             string? statusMessage = null,
             SerializedPayloadContext? payloadContext = null,
             CommandResponseMetadata? metadata = null,
+            bool? isAppError = null,
             string? invalidPropertyName = null,
             string? invalidPropertyValue = null,
             string? requestedProtocolVersion = null)
         {
-            MqttApplicationMessage responseMessage = await GenerateResponseAsync(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
+            MqttApplicationMessage responseMessage = await GenerateResponseAsync(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
             await PublishResponseAsync(topic, correlationData, responseMessage);
         }
 
