@@ -9,7 +9,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
@@ -96,7 +95,7 @@ func NewTelemetrySender[T any](
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
-		version:  version.TelemetryProtocolString,
+		version:  version.Telemetry,
 		log:      logger,
 	}
 
@@ -125,7 +124,7 @@ func (ts *TelemetrySender[T]) Send(
 		Name:     "MessageExpiry",
 		Text:     telemetrySenderErrStr,
 	}
-	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+	if err := expiry.Validate(); err != nil {
 		return err
 	}
 

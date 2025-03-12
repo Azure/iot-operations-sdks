@@ -32,7 +32,7 @@ func Return(err error, logger log.Logger, shallow bool) error {
 		err = e.error
 	}
 	if e, ok := err.(*errors.Client); ok {
-		e.IsShallow = shallow
+		e.Shallow = shallow
 	}
 	if err != nil {
 		logger.Error(context.Background(), err)
@@ -45,9 +45,8 @@ func ValidateNonNil(args map[string]any) error {
 	for k, v := range args {
 		if v == nil {
 			return &errors.Client{
-				Base: errors.Base{
-					Message:      "argument is nil",
-					Kind:         errors.ConfigurationInvalid,
+				Message: "argument is nil",
+				Kind: errors.ConfigurationInvalid{
 					PropertyName: k,
 				},
 			}
@@ -61,11 +60,9 @@ func NewUUID() (string, error) {
 	correlation, err := uuid.NewV7()
 	if err != nil {
 		return "", &errors.Client{
-			Base: errors.Base{
-				Message:     err.Error(),
-				Kind:        errors.UnknownError,
-				NestedError: err,
-			},
+			Message: err.Error(),
+			Kind:    errors.UnknownError{},
+			Nested:  err,
 		}
 	}
 	return correlation.String(), nil

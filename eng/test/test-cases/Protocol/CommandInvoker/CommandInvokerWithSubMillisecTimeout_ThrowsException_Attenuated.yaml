@@ -4,7 +4,7 @@ description:
   condition: >-
     CommandInvoker invokes command with command timeout of duration below one millisecond.
   expect: >-
-    Invocation throws 'invalid argument' exception; error details unchecked.
+    Invocation throws 'invalid configuration' exception; error details unchecked.
 
 requires:
 - explicit-default
@@ -20,8 +20,7 @@ actions:
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
 ...

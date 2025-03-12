@@ -51,7 +51,7 @@ func (c *Client) Put(
 		opts.invoke(),
 	)
 	if err != nil {
-		return nil, err
+		return nil, translateError(err)
 	}
 	return &res.Payload.Schema, nil
 }
