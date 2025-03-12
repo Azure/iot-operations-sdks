@@ -759,10 +759,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=me;TcpPort=2323;ClientId=";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("ClientId", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
