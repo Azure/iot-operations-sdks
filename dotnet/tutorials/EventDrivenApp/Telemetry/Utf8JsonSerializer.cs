@@ -15,7 +15,7 @@ public class EmptyJson
 
 public class Utf8JsonSerializer : IPayloadSerializer
 {
-    protected static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    protected static readonly JsonSerializerOptions jsonSerializerOptions = new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
@@ -52,7 +52,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
             }
 
             Utf8JsonReader reader = new(payload);
-            return JsonSerializer.Deserialize<T>(ref reader, _jsonSerializerOptions)!;
+            return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
         }
         catch (Exception)
         {
@@ -70,7 +70,7 @@ public class Utf8JsonSerializer : IPayloadSerializer
                 return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
             }
 
-            return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, _jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
+            return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
         }
         catch (Exception)
         {

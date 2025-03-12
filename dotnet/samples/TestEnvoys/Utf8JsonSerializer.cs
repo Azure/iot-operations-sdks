@@ -14,7 +14,7 @@ namespace TestEnvoys
 
     public class Utf8JsonSerializer : IPayloadSerializer
     {
-        protected static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        protected static readonly JsonSerializerOptions jsonSerializerOptions = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
@@ -60,7 +60,7 @@ namespace TestEnvoys
                 }
 
                 Utf8JsonReader reader = new(payload);
-                return JsonSerializer.Deserialize<T>(ref reader, _jsonSerializerOptions)!;
+                return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
             }
             catch (Exception)
             {
@@ -78,7 +78,7 @@ namespace TestEnvoys
                     return new(ReadOnlySequence<byte>.Empty, null, 0);
                 }
 
-                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, _jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
+                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {
