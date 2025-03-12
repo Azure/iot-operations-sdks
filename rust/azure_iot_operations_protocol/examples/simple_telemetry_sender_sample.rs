@@ -15,9 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_sender::{
-        CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
-    },
+    telemetry::{telemetry_sender, TelemetrySender},
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -53,7 +51,7 @@ async fn main() {
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = TelemetrySenderOptionsBuilder::default()
+    let sender_options = telemetry_sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
         .build()
         .unwrap();
@@ -71,15 +69,15 @@ async fn main() {
 
 /// Send 10 telemetry messages, then disconnect
 async fn telemetry_loop(
-    telemetry_sender: TelemetrySender<SampleTelemetry, SessionManagedClient>,
+    sender: TelemetrySender<SampleTelemetry, SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     for i in 1..10 {
-        let cloud_event = CloudEventBuilder::default()
+        let cloud_event = telemetry_sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
             .build()
             .unwrap();
-        let message = TelemetryMessageBuilder::default()
+        let message = telemetry_sender::MessageBuilder::default()
             .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
@@ -93,7 +91,7 @@ async fn telemetry_loop(
             .cloud_event(cloud_event)
             .build()
             .unwrap();
-        let result = telemetry_sender.send(message).await;
+        let result = sender.send(message).await;
         log::info!("Result {}: {:?}", i, result);
     }
 

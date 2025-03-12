@@ -20,9 +20,7 @@ use azure_iot_operations_protocol::application::{ApplicationContext, Application
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
-};
+use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
 
 const EXECUTOR_CLIENT_ID_1: &str = "aio_example_executor_client_1";
 const EXECUTOR_CLIENT_ID_2: &str = "aio_example_executor_client_2";
@@ -109,7 +107,7 @@ async fn executor_loop(
 ) {
     println!("{executor_client_id}: Starting executor loop");
     // Create a command executor for the increment command
-    let incr_executor_options = CommandExecutorOptionsBuilder::default()
+    let incr_executor_options = command_executor::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .service_group_id(SERVICE_GROUP_ID)
         .command_name("increment")
@@ -131,7 +129,7 @@ async fn executor_loop(
                 let response = IncrResponsePayload {
                     counter_response: updated_counter,
                 };
-                let response = CommandResponseBuilder::default()
+                let response = command_executor::ResponseBuilder::default()
                     .payload(response)
                     .unwrap()
                     .build()

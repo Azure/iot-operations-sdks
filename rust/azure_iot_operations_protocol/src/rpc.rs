@@ -14,6 +14,10 @@ pub mod command_invoker;
 /// This module contains the command executor implementation.
 pub mod command_executor;
 
+// Re-export the command invoker and executor
+pub use command_executor::CommandExecutor;
+pub use command_invoker::CommandInvoker;
+
 /// Protocol version used by all envoys in this module
 pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
 /// Assumed version if no version is provided.

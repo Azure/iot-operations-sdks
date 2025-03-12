@@ -146,7 +146,7 @@ impl CloudEvent {
     ///
     /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
     pub fn from_telemetry<T: PayloadSerialize>(
-        telemetry: &TelemetryMessage<T>,
+        telemetry: &Message<T>,
     ) -> Result<Self, CloudEventBuilderError> {
         // use builder so that all fields can be validated together
         let mut cloud_event_builder = CloudEventBuilder::default();
@@ -203,7 +203,7 @@ impl CloudEvent {
 /// Telemetry message struct.
 /// Used by the [`TelemetryReceiver`].
 #[derive(Debug)]
-pub struct TelemetryMessage<T: PayloadSerialize> {
+pub struct Message<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     pub payload: T,
     /// Content Type of the telemetry message.
@@ -223,7 +223,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
 /// Telemetry Receiver Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
-pub struct TelemetryReceiverOptions {
+pub struct Options {
     /// Topic pattern for the telemetry message.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     topic_pattern: String,
@@ -248,7 +248,7 @@ pub struct TelemetryReceiverOptions {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder};
+/// # use azure_iot_operations_protocol::telemetry::telemetry_receiver::{TelemetryReceiver, OptionsBuilder};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -260,7 +260,7 @@ pub struct TelemetryReceiverOptions {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let receiver_options = TelemetryReceiverOptionsBuilder::default()
+/// let receiver_options = OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
 /// let mut telemetry_receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
@@ -280,7 +280,7 @@ where
     topic_pattern: TopicPattern,
     message_payload_type: PhantomData<T>,
     // Describes state
-    receiver_state: TelemetryReceiverState,
+    receiver_state: State,
     // Information to manage state
     receiver_cancellation_token: CancellationToken,
     // User autoack setting
@@ -289,7 +289,7 @@ where
 
 /// Describes state of receiver
 #[derive(PartialEq)]
-enum TelemetryReceiverState {
+enum State {
     New,
     Subscribed,
     ShutdownSuccessful,
@@ -322,7 +322,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        receiver_options: TelemetryReceiverOptions,
+        receiver_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validation for topic pattern and related options done in
         // [`TopicPattern::new`]
@@ -362,7 +362,7 @@ where
             telemetry_topic,
             topic_pattern,
             message_payload_type: PhantomData,
-            receiver_state: TelemetryReceiverState::New,
+            receiver_state: State::New,
             receiver_cancellation_token: CancellationToken::new(),
             auto_ack: receiver_options.auto_ack,
         })
@@ -382,17 +382,17 @@ where
         self.mqtt_receiver.close();
 
         match self.receiver_state {
-            TelemetryReceiverState::New | TelemetryReceiverState::ShutdownSuccessful => {
+            State::New | State::ShutdownSuccessful => {
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
-                self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
+                self.receiver_state = State::ShutdownSuccessful;
             }
-            TelemetryReceiverState::Subscribed => {
+            State::Subscribed => {
                 let unsubscribe_result = self.mqtt_client.unsubscribe(&self.telemetry_topic).await;
 
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
                         Ok(()) => {
-                            self.receiver_state = TelemetryReceiverState::ShutdownSuccessful;
+                            self.receiver_state = State::ShutdownSuccessful;
                         }
                         Err(e) => {
                             log::error!("Unsuback error: {e}");
@@ -467,13 +467,13 @@ where
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     pub async fn recv(
         &mut self,
-    ) -> Option<Result<(TelemetryMessage<T>, Option<AckToken>), AIOProtocolError>> {
+    ) -> Option<Result<(Message<T>, Option<AckToken>), AIOProtocolError>> {
         // Subscribe to the telemetry topic if not already subscribed
-        if self.receiver_state == TelemetryReceiverState::New {
+        if self.receiver_state == State::New {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
-            self.receiver_state = TelemetryReceiverState::Subscribed;
+            self.receiver_state = State::Subscribed;
         }
 
         loop {
@@ -603,7 +603,7 @@ where
                         }
                     };
 
-                    let telemetry_message = TelemetryMessage {
+                    let telemetry_message = Message {
                         payload,
                         content_type,
                         format_indicator,
@@ -657,7 +657,7 @@ where
         self.mqtt_receiver.close();
 
         // If the receiver has not unsubscribed, attempt to unsubscribe
-        if TelemetryReceiverState::Subscribed == self.receiver_state {
+        if State::Subscribed == self.receiver_state {
             tokio::spawn({
                 let telemetry_topic = self.telemetry_topic.clone();
                 let mqtt_client = self.mqtt_client.clone();
@@ -686,7 +686,7 @@ mod tests {
     use crate::{
         application::ApplicationContextBuilder,
         common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
-        telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+        telemetry::telemetry_receiver::{OptionsBuilder, TelemetryReceiver},
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -715,7 +715,7 @@ mod tests {
     #[test]
     fn test_new_defaults() {
         let session = get_session();
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+        let receiver_options = OptionsBuilder::default()
             .topic_pattern("test/receiver")
             .build()
             .unwrap();
@@ -731,7 +731,7 @@ mod tests {
     #[test]
     fn test_new_override_defaults() {
         let session = get_session();
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+        let receiver_options = OptionsBuilder::default()
             .topic_pattern("test/{telemetryName}/receiver")
             .topic_namespace("test_namespace")
             .topic_token_map(create_topic_tokens())
@@ -750,7 +750,7 @@ mod tests {
     #[test_case(" "; "new_whitespace_topic_pattern")]
     fn test_new_empty_topic_pattern(topic_pattern: &str) {
         let session = get_session();
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+        let receiver_options = OptionsBuilder::default()
             .topic_pattern(topic_pattern)
             .build()
             .unwrap();
@@ -781,7 +781,7 @@ mod tests {
     #[tokio::test]
     async fn test_shutdown_without_subscribe() {
         let session = get_session();
-        let receiver_options = TelemetryReceiverOptionsBuilder::default()
+        let receiver_options = OptionsBuilder::default()
             .topic_pattern("test/receiver")
             .build()
             .unwrap();

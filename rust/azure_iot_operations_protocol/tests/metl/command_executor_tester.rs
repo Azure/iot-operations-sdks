@@ -14,10 +14,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandExecutorOptionsBuilderError,
-    CommandResponseBuilder,
-};
+use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
 use bytes::Bytes;
 use serde_json;
 use tokio::time;
@@ -270,7 +267,7 @@ where
                     }
                 }
 
-                let response = CommandResponseBuilder::default()
+                let response = command_executor::ResponseBuilder::default()
                     .payload(response_payload)
                     .unwrap()
                     .custom_user_data(metadata)
@@ -288,7 +285,7 @@ where
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
     ) -> Option<CommandExecutor<TestPayload, TestPayload, C>> {
-        let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
+        let mut executor_options_builder = command_executor::OptionsBuilder::default();
 
         if let Some(request_topic) = tce.request_topic.as_ref() {
             executor_options_builder.request_topic_pattern(request_topic);
@@ -721,10 +718,10 @@ where
     }
 
     fn from_executor_options_builder_error(
-        builder_error: CommandExecutorOptionsBuilderError,
+        builder_error: command_executor::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            CommandExecutorOptionsBuilderError::UninitializedField(field_name) => {
+            command_executor::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

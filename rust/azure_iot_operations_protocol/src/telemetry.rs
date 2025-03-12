@@ -13,6 +13,10 @@ pub mod telemetry_receiver;
 /// This module contains the cloud events enum for the Azure IoT Operations Protocol.
 pub mod cloud_event;
 
+// Re-export the telemetry sender and receiver
+pub use telemetry_receiver::TelemetryReceiver;
+pub use telemetry_sender::TelemetrySender;
+
 /// Protocol version used by all envoys in this module
 pub(crate) const TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };

@@ -15,10 +15,7 @@ use azure_iot_operations_protocol::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
     rpc::{
-        command_executor::{
-            CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
-        },
-        command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
+        {command_executor, CommandExecutor}, {command_invoker, CommandInvoker},
     },
 };
 
@@ -80,7 +77,7 @@ fn setup_test<
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let invoker_options = CommandInvokerOptionsBuilder::default()
+    let invoker_options = command_invoker::OptionsBuilder::default()
         .request_topic_pattern(topic)
         .response_topic_prefix("response".to_string())
         .command_name(client_id)
@@ -93,7 +90,7 @@ fn setup_test<
     )
     .unwrap();
 
-    let executor_options = CommandExecutorOptionsBuilder::default()
+    let executor_options = command_executor::OptionsBuilder::default()
         .request_topic_pattern(topic)
         .command_name(client_id)
         .build()
@@ -160,7 +157,7 @@ async fn command_basic_invoke_response_network_tests() {
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
-                        let response = CommandResponseBuilder::default()
+                        let response = command_executor::ResponseBuilder::default()
                             .payload(EmptyPayload::default())
                             .unwrap()
                             .build()
@@ -179,7 +176,7 @@ async fn command_basic_invoke_response_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send request with empty payload
-            let request = CommandRequestBuilder::default()
+            let request = command_invoker::RequestBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .timeout(Duration::from_secs(2))
@@ -408,7 +405,7 @@ async fn command_complex_invoke_response_network_tests() {
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
-                        let response = CommandResponseBuilder::default()
+                        let response = command_executor::ResponseBuilder::default()
                             .payload(test_response_payload_clone)
                             .unwrap()
                             .custom_user_data(test_response_custom_user_data_clone)
@@ -429,7 +426,7 @@ async fn command_complex_invoke_response_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send request with more complex payload and custom user data
-            let request = CommandRequestBuilder::default()
+            let request = command_invoker::RequestBuilder::default()
                 .payload(test_request_payload)
                 .unwrap()
                 .custom_user_data(test_request_custom_user_data.clone())

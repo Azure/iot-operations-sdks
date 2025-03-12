@@ -14,8 +14,8 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::{
     application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
-    rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
-    telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    rpc::{command_invoker, CommandInvoker},
+    telemetry::{telemetry_receiver, TelemetryReceiver},
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
@@ -115,7 +115,7 @@ where
         options: ClientOptions,
     ) -> Result<Self, Error> {
         // create invoker for commands
-        let command_invoker_options = CommandInvokerOptionsBuilder::default()
+        let command_invoker_options = command_invoker::OptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
             .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
@@ -139,7 +139,7 @@ where
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
-        let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
+        let telemetry_receiver_options = telemetry_receiver::OptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
             .topic_token_map(HashMap::from([(
                 "encodedClientId".to_string(),
@@ -230,7 +230,7 @@ where
         if key.is_empty() {
             return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let mut request_builder = CommandRequestBuilder::default();
+        let mut request_builder = command_invoker::RequestBuilder::default();
         request_builder
             .payload(state_store::resp3::Request::Set {
                 key,
@@ -286,7 +286,7 @@ where
         if key.is_empty() {
             return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let request = CommandRequestBuilder::default()
+        let request = command_invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
@@ -380,7 +380,7 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
-        let mut request_builder = CommandRequestBuilder::default();
+        let mut request_builder = command_invoker::RequestBuilder::default();
         request_builder
             .payload(request)
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
@@ -415,7 +415,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<()>, Error> {
         // Send invoke request for observe
-        let request = CommandRequestBuilder::default()
+        let request = command_invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
@@ -547,7 +547,7 @@ where
             return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
         // Send invoke request for unobserve
-        let request = CommandRequestBuilder::default()
+        let request = command_invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },

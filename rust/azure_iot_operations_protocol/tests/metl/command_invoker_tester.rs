@@ -14,10 +14,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::rpc::command_invoker::{
-    CommandInvoker, CommandInvokerOptionsBuilder, CommandInvokerOptionsBuilderError,
-    CommandRequestBuilder, CommandRequestBuilderError, CommandResponse,
-};
+use azure_iot_operations_protocol::rpc::{command_invoker, CommandInvoker};
 use bytes::Bytes;
 use serde_json;
 use tokio::sync::oneshot;
@@ -38,7 +35,7 @@ use crate::metl::test_payload::TestPayload;
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
 type InvokeResultReceiver =
-    oneshot::Receiver<Result<CommandResponse<TestPayload>, AIOProtocolError>>;
+    oneshot::Receiver<Result<command_invoker::Response<TestPayload>, AIOProtocolError>>;
 
 pub struct CommandInvokerTester<C>
 where
@@ -189,7 +186,7 @@ where
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
     ) -> Option<CommandInvoker<TestPayload, TestPayload, C>> {
-        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        let mut invoker_options_builder = command_invoker::OptionsBuilder::default();
 
         if let Some(request_topic) = tci.request_topic.as_ref() {
             invoker_options_builder.request_topic_pattern(request_topic);
@@ -242,7 +239,7 @@ where
                         .as_ref()
                         .unwrap();
 
-                    let mut command_request_builder = CommandRequestBuilder::default();
+                    let mut command_request_builder = command_invoker::RequestBuilder::default();
 
                     if let Some(request_value) = default_invoke_command.request_value.clone() {
                         command_request_builder
@@ -317,7 +314,7 @@ where
             metadata,
         } = action
         {
-            let mut command_request_builder = CommandRequestBuilder::default();
+            let mut command_request_builder = command_invoker::RequestBuilder::default();
 
             if let Some(request_value) = request_value {
                 command_request_builder
@@ -748,10 +745,10 @@ where
     }
 
     fn from_invoker_options_builder_error(
-        builder_error: CommandInvokerOptionsBuilderError,
+        builder_error: command_invoker::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            CommandInvokerOptionsBuilderError::UninitializedField(field_name) => {
+            command_invoker::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,
@@ -779,10 +776,10 @@ where
     }
 
     fn from_command_request_builder_error(
-        builder_error: CommandRequestBuilderError,
+        builder_error: command_invoker::RequestBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            CommandRequestBuilderError::UninitializedField(field_name) => {
+            command_invoker::RequestBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

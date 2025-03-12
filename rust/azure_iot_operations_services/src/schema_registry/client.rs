@@ -10,7 +10,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
+use azure_iot_operations_protocol::rpc::command_invoker;
 
 use crate::schema_registry::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
@@ -97,7 +97,7 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let command_request = CommandRequestBuilder::default()
+        let command_request = command_invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(get_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
@@ -153,7 +153,7 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let command_request = CommandRequestBuilder::default()
+        let command_request = command_invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(put_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?

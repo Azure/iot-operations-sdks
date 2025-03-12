@@ -17,11 +17,7 @@ use azure_iot_operations_protocol::{
     },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
-        telemetry_sender::{
-            CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender,
-            TelemetrySenderOptionsBuilder,
-        },
+        telemetry_receiver, telemetry_sender, TelemetryReceiver, TelemetrySender,
     },
 };
 
@@ -89,7 +85,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = TelemetrySenderOptionsBuilder::default()
+    let sender_options = telemetry_sender::OptionsBuilder::default()
         .topic_pattern(topic)
         .build()
         .unwrap();
@@ -100,7 +96,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
     )
     .unwrap();
 
-    let receiver_options = TelemetryReceiverOptionsBuilder::default()
+    let receiver_options = telemetry_receiver::OptionsBuilder::default()
         .topic_pattern(topic)
         .auto_ack(auto_ack)
         .build()
@@ -187,7 +183,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send QoS 0 message with empty payload
-            let message_qos0 = TelemetryMessageBuilder::default()
+            let message_qos0 = telemetry_sender::MessageBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtMostOnce)
@@ -196,7 +192,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             assert!(telemetry_sender.send(message_qos0).await.is_ok());
 
             // Send QoS 1 message with empty payload
-            let message_qos1 = TelemetryMessageBuilder::default()
+            let message_qos1 = telemetry_sender::MessageBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtLeastOnce)
@@ -320,7 +316,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         ("test2".to_string(), "value2".to_string()),
     ];
     let test_cloud_event_source = "aio://test/telemetry";
-    let test_cloud_event = CloudEventBuilder::default()
+    let test_cloud_event = telemetry_sender::CloudEventBuilder::default()
         .source(test_cloud_event_source)
         .build()
         .unwrap();
@@ -405,7 +401,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send QoS 0 message with more complex payload, custom user data, and a cloud event
-            let message_qos0 = TelemetryMessageBuilder::default()
+            let message_qos0 = telemetry_sender::MessageBuilder::default()
                 .payload(test_payload1)
                 .unwrap()
                 .custom_user_data(test_custom_user_data.clone())
@@ -416,7 +412,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             assert!(telemetry_sender.send(message_qos0).await.is_ok());
 
             // Send QoS 1 message with more complex payload, custom user data, and a cloud event
-            let message_qos1 = TelemetryMessageBuilder::default()
+            let message_qos1 = telemetry_sender::MessageBuilder::default()
                 .payload(test_payload2)
                 .unwrap()
                 .custom_user_data(test_custom_user_data)

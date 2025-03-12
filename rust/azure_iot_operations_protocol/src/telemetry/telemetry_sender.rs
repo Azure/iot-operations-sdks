@@ -163,7 +163,7 @@ impl CloudEvent {
 /// Used by the [`TelemetrySender`].
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct TelemetryMessage<T: PayloadSerialize> {
+pub struct Message<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
     #[builder(setter(custom))]
     serialized_payload: SerializedPayload,
@@ -190,7 +190,7 @@ pub struct TelemetryMessage<T: PayloadSerialize> {
     cloud_event: Option<CloudEvent>,
 }
 
-impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
+impl<T: PayloadSerialize> MessageBuilder<T> {
     /// Add a payload to the telemetry message. Validates successful serialization of the payload.
     ///
     /// # Errors
@@ -277,7 +277,7 @@ impl<T: PayloadSerialize> TelemetryMessageBuilder<T> {
 /// Telemetry Sender Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
-pub struct TelemetrySenderOptions {
+pub struct Options {
     /// Topic pattern for the telemetry message.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     topic_pattern: String,
@@ -297,7 +297,7 @@ pub struct TelemetrySenderOptions {
 /// # use azure_iot_operations_mqtt::control_packet::QoS;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, TelemetrySenderOptionsBuilder};
+/// # use azure_iot_operations_protocol::telemetry::telemetry_sender::{TelemetrySender, TelemetryMessageBuilder, OptionsBuilder};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -309,7 +309,7 @@ pub struct TelemetrySenderOptions {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let sender_options = TelemetrySenderOptionsBuilder::default()
+/// let sender_options = OptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
@@ -360,7 +360,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        sender_options: TelemetrySenderOptions,
+        sender_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate parameters
         let topic_pattern = TopicPattern::new(
@@ -399,7 +399,7 @@ where
     ///
     /// [`AIOProtocolError`] of kind [`StateInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::StateInvalid) if
     /// - the [`ApplicationHybridLogicalClock`]'s timestamp is too far in the future
-    pub async fn send(&self, mut message: TelemetryMessage<T>) -> Result<(), AIOProtocolError> {
+    pub async fn send(&self, mut message: Message<T>) -> Result<(), AIOProtocolError> {
         // Validate parameters. Custom user data, timeout, QoS, and payload serialization have already been validated in TelemetryMessageBuilder
         let message_expiry_interval: u32 = match message.message_expiry.as_secs().try_into() {
             Ok(val) => val,
@@ -508,14 +508,14 @@ mod tests {
             aio_protocol_error::{AIOProtocolErrorKind, Value},
             payload_serialize::{FormatIndicator, MockPayload, SerializedPayload},
         },
-        telemetry::telemetry_sender::{
-            TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
-        },
+        telemetry::telemetry_sender::{Message, OptionsBuilder, TelemetrySender},
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
     };
+
+    use super::MessageBuilder;
 
     // TODO: This should return a mock MqttProvider instead
     fn get_session() -> Session {
@@ -535,7 +535,7 @@ mod tests {
     #[test]
     fn test_new_defaults() {
         let session = get_session();
-        let sender_options = TelemetrySenderOptionsBuilder::default()
+        let sender_options = OptionsBuilder::default()
             .topic_pattern("test/test_telemetry")
             .build()
             .unwrap();
@@ -551,7 +551,7 @@ mod tests {
     #[test]
     fn test_new_override_defaults() {
         let session = get_session();
-        let sender_options = TelemetrySenderOptionsBuilder::default()
+        let sender_options = OptionsBuilder::default()
             .topic_pattern("test/{telemetryName}")
             .topic_namespace("test_namespace")
             .topic_token_map(HashMap::from([(
@@ -574,7 +574,7 @@ mod tests {
     fn test_new_empty_topic_pattern(property_value: &str) {
         let session = get_session();
 
-        let sender_options = TelemetrySenderOptionsBuilder::default()
+        let sender_options = OptionsBuilder::default()
             .topic_pattern(property_value)
             .build()
             .unwrap();
@@ -607,7 +607,7 @@ mod tests {
             .returning(|| Err("dummy error".to_string()))
             .times(1);
 
-        let mut binding = TelemetryMessageBuilder::default();
+        let mut binding = MessageBuilder::default();
         let message_builder = binding.payload(mock_telemetry_payload);
         match message_builder {
             Err(e) => {
@@ -633,7 +633,7 @@ mod tests {
             })
             .times(1);
 
-        let mut binding = TelemetryMessageBuilder::default();
+        let mut binding = MessageBuilder::default();
         let message_builder = binding.payload(mock_telemetry_payload);
         match message_builder {
             Err(e) => {
@@ -668,7 +668,7 @@ mod tests {
             })
             .times(1);
 
-        let message_builder_result = TelemetryMessageBuilder::default()
+        let message_builder_result = MessageBuilder::default()
             .payload(mock_telemetry_payload)
             .unwrap()
             .message_expiry(timeout)
@@ -691,7 +691,7 @@ mod tests {
             })
             .times(1);
 
-        let message_builder_result = TelemetryMessageBuilder::default()
+        let message_builder_result = MessageBuilder::default()
             .payload(mock_telemetry_payload)
             .unwrap()
             .qos(azure_iot_operations_mqtt::control_packet::QoS::ExactlyOnce)
@@ -714,7 +714,7 @@ mod tests {
             })
             .times(1);
 
-        let message_builder_result = TelemetryMessageBuilder::default()
+        let message_builder_result = MessageBuilder::default()
             .payload(mock_telemetry_payload)
             .unwrap()
             .custom_user_data(vec![("source".to_string(), "test".to_string())])

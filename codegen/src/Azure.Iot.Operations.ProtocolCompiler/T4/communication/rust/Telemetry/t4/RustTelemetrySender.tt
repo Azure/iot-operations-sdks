@@ -10,11 +10,9 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEvent, TelemetryMessage as TelemetryMessageBase,
-    TelemetryMessageBuilder as TelemetryMessageBuilderBase,
-    TelemetryMessageBuilderError as TelemetryMessageBuilderBaseError,
-    TelemetrySender as TelemetrySenderBase,
-    TelemetrySenderOptionsBuilder as TelemetrySenderOptionsBaseBuilder,
+    CloudEvent, Message as TelemetryMessageBase, MessageBuilder as TelemetryMessageBuilderBase,
+    MessageBuilderError as TelemetryMessageBuilderBaseError,
+    OptionsBuilder as TelemetrySenderOptionsBaseBuilder, TelemetrySender as TelemetrySenderBase,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 

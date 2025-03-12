@@ -13,9 +13,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    self, TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
-};
+use azure_iot_operations_protocol::telemetry::telemetry_receiver::{self, TelemetryReceiver};
 use bytes::Bytes;
 use chrono::SecondsFormat;
 use serde_json;
@@ -249,7 +247,7 @@ where
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
     ) -> Option<TelemetryReceiver<TestPayload, C>> {
-        let mut receiver_options_builder = TelemetryReceiverOptionsBuilder::default();
+        let mut receiver_options_builder = telemetry_receiver::OptionsBuilder::default();
 
         if let Some(telemetry_topic) = tcr.telemetry_topic.as_ref() {
             receiver_options_builder.topic_pattern(telemetry_topic);
@@ -627,10 +625,10 @@ where
     }
 
     fn from_receiver_options_builder_error(
-        builder_error: TelemetryReceiverOptionsBuilderError,
+        builder_error: telemetry_receiver::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            TelemetryReceiverOptionsBuilderError::UninitializedField(field_name) => {
+            telemetry_receiver::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

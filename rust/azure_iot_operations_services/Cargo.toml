@@ -12,7 +12,7 @@ readme = "README.md"
 publish = true
 
 [features]
-default = []
+default = ["all"]
 all = ["state_store", "schema_registry", "leased_lock"]
 state_store = []
 schema_registry = [

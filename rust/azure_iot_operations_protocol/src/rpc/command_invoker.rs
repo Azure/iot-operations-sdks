@@ -40,7 +40,7 @@ const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 /// Used by the [`CommandInvoker`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct CommandRequest<TReq>
+pub struct Request<TReq>
 where
     TReq: PayloadSerialize,
 {
@@ -61,7 +61,7 @@ where
     /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
     timeout: Duration,
 }
-impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
+impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
     /// # Errors
@@ -126,7 +126,7 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
 /// Command Response struct.
 /// Used by the [`CommandInvoker`]
 #[derive(Debug)]
-pub struct CommandResponse<TResp>
+pub struct Response<TResp>
 where
     TResp: PayloadSerialize,
 {
@@ -145,7 +145,7 @@ where
 /// Command Invoker Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
-pub struct CommandInvokerOptions {
+pub struct Options {
     /// Topic pattern for the command request.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
@@ -182,7 +182,7 @@ pub struct CommandInvokerOptions {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
+/// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, OptionsBuilder, RequestBuilder, CommandResponse};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -194,7 +194,7 @@ pub struct CommandInvokerOptions {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let invoker_options = CommandInvokerOptionsBuilder::default()
+/// let invoker_options = OptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
@@ -204,7 +204,7 @@ pub struct CommandInvokerOptions {
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
 /// let command_invoker: CommandInvoker<Vec<u8>, Vec<u8>, _> = CommandInvoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
-/// let request = CommandRequestBuilder::default()
+/// let request = RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
@@ -229,14 +229,14 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    invoker_state_mutex: Arc<Mutex<State>>,
     // Used to send information to manage state
     shutdown_notifier: Arc<Notify>,
     response_tx: Sender<Option<Publish>>,
 }
 
 /// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
-enum CommandInvokerState {
+enum State {
     New,
     Subscribed,
     ShutdownInitiated,
@@ -277,7 +277,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        invoker_options: CommandInvokerOptions,
+        invoker_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
@@ -347,7 +347,7 @@ where
         })?;
 
         // Create mutex to track invoker state
-        let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
+        let invoker_state_mutex = Arc::new(Mutex::new(State::New));
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
@@ -454,8 +454,8 @@ where
     /// - the response has a [`UserProperty::Status`] of [`StatusCode::ServiceUnavailable`]
     pub async fn invoke(
         &self,
-        request: CommandRequest<TReq>,
-    ) -> Result<CommandResponse<TResp>, AIOProtocolError> {
+        request: Request<TReq>,
+    ) -> Result<Response<TResp>, AIOProtocolError> {
         // Get the timeout duration to use
         let command_timeout = request.timeout;
 
@@ -526,14 +526,14 @@ where
 
     async fn invoke_internal(
         &self,
-        mut request: CommandRequest<TReq>,
-    ) -> Result<CommandResponse<TResp>, AIOProtocolError> {
-        // Validate parameters. Custom user data, timeout, and payload serialization have already been validated in CommandRequestBuilder
+        mut request: Request<TReq>,
+    ) -> Result<Response<TResp>, AIOProtocolError> {
+        // Validate parameters. Custom user data, timeout, and payload serialization have already been validated in RequestBuilder
         // Validate message expiry interval
         let message_expiry_interval: u32 = match request.timeout.as_secs().try_into() {
             Ok(val) => val,
             Err(_) => {
-                // should be validated in CommandRequestBuilder
+                // should be validated in RequestBuilder
                 unreachable!();
             }
         };
@@ -589,13 +589,12 @@ where
         {
             let mut invoker_state = self.invoker_state_mutex.lock().await;
             match *invoker_state {
-                CommandInvokerState::New => {
+                State::New => {
                     self.subscribe_to_response_filter().await?;
-                    *invoker_state = CommandInvokerState::Subscribed;
+                    *invoker_state = State::Subscribed;
                 }
-                CommandInvokerState::Subscribed => { /* No-op, already subscribed */ }
-                CommandInvokerState::ShutdownInitiated
-                | CommandInvokerState::ShutdownSuccessful => {
+                State::Subscribed => { /* No-op, already subscribed */ }
+                State::ShutdownInitiated | State::ShutdownSuccessful => {
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
                         None,
@@ -768,12 +767,12 @@ where
 
         let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
         match *invoker_state_mutex_guard {
-            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            State::New | State::ShutdownSuccessful => {
                 /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
             }
-            CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+            State::ShutdownInitiated | State::Subscribed => {
                 // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
-                *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+                *invoker_state_mutex_guard = State::ShutdownInitiated;
                 let unsubscribe_result = self
                     .mqtt_client
                     .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
@@ -810,7 +809,7 @@ where
 
         log::info!("[{}] Shutdown", self.command_name);
         // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
-        *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
+        *invoker_state_mutex_guard = State::ShutdownSuccessful;
         Ok(())
     }
 }
@@ -820,7 +819,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     command_name: String,
     response_payload: &Bytes,
     response_properties: PublishProperties,
-) -> Result<CommandResponse<TResp>, AIOProtocolError> {
+) -> Result<Response<TResp>, AIOProtocolError> {
     // Create a default response error so we can update details as we parse
     let mut response_error = AIOProtocolError {
         kind: AIOProtocolErrorKind::UnknownError, // should be overwritten
@@ -1102,7 +1101,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         },
     };
 
-    Ok(CommandResponse {
+    Ok(Response {
         payload: deserialized_response_payload,
         content_type: response_properties.content_type,
         format_indicator,
@@ -1135,17 +1134,17 @@ where
 
 async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
     mqtt_client: C,
-    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    invoker_state_mutex: Arc<Mutex<State>>,
     unsubscribe_filter: String,
 ) {
     let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
     match *invoker_state_mutex_guard {
-        CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+        State::New | State::ShutdownSuccessful => {
             /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
         }
-        CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+        State::ShutdownInitiated | State::Subscribed => {
             // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
-            *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+            *invoker_state_mutex_guard = State::ShutdownInitiated;
             match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
                 Ok(_) => {
                     log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
@@ -1158,7 +1157,7 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
     }
 
     // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
-    *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
+    *invoker_state_mutex_guard = State::ShutdownSuccessful;
 }
 
 #[cfg(test)]
@@ -1202,7 +1201,7 @@ mod tests {
     async fn test_new_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1225,7 +1224,7 @@ mod tests {
     async fn test_new_override_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
             .command_name("test_command_name")
@@ -1300,7 +1299,7 @@ mod tests {
             _ => panic!("Invalid property_name"),
         }
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .response_topic_pattern(response_topic_pattern)
             .response_topic_prefix(response_topic_prefix)
@@ -1345,7 +1344,7 @@ mod tests {
         let command_name = "test_command_name".to_string();
         let request_topic_pattern = "test/req/topic".to_string();
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
             .response_topic_prefix(response_topic_prefix)
@@ -1377,7 +1376,7 @@ mod tests {
         let command_name = "test_command_name";
         let request_topic_pattern = "test/req/topic";
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
             .topic_token_map(create_topic_tokens())
@@ -1408,7 +1407,7 @@ mod tests {
         let request_topic_pattern = "test/req/topic";
         let response_topic_suffix = "custom/suffix";
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
             .topic_token_map(create_topic_tokens())
@@ -1439,7 +1438,7 @@ mod tests {
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1488,12 +1487,12 @@ mod tests {
 
         // Mock invoker being subscribed already so we don't wait for suback
         let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
-        *invoker_state = CommandInvokerState::Subscribed;
+        *invoker_state = State::Subscribed;
         drop(invoker_state);
 
         let response = command_invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(5))
@@ -1509,7 +1508,7 @@ mod tests {
     async fn test_invoke_times_out() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1542,7 +1541,7 @@ mod tests {
 
         let response = command_invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
@@ -1570,7 +1569,7 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1615,12 +1614,12 @@ mod tests {
 
         // Mock invoker being subscribed already so we don't wait for suback
         let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
-        *invoker_state = CommandInvokerState::Subscribed;
+        *invoker_state = State::Subscribed;
         drop(invoker_state);
 
         let response = command_invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
@@ -1643,7 +1642,7 @@ mod tests {
     async fn test_invoke_executor_id_invalid_value() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1670,7 +1669,7 @@ mod tests {
 
         let response = command_invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
@@ -1698,7 +1697,7 @@ mod tests {
     async fn test_invoke_missing_token() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1725,7 +1724,7 @@ mod tests {
 
         let response = command_invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
@@ -1755,7 +1754,7 @@ mod tests {
             .returning(|| Err("dummy error".to_string()))
             .times(1);
 
-        let mut binding = CommandRequestBuilder::default();
+        let mut binding = RequestBuilder::default();
         let req_builder = binding.payload(mock_request_payload);
         match req_builder {
             Err(e) => {
@@ -1781,7 +1780,7 @@ mod tests {
             })
             .times(1);
 
-        let mut binding = CommandRequestBuilder::default();
+        let mut binding = RequestBuilder::default();
         let req_builder = binding.payload(mock_request_payload);
         match req_builder {
             Err(e) => {
@@ -1818,7 +1817,7 @@ mod tests {
             })
             .times(1);
 
-        let request_builder_result = CommandRequestBuilder::default()
+        let request_builder_result = RequestBuilder::default()
             .payload(mock_request_payload)
             .unwrap()
             .timeout(timeout)
