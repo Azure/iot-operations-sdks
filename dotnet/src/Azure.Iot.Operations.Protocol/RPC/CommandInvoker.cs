@@ -477,14 +477,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Guid requestGuid = metadata?.CorrelationId ?? Guid.NewGuid();
 
             TimeSpan reifiedCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
-            // Rounding up to the nearest second
-            reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
-
 
             if (reifiedCommandTimeout < MinimumCommandTimeout)
             {
                 throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
             }
+
+            // Rounding up to the nearest second
+            reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
 
             if (reifiedCommandTimeout.TotalSeconds > uint.MaxValue)
             {
