@@ -305,9 +305,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         MqttUserProperty? invalidNameProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.InvalidPropertyName);
                         MqttUserProperty? invalidValueProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.InvalidPropertyValue);
+                        bool isApplicationError = (args.ApplicationMessage.UserProperties?.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) ?? false) && isAppError?.ToLower(CultureInfo.InvariantCulture) != "false";
                         string? statusMessage = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.StatusMessage)?.Value;
 
-                        errorKind = StatusCodeToErrorKind((CommandStatusCode)statusCode, invalidNameProperty != null, invalidValueProperty != null);
+                        errorKind = StatusCodeToErrorKind((CommandStatusCode)statusCode, isApplicationError, invalidNameProperty != null, invalidValueProperty != null);
                         AkriMqttException akriException = new(statusMessage ?? "Error condition identified by remote service")
                         {
                             Kind = errorKind,
@@ -428,7 +429,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return true;
         }
 
-        private static AkriMqttErrorKind StatusCodeToErrorKind(CommandStatusCode statusCode, bool hasInvalidName, bool hasInvalidValue)
+        private static AkriMqttErrorKind StatusCodeToErrorKind(CommandStatusCode statusCode, bool isAppError, bool hasInvalidName, bool hasInvalidValue)
         {
             return statusCode switch
             {
@@ -439,6 +440,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 CommandStatusCode.RequestTimeout => AkriMqttErrorKind.Timeout,
                 CommandStatusCode.UnsupportedMediaType => AkriMqttErrorKind.HeaderInvalid,
                 CommandStatusCode.InternalServerError =>
+                    isAppError ? AkriMqttErrorKind.ExecutionException :
                     hasInvalidName ? AkriMqttErrorKind.InternalLogicError :
                     AkriMqttErrorKind.UnknownError,
                 CommandStatusCode.NotSupportedVersion => AkriMqttErrorKind.UnsupportedVersion,
