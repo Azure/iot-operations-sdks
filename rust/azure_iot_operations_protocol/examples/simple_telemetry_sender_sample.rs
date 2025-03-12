@@ -55,14 +55,14 @@ async fn main() {
         .topic_pattern(TOPIC)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
+    let sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
         application_context,
         session.create_managed_client(),
         sender_options,
     )
     .unwrap();
 
-    tokio::task::spawn(telemetry_loop(telemetry_sender, exit_handle));
+    tokio::task::spawn(telemetry_loop(sender, exit_handle));
 
     session.run().await.unwrap();
 }

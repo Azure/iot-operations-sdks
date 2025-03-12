@@ -324,7 +324,7 @@ pub struct Options {
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let telemetry_sender: TelemetrySender<Vec<u8>, _> = TelemetrySender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let sender: TelemetrySender<Vec<u8>, _> = TelemetrySender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
 /// let telemetry_message = telemetry_sender::MessageBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)

@@ -218,13 +218,13 @@ pub struct Options {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let command_invoker: CommandInvoker<Vec<u8>, Vec<u8>, _> = CommandInvoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let invoker: CommandInvoker<Vec<u8>, Vec<u8>, _> = CommandInvoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = command_invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
-/// let result = command_invoker.invoke(request);
+/// let result = invoker.invoke(request);
 /// //let response: Response<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```

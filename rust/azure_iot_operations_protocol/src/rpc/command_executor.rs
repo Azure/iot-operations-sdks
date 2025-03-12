@@ -331,8 +331,8 @@ pub struct Options {
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut command_executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
-/// // let request = command_executor.recv().await.unwrap();
+/// let mut executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// // let request = executor.recv().await.unwrap();
 /// // let response = command_executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
 ///  // .build().unwrap();

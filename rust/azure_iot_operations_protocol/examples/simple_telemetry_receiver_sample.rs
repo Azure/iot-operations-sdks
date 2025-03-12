@@ -78,10 +78,10 @@ async fn telemetry_loop(
         .auto_ack(false)
         .build()
         .unwrap();
-    let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
+    let mut receiver: TelemetryReceiver<SampleTelemetry, _> =
         TelemetryReceiver::new(application_context, client, receiver_options).unwrap();
 
-    while let Some(message) = telemetry_receiver.recv().await {
+    while let Some(message) = receiver.recv().await {
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             Ok((message, ack_token)) => {

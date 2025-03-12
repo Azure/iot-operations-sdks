@@ -263,8 +263,8 @@ pub struct Options {
 /// let receiver_options = telemetry_receiver::OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut telemetry_receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
-/// // let telemetry_message = telemetry_receiver.recv().await.unwrap();
+/// let mut receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// // let telemetry_message = receiver.recv().await.unwrap();
 /// ```
 pub struct TelemetryReceiver<T, C>
 where

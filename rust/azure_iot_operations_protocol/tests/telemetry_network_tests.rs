@@ -89,7 +89,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .topic_pattern(topic)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<T, _> = TelemetrySender::new(
+    let sender: TelemetrySender<T, _> = TelemetrySender::new(
         application_context.clone(),
         session.create_managed_client(),
         sender_options,
@@ -101,7 +101,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
         .auto_ack(auto_ack)
         .build()
         .unwrap();
-    let telemetry_receiver: TelemetryReceiver<T, _> = TelemetryReceiver::new(
+    let receiver: TelemetryReceiver<T, _> = TelemetryReceiver::new(
         application_context,
         session.create_managed_client(),
         receiver_options,
@@ -109,7 +109,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
     .unwrap();
 
     let exit_handle: SessionExitHandle = session.create_exit_handle();
-    Ok((session, telemetry_sender, telemetry_receiver, exit_handle))
+    Ok((session, sender, receiver, exit_handle))
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
