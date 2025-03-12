@@ -30,7 +30,7 @@ const DEFAULT_SCHEMA_VERSION: &str = "1";
 pub struct Error(#[from] ErrorKind);
 
 impl Error {
-    /// Returns the [`SchemaRegistryErrorKind`] of the error.
+    /// Returns the [`ErrorKind`] of the error.
     #[must_use]
     pub fn kind(&self) -> &ErrorKind {
         &self.0

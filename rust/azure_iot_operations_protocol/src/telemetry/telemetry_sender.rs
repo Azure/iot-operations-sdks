@@ -361,11 +361,11 @@ where
     /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern) is empty or whitespace
-    /// - [`topic_pattern`](TelemetrySenderOptions::topic_pattern),
-    ///     [`topic_namespace`](TelemetrySenderOptions::topic_namespace),
+    /// - [`topic_pattern`](Options::topic_pattern) is empty or whitespace
+    /// - [`topic_pattern`](Options::topic_pattern),
+    ///     [`topic_namespace`](Options::topic_namespace),
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](TelemetrySenderOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](Options::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,

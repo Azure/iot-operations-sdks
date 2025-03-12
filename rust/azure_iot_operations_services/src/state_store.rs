@@ -28,13 +28,13 @@ const FENCING_TOKEN_USER_PROPERTY: &str = "__ft";
 pub struct Error(#[from] ErrorKind);
 
 impl Error {
-    /// Returns the [`StateStore                     ErrorKind`] of the error as a reference.
+    /// Returns the [`ErrorKind`] of the error as a reference.
     #[must_use]
     pub fn kind(&self) -> &ErrorKind {
         &self.0
     }
 
-    /// Returns the [`StateStoreErrorKind`] of the error.
+    /// Returns the [`ErrorKind`] of the error.
     #[must_use]
     pub(crate) fn consuming_kind(self) -> ErrorKind {
         self.0
@@ -145,7 +145,7 @@ where
     pub response: T,
 }
 
-/// Convenience function to convert a `CommandResponse` into a `state_store::Response`
+/// Convenience function to convert a `command_invoker::Response` into a `state_store::Response`
 /// Takes in a closure that converts the payload into the desired type.
 fn convert_response<T, F>(
     resp: command_invoker::Response<resp3::Response>,

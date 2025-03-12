@@ -47,7 +47,7 @@ where
     /// Payload of the command request.
     #[builder(setter(custom))]
     serialized_payload: SerializedPayload,
-    /// Strongly link `CommandRequest` with type `TReq`
+    /// Strongly link `Request` with type `TReq`
     #[builder(private)]
     request_payload_type: PhantomData<TReq>,
     /// User data that will be set as custom MQTT User Properties on the Request message.
@@ -225,7 +225,7 @@ pub struct Options {
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
 /// let result = command_invoker.invoke(request);
-/// //let response: CommandResponse<Vec<u8>> = result.await.unwrap();
+/// //let response: Response<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```
 pub struct CommandInvoker<TReq, TResp, C>
@@ -418,16 +418,16 @@ where
 
     /// Invokes a command.
     ///
-    /// Returns Ok([`CommandResponse`]) on success, otherwise returns [`AIOProtocolError`].
+    /// Returns Ok([`Response`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Arguments
-    /// * `request` - [`CommandRequest`] to invoke
+    /// * `request` - [`Request`] to invoke
     /// # Errors
     ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - any [`topic_tokens`](CommandRequest::topic_tokens) are invalid
+    /// - any [`topic_tokens`](Request::topic_tokens) are invalid
     ///
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](AIOProtocolErrorKind::PayloadInvalid) if
-    /// - [`response_payload`][CommandResponse::payload] deserialization fails
+    /// - [`response_payload`][Response::payload] deserialization fails
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::NoContent`] but the payload isn't empty
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::BadRequest`] and there is no [`UserProperty::InvalidPropertyName`] or [`UserProperty::InvalidPropertyValue`] specified
     ///
@@ -996,13 +996,13 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             // if status code isn't ok or no content, form `AIOProtocolError` about response
             match status_code {
                 StatusCode::Ok => {
-                    // Continue to form success CommandResponse
+                    // Continue to form success Command Response
                     break 'block;
                 }
                 StatusCode::NoContent => {
                     // If status code is no content, an error will be returned if there is content
                     if response_payload.is_empty() {
-                        // continue to form success CommandResponse
+                        // continue to form success Command Response
                         break 'block;
                     }
                     // If there is content, return an error
@@ -1582,7 +1582,7 @@ mod tests {
     async fn test_invoke_times_out_timeout_rounded() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
@@ -1615,7 +1615,7 @@ mod tests {
 
         let response = command_invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_nanos(1))
@@ -1899,7 +1899,7 @@ mod tests {
     }
 }
 
-// CommandRequest tests
+// Command Request tests
 // Test cases for subscribe
 // Tests success:
 //    Subscribe is called on first invoke request and suback is received
@@ -1942,7 +1942,7 @@ mod tests {
 // Tests success:
 //     content type isn't present
 //     format indicator not present, 0, or (1 and TResp format indicator is 1)
-//     valid timestamp present and is returned on the CommandResponse
+//     valid timestamp present and is returned on the Command Response
 //     no timestamp is present
 //     status is a number and is one of StatusCode's enum values
 //     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this

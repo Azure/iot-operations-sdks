@@ -95,7 +95,7 @@ where
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Arguments
-    /// * `response` - The [`CommandResponse`] to send.
+    /// * `response` - The [`Response`] to send.
     ///
     /// # Errors
     ///
@@ -142,7 +142,7 @@ where
     }
 }
 
-/// Command Response struct.
+/// Command Executor Response struct.
 /// Used by the [`CommandExecutor`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into, strip_option), build_fn(validate = "Self::validate"))]
@@ -153,7 +153,7 @@ where
     /// Payload of the command response.
     #[builder(setter(custom))]
     serialized_payload: SerializedPayload,
-    /// Strongly link `CommandResponse` with type `TResp`
+    /// Strongly link `Response` with type `TResp`
     #[builder(private)]
     response_payload_type: PhantomData<TResp>,
     /// Custom user data set as custom MQTT User Properties on the response message.
@@ -254,12 +254,12 @@ enum CacheEntryStatus {
 struct Cache(Arc<Mutex<HashMap<CacheKey, CacheEntry>>>);
 
 impl Cache {
-    /// Get a cache entry from the [`CommandExecutorCache`].
+    /// Get a cache entry from the [`Cache`].
     ///
     /// # Arguments
     /// `key` - The cache key to get the cache entry for.
     ///
-    /// Returns a [`CommandExecutorCacheEntryStatus`] indicating the status of the cache entry.
+    /// Returns a [`CacheEntryStatus`] indicating the status of the cache entry.
     fn get(&self, key: &CacheKey) -> CacheEntryStatus {
         let cache = self.0.lock().unwrap();
         cache.get(key).map_or(CacheEntryStatus::NotFound, |entry| {
@@ -390,11 +390,11 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
-    /// - [`command_name`](CommandExecutorOptions::command_name) is empty, whitespace or invalid
-    /// - [`request_topic_pattern`](CommandExecutorOptions::request_topic_pattern),
-    ///     [`topic_namespace`](CommandExecutorOptions::topic_namespace)
+    /// - [`command_name`](Options::command_name) is empty, whitespace or invalid
+    /// - [`request_topic_pattern`](Options::request_topic_pattern),
+    ///     [`topic_namespace`](Options::topic_namespace)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_map`](Options::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     pub fn new(
         application_context: ApplicationContext,
         client: C,
@@ -560,7 +560,7 @@ where
     /// Receive a command request or [`None`] if there will be no more requests.
     ///
     /// If there are messages:
-    /// - Returns Ok([`CommandRequest`]) on success
+    /// - Returns Ok([`Request`]) on success
     /// - Returns [`AIOProtocolError`] on error.
     ///
     /// Will also subscribe to the request topic if not already subscribed.
@@ -1580,7 +1580,7 @@ mod tests {
         assert!(command_executor.shutdown().await.is_ok());
     }
 
-    // CommandResponse tests
+    // Command Response tests
     #[test]
     fn test_response_serialization_error() {
         let mut mock_response_payload = MockPayload::new();

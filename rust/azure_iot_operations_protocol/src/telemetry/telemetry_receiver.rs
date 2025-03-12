@@ -138,11 +138,11 @@ impl Display for CloudEvent {
 }
 
 impl CloudEvent {
-    /// Parse a [`CloudEvent`] from a [`TelemetryMessage`].
-    /// Note that this will return an error if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
+    /// Parse a [`CloudEvent`] from a [`Message`].
+    /// Note that this will return an error if the [`Message`] does not contain the required fields for a [`CloudEvent`].
     ///
     /// # Errors
-    /// [`CloudEventBuilderError::UninitializedField`] if the [`TelemetryMessage`] does not contain the required fields for a [`CloudEvent`].
+    /// [`CloudEventBuilderError::UninitializedField`] if the [`Message`] does not contain the required fields for a [`CloudEvent`].
     ///
     /// [`CloudEventBuilderError::ValidationError`] if any of the field values are not valid for a [`CloudEvent`].
     pub fn from_telemetry<T: PayloadSerialize>(
@@ -307,16 +307,16 @@ where
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the telemetry receiver is part of.
     /// * `client` - [`ManagedClient`] to use for telemetry communication.
-    /// * `receiver_options` - [`TelemetryReceiverOptions`] to configure the telemetry receiver.
+    /// * `receiver_options` - [`Options`] to configure the telemetry receiver.
     ///
     /// Returns Ok([`TelemetryReceiver`]) on success, otherwise returns[`AIOProtocolError`].
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// - [`topic_pattern`](TelemetryReceiverOptions::topic_pattern),
-    ///   [`topic_namespace`](TelemetryReceiverOptions::topic_namespace), are Some and and invalid
+    /// - [`topic_pattern`](Options::topic_pattern),
+    ///   [`topic_namespace`](Options::topic_namespace), are Some and and invalid
     ///   or contain a token with no valid replacement
-    /// - [`topic_token_map`](TelemetryReceiverOptions::topic_token_map) is not empty
+    /// - [`topic_token_map`](Options::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
@@ -455,7 +455,7 @@ where
 
     /// Receives a telemetry message or [`None`] if there will be no more messages.
     /// If there are messages:
-    /// - Returns Ok([`TelemetryMessage`], [`Option<AckToken>`]) on success
+    /// - Returns Ok([`Message`], [`Option<AckToken>`]) on success
     ///     - If the message is received with Quality of Service 1 an [`AckToken`] is returned.
     /// - Returns [`AIOProtocolError`] on error.
     ///

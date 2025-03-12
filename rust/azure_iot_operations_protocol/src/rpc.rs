@@ -14,7 +14,7 @@ pub mod command_invoker;
 /// This module contains the command executor implementation.
 pub mod command_executor;
 
-// Re-export the command invoker and executor
+// Re-export the command invoker and executor for ease of use.
 pub use command_executor::CommandExecutor;
 pub use command_invoker::CommandInvoker;
 

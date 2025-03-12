@@ -14,10 +14,6 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 };
 use azure_iot_operations_protocol::telemetry::{telemetry_sender, TelemetrySender};
 
-//::{
-// telemetry_sender::OptionsBuilderError, CloudEventBuilder, CloudEventBuilderError,
-// CloudEventSubject, Message, TelemetrySender,
-// };
 use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
 use tokio::time;
