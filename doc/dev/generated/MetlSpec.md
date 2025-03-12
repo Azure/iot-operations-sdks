@@ -10,15 +10,15 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorRequestTopicCommandNameWithoutReplacement_StartsSuccessfully
+test-name: CommandExecutorValidTopicNamespace_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified.
+    CommandExecutor initialized with a topic namespace that is valid.
   expect: >-
     CommandExecutor starts successfully.
 prologue:
   executors:
-  - request-topic: "mock/{commandName}/test"
+  - topic-namespace: "valid/namespace"
 ```
 
 A common use for `prologue`-only cases is to test initialization error-checking:
@@ -43,24 +43,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
+test-name: TelemetrySenderSend_TimeoutPropagated
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with payload that cannot deserialize.
+    TelemetrySender sends a Telemetry.
   expect: >-
-    TelemetryReceiver does not relay telemetry to user code.
+    TelemetrySender copies Telemetry timout value into message expiry interval.
 prologue:
-  receivers:
-  - serializer:
-      fail-deserialization: true
+  senders:
+  - { }
 actions:
-- action: receive telemetry
-  packet-index: 0
-- action: await acknowledgement
-  packet-index: 0
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
 epilogue:
-  acknowledgement-count: 1
-  telemetry-count: 0
+  published-messages:
+  - topic: "mock/test"
+    expiry: 3
 ```
 
 ### Key/value kinds
@@ -491,14 +491,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - request-topic: "mock/{commandName}/test"
+  - response-topic-prefix: "valid/{modelId}"
   catch:
     error-kind: invalid argument
     in-application: !!bool false
     is-shallow: !!bool true
-    is-remote: !!bool false
+    is-remote: !!bool false 
     supplemental:
-      property-name: 'commandname'
+      property-name: 'modelid'
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -679,13 +679,13 @@ An `await invocation` action causes the test system to wait for a command invoca
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: internal logic error
-    in-application: !!bool false
+    error-kind: execution error
+    in-application: !!bool true
     is-shallow: !!bool false
     is-remote: !!bool true
     status-code: 500
     supplemental:
-      property-name: 'buffer'
+      property-name: '__hasreservedprefix'
 ```
 
 When the value of the `action` key is `await invocation`, the following sibling keys are also available:
@@ -960,12 +960,12 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
 - action: receive telemetry
   metadata:
     "id": "dtmi:test:someAssignedId;1"
-    "source": "dtmi:test:myEventSource;1"
+    "source": "::::"
     "type": "test-type"
     "specversion": "1.0"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
-    "dataschema": ""
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
   packet-index: 0
 ```
 
@@ -1093,8 +1093,8 @@ epilogue:
       "source": "dtmi:test:myEventSource;1"
       "type": "ms.aio.telemetry"
       "specversion": "1.0"
+      "id": "::::"
       "subject": "mock/test"
-      "dataschema": # not present
 ```
 
 #### SenderEpilogue
@@ -1320,7 +1320,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "ThisInvokerId"
+    client-id: "MySenderClientId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1400,7 +1400,7 @@ See the [error model document](../../reference/error-model.md) for further detai
 A Duration defines a span of time, as in the following example:
 
 ```yaml
-  message-expiry: { seconds: 20 }
+  message-expiry: { seconds: 3 }
 ```
 
 By convention, this object is written in YAML flow style.

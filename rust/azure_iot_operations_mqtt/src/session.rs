@@ -13,6 +13,8 @@ pub mod session; // TODO: Make this private and accessible via compile flags
 mod state;
 mod wrapper;
 
+use std::fmt;
+
 use thiserror::Error;
 
 use crate::auth::SatAuthContextInitError;
@@ -20,29 +22,14 @@ use crate::error::{ConnectionError, DisconnectError};
 use crate::rumqttc_adapter as adapter;
 pub use wrapper::*;
 
-/// Error type for [`Session`]. The type of error is specified by the value of [`SessionErrorKind`].
+/// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
 #[error(transparent)]
-pub struct SessionError(#[from] SessionErrorKind);
+pub struct SessionError(#[from] SessionErrorRepr);
 
-impl SessionError {
-    /// Returns the [`SessionErrorKind`] of the error.
-    #[must_use]
-    pub fn kind(&self) -> &SessionErrorKind {
-        &self.0
-    }
-}
-
-/// Error kind for [`SessionError`].
+/// Internal error for [`Session`] runs.
 #[derive(Error, Debug)]
-pub enum SessionErrorKind {
-    /// Invalid configuration options provided to the [`Session`].
-    // TODO: Revisit how this config err is designed. Matching is strange due to the adapter error not being exposed (must use _ in match).
-    // TODO: Should this be an adapter error? Would it be better to generalize it for more config errors other than just the MqttAdapterError?
-    // Ideally, inner value should not be accessible, although this might not be the worst thing either, it's not uncommon for libraries to do this.
-    // Also arguably, should be on a different error type entirely since it's pre-run validation.
-    #[error("invalid configuration: {0}")]
-    ConfigError(#[from] adapter::MqttAdapterError),
+enum SessionErrorRepr {
     /// MQTT session was lost due to a connection error.
     #[error("session state not present on broker after reconnect")]
     SessionLost,
@@ -55,9 +42,6 @@ pub enum SessionErrorKind {
     /// The [`Session`] was ended by a user-initiated force exit. The broker may still retain the MQTT session.
     #[error("session ended by force exit")]
     ForceExit,
-    /// The [`Session`] ended up in an invalid state.
-    #[error("{0}")]
-    InvalidState(String),
     /// The [`Session`] was ended by an IO error.
     #[error("{0}")]
     IoError(#[from] std::io::Error),
@@ -66,19 +50,58 @@ pub enum SessionErrorKind {
     SatAuthError(#[from] SatAuthContextInitError),
 }
 
+/// Error configuring a [`Session`].
+#[derive(Error, Debug)]
+#[error(transparent)]
+pub struct SessionConfigError(#[from] adapter::MqttAdapterError);
+
 /// Error type for exiting a [`Session`] using the [`SessionExitHandle`].
 #[derive(Error, Debug)]
-pub enum SessionExitError {
-    /// Session was dropped before it could be exited.
-    #[error("session dropped")]
-    Dropped(#[from] DisconnectError),
-    /// Session is not currently able to contact the broker for graceful exit.
-    #[error("cannot gracefully exit session while disconnected from broker - issued attempt = {attempted}")]
-    BrokerUnavailable {
-        /// Indicates if a disconnect attempt was made.
-        attempted: bool,
-    },
-    /// Attempt to exit the Session gracefully timed out.
-    #[error("exit attempt timed out")]
-    Timeout(#[from] tokio::time::error::Elapsed),
+#[error("{kind} (network attempt = {attempted})")]
+pub struct SessionExitError {
+    attempted: bool,
+    kind: SessionExitErrorKind,
+}
+
+impl SessionExitError {
+    /// Return the corresponding [`SessionExitErrorKind`] for this error
+    #[must_use]
+    pub fn kind(&self) -> SessionExitErrorKind {
+        self.kind
+    }
+
+    /// Return whether a network attempt was made before the error occurred
+    #[must_use]
+    pub fn attempted(&self) -> bool {
+        self.attempted
+    }
+}
+
+impl From<DisconnectError> for SessionExitError {
+    fn from(_: DisconnectError) -> Self {
+        Self {
+            attempted: true,
+            kind: SessionExitErrorKind::Detached,
+        }
+    }
+}
+
+/// An enumeration of categories of [`SessionExitError`]
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+pub enum SessionExitErrorKind {
+    /// The exit handle was detached from the session
+    Detached,
+    /// The broker could not be reached
+    BrokerUnavailable,
+}
+
+impl fmt::Display for SessionExitErrorKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            SessionExitErrorKind::Detached => {
+                write!(f, "Detached from Session")
+            }
+            SessionExitErrorKind::BrokerUnavailable => write!(f, "Could not contact broker"),
+        }
+    }
 }

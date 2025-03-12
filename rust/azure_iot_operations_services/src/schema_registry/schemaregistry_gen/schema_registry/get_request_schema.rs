@@ -13,12 +13,12 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetRequestSchema {
-    /// The 'name' Field.
+    /// Schema name.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub name: Option<String>,
 
-    /// The 'version' Field.
+    /// Version of the schema. Allowed between 0-9.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub version: Option<String>,
