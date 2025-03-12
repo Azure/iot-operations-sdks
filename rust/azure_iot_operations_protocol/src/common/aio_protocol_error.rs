@@ -549,10 +549,8 @@ impl AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
             kind: AIOProtocolErrorKind::UnsupportedVersion,
-            // is_shallow: false,
-            // is_remote: true,
-            is_shallow: is_shallow,
-            is_remote: is_remote,
+            is_shallow,
+            is_remote,
             nested_error: None,
             header_name: None,
             header_value: None,
