@@ -116,18 +116,17 @@ k3d image import <image-name>
 
 The following yaml can be used as a reference for deploying your application to the cluster.
 
-It contains the following information:
+The Deployment contains the following information:
 
-| Type | Name | Description |
+| Type | Value | Description |
 |-|-|-|
-| Deployment | `sdk-application` | The edge application deployment definition |
+| ServiceAccountName | `mqtt-client` | The service account to generate the auth token from |
 | Volume | `mqtt-client-token` | The SAT for mounting into the counter |
 | Volume | `aio-ca-trust-bundle` | The broker trust-bundle for validating the server |
 | Container | `sdk-application` | The definition of the container, including the container image and the mount locations for the SAT and broker trust-bundle |
-| env | `MQTT_*`, `AIO_*` | The environment variables used to configure the connection to the MQTT broker. Refer to [MQTT broker access](/doc/setup.md#mqtt-broker-access) for details on settings these values to match the development environment |
-
-> [!TIP]
-> Setting the `imagePullPolicy` to `Never`, allows the cached image to be used even when the version is `latest`
+| Container.image | <image-name> | The container image to be deployed |
+| Container.imagePullPolicy | `Never` | The pull policy can be set to `Never` to allow cached images to be used.
+| Container.env | `MQTT_*`, `AIO_*` | The environment variables used to configure the connection to the MQTT broker. Refer to [MQTT broker access](/doc/setup.md#mqtt-broker-access) for details on settings these values to match the development environment |
 
 1. Create a file called `app.yaml` containing the following:
 
@@ -146,7 +145,7 @@ It contains the following information:
           labels:
             app: sdk-application
         spec:
-          serviceAccountName: mqtt-client
+          serviceAccountName: mqtt-client   # The service account to usefor generating the token
 
           volumes:
             - name: mqtt-client-token
@@ -163,18 +162,18 @@ It contains the following information:
 
           containers:
             - name: sdk-application
-              image: <image-name>
-              imagePullPolicy: Never # Set to Never to use the imported image
+              image: <image-name>       # Use the container image name previously created
+              imagePullPolicy: Never    # Set to Never to use the imported image
 
               volumeMounts:
                 - name: mqtt-client-token
                   mountPath: /var/run/secrets/tokens
                 - name: aio-ca-trust-bundle
-                  mountPath: /var/run/certs/aio-ca-cert
+                  mountPath: /var/run/certs/aio-ca
 
               env:
                 - name: MQTT_CLIENT_ID
-                  value: "<client-id>"
+                  value: "<client-id>"  # Replace this the MQTT client id of your choosing
                 - name: AIO_BROKER_HOSTNAME
                   value: "aio-broker"
                 - name: AIO_BROKER_TCP_PORT
