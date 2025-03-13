@@ -13,7 +13,6 @@ prologue:
       "modelId": "Invalid#Model"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:

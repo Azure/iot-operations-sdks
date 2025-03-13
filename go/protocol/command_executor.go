@@ -110,7 +110,7 @@ func NewCommandExecutor[Req, Res any](
 		Name:     "ExecutionTimeout",
 		Text:     commandExecutorErrStr,
 	}
-	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
+	if err := to.Validate(); err != nil {
 		return nil, err
 	}
 
@@ -154,7 +154,7 @@ func NewCommandExecutor[Req, Res any](
 		app:      app,
 		client:   client,
 		encoding: responseEncoding,
-		version:  version.RPCProtocolString,
+		version:  version.RPC,
 	}
 
 	ce.listener.register()
@@ -192,9 +192,8 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 
 	if pub.MessageExpiry == 0 {
 		errNoExpiry := &errors.Remote{
-			Base: errors.Base{
-				Message:    "message expiry missing",
-				Kind:       errors.HeaderMissing,
+			Message: "message expiry missing",
+			Kind: errors.HeaderMissing{
 				HeaderName: constants.MessageExpiry,
 			},
 		}
@@ -290,11 +289,8 @@ func (ce *CommandExecutor[Req, Res]) handle(
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
 				ret.err = &errors.Remote{
-					Base: errors.Base{
-						Message: fmt.Sprint(ePanic),
-						Kind:    errors.ExecutionException,
-					},
-					InApplication: true,
+					Message: fmt.Sprint(ePanic),
+					Kind:    errors.ExecutionError{},
 				}
 			}
 
@@ -309,24 +305,9 @@ func (ce *CommandExecutor[Req, Res]) handle(
 			// An error from the context overrides any return value.
 			ret.err = e
 		} else if ret.err != nil {
-			if e, ok := ret.err.(InvocationError); ok {
-				ret.err = &errors.Remote{
-					Base: errors.Base{
-						Message:       e.Message,
-						Kind:          errors.InvocationException,
-						PropertyName:  e.PropertyName,
-						PropertyValue: e.PropertyValue,
-					},
-					InApplication: true,
-				}
-			} else {
-				ret.err = &errors.Remote{
-					Base: errors.Base{
-						Message: ret.err.Error(),
-						Kind:    errors.ExecutionException,
-					},
-					InApplication: true,
-				}
+			ret.err = &errors.Remote{
+				Message: ret.err.Error(),
+				Kind:    errors.ExecutionError{},
 			}
 		}
 	}()
@@ -371,18 +352,16 @@ func (ce *CommandExecutor[Req, Res]) build(
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
 		return &errors.Remote{
-			Base: errors.Base{
-				Message:    "missing response topic",
-				Kind:       errors.HeaderMissing,
+			Message: "missing response topic",
+			Kind: errors.HeaderMissing{
 				HeaderName: constants.ResponseTopic,
 			},
 		}
 	}
 	if !internal.ValidTopic(pub.ResponseTopic) {
 		return &errors.Remote{
-			Base: errors.Base{
-				Message:     "invalid response topic",
-				Kind:        errors.HeaderInvalid,
+			Message: "invalid response topic",
+			Kind: errors.HeaderInvalid{
 				HeaderName:  constants.ResponseTopic,
 				HeaderValue: pub.ResponseTopic,
 			},
