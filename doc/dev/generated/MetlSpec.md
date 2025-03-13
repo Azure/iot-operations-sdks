@@ -43,24 +43,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
+test-name: TelemetrySenderSend_TimeoutPropagated
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with payload that cannot deserialize.
+    TelemetrySender sends a Telemetry.
   expect: >-
-    TelemetryReceiver does not relay telemetry to user code.
+    TelemetrySender copies Telemetry timout value into message expiry interval.
 prologue:
-  receivers:
-  - serializer:
-      fail-deserialization: true
+  senders:
+  - { }
 actions:
-- action: receive telemetry
-  packet-index: 0
-- action: await acknowledgement
-  packet-index: 0
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
 epilogue:
-  acknowledgement-count: 1
-  telemetry-count: 0
+  published-messages:
+  - topic: "mock/test"
+    expiry: 3
 ```
 
 ### Key/value kinds
@@ -491,14 +491,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - request-topic: "mock/{commandName}/test"
+  - request-topic: "mock/{modelId}/test"
   catch:
     error-kind: invalid argument
     in-application: !!bool false
     is-shallow: !!bool true
-    is-remote: !!bool false
+    is-remote: !!bool false 
     supplemental:
-      property-name: 'commandname'
+      property-name: 'modelid'
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -679,13 +679,13 @@ An `await invocation` action causes the test system to wait for a command invoca
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: internal logic error
+    error-kind: invalid header
     in-application: !!bool false
     is-shallow: !!bool false
-    is-remote: !!bool true
-    status-code: 500
+    is-remote: !!bool false
     supplemental:
-      property-name: 'buffer'
+      header-name: "__ts"
+      header-value: "NotValid"
 ```
 
 When the value of the `action` key is `await invocation`, the following sibling keys are also available:
@@ -842,7 +842,7 @@ The 'serializer' key provides configuration settings for the test serializer ass
 ```yaml
   receivers:
   - serializer:
-      fail-deserialization: true
+      accept-content-types: [ "", "non.conforming" ]
 ```
 
 A TelemetryReceiver serializer can have the following child keys:
@@ -962,10 +962,10 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
     "id": "dtmi:test:someAssignedId;1"
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
-    "specversion": "1.0"
+    "specversion": "0.707"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
-    "dataschema": ""
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
   packet-index: 0
 ```
 
@@ -1091,10 +1091,10 @@ epilogue:
     payload: "Test_Telemetry"
     metadata:
       "source": "dtmi:test:myEventSource;1"
-      "type": "ms.aio.telemetry"
+      "type": "test-type"
       "specversion": "1.0"
       "subject": "mock/test"
-      "dataschema": # not present
+      "dataschema": "dtmi:test:MyModel:_contents:__test;1"
 ```
 
 #### SenderEpilogue
@@ -1320,7 +1320,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "ThisInvokerId"
+    client-id: "MySenderClientId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1400,7 +1400,7 @@ See the [error model document](../../reference/error-model.md) for further detai
 A Duration defines a span of time, as in the following example:
 
 ```yaml
-  message-expiry: { seconds: 20 }
+  message-expiry: { seconds: 10 }
 ```
 
 By convention, this object is written in YAML flow style.
