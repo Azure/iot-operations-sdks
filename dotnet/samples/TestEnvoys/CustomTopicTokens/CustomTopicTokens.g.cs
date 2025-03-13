@@ -43,6 +43,12 @@ namespace TestEnvoys.CustomTopicTokens
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt};
                 if (topicTokenMap != null)
                 {
@@ -52,7 +58,7 @@ namespace TestEnvoys.CustomTopicTokens
                     }
                 }
 
-                this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {

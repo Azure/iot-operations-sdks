@@ -41,6 +41,12 @@ namespace SampleCloudEvents.Oven
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {

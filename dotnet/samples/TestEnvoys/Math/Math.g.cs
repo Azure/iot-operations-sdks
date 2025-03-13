@@ -43,6 +43,12 @@ namespace TestEnvoys.Math
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt};
                 if (topicTokenMap != null)
                 {
@@ -52,7 +58,7 @@ namespace TestEnvoys.Math
                     }
                 }
 
-                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
                 if (topicTokenMap != null)
                 {
@@ -62,7 +68,7 @@ namespace TestEnvoys.Math
                     }
                 }
 
-                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
                 if (topicTokenMap != null)
                 {
@@ -72,7 +78,7 @@ namespace TestEnvoys.Math
                     }
                 }
 
-                this.getRandomCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.getRandomCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }

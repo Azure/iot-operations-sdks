@@ -42,6 +42,12 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt};
                 if (topicTokenMap != null)
                 {
@@ -51,7 +57,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     }
                 }
 
-                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
                 if (topicTokenMap != null)
                 {
@@ -61,7 +67,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     }
                 }
 
-                this.getCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.getCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }

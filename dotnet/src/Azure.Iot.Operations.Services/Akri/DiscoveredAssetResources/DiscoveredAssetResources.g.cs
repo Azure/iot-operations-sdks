@@ -43,6 +43,12 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt};
                 if (topicTokenMap != null)
                 {
@@ -52,7 +58,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     }
                 }
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
                 if (topicTokenMap != null)
                 {
@@ -62,7 +68,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     }
                 }
 
-                this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }

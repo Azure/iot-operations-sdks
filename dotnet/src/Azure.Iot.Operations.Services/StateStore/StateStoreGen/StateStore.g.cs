@@ -41,6 +41,12 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.invokeCommandExecutor = new InvokeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = InvokeInt};
                 if (topicTokenMap != null)
                 {
@@ -50,7 +56,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                     }
                 }
 
-                this.invokeCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.invokeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public InvokeCommandExecutor InvokeCommandExecutor { get => this.invokeCommandExecutor; }

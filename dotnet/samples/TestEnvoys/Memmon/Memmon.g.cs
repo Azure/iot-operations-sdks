@@ -47,6 +47,12 @@ namespace TestEnvoys.Memmon
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StartTelemetryInt};
                 if (topicTokenMap != null)
                 {
@@ -56,7 +62,7 @@ namespace TestEnvoys.Memmon
                     }
                 }
 
-                this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt};
                 if (topicTokenMap != null)
                 {
@@ -66,7 +72,7 @@ namespace TestEnvoys.Memmon
                     }
                 }
 
-                this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt};
                 if (topicTokenMap != null)
                 {
@@ -76,7 +82,7 @@ namespace TestEnvoys.Memmon
                     }
                 }
 
-                this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {

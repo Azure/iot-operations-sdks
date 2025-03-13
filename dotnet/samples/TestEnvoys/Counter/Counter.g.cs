@@ -45,6 +45,12 @@ namespace TestEnvoys.Counter
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.readCounterCommandExecutor = new ReadCounterCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCounterInt};
                 if (topicTokenMap != null)
                 {
@@ -54,7 +60,7 @@ namespace TestEnvoys.Counter
                     }
                 }
 
-                this.readCounterCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.readCounterCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.incrementCommandExecutor = new IncrementCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IncrementInt};
                 if (topicTokenMap != null)
                 {
@@ -64,7 +70,7 @@ namespace TestEnvoys.Counter
                     }
                 }
 
-                this.incrementCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.incrementCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.resetCommandExecutor = new ResetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ResetInt};
                 if (topicTokenMap != null)
                 {
@@ -74,7 +80,7 @@ namespace TestEnvoys.Counter
                     }
                 }
 
-                this.resetCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.resetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {

@@ -41,6 +41,12 @@ namespace TestEnvoys.Passthrough
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
                 this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt};
                 if (topicTokenMap != null)
                 {
@@ -50,7 +56,7 @@ namespace TestEnvoys.Passthrough
                     }
                 }
 
-                this.passCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
+                this.passCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
