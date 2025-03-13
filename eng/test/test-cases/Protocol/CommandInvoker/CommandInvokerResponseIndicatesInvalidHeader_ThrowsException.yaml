@@ -25,10 +25,8 @@ actions:
   invocation-index: 0
   catch:
     error-kind: invalid header
-    in-application: !!bool false
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 400
     supplemental:
       header-name: "__srcId"
       header-value: "//invalid"

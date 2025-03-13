@@ -13,11 +13,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             Assert.Equal(testCaseCatch.GetErrorKind(), exception.Kind);
 
-            if (testCaseCatch.InApplication != null)
-            {
-                Assert.Equal(testCaseCatch.InApplication, exception.InApplication);
-            }
-
             if (testCaseCatch.IsShallow != null)
             {
                 Assert.Equal(testCaseCatch.IsShallow, exception.IsShallow);
@@ -26,15 +21,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             if (testCaseCatch.IsRemote != null)
             {
                 Assert.Equal(testCaseCatch.IsRemote, exception.IsRemote);
-            }
-
-            if (testCaseCatch.StatusCode == null)
-            {
-                Assert.Null(exception.HttpStatusCode);
-            }
-            else if (testCaseCatch.StatusCode is int statusCode || int.TryParse(testCaseCatch.StatusCode.ToString(), out statusCode))
-            {
-                Assert.Equal(statusCode, exception.HttpStatusCode);
             }
 
             if (testCaseCatch.Message != null)

@@ -11,11 +11,6 @@ namespace Azure.Iot.Operations.Protocol
         ConfigurationInvalid,
 
         /// <summary>
-        /// A method was called with an invalid argument value.
-        /// </summary>
-        ArgumentInvalid,
-
-        /// <summary>
         /// A required MQTT header property is missing.
         /// </summary>
         HeaderMissing,
@@ -31,12 +26,12 @@ namespace Azure.Iot.Operations.Protocol
         PayloadInvalid,
 
         /// <summary>
-        /// The current program state is invalid vis-a-vis the method that was called.
+        /// There is some unexpected or incorrect state in the application layer code or in the operating system.
         /// </summary>
         StateInvalid,
 
         /// <summary>
-        /// The client or service observed a condition that was thought to be impossible.
+        /// The client or service observed a condition that was thought to be impossible. This should indicate an issue with this SDK rather than an issue with application code.
         /// </summary>
         InternalLogicError,
 
@@ -72,14 +67,9 @@ namespace Azure.Iot.Operations.Protocol
 
         /// <summary>
         /// The request failed because the command executor did not support the protocol version specified by this request
-        /// or this request specified a malformed protocol version.
+        /// or this request specified a malformed protocol version. Alternatively, the request failed because the command executor's
+        /// response to this request specified a protocol version not supported by this command invoker or specified a malformed protocol version.
         /// </summary>
-        UnsupportedRequestVersion,
-
-        /// <summary>
-        /// The request failed because the command executor's response to this request specified a protocol
-        /// version not supported by this command invoker or specified a malformed protocol version.
-        /// </summary>
-        UnsupportedResponseVersion,
+        UnsupportedVersion,
     }
 }

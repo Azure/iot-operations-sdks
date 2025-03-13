@@ -36,10 +36,8 @@ public class TelemetrySenderTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-        Assert.False(ex.InApplication);
         Assert.True(ex.IsShallow);
         Assert.False(ex.IsRemote);
-        Assert.Null(ex.HttpStatusCode);
         Assert.Equal("MQTTClient.ProtocolVersion", ex.PropertyName);
         Assert.Equal(MqttProtocolVersion.V310, ex.PropertyValue);
         Assert.Null(ex.CorrelationId);
@@ -58,10 +56,8 @@ public class TelemetrySenderTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.PayloadInvalid, ex.Kind);
-        Assert.False(ex.InApplication);
         Assert.True(ex.IsShallow);
         Assert.False(ex.IsRemote);
-        Assert.Null(ex.HttpStatusCode);
         Assert.Null(ex.CorrelationId);
         Assert.True(ex.InnerException is SerializationException);
     }
@@ -80,7 +76,6 @@ public class TelemetrySenderTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.Timeout, ex.Kind);
-        Assert.False(ex.InApplication);
         Assert.False(ex.IsShallow);
         Assert.False(ex.IsRemote);
         Assert.True(ex.InnerException is Exception);

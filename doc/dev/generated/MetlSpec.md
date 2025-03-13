@@ -10,15 +10,15 @@ A `prologue` region is always required, but `actions` and `epilogue` are optiona
 For example, following is a small but complete test case, which verifies only successful initialization:
 
 ```yaml
-test-name: CommandExecutorValidTopicNamespace_StartsSuccessfully
+test-name: CommandExecutorRequestTopicCommandNameWithoutReplacement_StartsSuccessfully
 description:
   condition: >-
-    CommandExecutor initialized with a topic namespace that is valid.
+    CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified.
   expect: >-
     CommandExecutor starts successfully.
 prologue:
   executors:
-  - topic-namespace: "valid/namespace"
+  - request-topic: "mock/{commandName}/test"
 ```
 
 A common use for `prologue`-only cases is to test initialization error-checking:
@@ -35,7 +35,6 @@ prologue:
   - response-topic-prefix: "prefix/{in/valid}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false
 ```
@@ -43,24 +42,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetrySenderSend_TimeoutPropagated
+test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
 description:
   condition: >-
-    TelemetrySender sends a Telemetry.
+    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
   expect: >-
-    TelemetrySender copies Telemetry timout value into message expiry interval.
+    TelemetryReceiver does not relay telemetry to user code.
 prologue:
-  senders:
+  receivers:
   - { }
 actions:
-- action: send telemetry
-  timeout: { seconds: 3 }
-- action: await publish
-- action: await send
+- action: receive telemetry
+  content-type: "raw/0"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
 epilogue:
-  published-messages:
-  - topic: "mock/test"
-    expiry: 3
+  acknowledgement-count: 1
+  telemetry-count: 0
 ```
 
 ### Key/value kinds
@@ -104,7 +103,6 @@ prologue:
   - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
@@ -181,14 +179,14 @@ Following is an example CommandExecutor prologue:
 ```yaml
 prologue:
   executors:
-  - execution-timeout: { seconds: 0 }
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'executiontimeout'
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -491,14 +489,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - response-topic-prefix: "valid/{modelId}"
+  - request-topic: "mock/{in/valid}/test"
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'modelid'
+      property-name: 'requesttopicpattern'
+      property-value: "mock/{in/valid}/test"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -562,16 +560,14 @@ Following is an example CommandInvoker epilogue:
 
 ```yaml
 epilogue:
-  subscribed-topics:
-  - "response/mock/test"
-  acknowledgement-count: 2
+  acknowledgement-count: 1
   published-messages:
   - correlation-index: 0
-    topic: "mock/test"
     payload: "Test_Request"
-  - correlation-index: 1
-    topic: "mock/test"
-    payload: "Test_Request"
+    content-type: "application/json"
+    format-indicator: 1
+    metadata:
+      "requestHeader": "requestValue"
 ```
 
 #### InvokerEpilogue
@@ -679,13 +675,13 @@ An `await invocation` action causes the test system to wait for a command invoca
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: execution error
-    in-application: !!bool true
+    error-kind: unknown error
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 500
+    message: "This is a content error with details"
     supplemental:
-      property-name: '__hasreservedprefix'
+      property-name: 'requestheader'
+      property-value: "requestValue"
 ```
 
 When the value of the `action` key is `await invocation`, the following sibling keys are also available:
@@ -796,15 +792,15 @@ Following is an example TelemetryReceiver prologue:
 
 ```yaml
 prologue:
-  push-acks:
-    subscribe: [ fail ]
   receivers:
-  - { }
+  - topic-namespace: "invalid/{modelId}"
   catch:
-    error-kind: mqtt error
-    in-application: !!bool false
-    is-shallow: !!bool false
+    error-kind: invalid configuration
+    is-shallow: !!bool true
     is-remote: !!bool false 
+    supplemental:
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -960,12 +956,12 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
 - action: receive telemetry
   metadata:
     "id": "dtmi:test:someAssignedId;1"
-    "source": "::::"
+    "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
-    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+    "dataschema": ""
   packet-index: 0
 ```
 
@@ -1023,7 +1019,6 @@ prologue:
   - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
@@ -1090,11 +1085,11 @@ epilogue:
   - topic: "mock/test"
     payload: "Test_Telemetry"
     metadata:
-      "source": "dtmi:test:myEventSource;1"
-      "type": "ms.aio.telemetry"
-      "specversion": "1.0"
-      "id": "::::"
-      "subject": "mock/test"
+      "source": # not present
+      "type": # not present
+      "specversion": # not present
+      "subject": # not present
+      "dataschema": # not present
 ```
 
 #### SenderEpilogue
@@ -1136,8 +1131,7 @@ actions:
     source: "dtmi:test:myEventSource;1"
 - action: await send
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
 ```
@@ -1208,8 +1202,7 @@ An `await send` action causes the test system to wait for a telemetry send to co
 ```yaml
 - action: await send
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
     supplemental:
@@ -1320,7 +1313,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "MySenderClientId"
+    client-id: "MyInvokerClientId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1368,15 +1361,13 @@ The value of `catch` defines an error that is expected to be caught, as in the f
 
 ```yaml
   catch:
-    error-kind: request version not supported
-    in-application: !!bool false
+    error-kind: unknown error
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 505
-    message: "This is a not supported version exception"
+    message: "This is a content error with details"
     supplemental:
-      protocol-version: '1.0'
-      supported-protocols: "2 3 4"
+      property-name: 'requestheader'
+      property-value: "requestValue"
 ```
 
 The catch can have the following child keys:
@@ -1384,10 +1375,8 @@ The catch can have the following child keys:
 | Key | Test Kind | Required | Value Type | Description |
 | --- | --- | --- | --- | --- |
 | error-kind | check | yes | string | The kind of error expected to be caught. |
-| in-application | check | no | boolean | Whether the error occurs in user-supplied code rather than the SDK or its dependent components. |
 | is-shallow | check | no | boolean | Whether the error is identified immediately after the API was called, prior to any attempted network communication. |
 | is-remote | check | no | boolean | Whether the error is detected by a remote component. |
-| status-code | check | no | integer or null | An HTTP status code from a remote service that initally caught the error. |
 | message | check | no | string | The error message; should be checked only when explicitly set in a test case. |
 | supplemental | check | no | map from string to string | Additional properties that may be set for some error kinds. |
 
@@ -1400,7 +1389,7 @@ See the [error model document](../../reference/error-model.md) for further detai
 A Duration defines a span of time, as in the following example:
 
 ```yaml
-  message-expiry: { seconds: 3 }
+  message-expiry: # null omits header
 ```
 
 By convention, this object is written in YAML flow style.
