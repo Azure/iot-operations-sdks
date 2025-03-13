@@ -166,9 +166,15 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+
+                return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

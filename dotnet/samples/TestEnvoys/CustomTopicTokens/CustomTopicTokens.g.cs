@@ -48,11 +48,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-                        this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
@@ -60,11 +56,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-                        this.telemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -96,7 +88,6 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
                 }
-
                 await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
@@ -183,12 +174,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-
-                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
@@ -196,12 +182,7 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-
-                        this.telemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.telemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -234,10 +215,16 @@ namespace TestEnvoys.CustomTopicTokens
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<ReadCustomTopicTokenResponsePayload>(this.readCustomTopicTokenCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<ReadCustomTopicTokenResponsePayload>(this.readCustomTopicTokenCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>

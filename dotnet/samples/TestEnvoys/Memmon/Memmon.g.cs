@@ -125,7 +125,14 @@ namespace TestEnvoys.Memmon
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task SendTelemetryAsync(WorkingSetTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.workingSetTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             /// <summary>
@@ -142,7 +149,14 @@ namespace TestEnvoys.Memmon
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task SendTelemetryAsync(ManagedMemoryTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.managedMemoryTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             /// <summary>
@@ -159,7 +173,14 @@ namespace TestEnvoys.Memmon
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task SendTelemetryAsync(MemoryStatsTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.memoryStatsTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             /// <summary>
@@ -352,10 +373,16 @@ namespace TestEnvoys.Memmon
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<EmptyAvro>(this.startTelemetryCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -380,10 +407,16 @@ namespace TestEnvoys.Memmon
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<EmptyAvro>(this.stopTelemetryCommandInvoker.InvokeCommandAsync(new EmptyAvro(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -408,10 +441,16 @@ namespace TestEnvoys.Memmon
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<GetRuntimeStatsResponsePayload>(this.getRuntimeStatsCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>

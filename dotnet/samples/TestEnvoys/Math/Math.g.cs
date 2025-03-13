@@ -228,10 +228,16 @@ namespace TestEnvoys.Math
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<IsPrimeResponsePayload>(this.isPrimeCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -256,10 +262,16 @@ namespace TestEnvoys.Math
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<FibResponsePayload>(this.fibCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -284,10 +296,16 @@ namespace TestEnvoys.Math
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

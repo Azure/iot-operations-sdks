@@ -197,9 +197,15 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+
+                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -224,9 +230,15 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+
+                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             public async ValueTask DisposeAsync()

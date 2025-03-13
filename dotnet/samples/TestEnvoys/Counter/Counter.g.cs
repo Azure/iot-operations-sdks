@@ -105,7 +105,14 @@ namespace TestEnvoys.Counter
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             /// <summary>
@@ -270,10 +277,16 @@ namespace TestEnvoys.Counter
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<ReadCounterResponsePayload>(this.readCounterCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -298,10 +311,16 @@ namespace TestEnvoys.Counter
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<IncrementResponsePayload>(this.incrementCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -326,10 +345,16 @@ namespace TestEnvoys.Counter
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
-                additionalTopicTokenMap["executorId"] = executorId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
-                return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
+
+                return new RpcCallAsync<EmptyJson>(this.resetCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>

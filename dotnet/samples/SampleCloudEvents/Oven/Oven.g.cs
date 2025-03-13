@@ -68,7 +68,14 @@ namespace SampleCloudEvents.Oven
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             public async ValueTask DisposeAsync()
