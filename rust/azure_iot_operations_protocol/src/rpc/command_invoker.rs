@@ -58,7 +58,9 @@ where
     /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
     topic_tokens: HashMap<String, String>,
-    /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
+    /// Timeout for the command, must be one second or greater. Will also be used as the `message_expiry_interval`
+    /// to give the executor information on when the invoke request might expire.
+    #[builder(setter(custom))]
     timeout: Duration,
 }
 impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
@@ -98,19 +100,32 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
         }
     }
 
+    /// Set the timeout for the command
+    ///
+    /// Note: Will be rounded up to the nearest second.
+    pub fn timeout(&mut self, timeout: Duration) -> &mut Self {
+        self.timeout = Some(if timeout.subsec_nanos() != 0 {
+            Duration::from_secs(timeout.as_secs().saturating_add(1))
+        } else {
+            timeout
+        });
+
+        self
+    }
+
     /// Validate the command request.
     ///
     /// # Errors
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8 or the key is reserved
-    ///     - timeout is < 1 ms or > `u32::max`
+    ///     - timeout is zero or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
-            if timeout.as_millis() < 1 {
-                return Err("Timeout must be at least 1 ms".to_string());
+            if timeout.as_secs() == 0 {
+                return Err("Timeout must not be 0".to_string());
             }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
                 Ok(_) => {}
@@ -1545,7 +1560,7 @@ mod tests {
                 CommandRequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
-                    .timeout(Duration::from_millis(2))
+                    .timeout(Duration::from_secs(1))
                     .build()
                     .unwrap(),
             )
@@ -1557,7 +1572,66 @@ mod tests {
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.timeout_name, Some("test_command_name".to_string()));
-                assert!(e.timeout_value == Some(Duration::from_millis(2)));
+                assert!(e.timeout_value == Some(Duration::from_secs(1)));
+            }
+        }
+    }
+
+    // Tests failure: Invocation times out (valid timeout value less than a second but not zero specified on invoke)
+    // and a `Timeout` error is returned
+    #[tokio::test]
+    async fn test_invoke_times_out_timeout_rounded() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern("test/req/topic")
+            .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
+            .build()
+            .unwrap();
+
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
+
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        // TODO: Check for
+        //      sub sent (suback received)
+        //      pub sent (puback received)
+        //      pub not received
+
+        let response = command_invoker
+            .invoke(
+                CommandRequestBuilder::default()
+                    .payload(mock_request_payload)
+                    .unwrap()
+                    .timeout(Duration::from_nanos(1))
+                    .build()
+                    .unwrap(),
+            )
+            .await;
+        match response {
+            Ok(_) => panic!("Expected error"),
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::Timeout);
+                assert!(!e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.timeout_name, Some("test_command_name".to_string()));
+                assert!(e.timeout_value == Some(Duration::from_secs(1)));
             }
         }
     }
@@ -1803,8 +1877,6 @@ mod tests {
     #[test_case(Duration::from_secs(0); "invoke_timeout_0")]
     /// Tests failure: Timeout specified as > u32::max (invalid value) on invoke and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "invoke_timeout_u32_max")]
-    /// Tests failure: Timeout specified as < 1ms (invalid value) on invoke and an `ArgumentInvalid` error is returned
-    #[test_case(Duration::from_nanos(50); "invoke_timeout_less_1_ms")]
     fn test_request_timeout_invalid_value(timeout: Duration) {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload

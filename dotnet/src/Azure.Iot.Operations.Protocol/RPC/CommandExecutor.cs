@@ -258,14 +258,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 invalidPropertyValue = XmlConvert.ToString(ExecutionTimeout);
                                 Trace.TraceWarning($"Command '{_commandName}' execution timed out after {cancellationTimeout.TotalSeconds} seconds.");
                                 break;
-                            case InvocationException iex:
-                                statusCode = CommandStatusCode.UnprocessableContent;
-                                statusMessage = iex.Message;
-                                isAppError = true;
-                                invalidPropertyName = iex.InvalidPropertyName;
-                                invalidPropertyValue = iex.InvalidPropertyValue;
-                                Trace.TraceWarning($"Command '{_commandName}' execution failed due to an invocation error: {iex}.");
-                                break;
                             case AkriMqttException amex:
                                 statusCode = CommandStatusCode.InternalServerError;
                                 statusMessage = amex.Message;
@@ -679,7 +671,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 AkriMqttErrorKind.StateInvalid => CommandStatusCode.ServiceUnavailable,
                 AkriMqttErrorKind.InternalLogicError => CommandStatusCode.InternalServerError,
                 AkriMqttErrorKind.Timeout => CommandStatusCode.RequestTimeout,
-                AkriMqttErrorKind.InvocationException => CommandStatusCode.UnprocessableContent,
                 AkriMqttErrorKind.ExecutionException => CommandStatusCode.InternalServerError,
                 AkriMqttErrorKind.UnknownError => CommandStatusCode.InternalServerError,
                 _ => CommandStatusCode.InternalServerError,

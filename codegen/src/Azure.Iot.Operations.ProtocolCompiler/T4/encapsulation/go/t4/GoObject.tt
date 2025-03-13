@@ -10,8 +10,15 @@ import (
 )
 <# } #>
 
+<# if (this.objectType.Description != null) { #>
+// <#=this.objectType.Description#>
+<# } #>
 type <#=this.objectType.SchemaName.GetTypeName(TargetLanguage.Go)#> struct {
 <# foreach (var fieldInfo in this.objectType.FieldInfos) { #>
+
+<# if (fieldInfo.Value.Description != null) { #>
+	// <#=fieldInfo.Value.Description#>
+<# } #>
 	<#=fieldInfo.Key.GetFieldName(TargetLanguage.Go)#> <#=GoSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsRequired)#> `json:"<#=fieldInfo.Key.AsGiven#><#=fieldInfo.Value.IsRequired ? "" : ",omitempty"#>"`
 <# } #>
 }

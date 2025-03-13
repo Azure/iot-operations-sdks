@@ -28,120 +28,119 @@ See below for categorized tests.
 
 | Normative statement | Expected behavior |
 | --- | --- |
-| CommandExecutor receives basic valid request. | CommandExecutor sends response and acknowledges request. |
-| CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed. | CommandExecutor blocked when attempting to processes all requests concurrently and times out. |
-| CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed. | CommandExecutor processes requests concurrently and returns success. |
-| CommandExecutor initialized with a topic namespace that is invalid. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor initialized with no request topic string. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor receives request. | CommandExecutor copies request timout value into response message expiry interval. |
+| CommandExecutor receives request with mismatched ContentType metadata. | CommandExecutor sends response with status UnsupportedMediaType. |
 | CommandExecutor initialized with null command name. | CommandExecutor throws 'invalid configuration' exception. |
 | CommandExecutor receives duplicate idempotent request within command timeout, assuming cache is not under storage pressure. | CommandExecutor does not execute command and responds with value from cache. |
-| CommandExecutor receives duplicate non-idempotent request within command timeout. | CommandExecutor does not execute command and responds with value from cache. |
-| CommandExecutor receives equivalent executor-agnostic non-idempotent request from different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives equivalent non-idempotent request. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives non-idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
-| CommandExecutor receives request with unexpected system property in metadata. | CommandExecutor ignores unexpected header and sends response with status OK. |
-| CommandExecutor receives a request whose expiry time elapses while the CommandExecutor is disconnected. | Request is not acknowledged after CommandExecutor reconnects. |
-| CommandExecutor receives request and stalls execution, causing expiry time to be reached. | CommandExecutor does not complete execution and acknowledges request. |
-| CommandExecutor receives request with correlation data that is not a GUID string. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with invalid ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
-| CommandExecutor receives request with invalid __ts header. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with payload that cannot deserialize. | CommandExecutor does not execute command and sends response with status BadRequest. |
-| CommandExecutor receives request with no ContentType metadata. | CommandExecutor sends response with status OK. |
-| CommandExecutor receives request with no CorrelationData. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with no MessageExpiry metadata. | CommandExecutor sends response with status BadRequest. |
-| CommandExecutor receives request with no ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
-| CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status OK. |
-| CommandExecutor receives two requests that synchronize so that they complete in reverse order. | CommandExecutor sends responses in reverse order and acknowledges in receipt order. |
-| CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified. | CommandExecutor starts successfully. |
-| CommandExecutor request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandExecutor throws 'invalid configuration' exception. |
-| CommandExecutor request topic contains a '{modelId}' token but no model ID is specified. | CommandExecutor starts successfully. |
-| CommandExecutor request topic contains a {modelId} token and model ID is a valid replacement. | CommandExecutor starts successfully. |
-| CommandExecutor receives request with a protocol version that it cannot parse. | CommandExecutor sends response with status NotSupportedVersion. |
-| CommandExecutor receives request with unspecified payload format indicator despite UTF8 content type. | CommandExecutor sends response with status OK. |
-| CommandExecutor receives request with a protocol version that it does not support. | CommandExecutor sends response with status NotSupportedVersion. |
-| CommandExecutor receives valid request on a topic specified with custom tokens. | CommandExecutor sends response and acknowledges request, inserting token values from topic into metadata. |
-| CommandExecutor receives valid request containing metadata. | CommandExecutor sends response and acknowledges request. |
-| CommandExecutor receives request with mismatched ContentType metadata. | CommandExecutor sends response with status UnsupportedMediaType. |
-| CommandExecutor receives request with different topic than subscribed. | CommandExecutor ignores request, and MQTT client auto-acknowledges. |
-| CommandExecutor receives request. | CommandExecutor copies request timout value into response message expiry interval. |
-| CommandExecutor receives valid request but ACK dropped when publishing response. | Connection automatically re-established, publication retried, success. |
-| CommandExecutor receives valid request but ACK fails when publishing response. | CommandExecutor does not throw exception. |
-| During initialization, CommandExecutor subscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
-| CommandExecutor receives request that stalls during processing until execution timeout reached. | CommandExecutor responds with RequestTimeout. |
-| During finalization, CommandExecutor unsubscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
-| CommandExecutor user code raises error indicating problem with request execution. | CommandExecutor sends error response. |
 | CommandExecutor initialized with a topic namespace that is valid. | CommandExecutor starts successfully. |
+| CommandExecutor receives equivalent non-idempotent request. | CommandExecutor executes command and responds with value from execution not from cache. |
+| CommandExecutor receives request with a protocol version that it cannot parse. | CommandExecutor sends response with status NotSupportedVersion. |
+| CommandExecutor requests synchronize on barrier, with dispatch concurrency sufficient to enable all to proceed. | CommandExecutor processes requests concurrently and returns success. |
 | CommandExecutor initialized with an execution timeout of zero. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor receives request that stalls during processing until execution timeout reached. | CommandExecutor responds with RequestTimeout. |
+| CommandExecutor receives request with a protocol version that it does not support. | CommandExecutor sends response with status NotSupportedVersion. |
+| CommandExecutor receives request with no CorrelationData. | CommandExecutor sends response with status BadRequest. |
+| CommandExecutor receives request with unspecified payload format indicator despite UTF8 content type. | CommandExecutor sends response with status OK. |
+| During finalization, CommandExecutor unsubscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
+| CommandExecutor request topic contains a {modelId} token and model ID is a valid replacement. | CommandExecutor starts successfully. |
+| CommandExecutor receives request with different topic than subscribed. | CommandExecutor ignores request, and MQTT client auto-acknowledges. |
+| CommandExecutor receives duplicate non-idempotent request within command timeout. | CommandExecutor does not execute command and responds with value from cache. |
+| CommandExecutor initialized with a topic namespace that is invalid. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor receives valid request on a topic specified with custom tokens. | CommandExecutor sends response and acknowledges request, inserting token values from topic into metadata. |
+| CommandExecutor receives request with no __srcId header. | CommandExecutor sends response with status OK. |
+| CommandExecutor receives idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
+| CommandExecutor receives a request whose expiry time elapses while the CommandExecutor is disconnected. | Request is not acknowledged after CommandExecutor reconnects. |
+| CommandExecutor receives valid request but ACK dropped when publishing response. | Connection automatically re-established, publication retried, success. |
+| CommandExecutor request topic contains a '{modelId}' token but no model ID is specified. | CommandExecutor starts successfully. |
+| CommandExecutor receives two requests that synchronize so that they complete in reverse order. | CommandExecutor sends responses in reverse order and acknowledges in receipt order. |
+| CommandExecutor receives valid request but ACK fails when publishing response. | CommandExecutor does not throw exception. |
+| CommandExecutor receives valid request containing metadata. | CommandExecutor sends response and acknowledges request. |
+| CommandExecutor receives request with no MessageExpiry metadata. | CommandExecutor sends response with status BadRequest. |
+| CommandExecutor receives request with invalid __ts header. | CommandExecutor sends response with status BadRequest. |
+| CommandExecutor initialized with no request topic string. | CommandExecutor throws 'invalid configuration' exception. |
+| CommandExecutor receives equivalent executor-agnostic non-idempotent request from different Invoker ID. | CommandExecutor executes command and responds with value from execution not from cache. |
+| CommandExecutor receives request with no ContentType metadata. | CommandExecutor sends response with status OK. |
+| CommandExecutor receives request with payload that cannot deserialize. | CommandExecutor does not execute command and sends response with status BadRequest. |
+| CommandExecutor receives non-idempotent request that is duplicate except for different topic. | CommandExecutor executes command and responds with value from execution not from cache. |
+| CommandExecutor receives request with invalid ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
+| CommandExecutor receives basic valid request. | CommandExecutor sends response and acknowledges request. |
+| During initialization, CommandExecutor subscribes but ACK fails. | CommandExecutor throws 'mqtt error' exception. |
+| CommandExecutor receives request and stalls execution, causing expiry time to be reached. | CommandExecutor does not complete execution and acknowledges request. |
+| CommandExecutor receives request with no ResponseTopic metadata. | CommandExecutor discards request and acknowledges. |
+| CommandExecutor request topic contains a '{commandName}' token no command name replacement is specified. | CommandExecutor starts successfully. |
+| CommandExecutor user code raises error indicating problem with request execution. | CommandExecutor sends error response. |
+| CommandExecutor receives request with correlation data that is not a GUID string. | CommandExecutor sends response with status BadRequest. |
+| CommandExecutor receives request with unexpected system property in metadata. | CommandExecutor ignores unexpected header and sends response with status OK. |
+| CommandExecutor requests synchronize on barrier, with dispatch concurrency insufficient to enable all to proceed. | CommandExecutor blocked when attempting to processes all requests concurrently and times out. |
 
 ## CommandInvoker test cases
 
 | Normative statement | Expected behavior |
 | --- | --- |
-| CommandInvoker with no specified response-topic prefix or suffix invokes command and receives response. | CommandInvoker uses default prefix for generating response topic. |
-| CommandInvoker with executor-agnostic topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker with executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker invokes command and receives response. | CommandInvoker publication includes protocol version header with expected version value. |
-| CommandInvoker initialized with an invalid request topic string. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception; error details unchecked. |
 | CommandInvoker initialized with a response topic suffix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker initialized with a response topic suffix that is invalid. | CommandInvoker throws 'invalid configuration' exception; error details unchecked. |
-| CommandInvoker initialized with a topic namespace that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker receives response message indicating the execution function set an illegal metadata property. | Invocation throws 'execution error' exception. |
+| CommandInvoker receives response message with no message expiry header. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker receives response message with a deprecated status indicating the request data is not valid at the application level. | Invocation throws 'unknown error' exception, but includes details. |
 | CommandInvoker invokes command and receives response. | CommandInvoker copies Telemetry timout value into message expiry interval. |
-| CommandInvoker initialized with no request topic string. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker response topic prefix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
+| CommandInvoker receives response message with status indicating Unsupported Media Type. | Invocation throws 'invalid header' exception. |
+| CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker invokes command and receives response. | CommandInvoker rounds up timeout value to nearest second and copies into message expiry interval |
 | CommandInvoker invokes command but receives no response message. | Invocation throws 'timeout' exception. |
+| CommandInvoker invokes command but ACK fails when publishing request. | Invocation throws 'mqtt error' exception. |
+| CommandInvoker receives response message with status indicating the service encountered an unexpected condition. | Invocation throws 'internal logic error' exception. |
+| CommandInvoker initialized with a response topic suffix that contains an '{executorId}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
+| CommandInvoker response topic suffix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
+| CommandInvoker initialized with a response topic prefix that is invalid. | CommandInvoker throws 'invalid configuration' exception; error details unchecked. |
+| CommandInvoker initialized with a response topic suffix that is invalid. | CommandInvoker throws 'invalid configuration' exception; error details unchecked. |
+| CommandInvoker response topic suffix contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker with no specified response-topic prefix or suffix invokes command and receives response. | CommandInvoker uses default prefix for generating response topic. |
+| CommandInvoker receives response message with status indicating Bad Request and invalid property name/value. | Invocation throws 'invalid header' exception. |
+| CommandInvoker invokes and completes Command, then invokes the same Command after the timeout period of the first Command instance. | Both commands complete successfully. |
+| CommandInvoker with executor-agnostic topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker receives response message with status indicating Request Timeout. | Invocation throws 'timeout' exception. |
+| CommandInvoker receives response message with invalid status property in header. | Invocation throws 'invalid header' exception. |
 | CommandInvoker initialized with null command name. | CommandInvoker throws 'invalid configuration' exception. |
 | CommandInvoker invokes command but the MQTT connection is dropped after publishing the packet but before the command invoker receives the ACK. | Connection automatically re-established by the session client, the session client re-publishes the command invocation, success. |
-| CommandInvoker invokes command but ACK fails when publishing request, then repeats invocation. | Invocation throws 'mqtt error' exception, then reinvocation succeeds. |
-| CommandInvoker invokes command but ACK fails when publishing request. | Invocation throws 'mqtt error' exception. |
-| CommandInvoker with redundantly executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
-| CommandInvoker invokes command with request topic that contains an '{executorId}' token but no replacement is specified. | Invocation throws 'invalid argument' exception. |
-| CommandInvoker request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker request topic contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
-| CommandInvoker invokes command but response not received, then repeats invocation. | Invocation throws 'timeout' exception, then reinvocation succeeds. |
-| CommandInvoker receives response with unexpected system property in metadata. | CommandInvoker ignores unexpected header, completes command, and acknowledges response. |
-| CommandInvoker receives response message with status indicating the execution function encountered an exceptional condition. | Invocation throws 'execution error' exception. |
-| CommandInvoker receives response message with status indicating the service encountered an unexpected condition. | Invocation throws 'internal logic error' exception. |
-| CommandInvoker receives response message with status indicating Bad Request and invalid property name/value. | Invocation throws 'invalid header' exception. |
-| CommandInvoker receives response message with status indicating Bad Request and no invalid property name. | Invocation throws 'invalid payload' exception. |
-| CommandInvoker receives response message with status indicating an invalid state. | Invocation throws 'invalid state' exception. |
-| CommandInvoker receives response message indicating the execution function set an illegal metadata property. | Invocation throws 'execution error' exception. |
-| CommandInvoker receives response message with a deprecated status indicating the request data is not valid at the application level. | Invocation throws 'unknown error' exception, but includes details. |
-| CommandInvoker receives response message with status indicating Bad Request and invalid property name. | Invocation throws 'missing header' exception. |
-| CommandInvoker receives response message with status indicating Request Timeout. | Invocation throws 'timeout' exception. |
-| CommandInvoker receives response message with status indicating an unknown error condition. | Invocation throws 'unknown error' exception. |
-| CommandInvoker receives response message with status indicating Unsupported Media Type. | Invocation throws 'invalid header' exception. |
-| CommandInvoker receives response message with status indicating the executor does not support the requested protocol version. | Invocation throws 'request version not supported' exception. |
-| CommandInvoker receives response message with invalid status property in header. | Invocation throws 'invalid header' exception. |
-| CommandInvoker receives response with payload that cannot deserialize. | Invocation throws 'invalid payload' exception. |
-| CommandInvoker receives response message with no status property in header. | Invocation throws 'missing header' exception. |
 | CommandInvoker initialized with a response topic prefix that contains an '{executorId}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
+| CommandInvoker receives response message with status indicating Bad Request and no invalid property name. | Invocation throws 'invalid payload' exception. |
+| CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception. |
+| CommandInvoker request topic contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker initialized with an invalid request topic string. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker receives response message with an unsupported protocol version. | Invocation throws 'response version not supported' exception. |
+| CommandInvoker with topic namespace invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker response topic prefix contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker response topic prefix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
-| CommandInvoker initialized with a response topic suffix that contains an '{executorId}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
-| CommandInvoker response topic suffix contains a '{modelId}' token but model ID is not a valid replacement. | CommandInvoker throws 'invalid configuration' exception. |
-| CommandInvoker response topic suffix contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
-| CommandInvoker with response-topic suffix (instead of prefix) invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
 | CommandInvoker receives response message with status code that is not recognized. | Invocation throws 'unknown error' exception. |
 | CommandInvoker receives response message with invalid __ts header. | Invocation throws 'invalid header' exception. |
-| CommandInvoker receives response message with no content type header. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker receives response message with no message expiry header. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker receives response message with a malformed protocol version. | Invocation throws 'response version not supported' exception. |
-| CommandInvoker receives response message with an unsupported protocol version. | Invocation throws 'response version not supported' exception. |
-| CommandInvoker receives response message with content type other than expected. | Invocation throws 'invalid header' exception. |
-| CommandInvoker invokes and completes Command, then invokes the same Command after the timeout period of the first Command instance. | Both commands complete successfully. |
-| CommandInvoker invokes and completes Command, then invokes the same Command within the timeout period of the first Command instance. | Both commands complete successfully. |
-| CommandInvoker initialized but ACK fails when subscribing. | CommandInvoker throws 'mqtt error' exception. |
-| CommandInvoker invokes command twice in succession and receives responses. | CommandInvoker completes commands and acknowledges responses. |
-| CommandInvoker invokes command and receives response. | CommandInvoker publication includes source ID header with value of client ID. |
 | CommandInvoker with custom response topic invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker with custom topic-token map invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker invokes command with metadata and receives response. | CommandInvoker publication includes metadata. |
-| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid argument' exception. |
-| CommandInvoker invokes command with command timeout of duration below one millisecond. | Invocation throws 'invalid argument' exception; error details unchecked. |
-| CommandInvoker with topic namespace invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
-| CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception. |
+| CommandInvoker with executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker invokes and completes Command, then invokes the same Command within the timeout period of the first Command instance. | Both commands complete successfully. |
+| CommandInvoker request topic contains a '{modelId}' token but no model ID is specified. | CommandInvoker throws 'invalid argument' exception. |
+| CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified. | CommandInvoker throws 'invalid argument' exception. |
+| CommandInvoker receives response message with status indicating the executor does not support the requested protocol version. | Invocation throws 'request version not supported' exception. |
+| CommandInvoker receives response with unexpected system property in metadata. | CommandInvoker ignores unexpected header, completes command, and acknowledges response. |
+| CommandInvoker receives response with payload that cannot deserialize. | Invocation throws 'invalid payload' exception. |
+| CommandInvoker invokes command but response not received, then repeats invocation. | Invocation throws 'timeout' exception, then reinvocation succeeds. |
+| CommandInvoker with redundantly executor-specific topic pattern invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker invokes command but ACK fails when publishing request, then repeats invocation. | Invocation throws 'mqtt error' exception, then reinvocation succeeds. |
+| CommandInvoker invokes command with request topic that contains an '{executorId}' token but no replacement is specified. | Invocation throws 'invalid argument' exception. |
+| CommandInvoker initialized but ACK fails when subscribing. | CommandInvoker throws 'mqtt error' exception. |
 | CommandInvoker invokes command with command timeout of zero duration. | Invocation throws 'invalid argument' exception; error details unchecked. |
+| CommandInvoker with custom topic-token map invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker invokes command and receives response. | CommandInvoker publication includes source ID header with value of client ID. |
+| CommandInvoker initialized with a topic namespace that is invalid. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker invokes command and receives response. | CommandInvoker publication includes protocol version header with expected version value. |
+| CommandInvoker receives response message with status indicating an unknown error condition. | Invocation throws 'unknown error' exception. |
+| CommandInvoker with response-topic suffix (instead of prefix) invokes command and receives response. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker invokes command with metadata and receives response. | CommandInvoker publication includes metadata. |
+| CommandInvoker receives response message with status indicating the execution function encountered an exceptional condition. | Invocation throws 'execution error' exception. |
+| CommandInvoker initialized with no request topic string. | CommandInvoker throws 'invalid configuration' exception. |
+| CommandInvoker receives response message with no status property in header. | Invocation throws 'missing header' exception. |
+| CommandInvoker receives response message with a malformed protocol version. | Invocation throws 'response version not supported' exception. |
+| CommandInvoker receives response message with status indicating an invalid state. | Invocation throws 'invalid state' exception. |
+| CommandInvoker receives response message with status indicating Bad Request and invalid property name. | Invocation throws 'missing header' exception. |
+| CommandInvoker invokes command twice in succession and receives responses. | CommandInvoker completes commands and acknowledges responses. |
+| CommandInvoker receives response message with no content type header. | CommandInvoker completes command and acknowledges response. |
+| CommandInvoker receives response message with content type other than expected. | Invocation throws 'invalid header' exception. |
 

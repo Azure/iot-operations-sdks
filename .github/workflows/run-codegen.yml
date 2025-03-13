@@ -6,6 +6,7 @@ on:
 
 jobs:
   codegen:
+    name: CI-codegen
     runs-on: ubuntu-latest
     timeout-minutes: 15
 

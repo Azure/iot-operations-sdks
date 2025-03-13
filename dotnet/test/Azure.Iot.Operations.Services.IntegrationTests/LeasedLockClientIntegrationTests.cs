@@ -14,7 +14,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestFencing()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -92,7 +92,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestFencingWithAcquireLockAndUpdateValueAsync()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -126,7 +126,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestFencingWithSessionId()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -186,7 +186,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestProactivelyReacquiringALock()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -228,7 +228,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestAutomaticRenewal()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -309,7 +309,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestObserveLockChangedCallback()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -391,7 +391,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestUnobserveLockChangedCallback()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
@@ -453,8 +453,8 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestAcquireLockWhenLockIsUnavailable()
     {
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
 
         string lockId = Guid.NewGuid().ToString();
@@ -478,8 +478,8 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestAcquireLockAndUpdateValueAsyncWhenLockIsUnavailable()
     {
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
 
         var sharedResourceName = Guid.NewGuid().ToString();
@@ -515,8 +515,8 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestAcquireLockAndUpdateValueAsyncDoesNotUpdateValueIfLockNotAcquired()
     {
-        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
 
         var sharedResourceName = Guid.NewGuid().ToString();
@@ -562,7 +562,7 @@ public class LeasedLockClientIntegrationTests
     [Fact]
     public async Task TestFencingTokenLowerVersion()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new ApplicationContext();
         var sharedResourceName = Guid.NewGuid().ToString();
 
