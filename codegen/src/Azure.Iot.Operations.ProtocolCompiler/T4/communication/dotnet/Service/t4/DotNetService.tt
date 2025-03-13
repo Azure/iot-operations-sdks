@@ -153,11 +153,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                additionalTopicTokenMap["executorId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 
@@ -333,10 +338,15 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
                 await Task.WhenAll(
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                    this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StartAsync(additionalTopicTokenMap, cancellationToken)<#=this.IsLast(telemNameSchema) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken)<#=this.IsLast(telemNameSchema) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
