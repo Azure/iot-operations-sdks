@@ -38,7 +38,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     HeaderName = "Content Type",
                     HeaderValue = contentType,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };
@@ -51,7 +50,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     HeaderName = "Payload Format Indicator",
                     HeaderValue = "CharacterData",
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };

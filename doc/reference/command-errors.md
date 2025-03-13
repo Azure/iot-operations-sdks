@@ -63,7 +63,7 @@ The following table illustrates, for each error condition, what response should 
 | CommandResponseCache used incorrectly | 500 | false | "CorrelationData" | (property value) | internal logic error |
 | unknown error from dependent component | 500 | false | (none) | | unknown error |
 | app-level error during command execution | 500 | true | (none) | | execution error |
-| HLC integer overflow | 500 | false | "Counter" | (none) | internal logic error |
+| HLC integer overflow | 500 | false | "Counter" | (none) | invalid state |
 | HLC excessive clock drift | 503 | false | "MaxClockDrift" | (none) | invalid state |
 
 > \* timeout duration is sent on the wire in ISO 8601 format, but it is relayed in the error to the user with a duration type that is appropriate for the language.
@@ -146,11 +146,11 @@ The following table illustrates, for each error condition, which Akri.Mqtt error
 | Error Condition | Error Kind |
 | --- | --- |
 | command timeout is zero, negative, or greater than u32 max | invalid argument |
-| topic pattern contains {executorId} token but no executor ID supplied | invalid argument |
+| topic pattern contains {executorId} token but no executor ID supplied | invalid configuration |
 | command times out | timeout |
 | command is canceled | cancellation |
 | unknown error from dependent component | unknown error |
-| HLC integer overflow | internal logic error |
+| HLC integer overflow | invalid state |
 | HLC excessive clock drift | invalid state |
 
 ## CommandInvoker Non-Command Errors
@@ -171,9 +171,9 @@ The following table illustrates, for each error condition, which Akri.Mqtt error
 | topic namespace invalid | invalid configuration |
 | topic pattern is null or empty | invalid configuration |
 | topic pattern is invalid | invalid configuration |
-| topic pattern contains token with invalid transient replacement | invalid argument |
+| topic pattern contains token with invalid transient replacement | invalid configuration |
 | topic pattern contains token with invalid resident replacement | invalid configuration |
-| topic pattern contains token with no replacement | invalid argument |
+| topic pattern contains token with no replacement | invalid configuration |
 | response topic prefix invalid | invalid configuration |
 | response topic suffix invalid | invalid configuration |
 | MQTT client not configured for MQTT v5 | invalid configuration |

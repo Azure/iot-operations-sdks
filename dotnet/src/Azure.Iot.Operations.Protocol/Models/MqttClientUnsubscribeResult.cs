@@ -43,7 +43,6 @@ namespace Azure.Iot.Operations.Protocol.Models
                 throw new AkriMqttException("Received no items in the unsubscribing result, so the unsubscription was unsuccessful.")
                 {
                     Kind = AkriMqttErrorKind.MqttError,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                     CommandName = commandName,
@@ -57,7 +56,6 @@ namespace Azure.Iot.Operations.Protocol.Models
                     throw new AkriMqttException($"Failed to unsubscribe from topic '{unsub.TopicFilter}' because {unsub.ReasonCode}.")
                     {
                         Kind = AkriMqttErrorKind.MqttError,
-                        InApplication = false,
                         IsShallow = false,
                         IsRemote = false,
                         CommandName = commandName,

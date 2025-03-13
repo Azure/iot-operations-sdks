@@ -183,7 +183,6 @@ namespace Azure.Iot.Operations.Protocol
                     throw new AkriMqttException($"Integer overflow on HybridLogicalClock counter. {nameof(maxCounter)} = {int.MaxValue}")
                     {
                         Kind = AkriMqttErrorKind.InternalLogicError,
-                        InApplication = false,
                         IsShallow = isLocalUpdate,
                         IsRemote = false,
                     };
@@ -250,7 +249,6 @@ namespace Azure.Iot.Operations.Protocol
                 throw new AkriMqttException("Malformed HLC. Expected three segments separated by ':' character")
                 {
                     Kind = AkriMqttErrorKind.HeaderInvalid,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                     HeaderName = propertyName,
@@ -264,7 +262,6 @@ namespace Azure.Iot.Operations.Protocol
                 : throw new AkriMqttException("Malformed HLC. Could not parse first segment as an integer")
                 {
                     Kind = AkriMqttErrorKind.HeaderInvalid,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                     HeaderName = propertyName,
@@ -281,7 +278,6 @@ namespace Azure.Iot.Operations.Protocol
                 throw new AkriMqttException("Malformed HLC. Could not parse second segment as a base 32 integer")
                 {
                     Kind = AkriMqttErrorKind.HeaderInvalid,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                     HeaderName = propertyName,
@@ -294,7 +290,6 @@ namespace Azure.Iot.Operations.Protocol
                 throw new AkriMqttException("Malformed HLC. Missing nodeId as the final segment")
                 {
                     Kind = AkriMqttErrorKind.HeaderInvalid,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                     HeaderName = propertyName,
@@ -314,7 +309,6 @@ namespace Azure.Iot.Operations.Protocol
                 throw new AkriMqttException($"Integer overflow on HybridLogicalClock counter. {nameof(Counter)} = {int.MaxValue}")
                 {
                     Kind = AkriMqttErrorKind.InternalLogicError,
-                    InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
                     PropertyName = nameof(Counter),
@@ -326,7 +320,6 @@ namespace Azure.Iot.Operations.Protocol
                 throw new AkriMqttException("Clock drift")
                 {
                     Kind = AkriMqttErrorKind.StateInvalid,
-                    InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
                     PropertyName = "MaxClockDrift",
