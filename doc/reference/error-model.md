@@ -76,11 +76,9 @@ No matter how the error/errors are represented in a language, all relevant infor
 | Field | Type | Description | Axis | Required |
 | --- | --- | --- | --- | --- |
 | error kind | enumeration | the specific kind of error that occurred | | yes |
-| in application | boolean | true if the error occurred in user-supplied code rather than the SDK or its dependent components | who | yes |
 | is shallow | boolean | true if the error was identified immediately after the API was called, prior to any attempted network communication | how | yes |
 | is remote | boolean | true if the error was detected by a remote component | where | yes |
 | nested error | language-specific base error representation | an error from a dependent component that caused the Akri.Mqtt error being reported | what | no |
-| HTTP status code | integer | an HTTP status code received from a remote service that caused the mRPC error being reported | what | no |
 
 Additional fields provide supplementary information about the error condition.
 These fields are all optional:
@@ -98,24 +96,22 @@ These fields are all optional:
 | supported protocol major versions | int[] | The major protocol versions that are acceptable to the command executor if the executor rejected the command request or the major protocol versions that are acceptable to the command invoker if the invoker rejected the command response. |
 
 The following table defines the proposed error kinds, value constraints or expected presence for each of the fixed fields in the first table above, and any additional fields that are used from the second table above.
-Because the 'command name' field can potentially apply to any error, it is not listed specifically in the table.
+Because the 'command name' and 'nested error' fields can potentially apply to any error, they are not listed specifically in the table.
 
-| Error Kind | Description | In Application | Is Shallow | Is Remote | Nested Error | HTTP Status Code | Additional Fields Used |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| missing header | A required MQTT header property is missing from a received message. | false | false | either | no | maybe | header name |
-| invalid header | An MQTT header property is has an invalid value in a received message. | false | false | either | no | maybe | header name, header value |
-| invalid payload | MQTT payload cannot be serialized/deserialized. | false | either | either | maybe | maybe | |
-| timeout | An operation was aborted due to timeout. | false | false | either | maybe | maybe | timeout name, timeout value |
-| cancellation | An operation was canceled. | false | false | either | maybe | maybe | |
-| invalid configuration | A class property, configuration file, or environment variable has an invalid value. | false | true | false | maybe | no | property name, property value |
-| invalid argument | A method was called with an invalid argument value. | false | true | false | no | no | property name, property value |
-| invalid state | The current program state is invalid vis-a-vis the method that was called. | false | either | either | no | no | property name, property value? |
-| internal logic error | The client or service observed a condition that was thought to be impossible. | false | either | either | maybe | maybe | property name, property value? |
-| unknown error | The client or service received an unexpected error from a dependent component. | false | either | either | yes | maybe | |
-| execution error | The command processor encountered an error while executing the command. | true | false | true | no | yes | property name?, property value? |
-| mqtt error | The MQTT communication encountered an error and failed. | false | false | false | maybe | no | |
-| unsupported request version | The command executor that received the request doesn't support the provided protocol version. | false | false | true | no | yes | request protocol version, supported request protocol major versions |
-| unsupported response version | The command invoker received a response that specifies a protocol version that the invoker does not support. | false | false | false | no | yes | response protocol version, supported response protocol major versions |
+| Error Kind | Description | Is Shallow | Is Remote | Additional Fields Used |
+| --- | --- | --- | --- | --- |
+| missing header | A required MQTT header property is missing from a received message. | false | either | header name |
+| invalid header | An MQTT header property is has an invalid value in a received message. | false | either | header name, header value |
+| invalid payload | MQTT payload cannot be serialized/deserialized. | either | either | |
+| timeout | An operation was aborted due to timeout. | false | either | timeout name, timeout value |
+| cancellation | An operation was canceled. | false | either | |
+| invalid configuration | A user-provided configuration value is invalid. | true | false | property name, property value |
+| invalid state | The current program state is invalid vis-a-vis the method that was called. | either | either | property name |
+| internal logic error | The client or service observed a condition that was thought to be impossible. | either | either | property name |
+| unknown error | The client or service received an unexpected error from a dependent component. | either | either | |
+| execution error | The command processor encountered an error while executing the command. | false | true | |
+| mqtt error | The MQTT communication encountered an error and failed. | false | false | |
+| unsupported version | The command executor/invoker that received the request/response doesn't support the provided protocol version. | false | either | protocol version, supported protocol major versions |
 
 > Note: The Akri.Mqtt libraries in all languages are expected to be consistent in their use of additional fields, with two exceptions:
 >
@@ -149,14 +145,12 @@ public enum AkriMqttErrorKind
     Timeout,
     Cancellation,
     ConfigurationInvalid,
-    ArgumentInvalid,
     StateInvalid,
     InternalLogicError,
     UnknownError,
     ExecutionException,
     MqttError,
-    UnsupportedRequestVersion,
-    UnsupportedResponseVersion,
+    UnsupportedVersion,
 }
 ```
 
@@ -167,11 +161,9 @@ Since this property is provided in the base type, it is not included in the Akri
 public partial class AkriMqttException : Exception
 {
     public AkriMqttErrorKind Kind { get; init; }
-    public bool InApplication { get; init; }
     public bool IsShallow { get; init; }
     public bool IsRemote { get; init; }
     // public Exception? InnerException { get; init; } -- "nested error", inherited from base
-    public int? HttpStatusCode { get; init; }
 
     public string? HeaderName { get; init; }
     public string? HeaderValue { get; init; }
@@ -265,14 +257,12 @@ public enum AkriMqttErrorKind {
     TIMEOUT,
     CANCELLATION,
     CONFIGURATION_INVALID,
-    ARGUMENT_INVALID,
     STATE_INVALID,
     INTERNAL_LOGIC_ERROR,
     UNKNOWN_ERROR,
     EXECUTION_EXCEPTION,
     MQTT_ERROR,
-    UNSUPPORTED_REQUEST_VERSION,
-    UNSUPPORTED_RESPONSE_VERSION,
+    UNSUPPORTED_VERSION,
 }
 ```
 
@@ -281,11 +271,9 @@ The Akri.Mqtt error type is defined as follows:
 ```java
 public class AkriMqttException : RuntimeException {
     public final AkriMqttErrorKind kind;
-    public final boolean inApplication;
     public final boolean isShallow;
     public final boolean isRemote;
     public final Throwable nestedError;
-    public final int httpStatusCode; // 0 for no status code
 
     public final String headerName;
     public final String headerValue;
@@ -333,14 +321,12 @@ pub enum AIOProtocolErrorKind {
     Timeout,
     Cancellation,
     ConfigurationInvalid,
-    ArgumentInvalid,
     StateInvalid,
     InternalLogicError,
     UnknownError,
     ExecutionException,
     MqttError,
-    UnsupportedRequestVersion,
-    UnsupportedResponseVersion,
+    UnsupportedVersion,
 }
 ```
 
@@ -357,11 +343,9 @@ pub enum Value {
 pub struct AIOProtocolError {
     message: Option<String>,
     kind: AIOProtocolErrorKind,
-    in_application: bool,
     is_shallow: bool,
     is_remote: bool,
     nested_error: Option<Box<dyn Error>>,
-    http_status_code: Option<u16>,
     header_name: Option<String>,
     header_value: Option<String>,
     timeout_name: Option<String>,
@@ -410,14 +394,12 @@ const {
     Timeout
     Cancellation
     ConfigurationInvalid
-    ArgumentInvalid
     StateInvalid
     InternalLogicError
     UnknownError
-    ExecutionException
+    ExecutionError
     MqttError
-    UnsupportedRequestVersion
-    UnsupportedResponseVersion
+    UnsupportedVersion
 }
 ```
 
@@ -426,12 +408,10 @@ The Akri.Mqtt error type is defined as follows:
 ```go
 type AkriMqttError struct {
     Kind AkriMqttErrorKind
-    InApplication bool
-    UsShallow bool
+    IsShallow bool
     IsRemote bool
-
     NestedError error
-    HttpStatusCode int // 0 for no status code
+
     HeaderName string
     HeaderValue string
     TimeoutName string
@@ -469,14 +449,12 @@ class AkriMqttErrorKind(Enum):
     TIMEOUT = 4
     CANCELLATION = 5
     CONFIGURATION_INVALID = 6
-    ARGUMENT_INVALID = 7
-    STATE_INVALID = 8
-    INTERNAL_LOGIC_ERROR = 9
-    UNKNOWN_ERROR = 10
-    EXECUTION_EXCEPTION = 12
-    MQTT_ERROR = 13
-    UNSUPPORTED_REQUEST_VERSION = 14
-    UNSUPPORTED_RESPONSE_VERSION = 15
+    STATE_INVALID = 7
+    INTERNAL_LOGIC_ERROR = 8
+    UNKNOWN_ERROR = 9
+    EXECUTION_EXCEPTION = 10
+    MQTT_ERROR = 11
+    UNSUPPORTED_VERSION = 12
 ```
 
 The Akri.Mqtt error type is defined as follows:
@@ -486,10 +464,6 @@ class AkriMqttException(RuntimeError):
     @property
     def kind(self):
         return self._kind
-
-    @property
-    def in_application(self):
-        return self._in_application
 
     @property
     def is_shallow(self):
@@ -502,10 +476,6 @@ class AkriMqttException(RuntimeError):
     @property
     def nested_error(self):
         return self._nested_error
-
-    @property
-    def http_status_code(self):
-        return self._http_status_code
 
     @property
     def header_name(self):

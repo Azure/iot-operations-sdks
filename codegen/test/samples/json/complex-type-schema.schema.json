@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "test_asset_datapoints_telemetry_schema_datapoints_telemetry_schema",
+  "description": "Schema for OPC UA datapoints telemetry message",
+  "type": "object",
+  "properties": {
+    "SourceTimestamp": {
+      "$ref": "#/$defs/org.opcfoundation.UA.DateTime"
+    },
+    "Value": {
+      "$ref": "#/$defs/com.microsoft.Opc.OpcPlc.Boiler.BoilerStatus"
+    },
+    "StatusCode": {
+      "$ref": "#/$defs/org.opcfoundation.UA.StatusCode"
+    }
+  },
+  "$defs": {
+    "org.opcfoundation.UA.DateTime": {
+      "type": "string",
+      "title": "UaDateTime",
+      "description": "OPC UA built in type DateTime",
+      "$id": "org.opcfoundation.UA.DateTime",
+      "format": "date-time"
+    },
+    "org.opcfoundation.UA.Int32": {
+      "type": "integer",
+      "title": "UaInt32",
+      "description": "OPC UA built in type Int32",
+      "$id": "org.opcfoundation.UA.Int32",
+      "format": "int32",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "const": 0
+    },
+    "com.microsoft.Opc.OpcPlc.Boiler.Temperature": {
+      "type": "object",
+      "title": "Temperature",
+      "$id": "com.microsoft.Opc.OpcPlc.Boiler.Temperature",
+      "additionalProperties": false,
+      "properties": {
+        "Top": {
+          "$ref": "#/$defs/org.opcfoundation.UA.Int32"
+        },
+        "Bottom": {
+          "$ref": "#/$defs/org.opcfoundation.UA.Int32"
+        }
+      }
+    },
+    "com.microsoft.Opc.OpcPlc.Boiler.HeaterState": {
+      "type": "integer",
+      "title": "HeaterState",
+      "$id": "com.microsoft.Opc.OpcPlc.Boiler.HeaterState",
+      "additionalProperties": false,
+      "x-enumNames": [
+        "Off",
+        "On"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "com.microsoft.Opc.OpcPlc.Boiler.BoilerStatus": {
+      "type": "object",
+      "title": "BoilerStatus",
+      "$id": "com.microsoft.Opc.OpcPlc.Boiler.BoilerStatus",
+      "description": "",
+      "properties": {
+        "Temperature": {
+          "$ref": "#/$defs/com.microsoft.Opc.OpcPlc.Boiler.Temperature"
+        },
+        "Pressure": {
+          "$ref": "#/$defs/org.opcfoundation.UA.Int32"
+        },
+        "HeaterState": {
+          "$ref": "#/$defs/com.microsoft.Opc.OpcPlc.Boiler.HeaterState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "org.opcfoundation.UA.UInt32": {
+      "type": "integer",
+      "title": "UaUInt32",
+      "description": "OPC UA built in type UInt32",
+      "$id": "org.opcfoundation.UA.UInt32",
+      "format": "uint32",
+      "minimum": 0,
+      "maximum": 4294967295,
+      "const": 0
+    },
+    "org.opcfoundation.UA.String": {
+      "type": "string",
+      "title": "UaString",
+      "description": "OPC UA built in type String",
+      "$id": "org.opcfoundation.UA.String"
+    },
+    "org.opcfoundation.UA.StatusCode": {
+      "type": "object",
+      "title": "UaStatusCode",
+      "description": "OPC UA built in type StatusCode",
+      "$id": "org.opcfoundation.UA.StatusCode",
+      "properties": {
+        "Code": {
+          "$ref": "#/$defs/org.opcfoundation.UA.UInt32"
+        },
+        "Symbol": {
+          "$ref": "#/$defs/org.opcfoundation.UA.String"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

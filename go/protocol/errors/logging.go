@@ -2,95 +2,84 @@
 // Licensed under the MIT License.
 package errors
 
-import "log/slog"
+import (
+	"log/slog"
 
-// client errors.
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
+)
+
 func (e *Client) Attrs() []slog.Attr {
-	a := baseAttrs(&e.Base)
+	a := make([]slog.Attr, 0, 5)
 
-	if e.IsShallow {
-		a = append(a, slog.Bool("is_shallow", e.IsShallow))
+	a = append(a, slog.String("kind", e.Kind.String()))
+
+	if attrs, ok := e.Kind.(log.Attrs); ok {
+		a = append(a, attrs.Attrs()...)
+	}
+
+	if e.Shallow {
+		a = append(a, slog.Bool("shallow", e.Shallow))
+	}
+
+	if e.Nested != nil {
+		a = append(a, slog.Any("nested", e.Nested))
 	}
 
 	return a
 }
 
-// remote errors.
 func (e *Remote) Attrs() []slog.Attr {
-	a := baseAttrs(&e.Base)
+	a := make([]slog.Attr, 0, 4)
 
-	if e.HTTPStatusCode != 0 {
-		a = append(a, slog.Int("http_status_code", e.HTTPStatusCode))
+	a = append(a, slog.String("kind", e.Kind.String()))
+
+	if attrs, ok := e.Kind.(log.Attrs); ok {
+		a = append(a, attrs.Attrs()...)
 	}
 
-	if e.InApplication {
-		a = append(a, slog.Bool("in_application", e.InApplication))
-	}
-
-	if e.ProtocolVersion != "" {
-		a = append(a, slog.String("protocol_version", e.ProtocolVersion))
-	}
-
-	if len(e.SupportedMajorProtocolVersions) > 0 {
-		a = append(
-			a,
-			slog.Any(
-				"supported_major_protocol_versions",
-				e.SupportedMajorProtocolVersions,
-			),
-		)
-	}
-
-	return a
+	return append(a, slog.Bool("remote", true))
 }
 
-// get attributes from Base.
-func baseAttrs(e *Base) []slog.Attr {
-	a := make([]slog.Attr, 0, 8)
-
-	a = append(a, slog.Int("kind", int(e.Kind)))
-
-	if e.NestedError != nil {
-		a = append(a, slog.Any("nested_error", e.NestedError))
+func (e Timeout) Attrs() []slog.Attr {
+	return []slog.Attr{
+		slog.String("timeout_name", e.TimeoutName),
+		slog.Duration("timeout_value", e.TimeoutValue),
 	}
+}
 
-	switch e.Kind {
-	case HeaderMissing:
-		a = append(a, slog.String("header_name", e.HeaderName))
-	case HeaderInvalid:
-		a = append(a,
-			slog.String("header_name", e.HeaderName),
-			slog.String("header_value", e.HeaderValue),
-		)
-	case Timeout:
-		a = append(a,
-			slog.String("timeout_name", e.TimeoutName),
-			slog.Duration("timeout_value", e.TimeoutValue),
-		)
-	case ConfigurationInvalid, ArgumentInvalid:
-		a = append(a,
-			slog.String("property_name", e.PropertyName),
-			slog.Any("property_value", e.PropertyValue),
-		)
-	case StateInvalid:
-		a = append(a, slog.String("property_name", e.PropertyName))
-		if e.PropertyValue != nil {
-			a = append(a, slog.Any("property_value", e.PropertyValue))
-		}
-	case InternalLogicError:
-		a = append(a, slog.String("property_name", e.PropertyName))
-	case InvocationException:
-		if e.PropertyName != "" {
-			a = append(a, slog.String("property_name", e.PropertyName))
-		}
-		if e.PropertyValue != nil {
-			a = append(a, slog.Any("property_value", e.PropertyValue))
-		}
-	case ExecutionException:
-		if e.PropertyName != "" {
-			a = append(a, slog.String("property_name", e.PropertyName))
-		}
+func (e ConfigurationInvalid) Attrs() []slog.Attr {
+	return []slog.Attr{
+		slog.String("property_name", e.PropertyName),
+		slog.Any("property_value", e.PropertyValue),
 	}
+}
 
-	return a
+func (e HeaderMissing) Attrs() []slog.Attr {
+	return []slog.Attr{
+		slog.String("header_name", e.HeaderName),
+	}
+}
+
+func (e HeaderInvalid) Attrs() []slog.Attr {
+	return []slog.Attr{
+		slog.String("header_name", e.HeaderName),
+		slog.String("header_value", e.HeaderValue),
+	}
+}
+
+func (e StateInvalid) Attrs() []slog.Attr {
+	return []slog.Attr{
+		slog.String("property_name", e.PropertyName),
+	}
+}
+
+func (e UnsupportedVersion) Attrs() []slog.Attr {
+	return []slog.Attr{
+		slog.String("protocol_version", e.ProtocolVersion),
+		slog.String(
+			"supported_major_protocol_versions",
+			version.SerializeSupported(e.SupportedMajorProtocolVersions),
+		),
+	}
 }
