@@ -148,7 +148,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw new AkriMqttException($"Telemetry sending to the topic '{telemTopic}' failed due to an unsuccessful publishing with the error code {pubReasonCode}")
                     {
                         Kind = AkriMqttErrorKind.MqttError,
-                        InApplication = false,
                         IsShallow = false,
                         IsRemote = false,
                     };
@@ -161,7 +160,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw new AkriMqttException("The message payload cannot be serialized.", ex)
                 {
                     Kind = AkriMqttErrorKind.PayloadInvalid,
-                    InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
                 };
@@ -172,7 +170,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw new AkriMqttException($"Sending telemetry failed due to a MQTT communication error: {ex.Message}.", ex)
                 {
                     Kind = AkriMqttErrorKind.Timeout,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };

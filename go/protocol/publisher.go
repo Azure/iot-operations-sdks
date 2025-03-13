@@ -61,11 +61,12 @@ func (p *publisher[T]) build(
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)
 			if err != nil {
-				return nil, &errors.Remote{
-					Base: errors.Base{
-						Message: "correlation data is not a valid UUID",
-						Kind:    errors.InternalLogicError,
+				return nil, &errors.Client{
+					Message: "correlation data is not a valid UUID",
+					Kind: errors.InternalLogicError{
+						PropertyName: "CorrelationData",
 					},
+					Nested: err,
 				}
 			}
 			pub.CorrelationData = correlationData[:]

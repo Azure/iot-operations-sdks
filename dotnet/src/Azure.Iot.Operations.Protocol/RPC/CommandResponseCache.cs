@@ -78,7 +78,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 throw new AkriMqttException($"{nameof(StoreAsync)} called before {nameof(StartAsync)} or after {nameof(StopAsync)}.")
                 {
                     Kind = AkriMqttErrorKind.StateInvalid,
-                    InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
                     PropertyName = nameof(this.StoreAsync),
@@ -232,7 +231,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         throw new AkriMqttException("Internal logic error in CommandResponseCache - inconsistent dedupQueue")
                         {
                             Kind = AkriMqttErrorKind.InternalLogicError,
-                            InApplication = false,
                             IsShallow = false,
                             IsRemote = false,
                             PropertyName = nameof(FullCorrelationId.CorrelationData),

@@ -11,7 +11,6 @@ prologue:
   - response-topic-suffix: "suffix/{in/valid}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false
 ...

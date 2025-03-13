@@ -18,22 +18,20 @@ func Mqtt(ctx context.Context, msg string, ack *mqtt.Ack, err error) error {
 	if ack != nil {
 		if ack.ReasonCode >= 0x80 {
 			return &errors.Client{
-				Base: errors.Base{
-					Message: fmt.Sprintf(
-						"%s error: %s. reason code: 0x%x",
-						msg,
-						ack.ReasonString,
-						ack.ReasonCode,
-					),
-					Kind: errors.MqttError,
-				},
+				Message: fmt.Sprintf(
+					"%s error: %s. reason code: 0x%x",
+					msg,
+					ack.ReasonString,
+					ack.ReasonCode,
+				),
+				Kind: errors.MqttError{},
 			}
 		}
 	} else if err == nil {
 		return &errors.Client{
-			Base: errors.Base{
-				Message: "the MQTT client returned a nil response without an error",
-				Kind:    errors.InternalLogicError,
+			Message: "the MQTT client returned a nil ack without an error",
+			Kind: errors.InternalLogicError{
+				PropertyName: "Ack",
 			},
 		}
 	}
