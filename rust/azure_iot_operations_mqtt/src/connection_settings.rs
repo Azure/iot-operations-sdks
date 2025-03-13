@@ -173,15 +173,12 @@ impl MqttConnectionSettingsBuilder {
             .ok_or_else(|| "AEP_CONFIGMAP_MOUNT_PATH is not set".to_string())?;
 
         if !std::path::Path::new(&config_map_path).exists() {
-            return Err(format!(
-                "Config map path does not exist: {}",
-                config_map_path
-            ));
+            return Err(format!("Config map path does not exist: {config_map_path}"));
         }
         // Read target address (hostname:port)
-        let target_address_path = format!("{}/BROKER_TARGET_ADDRESS", config_map_path);
+        let target_address_path = format!("{config_map_path}/BROKER_TARGET_ADDRESS");
         let target_address = std::fs::read_to_string(&target_address_path)
-            .map_err(|e| format!("Failed to read BROKER_TARGET_ADDRESS: {}", e))?;
+            .map_err(|e| format!("Failed to read BROKER_TARGET_ADDRESS: {e}"))?;
 
         let target_address_and_port = target_address.trim();
         if target_address_and_port.is_empty() {
@@ -192,20 +189,19 @@ impl MqttConnectionSettingsBuilder {
         let target_address_parts: Vec<&str> = target_address_and_port.split(':').collect();
         if target_address_parts.len() != 2 {
             return Err(format!(
-                "BROKER_TARGET_ADDRESS is malformed. Expected format <hostname>:<port>. Found: {}",
-                target_address_and_port
+                "BROKER_TARGET_ADDRESS is malformed. Expected format <hostname>:<port>. Found: {target_address_and_port}",
             ));
         }
 
         let hostname = target_address_parts[0].to_string();
         let tcp_port = target_address_parts[1]
             .parse::<u16>()
-            .map_err(|e| format!("Cannot parse MQTT port from BROKER_TARGET_ADDRESS: {}", e))?;
+            .map_err(|e| format!("Cannot parse MQTT port from BROKER_TARGET_ADDRESS: {e}"))?;
 
         // Read TLS setting
-        let use_tls_path = format!("{}/BROKER_USE_TLS", config_map_path);
+        let use_tls_path = format!("{config_map_path}/BROKER_USE_TLS");
         let use_tls_str = std::fs::read_to_string(&use_tls_path)
-            .map_err(|e| format!("Failed to read BROKER_USE_TLS: {}", e))?;
+            .map_err(|e| format!("Failed to read BROKER_USE_TLS: {e}"))?;
 
         let use_tls = use_tls_str.trim().parse::<bool>().map_err(|_| {
             "BROKER_USE_TLS contains a value that could not be parsed as a boolean".to_string()
@@ -219,7 +215,7 @@ impl MqttConnectionSettingsBuilder {
         )?);
 
         // Read client ID from configuration file
-        let client_id_path = format!("{}/AIO_MQTT_CLIENT_ID", config_map_path);
+        let client_id_path = format!("{config_map_path}/AIO_MQTT_CLIENT_ID");
         let client_id = match std::fs::read_to_string(&client_id_path) {
             Ok(id) => {
                 let id = id.trim();
@@ -230,8 +226,7 @@ impl MqttConnectionSettingsBuilder {
             }
             Err(e) => {
                 return Err(format!(
-                    "Missing or malformed client ID configuration file: {}",
-                    e
+                    "Missing or malformed client ID configuration file: {e}"
                 ));
             }
         };
@@ -251,11 +246,11 @@ impl MqttConnectionSettingsBuilder {
             password: None,
             password_file: None,
             use_tls: Some(use_tls),
-            ca_file: ca_file,
+            ca_file,
             cert_file: None,
             key_file: None,
             key_password_file: None,
-            sat_file: sat_file,
+            sat_file,
         })
     }
 
