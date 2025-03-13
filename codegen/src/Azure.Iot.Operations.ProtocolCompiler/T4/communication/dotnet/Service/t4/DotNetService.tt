@@ -115,7 +115,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 <# } #>
 <# if (this.cmdNameReqResps.Any()) { #>
@@ -291,12 +298,18 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
                 additionalTopicTokenMap ??= new();
 
-                additionalTopicTokenMap["invokerClientId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 <# if (this.doesCommandTargetExecutor) { #>
-                additionalTopicTokenMap["executorId"] = executorId;
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
 <# } #>
 
-                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
 <# if (this.telemNameSchemas.Any()) { #>

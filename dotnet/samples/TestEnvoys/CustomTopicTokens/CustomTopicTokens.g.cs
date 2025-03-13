@@ -48,7 +48,11 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+                        this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
@@ -56,7 +60,11 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+                        this.telemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -81,7 +89,15 @@ namespace TestEnvoys.CustomTopicTokens
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             /// <summary>
@@ -167,7 +183,12 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
+                        this.readCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
@@ -175,7 +196,12 @@ namespace TestEnvoys.CustomTopicTokens
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
+                        this.telemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
