@@ -4,7 +4,7 @@ description:
   condition: >-
     TelemetrySenders sends Telemetry with topic that contains a token but no replacement is specified.
   expect: >-
-    Send throws 'invalid argument' exception.
+    Send throws 'invalid configuration' exception.
 
 prologue:
   senders:
@@ -14,8 +14,7 @@ actions:
 - action: send telemetry
 - action: await send
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
 ...

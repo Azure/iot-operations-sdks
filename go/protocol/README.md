@@ -50,8 +50,14 @@ func main() {
 	// be separate services; they're shown here together for simplicity).
 	//
 	// See the documentation of the mqtt module for more details.
-	server := mqtt.NewSessionClient(mqtt.TCPConnection("localhost", 1883))
-	client := mqtt.NewSessionClient(mqtt.TCPConnection("localhost", 1883))
+	server, _ := mqtt.NewSessionClient(
+		"server",
+		mqtt.TCPConnection("localhost", 1883),
+	)
+	client, _ := mqtt.NewSessionClient(
+		"client",
+		mqtt.TCPConnection("localhost", 1883),
+	)
 
 	// Create a new executor to handle the requests.
 	executor, _ := protocol.NewCommandExecutor(
@@ -77,7 +83,7 @@ func main() {
 		pingEncoding,
 		pongEncoding,
 		reqTopic,
-		protocol.WithResponseTopic(func(string) string { return resTopic }),
+		protocol.WithResponseTopic(resTopic),
 	)
 	defer invoker.Close()
 

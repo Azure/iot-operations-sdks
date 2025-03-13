@@ -26,17 +26,15 @@ func normalize(err error, msg string, cause bool) error {
 
 	case os.IsTimeout(err), stderr.Is(err, context.DeadlineExceeded):
 		return &errors.Client{
-			Base: errors.Base{
-				Message: fmt.Sprintf("%s timed out", msg),
-				Kind:    errors.Timeout,
-			},
+			Message: fmt.Sprintf("%s timed out", msg),
+			Kind:    errors.Timeout{},
+			Nested:  err,
 		}
 	case stderr.Is(err, context.Canceled):
 		return &errors.Client{
-			Base: errors.Base{
-				Message: fmt.Sprintf("%s cancelled", msg),
-				Kind:    errors.Cancellation,
-			},
+			Message: fmt.Sprintf("%s cancelled", msg),
+			Kind:    errors.Cancellation{},
+			Nested:  err,
 		}
 
 	default:
@@ -44,11 +42,9 @@ func normalize(err error, msg string, cause bool) error {
 			return err
 		}
 		return &errors.Client{
-			Base: errors.Base{
-				Message:     fmt.Sprintf("%s error: %s", msg, err.Error()),
-				Kind:        errors.UnknownError,
-				NestedError: err,
-			},
+			Message: fmt.Sprintf("%s error: %s", msg, err.Error()),
+			Kind:    errors.UnknownError{},
+			Nested:  err,
 		}
 	}
 }

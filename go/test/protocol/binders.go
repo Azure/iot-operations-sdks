@@ -51,25 +51,23 @@ func NewTestingCommandInvoker(
 
 	if commandName == nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message:       "commandName is nil",
-				Kind:          errors.ConfigurationInvalid,
+			Message: "commandName is nil",
+			Kind: errors.ConfigurationInvalid{
 				PropertyName:  "commandName",
 				PropertyValue: nil,
 			},
-			IsShallow: true,
+			Shallow: true,
 		}
 	}
 
 	if requestTopic == nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message:       "requestTopic is nil",
-				Kind:          errors.ConfigurationInvalid,
+			Message: "requestTopic is nil",
+			Kind: errors.ConfigurationInvalid{
 				PropertyName:  "requesttopicpattern",
 				PropertyValue: nil,
 			},
-			IsShallow: true,
+			Shallow: true,
 		}
 	}
 
@@ -105,25 +103,23 @@ func NewTestingCommandExecutor(
 
 	if commandName == nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message:       "commandName is nil",
-				Kind:          errors.ConfigurationInvalid,
+			Message: "commandName is nil",
+			Kind: errors.ConfigurationInvalid{
 				PropertyName:  "commandName",
 				PropertyValue: nil,
 			},
-			IsShallow: true,
+			Shallow: true,
 		}
 	}
 
 	if requestTopic == nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message:       "requestTopic is nil",
-				Kind:          errors.ConfigurationInvalid,
+			Message: "requestTopic is nil",
+			Kind: errors.ConfigurationInvalid{
 				PropertyName:  "requesttopicpattern",
 				PropertyValue: nil,
 			},
-			IsShallow: true,
+			Shallow: true,
 		}
 	}
 
@@ -162,13 +158,12 @@ func NewTestingTelemetrySender(
 
 	if telemetryTopic == nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message:       "telemetryTopic is nil",
-				Kind:          errors.ConfigurationInvalid,
+			Message: "telemetryTopic is nil",
+			Kind: errors.ConfigurationInvalid{
 				PropertyName:  "topicpattern",
 				PropertyValue: nil,
 			},
-			IsShallow: true,
+			Shallow: true,
 		}
 	}
 
@@ -202,13 +197,12 @@ func NewTestingTelemetryReceiver(
 
 	if telemetryTopic == nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message:       "telemetryTopic is nil",
-				Kind:          errors.ConfigurationInvalid,
+			Message: "telemetryTopic is nil",
+			Kind: errors.ConfigurationInvalid{
 				PropertyName:  "topicpattern",
 				PropertyValue: nil,
 			},
-			IsShallow: true,
+			Shallow: true,
 		}
 	}
 

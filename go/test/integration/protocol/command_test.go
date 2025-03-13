@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -86,7 +87,7 @@ func TestCommandError(t *testing.T) {
 			context.Context,
 			*protocol.CommandRequest[any],
 		) (*protocol.CommandResponse[string], error) {
-			return nil, protocol.InvocationError{Message: "user error"}
+			return nil, errors.New("unknown error")
 		},
 	)
 	require.NoError(t, err)
@@ -104,5 +105,5 @@ func TestCommandError(t *testing.T) {
 
 	_, err = invoker.Invoke(ctx, nil)
 	require.Error(t, err)
-	require.Equal(t, err.Error(), "user error")
+	require.Equal(t, err.Error(), "unknown error")
 }

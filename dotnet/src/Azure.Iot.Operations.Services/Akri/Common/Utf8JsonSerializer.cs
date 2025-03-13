@@ -42,7 +42,6 @@ namespace Azure.Iot.Operations.Services.Akri
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     HeaderName = "Content Type",
                     HeaderValue = contentType,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };
