@@ -3,13 +3,8 @@
 
 //! Generic MQTT connection settings implementations
 
-use openssl::x509::X509;
 use std::env::{self, VarError};
-use std::fs;
-use std::path::Path;
-use std::process;
 use std::time::Duration;
-use std::time::{SystemTime, UNIX_EPOCH};
 
 // TODO: Split up this struct to avoid weird combinations and separate concern.
 // Things like having both password and password_file don't make much sense,
@@ -219,36 +214,6 @@ impl MqttConnectionSettingsBuilder {
         // Optional SAT file path
         let sat_file = Some(string_from_environment("BROKER_SAT_MOUNT_PATH")?);
 
-        // Optional TLS CA cert mount path
-        // let tls_ca_cert_mount_path =
-        //     string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?;
-        // let ca_file = if let Some(path) = tls_ca_cert_mount_path {
-        //     if !std::path::Path::new(&path).exists() {
-        //         return Err(format!("A TLS cert mount path was provided, but the provided path does not exist. Path: {}", path));
-        //     }
-
-        //     // In Rust we'll just get the first CA file, as we don't have built-in cert chain
-        //     // functionality like in C#. In a real implementation, you might want to use a crate
-        //     // like rustls or openssl to handle multiple CA certificates.
-        //     match std::fs::read_dir(&path) {
-        //         Ok(entries) => {
-        //             let ca_paths: Vec<_> = entries
-        //                 .filter_map(Result::ok)
-        //                 .map(|entry| entry.path())
-        //                 .filter(|path| path.is_file())
-        //                 .collect();
-
-        //             if ca_paths.is_empty() {
-        //                 None
-        //             } else {
-        //                 Some(ca_paths[0].to_string_lossy().to_string())
-        //             }
-        //         }
-        //         Err(e) => return Err(format!("Failed to read TLS cert directory: {}", e)),
-        //     }
-        // } else {
-        //     None
-        // };
         let ca_file = Some(string_from_environment(
             "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
         )?);
@@ -859,6 +824,33 @@ mod tests {
         );
 
         env::remove_var("BROKER_SAT_MOUNT_PATH");
+        cleanup_temp_dir(&temp_dir);
+    }
+
+    #[test]
+    fn test_file_mount_with_ca_file_path() {
+        let _file_dir_mutex = FILE_DIR_MTX.lock();
+        let (temp_dir, temp_path) = setup_test_environment();
+
+        create_config_file(
+            &temp_path,
+            "BROKER_TARGET_ADDRESS",
+            "test.hostname.com:8883",
+        )
+        .unwrap();
+        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+
+        let ca_path = "/path/to/ca/certs";
+        env::set_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", ca_path);
+
+        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+        assert!(builder_result.is_ok());
+
+        let builder = builder_result.unwrap();
+        assert_eq!(builder.ca_file, Some(Some(ca_path.to_string())));
+
+        env::remove_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH");
         cleanup_temp_dir(&temp_dir);
     }
 
