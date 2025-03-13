@@ -11,7 +11,6 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Azure.Iot.Operations.Protocol.UnitTests" />
     <InternalsVisibleTo Include="Azure.Iot.Operations.Protocol.MetlTests" />
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Services" />
   </ItemGroup>
   
 	<ItemGroup>

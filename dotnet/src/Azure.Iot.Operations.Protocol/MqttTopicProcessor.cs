@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Protocol
     /// <summary>
     /// Static class holding methods for processing MQTT topics, filters, and patterns.
     /// </summary>
-    internal static partial class MqttTopicProcessor
+    public static partial class MqttTopicProcessor
     {
         private static readonly Regex replaceableTokenRegex = new("{([^}]+)}");
 
