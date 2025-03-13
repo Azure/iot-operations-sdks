@@ -19,7 +19,7 @@ public class CustomTopicTokenService : CustomTopicTokens.Service
 
     public override Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
-        ReceivedRpcCustomTopicTokenValue = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
+        ReceivedRpcCustomTopicTokenValue = requestMetadata.TopicTokens["myCustomTopicToken"];
 
         return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenResponsePayload>
         {

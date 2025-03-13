@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedTelemetryTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedTelemetryTopicTokenValue
+                ["myCustomTopicToken"] = expectedTelemetryTopicTokenValue
             };
             await service.SendTelemetryAsync(new(), new(), customTopicTokens);
 
@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedTelemetryTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedTelemetryTopicTokenValue
+                ["myCustomTopicToken"] = expectedTelemetryTopicTokenValue
             };
             await using CustomTopicTokenService service = new(new(), mqttClient1, customTopicTokens);
             await using CustomTopicTokenClient client = new(new(), mqttClient1);
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
             var result = await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), customTopicTokens);
 
@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
             await using CustomTopicTokenService service = new(new(), mqttClient1);
             await using CustomTopicTokenClient client = new(new(), mqttClient1, customTopicTokens);
@@ -109,7 +109,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
 
             await service.StartAsync(customTopicTokens);
@@ -121,7 +121,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Dictionary<string, string> otherCustomTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = "someNewValueThatShouldNotBeHandledByExecutor",
+                ["myCustomTopicToken"] = "someNewValueThatShouldNotBeHandledByExecutor",
             };
 
             // This RPC call should fail because the executor isn't listening for invocations with the above topic token value
@@ -138,7 +138,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string expectedRpcTopicTokenValue = Guid.NewGuid().ToString();
             Dictionary<string, string> customTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = expectedRpcTopicTokenValue,
+                ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
 
             await using CustomTopicTokenService service = new(new(), mqttClient1, customTopicTokens);
@@ -153,7 +153,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Dictionary<string, string> otherCustomTopicTokens = new()
             {
-                ["ex:myCustomTopicToken"] = "someNewValueThatShouldNotBeHandledByExecutor",
+                ["myCustomTopicToken"] = "someNewValueThatShouldNotBeHandledByExecutor",
             };
 
             // This RPC call should fail because the executor isn't listening for invocations with the above topic token value
