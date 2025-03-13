@@ -45,7 +45,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type PublishQueueFullError](<#PublishQueueFullError>)
   - [func \(\*PublishQueueFullError\) Error\(\) string](<#PublishQueueFullError.Error>)
 - [type SessionClient](<#SessionClient>)
-  - [func NewSessionClient\(clientID string, connectionProvider ConnectionProvider, opts ...SessionClientOption\) \*SessionClient](<#NewSessionClient>)
+  - [func NewSessionClient\(clientID string, connectionProvider ConnectionProvider, opts ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClient>)
   - [func NewSessionClientFromEnv\(opt ...SessionClientOption\) \(\*SessionClient, error\)](<#NewSessionClientFromEnv>)
   - [func \(c \*SessionClient\) ID\(\) string](<#SessionClient.ID>)
   - [func \(c \*SessionClient\) Publish\(ctx context.Context, topic string, payload \[\]byte, opts ...PublishOption\) \(\*Ack, error\)](<#SessionClient.Publish>)
@@ -487,7 +487,7 @@ type SessionClient struct {
 ### func [NewSessionClient](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L62-L66>)
 
 ```go
-func NewSessionClient(clientID string, connectionProvider ConnectionProvider, opts ...SessionClientOption) *SessionClient
+func NewSessionClient(clientID string, connectionProvider ConnectionProvider, opts ...SessionClientOption) (*SessionClient, error)
 ```
 
 NewSessionClient constructs a new session client with user options.
@@ -502,7 +502,7 @@ func NewSessionClientFromEnv(opt ...SessionClientOption) (*SessionClient, error)
 NewSessionClientFromEnv is a shorthand for constructing a session client using SessionClientConfigFromEnv.
 
 <a name="SessionClient.ID"></a>
-### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L109>)
+### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L121>)
 
 ```go
 func (c *SessionClient) ID() string

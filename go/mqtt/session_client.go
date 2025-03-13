@@ -63,7 +63,19 @@ func NewSessionClient(
 	clientID string,
 	connectionProvider ConnectionProvider,
 	opts ...SessionClientOption,
-) *SessionClient {
+) (*SessionClient, error) {
+	if clientID == "" {
+		return nil, &InvalidArgumentError{
+			message: "client ID must be configured",
+		}
+	}
+
+	if connectionProvider == nil {
+		return nil, &InvalidArgumentError{
+			message: "connection must be configured",
+		}
+	}
+
 	// Default client options.
 	client := &SessionClient{
 		clientID:           clientID,
@@ -102,7 +114,7 @@ func NewSessionClient(
 
 	client.log.Logger = log.Wrap(client.options.Logger)
 
-	return client
+	return client, nil
 }
 
 // ID returns the MQTT client ID for this session client.

@@ -149,18 +149,8 @@ func NewSessionClientFromEnv(
 	if err != nil {
 		return nil, err
 	}
-	if opts.ClientID == "" {
-		return nil, &InvalidArgumentError{
-			message: "client ID must be configured",
-		}
-	}
-	if opts.ConnectionProvider == nil {
-		return nil, &InvalidArgumentError{
-			message: "connection must be configured",
-		}
-	}
 	opts.Apply(opt)
-	return NewSessionClient(opts.ClientID, opts.ConnectionProvider, opts), nil
+	return NewSessionClient(opts.ClientID, opts.ConnectionProvider, opts)
 }
 
 func (b *connectionProviderBuilder) build() (ConnectionProvider, error) {

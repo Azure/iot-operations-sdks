@@ -18,7 +18,8 @@ func getStubAndSessionClient(
 	clientID string,
 ) (*StubBroker, protocol.MqttClient) {
 	stubBroker, provider := NewStubBroker()
-	sessionClient := mqtt.NewSessionClient(clientID, provider)
+	sessionClient, err := mqtt.NewSessionClient(clientID, provider)
+	require.NoError(t, err)
 	require.NoError(t, sessionClient.Start())
 	return stubBroker, sessionClient
 }
