@@ -23,6 +23,7 @@ use azure_iot_operations_protocol::{
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use tokio::io::join;
 
 const IS_IN_CLUSTER: bool = false;
 const STATE_STORE_SENSOR_KEY: &str = "event_app_sample";
@@ -68,14 +69,28 @@ async fn main() {
 
     let incoming_sensor_data = Arc::new(Mutex::new(Vec::new()));
 
-    tokio::task::spawn(receive_telemetry(
+    let receive_telemetry_handle = tokio::task::spawn(receive_telemetry(
         application_context.clone(),
         session.create_managed_client(),
         incoming_sensor_data.clone(),
         session.create_exit_handle(),
     ));
 
+    let process_sensor_data_handle = tokio::task::spawn(process_sensor_data(
+        application_context.clone(),
+        session.create_managed_client(),
+        session.create_connection_monitor(),
+        incoming_sensor_data.clone(),
+        session.create_exit_handle(),
+    )); // ASK: Do we even need exit handles?
+
     // FIN: log::info!("Connecting to: {:?}", connection_settings);
+    assert!(tokio::try_join!(
+        async move { session.run().await.map_err(|e| { e.to_string() }) },
+        async move { receive_telemetry_handle.await.map_err(|e| e.to_string()) },
+        async move { process_sensor_data_handle.await.map_err(|e| e.to_string()) }
+    )
+    .is_ok());
 }
 
 async fn receive_telemetry(
@@ -149,8 +164,35 @@ async fn process_sensor_data(
                     None => Vec::new(),
                 };
 
+                // Drain the incoming queue
+                incoming_sensor_data
+                    .lock()
+                    .unwrap()
+                    .drain(..)
+                    .for_each(|d| {
+                        data.push(d);
+                    });
+
                 // Discard old data
                 data.retain(|d| Utc::now() - d.timestamp < chrono::Duration::seconds(WINDOW_SIZE));
+
+                // Push the sensor data back to the state store
+                let data = serde_json::to_vec(&data).unwrap();
+
+                // ASK: If the set operation fails what do we do?
+                match state_store_client
+                    .set(
+                        STATE_STORE_SENSOR_KEY.into(),
+                        serde_json::to_vec(&data).unwrap(),
+                        Duration::from_secs(10),
+                        None,
+                        SetOptions::default(),
+                    )
+                    .await
+                {
+                    Ok(_) => { /* Success */ }
+                    Err(e) => log::error!("Failed to set state store data: {e:?}"), // Incoming sensor data is lost
+                }
             }
             Err(e) => {
                 log::error!("Failed to fetch state store data: {e:?}");
