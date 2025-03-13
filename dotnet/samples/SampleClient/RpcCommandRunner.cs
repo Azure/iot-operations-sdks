@@ -15,7 +15,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")! + ";ClientId=sampleClient-" + Environment.TickCount);
+        MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")!);
 
         await mqttClient.ConnectAsync(mcs, stoppingToken);
         await Console.Out.WriteLineAsync($"Connected to: {mcs}");
