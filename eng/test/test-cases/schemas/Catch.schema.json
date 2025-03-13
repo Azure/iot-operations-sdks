@@ -13,20 +13,13 @@
                 "timeout",
                 "cancellation",
                 "invalid configuration",
-                "invalid argument",
                 "invalid state",
                 "internal logic error",
                 "unknown error",
                 "execution error",
                 "mqtt error",
-                "request version not supported",
-                "response version not supported"
+                "unsupported version"
             ],
-            "kind": "check"
-        },
-        "in-application": {
-            "description": "Whether the error occurs in user-supplied code rather than the SDK or its dependent components.",
-            "type": "boolean",
             "kind": "check"
         },
         "is-shallow": {
@@ -37,11 +30,6 @@
         "is-remote": {
             "description": "Whether the error is detected by a remote component.",
             "type": "boolean",
-            "kind": "check"
-        },
-        "status-code": {
-            "description": "An HTTP status code from a remote service that initally caught the error.",
-            "type": [ "integer", "null" ],
             "kind": "check"
         },
         "message": {
