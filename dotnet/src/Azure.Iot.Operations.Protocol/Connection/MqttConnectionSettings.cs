@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
         public TimeSpan KeepAlive { get; set; } = s_defaultKeepAlive;
 
-        public string? ClientId { get; set; }
+        public string ClientId { get; set; }
 
         public TimeSpan SessionExpiry { get; set; } = s_defaultSessionExpiry;
 
@@ -53,8 +53,8 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
         public string? SatAuthFile { get; set; }
 
-        public MqttConnectionSettings(string hostname)
-            : this(new Dictionary<string, string> { { nameof(HostName), hostname } }, false)
+        public MqttConnectionSettings(string hostname, string clientId)
+            : this(new Dictionary<string, string> { { nameof(HostName), hostname }, {nameof(ClientId), clientId} }, false)
         {
         }
 
@@ -106,7 +106,16 @@ namespace Azure.Iot.Operations.Protocol.Connection
             }
 
             string? tcpPort = Environment.GetEnvironmentVariable("AIO_BROKER_TCP_PORT");
+
             string? clientId = Environment.GetEnvironmentVariable("AIO_MQTT_CLIENT_ID");
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw AkriMqttException.GetConfigurationInvalidException(
+                    "AIO_MQTT_CLIENT_ID",
+                    string.Empty,
+                    "Invalid settings in provided Environment Variables: 'AIO_MQTT_CLIENT_ID' is missing.");
+            }
+
             string? certFile = Environment.GetEnvironmentVariable("AIO_TLS_CERT_FILE");
             string? keyFile = Environment.GetEnvironmentVariable("AIO_TLS_KEY_FILE");
             string? username = Environment.GetEnvironmentVariable("AIO_MQTT_USERNAME");
@@ -121,9 +130,8 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
             try
             {
-                return new MqttConnectionSettings(hostname)
+                return new MqttConnectionSettings(hostname, clientId)
                 {
-                    ClientId = clientId,
                     CertFile = certFile,
                     KeyFile = keyFile,
                     Username = username,
@@ -210,9 +218,23 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 }
             }
 
+            string clientId;
             try
             {
-                return new MqttConnectionSettings(targetAddress)
+                clientId = File.ReadAllText(configMapPath + "/AIO_MQTT_CLIENT_ID");
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw AkriMqttException.GetConfigurationInvalidException("AIO_MQTT_CLIENT_ID", string.Empty, "AIO_MQTT_CLIENT_ID is missing.");
+                }
+            }
+            catch (Exception e)
+            {
+                throw AkriMqttException.GetConfigurationInvalidException("AIO_MQTT_CLIENT_ID", string.Empty, "Missing or malformed client ID configuration file", e);
+            }
+
+            try
+            {
+                return new MqttConnectionSettings(targetAddress, clientId)
                 {
                     UseTls = useTls,
                     SatAuthFile = satMountPath,
@@ -249,9 +271,9 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 throw new ArgumentException($"{nameof(HostName)} is mandatory.", nameof(HostName));
             }
 
-            if (string.IsNullOrEmpty(ClientId) && !CleanStart)
+            if (string.IsNullOrEmpty(ClientId))
             {
-                throw new ArgumentException($"{nameof(ClientId)} is mandatory when {nameof(CleanStart)} is set to false.", nameof(ClientId));
+                throw new ArgumentException($"{nameof(ClientId)} is mandatory.", nameof(ClientId));
             }
 
             if (!string.IsNullOrEmpty(SatAuthFile) && (!string.IsNullOrEmpty(PasswordFile)))
