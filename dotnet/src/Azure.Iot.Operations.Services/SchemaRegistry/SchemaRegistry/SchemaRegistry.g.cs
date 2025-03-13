@@ -50,6 +50,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                         this.putCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
                 if (topicTokenMap != null)
                 {
@@ -58,6 +60,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                         this.getCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.getCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }
@@ -85,25 +89,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
             /// instead need to create a command executor per topic token set.
             /// </remarks>
-            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
-
                 await Task.WhenAll(
-                    this.putCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.getCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.putCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.getCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

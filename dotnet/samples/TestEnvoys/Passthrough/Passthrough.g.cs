@@ -49,6 +49,8 @@ namespace TestEnvoys.Passthrough
                         this.passCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.passCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
@@ -73,24 +75,16 @@ namespace TestEnvoys.Passthrough
             /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
             /// instead need to create a command executor per topic token set.
             /// </remarks>
-            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
-
                 await Task.WhenAll(
-                    this.passCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.passCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

@@ -51,6 +51,8 @@ namespace TestEnvoys.Math
                         this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
                 if (topicTokenMap != null)
                 {
@@ -59,6 +61,8 @@ namespace TestEnvoys.Math
                         this.fibCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
                 if (topicTokenMap != null)
                 {
@@ -67,6 +71,8 @@ namespace TestEnvoys.Math
                         this.getRandomCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.getRandomCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }
@@ -97,26 +103,18 @@ namespace TestEnvoys.Math
             /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
             /// instead need to create a command executor per topic token set.
             /// </remarks>
-            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
-
                 await Task.WhenAll(
-                    this.isPrimeCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.fibCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.getRandomCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.isPrimeCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.fibCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.getRandomCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

@@ -55,6 +55,8 @@ namespace TestEnvoys.Memmon
                         this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt};
                 if (topicTokenMap != null)
                 {
@@ -63,6 +65,8 @@ namespace TestEnvoys.Memmon
                         this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt};
                 if (topicTokenMap != null)
                 {
@@ -71,6 +75,8 @@ namespace TestEnvoys.Memmon
                         this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
@@ -200,26 +206,18 @@ namespace TestEnvoys.Memmon
             /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
             /// instead need to create a command executor per topic token set.
             /// </remarks>
-            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
-                additionalTopicTokenMap ??= new();
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
-
                 await Task.WhenAll(
-                    this.startTelemetryCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.stopTelemetryCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.getRuntimeStatsCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.startTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.stopTelemetryCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.getRuntimeStatsCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -474,19 +472,12 @@ namespace TestEnvoys.Memmon
             /// to only handle telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
             /// instead need to create a telemetry receiver per topic token set.
             /// </remarks>
-            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(CancellationToken cancellationToken = default)
             {
-                additionalTopicTokenMap ??= new();
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
                 await Task.WhenAll(
-                    this.workingSetTelemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken),
-                    this.managedMemoryTelemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken),
-                    this.memoryStatsTelemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.workingSetTelemetryReceiver.StartAsync(cancellationToken),
+                    this.managedMemoryTelemetryReceiver.StartAsync(cancellationToken),
+                    this.memoryStatsTelemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>

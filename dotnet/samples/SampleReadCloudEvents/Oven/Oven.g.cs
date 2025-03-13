@@ -141,17 +141,10 @@ namespace SampleReadCloudEvents.Oven
             /// to only handle telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
             /// instead need to create a telemetry receiver per topic token set.
             /// </remarks>
-            public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
+            public async Task StartAsync(CancellationToken cancellationToken = default)
             {
-                additionalTopicTokenMap ??= new();
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>
