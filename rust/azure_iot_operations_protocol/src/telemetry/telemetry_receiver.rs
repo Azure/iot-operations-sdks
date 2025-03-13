@@ -764,10 +764,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(
                     e.property_name,
                     Some("receiver_options.topic_pattern".to_string())

@@ -58,7 +58,9 @@ where
     /// Topic token keys/values to be replaced into the publish topic of the request.
     #[builder(default)]
     topic_tokens: HashMap<String, String>,
-    /// Timeout for the command. Will also be used as the `message_expiry_interval` to give the executor information on when the invoke request might expire.
+    /// Timeout for the command, must be one second or greater. Will also be used as the `message_expiry_interval`
+    /// to give the executor information on when the invoke request might expire.
+    #[builder(setter(custom))]
     timeout: Duration,
 }
 impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
@@ -74,7 +76,6 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
                 true,
                 false,
                 Some(e.into()),
-                None,
                 Some("Payload serialization error".to_string()),
                 None,
             )),
@@ -99,19 +100,32 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
         }
     }
 
+    /// Set the timeout for the command
+    ///
+    /// Note: Will be rounded up to the nearest second.
+    pub fn timeout(&mut self, timeout: Duration) -> &mut Self {
+        self.timeout = Some(if timeout.subsec_nanos() != 0 {
+            Duration::from_secs(timeout.as_secs().saturating_add(1))
+        } else {
+            timeout
+        });
+
+        self
+    }
+
     /// Validate the command request.
     ///
     /// # Errors
     /// Returns a `String` describing the error if
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8 or the key is reserved
-    ///     - timeout is < 1 ms or > `u32::max`
+    ///     - timeout is zero or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
-            if timeout.as_millis() < 1 {
-                return Err("Timeout must be at least 1 ms".to_string());
+            if timeout.as_secs() == 0 {
+                return Err("Timeout must not be 0".to_string());
             }
             match <u64 as TryInto<u32>>::try_into(timeout.as_secs()) {
                 Ok(_) => {}
@@ -477,7 +491,6 @@ where
                 Err(AIOProtocolError::new_timeout_error(
                     false,
                     Some(Box::new(e)),
-                    None,
                     &self.command_name,
                     command_timeout,
                     None,
@@ -601,7 +614,6 @@ where
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
                         None,
-                        None,
                         Some(
                             "Command Invoker has been shutdown and can no longer invoke commands"
                                 .to_string(),
@@ -682,7 +694,6 @@ where
                         return Err(AIOProtocolError::new_cancellation_error(
                             false,
                             None,
-                            None,
                             Some(
                                 "Command Invoker has been shutdown and will no longer receive a response"
                                     .to_string(),
@@ -702,7 +713,6 @@ where
                     log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
-                        None,
                         None,
                         Some(
                             "MQTT Receiver has been cleaned up and will no longer send a response"
@@ -830,11 +840,9 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut response_error = AIOProtocolError {
         kind: AIOProtocolErrorKind::UnknownError, // should be overwritten
         message: None,                            // should be overwritten
-        in_application: false,                    // for most scenarios, this will be false
         is_shallow: false,                        // this is always false here
         is_remote: true,                          // this should be overwritten as needed
         nested_error: None,
-        http_status_code: None,
         header_name: None,
         header_value: None,
         timeout_name: None,
@@ -845,6 +853,8 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         protocol_version: None,
         supported_protocol_major_versions: None,
     };
+
+    let mut is_application_error = false;
 
     // parse user properties
     let mut response_custom_user_data = vec![];
@@ -911,7 +921,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 // validate that status is one of valid values. Must be present
                 match StatusCode::from_str(&value) {
                     Ok(code) => {
-                        response_error.http_status_code = Some(code as u16);
                         status = Some(code);
                     }
                     Err(mut e) => {
@@ -933,7 +942,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             Ok(UserProperty::IsApplicationError) => {
                 // Nothing to validate, but save info
                 // IsApplicationError is interpreted as false if the property is omitted, or has no value, or has a value that case-insensitively equals "false". Otherwise, the property is interpreted as true.
-                response_error.in_application = value.eq_ignore_ascii_case("true");
+                is_application_error = value.eq_ignore_ascii_case("true");
             }
             Ok(UserProperty::InvalidPropertyName) => {
                 // Nothing to validate, but save info
@@ -1034,7 +1043,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 StatusCode::InternalServerError => {
                     response_error.property_value = invalid_property_value.map(Value::String);
                     response_error.property_name = invalid_property_name;
-                    if response_error.in_application {
+                    if is_application_error {
                         response_error.kind = AIOProtocolErrorKind::ExecutionException;
                     } else if response_error.property_name.is_some() {
                         response_error.kind = AIOProtocolErrorKind::InternalLogicError;
@@ -1061,7 +1070,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         return Err(AIOProtocolError::new_header_missing_error(
             "__stat",
             false,
-            None,
             Some(format!(
                 "Response missing MQTT user property '{}'",
                 UserProperty::Status
@@ -1092,7 +1100,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                     false,
                     Some(deserialization_e.into()),
                     None,
-                    None,
                     Some(command_name),
                 ));
             }
@@ -1103,7 +1110,6 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                         .content_type
                         .unwrap_or("None".to_string()),
                     false,
-                    None,
                     Some(message),
                     Some(command_name),
                 ));
@@ -1328,10 +1334,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some(error_property_name.to_string()));
                 assert!(e.property_value == Some(Value::String(error_property_value.to_string())));
             }
@@ -1556,7 +1560,7 @@ mod tests {
                 CommandRequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
-                    .timeout(Duration::from_millis(2))
+                    .timeout(Duration::from_secs(1))
                     .build()
                     .unwrap(),
             )
@@ -1565,12 +1569,69 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::Timeout);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.timeout_name, Some("test_command_name".to_string()));
-                assert!(e.timeout_value == Some(Duration::from_millis(2)));
+                assert!(e.timeout_value == Some(Duration::from_secs(1)));
+            }
+        }
+    }
+
+    // Tests failure: Invocation times out (valid timeout value less than a second but not zero specified on invoke)
+    // and a `Timeout` error is returned
+    #[tokio::test]
+    async fn test_invoke_times_out_timeout_rounded() {
+        let session = create_session();
+        let managed_client = session.create_managed_client();
+        let invoker_options = CommandInvokerOptionsBuilder::default()
+            .request_topic_pattern("test/req/topic")
+            .command_name("test_command_name")
+            .topic_token_map(create_topic_tokens())
+            .build()
+            .unwrap();
+
+        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        )
+        .unwrap();
+
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        // TODO: Check for
+        //      sub sent (suback received)
+        //      pub sent (puback received)
+        //      pub not received
+
+        let response = command_invoker
+            .invoke(
+                CommandRequestBuilder::default()
+                    .payload(mock_request_payload)
+                    .unwrap()
+                    .timeout(Duration::from_nanos(1))
+                    .build()
+                    .unwrap(),
+            )
+            .await;
+        match response {
+            Ok(_) => panic!("Expected error"),
+            Err(e) => {
+                assert_eq!(e.kind, AIOProtocolErrorKind::Timeout);
+                assert!(!e.is_shallow);
+                assert!(!e.is_remote);
+                assert_eq!(e.timeout_name, Some("test_command_name".to_string()));
+                assert!(e.timeout_value == Some(Duration::from_secs(1)));
             }
         }
     }
@@ -1645,10 +1706,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::PayloadInvalid);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert!(e.nested_error.is_some());
             }
         }
@@ -1701,10 +1760,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
                 assert!(e.property_value == Some(Value::String("+++".to_string())));
             }
@@ -1756,10 +1813,8 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ArgumentInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("executorId".to_string()));
                 assert_eq!(e.property_value, Some(Value::String(String::new())));
             }
@@ -1805,10 +1860,8 @@ mod tests {
         match req_builder {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
-                assert!(!e.in_application);
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.property_name, Some("content_type".to_string()));
                 assert!(
                     e.property_value == Some(Value::String("application/json\u{0000}".to_string()))
@@ -1824,8 +1877,6 @@ mod tests {
     #[test_case(Duration::from_secs(0); "invoke_timeout_0")]
     /// Tests failure: Timeout specified as > u32::max (invalid value) on invoke and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "invoke_timeout_u32_max")]
-    /// Tests failure: Timeout specified as < 1ms (invalid value) on invoke and an `ArgumentInvalid` error is returned
-    #[test_case(Duration::from_nanos(50); "invoke_timeout_less_1_ms")]
     fn test_request_timeout_invalid_value(timeout: Duration) {
         let mut mock_request_payload = MockPayload::new();
         mock_request_payload

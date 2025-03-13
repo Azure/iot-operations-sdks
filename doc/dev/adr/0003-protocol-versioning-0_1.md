@@ -1,9 +1,5 @@
 # ADR3: Protocol Versioning 0.1
 
-## Status: 
-
-APPROVED
-
 ## Context: 
 
 Our AIO components are not yet in preview, and our protocol is not finalized. However, our protocol is currently at version 1.0, which is counterintuitive.

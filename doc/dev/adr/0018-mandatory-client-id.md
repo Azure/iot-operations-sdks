@@ -1,9 +1,5 @@
 # ADR 18: Mandatory Client ID in Connection Settings
 
-## Status
-
-APPROVED
-
 ## Context
 
 MQTTv5 specification requires a Client ID to be present in the CONNECT packet payload (3.1.3-3), however it also allows the length of the Client ID to be 0 bytes IF the broker supports assigning it's own unique identifier to the client (3.1.3-6).
