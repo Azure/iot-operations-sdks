@@ -12,7 +12,6 @@ prologue:
     request-topic: "mock/test"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:

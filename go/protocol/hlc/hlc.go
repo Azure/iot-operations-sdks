@@ -143,20 +143,14 @@ func (hlc HybridLogicalClock) Update(
 	// indicates integer overflow.
 	case updated.counter == 0:
 		return HybridLogicalClock{}, &errors.Client{
-			Base: errors.Base{
-				Message:      "integer overflow in HLC counter",
-				Kind:         errors.InternalLogicError,
-				PropertyName: "Counter",
-			},
+			Message: "integer overflow in HLC counter",
+			Kind:    errors.StateInvalid{PropertyName: "Counter"},
 		}
 
 	case updated.timestamp.Sub(wall) > updated.opt.MaxClockDrift:
 		return HybridLogicalClock{}, &errors.Client{
-			Base: errors.Base{
-				Message:      "clock drift exceeds maximum",
-				Kind:         errors.StateInvalid,
-				PropertyName: "MaxClockDrift",
-			},
+			Message: "clock drift exceeds maximum",
+			Kind:    errors.StateInvalid{PropertyName: "MaxClockDrift"},
 		}
 
 	default:
@@ -206,9 +200,8 @@ func (g *Global) Parse(name, value string) (HybridLogicalClock, error) {
 	parts := strings.Split(value, ":")
 	if len(parts) != 3 {
 		return HybridLogicalClock{}, &errors.Client{
-			Base: errors.Base{
-				Message:     "HLC must contain three segments separated by ':'",
-				Kind:        errors.HeaderInvalid,
+			Message: "HLC must contain three segments separated by ':'",
+			Kind: errors.HeaderInvalid{
 				HeaderName:  name,
 				HeaderValue: value,
 			},
@@ -218,24 +211,24 @@ func (g *Global) Parse(name, value string) (HybridLogicalClock, error) {
 	timestamp, err := strconv.ParseInt(parts[0], 10, 64)
 	if err != nil {
 		return HybridLogicalClock{}, &errors.Client{
-			Base: errors.Base{
-				Message:     "first HLC segment is not a valid integer",
-				Kind:        errors.HeaderInvalid,
+			Message: "first HLC segment is not a valid integer",
+			Kind: errors.HeaderInvalid{
 				HeaderName:  name,
 				HeaderValue: value,
 			},
+			Nested: err,
 		}
 	}
 
 	count, err := strconv.ParseUint(parts[1], 10, 64)
 	if err != nil {
 		return HybridLogicalClock{}, &errors.Client{
-			Base: errors.Base{
-				Message:     "second HLC segment is not a valid integer",
-				Kind:        errors.HeaderInvalid,
+			Message: "second HLC segment is not a valid integer",
+			Kind: errors.HeaderInvalid{
 				HeaderName:  name,
 				HeaderValue: value,
 			},
+			Nested: err,
 		}
 	}
 
