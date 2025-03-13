@@ -1,0 +1,52 @@
+
+name: Verify Docgen
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'doc/dev/generated/**'
+      - 'eng/test/docgen/**'
+      - 'eng/test/test-cases/**'
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  codegen:
+    name: CI-codegen
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.301
+          
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.200
+      
+      - name: Build and run docgen project
+        run: |
+          cd eng/test/docgen/src/Azure.Iot.Operations.Protocol.UnitTests.Docgen
+          dotnet build -c Debug
+          dotnet run
+
+      - name: Verify Generated Code Matches Repo
+        run: |
+          if git diff --exit-code --ignore-cr-at-eol
+          then
+              echo "Running docgen changed no files, so no changes are needed."
+              exit 0
+          fi
+
+          echo "\n\n\n!!!!!!!!!!!!Running docgen changed 1 or more files!!!!!!!!!!!!"
+          echo " This means that you either made changes to generated documents, or made changes to their source without running docgen afterwards."
+          echo " Make sure to only change the source files and then run docgen afterwards"
+          exit 1            
