@@ -46,6 +46,10 @@ namespace TestEnvoys.Passthrough
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.passCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -136,6 +140,11 @@ namespace TestEnvoys.Passthrough
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.passCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

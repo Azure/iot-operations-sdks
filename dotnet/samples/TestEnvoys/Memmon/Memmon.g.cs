@@ -52,6 +52,10 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -60,6 +64,10 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -68,6 +76,10 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -76,6 +88,10 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.workingSetTelemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -84,6 +100,10 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.managedMemoryTelemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -92,6 +112,10 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.memoryStatsTelemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -271,6 +295,11 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.startTelemetryCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -279,6 +308,11 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.stopTelemetryCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -287,6 +321,11 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.getRuntimeStatsCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -295,6 +334,11 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.workingSetTelemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -303,6 +347,11 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.managedMemoryTelemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -311,6 +360,11 @@ namespace TestEnvoys.Memmon
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.memoryStatsTelemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

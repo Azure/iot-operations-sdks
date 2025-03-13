@@ -48,6 +48,10 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.isPrimeCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -56,6 +60,10 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.fibCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -64,6 +72,10 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.getRandomCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -180,6 +192,11 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.isPrimeCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -188,6 +205,11 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.fibCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -196,6 +218,11 @@ namespace TestEnvoys.Math
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.getRandomCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

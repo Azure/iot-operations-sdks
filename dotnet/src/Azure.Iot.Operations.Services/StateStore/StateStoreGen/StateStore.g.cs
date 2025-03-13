@@ -46,6 +46,10 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.invokeCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -136,6 +140,11 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.invokeCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

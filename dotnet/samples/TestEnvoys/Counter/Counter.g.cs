@@ -50,6 +50,10 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.readCounterCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -58,6 +62,10 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.incrementCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -66,6 +74,10 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.resetCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -74,6 +86,10 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
                         this.telemetrySender.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -211,6 +227,11 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.readCounterCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -219,6 +240,11 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.incrementCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -227,6 +253,11 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.resetCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -235,6 +266,11 @@ namespace TestEnvoys.Counter
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        if (!topicTokenKey.StartsWith("ex:"))
+                        {
+                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
+                        }
+
                         this.telemetryReceiver.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
