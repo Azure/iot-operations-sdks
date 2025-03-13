@@ -186,11 +186,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                Dictionary<string, string> combinedTopicTokenMap = new();
-                foreach (string topicTokenKey in TopicTokenMap.Keys)
-                {
-                    combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
-                }
+                Dictionary<string, string> combinedTopicTokenMap = new(TopicTokenMap);
 
                 additionalTopicTokenMap ??= new();
                 foreach (string topicTokenKey in additionalTopicTokenMap.Keys)

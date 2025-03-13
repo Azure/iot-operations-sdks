@@ -512,11 +512,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 };
             }
 
-            Dictionary<string, string> combinedTopicTokenMap = new();
-            foreach (string topicTokenKey in TopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
-            }
+            Dictionary<string, string> combinedTopicTokenMap = new(TopicTokenMap);
 
             additionalTopicTokenMap ??= new();
             foreach (string topicTokenKey in additionalTopicTokenMap.Keys)

@@ -714,11 +714,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
         {
-            Dictionary<string, string> combinedTopicTokenMap = new();
-            foreach (string topicTokenKey in baseMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, baseMap[topicTokenKey]);
-            }
+            Dictionary<string, string> combinedTopicTokenMap = new(baseMap);
 
             additionalMap ??= new();
             foreach (string topicTokenKey in additionalMap.Keys)

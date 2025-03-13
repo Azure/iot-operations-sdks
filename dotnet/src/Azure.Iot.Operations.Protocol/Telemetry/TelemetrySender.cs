@@ -126,17 +126,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            Dictionary<string, string> combinedTopicTokenMap = new();
-            foreach (string topicTokenKey in TopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
-            }
-
-            additionalTopicTokenMap ??= new();
-            foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
-            }
+            Dictionary<string, string> combinedTopicTokenMap = CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap);
 
             telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, combinedTopicTokenMap));
 
@@ -225,17 +215,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     "The provided MQTT client is not configured for MQTT version 5");
             }
 
-            Dictionary<string, string> combinedTopicTokenMap = new();
-            foreach (string topicTokenKey in TopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, TopicTokenMap[topicTokenKey]);
-            }
-
-            additionalTopicTokenMap ??= new();
-            foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
-            {
-                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
-            }
+            Dictionary<string, string> combinedTopicTokenMap = CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap);
 
             PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
@@ -260,6 +240,19 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
             await DisposeAsyncCore(disposing);
+        }
+
+        private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
+        {
+            Dictionary<string, string> combinedTopicTokenMap = new(baseMap);
+
+            additionalMap ??= new();
+            foreach (string topicTokenKey in additionalMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalMap[topicTokenKey]);
+            }
+
+            return combinedTopicTokenMap;
         }
 
         protected virtual async ValueTask DisposeAsyncCore(bool disposing)
