@@ -95,11 +95,16 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                additionalTopicTokenMap["executorId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.createDiscoveredAssetCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.createDiscoveredAssetCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

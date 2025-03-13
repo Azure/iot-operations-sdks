@@ -82,10 +82,15 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                additionalTopicTokenMap["executorId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.invokeCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.invokeCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)

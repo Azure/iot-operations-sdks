@@ -209,12 +209,17 @@ namespace TestEnvoys.Memmon
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                additionalTopicTokenMap["executorId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.startTelemetryCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.stopTelemetryCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.getRuntimeStatsCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.startTelemetryCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.stopTelemetryCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.getRuntimeStatsCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -472,11 +477,16 @@ namespace TestEnvoys.Memmon
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
                 await Task.WhenAll(
-                    this.workingSetTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken),
-                    this.managedMemoryTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken),
-                    this.memoryStatsTelemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.workingSetTelemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken),
+                    this.managedMemoryTelemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken),
+                    this.memoryStatsTelemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>

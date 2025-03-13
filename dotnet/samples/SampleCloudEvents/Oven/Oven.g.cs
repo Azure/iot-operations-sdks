@@ -144,9 +144,14 @@ namespace SampleCloudEvents.Oven
             public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
 
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(additionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StartAsync(prefixedAdditionalTopicTokenMap, cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>

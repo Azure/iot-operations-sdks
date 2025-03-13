@@ -106,12 +106,17 @@ namespace TestEnvoys.Math
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                additionalTopicTokenMap["executorId"] = clientId;
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                prefixedAdditionalTopicTokenMap["executorId"] = clientId;
 
                 await Task.WhenAll(
-                    this.isPrimeCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.fibCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
-                    this.getRandomCommandExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.isPrimeCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.fibCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken),
+                    this.getRandomCommandExecutor.StartAsync(prefixedAdditionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
