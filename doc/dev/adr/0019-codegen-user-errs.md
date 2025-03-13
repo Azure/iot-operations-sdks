@@ -712,7 +712,29 @@ pub async fn invoke(
 ) -> Result<IncrementResponse, AIOProtocolError>
 ```
 
-These signatures remain unchanged when error info is added by replacing the [original model](#sample-model) with the [enhanced model](#enhanced-model).
+The `recv` signature remains unchanged when error info is added by replacing the [original model](#sample-model) with the [enhanced model](#enhanced-model).
+However, the `invoke` signature changes to the following:
+
+```rust
+pub async fn invoke(
+    &self,
+    request: IncrementRequest,
+) -> Result<Result<IncrementResponse, CounterError>, AIOProtocolError>
+```
+
+This revised signature is more-or-less necessary so that user error information can be returned to the caller of `invoke`.
+
+> Design alternative: The `invoke` signature change could be avoided by embedding a `CounterError` in the `nested_error` field of an `AIOProtocolError`.
+> This would require client-side user code to do something like this:
+>
+> ```rust
+> let Some(nested_error) = err.nested_error {
+>     print!("Increment error = {}", nested_error);
+>     if let Some(counter_error) = nested_error.downcast_ref::<CounterError>() {
+>         print!("error condition = {:?}", counter_error.condition);
+>     }
+> }
+> ```
 
 ### Rust Server-side code
 
@@ -804,38 +826,46 @@ pub fn error(&mut self, error: CounterError) -> Result<&mut Self, AIOProtocolErr
 ### Rust Client-side code
 
 Generated client-side code checks whether the response received from the server contains a result counter value or an increment error, and it returns the `Result` via the `Ok` variant or the `Err` variant as appropriate.
+This user-level `Result` is embedded in the `Ok` variant of the overall `invoke` return value, which returns the `Err` variant for protocol-level errors.
 
 ```rust
 pub async fn invoke(
     &self,
     request: IncrementRequest,
-) -> Result<IncrementResponse, AIOProtocolError> {
+) -> Result<Result<IncrementResponse, CounterError>, AIOProtocolError> {
     let response = self.0.invoke(request).await;
     match response {
         Ok(response) => {
             if let Some(increment_error) = response.payload.increment_error {
-                Err(get_aio_protocol_error(
-                    increment_error.explanation.clone(),
-                    AIOProtocolErrorKind::ExecutionException,
-                    Some(Box::new(increment_error)),
-                ))
+                Ok(Err(increment_error))
             } else if let Some(counter_value) = response.payload.counter_value {
-                Ok(IncrementResponse {
+                Ok(Ok(IncrementResponse {
                     payload: IncrementResponsePayload { counter_value },
                     content_type: response.content_type,
                     format_indicator: response.format_indicator,
                     custom_user_data: response.custom_user_data,
                     timestamp: response.timestamp,
-                })
+                }))
             } else {
-                Err(get_aio_protocol_error(
-                    Some(
+                Err(AIOProtocolError {
+                    message: Some(
                         "Command response has neither normal nor error payload content"
                             .to_string(),
                     ),
-                    AIOProtocolErrorKind::PayloadInvalid,
-                    None,
-                ))
+                    kind: AIOProtocolErrorKind::PayloadInvalid,
+                    is_shallow: false,
+                    is_remote: true,
+                    nested_error: None,
+                    header_name: None,
+                    header_value: None,
+                    timeout_name: None,
+                    timeout_value: None,
+                    property_name: None,
+                    property_value: None,
+                    command_name: Some("increment".to_string()),
+                    protocol_version: None,
+                    supported_protocol_major_versions: None,
+                })
             }
         }
         Err(err) => Err(err),
@@ -843,58 +873,28 @@ pub async fn invoke(
 }
 ```
 
-The generated `CounterError` is embedded in the `nested_error` field of an `AIOProtocolError` whose `kind` is set to `ExecutionException`:
+Here is example client-side code that invokes the command and is prepared for any of:
+
+* on `Ok(Ok)` variant that contains the new counter value
+* an `Ok(Err)` variant that contains a user-level `CounterError`
+* an `Err` variant that indicates a protocol error
 
 ```rust
-fn get_aio_protocol_error(
-    message: Option<String>,
-    kind: AIOProtocolErrorKind,
-    nested_error: Option<Box<dyn Error + Send + Sync>>,
-) -> AIOProtocolError {
-    AIOProtocolError {
-        message,
-        kind,
-        in_application: true,
-        is_shallow: false,
-        is_remote: true,
-        nested_error,
-        http_status_code: None,
-        header_name: None,
-        header_value: None,
-        timeout_name: None,
-        timeout_value: None,
-        property_name: None,
-        property_value: None,
-        command_name: Some("increment".to_string()),
-        protocol_version: None,
-        supported_protocol_major_versions: None,
-    }
-}
-```
+let increment_response = increment_invoker.invoke(increment_request).await;
 
-> Design alternative: Instead of embedding the `CounterError` in an `AIOProtocolError`, it we could change the signature of `invoke()` to return a `Result<Result<IncrementResponse, CounterError>, AIOProtocolError>`.
-
-Here is example client-side code that invokes the command and is prepared for an `Err` variant that may contain a nested `CounterError`:
-
-```rust
 match increment_response {
-    Ok(increment_response) => {
+    Ok(Ok(increment_response)) => {
         print!(
             "Increment response = {}",
             increment_response.payload.counter_value
         );
     }
+    Ok(Err(increment_error)) => {
+        print!("Increment error = {}", increment_error);
+        print!("error condition = {:?}", increment_error.condition);
+    }
     Err(err) => {
-        if err.kind == AIOProtocolErrorKind::ExecutionException && err.in_application {
-            if let Some(nested_error) = err.nested_error {
-                print!("Increment error = {}", nested_error);
-                if let Some(counter_error) = nested_error.downcast_ref::<CounterError>() {
-                    print!("error condition = {:?}", counter_error.condition);
-                }
-            }
-        } else {
-            print!("Protocol error = {err:?}");
-        }
+        print!("Protocol error = {err:?}");
     }
 }
 ```
