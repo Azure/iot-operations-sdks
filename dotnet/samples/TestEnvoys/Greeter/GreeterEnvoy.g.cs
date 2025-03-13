@@ -79,10 +79,10 @@ public class GreeterEnvoy
         public abstract Task<ExtendedResponse<HelloResponse>> SayHello(ExtendedRequest<HelloRequest> request, CancellationToken cancellationToken);
         public abstract Task<ExtendedResponse<HelloResponse>> SayHelloWithDelayAsync(ExtendedRequest<HelloWithDelayRequest> request, CancellationToken cancellationToken);
 
-        public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
-            await sayHelloExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken);
-            await sayHelloWithDelayExecutor.StartAsync(additionalTopicTokenMap, preferredDispatchConcurrency, cancellationToken);
+            await sayHelloExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
+            await sayHelloWithDelayExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
