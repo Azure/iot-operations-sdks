@@ -1,49 +1,244 @@
+name: CI-Dotnet
 
-name: Run Docgen
-permissions:
-  contents: write
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - '.devcontainer/**'
+      - 'dotnet/**'
+      - 'eng/test/test-cases/Protocol/**'
+      - 'eng/test/faultablemqttbroker/**'
+      - 'tools/deployment/**'
+      - 'tools/dsscli/**'
+      - 'codegen/**'
+  push:
+    branches:
+    - main  
+  schedule:
+  - cron: '0 11 * * *'  # Nightly at 4am PST
 
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+    
 jobs:
-  codegen:
-    name: CI-codegen
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    name: CI-dotnet
+    timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.301
-          
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.200
-      
-      - name: Build and run docgen project
-        run: |
-          cd eng/test/docgen/src/Azure.Iot.Operations.Protocol.UnitTests.Docgen
-          dotnet build -c Debug
-          dotnet run
+    - uses: actions/checkout@v4
 
-      - name: Verify Generated Code Matches Repo
-        run: |
-          if git diff --exit-code --ignore-cr-at-eol
-          then
-              echo "Running docgen changed no files. No changes will be committed to this branch."
-              exit 0
-          fi
+    - name: Install AIO
+      uses: ./.github/actions/deploy-aio
+      with:
+        wait-for-broker: 'true'
+        install-dotnet: 'true'
 
-          echo "Docgen changed 1 or more files. Will commit these changes to the branch"
-              
-          # configure user account to match the runner of this workflow
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+    - name: dotnet info
+      run: dotnet --info
+
+    - name: Install Protoc
+      uses: arduino/setup-protoc@v3
+
+    - name: Install AvroGen
+      run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
+  
+    - name: Build SDK (Debug)
+      run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
+
+    - name: Build and Test CodeGen (Debug)
+      run: dotnet build -c Debug codegen/codegen.sln
+
+    - name: CodeGen .NET TestEnvoys
+      run: (cd dotnet/samples/TestEnvoys; ./gen.sh)
+
+    - name: CodeGen StateStore RPC client
+      run: (cd dotnet/src/Azure.Iot.Operations.Services/StateStore; ./gen.sh)
+
+    - name: CodeGen SchemaRegistryEnvoy
+      run: (cd dotnet/src/Azure.Iot.Operations.Services/SchemaRegistry; ./gen.sh)
+
+    - name: CodeGen AkriClient
+      run: (cd dotnet/src/Azure.Iot.Operations.Services/Akri; ./gen.sh)
+
+    - name: Build SDK (Debug)
+      run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
+
+    - name: Build SDK (Release)
+      run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
+
+    - name: Install .NET connector templates
+      run: |
+        dotnet new install dotnet/templates/EventDrivenTelemetryConnector
+        dotnet new install dotnet/templates/PollingTelemetryConnector
+ 
+    - name: Build Faultable MQTT Broker
+      run: dotnet build eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj
+   
+    - name: Setup Faultable MQTT Broker
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
+
+    - name: Build SchemaRegistry Host
+      run: dotnet build eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj
+ 
+    - name: Setup SchemaRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
       
-          git add -A
-          git commit -m 'Ran Docgen'
-          git push    
+    # This file is created by deploy-aio.sh
+    - name: Load test service account token into environment
+      run: |
+        if [ ! -f ".session/token.txt" ]; then
+          echo "Missing 'token.txt' file"
+          exit 1
+        fi
+
+        echo "TOKEN_FILE_PATH=$(pwd)/.session/token.txt" >> $GITHUB_ENV
+
+    # This file is created by deploy-aio.sh
+    - name: Load CA certificate into environment
+      run: |
+        if [ ! -f ".session/broker-ca.crt" ]; then
+          echo "Missing 'broker-ca.crt' file"
+          exit 1
+        fi
+
+        echo "CA_FILE_PATH=$(pwd)/.session/broker-ca.crt" >> $GITHUB_ENV
+
+    # These files are created by deploy-aio.sh
+    - name: Load client certificates into environment
+      run: |
+        if [ ! -f ".session/client.key" ]; then
+          echo "Missing 'client.key' file"
+          exit 1
+        fi
+
+        if [ ! -f ".session/client.crt" ]; then
+          echo "Missing 'client.crt' file"
+          exit 1
+        fi
+
+        echo "CLIENT_KEY=$(pwd)/.session/client.key" >> $GITHUB_ENV
+        echo "CLIENT_CERT=$(pwd)/.session/client.crt" >> $GITHUB_ENV 
+      
+    - name: Test SDK (TLS + SAT)
+      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+
+    - name: Test SDK (TLS + x509)
+      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
+
+    - name: Build DSS CLI (Debug)
+      run:  |
+        cd tools/dsscli/src/Azure.Iot.Operations.Services.DssCli
+        dotnet restore
+        dotnet build -c Debug Azure.Iot.Operations.Services.DssCli.csproj
+
+    - name: Build DSS CLI (Release)
+      run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
+
+    - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Mqtt.IntegrationTests Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+        
+    - name: Azure.Iot.Operations.Protocol.IntegrationTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol.MetlTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.MetlTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services.IntegrationTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Connector.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Connector.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - uses: dorny/test-reporter@v1
+      id: test-reporter
+      if: always()
+      with:
+        name: dotnet test report
+        path: 'dotnet/**/test-results.trx,tools/**/test-results.trx'
+        reporter: dotnet-trx  
+
+    - name: Annotate Test Report
+      if: always()
+      run: echo Test Report ${{ steps.test-reporter.outputs.url_html }} >> $GITHUB_STEP_SUMMARY
