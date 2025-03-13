@@ -292,20 +292,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Begin accepting command invocations.
         /// </summary>
         /// <param name="preferredDispatchConcurrency">The dispatch concurrency count for the command response cache to use.</param>
-        /// <param name="additionalTopicTokenMap">
-        /// The topic token replacements to use in addition to any topic tokens specified in <see cref="TopicTokenMap"/>. If this map
-        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
-        /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <remarks>
-        /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make this command executor only
-        /// accept commands over a specific topic.
-        ///
-        /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
-        /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
-        /// instead need to create a command executor per topic token set.
-        /// </remarks>
-        public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, int ? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(int ? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -336,7 +324,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 if (!_hasSubscribed)
                 {
                     
-                    await SubscribeAsync(CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap), cancellationToken).ConfigureAwait(false);
+                    await SubscribeAsync(TopicTokenMap, cancellationToken).ConfigureAwait(false);
                 }
 
                 _isRunning = true;

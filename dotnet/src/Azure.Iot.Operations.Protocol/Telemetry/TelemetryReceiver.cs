@@ -145,20 +145,8 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// <summary>
         /// Begin accepting telemetry.
         /// </summary>
-        /// <param name="additionalTopicTokenMap">
-        /// The topic token replacements to use in addition to any topic tokens specified in <see cref="TopicTokenMap"/>. If this map
-        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
-        /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <remarks>
-        /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make this telemetry receiver only
-        /// accept telemetry over a specific topic.
-        ///
-        /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
-        /// to only receive telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
-        /// instead need to create a command executor per topic token set.
-        /// </remarks>
-        public async Task StartAsync(Dictionary<string, string>? additionalTopicTokenMap = null, CancellationToken cancellationToken = default)
+        public async Task StartAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -186,15 +174,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                Dictionary<string, string> combinedTopicTokenMap = new(TopicTokenMap);
-
-                additionalTopicTokenMap ??= new();
-                foreach (string topicTokenKey in additionalTopicTokenMap.Keys)
-                {
-                    combinedTopicTokenMap.TryAdd(topicTokenKey, additionalTopicTokenMap[topicTokenKey]);
-                }
-
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, TopicTokenMap, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
