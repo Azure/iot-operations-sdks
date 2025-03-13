@@ -52,7 +52,7 @@ namespace TestEnvoys.CustomTopicTokens
                     }
                 }
 
-                this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {

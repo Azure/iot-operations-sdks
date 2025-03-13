@@ -52,7 +52,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     }
                 }
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
                 if (topicTokenMap != null)
                 {
@@ -62,7 +62,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     }
                 }
 
-                this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }

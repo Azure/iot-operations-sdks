@@ -51,7 +51,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     }
                 }
 
-                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
                 if (topicTokenMap != null)
                 {
@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     }
                 }
 
-                this.getCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.getCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }

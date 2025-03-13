@@ -52,7 +52,7 @@ namespace TestEnvoys.Math
                     }
                 }
 
-                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
                 if (topicTokenMap != null)
                 {
@@ -62,7 +62,7 @@ namespace TestEnvoys.Math
                     }
                 }
 
-                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
                 if (topicTokenMap != null)
                 {
@@ -72,7 +72,7 @@ namespace TestEnvoys.Math
                     }
                 }
 
-                this.getRandomCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.getRandomCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }

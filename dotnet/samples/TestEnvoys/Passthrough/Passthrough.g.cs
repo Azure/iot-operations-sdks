@@ -50,7 +50,7 @@ namespace TestEnvoys.Passthrough
                     }
                 }
 
-                this.passCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.passCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }

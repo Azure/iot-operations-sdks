@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                     }
                 }
 
-                this.invokeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.invokeCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
             }
 
             public InvokeCommandExecutor InvokeCommandExecutor { get => this.invokeCommandExecutor; }

@@ -54,7 +54,7 @@ namespace TestEnvoys.Counter
                     }
                 }
 
-                this.readCounterCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.readCounterCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.incrementCommandExecutor = new IncrementCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IncrementInt};
                 if (topicTokenMap != null)
                 {
@@ -64,7 +64,7 @@ namespace TestEnvoys.Counter
                     }
                 }
 
-                this.incrementCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.incrementCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.resetCommandExecutor = new ResetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ResetInt};
                 if (topicTokenMap != null)
                 {
@@ -74,7 +74,7 @@ namespace TestEnvoys.Counter
                     }
                 }
 
-                this.resetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.resetCommandExecutor.TopicTokenMap.TryAdd("executorId", mqttClient.clientId);
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
