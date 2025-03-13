@@ -1204,7 +1204,7 @@ where
 
             // Rounding remaining expiration time up to the nearest second
             let response_message_expiry_interval =
-                if response_message_expiry_interval.as_nanos() != 0 {
+                if response_message_expiry_interval.subsec_nanos() != 0 {
                     // NOTE: We should always be able to add 1 since the seconds portion of the
                     // response_message_expiry_interval is always at least one less than its initial
                     // value when received in this block.

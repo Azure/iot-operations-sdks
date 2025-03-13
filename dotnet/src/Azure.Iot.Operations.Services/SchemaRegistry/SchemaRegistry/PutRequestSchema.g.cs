@@ -13,49 +13,49 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     public partial class PutRequestSchema
     {
         /// <summary>
-        /// The 'description' Field.
+        /// Human-readable description of the schema.
         /// </summary>
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Description { get; set; } = default;
 
         /// <summary>
-        /// The 'displayName' Field.
+        /// Human-readable display name.
         /// </summary>
         [JsonPropertyName("displayName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DisplayName { get; set; } = default;
 
         /// <summary>
-        /// The 'format' Field.
+        /// Format of the schema.
         /// </summary>
         [JsonPropertyName("format")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Format? Format { get; set; } = default;
 
         /// <summary>
-        /// The 'schemaContent' Field.
+        /// Content stored in the schema.
         /// </summary>
         [JsonPropertyName("schemaContent")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? SchemaContent { get; set; } = default;
 
         /// <summary>
-        /// The 'schemaType' Field.
+        /// Type of the schema.
         /// </summary>
         [JsonPropertyName("schemaType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public SchemaType? SchemaType { get; set; } = default;
 
         /// <summary>
-        /// The 'tags' Field.
+        /// Schema tags.
         /// </summary>
         [JsonPropertyName("tags")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string>? Tags { get; set; } = default;
 
         /// <summary>
-        /// The 'version' Field.
+        /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

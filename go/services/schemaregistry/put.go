@@ -49,6 +49,7 @@ func (c *Client) Put(
 		ctx,
 		schemaregistry.PutRequestPayload{PutSchemaRequest: req},
 		opts.invoke(),
+		protocol.WithMetadata{"__invId": c.invID},
 	)
 	if err != nil {
 		return nil, err

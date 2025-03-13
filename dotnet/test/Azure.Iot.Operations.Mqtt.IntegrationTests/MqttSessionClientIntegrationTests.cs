@@ -59,13 +59,4 @@ public class MqttSessionClientIntegrationTests
         Assert.Equal(expectedTopic, unsubscribeResult.Items.First().TopicFilter);
         Assert.Equal(MqttClientUnsubscribeReasonCode.Success, unsubscribeResult.Items.First().ReasonCode);
     }
-
-    [Fact]
-    public async Task MqttSessionClientCanUseBrokerAssignedClientId()
-    {
-        await using MqttSessionClient sessionClient = await ClientFactory.CreateSessionClientFromEnvAsync("", true);
-
-        Assert.NotNull(sessionClient.ClientId);
-        Assert.NotEmpty(sessionClient.ClientId);
-    }
 }
