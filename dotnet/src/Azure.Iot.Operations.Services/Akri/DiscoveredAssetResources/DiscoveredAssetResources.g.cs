@@ -48,11 +48,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-                        this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
@@ -60,11 +56,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-                        this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -167,12 +159,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-
-                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.createDiscoveredAssetCommandInvoker = new CreateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
@@ -180,12 +167,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-
-                        this.createDiscoveredAssetCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDiscoveredAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }

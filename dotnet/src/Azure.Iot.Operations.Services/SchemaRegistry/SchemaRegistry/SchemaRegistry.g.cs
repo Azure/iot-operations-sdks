@@ -47,11 +47,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-                        this.putCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.putCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
@@ -59,11 +55,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-                        this.getCommandExecutor.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
@@ -166,12 +158,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-
-                        this.putCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.putCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
@@ -179,12 +166,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        if (!topicTokenKey.StartsWith("ex:"))
-                        {
-                            throw new ArgumentException("All custom topic token keys must be prefixed with \"ex:\". Provided key: " + topicTokenKey);
-                        }
-
-                        this.getCommandInvoker.TopicTokenMap.TryAdd(topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
