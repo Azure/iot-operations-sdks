@@ -49,6 +49,7 @@ async fn main() {
         // If running locally, use default settings
         log::info!("Running locally, setting config directly");
         MqttConnectionSettingsBuilder::default()
+            .hostname("localhost")
             .client_id("EventDrivenApp-input")
             .tcp_port(8884u16)
             .use_tls(true)
@@ -179,6 +180,7 @@ async fn process_sensor_data(
                 // Push the sensor data back to the state store
                 let data = serde_json::to_vec(&data).unwrap();
 
+                println!("Data: {:?}", data);
                 // ASK: If the set operation fails what do we do?
                 match state_store_client
                     .set(
@@ -193,6 +195,8 @@ async fn process_sensor_data(
                     Ok(_) => { /* Success */ }
                     Err(e) => log::error!("Failed to set state store data: {e:?}"), // Incoming sensor data is lost
                 }
+                // ASK: while there is no data we'll be sending [] over and over to the state store.
+                tokio::time::sleep(Duration::from_secs(5)).await;
             }
             Err(e) => {
                 log::error!("Failed to fetch state store data: {e:?}");
@@ -216,7 +220,7 @@ impl PayloadSerialize for SensorData {
     type Error = String;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
-        todo!()
+        unreachable!()
     }
 
     fn deserialize(

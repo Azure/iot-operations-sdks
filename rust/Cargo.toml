@@ -10,6 +10,7 @@ members = [
   "sample_applications/counter/counter_client",
   "sample_applications/counter/counter_server",
   "sample_applications/event_driven_app/input_worker",
+  "sample_applications/event_driven_app/output_worker",
 ]
 
 resolver = "2"
