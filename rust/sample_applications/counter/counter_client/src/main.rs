@@ -18,7 +18,7 @@ use envoy::counter::client::{
 use tokio::time::sleep;
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), String> {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
@@ -26,10 +26,10 @@ async fn main() {
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::from_environment()
-        .unwrap()
-        .build()
-        .unwrap();
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?
+        //.unwrap()?
+        .build()?;
+        //.unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()
@@ -62,6 +62,8 @@ async fn main() {
         async move { session.run().await.map_err(|e| { e.to_string() }) }
     )
     .is_ok());
+
+    Ok(())
 }
 
 /// Wait for the associated telemetry. Then exit the session.
