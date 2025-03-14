@@ -34,23 +34,18 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
 
-        private readonly Dictionary<string, string> _topicTokenMap = [];
-
         public string TopicPattern { get; init; }
 
         public string? TopicNamespace { get; set; }
 
         /// <summary>
-        /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+        /// The topic token replacement map that this telemetry sender will use by default. Generally, this will include the token values
+        /// for topic tokens such as "modelId" which should be the same for the duration of this command invoker's lifetime.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
-
-        /// <summary>
-        /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
+        /// <remarks>
+        /// Tokens replacement values can also be specified per-telemetry by specifying the additionalTopicToken map in <see cref="SendTelemetryAsync(T, MqttQualityOfServiceLevel, TimeSpan?, CancellationToken)"/>.
+        /// </remarks>
+        public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
@@ -60,17 +55,41 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             _hasBeenValidated = false;
 
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
+            TopicTokenMap = new();
         }
 
-        public async Task SendTelemetryAsync(T telemetry, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Send telemetry with the default metadata.
+        /// </summary>
+        /// <param name="telemetry">The payload of the telemetry.</param>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>.If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
+        /// </param>
+        /// <param name="qos">The quality of service to send the telemetry with.</param>
+        /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task SendTelemetryAsync(T telemetry, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), null, qos, telemetryTimeout, cancellationToken);
+            await SendTelemetryAsync(telemetry, new OutgoingTelemetryMetadata(), additionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
         }
 
-        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Send telemetry with custom metadata.
+        /// </summary>
+        /// <param name="telemetry">The payload of the telemetry.</param>
+        /// <param name="metadata">The telemetry metadata.</param>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>.If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
+        /// </param>
+        /// <param name="qos">The quality of service to send the telemetry with.</param>
+        /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task SendTelemetryAsync(T telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            ValidateAsNeeded(transientTopicTokenMap);
+            ValidateAsNeeded(additionalTopicTokenMap);
             cancellationToken.ThrowIfCancellationRequested();
 
             string? clientId = _mqttClient.ClientId;
@@ -79,7 +98,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before sending telemetry.");
             }
 
-            TimeSpan verifiedMessageExpiryInterval = messageExpiryInterval ?? DefaultTelemetryTimeout;
+            TimeSpan verifiedMessageExpiryInterval = telemetryTimeout ?? DefaultTelemetryTimeout;
 
             if (verifiedMessageExpiryInterval <= TimeSpan.Zero)
             {
@@ -107,7 +126,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap));
+            Dictionary<string, string> combinedTopicTokenMap = CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap);
+
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, combinedTopicTokenMap));
 
             try
             {
@@ -176,7 +197,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
-        private void ValidateAsNeeded(IReadOnlyDictionary<string, string>? transientTopicTokenMap)
+        private void ValidateAsNeeded(Dictionary<string, string>? additionalTopicTokenMap)
         {
             if (_hasBeenValidated)
             {
@@ -191,7 +212,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     "The provided MQTT client is not configured for MQTT version 5");
             }
 
-            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, transientTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
+            Dictionary<string, string> combinedTopicTokenMap = CombineTopicTokenMaps(TopicTokenMap, additionalTopicTokenMap);
+
+            PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, combinedTopicTokenMap, requireReplacement: true, out string errMsg, out string? errToken, out string? errReplacement);
             if (patternValidity != PatternValidity.Valid)
             {
                 throw patternValidity switch
@@ -214,6 +237,19 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
             await DisposeAsyncCore(disposing);
+        }
+
+        private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
+        {
+            Dictionary<string, string> combinedTopicTokenMap = new(baseMap);
+
+            additionalMap ??= new();
+            foreach (string topicTokenKey in additionalMap.Keys)
+            {
+                combinedTopicTokenMap.TryAdd(topicTokenKey, additionalMap[topicTokenKey]);
+            }
+
+            return combinedTopicTokenMap;
         }
 
         protected virtual async ValueTask DisposeAsyncCore(bool disposing)

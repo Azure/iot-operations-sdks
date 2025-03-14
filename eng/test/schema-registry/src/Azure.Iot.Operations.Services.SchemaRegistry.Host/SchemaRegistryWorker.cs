@@ -12,7 +12,7 @@ public class SchemaRegistryWorker(MqttSessionClient mqttClient, IServiceProvider
         logger.LogInformation("Schema Registry Worker running at: {version}", typeof(MqttConnectionSettings).Assembly.FullName);
         await ConnectAsync(stoppingToken);
         SchemaRegistryService schemaRegistryService = provider.GetService<SchemaRegistryService>()!;
-        await schemaRegistryService.StartAsync(null, stoppingToken);
+        await schemaRegistryService.StartAsync(null, cancellationToken:stoppingToken);
     }
 
     private async Task ConnectAsync(CancellationToken stoppingToken)
