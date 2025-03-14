@@ -277,6 +277,12 @@ pub fn client(
     }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
+    
+    // Add metric to connection options
+    let mut conn_user_properties = mqtt_options.user_properties();
+    conn_user_properties.push(("metriccategory".into(), "aiosdk-rust".into()));
+    mqtt_options.set_user_properties(conn_user_properties);
+
     Ok(rumqttc::v5::AsyncClient::new(
         mqtt_options,
         channel_capacity,
