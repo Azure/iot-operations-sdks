@@ -15,7 +15,7 @@ namespace ConnectionManagementSample
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")! + ";ClientId=UserManagedConnectionClient-" + Guid.NewGuid());
+            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
 
             mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
             mqttClient.DisconnectedAsync += OnDisconnect;
