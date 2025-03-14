@@ -282,7 +282,7 @@ pub struct ParseHLCError {
     /// The error message
     message: String,
     /// The input string that failed to parse
-    // TODO: is this needed? Only here for AIOProtocolError compat
+    // NOTE: This is only needed for AIOProtocolError compatibility
     pub input: String,
 }
 
