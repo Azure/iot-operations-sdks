@@ -916,18 +916,20 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 match HybridLogicalClock::from_str(&value) {
                     Ok(ts) => {
                         // Update application HLC against received __ts
-                        if let Err(mut e) = application_hlc.update(&ts) {
+                        if let Err(e) = application_hlc.update(&ts) {
+                            let mut aio_error: AIOProtocolError = e.into();
                             // update error to include command name
-                            e.command_name = Some(command_name);
-                            return Err(e);
+                            aio_error.command_name = Some(command_name);
+                            return Err(aio_error);
                         }
                         timestamp = Some(ts);
                     }
-                    Err(mut e) => {
+                    Err(e) => {
                         // update error to include more specific header name
-                        e.header_name = Some(key);
-                        e.command_name = Some(command_name);
-                        return Err(e);
+                        let mut aio_error: AIOProtocolError = e.into();
+                        aio_error.header_name = Some(key);
+                        aio_error.command_name = Some(command_name);
+                        return Err(aio_error);
                     }
                 }
             }
