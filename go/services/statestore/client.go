@@ -88,17 +88,26 @@ func New[K, V Bytes](
 	app *protocol.Application,
 	client MqttClient,
 	opt ...ClientOption,
-) (*Client[K, V], error) {
-	c := &Client[K, V]{
-		client:    client,
-		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
-		keynotify: map[string]uint{},
-	}
-	var err error
+) (c *Client[K, V], err error) {
+	ctx := context.Background()
 
 	var opts ClientOptions
 	opts.Apply(opt)
-	c.log = log.Wrap(opts.Logger)
+
+	c = &Client[K, V]{
+		client:    client,
+		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
+		keynotify: map[string]uint{},
+		log:       log.Wrap(opts.Logger),
+	}
+
+	defer func() {
+		if err != nil {
+			c.log.Warn(ctx, err)
+			c.listeners.Close()
+			c = nil
+		}
+	}()
 
 	c.manualAck = opts.ManualAck
 
@@ -117,11 +126,8 @@ func New[K, V Bytes](
 		protocol.WithResponseTopicSuffix("response"),
 		tokens,
 	)
-	ctx := context.Background()
 	if err != nil {
-		c.log.Warn(ctx, err)
-		c.listeners.Close()
-		return nil, err
+		return c, err
 	}
 	c.listeners = append(c.listeners, c.invoker)
 
@@ -135,9 +141,7 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.log.Warn(ctx, err)
-		c.listeners.Close()
-		return nil, err
+		return c, err
 	}
 	c.listeners = append(c.listeners, c.invoker)
 
@@ -155,20 +159,13 @@ func New[K, V Bytes](
 
 // Start listening to all underlying MQTT topics.
 func (c *Client[K, V]) Start(ctx context.Context) error {
-	err := c.listeners.Start(ctx)
-	if err != nil {
-		c.log.Warn(ctx, err)
-	}
-	return nil
+	return c.listeners.Start(ctx)
 }
 
 // Close all underlying MQTT topics and free resources.
 func (c *Client[K, V]) Close() {
-	ctx := context.Background()
-	c.log.Info(ctx, "shutting down state store client")
 	c.done()
 	c.listeners.Close()
-	c.log.Info(ctx, "state store client shutdown complete")
 }
 
 // ID returns the ID of the underlying MQTT client.
@@ -183,17 +180,14 @@ func invoke[T any](
 	parse func([]byte) (T, error),
 	opts invokeOptions,
 	data []byte,
-	logger log.Logger,
 ) (*Response[T], error) {
 	res, err := invoker.Invoke(ctx, data, opts.invoke())
 	if err != nil {
-		logger.Error(ctx, err)
 		return nil, err
 	}
 
 	val, err := parse(res.Payload)
 	if err != nil {
-		logger.Error(ctx, err)
 		return nil, err
 	}
 
@@ -267,13 +261,10 @@ func (c *Client[K, V]) logKV(
 	}
 }
 
-func (c *Client[K, V]) validateKey(ctx context.Context, key K) error {
-	if len(key) == 0 {
-		errArg := ArgumentError{Name: "key"}
-		c.log.Error(ctx, errArg)
-		return errArg
+func (c *Client[K, V]) logReturn(ctx context.Context, err error) {
+	if err != nil {
+		c.log.Warn(ctx, err)
 	}
-	return nil
 }
 
 // Apply resolves the provided list of options.

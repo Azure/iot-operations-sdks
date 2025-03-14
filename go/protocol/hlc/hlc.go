@@ -48,6 +48,10 @@ type (
 	WithMaxClockDrift time.Duration
 )
 
+// DefaultMaxClockDrift is the default maximum HLC clock drift if none is
+// otherwise specified (one minute).
+const DefaultMaxClockDrift = time.Minute
+
 // New creates a new shared instance of an HLC. Only one of these should
 // typically be created per application.
 func New(opt ...HybridLogicalClockOption) *Global {
@@ -55,7 +59,7 @@ func New(opt ...HybridLogicalClockOption) *Global {
 	g.opt.Apply(opt)
 
 	if g.opt.MaxClockDrift == 0 {
-		g.opt.MaxClockDrift = time.Minute
+		g.opt.MaxClockDrift = DefaultMaxClockDrift
 	}
 
 	g.hlc = HybridLogicalClock{

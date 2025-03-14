@@ -25,6 +25,7 @@ type (
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
+		log           log.Logger
 
 		pending container.SyncMap[string, commandPending[Res]]
 	}
@@ -82,7 +83,10 @@ type (
 	}
 )
 
-const commandInvokerErrStr = "command invocation"
+const (
+	commandInvokerComponentName = "command invoker"
+	commandInvokerErrStr        = "command invocation"
+)
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
@@ -95,8 +99,8 @@ func NewCommandInvoker[Req, Res any](
 ) (ci *CommandInvoker[Req, Res], err error) {
 	var opts CommandInvokerOptions
 	opts.Apply(opt)
-	logger := log.Wrap(opts.Logger, app.log)
 
+	logger := log.Wrap(opts.Logger, app.log)
 	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
@@ -170,14 +174,15 @@ func NewCommandInvoker[Req, Res any](
 
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,
+		log:           logger,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
 		app:      app,
 		client:   client,
 		encoding: requestEncoding,
-		version:  version.RPC,
 		topic:    reqTP,
+		version:  version.RPC,
 	}
 	ci.listener = &listener[Res]{
 		app:              app,
@@ -194,6 +199,17 @@ func NewCommandInvoker[Req, Res any](
 	return ci, nil
 }
 
+// Start listening to the response topic(s). Must be called before any calls to
+// Invoke.
+func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
+	return ci.listener.start(ctx, commandInvokerComponentName)
+}
+
+// Close the command invoker to free its resources.
+func (ci *CommandInvoker[Req, Res]) Close() {
+	ci.listener.close(commandInvokerComponentName)
+}
+
 // Invoke calls the command. This call will block until the command returns; any
 // desired parallelism between invocations should be handled by the caller using
 // normal Go constructs.
@@ -202,11 +218,11 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	req Req,
 	opt ...InvokeOption,
 ) (res *CommandResponse[Res], err error) {
-	shallow := true
-	defer func() { err = errutil.Return(err, ci.listener.log, shallow) }()
-
 	var opts InvokeOptions
 	opts.Apply(opt)
+
+	shallow := true
+	defer func() { err = errutil.Return(err, ci.log, shallow) }()
 
 	timeout := opts.Timeout
 	if timeout == 0 {
@@ -252,10 +268,9 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
-	ci.listener.log.Debug(
-		ctx,
-		"request sent",
-		slog.String("correlation_data", correlationData),
+	ci.log.Debug(ctx, "request sent",
+		slog.String("topic", pub.Topic),
+		slog.Any("correlation_data", pub.CorrelationData),
 	)
 
 	// If a message expiry was specified, also time out our own context, so that
@@ -265,6 +280,10 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	select {
 	case res := <-listen:
+		ci.log.Debug(ctx, "response received",
+			slog.String("topic", pub.ResponseTopic),
+			slog.Any("correlation_data", pub.CorrelationData),
+		)
 		return res.res, res.err
 	case <-ctx.Done():
 		return nil, errutil.Context(ctx, commandInvokerErrStr)
@@ -297,27 +316,12 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 	if pending, ok := ci.pending.Get(cdata); ok {
 		select {
 		case pending.ret <- commandReturn[Res]{res, err}:
-			ci.listener.log.Debug(
-				ctx,
-				"request ack received",
-				slog.String("correlation_data", cdata),
-			)
 		case <-pending.done:
 		case <-ctx.Done():
 		}
-		ci.listener.log.Debug(
-			ctx,
-			"response acked",
-			slog.String("correlation_data", cdata),
-		)
 		return nil
 	}
 
-	ci.listener.log.Debug(
-		ctx,
-		"response not for this invoker",
-		slog.String("correlation_data", cdata),
-	)
 	return &errors.Client{
 		Message: "unrecognized correlation data",
 		Kind: errors.HeaderInvalid{
@@ -325,17 +329,6 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 			HeaderValue: cdata,
 		},
 	}
-}
-
-// Start listening to the response topic(s). Must be called before any calls to
-// Invoke.
-func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
-	return ci.listener.listen(ctx)
-}
-
-// Close the command invoker to free its resources.
-func (ci *CommandInvoker[Req, Res]) Close() {
-	ci.listener.close()
 }
 
 func (ci *CommandInvoker[Req, Res]) onMsg(
@@ -355,11 +348,6 @@ func (ci *CommandInvoker[Req, Res]) onMsg(
 		// If sendPending fails onErr will also fail, so just drop the message.
 		ci.listener.drop(ctx, pub, e)
 	}
-	ci.listener.log.Debug(
-		ctx,
-		"response received",
-		slog.String("correlation_data", string(pub.CorrelationData)),
-	)
 	return nil
 }
 
