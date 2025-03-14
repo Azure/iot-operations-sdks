@@ -6,8 +6,8 @@ use std::fmt;
 use std::time::Duration;
 
 use crate::common::{
-    topic_processor::{TopicPatternError, TopicPatternErrorKind},
     hybrid_logical_clock::{HLCError, HLCErrorKind, ParseHLCError},
+    topic_processor::{TopicPatternError, TopicPatternErrorKind},
 };
 
 /// Represents the kind of error that occurs in an Azure IoT Operations Protocol
