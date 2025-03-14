@@ -68,8 +68,17 @@ impl Session {
     pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
         let sat_file = options.connection_settings.sat_file.clone();
-        let (client, event_loop) =
-            adapter::client(options.connection_settings, options.outgoing_max, true)?;
+
+        // Add AIO metric to user properties
+        // TODO: consider this being supported on SessionOptions or ConnectionSettings
+        let user_properties = vec![("metriccategory".into(), "aiosdk-rust".into())];
+
+        let (client, event_loop) = adapter::client(
+            options.connection_settings,
+            options.outgoing_max,
+            true,
+            user_properties,
+        )?;
         Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
