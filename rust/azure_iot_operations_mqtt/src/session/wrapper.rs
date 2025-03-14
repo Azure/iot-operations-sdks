@@ -58,6 +58,9 @@ pub struct SessionOptions {
     /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
     #[builder(default = "100")]
     pub outgoing_max: usize,
+    /// Indicates if the Session should use features specific for use with the AIO MQ Broker
+    #[builder(default = true)]
+    pub mq_broker_features: bool,
 }
 
 impl Session {
@@ -69,9 +72,13 @@ impl Session {
         let client_id = options.connection_settings.client_id.clone();
         let sat_file = options.connection_settings.sat_file.clone();
 
-        // Add AIO metric to user properties
-        // TODO: consider this being supported on SessionOptions or ConnectionSettings
-        let user_properties = vec![("metriccategory".into(), "aiosdk-rust".into())];
+        // Add AIO metric to user properties when using MQ broker features
+        // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
+        let user_properties = if options.mq_broker_features {
+            vec![("metriccategory".into(), "aiosdk-rust".into())]
+        } else {
+            vec![]
+        };
 
         let (client, event_loop) = adapter::client(
             options.connection_settings,
