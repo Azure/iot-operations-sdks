@@ -579,7 +579,6 @@ impl AIOProtocolError {
 
 impl From<HLCError> for AIOProtocolError {
     fn from(error: HLCError) -> Self {
-        //AIOProtocolError::new_state_invalid_error(property_name, property_value, message, command_name)
         let (property_name, message) = match error.kind() {
             HLCErrorKind::OverflowWarning => {
                 ("Counter", "Integer overflow on HybridLogicalClock counter")
