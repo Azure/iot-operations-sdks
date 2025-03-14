@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient mqttClient2 = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             await using CustomTopicTokenService service = new(new(), mqttClient1);
-            await using CustomTopicTokenClient client = new(new(), mqttClient1);
+            await using CustomTopicTokenClient client = new(new(), mqttClient2);
 
             await client.StartAsync();
 
@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 ["myCustomTopicToken"] = expectedTelemetryTopicTokenValue
             };
             await using CustomTopicTokenService service = new(new(), mqttClient1, customTopicTokens);
-            await using CustomTopicTokenClient client = new(new(), mqttClient1);
+            await using CustomTopicTokenClient client = new(new(), mqttClient2);
 
             await client.StartAsync();
 
@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient mqttClient2 = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             await using CustomTopicTokenService service = new(new(), mqttClient1);
-            await using CustomTopicTokenClient client = new(new(), mqttClient1);
+            await using CustomTopicTokenClient client = new(new(), mqttClient2);
 
             await service.StartAsync();
 
@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 ["myCustomTopicToken"] = expectedRpcTopicTokenValue,
             };
             await using CustomTopicTokenService service = new(new(), mqttClient1);
-            await using CustomTopicTokenClient client = new(new(), mqttClient1, customTopicTokens);
+            await using CustomTopicTokenClient client = new(new(), mqttClient2, customTopicTokens);
 
             await service.StartAsync();
 
@@ -110,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             };
 
             await using CustomTopicTokenService service = new(new(), mqttClient1, customTopicTokens);
-            await using CustomTopicTokenClient client = new(new(), mqttClient1);
+            await using CustomTopicTokenClient client = new(new(), mqttClient2);
 
             await service.StartAsync();
 
