@@ -38,3 +38,11 @@ $gen --modelFile ../dtdl/TelemetryRawSeparate.json --outDir ./TelemetryRawSepara
 [[ -d ./SharedComplexSchemasSample ]] && rm -r ./SharedComplexSchemasSample
 $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./SharedComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol --shared dtmi:sharedSchemas
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./SharedComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol --shared dtmi:sharedSchemas
+
+[[ -d ./ComplexTypeSchemaSample ]] && rm -r ./ComplexTypeSchemaSample
+mkdir ./ComplexTypeSchemaSample
+mkdir ./ComplexTypeSchemaSample/obj
+mkdir ./ComplexTypeSchemaSample/obj/Akri
+mkdir ./ComplexTypeSchemaSample/obj/Akri/ComplexTypeSchema
+cp ../json/complex-type-schema.schema.json ./ComplexTypeSchemaSample/obj/Akri/ComplexTypeSchema
+$gen --namespace ComplexTypeSchema --outDir ./ComplexTypeSchemaSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
