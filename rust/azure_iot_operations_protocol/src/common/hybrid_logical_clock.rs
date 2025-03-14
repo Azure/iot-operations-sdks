@@ -105,8 +105,8 @@ impl HybridLogicalClock {
     /// [`HLCError`] of kind [`OverflowWarning`](HLCErrorKind::OverflowWarning) if
     /// the [`HybridLogicalClock`]'s counter would be set to a value that would overflow beyond [`u64::MAX`]
     ///
-    /// [`HLCError`] of kind [`ClockDrift`](HLCErrorKind::ClockDrift) if the latest [`HybridLogicalClock`]
-    /// (of `Self` or `other`)'s timestamp is too far in the future (determined by `max_clock_drift`)
+    /// [`HLCError`] of kind [`ClockDrift`](HLCErrorKind::ClockDrift) if the [`HybridLogicalClock`]
+    /// timestamp is too far in the future (determined by `max_clock_drift`) compared to [`SystemTime::now()`]
     /// compared to [`SystemTime::now()`]
     pub fn update_now(&mut self, max_clock_drift: Duration) -> Result<(), HLCError> {
         let now = now_ms_precision();
@@ -129,9 +129,8 @@ impl HybridLogicalClock {
     /// [`HLCError`] of kind [`OverflowWarning`](HLCErrorKind::OverflowWarning) if
     /// the [`HybridLogicalClock`]'s counter would be set to a value that would overflow beyond [`u64::MAX`]
     ///
-    /// [`HLCError`] of kind [`ClockDrift`](HLCErrorKind::ClockDrift) if the latest [`HybridLogicalClock`]
-    /// (of `Self` or `other`)'s timestamp is too far in the future (determined by `max_clock_drift`)
-    /// compared to [`SystemTime::now()`]
+    /// [`HLCError`] of kind [`ClockDrift`](HLCErrorKind::ClockDrift) if the [`HybridLogicalClock`]
+    /// timestamp is too far in the future (determined by `max_clock_drift`) compared to [`SystemTime::now()`]
     fn validate(&self, now: SystemTime, max_clock_drift: Duration) -> Result<(), HLCError> {
         if self.counter == u64::MAX {
             return Err(HLCErrorKind::OverflowWarning)?;
