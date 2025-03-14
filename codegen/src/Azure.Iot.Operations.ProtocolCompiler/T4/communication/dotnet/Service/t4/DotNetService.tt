@@ -45,17 +45,49 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             private readonly <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>;
 <# } #>
 
-            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            /// <summary>
+            /// Construct a new instance of this service.
+            /// </summary>
+            /// <param name="applicationContext">The shared context for your application.</param>
+            /// <param name="mqttClient">The MQTT client to use.</param>
+            /// <param name="topicTokenMap">
+            /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
+            /// for topic tokens such as "modelId" which should be the same for the duration of this service's lifetime. Note that
+            /// additional topic tokens can be specified when starting the service with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/> and
+            /// can be specified per-telemetry message.
+            /// </param>
+            public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
+
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(applicationContext, mqttClient) { OnCommandReceived = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(applicationContext, mqttClient) { OnCommandReceived = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>};
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
+
+                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("executorId", clientId);
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(applicationContext, mqttClient);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
 <# } #>
             }
 
@@ -66,7 +98,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> { get => this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>; }
 <# } #>
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
             public <#=this.defaultImpl ? "virtual" : "abstract"#> <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, this.syncApi ? null : "async")#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)<#=this.defaultImpl ? "" : ";"#>
@@ -78,13 +109,49 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
-            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? messageExpiryInterval = null, CancellationToken cancellationToken = default)
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, transientTopicTokenMap?.Select(kvp => new KeyValuePair<string, string>($"ex:{kvp.Key}", kvp.Value))?.ToDictionary(), qos, messageExpiryInterval, cancellationToken);
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 <# } #>
 <# if (this.cmdNameReqResps.Any()) { #>
 
+            /// <summary>
+            /// Begin accepting command invocations for all command executors.
+            /// </summary>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
+            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="preferredDispatchConcurrency">The dispatch concurrency count for the command response cache to use.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <remarks>
+            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make command executors only
+            /// accept commands over a specific topic.
+            ///
+            /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
+            /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+            /// instead need to create a command executor per topic token set.
+            /// </remarks>
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -93,14 +160,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before starting service.");
                 }
 
-                Dictionary<string, string>? transientTopicTokenMap = new()
-                {
-                    { "executorId", clientId },
-                };
-
                 await Task.WhenAll(
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(preferredDispatchConcurrency, transientTopicTokenMap, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 
@@ -164,17 +226,40 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             private readonly <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>;
 <# } #>
 
-            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            /// <summary>
+            /// Construct a new instance of this client.
+            /// </summary>
+            /// <param name="applicationContext">The shared context for your application.</param>
+            /// <param name="mqttClient">The MQTT client to use.</param>
+            /// <param name="topicTokenMap">
+            /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
+            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime. Note that
+            /// additional topic tokens can be specified when starting the client with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/>.
+            /// </param>
+            public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
-                this.CustomTopicTokenMap = new();
 
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(applicationContext, mqttClient) { CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(applicationContext, mqttClient);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
 <# } #>
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemNameSchema, "receive")#>, CustomTopicTokenMap = this.CustomTopicTokenMap };
+                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemNameSchema, "receive")#> };
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
 <# } #>
             }
 
@@ -185,7 +270,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> { get => this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>; }
 <# } #>
 
-            public Dictionary<string, string> CustomTopicTokenMap { get; private init; }
 <# foreach (var telemNameSchema in this.telemNameSchemas) { #>
 
             public <#=this.defaultImpl ? "virtual" : "abstract"#> Task <#=this.TelemMethodName(telemNameSchema, "receive")#>(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata)<#=this.defaultImpl ? "" : ";"#>
@@ -197,7 +281,18 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
 <# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
 
-            public <#=this.CallAsyncType(cmdNameReqResp)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata? requestMetadata = null, IReadOnlyDictionary<string, string>? transientTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
+            public <#=this.CallAsyncType(cmdNameReqResp)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -206,23 +301,40 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
 
                 CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                Dictionary<string, string>? internalTopicTokenMap = new()
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
                 {
-                    { "invokerClientId", clientId },
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 <# if (this.doesCommandTargetExecutor) { #>
-                    { "executorId", executorId },
+                prefixedAdditionalTopicTokenMap["executorId"] = executorId;
 <# } #>
-                };
 
-                IReadOnlyDictionary<string, string> effectiveTopicTokenMap = transientTopicTokenMap != null ?
-                    new CombinedPrefixedReadOnlyDictionary<string>(string.Empty, internalTopicTokenMap, "ex:", transientTopicTokenMap) :
-                    internalTopicTokenMap;
-
-                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, effectiveTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
 <# if (this.telemNameSchemas.Any()) { #>
 
+            /// <summary>
+            /// Begin accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
+            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <remarks>
+            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make telemetry receivers only
+            /// accept telemetry over a specific topic.
+            ///
+            /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
+            /// to only handle telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
+            /// instead need to create a telemetry receiver per topic token set.
+            /// </remarks>
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
@@ -233,6 +345,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
 <# if (this.telemNameSchemas.Any()) { #>
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
