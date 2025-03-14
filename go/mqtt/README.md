@@ -37,9 +37,9 @@ func main() {
 	ctx := context.Background()
 
 	// Create a new session client with the above settings.
-	client := mqtt.NewSessionClient(
+	client, _ := mqtt.NewSessionClient(
+		clientID,
 		mqtt.TCPConnection(hostname, port),
-		mqtt.WithClientID(clientID),
 	)
 
 	// Message handlers should be registered before calling Start unless using

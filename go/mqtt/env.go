@@ -12,23 +12,33 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/mqtt/auth"
 )
 
-type connectionProviderBuilder struct {
-	hostname string
-	port     uint16
-	useTLS   *bool
-	caFile   string
-	certFile string
-	keyFile  string
-	passFile string
-}
+type (
+	// Env provides all session client parameters parsed from well-known
+	// environment variables.
+	Env struct {
+		ClientID           string
+		ConnectionProvider ConnectionProvider
+		*SessionClientOptions
+	}
+
+	connectionProviderBuilder struct {
+		hostname string
+		port     uint16
+		useTLS   *bool
+		caFile   string
+		certFile string
+		keyFile  string
+		passFile string
+	}
+)
 
 // SessionClientConfigFromEnv parses a session client configuration from
 // well-known environment variables. Note that this will only return an error if
 // the environment variables parse incorrectly; it will not return an error if
 // required parameters (e.g. for the connection provider) are missing, to allow
 // optional parameters to be specified from environment independently.
-func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, error) {
-	opts := &SessionClientOptions{}
+func SessionClientConfigFromEnv() (*Env, error) {
+	opts := &Env{SessionClientOptions: &SessionClientOptions{}}
 	conn := connectionProviderBuilder{}
 
 	for _, env := range os.Environ() {
@@ -42,7 +52,7 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		case "AIO_BROKER_TCP_PORT":
 			port, err := strconv.ParseUint(val, 10, 16)
 			if err != nil {
-				return nil, nil, &InvalidArgumentError{
+				return nil, &InvalidArgumentError{
 					message: "could not parse broker TCP port",
 					wrapped: err,
 				}
@@ -52,7 +62,7 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		case "AIO_MQTT_USE_TLS":
 			useTLS, err := strconv.ParseBool(val)
 			if err != nil {
-				return nil, nil, &InvalidArgumentError{
+				return nil, &InvalidArgumentError{
 					message: "could not parse MQTT use TLS",
 					wrapped: err,
 				}
@@ -62,7 +72,7 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		case "AIO_MQTT_CLEAN_START":
 			cleanStart, err := strconv.ParseBool(val)
 			if err != nil {
-				return nil, nil, &InvalidArgumentError{
+				return nil, &InvalidArgumentError{
 					message: "could not parse MQTT clean start",
 					wrapped: err,
 				}
@@ -72,7 +82,7 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		case "AIO_MQTT_KEEP_ALIVE":
 			keepAlive, err := strconv.ParseUint(val, 10, 16)
 			if err != nil {
-				return nil, nil, &InvalidArgumentError{
+				return nil, &InvalidArgumentError{
 					message: "could not parse MQTT keep-alive",
 					wrapped: err,
 				}
@@ -85,7 +95,7 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		case "AIO_MQTT_SESSION_EXPIRY":
 			sessionExpiry, err := strconv.ParseUint(val, 10, 32)
 			if err != nil {
-				return nil, nil, &InvalidArgumentError{
+				return nil, &InvalidArgumentError{
 					message: "could not parse MQTT session expiry",
 					wrapped: err,
 				}
@@ -101,7 +111,7 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		case "AIO_SAT_FILE":
 			satAuth, err := auth.NewAIOServiceAccountToken(val)
 			if err != nil {
-				return nil, nil, &InvalidArgumentError{
+				return nil, &InvalidArgumentError{
 					message: "error setting up the AIO SAT auth provider",
 					wrapped: err,
 				}
@@ -122,11 +132,12 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 		}
 	}
 
-	connectionProvider, err := conn.build()
+	var err error
+	opts.ConnectionProvider, err = conn.build()
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	return connectionProvider, opts, nil
+	return opts, nil
 }
 
 // NewSessionClientFromEnv is a shorthand for constructing a session client
@@ -134,17 +145,12 @@ func SessionClientConfigFromEnv() (ConnectionProvider, *SessionClientOptions, er
 func NewSessionClientFromEnv(
 	opt ...SessionClientOption,
 ) (*SessionClient, error) {
-	connectionProvider, opts, err := SessionClientConfigFromEnv()
+	opts, err := SessionClientConfigFromEnv()
 	if err != nil {
 		return nil, err
 	}
-	if connectionProvider == nil {
-		return nil, &InvalidArgumentError{
-			message: "connection must be configured",
-		}
-	}
 	opts.Apply(opt)
-	return NewSessionClient(connectionProvider, opts), nil
+	return NewSessionClient(opts.ClientID, opts.ConnectionProvider, opts)
 }
 
 func (b *connectionProviderBuilder) build() (ConnectionProvider, error) {
