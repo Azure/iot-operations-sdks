@@ -491,7 +491,9 @@ mod tests {
 
         let err = TopicPattern::new(pattern, None, Some(topic_namespace), &create_topic_tokens())
             .unwrap_err();
-        assert!(matches!(err.kind(), TopicPatternErrorKind::InvalidNamespace(n) if n == topic_namespace));
+        assert!(
+            matches!(err.kind(), TopicPatternErrorKind::InvalidNamespace(n) if n == topic_namespace)
+        );
     }
 
     #[test_case("test/{{testToken1}"; "open brace")]
@@ -525,7 +527,9 @@ mod tests {
             &HashMap::from([("testToken".to_string(), replacement.to_string())]),
         )
         .unwrap_err();
-        assert!(matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == "testToken" && r == replacement));
+        assert!(
+            matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == "testToken" && r == replacement)
+        );
     }
 
     #[test_case("test", "test"; "no token")]
@@ -552,7 +556,9 @@ mod tests {
     fn test_topic_pattern_new_pattern_invalid_share_name(share_name: &str) {
         let err = TopicPattern::new("test", Some(share_name.to_string()), None, &HashMap::new())
             .unwrap_err();
-        assert!(matches!(err.kind(), TopicPatternErrorKind::InvalidShareName(s) if s == share_name));
+        assert!(
+            matches!(err.kind(), TopicPatternErrorKind::InvalidShareName(s) if s == share_name)
+        );
     }
 
     #[test]
@@ -614,7 +620,9 @@ mod tests {
         let pattern = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap();
 
         let err = pattern.as_publish_topic(tokens).unwrap_err();
-        assert!(matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == expected_token && r == expected_replacement));
+        assert!(
+            matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == expected_token && r == expected_replacement)
+        );
     }
 
     #[test_case("test", "test", &HashMap::new(); "no token")]
