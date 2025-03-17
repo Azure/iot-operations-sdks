@@ -172,4 +172,4 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
 
 ## Next steps
 
-Now that you have completed the event driven app tutorial, try running it again in another language, or make customisations by adding additional calculations or sensors.
+Now that you have completed the event driven app tutorial, try running it again in another language, or make customizations by adding additional calculations or sensors.
