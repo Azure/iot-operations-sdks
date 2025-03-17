@@ -89,7 +89,7 @@ func translateError(err error) error {
 	case *errors.Client:
 		if _, ok := e.Kind.(errors.PayloadInvalid); ok {
 			if j, ok := e.Nested.(*json.SyntaxError); ok {
-				if j.Error() == "unexpected end of JSON input" && j.Offset == 0 {
+				if j.Offset == 0 {
 					// We're already returning a nil schema (because of the
 					// error), so just treat the 404 case as not an error.
 					return nil
