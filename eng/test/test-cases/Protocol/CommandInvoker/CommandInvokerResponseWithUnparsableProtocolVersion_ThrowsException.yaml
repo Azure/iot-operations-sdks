@@ -4,7 +4,7 @@ description:
   condition: >-
     CommandInvoker receives response message with a malformed protocol version.
   expect: >-
-    Invocation throws 'response version not supported' exception.
+    Invocation throws 'unsupported version' exception.
 
 
 prologue:
@@ -26,8 +26,7 @@ actions:
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: response version not supported
-    in-application: !!bool false
+    error-kind: unsupported version
     is-shallow: !!bool false
     is-remote: !!bool false
     supplemental:

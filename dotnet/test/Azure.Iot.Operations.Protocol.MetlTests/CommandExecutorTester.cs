@@ -253,7 +253,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 foreach (string topic in testCase.Epilogue.SubscribedTopics)
                 {
-                    Assert.True(stubMqttClient.HasSubscribed(topic));
+                    Assert.True(stubMqttClient.HasSubscribed(topic), "Never subscribed to the expected topic: " + topic);
                 }
 
                 if (testCase.Epilogue.PublicationCount != null)
@@ -397,7 +397,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         return ExtendedResponse<string>.CreateFromResponse(response);
                     });
 
-                await commandExecutor.StartAsync(testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
+                await commandExecutor.StartAsync(preferredDispatchConcurrency: testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
 
                 if (testCaseCatch != null)
                 {

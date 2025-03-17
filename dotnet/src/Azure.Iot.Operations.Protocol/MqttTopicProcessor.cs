@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Protocol
     /// <summary>
     /// Static class holding methods for processing MQTT topics, filters, and patterns.
     /// </summary>
-    internal static partial class MqttTopicProcessor
+    public static partial class MqttTopicProcessor
     {
         private static readonly Regex replaceableTokenRegex = new("{([^}]+)}");
 
@@ -31,14 +31,13 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         /// <param name="pattern">The pattern whose tokens to replace.</param>
         /// <param name="tokenMap1">A first replacement map for replacing tokens in the provided pattern.</param>
-        /// <param name="tokenMap2">A second replacement map for replacing tokens in the provided pattern.</param>
         /// <returns>The MQTT topic for publication.</returns>
         /// <exception cref="ArgumentException">Thrown if the topic pattern is null or empty.</exception>
-        public static string ResolveTopic(string pattern, IReadOnlyDictionary<string, string>? tokenMap1 = null, IReadOnlyDictionary<string, string>? tokenMap2 = null)
+        public static string ResolveTopic(string pattern, IReadOnlyDictionary<string, string>? tokenMap1 = null)
         {
             ArgumentException.ThrowIfNullOrEmpty(pattern, nameof(pattern));
 
-            return replaceableTokenRegex.Replace(pattern.MapReplace(tokenMap1).MapReplace(tokenMap2), "+");
+            return replaceableTokenRegex.Replace(pattern.MapReplace(tokenMap1), "+");
         }
 
         public static bool DoesTopicMatchFilter(string topic, string filter)
@@ -69,8 +68,7 @@ namespace Azure.Iot.Operations.Protocol
         /// Validates that a topic pattern is valid for use in a Command or Telemetry.
         /// </summary>
         /// <param name="pattern">The topic pattern.</param>
-        /// <param name="residentTokenMap">An optional token replacement map, expected to last the lifetime of the calling class.</param>
-        /// <param name="transientTokenMap">An optional token replacement map, expected to last for a single execution of a call tree.</param>
+        /// <param name="tokenMap">An optional token replacement map.</param>
         /// <param name="requireReplacement">True if a replacement value is required for any token in the pattern.</param>
         /// <param name="errMsg">Out parameter to receive error message if validation fails.</param>
         /// <param name="errToken">Out parameter to receive the value of a missing or invalid token, if any.</param>
@@ -78,8 +76,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <returns>A <see cref="PatternValidity"/> value indicating whether the pattern is valid or the way in which it is invalid.</returns>
         public static PatternValidity ValidateTopicPattern(
             string? pattern,
-            IReadOnlyDictionary<string, string>? residentTokenMap,
-            IReadOnlyDictionary<string, string>? transientTokenMap,
+            IReadOnlyDictionary<string, string>? tokenMap,
             bool requireReplacement,
             out string errMsg,
             out string? errToken,
@@ -122,22 +119,20 @@ namespace Azure.Iot.Operations.Protocol
                         errMsg = $"Token '{level}' in MQTT topic pattern contains invalid character";
                         return PatternValidity.InvalidPattern;
                     }
-                    else if (residentTokenMap == null && transientTokenMap == null)
+                    else if (tokenMap == null)
                     {
                         if (requireReplacement)
                         {
-                            errMsg = $"Token '{level}' in MQTT topic pattern, but no replacement map provided";
+                            errMsg = $"Token '{level}' in MQTT topic pattern, but no replacement map value provided";
                             errToken = token;
                             return PatternValidity.MissingReplacement;
                         }
                     }
                     else
                     {
-                        string? residentReplacement = null;
-                        string? transientReplacement = null;
-                        bool hasResidentReplacement = residentTokenMap != null && residentTokenMap.TryGetValue(token, out residentReplacement);
-                        bool hasTransientReplacement = transientTokenMap != null && transientTokenMap.TryGetValue(token, out transientReplacement);
-                        if (!hasResidentReplacement && !hasTransientReplacement)
+                        string? replacement = null;
+                        bool hasReplacement = tokenMap != null && tokenMap.TryGetValue(token, out replacement);
+                        if (!hasReplacement)
                         {
                             if (requireReplacement)
                             {
@@ -146,19 +141,12 @@ namespace Azure.Iot.Operations.Protocol
                                 return PatternValidity.MissingReplacement;
                             }
                         }
-                        else if (hasResidentReplacement && !IsValidReplacement(residentReplacement))
+                        else if (hasReplacement && !IsValidReplacement(replacement))
                         {
-                            errMsg = $"Token '{level}' in MQTT topic pattern has resident replacement value '{residentReplacement}' that is not valid";
+                            errMsg = $"Token '{level}' in MQTT topic pattern has resident replacement value '{replacement}' that is not valid";
                             errToken = token;
-                            errReplacement = residentReplacement;
+                            errReplacement = replacement;
                             return PatternValidity.InvalidResidentReplacement;
-                        }
-                        else if (hasTransientReplacement && !IsValidReplacement(transientReplacement))
-                        {
-                            errMsg = $"Token '{level}' in MQTT topic pattern has transient replacement value '{transientReplacement}' that is not valid";
-                            errToken = token;
-                            errReplacement = transientReplacement;
-                            return PatternValidity.InvalidTransientReplacement;
                         }
                     }
                 }

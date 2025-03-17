@@ -17,8 +17,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? ErrorKind { get; set; }
 
-        public bool? InApplication { get; set; }
-
         public bool? IsShallow { get; set; }
 
         public bool? IsRemote { get; set; }
@@ -39,14 +37,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 "timeout" => AkriMqttErrorKind.Timeout,
                 "cancellation" => AkriMqttErrorKind.Cancellation,
                 "invalid configuration" => AkriMqttErrorKind.ConfigurationInvalid,
-                "invalid argument" => AkriMqttErrorKind.ArgumentInvalid,
                 "invalid state" => AkriMqttErrorKind.StateInvalid,
                 "internal logic error" => AkriMqttErrorKind.InternalLogicError,
                 "unknown error" => AkriMqttErrorKind.UnknownError,
                 "execution error" => AkriMqttErrorKind.ExecutionException,
                 "mqtt error" => AkriMqttErrorKind.MqttError,
-                "request version not supported" => AkriMqttErrorKind.UnsupportedRequestVersion,
-                "response version not supported" => AkriMqttErrorKind.UnsupportedResponseVersion,
+                "unsupported version" => AkriMqttErrorKind.UnsupportedVersion,
                 _ => throw new Exception($"unrecognized error kind string \"{ErrorKind}\""),
             };
         }

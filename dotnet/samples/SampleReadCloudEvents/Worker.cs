@@ -12,7 +12,7 @@ public class Worker(MqttSessionClient mqttClient, OvenClient ovenClient, ILogger
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await ConnectAsync(stoppingToken);
-        await ovenClient.StartAsync(stoppingToken);
+        await ovenClient.StartAsync(cancellationToken: stoppingToken);
     }
 
     private async Task ConnectAsync(CancellationToken stoppingToken)

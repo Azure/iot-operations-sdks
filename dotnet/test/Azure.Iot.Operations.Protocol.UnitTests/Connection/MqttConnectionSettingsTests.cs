@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void Defaults()
         {
-            MqttConnectionSettings cs = new("TestHost");
+            MqttConnectionSettings cs = new("TestHost", "clientId");
             Assert.Equal("TestHost", cs.HostName);
             Assert.Equal(8883, cs.TcpPort);
             Assert.True(cs.UseTls);
@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Null(cs.KeyFile);
             Assert.Null(cs.Username);
             Assert.Null(cs.PasswordFile);
-            Assert.Equal("", cs.ClientId);
+            Assert.Equal("clientId", cs.ClientId);
             Assert.True(cs.CleanStart);
             Assert.Equal(TimeSpan.FromSeconds(60), cs.KeepAlive);
             Assert.Equal(TimeSpan.FromSeconds(3600), cs.SessionExpiry);
@@ -34,9 +34,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void InitProps()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 CaFile = "cafile",
                 CleanStart = false,
                 CertFile = "TestSdkLiteCertPem.txt",
@@ -166,10 +165,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "TcpPort=2323";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("HostName", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -179,13 +176,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void FromConnectionStringFailsWithSatAuthFileAndPassword()
         {
-            string connStr = "HostName=me;TcpPort=2323;SatAuthFile=my/token;PasswordFile=Connection/TestSdkLitePwd.txt";
+            string connStr = "HostName=me;TcpPort=2323;SatAuthFile=my/token;PasswordFile=Connection/TestSdkLitePwd.txt;ClientId=clientid";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("SatAuthFile", ex.PropertyName);
             Assert.Equal("my/token", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -198,10 +193,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=me;TcpPort=2323;SessionExpiry=200secs";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("SessionExpiry", ex.PropertyName);
             Assert.Equal("200secs", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -211,7 +204,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CertFileSetsClientCertificate()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
                 CertFile = "Connection/TestSdkLiteCertPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertKey.txt",
@@ -225,7 +218,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CertFileSetsClientCertificateWithPassword()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
                 CertFile = "Connection/TestSdkLiteCertPwdPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertPwdKey.txt",
@@ -240,8 +233,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CaFileSetsTrustChain()
         {
-            MqttConnectionSettings cs = new("localhost")
-            { 
+            MqttConnectionSettings cs = new("localhost", "clientId")
+            {
                 CaFile = "Connection/ca.txt"
             };
             cs.ValidateMqttSettings(true);
@@ -252,9 +245,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void ToStringReturnsConnectionString()
         {
-            MqttConnectionSettings mcs = new("localhost")
+            MqttConnectionSettings mcs = new("localhost", "clientId")
             {
-                ClientId="clientId",
                 CertFile = "TestSdkLiteCertPwdPem.txt",
                 KeyFile = "TestSdkLiteCertPwdKey.txt",
                 KeyPasswordFile = "TestSdkLiteKeyPwd.txt"
@@ -265,7 +257,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void KeyFileWithoutCertFileFails()
         {
-            MqttConnectionSettings cs = new("localhost")
+            MqttConnectionSettings cs = new("localhost", "clientId")
             {
                 KeyFile = "TestSdkLiteCertKey.txt",
             };
@@ -277,13 +269,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void FromConnectionStringWithKeyFileWithoutCertFileFails()
         {
-            string connStr = "HostName=localhost;KeyFile=TestSdkLiteCertKey.txt";
+            string connStr = "HostName=localhost;KeyFile=TestSdkLiteCertKey.txt;ClientId=clientId";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("CertFile and KeyFile", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -296,10 +286,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=foo;KeepAlive=12min";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("KeepAlive", ex.PropertyName);
             Assert.Equal("12min", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -312,10 +300,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=foo;TcpPort=something";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("TcpPort", ex.PropertyName);
             Assert.Equal("something", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -328,10 +314,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             string connStr = "HostName=foo;CleanStart=something";
             var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("CleanStart", ex.PropertyName);
             Assert.Equal("something", ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -389,7 +373,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         }
 
         [Fact]
-        public void LoadFromEnvVarsDefauts()
+        public void LoadFromEnvVarsDefaults()
         {
             ResetEnvironmentVariables();
 
@@ -406,7 +390,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Assert.Null(cs.KeyFile);
             Assert.Null(cs.Username);
             Assert.Null(cs.PasswordFile);
-            Assert.Null(cs.ClientId);
+            Assert.Equal("clientId", cs.ClientId);
             Assert.Equal(TimeSpan.FromSeconds(3600), cs.SessionExpiry);
             Assert.True(cs.CleanStart);
             Assert.Equal(TimeSpan.FromSeconds(60), cs.KeepAlive);
@@ -423,10 +407,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             LoadEnvVarsFromFile(envPath);
             var ex = Assert.Throws<AkriMqttException>(MqttConnectionSettings.FromEnvVars);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("AIO_BROKER_HOSTNAME", ex.PropertyName);
             Assert.Equal(string.Empty, ex.PropertyValue);
             Assert.Null(ex.CorrelationId);
@@ -444,10 +426,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             LoadEnvVarsFromFile(envPath);
             var ex = Assert.Throws<AkriMqttException>(MqttConnectionSettings.FromEnvVars);
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-            Assert.False(ex.InApplication);
             Assert.True(ex.IsShallow);
             Assert.False(ex.IsRemote);
-            Assert.Null(ex.HttpStatusCode);
             Assert.Equal("TcpPort", ex.PropertyName);
             Assert.Null(ex.CorrelationId);
             Assert.Equal("Invalid settings in provided Environment Variables: TcpPort=false. Expecting an integer value. (Parameter 'TcpPort')", ex.Message);
@@ -513,9 +493,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettings()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -539,9 +518,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsSetsTrustChainCorrectly()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -566,9 +544,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsWithPasswordFile()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 PasswordFile = "Connection/mypassword.txt",
@@ -595,9 +572,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsWithSatAuthFile()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 SatAuthFile = "Connection/mypassword.txt",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -624,9 +600,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithConnectionSettingsWithPassword()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 PasswordFile = "Connection/TestSdkLitePwd.txt",
@@ -654,9 +629,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void BuildWithClientCertificates()
         {
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 CertFile = "Connection/TestSdkLiteCertPem.txt",
                 KeyFile = "Connection/TestSdkLiteCertKey.txt",
@@ -684,9 +658,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             X509Certificate2Collection expectedTrustChain = new();
             expectedTrustChain.ImportFromPemFile("Connection/ca.txt");
 
-            MqttConnectionSettings mqttConnectionSettings = new("localhost")
+            MqttConnectionSettings mqttConnectionSettings = new("localhost", "clientId")
             {
-                ClientId = "clientId",
                 TcpPort = 4343,
                 Username = "user",
                 KeepAlive = TimeSpan.FromSeconds(15),
@@ -711,7 +684,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         [Fact]
         public void CreateFromFileMount()
         {
-            var expected = new MqttConnectionSettings("somehostname")
+            var expected = new MqttConnectionSettings("somehostname", "someClientId")
             {
                 SatAuthFile = "sat.txt",
                 TcpPort = 1234,
@@ -738,6 +711,60 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
             Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", "thisDirectory/does/not/exist");
             Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromFileMount());
+        }
+
+        [Fact]
+        public void BuildWithEmptyClientId_Throws()
+        {
+            var ex = Assert.Throws<AkriMqttException>(() => new MqttConnectionSettings("localhost", string.Empty)
+            {
+                TcpPort = 4343,
+                Username = "user",
+                KeepAlive = TimeSpan.FromSeconds(15),
+                CaFile = "Connection/ca.txt",
+            });
+            Assert.Equal("ClientId", ex.PropertyName);
+            Assert.Equal("ClientId is mandatory. (Parameter 'ClientId')", ex.Message);
+        }
+
+        [Fact]
+        public void CreateFromFileMount_ThrowsIfClientIdFileIsEmpty()
+        {
+            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./Connection/testMountFilesMissingClientId");
+            Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
+            Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", "Connection");
+            var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromFileMount());
+            Assert.Equal("AIO_MQTT_CLIENT_ID", ex.PropertyName);
+        }
+
+        [Fact]
+        public void CreateFromEnvVars_ThrowsIfClientIdIsNotSet()
+        {
+            ResetEnvironmentVariables();
+
+            string envPath = "../../../Connection/testEnvFiles/missingClientId.txt";
+            LoadEnvVarsFromFile(envPath);
+            var ex = Assert.Throws<AkriMqttException>(MqttConnectionSettings.FromEnvVars);
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
+            Assert.Equal("AIO_MQTT_CLIENT_ID", ex.PropertyName);
+            Assert.Equal("Invalid settings in provided Environment Variables: 'AIO_MQTT_CLIENT_ID' is missing.", ex.Message);
+
+            ResetEnvironmentVariables();
+
+        }
+
+        [Fact]
+        public void CreateFromConnectionString_ThrowsIfClientIdIsEmpty()
+        {
+            string connStr = "HostName=me;TcpPort=2323;ClientId=";
+            var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromConnectionString(connStr));
+            Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
+            Assert.True(ex.IsShallow);
+            Assert.False(ex.IsRemote);
+            Assert.Equal("ClientId", ex.PropertyName);
+            Assert.Equal(string.Empty, ex.PropertyValue);
+            Assert.Null(ex.CorrelationId);
+            Assert.Equal("Invalid settings in provided Connection String: ClientId is mandatory. (Parameter 'ClientId')", ex.Message);
         }
     }
 }

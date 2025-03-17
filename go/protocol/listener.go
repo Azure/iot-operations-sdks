@@ -123,12 +123,11 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 	ver := msg.Mqtt.UserProperties[constants.ProtocolVersion]
 	if !version.IsSupported(ver, l.supportedVersion) {
 		l.error(ctx, msg.Mqtt, &errors.Remote{
-			Base: errors.Base{
-				Message: "unsupported version",
-				Kind:    errors.UnsupportedRequestVersion,
+			Message: "request version not supported",
+			Kind: errors.UnsupportedVersion{
+				ProtocolVersion:                ver,
+				SupportedMajorProtocolVersions: l.supportedVersion,
 			},
-			ProtocolVersion:                ver,
-			SupportedMajorProtocolVersions: l.supportedVersion,
 		})
 		return
 	}
@@ -137,9 +136,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 
 	if l.reqCorrelation && len(msg.Mqtt.CorrelationData) == 0 {
 		l.error(ctx, msg.Mqtt, &errors.Remote{
-			Base: errors.Base{
-				Message:    "correlation data missing",
-				Kind:       errors.HeaderMissing,
+			Message: "correlation data missing",
+			Kind: errors.HeaderMissing{
 				HeaderName: constants.CorrelationData,
 			},
 		})
@@ -149,9 +147,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		correlationData, err := uuid.FromBytes(msg.Mqtt.CorrelationData)
 		if err != nil {
 			l.error(ctx, msg.Mqtt, &errors.Remote{
-				Base: errors.Base{
-					Message:    "correlation data is not a valid UUID",
-					Kind:       errors.HeaderInvalid,
+				Message: "correlation data is not a valid UUID",
+				Kind: errors.HeaderInvalid{
 					HeaderName: constants.CorrelationData,
 				},
 			})
@@ -166,9 +163,8 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		msg.Timestamp, err = l.app.hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
 			l.error(ctx, msg.Mqtt, &errors.Remote{
-				Base: errors.Base{
-					Message:     "timestamp is not a valid RFC3339 timestamp",
-					Kind:        errors.HeaderInvalid,
+				Message: "timestamp is not a valid RFC3339 timestamp",
+				Kind: errors.HeaderInvalid{
 					HeaderName:  constants.Timestamp,
 					HeaderValue: ts,
 				},

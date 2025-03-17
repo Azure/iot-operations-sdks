@@ -8,6 +8,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/schemaregistry"
 )
 
@@ -26,6 +27,13 @@ type (
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
 		Logger *slog.Logger
+	}
+
+	// Error represents an error returned by the schema registry.
+	Error struct {
+		Message       string
+		PropertyName  string
+		PropertyValue any
 	}
 )
 
@@ -57,6 +65,24 @@ func (c *Client) Start(ctx context.Context) error {
 // Close all underlying MQTT topics and free resources.
 func (c *Client) Close() {
 	c.client.Close()
+}
+
+// Error returns the error message.
+func (e *Error) Error() string {
+	return e.Message
+}
+
+//nolint:staticcheck // Capture 422 data for schemaregistry.
+func translateError(err error) error {
+	if k, ok := errors.IsKind[errors.UnknownError](err); ok &&
+		k.PropertyName != "" {
+		return &Error{
+			Message:       err.Error(),
+			PropertyName:  k.PropertyName,
+			PropertyValue: k.PropertyValue,
+		}
+	}
+	return err
 }
 
 // Apply resolves the provided list of options.

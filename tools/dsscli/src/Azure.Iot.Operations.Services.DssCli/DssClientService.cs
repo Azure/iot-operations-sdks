@@ -28,7 +28,7 @@ public class DssClientService(ILogger<DssClientService> logger, IConfiguration c
             else
             {
                 logger.LogWarning("No connection string specified, using default mqtt://localhost:1883");
-                mcs = new MqttConnectionSettings("localhost") { TcpPort = 1883, UseTls = false };
+                mcs = new MqttConnectionSettings("localhost", $"DssClient-{Guid.NewGuid()}") { TcpPort = 1883, UseTls = false };
                 cs = mcs.ToString();
             }
         }
