@@ -86,7 +86,7 @@ async fn process_window(
         connection_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
-            .expect("default state store options sould not fail"),
+            .expect("default state store options should not fail"),
     )
     .expect("state store client creation with default options should not fail");
 
@@ -104,65 +104,61 @@ async fn process_window(
 
         match get_result {
             Ok(get_response) => {
-                match get_response.response {
-                    Some(serialized_data) => {
-                        // Deserialize the historical sensor data
-                        match serde_json::from_slice::<Vec<SensorData>>(&serialized_data) {
-                            Ok(mut sensor_data) => {
-                                // Filter out old data
-                                sensor_data.retain(|d| {
-                                    Utc::now() - d.timestamp
-                                        < chrono::Duration::seconds(WINDOW_SIZE)
-                                });
+                if let Some(serialized_data) = get_response.response {
+                    // Deserialize the historical sensor data
+                    match serde_json::from_slice::<Vec<SensorData>>(&serialized_data) {
+                        Ok(mut sensor_data) => {
+                            // Filter out old data
+                            sensor_data.retain(|d| {
+                                Utc::now() - d.timestamp < chrono::Duration::seconds(WINDOW_SIZE)
+                            });
 
-                                // If there is no data, skip the window
-                                if sensor_data.is_empty() {
-                                    continue;
-                                }
-
-                                // Aggregate the sensor data into a window
-                                let output_window_data = WindowDataBuilder::default()
-                                    .timestamp(Utc::now())
-                                    .window_size(WINDOW_SIZE)
-                                    .temperature(&sensor_data)
-                                    .pressure(&sensor_data)
-                                    .vibration(&sensor_data)
-                                    .build()
-                                    .expect("output_window_data should contain all fields");
-                                let output_data_clone = output_window_data.clone();
-
-                                let message = TelemetryMessageBuilder::default()
-                                    .payload(output_window_data)
-                                    .expect("output_window_data is a valid payload")
-                                    .build()
-                                    .expect("message should contain all fields");
-
-                                match sender.send(message).await {
-                                    Ok(_) => {
-                                        log::info!(
-                                            "Published window data: {}",
-                                            serde_json::to_string(&output_data_clone)
-                                                .expect("output_data_clone should serialize")
-                                        );
-                                    }
-                                    Err(e) => {
-                                        // Error while sending telemetry
-                                        log::error!("{e:?}");
-                                        continue;
-                                    }
-                                }
-                            }
-                            Err(e) => {
-                                // Deserialization error
-                                log::error!("{e:?}");
+                            // If there is no data, skip the window
+                            if sensor_data.is_empty() {
                                 continue;
                             }
+
+                            // Aggregate the sensor data into a window
+                            let output_window_data = WindowDataBuilder::default()
+                                .timestamp(Utc::now())
+                                .window_size(WINDOW_SIZE)
+                                .temperature(&sensor_data)
+                                .pressure(&sensor_data)
+                                .vibration(&sensor_data)
+                                .build()
+                                .expect("output_window_data should contain all fields");
+                            let output_data_clone = output_window_data.clone();
+
+                            let message = TelemetryMessageBuilder::default()
+                                .payload(output_window_data)
+                                .expect("output_window_data is a valid payload")
+                                .build()
+                                .expect("message should contain all fields");
+
+                            match sender.send(message).await {
+                                Ok(()) => {
+                                    log::info!(
+                                        "Published window data: {}",
+                                        serde_json::to_string(&output_data_clone)
+                                            .expect("output_data_clone should serialize")
+                                    );
+                                }
+                                Err(e) => {
+                                    // Error while sending telemetry
+                                    log::error!("{e:?}");
+                                    continue;
+                                }
+                            }
+                        }
+                        Err(e) => {
+                            // Deserialization error
+                            log::error!("{e:?}");
+                            continue;
                         }
                     }
-                    None => {
-                        log::info!("Sensor data not found in state store");
-                        continue;
-                    }
+                } else {
+                    log::info!("Sensor data not found in state store");
+                    continue;
                 };
             }
             // Error while fetching data from state store
@@ -236,22 +232,26 @@ pub struct WindowData {
 
 impl WindowDataBuilder {
     /// Helper function to aggregate sensor data into a window
-    fn aggregate(&mut self, sensor_data: &Vec<f64>) -> WindowSensorData {
-        let mut sensor_data = sensor_data.clone();
+    fn aggregate(sensor_data: &[f64]) -> WindowSensorData {
+        let mut sensor_data: Vec<f64> = sensor_data.to_vec();
 
         sensor_data.sort_by(|a, b| a.partial_cmp(b).expect("f64 comparison should not fail"));
-        let count = sensor_data.len() as i64;
+        let count: i64 = sensor_data
+            .len()
+            .try_into()
+            .expect("usize to i64 conversion should not fail");
         let min = *sensor_data
             .first()
             .expect("data always contains at least one element");
         let max = *sensor_data
             .last()
             .expect("data always contains at least one element");
-        let mean = sensor_data.iter().sum::<f64>() / count as f64;
+        let mean = sensor_data.iter().sum::<f64>()
+            / f64::from(u32::try_from(sensor_data.len()).expect("element count should fit in u32"));
         let median = if count % 2 == 0 {
-            (sensor_data[count as usize / 2] + sensor_data[count as usize / 2 - 1]) / 2.0
+            (sensor_data[sensor_data.len() / 2] + sensor_data[sensor_data.len() / 2 - 1]) / 2.0
         } else {
-            sensor_data[count as usize / 2]
+            sensor_data[sensor_data.len() / 2]
         };
 
         WindowSensorData {
@@ -263,23 +263,23 @@ impl WindowDataBuilder {
         }
     }
 
-    pub fn temperature(&mut self, input_data: &Vec<SensorData>) -> &mut Self {
-        let data = input_data.iter().map(|d| d.temperature).collect();
-        self.temperature = Some(self.aggregate(&data));
+    pub fn temperature(&mut self, input_data: &[SensorData]) -> &mut Self {
+        let data: Vec<f64> = input_data.iter().map(|d| d.temperature).collect();
+        self.temperature = Some(Self::aggregate(&data));
 
         self
     }
 
-    pub fn pressure(&mut self, input_data: &Vec<SensorData>) -> &mut Self {
-        let data = input_data.iter().map(|d| d.pressure).collect();
-        self.pressure = Some(self.aggregate(&data));
+    pub fn pressure(&mut self, input_data: &[SensorData]) -> &mut Self {
+        let data: Vec<f64> = input_data.iter().map(|d| d.pressure).collect();
+        self.pressure = Some(Self::aggregate(&data));
 
         self
     }
 
-    pub fn vibration(&mut self, input_data: &Vec<SensorData>) -> &mut Self {
-        let data = input_data.iter().map(|d| d.vibration).collect();
-        self.vibration = Some(self.aggregate(&data));
+    pub fn vibration(&mut self, input_data: &[SensorData]) -> &mut Self {
+        let data: Vec<f64> = input_data.iter().map(|d| d.vibration).collect();
+        self.vibration = Some(Self::aggregate(&data));
 
         self
     }

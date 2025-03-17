@@ -127,7 +127,7 @@ async fn process_sensor_data(
         connection_monitor,
         state_store::ClientOptionsBuilder::default()
             .build()
-            .expect("default state store options sould not fail"),
+            .expect("default state store options should not fail"),
     )
     .expect("state store client creation with default options should not fail");
 
