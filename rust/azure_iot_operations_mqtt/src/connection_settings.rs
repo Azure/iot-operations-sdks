@@ -527,7 +527,7 @@ mod tests {
             .expect("Time went backwards")
             .subsec_nanos();
 
-        let temp_dir_path = format!("/tmp/mqtt_test_{}_{}_{}", pid, timestamp, nanos);
+        let temp_dir_path = format!("/tmp/mqtt_test_{pid}_{timestamp}_{nanos}");
         let path_buf = PathBuf::from(&temp_dir_path);
 
         // Create the directory
@@ -556,7 +556,7 @@ mod tests {
 
     // Helper to create a file with contents
     fn create_config_file(dir_path: &str, filename: &str, contents: &str) -> std::io::Result<()> {
-        let file_path = format!("{}/{}", dir_path, filename);
+        let file_path = format!("{dir_path}/{filename}");
         fs::write(file_path, contents)
     }
 
@@ -598,7 +598,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert!(e.contains("Config map path does not exist"))
+                assert!(e.contains("Config map path does not exist"));
             }
         }
     }
@@ -629,7 +629,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert!(e.contains("Failed to read BROKER_TARGET_ADDRESS"))
+                assert!(e.contains("Failed to read BROKER_TARGET_ADDRESS"));
             }
         }
         cleanup_temp_dir(&temp_dir);
@@ -650,7 +650,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert_eq!(e, "BROKER_TARGET_ADDRESS is missing.")
+                assert_eq!(e, "BROKER_TARGET_ADDRESS is missing.");
             }
         }
         cleanup_temp_dir(&temp_dir);
@@ -670,7 +670,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert!(e.contains("BROKER_TARGET_ADDRESS is malformed"))
+                assert!(e.contains("BROKER_TARGET_ADDRESS is malformed"));
             }
         }
         cleanup_temp_dir(&temp_dir);
@@ -695,7 +695,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert!(e.contains("Cannot parse MQTT port"))
+                assert!(e.contains("Cannot parse MQTT port"));
             }
         }
         cleanup_temp_dir(&temp_dir);
@@ -718,7 +718,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert!(e.contains("Failed to read BROKER_USE_TLS"))
+                assert!(e.contains("Failed to read BROKER_USE_TLS"));
             }
         }
         cleanup_temp_dir(&temp_dir);
@@ -745,7 +745,7 @@ mod tests {
             Err(e) => {
                 assert!(e.contains(
                     "BROKER_USE_TLS contains a value that could not be parsed as a boolean"
-                ))
+                ));
             }
         }
 
@@ -770,7 +770,7 @@ mod tests {
         match builder_result {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
-                assert!(e.contains("Missing or malformed client ID configuration file"))
+                assert!(e.contains("Missing or malformed client ID configuration file"));
             }
         }
         cleanup_temp_dir(&temp_dir);
