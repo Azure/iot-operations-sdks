@@ -80,6 +80,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type WithConnectionTimeout](<#WithConnectionTimeout>)
 - [type WithContentType](<#WithContentType>)
 - [type WithCorrelationData](<#WithCorrelationData>)
+- [type WithDisableAIOBrokerFeatures](<#WithDisableAIOBrokerFeatures>)
 - [type WithKeepAlive](<#WithKeepAlive>)
 - [type WithMessageExpiry](<#WithMessageExpiry>)
 - [type WithNoLocal](<#WithNoLocal>)
@@ -502,7 +503,7 @@ func NewSessionClientFromEnv(opt ...SessionClientOption) (*SessionClient, error)
 NewSessionClientFromEnv is a shorthand for constructing a session client using SessionClientConfigFromEnv.
 
 <a name="SessionClient.ID"></a>
-### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L121>)
+### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L128>)
 
 ```go
 func (c *SessionClient) ID() string
@@ -603,7 +604,7 @@ type SessionClientOption interface {
 ```
 
 <a name="WithAuth"></a>
-### func [WithAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L134>)
+### func [WithAuth](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L144>)
 
 ```go
 func WithAuth(provider auth.Provider) SessionClientOption
@@ -612,7 +613,7 @@ func WithAuth(provider auth.Provider) SessionClientOption
 WithAuth sets the enhanced authentication provider for the session client.
 
 <a name="WithConnectionRetry"></a>
-### func [WithConnectionRetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L125>)
+### func [WithConnectionRetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L135>)
 
 ```go
 func WithConnectionRetry(policy retry.Policy) SessionClientOption
@@ -621,7 +622,7 @@ func WithConnectionRetry(policy retry.Policy) SessionClientOption
 WithConnectionRetry sets the connection retry policy for the session client.
 
 <a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L143>)
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L153>)
 
 ```go
 func WithLogger(log *slog.Logger) SessionClientOption
@@ -630,17 +631,18 @@ func WithLogger(log *slog.Logger) SessionClientOption
 WithLogger sets the logger for the session client.
 
 <a name="SessionClientOptions"></a>
-## type [SessionClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L20-L35>)
+## type [SessionClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L20-L36>)
 
 SessionClientOptions are the resolved options for the session client.
 
 ```go
 type SessionClientOptions struct {
-    CleanStart            bool
-    KeepAlive             uint16
-    SessionExpiry         uint32
-    ReceiveMaximum        uint16
-    ConnectUserProperties map[string]string
+    CleanStart               bool
+    KeepAlive                uint16
+    SessionExpiry            uint32
+    ReceiveMaximum           uint16
+    ConnectUserProperties    map[string]string
+    DisableAIOBrokerFeatures bool
 
     ConnectionRetry   retry.Policy
     ConnectionTimeout time.Duration
@@ -654,7 +656,7 @@ type SessionClientOptions struct {
 ```
 
 <a name="SessionClientOptions.Apply"></a>
-### func \(\*SessionClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L74-L77>)
+### func \(\*SessionClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L80-L83>)
 
 ```go
 func (o *SessionClientOptions) Apply(opts []SessionClientOption, rest ...SessionClientOption)
@@ -771,7 +773,7 @@ func ConstantUsername(username string) UsernameProvider
 ConstantUsername is a UsernameProvider implementation that returns an unchanging username. This can be used if the username does not need to be updated between MQTT connections.
 
 <a name="WithCleanStart"></a>
-## type [WithCleanStart](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L45>)
+## type [WithCleanStart](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L46>)
 
 WithCleanStart sets whether the initial connection will be made without retaining any existing session state. This is by definition set to false for any reconnections.
 
@@ -780,7 +782,7 @@ type WithCleanStart bool
 ```
 
 <a name="WithConnectUserProperties"></a>
-## type [WithConnectUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L58>)
+## type [WithConnectUserProperties](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L59>)
 
 WithConnectUserProperties sets the user properties for the CONNECT packet.
 
@@ -789,7 +791,7 @@ type WithConnectUserProperties map[string]string
 ```
 
 <a name="WithConnectionTimeout"></a>
-## type [WithConnectionTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L40>)
+## type [WithConnectionTimeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L41>)
 
 WithConnectionTimeout sets the connection timeout for a single connection attempt. If a timeout is desired for the entire connection process, it should be specified via the connection retry policy.
 
@@ -815,8 +817,17 @@ WithCorrelationData sets the correlation data for the publish.
 type WithCorrelationData = mqtt.WithCorrelationData
 ```
 
+<a name="WithDisableAIOBrokerFeatures"></a>
+## type [WithDisableAIOBrokerFeatures](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L64>)
+
+WithDisableAIOBrokerFeatures disables behavior specific to the AIO Broker. Only use this option if you are using another broker and encounter failures.
+
+```go
+type WithDisableAIOBrokerFeatures bool
+```
+
 <a name="WithKeepAlive"></a>
-## type [WithKeepAlive](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L48>)
+## type [WithKeepAlive](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L49>)
 
 WithKeepAlive sets the keep\-alive interval \(in seconds\).
 
@@ -843,7 +854,7 @@ type WithNoLocal = mqtt.WithNoLocal
 ```
 
 <a name="WithPassword"></a>
-## type [WithPassword](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L66>)
+## type [WithPassword](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L72>)
 
 WithPassword sets the PasswordProvider that the session client uses to get the password for each connection.
 
@@ -870,7 +881,7 @@ type WithQoS = mqtt.WithQoS
 ```
 
 <a name="WithReceiveMaximum"></a>
-## type [WithReceiveMaximum](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L54>)
+## type [WithReceiveMaximum](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L55>)
 
 WithReceiveMaximum sets the client\-side receive maximum.
 
@@ -906,7 +917,7 @@ type WithRetainHandling = mqtt.WithRetainHandling
 ```
 
 <a name="WithSessionExpiry"></a>
-## type [WithSessionExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L51>)
+## type [WithSessionExpiry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L52>)
 
 WithSessionExpiry sets the session expiry interval \(in seconds\).
 
@@ -924,7 +935,7 @@ type WithUserProperties = mqtt.WithUserProperties
 ```
 
 <a name="WithUsername"></a>
-## type [WithUsername](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L62>)
+## type [WithUsername](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L68>)
 
 WithUsername sets the UsernameProvider that the session client uses to get the username for each connection.
 

@@ -35,7 +35,7 @@ func Return(err error, logger log.Logger, shallow bool) error {
 		e.Shallow = shallow
 	}
 	if err != nil {
-		logger.Error(context.Background(), err)
+		logger.Warn(context.Background(), err)
 	}
 	return err
 }

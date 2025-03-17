@@ -29,17 +29,18 @@ func (c *Client[K, V]) Del(
 	ctx context.Context,
 	key K,
 	opt ...DelOption,
-) (*Response[int], error) {
-	if err := c.validateKey(ctx, key); err != nil {
-		return nil, err
+) (res *Response[int], err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
 	}
 
 	var opts DelOptions
 	opts.Apply(opt)
 
-	req := resp.OpK("DEL", key)
 	c.logK(ctx, "DEL", key)
-	return invoke(ctx, c.invoker, resp.Number, &opts, req, c.log)
+	req := resp.OpK("DEL", key)
+	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }
 
 // Apply resolves the provided list of options.

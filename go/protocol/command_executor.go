@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"maps"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
@@ -28,6 +29,7 @@ type (
 		handler   CommandHandler[Req, Res]
 		timeout   *internal.Timeout
 		cache     *caching.Cache
+		log       log.Logger
 	}
 
 	// CommandExecutorOption represents a single command executor option.
@@ -78,7 +80,10 @@ type (
 	}
 )
 
-const commandExecutorErrStr = "command execution"
+const (
+	commandExecutorComponentName = "command executor"
+	commandExecutorErrStr        = "command execution"
+)
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
@@ -92,8 +97,8 @@ func NewCommandExecutor[Req, Res any](
 ) (ce *CommandExecutor[Req, Res], err error) {
 	var opts CommandExecutorOptions
 	opts.Apply(opt)
-	logger := log.Wrap(opts.Logger, app.log)
 
+	logger := log.Wrap(opts.Logger, app.log)
 	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
@@ -137,6 +142,7 @@ func NewCommandExecutor[Req, Res any](
 		handler: handler,
 		timeout: to,
 		cache:   caching.New(wallclock.Instance),
+		log:     logger,
 	}
 	ce.listener = &listener[Req]{
 		app:              app,
@@ -163,15 +169,12 @@ func NewCommandExecutor[Req, Res any](
 
 // Start listening to the MQTT request topic.
 func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
-	err := ce.listener.listen(ctx)
-	return err
+	return ce.listener.start(ctx, commandExecutorComponentName)
 }
 
 // Close the command executor to free its resources.
 func (ce *CommandExecutor[Req, Res]) Close() {
-	ctx := context.Background()
-	ce.listener.close()
-	ce.listener.log.Info(ctx, "command executor shutdown complete")
+	ce.listener.close(commandExecutorComponentName)
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
@@ -179,26 +182,22 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	pub *mqtt.Message,
 	msg *Message[Req],
 ) error {
-	ce.listener.log.Debug(
-		ctx,
-		"request received",
-		slog.String("correlation_data", string(pub.CorrelationData)),
+	ce.log.Debug(ctx, "request received",
+		slog.String("topic", pub.Topic),
+		slog.Any("correlation_data", pub.CorrelationData),
 	)
 
 	if err := ignoreRequest(pub); err != nil {
-		ce.listener.log.Warn(ctx, err)
 		return err
 	}
 
 	if pub.MessageExpiry == 0 {
-		errNoExpiry := &errors.Remote{
+		return &errors.Remote{
 			Message: "message expiry missing",
 			Kind: errors.HeaderMissing{
 				HeaderName: constants.MessageExpiry,
 			},
 		}
-		ce.listener.log.Error(ctx, errNoExpiry)
-		return errNoExpiry
 	}
 
 	rpub, err := ce.cache.Exec(pub, func() (*mqtt.Message, error) {
@@ -218,13 +217,11 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 
 		res, err := ce.handle(handlerCtx, req)
 		if err != nil {
-			ce.listener.log.Warn(ctx, err)
 			return nil, err
 		}
 
 		rpub, err := ce.build(pub, res, nil)
 		if err != nil {
-			ce.listener.log.Error(ctx, err)
 			return nil, err
 		}
 
@@ -234,18 +231,20 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer ce.logPubAck(ctx, pub)
+	defer ce.ack(ctx, pub)
 
 	if rpub == nil {
 		return nil
 	}
 
-	err = ce.publisher.publish(ctx, rpub)
-	if err != nil {
+	if err = ce.publisher.publish(ctx, rpub); err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
 	} else {
-		ce.listener.log.Debug(ctx, "response sent", slog.String("correlation_data", string(pub.CorrelationData)))
+		ce.log.Debug(ctx, "response sent",
+			slog.String("topic", rpub.Topic),
+			slog.Any("correlation_data", rpub.CorrelationData),
+		)
 	}
 	return nil
 }
@@ -255,7 +254,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	defer pub.Ack()
+	defer ce.ack(ctx, pub)
 
 	if e := ignoreRequest(pub); e != nil {
 		return e
@@ -263,15 +262,21 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 
 	// If the error is a no-return error, don't send it.
 	if no, e := errutil.IsNoReturn(err); no {
-		ce.listener.log.Warn(ctx, e)
 		return e
 	}
 
-	rpub, err := ce.build(pub, nil, err)
-	if err != nil {
-		return err
+	rpub, e := ce.build(pub, nil, err)
+	if e != nil {
+		return e
 	}
-	return ce.publisher.publish(ctx, rpub)
+	if e := ce.publisher.publish(ctx, rpub); e != nil {
+		return e
+	}
+
+	// We successfully returned the error in the response, so just log it as a
+	// warning.
+	ce.log.Warn(ctx, err)
+	return nil
 }
 
 // Call handler with panic catch.
@@ -309,6 +314,11 @@ func (ce *CommandExecutor[Req, Res]) handle(
 				Message: ret.err.Error(),
 				Kind:    errors.ExecutionError{},
 			}
+		} else if ret.res == nil {
+			ret.err = &errors.Remote{
+				Message: "command handler returned no response",
+				Kind:    errors.ExecutionError{},
+			}
 		}
 	}()
 
@@ -316,7 +326,6 @@ func (ce *CommandExecutor[Req, Res]) handle(
 	case ret := <-rchan:
 		return ret.res, ret.err
 	case <-ctx.Done():
-		ce.listener.log.Warn(ctx, "command handler timed out")
 		return nil, errutil.Context(ctx, commandExecutorErrStr)
 	}
 }
@@ -327,23 +336,19 @@ func (ce *CommandExecutor[Req, Res]) build(
 	res *CommandResponse[Res],
 	resErr error,
 ) (*mqtt.Message, error) {
-	ctx := context.Background()
 	var msg *Message[Res]
 	if res != nil {
 		msg = &res.Message
 	}
 	rpub, err := ce.publisher.build(msg, nil, pubTimeout(pub))
 	if err != nil {
-		ce.listener.log.Error(ctx, err)
 		return nil, err
 	}
 
 	rpub.CorrelationData = pub.CorrelationData
 	rpub.Topic = pub.ResponseTopic
 	rpub.MessageExpiry = pub.MessageExpiry
-	for key, val := range errutil.ToUserProp(resErr) {
-		rpub.UserProperties[key] = val
-	}
+	maps.Copy(rpub.UserProperties, errutil.ToUserProp(resErr))
 
 	return rpub, nil
 }
@@ -370,16 +375,15 @@ func ignoreRequest(pub *mqtt.Message) error {
 	return nil
 }
 
-// Log that the request was acked.
-func (ce *CommandExecutor[Req, Res]) logPubAck(
+// Ack the request and log it.
+func (ce *CommandExecutor[Req, Res]) ack(
 	ctx context.Context,
 	pub *mqtt.Message,
 ) {
 	pub.Ack()
-	ce.listener.log.Debug(
-		ctx,
-		"request acked",
-		slog.String("correlation_data", string(pub.CorrelationData)),
+	ce.log.Debug(ctx, "request acked",
+		slog.String("topic", pub.Topic),
+		slog.Any("correlation_data", pub.CorrelationData),
 	)
 }
 
@@ -401,9 +405,6 @@ func Respond[Res any](
 ) (*CommandResponse[Res], error) {
 	var opts RespondOptions
 	opts.Apply(opt)
-
-	// TODO: Valid metadata keys will be validated by the response publish, but
-	// consider whether we also want to validate them here preemptively.
 
 	return &CommandResponse[Res]{Message[Res]{
 		Payload:  payload,
