@@ -15,12 +15,7 @@ public class LibraryManagedConnectionWorker(MqttSessionClient sessionClient, ILo
     {
         sessionClient.SessionLostAsync += OnCrash;
         sessionClient.ApplicationMessageReceivedAsync += OnMessageReceived;
-        MqttConnectionSettings mcs = new MqttConnectionSettings("localhost")
-        {
-            TcpPort = 1883,
-            UseTls = false,
-            ClientId = "LibraryManagedConnectionClient"
-        };
+        MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVar();
 
         await sessionClient.ConnectAsync(mcs, cancellationToken);
 
