@@ -170,15 +170,16 @@ where
         match get_result {
             Ok(response) => Ok(response.payload.schema),
             Err(e) => {
-                match e.kind {
-                    // TODO: Mitigation to handle a "not found" response from the schema registry service
-                    // sending an empty payload. This should be removed once the schema registry service
-                    // is updated to return a proper error response.
-                    azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid => {
-                        Ok(None)
-                    },
-                    _ => Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e))),
+                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
+                    if let Some(nested_error) = &e.nested_error {
+                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
+                            if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
+                                return Ok(None);
+                            }
+                        }
+                    }
                 }
+                Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e)))
             }
         }
     }
