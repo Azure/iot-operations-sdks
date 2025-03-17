@@ -172,7 +172,7 @@ The Deployment contains the following information:
 
               env:
                 - name: MQTT_CLIENT_ID
-                  value: "<client-id>"  # Replace this the MQTT client id of your choosing
+                  value: "<client-id>"  # Replace this with the MQTT client id of your choosing
                 - name: AIO_BROKER_HOSTNAME
                   value: "aio-broker"
                 - name: AIO_BROKER_TCP_PORT
