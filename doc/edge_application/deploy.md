@@ -145,8 +145,7 @@ The Deployment contains the following information:
           labels:
             app: sdk-application
         spec:
-          serviceAccountName: mqtt-client   # The service account to usefor generating the token
-
+          serviceAccountName: mqtt-client   # The service account to use for generating the token
           volumes:
             - name: mqtt-client-token
               projected:
