@@ -1,5 +1,5 @@
 [package]
-name = "output_worker"
+name = "output_client"
 version = "0.1.0"
 edition = "2021"
 

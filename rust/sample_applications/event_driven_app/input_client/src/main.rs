@@ -28,6 +28,7 @@ use tokio::sync::Notify;
 const STATE_STORE_SENSOR_KEY: &str = "event_app_sample";
 const WINDOW_SIZE: i64 = 60;
 const DEFAULT_STATE_STORE_OPERATION_TIMEOUT: Duration = Duration::from_secs(10);
+const SENSOR_DATA_TOPIC: &str = "sensor/data";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -38,20 +39,14 @@ async fn main() {
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::default()
-        .hostname("localhost")
-        .client_id("EventDrivenApp-input")
-        .tcp_port(1883u16)
-        .use_tls(false)
-        // .ca_file("../../../.session/broker-ca.crt".to_string())
-        // .sat_file("../../../.session/token.txt".to_string())
-        .clean_start(true)
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .unwrap()
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()
-        .unwrap()
+        .unwrap();
     let session = Session::new(session_options).unwrap();
 
     // Create application context
@@ -93,7 +88,7 @@ async fn receive_telemetry(
     incoming_sensor_data_notify: Arc<Notify>,
 ) {
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
-        .topic_pattern("sensor/data".to_string())
+        .topic_pattern(SENSOR_DATA_TOPIC.to_string())
         .build()
         .expect("Telemetry receiver options should not fail");
 

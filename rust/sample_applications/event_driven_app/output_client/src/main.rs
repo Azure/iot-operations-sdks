@@ -28,24 +28,19 @@ const PUBLISH_INTERVAL: Duration = Duration::from_secs(10);
 const STATE_STORE_SENSOR_KEY: &str = "event_app_sample";
 const WINDOW_SIZE: i64 = 60;
 const DEFAULT_STATE_STORE_OPERATION_TIMEOUT: Duration = Duration::from_secs(10);
+const WINDOW_DATA_TOPIC: &str = "sensor/window_data";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     env_logger::Builder::new()
-        .filter_level(log::LevelFilter::Warn)
+        .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::default()
-        .hostname("localhost")
-        .client_id("EventDrivenApp-output")
-        .tcp_port(1883u16)
-        .use_tls(false)
-        // .ca_file("../../../.session/broker-ca.crt".to_string())
-        // .sat_file("../../../.session/token.txt".to_string())
-        .clean_start(true)
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .unwrap()
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
@@ -78,7 +73,7 @@ async fn process_window(
 ) {
     // Create sender
     let sender_options = TelemetrySenderOptionsBuilder::default()
-        .topic_pattern("sensor/window_data")
+        .topic_pattern(WINDOW_DATA_TOPIC)
         .build()
         .expect("Telemetry sender options should not fail");
     let sender = TelemetrySender::new(application_context.clone(), client.clone(), sender_options)
