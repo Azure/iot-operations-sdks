@@ -26,7 +26,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: sql-server-auth-creds
+  name: sql-server-auth-credentials
   namespace: azure-iot-operations
 type: Opaque
 data:
@@ -77,7 +77,7 @@ spec:
             - name: SA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: sql-server-auth-creds
+                  name: sql-server-auth-credentials
                   key: SA_PASSWORD
           volumeMounts:
             - name: mssqldb

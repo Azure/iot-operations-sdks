@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: rest-server-auth-creds
+  name: rest-server-auth-credentials
 type: Opaque
 data:
   username: c29tZS11c2VybmFtZQ== # "some-username"
@@ -31,12 +31,12 @@ spec:
             - name: SERVICE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: rest-server-auth-creds
+                  name: rest-server-auth-credentials
                   key: username
             - name: SERVICE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: rest-server-auth-creds
+                  name: rest-server-auth-credentials
                   key: password
 ---
 apiVersion: v1

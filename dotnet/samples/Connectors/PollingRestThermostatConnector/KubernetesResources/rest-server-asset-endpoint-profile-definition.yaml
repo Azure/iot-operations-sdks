@@ -10,8 +10,8 @@ spec:
   authentication:
     method: UsernamePassword
     usernamePasswordCredentials:
-      usernameSecretName: rest-server-auth-creds/username
-      passwordSecretName: rest-server-auth-creds/password
+      usernameSecretName: rest-server-auth-credentials/username
+      passwordSecretName: rest-server-auth-credentials/password
   discoveredAssetEndpointProfileRef: my-rest-thermostat-discovered-asset-endpoint-profile
   endpointProfileType: rest-thermostat
   targetAddress: http://rest-server-service.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
