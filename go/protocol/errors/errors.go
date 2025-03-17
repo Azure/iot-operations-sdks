@@ -5,6 +5,7 @@ package errors
 import "time"
 
 type (
+	// Kind defines the type of protocol error being thrown.
 	Kind interface {
 		String() string
 
@@ -26,40 +27,58 @@ type (
 		Kind    Kind
 	}
 
+	// Timeout errors indicate that the operation was aborted due to timeout.
 	Timeout struct {
 		TimeoutName  string
 		TimeoutValue time.Duration
 	}
 
+	// Cancellation errors indicate that the operation was canceled.
 	Cancellation struct{}
 
+	// ConfigurationInvalid errors indicate that a provided configuration value
+	// or argument is invalid.
 	ConfigurationInvalid struct {
 		PropertyName  string
 		PropertyValue any
 	}
 
+	// MqttError errors indicate that the MQTT communication encountered an
+	// error and failed.
 	MqttError struct{}
 
+	// HeaderMissing errors indicate that a required MQTT header property is
+	// missing from the received message.
 	HeaderMissing struct {
 		HeaderName string
 	}
 
+	// HeaderInvalid errors indicate that an MQTT header property is has an
+	// invalid value in the received message.
 	HeaderInvalid struct {
 		HeaderName  string
 		HeaderValue string
 	}
 
+	// PayloadInvalid errors indicate that the MQTT payload cannot be
+	// serialized/deserialized.
 	PayloadInvalid struct{}
 
+	// StateInvalid errors indicate that the current program state is invalid
+	// relative to the method that was called.
 	StateInvalid struct {
 		PropertyName string
 	}
 
+	// InternalLogicError errors indicate that the client or service observed a
+	// condition that was thought to be impossible.
 	InternalLogicError struct {
 		// Deprecated: Only for wire protocol compat.
 		PropertyName string
 	}
 
+	// UnknownError errors indicate that the client or service received an
+	// unexpected error from a dependent component.
 	UnknownError struct {
 		// Deprecated: Only for schemaregistry compat.
 		PropertyName string
@@ -67,8 +86,12 @@ type (
 		PropertyValue any
 	}
 
+	// ExecutionError errors indicate that the command processor encountered an
+	// error while executing the command.
 	ExecutionError struct{}
 
+	// UnsupportedVersion errors indicate that the command processor or receiver
+	// doesn't support the provided protocol version.
 	UnsupportedVersion struct {
 		ProtocolVersion                string
 		SupportedMajorProtocolVersions []int
