@@ -34,13 +34,13 @@ func decryptPEMBlock(block *pem.Block, password []byte) ([]byte, error) {
 		return nil, errors.New("PEM block is nil")
 	}
 
-	// Extract the salt (first 8 bytes)
+	// Extract the salt (first 8 bytes).
 	salt := block.Bytes[:8]
 
-	// Derive key using PBKDF2
+	// Derive key using PBKDF2.
 	key := pbkdf2.Key(password, salt, 10000, 32, sha3.New256)
 
-	// Decrypt the block using AES-GCM
+	// Decrypt the block using AES-GCM.
 	return aesGCMDecrypt(block.Bytes[8:], key)
 }
 
@@ -51,9 +51,9 @@ func aesGCMDecrypt(encrypted, key []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	// AES-GCM typically uses a 12-byte(96-bit) nonce(random number).
-	// This size is recommended because it provides a good balance
-	// between security and performance.
+	// AES-GCM typically uses a 12-byte(96-bit) nonce(random number). This size
+	// is recommended because it provides a good balance between security and
+	// performance.
 	if len(encrypted) < aesGcmNonce {
 		return nil, errors.New("ciphertext in PEM block is too short")
 	}
@@ -96,9 +96,8 @@ func loadX509KeyPairWithPassword(
 		)
 	}
 
-	// x509.DecryptPEMBlock is deprecated due to insecurity,
-	// and x509 library doesn't want to support it:
-	// https://github.com/golang/go/issues/8860
+	// x509.DecryptPEMBlock is deprecated due to insecurity, and x509 library
+	// doesn't want to support it: https://github.com/golang/go/issues/8860
 	decryptedDERBlock, err := decryptPEMBlock(keyDERBlock, password)
 	if err != nil {
 		return tls.Certificate{}, err

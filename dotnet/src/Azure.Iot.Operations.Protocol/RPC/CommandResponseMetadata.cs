@@ -111,19 +111,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             foreach (KeyValuePair<string, string> kvp in UserData)
             {
-                if (kvp.Key.StartsWith(AkriSystemProperties.ReservedPrefix, StringComparison.InvariantCulture))
-                {
-                    throw new AkriMqttException($"Invalid user property \"{kvp.Key}\" starts with reserved prefix {AkriSystemProperties.ReservedPrefix}")
-                    {
-                        Kind = AkriMqttErrorKind.ExecutionException,
-                        InApplication = true,
-                        IsShallow = false,
-                        IsRemote = false,
-                        PropertyName = "Metadata",
-                        PropertyValue = kvp.Key,
-                    };
-                }
-
                 message.AddUserProperty(kvp.Key, kvp.Value);
             }
         }

@@ -69,7 +69,7 @@ func (c *SessionClient) sendOutgoingPublish(
 	pahoClient *paho.Client,
 	pub *outgoingPublish,
 ) bool {
-	// NOTE: we cannot get back the PUBACK on this due to a limitation in Paho
+	// NOTE: We cannot get back the PUBACK on this due to a limitation in Paho
 	// (see https://github.com/eclipse/paho.golang/issues/216). We should
 	// consider submitting a PR to Paho to address this gap.
 	c.log.Packet(ctx, "publish", pub.packet)

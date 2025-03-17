@@ -19,24 +19,24 @@ import (
 func createEncryptedPEMBlock(
 	password []byte,
 ) (*pem.Block, []byte, error) {
-	// Create a random salt
+	// Create a random salt.
 	salt := make([]byte, 8)
 	_, err := rand.Read(salt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	// Derive key using PBKDF2
+	// Derive key using PBKDF2.
 	key := pbkdf2.Key(password, salt, 10000, 32, sha3.New256)
 
-	// Create a random nonce
+	// Create a random nonce.
 	nonce := make([]byte, 12)
 	_, err = rand.Read(nonce)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	// Create a new AES cipher
+	// Create a new AES cipher.
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, nil, err
@@ -47,18 +47,18 @@ func createEncryptedPEMBlock(
 		return nil, nil, err
 	}
 
-	// Create random plaintext
+	// Create random plaintext.
 	plaintext := []byte("spongebob")
 
-	// Encrypt the plaintext
+	// Encrypt the plaintext.
 	ciphertext := gcm.Seal(nil, nonce, plaintext, nil)
 
-	// Combine salt, nonce, and ciphertext
+	// Combine salt, nonce, and ciphertext.
 	encrypted := salt
 	encrypted = append(encrypted, nonce...)
 	encrypted = append(encrypted, ciphertext...)
 
-	// Create a PEM block
+	// Create a PEM block.
 	pemBlock := &pem.Block{
 		Type:  "ENCRYPTED MESSAGE",
 		Bytes: encrypted,
@@ -96,7 +96,7 @@ func TestDecryptPEMBlock(t *testing.T) {
 	t.Run("TooShortCiphertext", func(t *testing.T) {
 		invalidBlock := &pem.Block{
 			Type:  "ENCRYPTED MESSAGE",
-			Bytes: block.Bytes[:19], // Too short ciphertext
+			Bytes: block.Bytes[:19], // Too short ciphertext.
 		}
 		_, err := decryptPEMBlock(invalidBlock, password)
 		require.Error(

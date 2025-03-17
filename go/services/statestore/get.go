@@ -28,9 +28,10 @@ func (c *Client[K, V]) Get(
 	ctx context.Context,
 	key K,
 	opt ...GetOption,
-) (*Response[V], error) {
-	if err := c.validateKey(ctx, key); err != nil {
-		return nil, err
+) (res *Response[V], err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
 	}
 
 	var opts GetOptions
@@ -38,7 +39,7 @@ func (c *Client[K, V]) Get(
 
 	c.logK(ctx, "GET", key)
 	req := resp.OpK("GET", key)
-	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req, c.log)
+	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }
 
 // Apply resolves the provided list of options.

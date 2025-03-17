@@ -56,20 +56,7 @@ type (
 		*Data
 	}
 
-	// InvocationError represents an error intentionally returned by a handler
-	// to indicate incorrect invocation.
-	InvocationError struct {
-		Message       string
-		PropertyName  string
-		PropertyValue any
-	}
-
 	// Option represents any of the option types, and can be filtered and
 	// applied by the ApplyOptions methods on the option structs.
 	Option interface{ option() }
 )
-
-// Error returns the invocation error as a string.
-func (e InvocationError) Error() string {
-	return e.Message
-}

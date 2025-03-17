@@ -4,6 +4,7 @@ package schemaregistry
 
 import (
 	"context"
+	"maps"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -40,6 +41,7 @@ func (c *Client) Put(
 
 	req := schemaregistry.PutRequestSchema{
 		SchemaContent: &content,
+		SchemaType:    &opts.SchemaType,
 		Format:        &format,
 		Tags:          opts.Tags,
 		Version:       &opts.Version,
@@ -52,7 +54,7 @@ func (c *Client) Put(
 		protocol.WithMetadata{"__invId": c.invID},
 	)
 	if err != nil {
-		return nil, err
+		return nil, translateError(err)
 	}
 	return &res.Payload.Schema, nil
 }
@@ -68,6 +70,17 @@ func (o *PutOptions) put(opt *PutOptions) {
 	if o != nil {
 		*opt = *o
 	}
+}
+
+func (o WithSchemaType) put(opt *PutOptions) {
+	opt.SchemaType = SchemaType(o)
+}
+
+func (o WithTags) put(opt *PutOptions) {
+	if opt.Tags == nil {
+		opt.Tags = make(map[string]string, len(o))
+	}
+	maps.Copy(opt.Tags, o)
 }
 
 func (o WithTimeout) put(opt *PutOptions) {

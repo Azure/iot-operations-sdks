@@ -13,12 +13,13 @@ import (
 )
 
 type result struct {
-	status           int
-	error            *errors.Remote
-	name             string
-	value            any
-	version          string
-	supportedVersion []int
+	status            int
+	message           string
+	application       bool
+	name              string
+	value             any
+	version           string
+	supportedVersions []int
 }
 
 func ToUserProp(err error) map[string]string {
@@ -26,141 +27,93 @@ func ToUserProp(err error) map[string]string {
 		return (&result{status: 200}).props()
 	}
 
-	if clientErr, ok := err.(*errors.Client); ok {
-		remoteErr := &errors.Remote{
-			Base: clientErr.Base,
-		}
-		switch clientErr.Kind {
-		case errors.ArgumentInvalid:
-			remoteErr.Kind = errors.ExecutionException
-			remoteErr.InApplication = true
-		case errors.PayloadInvalid:
-			remoteErr.Kind = errors.PayloadInvalid
-		case errors.HeaderMissing:
-			remoteErr.Kind = errors.HeaderMissing
-		case errors.HeaderInvalid:
-			remoteErr.Kind = errors.HeaderInvalid
-		case errors.StateInvalid:
-			remoteErr.Kind = errors.StateInvalid
-		default:
-			remoteErr.Kind = errors.UnknownError
-		}
-
-		err = remoteErr
-	}
-
-	e, ok := err.(*errors.Remote)
-	if !ok {
+	var message string
+	var kind errors.Kind
+	switch e := err.(type) {
+	case *errors.Client:
+		message = e.Message
+		kind = e.Kind
+	case *errors.Remote:
+		message = e.Message
+		kind = e.Kind
+	default:
 		return (&result{
-			status: 400,
-			error: &errors.Remote{
-				Base: errors.Base{
-					Message: "invalid payload",
-					Kind:    errors.PayloadInvalid,
-				},
-			},
+			status:  500,
+			message: "invalid error",
 		}).props()
 	}
 
-	switch e.Kind {
+	switch k := kind.(type) {
 	case errors.HeaderMissing:
 		return (&result{
-			status: 400,
-			error:  e,
-			name:   e.HeaderName,
+			status:  400,
+			message: message,
+			name:    k.HeaderName,
 		}).props()
 	case errors.HeaderInvalid:
-		if e.HeaderName == constants.ContentType ||
-			e.HeaderName == constants.FormatIndicator {
+		if k.HeaderName == constants.ContentType ||
+			k.HeaderName == constants.FormatIndicator {
 			return (&result{
-				status: 415,
-				error:  e,
-				name:   e.HeaderName,
-				value:  e.HeaderValue,
+				status:  415,
+				message: message,
+				name:    k.HeaderName,
+				value:   k.HeaderValue,
 			}).props()
 		}
 		return (&result{
-			status: 400,
-			error:  e,
-			name:   e.HeaderName,
-			value:  e.HeaderValue,
+			status:  400,
+			message: message,
+			name:    k.HeaderName,
+			value:   k.HeaderValue,
 		}).props()
 	case errors.PayloadInvalid:
 		return (&result{
-			status: 400,
-			error:  e,
+			status:  400,
+			message: message,
 		}).props()
 	case errors.Timeout:
 		return (&result{
-			status: 408,
-			error:  e,
-			name:   e.TimeoutName,
-			value:  duration.Format(e.TimeoutValue),
-		}).props()
-	case errors.ArgumentInvalid:
-		// Treat "argument invalid" as "execution exception" over the wire.
-		// This can happen e.g. for invalid header names.
-		return (&result{
-			status: 500,
-			error: &errors.Remote{
-				Base: errors.Base{
-					Message: e.Message,
-					Kind:    errors.ExecutionException,
-				},
-				InApplication: true,
-			},
-			name:  e.PropertyName,
-			value: e.PropertyValue,
+			status:  408,
+			message: message,
+			name:    k.TimeoutName,
+			value:   duration.Format(k.TimeoutValue),
 		}).props()
 	case errors.StateInvalid:
 		return (&result{
-			status: 503,
-			error:  e,
-			name:   e.PropertyName,
-			value:  e.PropertyValue,
+			status:  503,
+			message: message,
+			name:    k.PropertyName,
 		}).props()
 	case errors.InternalLogicError:
 		return (&result{
-			status: 500,
-			error:  e,
-			name:   e.PropertyName,
+			status:  500,
+			message: message,
+			//nolint:staticcheck // Capture for wire protocol compat.
+			name: k.PropertyName,
 		}).props()
 	case errors.UnknownError:
 		return (&result{
-			status: 500,
-			error:  e,
+			status:  500,
+			message: message,
 		}).props()
-	case errors.InvocationException:
+	case errors.ExecutionError:
 		return (&result{
-			status: 422,
-			error:  e,
-			name:   e.PropertyName,
-			value:  e.PropertyValue,
+			status:      500,
+			message:     message,
+			application: true,
 		}).props()
-	case errors.ExecutionException:
-		// Note: The error should always be flagged InApplication in this case.
+	case errors.UnsupportedVersion:
 		return (&result{
-			status: 500,
-			error:  e,
-			name:   e.PropertyName,
-		}).props()
-	case errors.UnsupportedRequestVersion:
-		return (&result{
-			status:           505,
-			error:            e,
-			version:          e.ProtocolVersion,
-			supportedVersion: e.SupportedMajorProtocolVersions,
+			status:            505,
+			message:           message,
+			version:           k.ProtocolVersion,
+			supportedVersions: k.SupportedMajorProtocolVersions,
 		}).props()
 	default:
 		return (&result{
-			status: 500,
-			error: &errors.Remote{
-				Base: errors.Base{
-					Message: "invalid error kind",
-					Kind:    errors.InternalLogicError,
-				},
-			},
-			name: "Kind",
+			status:  500,
+			message: "invalid error kind",
+			name:    "Kind",
 		}).props()
 	}
 }
@@ -174,10 +127,9 @@ func FromUserProp(user map[string]string) error {
 	supportedVersions := user[constants.SupportedProtocolMajorVersion]
 
 	if status == "" {
-		return &errors.Remote{
-			Base: errors.Base{
-				Message:    "status missing",
-				Kind:       errors.HeaderMissing,
+		return &errors.Client{
+			Message: "status missing",
+			Kind: errors.HeaderMissing{
 				HeaderName: constants.Status,
 			},
 		}
@@ -185,13 +137,13 @@ func FromUserProp(user map[string]string) error {
 
 	code, err := strconv.ParseInt(status, 10, 32)
 	if err != nil {
-		return &errors.Remote{
-			Base: errors.Base{
-				Message:     "status is not a valid integer",
-				Kind:        errors.HeaderInvalid,
+		return &errors.Client{
+			Message: "status is not a valid integer",
+			Kind: errors.HeaderInvalid{
 				HeaderName:  constants.Status,
 				HeaderValue: status,
 			},
+			Nested: err,
 		}
 	}
 
@@ -200,76 +152,72 @@ func FromUserProp(user map[string]string) error {
 		return nil
 	}
 
-	e := &errors.Remote{
-		Base: errors.Base{
-			Message: statusMessage,
-		},
-		HTTPStatusCode: int(code),
-	}
-
-	appErr := user[constants.IsApplicationError]
-	if appErr != "" && appErr != "false" {
-		e.InApplication = true
-	}
+	e := &errors.Remote{Message: statusMessage}
 
 	switch code {
 	case 400, 415:
 		switch {
 		case propertyName == "" && propertyValue == "":
-			e.Kind = errors.PayloadInvalid
+			e.Kind = errors.PayloadInvalid{}
 		case propertyValue == "":
-			e.Kind = errors.HeaderMissing
+			e.Kind = errors.HeaderMissing{
+				HeaderName: propertyName,
+			}
 		default:
-			e.Kind = errors.HeaderInvalid
+			e.Kind = errors.HeaderInvalid{
+				HeaderName:  propertyName,
+				HeaderValue: propertyValue,
+			}
 		}
-		e.HeaderName = propertyName
-		e.HeaderValue = propertyValue
 	case 408:
 		to, err := duration.Parse(propertyValue)
 		if err != nil {
-			return &errors.Remote{
-				Base: errors.Base{
-					Message:     "invalid timeout value",
-					Kind:        errors.HeaderInvalid,
+			return &errors.Client{
+				Message: "invalid timeout value",
+				Kind: errors.HeaderInvalid{
 					HeaderName:  constants.InvalidPropertyValue,
 					HeaderValue: propertyValue,
 				},
+				Nested: err,
 			}
 		}
-		e.Kind = errors.Timeout
-		e.TimeoutName = propertyName
-		e.TimeoutValue = to.ToTimeDuration()
-	case 422:
-		e.Kind = errors.InvocationException
-		e.PropertyName = propertyName
-		if propertyValue != "" {
-			e.PropertyValue = propertyValue
+		e.Kind = errors.Timeout{
+			TimeoutName:  propertyName,
+			TimeoutValue: to.ToTimeDuration(),
 		}
 	case 500:
+		appErr := user[constants.IsApplicationError]
 		switch {
-		case e.InApplication:
-			e.Kind = errors.ExecutionException
-		case propertyName == "":
-			e.Kind = errors.UnknownError
+		case appErr != "" && appErr != "false":
+			e.Kind = errors.ExecutionError{}
+		case propertyName != "":
+			e.Kind = errors.InternalLogicError{PropertyName: propertyName}
 		default:
-			e.Kind = errors.InternalLogicError
+			e.Kind = errors.UnknownError{}
 		}
-		e.PropertyName = propertyName
 	case 503:
-		e.Kind = errors.StateInvalid
-		e.PropertyName = propertyName
-		if propertyValue != "" {
-			e.PropertyValue = propertyValue
+		e.Kind = errors.StateInvalid{
+			PropertyName: propertyName,
 		}
 	case 505:
-		e.Kind = errors.UnsupportedRequestVersion
-		e.ProtocolVersion = protocolVersion
-		e.SupportedMajorProtocolVersions = version.SerializeSupported(
-			supportedVersions,
-		)
+		e.Kind = errors.UnsupportedVersion{
+			ProtocolVersion: protocolVersion,
+			SupportedMajorProtocolVersions: version.ParseSupported(
+				supportedVersions,
+			),
+		}
 	default:
 		// Treat unknown status as an unknown error, but otherwise allow them.
-		e.Kind = errors.UnknownError
+		k := errors.UnknownError{}
+
+		//nolint:staticcheck // Capture 422 data for schemaregistry.
+		k.PropertyName = propertyName
+		if propertyValue != "" {
+			//nolint:staticcheck // Capture 422 data for schemaregistry.
+			k.PropertyValue = propertyValue
+		}
+
+		e.Kind = k
 	}
 
 	return e
@@ -280,11 +228,9 @@ func (r *result) props() map[string]string {
 
 	props[constants.Status] = fmt.Sprint(r.status)
 
-	if r.error != nil {
-		props[constants.StatusMessage] = r.error.Message
-		if r.error.InApplication {
-			props[constants.IsApplicationError] = "true"
-		}
+	props[constants.StatusMessage] = r.message
+	if r.application {
+		props[constants.IsApplicationError] = "true"
 	}
 
 	if r.name != "" {
@@ -296,8 +242,8 @@ func (r *result) props() map[string]string {
 
 	if r.version != "" {
 		props[constants.RequestProtocolVersion] = r.version
-		props[constants.SupportedProtocolMajorVersion] = version.ParseInt(
-			r.supportedVersion,
+		props[constants.SupportedProtocolMajorVersion] = version.SerializeSupported(
+			r.supportedVersions,
 		)
 	}
 
