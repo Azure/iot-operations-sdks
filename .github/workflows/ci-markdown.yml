@@ -20,7 +20,6 @@ jobs:
 
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
-        continue-on-error: true
         with:
           files: "**/*"
           config: ".vscode/cspell.json"
@@ -35,9 +34,7 @@ jobs:
       
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
-        continue-on-error: true
         with:
           config_file: .github/.linkspector.yml
-          fail_on_error: true
+          fail_level: warning
           filter_mode: nofilter
-          level: warning
