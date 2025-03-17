@@ -18,12 +18,12 @@ type (
 
 	// SessionClientOptions are the resolved options for the session client.
 	SessionClientOptions struct {
-		CleanStart            bool
-		KeepAlive             uint16
-		SessionExpiry         uint32
-		ReceiveMaximum        uint16
-		ConnectUserProperties map[string]string
-		NoAIOBrokerFeatures   bool
+		CleanStart               bool
+		KeepAlive                uint16
+		SessionExpiry            uint32
+		ReceiveMaximum           uint16
+		ConnectUserProperties    map[string]string
+		DisableAIOBrokerFeatures bool
 
 		ConnectionRetry   retry.Policy
 		ConnectionTimeout time.Duration
@@ -58,9 +58,10 @@ type (
 	// packet.
 	WithConnectUserProperties map[string]string
 
-	// WithNoAIOBrokerFeatures omits behavior specific to the AIO Broker. Only
-	// use this option if you are using another broker and encounter failures.
-	WithNoAIOBrokerFeatures bool
+	// WithDisableAIOBrokerFeatures disables behavior specific to the AIO
+	// Broker. Only use this option if you are using another broker and
+	// encounter failures.
+	WithDisableAIOBrokerFeatures bool
 
 	// WithUsername sets the UsernameProvider that the session client uses to
 	// get the username for each connection.
@@ -118,8 +119,8 @@ func (o WithConnectUserProperties) sessionClient(opt *SessionClientOptions) {
 	maps.Copy(opt.ConnectUserProperties, o)
 }
 
-func (o WithNoAIOBrokerFeatures) sessionClient(opt *SessionClientOptions) {
-	opt.NoAIOBrokerFeatures = bool(o)
+func (o WithDisableAIOBrokerFeatures) sessionClient(opt *SessionClientOptions) {
+	opt.DisableAIOBrokerFeatures = bool(o)
 }
 
 func (o WithUsername) sessionClient(opt *SessionClientOptions) {

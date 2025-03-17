@@ -112,7 +112,7 @@ func NewSessionClient(
 		}
 	}
 
-	if !client.options.NoAIOBrokerFeatures {
+	if !client.options.DisableAIOBrokerFeatures {
 		if client.options.ConnectUserProperties == nil {
 			client.options.ConnectUserProperties = make(map[string]string, 1)
 		}
