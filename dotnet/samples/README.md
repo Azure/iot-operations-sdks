@@ -28,7 +28,7 @@ This directory contains a variety of samples demonstrating how to use the .NET p
 1. Run the sample using the default [environment](/.env):
 
     ```bash
-    source $AIOSDK/.env; dotnet run
+    source `git rev-parse --show-toplevel`/.env; dotnet run
     ```
 
 ## Samples
