@@ -79,7 +79,7 @@ public class OutputWorker(ApplicationContext applicationContext, SessionClientFa
                     Vibration = AggregateSensor(inputData, s => s.Vibration)
                 };
 
-                await sender.SendTelemetryAsync(outputData, MqttQualityOfServiceLevel.AtMostOnce, null, cancellationToken);
+                await sender.SendTelemetryAsync(outputData, null, MqttQualityOfServiceLevel.AtMostOnce, cancellationToken: cancellationToken);
 
                 logger.LogInformation("Published window data: {data}", JsonSerializer.Serialize(outputData, serializeOptions));
             }

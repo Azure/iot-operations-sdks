@@ -81,8 +81,8 @@ public class GreeterEnvoy
 
         public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
-            await sayHelloExecutor.StartAsync(preferredDispatchConcurrency, null, cancellationToken);
-            await sayHelloWithDelayExecutor.StartAsync(preferredDispatchConcurrency, null, cancellationToken);
+            await sayHelloExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
+            await sayHelloWithDelayExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => throw new NotImplementedException();

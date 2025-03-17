@@ -19,17 +19,12 @@ func (c *Client[K, V]) reconnect(ctx context.Context) {
 
 		// We call KEYNOTIFY raw to not touch the refcount (or more importantly
 		// the lock we're currently under).
+		c.logK(ctx, "KEYNOTIFY", key)
+		req := resp.OpK("KEYNOTIFY", key)
 		//nolint:errcheck // TODO: Is there anything useful to do if this fails?
 		// Even bailing out of the loop is unnecessary since we can still return
 		// the latest value as a best effort.
-		invoke(
-			ctx,
-			c.invoker,
-			parseOK,
-			&opts,
-			resp.OpK("KEYNOTIFY", key),
-			c.log,
-		)
+		invoke(ctx, c.invoker, parseOK, &opts, req)
 
 		// Get the latest value and artificially generate a notification.
 		res, err := c.Get(ctx, key)

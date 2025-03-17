@@ -31,6 +31,10 @@ func main() {
 	counterServerID := os.Getenv("COUNTER_SERVER_ID")
 	slog.Info("initialized MQTT client", "counter_server_id", counterServerID)
 
+	if counterServerID == "" {
+		panic("COUNTER_SERVER_ID must be set to the server's MQTT client ID")
+	}
+
 	client := must(counter.NewCounterClient(
 		app,
 		mqttClient,
@@ -64,7 +68,7 @@ func runCounterCommands(ctx context.Context, client *counter.CounterClient, serv
 	resp := must(client.ReadCounter(ctx, serverID))
 	slog.Info("read counter", "value", resp.Payload.CounterResponse)
 
-	for i := 0; i < 15; i++ {
+	for range 15 {
 		respIncr := must(client.Increment(ctx, serverID, counter.IncrementRequestPayload{
 			IncrementValue: 1,
 		}))

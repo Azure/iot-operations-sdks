@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+
+      - name: Install AvroGen
+        run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
+    
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with:

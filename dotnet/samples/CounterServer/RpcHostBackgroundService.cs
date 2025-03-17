@@ -15,7 +15,7 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, CounterServi
 
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
         logger.LogInformation("Connected to: {mcs} with session present: {s}", mcs, connAck.IsSessionPresent);
-        await counterService.StartAsync(null, stoppingToken);
+        await counterService.StartAsync(null, cancellationToken: stoppingToken);
     }
     protected ValueTask DisposeAsync() => counterService!.DisposeAsync();
 }

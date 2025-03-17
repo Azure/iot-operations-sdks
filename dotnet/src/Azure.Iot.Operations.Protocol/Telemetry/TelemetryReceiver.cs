@@ -27,8 +27,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         private readonly IMqttPubSubClient _mqttClient;
         private readonly IPayloadSerializer _serializer;
 
-        private readonly Dictionary<string, string> _topicTokenMap = [];
-
         private Dispatcher? _dispatcher;
 
         private bool _isRunning;
@@ -44,16 +42,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public string? TopicNamespace { get; set; }
 
         /// <summary>
-        /// Gets a dictionary for adding token keys and their replacement strings, which will be substituted in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
+        /// The topic token replacement map that this receiver will use by default. Generally, this will include the token values
+        /// for topic tokens such as "modelId" which should be the same for the duration of this receiver's lifetime.
         /// </summary>
-        public virtual Dictionary<string, string> TopicTokenMap => _topicTokenMap;
-
-        /// <summary>
-        /// Gets a dictionary used by this class's code for substituting tokens in telemetry topic patterns.
-        /// Can be overridden by a derived class, enabling the key/value pairs to be augmented and/or combined with other key/value pairs.
-        /// </summary>
-        protected virtual IReadOnlyDictionary<string, string> EffectiveTopicTokenMap => _topicTokenMap;
+        /// <remarks>
+        /// Tokens replacement values can also be specified when starting the receiver by specifying the additionalTopicToken map in <see cref="StartAsync(Dictionary{string, string}?, CancellationToken)"/>.
+        /// </remarks>
+        public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
         public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IPayloadSerializer serializer)
         {
@@ -71,6 +66,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             TopicPattern = AttributeRetriever.GetAttribute<TelemetryTopicAttribute>(this)?.Topic ?? string.Empty;
 
             mqttClient.ApplicationMessageReceivedAsync += MessageReceivedCallbackAsync;
+            TopicTokenMap = new();
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -146,6 +142,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
+        /// <summary>
+        /// Begin accepting telemetry.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -174,7 +174,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     throw AkriMqttException.GetConfigurationInvalidException(nameof(TopicNamespace), TopicNamespace, "MQTT topic namespace is not valid");
                 }
 
-                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, EffectiveTopicTokenMap, null, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
+                PatternValidity patternValidity = MqttTopicProcessor.ValidateTopicPattern(TopicPattern, TopicTokenMap, requireReplacement: false, out string errMsg, out string? errToken, out string? errReplacement);
                 if (patternValidity != PatternValidity.Valid)
                 {
                     throw patternValidity switch
@@ -237,7 +237,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 telemTopic.Append('/');
             }
 
-            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, EffectiveTopicTokenMap));
+            telemTopic.Append(MqttTopicProcessor.ResolveTopic(TopicPattern, TopicTokenMap));
 
             return telemTopic.ToString();
         }

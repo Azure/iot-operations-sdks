@@ -6,6 +6,7 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 
 ## Index
 
+- [Constants](<#constants>)
 - [type Global](<#Global>)
   - [func New\(opt ...HybridLogicalClockOption\) \*Global](<#New>)
   - [func \(g \*Global\) Get\(\) \(HybridLogicalClock, error\)](<#Global.Get>)
@@ -23,6 +24,14 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/hlc"
 - [type WithMaxClockDrift](<#WithMaxClockDrift>)
 
 
+## Constants
+
+<a name="DefaultMaxClockDrift"></a>DefaultMaxClockDrift is the default maximum HLC clock drift if none is otherwise specified \(one minute\).
+
+```go
+const DefaultMaxClockDrift = time.Minute
+```
+
 <a name="Global"></a>
 ## type [Global](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L30-L34>)
 
@@ -35,7 +44,7 @@ type Global struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L53>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L57>)
 
 ```go
 func New(opt ...HybridLogicalClockOption) *Global
@@ -44,7 +53,7 @@ func New(opt ...HybridLogicalClockOption) *Global
 New creates a new shared instance of an HLC. Only one of these should typically be created per application.
 
 <a name="Global.Get"></a>
-### func \(\*Global\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L71>)
+### func \(\*Global\) [Get](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L75>)
 
 ```go
 func (g *Global) Get() (HybridLogicalClock, error)
@@ -53,7 +62,7 @@ func (g *Global) Get() (HybridLogicalClock, error)
 Get syncs the shared HLC instance to the current time and returns it.
 
 <a name="Global.Parse"></a>
-### func \(\*Global\) [Parse](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L199>)
+### func \(\*Global\) [Parse](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L203>)
 
 ```go
 func (g *Global) Parse(name, value string) (HybridLogicalClock, error)
@@ -62,7 +71,7 @@ func (g *Global) Parse(name, value string) (HybridLogicalClock, error)
 Parse the HLC from a string.
 
 <a name="Global.Set"></a>
-### func \(\*Global\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L85>)
+### func \(\*Global\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L89>)
 
 ```go
 func (g *Global) Set(hlc HybridLogicalClock) error
@@ -82,7 +91,7 @@ type HybridLogicalClock struct {
 ```
 
 <a name="HybridLogicalClock.Compare"></a>
-### func \(HybridLogicalClock\) [Compare](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L162>)
+### func \(HybridLogicalClock\) [Compare](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L166>)
 
 ```go
 func (hlc HybridLogicalClock) Compare(other HybridLogicalClock) int
@@ -91,7 +100,7 @@ func (hlc HybridLogicalClock) Compare(other HybridLogicalClock) int
 Compare this HLC value with another one.
 
 <a name="HybridLogicalClock.IsZero"></a>
-### func \(HybridLogicalClock\) [IsZero](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L177>)
+### func \(HybridLogicalClock\) [IsZero](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L181>)
 
 ```go
 func (hlc HybridLogicalClock) IsZero() bool
@@ -100,7 +109,7 @@ func (hlc HybridLogicalClock) IsZero() bool
 IsZero returns whether this HLC matches its zero value.
 
 <a name="HybridLogicalClock.String"></a>
-### func \(HybridLogicalClock\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L184>)
+### func \(HybridLogicalClock\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L188>)
 
 ```go
 func (hlc HybridLogicalClock) String() string
@@ -109,7 +118,7 @@ func (hlc HybridLogicalClock) String() string
 String retrieves a serialized form of the HLC.
 
 <a name="HybridLogicalClock.UTC"></a>
-### func \(HybridLogicalClock\) [UTC](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L99>)
+### func \(HybridLogicalClock\) [UTC](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L103>)
 
 ```go
 func (hlc HybridLogicalClock) UTC() time.Time
@@ -118,7 +127,7 @@ func (hlc HybridLogicalClock) UTC() time.Time
 UTC returns the physical clock component of the HTC in UTC.
 
 <a name="HybridLogicalClock.Update"></a>
-### func \(HybridLogicalClock\) [Update](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L105-L107>)
+### func \(HybridLogicalClock\) [Update](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L109-L111>)
 
 ```go
 func (hlc HybridLogicalClock) Update(other HybridLogicalClock) (HybridLogicalClock, error)
@@ -149,7 +158,7 @@ type HybridLogicalClockOptions struct {
 ```
 
 <a name="HybridLogicalClockOptions.Apply"></a>
-### func \(\*HybridLogicalClockOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L244-L247>)
+### func \(\*HybridLogicalClockOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/hlc/hlc.go#L248-L251>)
 
 ```go
 func (o *HybridLogicalClockOptions) Apply(opts []HybridLogicalClockOption, rest ...HybridLogicalClockOption)

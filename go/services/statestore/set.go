@@ -35,29 +35,32 @@ func (c *Client[K, V]) Set(
 	key K,
 	val V,
 	opt ...SetOption,
-) (*Response[bool], error) {
-	if err := c.validateKey(ctx, key); err != nil {
-		return nil, err
+) (res *Response[bool], err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return nil, ArgumentError{Name: "key"}
 	}
 
 	var opts SetOptions
 	opts.Apply(opt)
 
 	var rest []string
+	var attr []slog.Attr
 	if opts.Condition != Always {
 		rest = append(rest, string(opts.Condition))
+		attr = append(attr, slog.String("condition", string(opts.Condition)))
 	}
 	switch {
 	case opts.Expiry < 0:
-		c.log.Warn(ctx, "negative expiry", slog.Duration("expiry", opts.Expiry))
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
 		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
+		attr = append(attr, slog.Duration("expiry", opts.Expiry))
 	}
 
+	c.logK(ctx, "SET", key, attr...)
 	req := resp.OpKV("SET", key, val, rest...)
-	c.logK(ctx, "SET", key, slog.Duration("expiry", opts.Expiry))
-	return invoke(ctx, c.invoker, parseOK, &opts, req, c.log)
+	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
 
 // Apply resolves the provided list of options.
