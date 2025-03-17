@@ -207,7 +207,7 @@ impl MqttConnectionSettingsBuilder {
             "BROKER_USE_TLS contains a value that could not be parsed as a boolean".to_string()
         })?;
 
-        // Optional SAT file path
+        // Optional SAT file path, so no need to validate that this file exists
         let sat_file = Some(string_from_environment("BROKER_SAT_MOUNT_PATH")?);
 
         let ca_file = Some(string_from_environment(
@@ -522,8 +522,12 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards")
             .as_secs();
+        let nanos = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .subsec_nanos();
 
-        let temp_dir_path = format!("/tmp/mqtt_test_{}_{}", pid, timestamp);
+        let temp_dir_path = format!("/tmp/mqtt_test_{}_{}_{}", pid, timestamp, nanos);
         let path_buf = PathBuf::from(&temp_dir_path);
 
         // Create the directory
@@ -587,6 +591,7 @@ mod tests {
 
     #[test]
     fn test_file_mount_missing_config_path() {
+        let _file_dir_mutex = FILE_DIR_MTX.lock();
         env::set_var("AEP_CONFIGMAP_MOUNT_PATH", "/path/that/does/not/exist");
 
         let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
@@ -600,6 +605,7 @@ mod tests {
 
     #[test]
     fn test_file_mount_missing_env_var() {
+        let _file_dir_mutex = FILE_DIR_MTX.lock();
         env::remove_var("AEP_CONFIGMAP_MOUNT_PATH");
 
         let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
@@ -817,6 +823,8 @@ mod tests {
             builder.sat_file,
             Some(Some("/path/to/sat/file.sat".to_string()))
         );
+        let settings_result = builder.build();
+        assert!(settings_result.is_ok());
 
         env::remove_var("BROKER_SAT_MOUNT_PATH");
         cleanup_temp_dir(&temp_dir);
@@ -843,7 +851,9 @@ mod tests {
         assert!(builder_result.is_ok());
 
         let builder = builder_result.unwrap();
-        assert_eq!(builder.ca_file, Some(Some(ca_path.to_string())));
+        assert_eq!(builder.ca_file, Some(Some("/path/to/ca/certs".to_string())));
+        let settings_result = builder.build();
+        assert!(settings_result.is_ok());
 
         env::remove_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH");
         cleanup_temp_dir(&temp_dir);
