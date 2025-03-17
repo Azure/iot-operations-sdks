@@ -96,7 +96,7 @@ func NewTelemetryReceiver[T any](
 		Name:     "ExecutionTimeout",
 		Text:     telemetryReceiverErrStr,
 	}
-	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
+	if err := to.Validate(); err != nil {
 		return nil, err
 	}
 
@@ -190,24 +190,6 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	return nil
 }
 
-var reservedProperties = map[string]struct{}{
-	"__ts":             {},
-	"__stat":           {},
-	"__stMsg":          {},
-	"__apErr":          {},
-	"__srcId":          {},
-	"__propName":       {},
-	"__propVal":        {},
-	"__protVer":        {},
-	"__supProtMajVer":  {},
-	"__requestProtVer": {},
-}
-
-func isReservedProperty(property string) bool {
-	_, reserved := reservedProperties[property]
-	return reserved
-}
-
 func (tr *TelemetryReceiver[T]) onErr(
 	_ context.Context,
 	pub *mqtt.Message,
@@ -234,11 +216,8 @@ func (tr *TelemetryReceiver[T]) handle(
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
 				err = &errors.Remote{
-					Base: errors.Base{
-						Message: fmt.Sprint(ePanic),
-						Kind:    errors.ExecutionException,
-					},
-					InApplication: true,
+					Message: fmt.Sprint(ePanic),
+					Kind:    errors.ExecutionError{},
 				}
 			}
 
@@ -253,24 +232,9 @@ func (tr *TelemetryReceiver[T]) handle(
 			// An error from the context overrides any return value.
 			err = e
 		} else if err != nil {
-			if e, ok := err.(InvocationError); ok {
-				err = &errors.Remote{
-					Base: errors.Base{
-						Message:       e.Message,
-						Kind:          errors.InvocationException,
-						PropertyName:  e.PropertyName,
-						PropertyValue: e.PropertyValue,
-					},
-					InApplication: true,
-				}
-			} else {
-				err = &errors.Remote{
-					Base: errors.Base{
-						Message: err.Error(),
-						Kind:    errors.ExecutionException,
-					},
-					InApplication: true,
-				}
+			err = &errors.Remote{
+				Message: err.Error(),
+				Kind:    errors.ExecutionError{},
 			}
 		}
 	}()

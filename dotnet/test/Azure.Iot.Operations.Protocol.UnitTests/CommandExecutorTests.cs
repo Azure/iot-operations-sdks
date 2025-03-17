@@ -61,10 +61,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", exception.PropertyName);
             Assert.Equal(MqttProtocolVersion.Unknown, exception.PropertyValue);
         }
@@ -81,10 +79,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", exception.PropertyName);
             Assert.Equal(MqttProtocolVersion.V310, exception.PropertyValue);
         }
@@ -101,10 +97,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("MQTTClient.ProtocolVersion", exception.PropertyName);
             Assert.Equal(MqttProtocolVersion.V311, exception.PropertyValue);
         }
@@ -121,10 +115,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("RequestTopicPattern", exception.PropertyName);
             Assert.Equal("mock/{improper/token}/echo", exception.PropertyValue);
         }
@@ -143,10 +135,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("CacheTtl", exception.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(-1), exception.PropertyValue);
         }
@@ -165,10 +155,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("CacheTtl", exception.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(-1), exception.PropertyValue);
         }
@@ -194,10 +182,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
             Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, exception.Kind);
-            Assert.False(exception.InApplication);
             Assert.True(exception.IsShallow);
             Assert.False(exception.IsRemote);
-            Assert.Null(exception.HttpStatusCode);
             Assert.Equal("ExecutionTimeout", exception.PropertyName);
             Assert.Equal(TimeSpan.FromSeconds(-1), exception.PropertyValue);
         }
