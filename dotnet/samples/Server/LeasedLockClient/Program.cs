@@ -7,7 +7,7 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 
-namespace LeasedLockSample;
+namespace LeasedLockClientSample;
 
 internal sealed class Program
 {

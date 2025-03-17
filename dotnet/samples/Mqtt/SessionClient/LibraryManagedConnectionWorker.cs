@@ -7,7 +7,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using System.Text;
 
-namespace ConnectionManagementSample;
+namespace SessionClientSample;
 
 public class LibraryManagedConnectionWorker(MqttSessionClient sessionClient, ILogger<LibraryManagedConnectionWorker> logger) : BackgroundService
 {

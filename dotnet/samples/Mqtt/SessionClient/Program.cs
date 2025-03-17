@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using ConnectionManagementSample;
-using SampleClient;
+using SessionClientSample;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

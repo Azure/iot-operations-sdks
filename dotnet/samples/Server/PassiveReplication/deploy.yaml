@@ -11,7 +11,7 @@ metadata:
   labels:
     app: passive-replication
 spec:
-  replicas: 2 # The number of passive replication pods to deploy
+  replicas: 5 # The number of passive replication pods to deploy
   selector:
     matchLabels:
       app: passive-replication
@@ -23,15 +23,15 @@ spec:
       serviceAccountName: passive-replication-service-account
       containers:
         - name: passive-replication-sample
-          image: k3d-registry.localhost:5000/passivereplicationsample:latest
-          imagePullPolicy: IfNotPresent
+          image: passivereplicationsample
+          imagePullPolicy: Never
           volumeMounts:
             - name: mqtt-client-token
               mountPath: /var/run/secrets/tokens
             - name: aio-ca-trust-bundle
               mountPath: /var/run/certs/aio-ca/
           env:
-            - name: MQTT_CLIENT_ID
+            - name: AIO_MQTT_CLIENT_ID
               value: "PassiveReplicationApp"
             - name: AIO_BROKER_HOSTNAME
               value: "aio-broker"
