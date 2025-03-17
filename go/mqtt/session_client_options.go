@@ -18,7 +18,6 @@ type (
 
 	// SessionClientOptions are the resolved options for the session client.
 	SessionClientOptions struct {
-		ClientID              string
 		CleanStart            bool
 		KeepAlive             uint16
 		SessionExpiry         uint32
@@ -39,10 +38,6 @@ type (
 	// attempt. If a timeout is desired for the entire connection process, it
 	// should be specified via the connection retry policy.
 	WithConnectionTimeout time.Duration
-
-	// WithClientID sets the client identifier. If not provided, it will default
-	// to a random valid client ID to support session reconnection.
-	WithClientID string
 
 	// WithCleanStart sets whether the initial connection will be made without
 	// retaining any existing session state. This is by definition set to false
@@ -93,10 +88,6 @@ func (o *SessionClientOptions) sessionClient(opt *SessionClientOptions) {
 
 func (o WithConnectionTimeout) sessionClient(opt *SessionClientOptions) {
 	opt.ConnectionTimeout = time.Duration(o)
-}
-
-func (o WithClientID) sessionClient(opt *SessionClientOptions) {
-	opt.ClientID = string(o)
 }
 
 func (o WithCleanStart) sessionClient(opt *SessionClientOptions) {

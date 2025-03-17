@@ -42,3 +42,12 @@ $gen --modelFile ../dtdl/CommandRaw.json --outDir ./TelemetryAndCommandNestedRaw
 [[ -d ./SharedComplexSchemasSample ]] && rm -r ./SharedComplexSchemasSample
 $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
+
+[[ -d ./ComplexTypeSchemaSample ]] && rm -r ./ComplexTypeSchemaSample
+mkdir ./ComplexTypeSchemaSample
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target/Akri
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target/Akri/ComplexTypeSchema
+cp ../json/complex-type-schema.schema.json ./ComplexTypeSchemaSample/complex_type_schema_gen/target/Akri/ComplexTypeSchema
+$gen --namespace ComplexTypeSchema --outDir ./ComplexTypeSchemaSample/complex_type_schema_gen --lang rust --sdkPath ../../../../rust
