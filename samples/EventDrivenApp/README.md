@@ -26,9 +26,9 @@ The **OutputWorker** performs the following steps:
 
 1. Open a shell in the tutorial directory for the language of your choice:
 
-    * [.NET](/dotnet/tutorials/EventDrivenApp)
+    * [.NET](/dotnet/samples/applications/EventDrivenApp)
     * [Go]()
-    * [Rust]() 
+    * [Rust]()
 
 > [!NOTE]
 > The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The setup instructions will configure the MQTT broker with this configuration.
