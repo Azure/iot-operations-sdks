@@ -18,7 +18,8 @@ use envoy::counter::client::{
 use tokio::time::sleep;
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() -> Result<(), String> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    //async fn main() {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
@@ -26,10 +27,9 @@ async fn main() -> Result<(), String> {
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?
-        //.unwrap()?
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .unwrap()
         .build()?;
-        //.unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()

@@ -20,7 +20,7 @@ const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
@@ -33,13 +33,11 @@ async fn main() {
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .reconnect_policy(Box::new(CustomReconnectPolicy::default()))
-        .build()
-        .unwrap();
+        .build()?;
 
     // Create a new session.
     let session = Session::new(session_options).unwrap();
@@ -53,7 +51,9 @@ async fn main() {
     ));
 
     // Run the session. This blocks until the session is exited.
-    session.run().await.unwrap();
+    session.run().await?;
+
+    Ok(())
 }
 
 /// Indefinitely receive

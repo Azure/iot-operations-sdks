@@ -13,12 +13,14 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
-const HOSTNAME: &str = "localhost";
+//const HOSTNAME: &str = "localhost";
+const HOSTNAME: &str = "test.mosquitto.org";
+
 const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
@@ -31,15 +33,13 @@ async fn main() {
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
 
     // Create a new session.
-    let session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options)?;
 
     // Spawn tasks for sending and receiving messages using managed clients
     // created from the session.
@@ -50,21 +50,25 @@ async fn main() {
     ));
 
     // Run the session. This blocks until the session is exited.
-    session.run().await.unwrap();
+    session.run().await?;
+
+    Ok(())
 }
 
 /// Indefinitely receive
+// async fn receive_messages(client: SessionManagedClient) -> Result<(), Box<dyn std::error::Error + Send>> {
 async fn receive_messages(client: SessionManagedClient) {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let mut receiver = client.create_filtered_pub_receiver(TOPIC).unwrap();
+    let mut receiver = client.create_filtered_pub_receiver(TOPIC);
     println!("Subscribing to {TOPIC}");
     client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
 
     // Receive indefinitely
-    loop {
-        let msg = receiver.recv().await.unwrap();
-        println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
+    while let Some(msg) = receiver.recv().await {
+        println!("Received: {:?}", msg.payload);
     }
+
+    Ok(())
 }
 
 /// Publish 10 messages, then exit
