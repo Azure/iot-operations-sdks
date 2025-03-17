@@ -165,13 +165,22 @@ where
                 SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
             })?;
 
-        Ok(self
-            .get_command_invoker
-            .invoke(command_request)
-            .await
-            .map_err(SchemaRegistryErrorKind::from)?
-            .payload
-            .schema)
+        let get_result = self.get_command_invoker.invoke(command_request).await;
+
+        match get_result {
+            Ok(response) => Ok(response.payload.schema),
+            Err(e) => {
+                match e.kind {
+                    // TODO: Mitigation to handle a "not found" response from the schema registry service
+                    // sending an empty payload. This should be removed once the schema registry service
+                    // is updated to return a proper error response.
+                    azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid => {
+                        Ok(None)
+                    },
+                    _ => Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e))),
+                }
+            }
+        }
     }
 
     /// Adds or updates a schema in the schema registry service.
