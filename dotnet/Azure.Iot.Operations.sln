@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Services.UnitTests", "test\Azure.Iot.Operations.Services.UnitTests\Azure.Iot.Operations.Services.UnitTests.csproj", "{2CAE3E9A-33D8-460C-A006-3E3842100000}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeasedLockSample", "samples\LeasedLockSample\LeasedLockSample.csproj", "{366A99D0-E83C-463A-AF22-D4372937B99F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeasedLockClientSample", "samples\Server\LeasedLockClient\LeasedLockClientSample.csproj", "{366A99D0-E83C-463A-AF22-D4372937B99F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassiveReplicationSample", "samples\PassiveReplicationSample\PassiveReplicationSample.csproj", "{8DA92FB2-FCDD-401B-8BCD-2F7BBEF1C5CC}"
 EndProject

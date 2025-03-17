@@ -38,7 +38,7 @@ internal sealed class Program
     private static async Task RunSampleAsync(ApplicationContext applicationContext, CancellationToken cancellationToken)
     {
         await using MqttSessionClient mqttClient = new MqttSessionClient();
-        await mqttClient.ConnectAsync(new MqttConnectionSettings("localhost", "someClientId") { TcpPort = 1883, UseTls = false});
+        await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
 
         await using LeasedLockClient leasedLockClient = new LeasedLockClient(applicationContext, mqttClient, "someLock");
         await using StateStoreClient stateStoreClient = new StateStoreClient(applicationContext, mqttClient);

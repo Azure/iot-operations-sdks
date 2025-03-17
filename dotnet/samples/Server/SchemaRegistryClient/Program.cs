@@ -38,7 +38,7 @@ if (mqttDiag) Trace.Listeners.Add(new ConsoleTraceListener());
 MqttSessionClient mqttClient = new(new MqttSessionClientOptions { EnableMqttLogging = mqttDiag });
 ApplicationContext applicationContext = new();
 await using SchemaRegistryClient schemaRegistryClient = new(applicationContext, mqttClient);
-await mqttClient.ConnectAsync(MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!));
+await mqttClient.ConnectAsync(MqttConnectionSettings.FromEnvVars());
 
 SchemaInfo? schemaInfo = await schemaRegistryClient.PutAsync(jsonSchema1, SchemaFormat.JsonSchemaDraft07);
 SchemaInfo? resolvedSchema = await schemaRegistryClient.GetAsync(schemaInfo?.Name!);
