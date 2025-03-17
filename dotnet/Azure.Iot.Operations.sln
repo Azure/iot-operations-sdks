@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeasedLockSample", "samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassiveReplicationSample", "samples\PassiveReplicationSample\PassiveReplicationSample.csproj", "{8DA92FB2-FCDD-401B-8BCD-2F7BBEF1C5CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateStoreClientSample", "samples\StateStoreClientSample\StateStoreClientSample.csproj", "{BE7BA05C-6DFB-4EA2-8718-585126579962}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateStoreClientSample", "samples\Server\StateStoreClient\StateStoreClientSample.csproj", "{BE7BA05C-6DFB-4EA2-8718-585126579962}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEnvoys", "samples\TestEnvoys\TestEnvoys.csproj", "{69BE921B-451E-408E-BC36-D3199716BDB5}"
 EndProject
@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CE9A7664
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Protocol.MetlTests", "test\Azure.Iot.Operations.Protocol.MetlTests\Azure.Iot.Operations.Protocol.MetlTests.csproj", "{A37BB163-AB37-4F06-9DD1-835E44433A45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionClientConnectionManagementSample", "samples\SessionClientConnectionManagementSample\SessionClientConnectionManagementSample.csproj", "{32F177CB-A073-4451-A38A-FEA198A179D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionClientSample", "samples\Mqtt\SessionClient\SessionClientSample.csproj", "{32F177CB-A073-4451-A38A-FEA198A179D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaRegistrySample", "samples\SchemaRegistrySample\SchemaRegistrySample.csproj", "{4E96146B-B926-4104-90D0-C49F7E0430A0}"
 EndProject

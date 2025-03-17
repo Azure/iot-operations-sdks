@@ -15,7 +15,7 @@ public class LibraryManagedConnectionWorker(MqttSessionClient sessionClient, ILo
     {
         sessionClient.SessionLostAsync += OnCrash;
         sessionClient.ApplicationMessageReceivedAsync += OnMessageReceived;
-        MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVar();
+        MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVars();
 
         await sessionClient.ConnectAsync(mcs, cancellationToken);
 
