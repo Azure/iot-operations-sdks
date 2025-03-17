@@ -10,11 +10,20 @@
 
 This directory contains a variety of samples demonstrating how to use the .NET packages to interact with Azure IoT Operations.
 
-## Setup your environment
+## Run a sample
 
-Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations cluster for development.
+1. Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations cluster for development.
 
-## Run the samples
+1. From within the sample directory, execute the following:
+
+    ```bash
+    source $AIOSDK/.env; dotnet run
+    ```
+
+> [!TIP]
+> Update the `.env` file in the repository root directory to change the authentication method with MQTT broker.
+
+## Samples
 
 ### MQTT connection
 
