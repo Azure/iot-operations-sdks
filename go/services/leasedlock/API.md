@@ -25,7 +25,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/leasedlock"
 - [type Options](<#Options>)
   - [func \(o \*Options\) Apply\(opts \[\]Option, rest ...Option\)](<#Options.Apply>)
 - [type WithRenew](<#WithRenew>)
-- [type WithSession](<#WithSession>)
+- [type WithSessionID](<#WithSessionID>)
 - [type WithTimeout](<#WithTimeout>)
 
 
@@ -82,8 +82,8 @@ Lock provides a leased lock based on an underlying state store.
 
 ```go
 type Lock[K, V Bytes] struct {
-    Name    K
-    Session string
+    Name      K
+    SessionID string
     // contains filtered or unexported fields
 }
 ```
@@ -196,9 +196,9 @@ Options are the resolved options for the lock requests.
 
 ```go
 type Options struct {
-    Timeout time.Duration
-    Session string
-    Renew   time.Duration
+    Timeout   time.Duration
+    SessionID string
+    Renew     time.Duration
 }
 ```
 
@@ -220,13 +220,13 @@ WithRenew adds a renew interval to the lock; the lock will continuously re\-acqu
 type WithRenew time.Duration
 ```
 
-<a name="WithSession"></a>
-## type [WithSession](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L28>)
+<a name="WithSessionID"></a>
+## type [WithSessionID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/options.go#L28>)
 
-WithSession adds an optional session ID suffix to the lock holder to allow distinct locks on the same key with the same MQTT client.
+WithSessionID adds an optional session ID suffix to the lock holder to allow distinct locks on the same key with the same MQTT client.
 
 ```go
-type WithSession string
+type WithSessionID string
 ```
 
 <a name="WithTimeout"></a>

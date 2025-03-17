@@ -17,8 +17,8 @@ type (
 
 	// Lock provides a leased lock based on an underlying state store.
 	Lock[K, V Bytes] struct {
-		Name    K
-		Session string
+		Name      K
+		SessionID string
 
 		client *statestore.Client[K, V]
 		result result
@@ -62,8 +62,8 @@ func New[K, V Bytes](
 	opts.Apply(opt)
 
 	return &Lock[K, V]{
-		Name:    name,
-		Session: opts.Session,
+		Name:      name,
+		SessionID: opts.SessionID,
 
 		client: client,
 		result: result{
@@ -76,10 +76,10 @@ func New[K, V Bytes](
 
 func (l *Lock[K, V]) id(opts *Options) V {
 	switch {
-	case opts.Session != "":
-		return V(l.client.ID() + ":" + opts.Session)
-	case l.Session != "":
-		return V(l.client.ID() + ":" + l.Session)
+	case opts.SessionID != "":
+		return V(l.client.ID() + ":" + opts.SessionID)
+	case l.SessionID != "":
+		return V(l.client.ID() + ":" + l.SessionID)
 	default:
 		return V(l.client.ID())
 	}

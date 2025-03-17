@@ -101,7 +101,7 @@ func TestEdit(t *testing.T) {
 func TestFencingWithSessionID(t *testing.T) {
 	ctx := context.Background()
 	test := newLeasedLockTest(ctx, t, uuid.NewString(),
-		leasedlock.WithSession(uuid.NewString()),
+		leasedlock.WithSessionID(uuid.NewString()),
 	)
 	defer test.done()
 
