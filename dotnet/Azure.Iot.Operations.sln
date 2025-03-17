@@ -84,7 +84,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTcpServiceApp", "samp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenTcpThermostatConnector", "samples\EventDrivenTcpThermostatConnector\EventDrivenTcpThermostatConnector.csproj", "{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateChangeSample", "samples\StateStoreObserveKeySample\StateChangeSample.csproj", "{4992415C-ABB2-2284-D6CD-8FE01910092F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateChangeSample", "samples\Service\StateStoreObserveKey\StateChangeSample.csproj", "{4992415C-ABB2-2284-D6CD-8FE01910092F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

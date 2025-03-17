@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Mqtt.Session;
 
 var mqttClient = new MqttSessionClient();
 
-MqttConnectionSettings connectionSettings = new("localhost", "someClientId") { TcpPort = 1883, UseTls = false };
+MqttConnectionSettings connectionSettings = MqttConnectionSettings.FromEnvVars();
 MqttClientConnectResult result = await mqttClient.ConnectAsync(connectionSettings);
 
 if (result.ResultCode != MqttClientConnectResultCode.Success)
