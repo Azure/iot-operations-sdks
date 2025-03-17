@@ -9,7 +9,8 @@ else
 fi
 
 # create environment variables to support deployment
-echo "export SESSION=$PWD/.session
+echo "export AIOSDK=$PWD
+export SESSION=$PWD/.session
 export CLUSTER_NAME=${BASE_NAME}
 export STORAGE_ACCOUNT=${BASE_NAME}storage
 export SCHEMA_REGISTRY=${BASE_NAME}schema
