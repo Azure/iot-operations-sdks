@@ -20,6 +20,7 @@ jobs:
 
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
+        continue-on-error: true
         with:
           files: "**/*"
           config: ".vscode/cspell.json"

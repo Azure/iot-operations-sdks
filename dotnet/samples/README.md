@@ -41,7 +41,7 @@ This directory contains a variety of samples demonstrating how to use the .NET p
 
 1. [State store](./Services/StateStoreClient/) - Set, get and delete a key
 1. [State store observe](./Services/StateStoreObserveKey/) - Be notified of changes to an observed key
-1. [Leased lock](./Services/LeasedLock/) - Lock a key in the state store shared between applications
+1. [Leased lock](./Services/LeasedLockClient/) - Lock a key in the state store shared between applications
 1. [Passive replication](./Services/PassiveReplication/) - Use the leader election client to perform passive replication
 1. [Schema registry](./Services/SchemaRegistryClient/) - Put and get schemas in the schema registry
 
@@ -57,4 +57,4 @@ This directory contains a variety of samples demonstrating how to use the .NET p
 
 1. [Event driven TCP connector](./Connectors/EventDrivenTcpThermostatConnector/) - Event driven Connector from a simulated thermostat
 1. [Polling REST connector](./Connectors/PollingRestThermostatConnector/) - Polling Connecter from a REST endpoint
-1. [Polling SQL connector](./Connectors/SqlConnectorApp/) - Polling connector from a SQL endpoint
+1. [Polling SQL connector](./Connectors/SqlConnector/) - Polling connector from a SQL endpoint
