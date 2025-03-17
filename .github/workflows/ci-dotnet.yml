@@ -58,7 +58,7 @@ jobs:
       run: dotnet build -c Debug codegen/codegen.sln
 
     - name: CodeGen .NET TestEnvoys
-      run: (cd dotnet/samples/TestEnvoys; ./gen.sh)
+      run: (cd dotnet/samples/Protocol/TestEnvoys; ./gen.sh)
 
     - name: CodeGen StateStore RPC client
       run: (cd dotnet/src/Azure.Iot.Operations.Services/StateStore; ./gen.sh)

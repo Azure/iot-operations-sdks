@@ -9,7 +9,9 @@ else
 fi
 
 # create environment variables to support deployment
-echo "export AIOSDK=$PWD
+echo "
+export PATH=$PATH:~/.dotnet/tools
+export AIOSDK=$PWD
 export SESSION=$PWD/.session
 export CLUSTER_NAME=${BASE_NAME}
 export STORAGE_ACCOUNT=${BASE_NAME}storage
