@@ -12,9 +12,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Protoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Protocol.IntegrationTests", "test\Azure.Iot.Operations.Protocol.IntegrationTests\Azure.Iot.Operations.Protocol.IntegrationTests.csproj", "{895319CC-F1BD-4CFB-B225-07EBB820E015}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleClient", "samples\SampleClient\SampleClient.csproj", "{F785D547-CD7B-4330-B7F3-4DFD7B9B15D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleClient", "samples\Protocol\Codegen\SampleClient\SampleClient.csproj", "{F785D547-CD7B-4330-B7F3-4DFD7B9B15D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleServer", "samples\SampleServer\SampleServer.csproj", "{7A994EE1-EFA3-4D37-A144-EBC3702DF248}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleServer", "samples\Protocol\Codegen\SampleServer\SampleServer.csproj", "{7A994EE1-EFA3-4D37-A144-EBC3702DF248}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Services", "src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj", "{B2ABA369-ECCA-409C-9DB2-8E2B22C33075}"
 EndProject
@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassiveReplicationSample", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateStoreClientSample", "samples\Services\StateStoreClient\StateStoreClientSample.csproj", "{BE7BA05C-6DFB-4EA2-8718-585126579962}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEnvoys", "samples\TestEnvoys\TestEnvoys.csproj", "{69BE921B-451E-408E-BC36-D3199716BDB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEnvoys", "samples\Protocol\TestEnvoys\TestEnvoys.csproj", "{69BE921B-451E-408E-BC36-D3199716BDB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CE9A7664-594B-43EB-AA48-606B88411FC9}"
 EndProject
@@ -38,15 +38,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionClientSample", "samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaRegistrySample", "samples\Services\SchemaRegistryClient\SchemaRegistryClientSample.csproj", "{4E96146B-B926-4104-90D0-C49F7E0430A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleCloudEvents", "samples\SampleCloudEvents\SampleCloudEvents.csproj", "{7C55A7E7-3D29-4C5C-81C6-EB6EC842C207}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudEvents", "samples\Protocol\CloudEvents\CloudEventsSample.csproj", "{7C55A7E7-3D29-4C5C-81C6-EB6EC842C207}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleReadCloudEvents", "samples\SampleReadCloudEvents\SampleReadCloudEvents.csproj", "{104A36E0-5F69-40D3-BFD9-5E09D4A0B220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadCloudEvents", "samples\Protocol\ReadCloudEvents\ReadCloudEventsSample.csproj", "{104A36E0-5F69-40D3-BFD9-5E09D4A0B220}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RPC", "RPC", "{0F2D6563-6660-4FE7-A936-E15CBFBE3BC0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CounterServer", "samples\CounterServer\CounterServer.csproj", "{E5188824-476D-4D82-AF8B-C07C67915D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CounterServer", "samples\Protocol\Counter\CounterServer\CounterServer.csproj", "{E5188824-476D-4D82-AF8B-C07C67915D9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CounterClient", "samples\CounterClient\CounterClient.csproj", "{58B87FE4-538B-4F07-92E8-F2A706B497E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CounterClient", "samples\Protocol\Counter\CounterClient\CounterClient.csproj", "{58B87FE4-538B-4F07-92E8-F2A706B497E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeaderElection", "LeaderElection", "{65E16F83-925B-4FCB-A6E2-00DF4A262916}"
 EndProject
