@@ -13,7 +13,6 @@ prologue:
   - { }
   catch:
     error-kind: mqtt error
-    in-application: !!bool false
     is-shallow: !!bool false
     is-remote: !!bool false 
     supplemental:

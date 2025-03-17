@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     public partial class GetRequestSchema
     {
         /// <summary>
-        /// The 'name' Field.
+        /// Schema name.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Name { get; set; } = default;
 
         /// <summary>
-        /// The 'version' Field.
+        /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

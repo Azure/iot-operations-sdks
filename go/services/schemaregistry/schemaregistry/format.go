@@ -6,11 +6,12 @@ import (
 	"errors"
 )
 
+/// Supported schema formats
 type Format int32
 
 const (
 	Delta1 Format = iota
-	JsonSchemaDraft07  = iota
+	JsonSchemaDraft07 Format = iota
 )
 
 func (v Format) String() string {

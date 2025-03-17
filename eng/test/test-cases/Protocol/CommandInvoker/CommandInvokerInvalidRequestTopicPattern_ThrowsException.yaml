@@ -11,7 +11,6 @@ prologue:
   - request-topic: "mock/{in/valid}/test"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:

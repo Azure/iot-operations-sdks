@@ -1,6 +1,10 @@
-# Rust Resources
+# Programming resources
 
-Collected here are suggested resources and references for using the Rust language.
+The following resources have been useful for developing the SDKs.
+
+## Rust
+
+Resources and references:
 
 * [Installing Rust](https://www.rust-lang.org/tools/install)
 * [Getting Started with Rust](https://www.rust-lang.org/learn/get-started)
@@ -9,7 +13,7 @@ Collected here are suggested resources and references for using the Rust languag
 * [The Async Book](https://rust-lang.github.io/async-book/)
 * [The Rustdoc Book](https://doc.rust-lang.org/rustdoc/how-to-write-documentation.html)
 
-Additionally, some recommended tooling
+Recommended tooling:
 
 * [rust-analyzer](https://rust-analyzer.github.io/manual.html#installation)
     * Semantic analysis

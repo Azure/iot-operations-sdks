@@ -23,9 +23,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <summary>Unsupported Media Type. The content type specified in the request is not supported by this implementation.</summary>
         UnsupportedMediaType = 415,
 
-        /// <summary>Unprocessable Content. The request was well-formed but was unable to be followed due to semantic errors, as indicated via an <see cref="InvocationException"/>.</summary>
-        UnprocessableContent = 422,
-
         /// <summary>Internal Server.  Unknown error, internal logic error, or command processor error other than <see cref="InvocationException"/>.</summary>
         InternalServerError = 500,
 

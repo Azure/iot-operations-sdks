@@ -25,9 +25,7 @@ actions:
   invocation-index: 0
   catch:
     error-kind: execution error
-    in-application: !!bool true
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 500
     message: "This is an execution error"
 ...

@@ -208,13 +208,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `Set` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -267,13 +267,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `Get` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -311,13 +311,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `Delete` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -345,13 +345,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `V Delete` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -441,6 +441,8 @@ where
 
     /// Starts observation of any changes on a key from the State Store Service
     ///
+    /// Note: `timeout` is rounded up to the nearest second.
+    ///
     /// Returns OK([`state_store::Response<KeyObservation>`]) if the key is now being observed.
     /// The [`KeyObservation`] can be used to receive key notifications for this key
     ///
@@ -460,7 +462,7 @@ where
     /// - the `key` is empty
     ///
     /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -526,13 +528,15 @@ where
 
     /// Stops observation of any changes on a key from the State Store Service
     ///
+    /// Note: `timeout` is rounded up to the nearest second.
+    ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
     /// - the `key` is empty
     ///
     /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -873,7 +877,7 @@ mod tests {
             .set(
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
-                Duration::from_nanos(50),
+                Duration::from_secs(0),
                 None,
                 SetOptions::default(),
             )
@@ -897,7 +901,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .get(b"testKey".to_vec(), Duration::from_nanos(50))
+            .get(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -918,7 +922,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .del(b"testKey".to_vec(), None, Duration::from_nanos(50))
+            .del(b"testKey".to_vec(), None, Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -943,7 +947,7 @@ mod tests {
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
                 None,
-                Duration::from_nanos(50),
+                Duration::from_secs(0),
             )
             .await;
         assert!(matches!(
@@ -965,7 +969,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .observe(b"testKey".to_vec(), Duration::from_nanos(50))
+            .observe(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -986,7 +990,7 @@ mod tests {
         )
         .unwrap();
         let response = state_store_client
-            .unobserve(b"testKey".to_vec(), Duration::from_nanos(50))
+            .unobserve(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),

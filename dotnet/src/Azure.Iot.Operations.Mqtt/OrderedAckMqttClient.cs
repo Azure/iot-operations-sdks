@@ -73,7 +73,17 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         _maximumPacketSize = options.MaximumPacketSize;
-        MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(MqttNetConverter.FromGeneric(options, UnderlyingMqttClient), cancellationToken).ConfigureAwait(false));
+        var mqttNetOptions = MqttNetConverter.FromGeneric(options, UnderlyingMqttClient);
+
+        if (options.AuthenticationMethod == "K8S-SAT")
+        {
+            // Logs the status codes received by this client in response to re-authentication requests.
+            // Note that this cannot be null because MQTTnet's client implementation will close the connection if
+            // no handler is set, even if the handler does nothing.
+            mqttNetOptions.EnhancedAuthenticationHandler ??= new SatEnhancedAuthenticationHandler();
+        }
+
+        MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(mqttNetOptions, cancellationToken).ConfigureAwait(false));
         if (options.AuthenticationMethod == "K8S-SAT")
         {
             _tokenRefresh = new TokenRefreshTimer(this, options.UserProperties.Where(p => p.Name == "tokenFilePath").First().Value);

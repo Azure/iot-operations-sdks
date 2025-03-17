@@ -49,7 +49,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.AVRO
                     Kind = AkriMqttErrorKind.HeaderInvalid,
                     HeaderName = "Content Type",
                     HeaderValue = contentType,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                 };

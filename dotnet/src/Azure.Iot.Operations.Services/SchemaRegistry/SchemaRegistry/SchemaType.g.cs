@@ -7,6 +7,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
 
+    /// <summary>
+    /// Supported schema types
+    /// </summary>
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.9.0.0")]
     public enum SchemaType

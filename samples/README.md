@@ -1,9 +1,15 @@
-# Samples and Tutorials
+# Samples and tutorials
+
+> [!CAUTION]
+>
+> The samples and tutorials provided in this repository are for **demonstration purposed only**, and should not be deployed to a production system or included within an application without a full understanding of how they operate.
+>
+> Additionally some samples may use a username and password for authentication. This is used for sample simplicity and a production system should use a robust authentication mechanism such as certificates.
 
 The following is a list of tutorials and samples that are available across all languages. Each language may have additional samples which can also be found within each language directory.
 
-> [!IMPORTANT]
-> Refer to [getting started](/README.md#getting-started) for setting up your development environment **prior** to running the tutorials and samples.
+> [!TIP]
+> Refer to the [getting started](/README.md#getting-started) documentation for setting up your development environment **prior** to running the tutorials and samples.
 
 A :yellow_circle: mean the tutorial or sample is planned in the near future.
 

@@ -9,37 +9,44 @@
     "Mqtt"
   ],
   "commandTopic": "adr/{modelId}/{commandName}",
+  "description": "Defines MQTT-based contract for Schema Registry component in AIO",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:ms:adr:SchemaRegistry:SchemaType;1",
       "@type": "Enum",
+      "description": "Supported schema types",
       "valueSchema": "string",
       "enumValues": [
         {
           "name": "MessageSchema",
-          "enumValue": "MessageSchema"
+          "enumValue": "MessageSchema",
+          "description": "Defines telemetry messages in AIO"
         }
       ]
     },
     {
       "@id": "dtmi:ms:adr:SchemaRegistry:Format;1",
       "@type": "Enum",
+      "description": "Supported schema formats",
       "valueSchema": "string",
       "enumValues": [
         {
           "name": "JsonSchemaDraft07",
-          "enumValue": "JsonSchema/draft-07"
+          "enumValue": "JsonSchema/draft-07",
+          "description": "JSON Schema Draft-07 format"
         },
         {
           "name": "Delta1",
-          "enumValue": "Delta/1.0"
+          "enumValue": "Delta/1.0",
+          "description": "Delta-Parquet format"
         }
       ]
     },
     {
       "@id": "dtmi:ms:adr:SchemaRegistry:Tags;1",
       "@type": "Map",
+      "description": "User-defined schema tags",
       "mapKey": {
         "name": "key",
         "schema": "string"
@@ -52,46 +59,57 @@
     {
       "@id": "dtmi:ms:adr:SchemaRegistry:Schema;1",
       "@type": "Object",
+      "description": "Schema object",
       "fields": [
         {
           "name": "name",
-          "schema": "string"
+          "schema": "string",
+          "description": "Schema name."
         },
         {
           "name": "format",
-          "schema": "dtmi:ms:adr:SchemaRegistry:Format;1"
+          "schema": "dtmi:ms:adr:SchemaRegistry:Format;1",
+          "description": "Format of the schema."
         },
         {
           "name": "schemaType",
-          "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1"
+          "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1",
+          "description": "Type of the schema."
         },
         {
           "name": "version",
-          "schema": "string"
+          "schema": "string",
+          "description": "Version of the schema. Allowed between 0-9."
         },
         {
           "name": "schemaContent",
-          "schema": "string"
+          "schema": "string",
+          "description": "Content stored in the schema."
         },
         {
           "name": "description",
-          "schema": "string"
+          "schema": "string",
+          "description": "Human-readable description of the schema."
         },
         {
           "name": "displayName",
-          "schema": "string"
+          "schema": "string",
+          "description": "Human-readable display name."
         },
         {
           "name": "tags",
-          "schema": "dtmi:ms:adr:SchemaRegistry:Tags;1"
+          "schema": "dtmi:ms:adr:SchemaRegistry:Tags;1",
+          "description": "Schema tags."
         },
         {
           "name": "hash",
-          "schema": "string"
+          "schema": "string",
+          "description": "Hash of the schema content."
         },
         {
           "name": "namespace",
-          "schema": "string"
+          "schema": "string",
+          "description": "Schema registry namespace. Uniquely identifies a schema registry within a tenant."
         }
       ]
     }
@@ -100,63 +118,81 @@
     {
       "@type": "Command",
       "name": "put",
+      "description": "PUT Schema Command",
       "request": {
         "name": "putSchemaRequest",
+        "description": "PUT Schema request object",
         "schema": {
           "@type": "Object",
           "fields": [
             {
               "name": "format",
-              "schema": "dtmi:ms:adr:SchemaRegistry:Format;1"
+              "schema": "dtmi:ms:adr:SchemaRegistry:Format;1",
+              "description": "Format of the schema."
             },
             {
               "name": "schemaType",
-              "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1"
+              "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1",
+              "description": "Type of the schema."
             },
             {
               "name": "schemaContent",
-              "schema": "string"
+              "schema": "string",
+              "description": "Content stored in the schema."
             },
             {
               "name": "version",
-              "schema": "string"
+              "schema": "string",
+              "description": "Version of the schema. Allowed between 0-9."
             },
             {
               "name": "description",
-              "schema": "string"
+              "schema": "string",
+              "description": "Human-readable description of the schema."
             },
             {
               "name": "displayName",
-              "schema": "string"
+              "schema": "string",
+              "description": "Human-readable display name."
             },
             {
               "name": "tags",
-              "schema": "dtmi:ms:adr:SchemaRegistry:Tags;1"
+              "schema": "dtmi:ms:adr:SchemaRegistry:Tags;1",
+              "description": "Schema tags."
             }
           ]
         }
       },
       "response": {
         "name": "schema",
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+        "description": "PUT Schema response object"
       }
     },
     {
-      "@type": [ "Command", "Idempotent", "Cacheable" ],
+      "@type": [
+        "Command",
+        "Idempotent",
+        "Cacheable"
+      ],
       "ttl": "P1D",
       "name": "get",
+      "description": "GET Schema Command",
       "request": {
         "name": "getSchemaRequest",
+        "description": "GET Schema request object",
         "schema": {
           "@type": "Object",
           "fields": [
             {
               "name": "name",
-              "schema": "string"
+              "schema": "string",
+              "description": "Schema name."
             },
             {
               "name": "version",
-              "schema": "string"
+              "schema": "string",
+              "description": "Version of the schema. Allowed between 0-9."
             }
           ]
         }
@@ -164,7 +200,8 @@
       "response": {
         "name": "schema",
         "nullable": true,
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1"
+        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+        "description": "GET Schema response object"
       }
     }
   ]

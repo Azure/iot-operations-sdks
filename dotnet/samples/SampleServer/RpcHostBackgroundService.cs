@@ -27,11 +27,11 @@ public class RpcHostBackgroundService(MqttSessionClient mqttClient, IServiceProv
         MqttClientConnectResult connAck = await mqttClient.ConnectAsync(mcs, stoppingToken);
         logger.LogInformation("Connected to: {mcs} with session present: {s}", mcs, connAck.IsSessionPresent);
 
-        await _counterService!.StartAsync(null, stoppingToken);
-        await _greetService!.StartAsync(null, stoppingToken);
-        await _mathService!.StartAsync(null, stoppingToken);
-        await _memMonService!.StartAsync(null, stoppingToken);
-        await _customTopicTokenService.StartAsync(null, stoppingToken);
+        await _counterService!.StartAsync(null, cancellationToken: stoppingToken);
+        await _greetService!.StartAsync(null, cancellationToken: stoppingToken);
+        await _mathService!.StartAsync(null, cancellationToken: stoppingToken);
+        await _memMonService!.StartAsync(null, cancellationToken: stoppingToken);
+        await _customTopicTokenService.StartAsync(null, cancellationToken: stoppingToken);
 
         _ = Task.Run(async () =>
         {

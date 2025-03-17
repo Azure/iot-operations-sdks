@@ -44,9 +44,10 @@ func (c *Client) Get(
 		ctx,
 		schemaregistry.GetRequestPayload{GetSchemaRequest: req},
 		opts.invoke(),
+		protocol.WithMetadata{"__invId": c.invID},
 	)
 	if err != nil {
-		return nil, err
+		return nil, translateError(err)
 	}
 	return res.Payload.Schema, nil
 }

@@ -43,6 +43,8 @@ namespace RestThermostatConnector
 
                 if (_credentials != null)
                 {
+                    // Note that this sample uses username + password for authenticating the connection to the asset. In general,
+                    // x509 authentication should be used instead (if available) as it is more secure.
                     string httpServerUsername = _credentials.Username!;
                     byte[] httpServerPassword = _credentials.Password!;
                     var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");

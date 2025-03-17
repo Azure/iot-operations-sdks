@@ -33,7 +33,6 @@ const PROBLEMATIC_TEST_CASES: &[&str] = &[
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
-    "CommandInvokerWithSubMillisecTimeout_ThrowsException",
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
     "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",

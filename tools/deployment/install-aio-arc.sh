@@ -2,6 +2,8 @@
 
 set -o errexit # fail if any command fails
 
+az login
+
 # check if the required environment variables are set
 if [ -z $LOCATION ]; then echo "LOCATION is not set"; exit 1; fi
 if [ -z $RESOURCE_GROUP ]; then echo "RESOURCE_GROUP is not set"; exit 1; fi

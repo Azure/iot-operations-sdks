@@ -39,7 +39,6 @@ namespace Azure.Iot.Operations.Protocol.Models
                 throw new AkriMqttException("Received no items in the subscribing result, so the subscription was unsuccessful.")
                 {
                     Kind = AkriMqttErrorKind.MqttError,
-                    InApplication = false,
                     IsShallow = false,
                     IsRemote = false,
                     CommandName = commandName,
@@ -53,7 +52,6 @@ namespace Azure.Iot.Operations.Protocol.Models
                     throw new AkriMqttException($"Failed to subscribe to topic '{sub.TopicFilter.Topic}' because {sub.ReasonCode}.")
                     {
                         Kind = AkriMqttErrorKind.MqttError,
-                        InApplication = false,
                         IsShallow = false,
                         IsRemote = false,
                         CommandName = commandName,

@@ -25,7 +25,17 @@ internal class TokenRefreshTimer : IDisposable
     private static int GetTokenExpiry(byte[] token)
     {
         JwtSecurityToken jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(Encoding.UTF8.GetString(token));
-        return (int)jwtToken.ValidTo.Subtract(DateTime.UtcNow).TotalSeconds - 5;
+
+        DateTime currentTime = DateTime.UtcNow;
+
+        if (jwtToken.ValidTo <= currentTime)
+        {
+            throw new ArgumentException("Provided authentication token has already expired");
+        }
+
+        TimeSpan timeRemaining = jwtToken.ValidTo.Subtract(currentTime);
+
+        return (int)timeRemaining.TotalSeconds - 5;
     }
 
     private void RefreshToken(object? state)
@@ -44,9 +54,17 @@ internal class TokenRefreshTimer : IDisposable
                         ReasonCode = MqttAuthenticateReasonCode.ReAuthenticate
                     });
             });
-            int secondsToRefresh = GetTokenExpiry(token);
-            _refreshTimer.Change(secondsToRefresh * 1000, Timeout.Infinite);
-            Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
+
+            try
+            {
+                int secondsToRefresh = GetTokenExpiry(token);
+                _refreshTimer.Change(secondsToRefresh * 1000, Timeout.Infinite);
+                Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
+            }
+            catch (ArgumentException e)
+            {
+                Trace.TraceError("Failed to get next token renewal due time.", e);
+            }
         }
     }
 

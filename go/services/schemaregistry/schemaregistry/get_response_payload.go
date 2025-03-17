@@ -2,5 +2,7 @@
 package schemaregistry
 
 type GetResponsePayload struct {
+
+	// The Command response argument.
 	Schema *Schema `json:"schema,omitempty"`
 }
