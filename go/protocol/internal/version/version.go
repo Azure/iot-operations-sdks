@@ -3,6 +3,7 @@
 package version
 
 import (
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -54,10 +55,6 @@ func ParseSupported(vs string) []int {
 }
 
 func SerializeSupported(vs []int) string {
-	if len(vs) == 0 {
-		return ""
-	}
-
 	res := make([]string, len(vs))
 	for i, n := range vs {
 		res[i] = strconv.Itoa(n)
@@ -67,10 +64,5 @@ func SerializeSupported(vs []int) string {
 
 func IsSupported(v string, supported []int) bool {
 	major, _ := Parse(v)
-	for _, s := range supported {
-		if major == s {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(supported, major)
 }

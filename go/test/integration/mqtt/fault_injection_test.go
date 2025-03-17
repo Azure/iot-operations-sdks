@@ -3,8 +3,8 @@
 
 package mqtt
 
-// TODO: add publish tests when the session client is able to retrieve the
-// publish result when a publish operation spans multiple network connections
+// TODO: Add publish tests when the session client is able to retrieve the
+// publish result when a publish operation spans multiple network connections.
 
 import (
 	"context"

@@ -28,7 +28,12 @@ func (c *Client[K, V]) KeyNotify(
 	ctx context.Context,
 	key K,
 	opt ...KeyNotifyOption,
-) error {
+) (err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return ArgumentError{Name: "key"}
+	}
+
 	var opts KeyNotifyOptions
 	opts.Apply(opt)
 
@@ -37,13 +42,12 @@ func (c *Client[K, V]) KeyNotify(
 	c.keynotifyMu.Lock()
 	defer c.keynotifyMu.Unlock()
 
+	c.logK(ctx, "KEYNOTIFY", key)
 	req := resp.OpK("KEYNOTIFY", key)
-	if _, err := invoke(ctx, c.invoker, parseOK, &opts, req, c.log); err != nil {
-		c.log.Warn(ctx, "key notification failed", slog.String("key", k))
+	if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
 		return err
 	}
 
-	c.log.Info(ctx, "key notification started", slog.String("key", k))
 	c.keynotify[k]++
 	return nil
 }
@@ -55,7 +59,12 @@ func (c *Client[K, V]) KeyNotifyStop(
 	ctx context.Context,
 	key K,
 	opt ...KeyNotifyOption,
-) error {
+) (err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return ArgumentError{Name: "key"}
+	}
+
 	var opts KeyNotifyOptions
 	opts.Apply(opt)
 
@@ -65,19 +74,13 @@ func (c *Client[K, V]) KeyNotifyStop(
 	defer c.keynotifyMu.Unlock()
 
 	if c.keynotify[k] == 1 {
+		c.logK(ctx, "KEYNOTIFY", key, slog.Bool("stop", true))
 		req := resp.OpK("KEYNOTIFY", key, "STOP")
-		_, err := invoke(ctx, c.invoker, parseOK, &opts, req, c.log)
-		if err != nil {
-			c.log.Warn(
-				ctx,
-				"key notification stop failed",
-				slog.String("key", k),
-			)
+		if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
 			return err
 		}
 
 		delete(c.keynotify, k)
-		c.log.Info(ctx, "Key Notification stopped", slog.String("key", k))
 		return nil
 	}
 

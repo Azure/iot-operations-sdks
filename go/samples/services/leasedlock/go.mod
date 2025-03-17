@@ -7,13 +7,13 @@ require (
 	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
 	github.com/Azure/iot-operations-sdks/go/services v0.2.0
 	github.com/google/uuid v1.6.0
-	github.com/lmittmann/tint v1.0.6
+	github.com/lmittmann/tint v1.0.7
 )
 
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.2.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
-	github.com/cheggaaa/pb/v3 v3.1.6 // indirect
+	github.com/cheggaaa/pb/v3 v3.1.7 // indirect
 	github.com/eclipse/paho.golang v0.22.0 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
@@ -25,6 +25,6 @@ require (
 	github.com/relvacode/iso8601 v1.6.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
-	golang.org/x/crypto v0.32.0 // indirect
-	golang.org/x/sys v0.29.0 // indirect
+	golang.org/x/crypto v0.36.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 )

@@ -114,7 +114,7 @@ func (o WithReceiveMaximum) sessionClient(opt *SessionClientOptions) {
 
 func (o WithConnectUserProperties) sessionClient(opt *SessionClientOptions) {
 	if opt.ConnectUserProperties == nil {
-		opt.ConnectUserProperties = map[string]string{}
+		opt.ConnectUserProperties = make(map[string]string, len(o))
 	}
 	maps.Copy(opt.ConnectUserProperties, o)
 }

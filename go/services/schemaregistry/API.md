@@ -92,7 +92,7 @@ func (c *Client) Get(ctx context.Context, name string, opt ...GetOption) (*Schem
 Get retrieves schema information from the schema registry.
 
 <a name="Client.Put"></a>
-### func \(\*Client\) [Put](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L28-L33>)
+### func \(\*Client\) [Put](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L29-L34>)
 
 ```go
 func (c *Client) Put(ctx context.Context, content string, format Format, opt ...PutOption) (*Schema, error)
@@ -213,7 +213,7 @@ func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
 Apply resolves the provided list of options.
 
 <a name="PutOption"></a>
-## type [PutOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L16>)
+## type [PutOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L17>)
 
 PutOption represents a single option for the Put method.
 
@@ -224,7 +224,7 @@ type PutOption interface {
 ```
 
 <a name="PutOptions"></a>
-## type [PutOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L19-L24>)
+## type [PutOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L20-L25>)
 
 PutOptions are the resolved options for the Put method.
 
@@ -238,7 +238,7 @@ type PutOptions struct {
 ```
 
 <a name="PutOptions.Apply"></a>
-### func \(\*PutOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L61>)
+### func \(\*PutOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L63>)
 
 ```go
 func (o *PutOptions) Apply(opts []PutOption, rest ...PutOption)
