@@ -4,6 +4,7 @@ package schemaregistry
 
 import (
 	"context"
+	"encoding/json"
 	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -72,14 +73,25 @@ func (e *Error) Error() string {
 	return e.Message
 }
 
-//nolint:staticcheck // Capture 422 data for schemaregistry.
+//nolint:staticcheck // schemaregistry compat.
 func translateError(err error) error {
-	if k, ok := errors.IsKind[errors.UnknownError](err); ok &&
-		k.PropertyName != "" {
-		return &Error{
-			Message:       err.Error(),
-			PropertyName:  k.PropertyName,
-			PropertyValue: k.PropertyValue,
+	switch e := err.(type) {
+	case *errors.Remote:
+		if k, ok := e.Kind.(errors.UnknownError); ok && k.PropertyName != "" {
+			return &Error{
+				Message:       err.Error(),
+				PropertyName:  k.PropertyName,
+				PropertyValue: k.PropertyValue,
+			}
+		}
+
+	case *errors.Client:
+		if _, ok := e.Kind.(errors.PayloadInvalid); ok {
+			if j, ok := e.Nested.(*json.SyntaxError); ok && j.Offset == 0 {
+				// We're already returning a nil schema (because of the error),
+				// so just treat the 404 case as not an error.
+				return nil
+			}
 		}
 	}
 	return err
