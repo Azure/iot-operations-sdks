@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Connection;
-using k8s;
 
 namespace EventDrivenApp;
 
@@ -18,27 +17,8 @@ public class SessionClientFactory
 
     public async Task<MqttSessionClient> GetSessionClient(string clientIdExtension)
     {
-        MqttConnectionSettings settings;
-
-        if (KubernetesClientConfiguration.IsInCluster())
-        {
-            // On cluster, read from the environment
-            _logger.LogInformation("Running in cluster, load config from environment");
-            settings = MqttConnectionSettings.FromEnvVars();
-        }
-        else
-        {
-            // Local development, hard code the values
-            _logger.LogInformation("Running locally, setting config directly");
-            settings = new("localhost", "EventDrivenApp-" + clientIdExtension)
-            {
-                TcpPort = 8884,
-                UseTls = true,
-                CaFile = "../../../.session/broker-ca.crt",
-                SatAuthFile = "../../../.session/token.txt",
-                CleanStart = true
-            };
-        }
+        MqttConnectionSettings settings = MqttConnectionSettings.FromEnvVars();
+        settings.ClientId = "EventDrivenApp-" + clientIdExtension;
 
         _logger.LogInformation("Connecting to: {settings}", settings);
 

@@ -1,0 +1,80 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: event-driven-app-simulator
+  namespace: azure-iot-operations
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-driven-app-simulator
+  namespace: azure-iot-operations
+spec:
+  selector:
+    matchLabels:
+      app: event-driven-app-simulator
+  template:
+    metadata:
+      labels:
+        app: event-driven-app-simulator
+    spec:
+      serviceAccountName: event-driven-app-simulator
+      volumes:
+        - name: mqtt-client-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: mqtt-client-token
+                  audience: aio-internal
+                  expirationSeconds: 86400
+        - name: aio-ca-trust-bundle
+          configMap:
+            name: azure-iot-operations-aio-ca-trust-bundle
+      containers:
+        - name: event-driven-app-simulator
+          image: alpine
+          volumeMounts:
+            - name: mqtt-client-token
+              mountPath: /var/run/secrets/tokens/
+            - name: aio-ca-trust-bundle
+              mountPath: /var/run/certs/aio-ca/
+          command: ["sh", "-c"]
+          args:
+            - |
+              apk --no-cache add mosquitto-clients
+
+              SLEEP_DURATION=2
+              REPORT_INTERVAL=10
+              MSG_COUNT=0
+              SECONDS=0
+
+              echo "Starting simulator"
+              while true; do
+                DATA="{
+                    \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",
+                    \"sensor_id\": \"Sensor-$(hostname)-$$\",
+                    \"msg_number\": $MSG_COUNT,
+                    \"temperature\": $(awk -v min=550 -v max=600 'BEGIN{srand(); print min+rand()*(max-min)}'),
+                    \"pressure\": $(awk -v min=290 -v max=300 'BEGIN{srand(); print min+rand()*(max-min)}'),
+                    \"vibration\": $(awk -v min=0.001 -v max=0.005 'BEGIN{srand(); print min+rand()*(max-min)}')
+                }"
+
+                mosquitto_pub -V mqttv5 -q 1 -i event-driven-app-simulator -L mqtts://aio-broker:18883/sensor/data -m "$DATA" --cafile /var/run/certs/aio-ca/ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat /var/run/secrets/tokens/mqtt-client-token)
+                if [ $? -eq 0 ]; then
+                  MSG_COUNT=$((MSG_COUNT+1))
+                else
+                  echo "Publish failed for message number $MSG_COUNT, will retry"
+                fi
+
+                SECONDS=$((SECONDS+$SLEEP_DURATION))
+                
+                if [ $SECONDS -ge $REPORT_INTERVAL ]; then
+                  echo "Published $MSG_COUNT messages"
+                  SECONDS=0
+                fi
+
+                sleep $SLEEP_DURATION
+              done
