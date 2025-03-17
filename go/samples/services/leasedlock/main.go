@@ -45,19 +45,30 @@ func main() {
 	check(lock.Edit(ctx, key, time.Minute, func(
 		ctx context.Context,
 		value string,
-	) (string, error) {
+		_ bool,
+	) (string, bool, error) {
 		log.Info("edit initial value", "key", key, "value", value)
 		uuid, err := uuid.NewRandom()
 		if err != nil {
-			return "", err
+			return "", false, err
 		}
 		value = uuid.String()
 		log.Info("edit final value", "key", key, "value", value)
-		return value, nil
+		return value, true, nil
 	}))
 
 	get := must(client.Get(ctx, key))
 	log.Info("value after edit", "key", key, "value", get.Value)
+
+	// Sample of renewing lock.
+	if must(lock.TryAcquire(ctx, time.Minute, leasedlock.WithRenew(2*time.Second))) {
+		defer lock.Release(ctx)
+
+		for range 10 {
+			log.Info("current token", "token", must(lock.Token(ctx)))
+			time.Sleep(time.Second)
+		}
+	}
 }
 
 func tryEdit[K, V statestore.Bytes](
@@ -68,10 +79,11 @@ func tryEdit[K, V statestore.Bytes](
 	key K,
 	value V,
 ) bool {
-	ft := must(lock.Acquire(ctx, time.Minute))
+	check(lock.Acquire(ctx, time.Minute))
 	log.Info("acquired lock", "name", lock.Name)
 	defer lock.Release(ctx)
 
+	ft := must(lock.Token(ctx))
 	set := must(client.Set(ctx, key, value, statestore.WithFencingToken(ft)))
 	if set.Value {
 		log.Info("successfully changed value", "key", key, "value", value)
