@@ -7,7 +7,7 @@ Proposed
 The MQTT protocol has inherent message size limitations imposed by brokers and network constraints. Azure IoT Operations scenarios often require transmitting payloads that exceed these limits (e.g., firmware updates, large telemetry batches, complex configurations). Without a standardized chunking mechanism, applications must implement their own fragmentation strategies, leading to inconsistent implementations and interoperability issues.
 
 ## Decision
-We will implement protocol-level message chunking as part of the MQTT protocol layer by using MQTT user properties to carry chunk metadata. This approach will make the chunking mechanism explicit in the protocol rather than hiding it in higher or lower layers.
+We will implement sdk-level message chunking as part of the MQTT layer by using MQTT user properties to carry chunk metadata. This approach will make the chunking mechanism explicit in the SDK rather than hiding it in higher or lower layers.
 
 The chunking mechanism will:
 1. Be applied only to MQTT PUBLISH packets
