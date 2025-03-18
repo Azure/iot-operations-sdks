@@ -6,15 +6,12 @@ use std::time::Duration;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::interface::MqttPubSub;
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
-//const HOSTNAME: &str = "localhost";
-const HOSTNAME: &str = "test.mosquitto.org";
+const HOSTNAME: &str = "localhost";
 
 const PORT: u16 = 1883;
 const TOPIC: &str = "hello/mqtt";
@@ -41,48 +38,29 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create a new session.
     let session = Session::new(session_options)?;
 
-    // Spawn tasks for sending and receiving messages using managed clients
-    // created from the session.
-    tokio::spawn(receive_messages(session.create_managed_client()));
-    tokio::spawn(send_messages(
-        session.create_managed_client(),
-        session.create_exit_handle(),
-    ));
+    // Spawn task for sending messages using ManagedClient created from the Session.
+    tokio::spawn(send_messages(session.create_managed_client()));
 
     // Run the session. This blocks until the session is exited.
     session.run().await?;
-
     Ok(())
 }
 
-/// Indefinitely receive
-// async fn receive_messages(client: SessionManagedClient) -> Result<(), Box<dyn std::error::Error + Send>> {
-async fn receive_messages(client: SessionManagedClient) {
-    // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let mut receiver = client.create_filtered_pub_receiver(TOPIC);
-    println!("Subscribing to {TOPIC}");
-    client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
-
-    // Receive indefinitely
-    while let Some(msg) = receiver.recv().await {
-        println!("Received: {:?}", msg.payload);
-    }
-
-    Ok(())
-}
-
-/// Publish 10 messages, then exit
-async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHandle) {
-    for i in 1..=10 {
+/// Indefinitely send messages every second
+async fn send_messages(client: SessionManagedClient) {
+    let mut i = 0;
+    loop {
+        i += 1;
         let payload = format!("Hello #{i}");
-        println!("Sending: {payload}");
-        let comp_token = client
+        match client
             .publish(TOPIC, QoS::AtLeastOnce, false, payload)
             .await
-            .unwrap();
-        comp_token.await.unwrap();
+        {
+            Ok(_) => println!("Sent message #{i}"),
+            Err(e) => {
+                println!("Error sending message: {e}");
+            }
+        }
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
-
-    exit_handler.try_exit().await.unwrap();
 }

@@ -27,16 +27,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::from_environment()
-        .unwrap()
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?
         .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
-    let session = Session::new(session_options).unwrap();
+        .build()?;
+    let session = Session::new(session_options)?;
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context = ApplicationContextBuilder::default().build()?;
 
     // Use the managed client to run telemetry checks in another task
     let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
