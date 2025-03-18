@@ -119,7 +119,7 @@ where
                         }
                     }
                 }
-                Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e)))
+                Err(Error(ErrorKind::from(e)))
             }
         }
     }
