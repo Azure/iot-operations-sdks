@@ -10,44 +10,12 @@
 
 This directory contains a variety of samples demonstrating how to use the .NET packages to interact with Azure IoT Operations.
 
-## Setup your environment
+## Run a sample
 
-Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations cluster for development.
+> [!TIP]
+> Update the `.env` file in the repository root directory to change the authentication method with MQTT broker.
 
-## Run the samples
-
-### MQTT connection
-
-1. [Session Client](./SessionClientConnectionManagementSample/) - Create an MQTT session using the Session Client
-1. [User Managed Connection](./UserManagedConnectionManagementSample/) - Create your MQTT client and connect to the MQTT broker
-
-### Services
-
-1. [State store](./StateStoreClientSample/) - Set, get and delete a key
-1. [State store observe](./StateStoreObserveKeySample/) - Be notified of changes to an observed key
-1. [Leased lock](./LeasedLockSample/) - Lock a key in the state store shared between applications
-1. [Passive replication](./PassiveReplicationSample/) - Use the leader election client to perform passive replication
-1. [Schema registry](./SchemaRegistrySample/) - Put and get schemas in the schema registry
-
-### Telemetry and RPC
-
-1. [Cloud events](./SampleCloudEvents/) - Send telemetry with cloud events referencing the payload schema
-1. [Read cloud events](./SampleReadCloudEvents/) - Receive telemetry with cloud events and fetch schema from the schema registry
-1. [Envoys](./TestEnvoys/) - Client library and server stub library for various schema definitions
-1. Counter [client](./CounterClient/) & [server](./CounterServer/) - Client and server for the counter definition
-1. Additional [client](./SampleClient/) & [server](./SampleServer/) - Client and server for different DTDL definitions
-
-### Connectors
-
-1. [Event driven TCP connector](./EventDrivenTcpThermostatConnector/) - Event driven Connector from a simulated thermostat
-1. [Polling REST connector](./PollingRestThermostatConnector/) - Polling Connecter from a REST endpoint
-1. [Polling SQL connector](./SqlConnectorApp/) - Polling connector from a SQL endpoint
-
-### Supporting
-
-1. [TCP service app](./SampleTcpServiceApp/) - Simulated thermostat endpoint for the event driven Connector
-
-## Build and run
+1. Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations cluster for development.
 
 1. Open a shell and navigate to the sample directory
 
@@ -57,9 +25,36 @@ Follow the [setup](/doc/setup.md) directions to prepare an Azure IoT Operations 
     dotnet build
     ```
 
-1. Run the sample:
+1. Run the sample using the default [environment](/.env):
 
     ```bash
-    dotnet run
+    source `git rev-parse --show-toplevel`/.env; dotnet run
     ```
- 
+
+## Samples
+
+### MQTT connection
+
+1. [Session Client](./Mqtt/SessionClient/) - Create an MQTT session using the Session Client
+
+### Services
+
+1. [State store](./Services/StateStoreClient/) - Set, get and delete a key
+1. [State store observe](./Services/StateStoreObserveKey/) - Be notified of changes to an observed key
+1. [Leased lock](./Services/LeasedLockClient/) - Lock a key in the state store shared between applications
+1. [Passive replication](./Services/PassiveReplication/) - Use the leader election client to perform passive replication
+1. [Schema registry](./Services/SchemaRegistryClient/) - Put and get schemas in the schema registry
+
+### Telemetry and RPC
+
+1. [Cloud events](./Protocol/CloudEvents/) - Send telemetry with cloud events referencing the payload schema
+1. [Read cloud events](./Protocol/ReadCloudEvents/) - Receive telemetry with cloud events and fetch schema from the schema registry
+1. [Envoys](./Protocol/TestEnvoys/) - Client library and server stub library for various schema definitions
+1. Counter [client / server](./Protocol/Counter) - Client and server for the counter definition
+1. Additional [clients / servers](./Protocol/Codegen/) - Client and server for different DTDL definitions
+
+### Connectors
+
+1. [Event driven TCP connector](./Connectors/EventDrivenTcpThermostatConnector/) - Event driven Connector from a simulated thermostat
+1. [Polling REST connector](./Connectors/PollingRestThermostatConnector/) - Polling Connecter from a REST endpoint
+1. [Polling SQL connector](./Connectors/SqlConnector/) - Polling connector from a SQL endpoint

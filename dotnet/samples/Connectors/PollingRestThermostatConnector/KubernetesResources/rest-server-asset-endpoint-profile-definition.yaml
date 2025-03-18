@@ -1,0 +1,18 @@
+apiVersion: deviceregistry.microsoft.com/v1
+kind: AssetEndpointProfile
+metadata:
+  name: my-rest-thermostat-profile
+  namespace: azure-iot-operations
+spec:
+  # By providing a leadershipPositionId config, the connector code will do leader election to enable active/passive replication
+  # when deploying multiple pods to connect with this asset endpoint profile. This value should be unique per asset endpoint profile instance.
+  additionalConfiguration: '{"leadershipPositionId" : "rest-server-leadership-position-id"}'
+  authentication:
+    method: UsernamePassword
+    usernamePasswordCredentials:
+      usernameSecretName: rest-server-auth-credentials/username
+      passwordSecretName: rest-server-auth-credentials/password
+  discoveredAssetEndpointProfileRef: my-rest-thermostat-discovered-asset-endpoint-profile
+  endpointProfileType: rest-thermostat
+  targetAddress: http://rest-server-service.azure-iot-operations.svc.cluster.local:80 # http-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+  uuid: 1234-5678-9012-3456

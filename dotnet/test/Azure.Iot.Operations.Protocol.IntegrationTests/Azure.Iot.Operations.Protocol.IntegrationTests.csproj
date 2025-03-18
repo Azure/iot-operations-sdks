@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\samples\TestEnvoys\TestEnvoys.csproj" />
+    <ProjectReference Include="..\..\samples\Protocol\TestEnvoys\TestEnvoys.csproj" />
     <ProjectReference Include="..\..\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
     <ProjectReference Include="..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.Protocol.UnitTests\Azure.Iot.Operations.Protocol.UnitTests.csproj" />
