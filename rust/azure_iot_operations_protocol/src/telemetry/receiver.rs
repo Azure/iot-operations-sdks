@@ -314,7 +314,7 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
     /// - [`topic_pattern`](Options::topic_pattern),
-    ///   [`topic_namespace`](Options::topic_namespace), are Some and and invalid
+    ///   [`topic_namespace`](Options::topic_namespace), are Some and invalid
     ///   or contain a token with no valid replacement
     /// - [`topic_token_map`](Options::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
