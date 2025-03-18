@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"log/slog"
+	"maps"
 	"time"
 )
 
@@ -96,11 +97,9 @@ func (o WithTopicNamespace) telemetrySender(opt *TelemetrySenderOptions) {
 
 func (o WithTopicTokens) apply(tokens map[string]string) map[string]string {
 	if tokens == nil {
-		tokens = make(map[string]string, len(tokens))
+		tokens = make(map[string]string, len(o))
 	}
-	for token, value := range o {
-		tokens[token] = value
-	}
+	maps.Copy(tokens, o)
 	return tokens
 }
 
@@ -170,11 +169,9 @@ func (o WithTopicTokenNamespace) telemetrySender(opt *TelemetrySenderOptions) {
 
 func (o WithMetadata) apply(values map[string]string) map[string]string {
 	if values == nil {
-		values = map[string]string{}
+		values = make(map[string]string, len(o))
 	}
-	for key, value := range o {
-		values[key] = value
-	}
+	maps.Copy(values, o)
 	return values
 }
 
