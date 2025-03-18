@@ -7,7 +7,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::{command_invoker, CommandInvoker};
+use azure_iot_operations_protocol::rpc_command::invoker::{self, Invoker};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::get_request_payload::GetRequestPayload;
@@ -15,14 +15,14 @@ use super::get_response_payload::GetResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type GetRequest = command_invoker::Request<GetRequestPayload>;
-pub type GetResponse = command_invoker::Response<GetResponsePayload>;
-pub type GetRequestBuilderError = command_invoker::RequestBuilderError;
+pub type GetRequest = invoker::Request<GetRequestPayload>;
+pub type GetResponse = invoker::Response<GetResponsePayload>;
+pub type GetRequestBuilderError = invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`GetRequest`]
 pub struct GetRequestBuilder {
-    inner_builder: command_invoker::RequestBuilder<GetRequestPayload>,
+    inner_builder: invoker::RequestBuilder<GetRequestPayload>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -71,7 +71,7 @@ impl GetRequestBuilder {
 }
 
 /// Command Invoker for `get`
-pub struct GetCommandInvoker<C>(CommandInvoker<GetRequestPayload, GetResponsePayload, C>)
+pub struct GetCommandInvoker<C>(Invoker<GetRequestPayload, GetResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -90,7 +90,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut invoker_options_builder = command_invoker::OptionsBuilder::default();
+        let mut invoker_options_builder = invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -117,7 +117,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandInvoker::new(application_context, client, invoker_options)
+            Invoker::new(application_context, client, invoker_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

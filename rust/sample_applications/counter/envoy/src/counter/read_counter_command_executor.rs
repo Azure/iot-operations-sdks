@@ -6,7 +6,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
+use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
@@ -14,14 +14,14 @@ use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type ReadCounterRequest = command_executor::Request<EmptyJson, ReadCounterResponsePayload>;
-pub type ReadCounterResponse = command_executor::Response<ReadCounterResponsePayload>;
-pub type ReadCounterResponseBuilderError = command_executor::ResponseBuilderError;
+pub type ReadCounterRequest = executor::Request<EmptyJson, ReadCounterResponsePayload>;
+pub type ReadCounterResponse = executor::Response<ReadCounterResponsePayload>;
+pub type ReadCounterResponseBuilderError = executor::ResponseBuilderError;
 
 /// Builder for [`ReadCounterResponse`]
 #[derive(Default)]
 pub struct ReadCounterResponseBuilder {
-    inner_builder: command_executor::ResponseBuilder<ReadCounterResponsePayload>,
+    inner_builder: executor::ResponseBuilder<ReadCounterResponsePayload>,
 }
 
 impl ReadCounterResponseBuilder {
@@ -54,7 +54,7 @@ impl ReadCounterResponseBuilder {
 }
 
 /// Command Executor for `readCounter`
-pub struct ReadCounterCommandExecutor<C>(CommandExecutor<EmptyJson, ReadCounterResponsePayload, C>)
+pub struct ReadCounterCommandExecutor<C>(Executor<EmptyJson, ReadCounterResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -73,7 +73,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut executor_options_builder = command_executor::OptionsBuilder::default();
+        let mut executor_options_builder = executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -98,7 +98,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandExecutor::new(application_context, client, executor_options)
+            Executor::new(application_context, client, executor_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

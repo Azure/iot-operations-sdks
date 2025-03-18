@@ -307,7 +307,7 @@ pub struct Options {
 /// # use azure_iot_operations_mqtt::control_packet::QoS;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::{telemetry_sender, TelemetrySender};
+/// # use azure_iot_operations_protocol::telemetry::sender::{self, Sender};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -319,22 +319,22 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let sender_options = telemetry_sender::OptionsBuilder::default()
+/// let sender_options = sender::OptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let sender: TelemetrySender<Vec<u8>, _> = TelemetrySender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
-/// let telemetry_message = telemetry_sender::MessageBuilder::default()
+/// let sender: Sender<Vec<u8>, _> = Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let telemetry_message = sender::MessageBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// // let result = telemetry_sender.send(telemetry_message).await.unwrap();
+/// // let result = sender.send(telemetry_message).await.unwrap();
 /// # })
 /// ```
 ///
-pub struct TelemetrySender<T, C>
+pub struct Sender<T, C>
 where
     T: PayloadSerialize,
     C: ManagedClient + Send + Sync + 'static,
@@ -346,7 +346,7 @@ where
 }
 
 /// Implementation of Telemetry Sender
-impl<T, C> TelemetrySender<T, C>
+impl<T, C> Sender<T, C>
 where
     T: PayloadSerialize,
     C: ManagedClient + Send + Sync + 'static,
@@ -518,7 +518,7 @@ mod tests {
             aio_protocol_error::{AIOProtocolErrorKind, Value},
             payload_serialize::{FormatIndicator, MockPayload, SerializedPayload},
         },
-        telemetry::telemetry_sender::{OptionsBuilder, TelemetrySender},
+        telemetry::sender::{OptionsBuilder, Sender},
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -550,7 +550,7 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetrySender::<MockPayload, _>::new(
+        Sender::<MockPayload, _>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -571,7 +571,7 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetrySender::<MockPayload, _>::new(
+        Sender::<MockPayload, _>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
@@ -589,12 +589,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let telemetry_sender: Result<TelemetrySender<MockPayload, _>, _> = TelemetrySender::new(
+        let sender: Result<Sender<MockPayload, _>, _> = Sender::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             sender_options,
         );
-        match telemetry_sender {
+        match sender {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);

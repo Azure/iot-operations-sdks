@@ -248,7 +248,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::{telemetry_receiver, TelemetryReceiver};
+/// # use azure_iot_operations_protocol::telemetry::receiver::{self, Receiver};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -260,13 +260,13 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let receiver_options = telemetry_receiver::OptionsBuilder::default()
+/// let receiver_options = receiver::OptionsBuilder::default()
 ///  .topic_pattern("test/telemetry")
 ///  .build().unwrap();
-/// let mut receiver: TelemetryReceiver<Vec<u8>, _> = TelemetryReceiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
+/// let mut receiver: Receiver<Vec<u8>, _> = Receiver::new(application_context, mqtt_session.create_managed_client(), receiver_options).unwrap();
 /// // let telemetry_message = receiver.recv().await.unwrap();
 /// ```
-pub struct TelemetryReceiver<T, C>
+pub struct Receiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -296,7 +296,7 @@ enum State {
 }
 
 /// Implementation of a Telemetry Sender
-impl<T, C> TelemetryReceiver<T, C>
+impl<T, C> Receiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -644,7 +644,7 @@ where
     }
 }
 
-impl<T, C> Drop for TelemetryReceiver<T, C>
+impl<T, C> Drop for Receiver<T, C>
 where
     T: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -686,7 +686,7 @@ mod tests {
     use crate::{
         application::ApplicationContextBuilder,
         common::{aio_protocol_error::AIOProtocolErrorKind, payload_serialize::MockPayload},
-        telemetry::telemetry_receiver::{OptionsBuilder, TelemetryReceiver},
+        telemetry::receiver::{OptionsBuilder, Receiver},
     };
     use azure_iot_operations_mqtt::{
         session::{Session, SessionOptionsBuilder},
@@ -720,7 +720,7 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetryReceiver::<MockPayload, _>::new(
+        Receiver::<MockPayload, _>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -738,7 +738,7 @@ mod tests {
             .build()
             .unwrap();
 
-        TelemetryReceiver::<MockPayload, _>::new(
+        Receiver::<MockPayload, _>::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -755,7 +755,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let result: Result<TelemetryReceiver<MockPayload, _>, _> = TelemetryReceiver::new(
+        let result: Result<Receiver<MockPayload, _>, _> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
@@ -786,13 +786,13 @@ mod tests {
             .build()
             .unwrap();
 
-        let mut telemetry_receiver: TelemetryReceiver<MockPayload, _> = TelemetryReceiver::new(
+        let mut receiver: Receiver<MockPayload, _> = Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             receiver_options,
         )
         .unwrap();
-        assert!(telemetry_receiver.shutdown().await.is_ok());
+        assert!(receiver.shutdown().await.is_ok());
     }
 }
 

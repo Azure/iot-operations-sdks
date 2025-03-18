@@ -14,8 +14,8 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::{
     application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
-    rpc::{command_invoker, CommandInvoker},
-    telemetry::{telemetry_receiver, TelemetryReceiver},
+    rpc_command::invoker::{self, Invoker},
+    telemetry::receiver::{self, Receiver},
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
@@ -81,7 +81,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
+    invoker: Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
         ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
     shutdown_notifier: Arc<Notify>,
@@ -115,7 +115,7 @@ where
         options: ClientOptions,
     ) -> Result<Self, Error> {
         // create invoker for commands
-        let command_invoker_options = command_invoker::OptionsBuilder::default()
+        let invoker_options = invoker::OptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
             .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
@@ -124,22 +124,15 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        let command_invoker: CommandInvoker<
-            state_store::resp3::Request,
-            state_store::resp3::Response,
-            C,
-        > = CommandInvoker::new(
-            application_context.clone(),
-            client.clone(),
-            command_invoker_options,
-        )
-        .map_err(ErrorKind::from)?;
+        let invoker: Invoker<state_store::resp3::Request, state_store::resp3::Response, C> =
+            Invoker::new(application_context.clone(), client.clone(), invoker_options)
+                .map_err(ErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
-        let telemetry_receiver_options = telemetry_receiver::OptionsBuilder::default()
+        let receiver_options = receiver::OptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
             .topic_token_map(HashMap::from([(
                 "encodedClientId".to_string(),
@@ -157,8 +150,8 @@ where
 
         // Start the receive key notification loop
         task::spawn({
-            let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
-                TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
+            let notification_receiver: Receiver<state_store::resp3::Operation, C> =
+                Receiver::new(application_context, client, receiver_options)
                     .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
@@ -174,7 +167,7 @@ where
         });
 
         Ok(Self {
-            command_invoker,
+            invoker,
             observed_keys,
             shutdown_notifier,
         })
@@ -193,10 +186,7 @@ where
         // Notify the receiver loop to shutdown the telemetry receiver
         self.shutdown_notifier.notify_one();
 
-        self.command_invoker
-            .shutdown()
-            .await
-            .map_err(ErrorKind::from)?;
+        self.invoker.shutdown().await.map_err(ErrorKind::from)?;
 
         log::info!("Shutdown");
         Ok(())
@@ -218,7 +208,7 @@ where
     ///
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
     pub async fn set(
         &self,
         key: Vec<u8>,
@@ -230,7 +220,7 @@ where
         if key.is_empty() {
             return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let mut request_builder = command_invoker::RequestBuilder::default();
+        let mut request_builder = invoker::RequestBuilder::default();
         request_builder
             .payload(state_store::resp3::Request::Set {
                 key,
@@ -249,7 +239,7 @@ where
             .build()
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
                 .map_err(ErrorKind::from)?,
@@ -277,7 +267,7 @@ where
     ///
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
     pub async fn get(
         &self,
         key: Vec<u8>,
@@ -286,14 +276,14 @@ where
         if key.is_empty() {
             return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let request = command_invoker::RequestBuilder::default()
+        let request = invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
                 .map_err(ErrorKind::from)?,
@@ -321,7 +311,7 @@ where
     ///
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
     pub async fn del(
         &self,
         key: Vec<u8>,
@@ -355,7 +345,7 @@ where
     ///
     /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
     pub async fn vdel(
         &self,
         key: Vec<u8>,
@@ -380,7 +370,7 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
-        let mut request_builder = command_invoker::RequestBuilder::default();
+        let mut request_builder = invoker::RequestBuilder::default();
         request_builder
             .payload(request)
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
@@ -395,7 +385,7 @@ where
             .build()
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
                 .map_err(ErrorKind::from)?,
@@ -415,7 +405,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<()>, Error> {
         // Send invoke request for observe
-        let request = command_invoker::RequestBuilder::default()
+        let request = invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
@@ -426,7 +416,7 @@ where
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
 
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
                 .map_err(ErrorKind::from)?,
@@ -467,7 +457,7 @@ where
     /// - the State Store returns a response that isn't valid for an `Observe` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// - there are any underlying errors from [`Invoker::invoke`]
     pub async fn observe(
         &self,
         key: Vec<u8>,
@@ -541,7 +531,7 @@ where
     /// - the State Store returns a response that isn't valid for an `Unobserve` request
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// - there are any underlying errors from [`Invoker::invoke`]
     pub async fn unobserve(
         &self,
         key: Vec<u8>,
@@ -551,7 +541,7 @@ where
             return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
         // Send invoke request for unobserve
-        let request = command_invoker::RequestBuilder::default()
+        let request = invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
@@ -561,7 +551,7 @@ where
             .build()
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         match state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
                 .map_err(ErrorKind::from)?,
@@ -598,7 +588,7 @@ where
 
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
+        mut receiver: Receiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
@@ -611,7 +601,7 @@ where
                   // on shutdown/drop, we will be notified so that we can stop receiving any more messages
                   // The loop will continue to receive any more publishes that are already in the queue
                   () = shutdown_notifier.notified() => {
-                    match telemetry_receiver.shutdown().await {
+                    match receiver.shutdown().await {
                         Ok(()) => {
                             log::info!("Telemetry Receiver shutdown");
                         }
@@ -631,7 +621,7 @@ where
                     // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
                     observed_keys_mutex_guard.drain();
                   },
-                  msg = telemetry_receiver.recv() => {
+                  msg = receiver.recv() => {
                     if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {

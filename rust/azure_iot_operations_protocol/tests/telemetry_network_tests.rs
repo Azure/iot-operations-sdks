@@ -17,7 +17,8 @@ use azure_iot_operations_protocol::{
     },
     telemetry::{
         cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        telemetry_receiver, telemetry_sender, TelemetryReceiver, TelemetrySender,
+        receiver::{self, Receiver},
+        sender::{self, Sender},
     },
 };
 
@@ -51,8 +52,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 ) -> Result<
     (
         Session,
-        TelemetrySender<T, SessionManagedClient>,
-        TelemetryReceiver<T, SessionManagedClient>,
+        Sender<T, SessionManagedClient>,
+        Receiver<T, SessionManagedClient>,
         SessionExitHandle,
     ),
     (),
@@ -85,23 +86,23 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = telemetry_sender::OptionsBuilder::default()
+    let sender_options = sender::OptionsBuilder::default()
         .topic_pattern(topic)
         .build()
         .unwrap();
-    let sender: TelemetrySender<T, _> = TelemetrySender::new(
+    let sender: Sender<T, _> = Sender::new(
         application_context.clone(),
         session.create_managed_client(),
         sender_options,
     )
     .unwrap();
 
-    let receiver_options = telemetry_receiver::OptionsBuilder::default()
+    let receiver_options = receiver::OptionsBuilder::default()
         .topic_pattern(topic)
         .auto_ack(auto_ack)
         .build()
         .unwrap();
-    let receiver: TelemetryReceiver<T, _> = TelemetryReceiver::new(
+    let receiver: Receiver<T, _> = Receiver::new(
         application_context,
         session.create_managed_client(),
         receiver_options,
@@ -139,7 +140,7 @@ impl PayloadSerialize for EmptyPayload {
 #[tokio::test]
 async fn telemetry_basic_send_receive_network_tests() {
     let sender_id = "telemetry_basic_send_receive_network_tests-rust";
-    let Ok((session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
+    let Ok((session, sender, mut telemetry_receiver, exit_handle)) =
         setup_test::<EmptyPayload>(sender_id, "protocol/tests/basic/telemetry", true)
     else {
         // Network tests disabled, skipping tests
@@ -160,7 +161,7 @@ async fn telemetry_basic_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        assert!(telemetry_receiver::CloudEvent::from_telemetry(&message).is_err());
+                        assert!(receiver::CloudEvent::from_telemetry(&message).is_err());
                         assert_eq!(message.payload, EmptyPayload::default());
                         assert!(message.custom_user_data.is_empty());
                         assert_eq!(message.sender_id.unwrap(), sender_id);
@@ -183,22 +184,22 @@ async fn telemetry_basic_send_receive_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send QoS 0 message with empty payload
-            let message_qos0 = telemetry_sender::MessageBuilder::default()
+            let message_qos0 = sender::MessageBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtMostOnce)
                 .build()
                 .unwrap();
-            assert!(telemetry_sender.send(message_qos0).await.is_ok());
+            assert!(sender.send(message_qos0).await.is_ok());
 
             // Send QoS 1 message with empty payload
-            let message_qos1 = telemetry_sender::MessageBuilder::default()
+            let message_qos1 = sender::MessageBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtLeastOnce)
                 .build()
                 .unwrap();
-            assert!(telemetry_sender.send(message_qos1).await.is_ok());
+            assert!(sender.send(message_qos1).await.is_ok());
 
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());
@@ -295,7 +296,7 @@ impl PayloadSerialize for DataPayload {
 async fn telemetry_complex_send_receive_network_tests() {
     let topic = "protocol/tests/complex/telemetry";
     let client_id = "telemetry_complex_send_receive_network_tests-rust";
-    let Ok((session, telemetry_sender, mut telemetry_receiver, exit_handle)) =
+    let Ok((session, sender, mut telemetry_receiver, exit_handle)) =
         setup_test::<DataPayload>(client_id, topic, false)
     else {
         // Network tests disabled, skipping tests
@@ -316,7 +317,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         ("test2".to_string(), "value2".to_string()),
     ];
     let test_cloud_event_source = "aio://test/telemetry";
-    let test_cloud_event = telemetry_sender::CloudEventBuilder::default()
+    let test_cloud_event = sender::CloudEventBuilder::default()
         .source(test_cloud_event_source)
         .build()
         .unwrap();
@@ -335,8 +336,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        let cloud_event =
-                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
+                        let cloud_event = receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -364,8 +364,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_some());
 
                         // Validate contents of message match expected based on what was sent
-                        let cloud_event =
-                            telemetry_receiver::CloudEvent::from_telemetry(&message).unwrap();
+                        let cloud_event = receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -401,7 +400,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send QoS 0 message with more complex payload, custom user data, and a cloud event
-            let message_qos0 = telemetry_sender::MessageBuilder::default()
+            let message_qos0 = sender::MessageBuilder::default()
                 .payload(test_payload1)
                 .unwrap()
                 .custom_user_data(test_custom_user_data.clone())
@@ -409,10 +408,10 @@ async fn telemetry_complex_send_receive_network_tests() {
                 .qos(QoS::AtMostOnce)
                 .build()
                 .unwrap();
-            assert!(telemetry_sender.send(message_qos0).await.is_ok());
+            assert!(sender.send(message_qos0).await.is_ok());
 
             // Send QoS 1 message with more complex payload, custom user data, and a cloud event
-            let message_qos1 = telemetry_sender::MessageBuilder::default()
+            let message_qos1 = sender::MessageBuilder::default()
                 .payload(test_payload2)
                 .unwrap()
                 .custom_user_data(test_custom_user_data)
@@ -420,7 +419,7 @@ async fn telemetry_complex_send_receive_network_tests() {
                 .cloud_event(test_cloud_event.clone())
                 .build()
                 .unwrap();
-            assert!(telemetry_sender.send(message_qos1).await.is_ok());
+            assert!(sender.send(message_qos1).await.is_ok());
 
             // wait for the receive_telemetry_task to finish to ensure any failed asserts are captured.
             assert!(receive_telemetry_task.await.is_ok());

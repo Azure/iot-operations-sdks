@@ -24,7 +24,7 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty, PARTITION_KEY},
     },
-    rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc_command::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
     supported_protocol_major_versions_to_string, ProtocolVersion,
 };
 
@@ -56,7 +56,7 @@ struct ResponseArguments {
 }
 
 /// Command Executor Request struct.
-/// Used by the [`CommandExecutor`]
+/// Used by the [`Executor`]
 ///
 /// If dropped, executor will send an error response to the invoker
 pub struct Request<TReq, TResp>
@@ -143,7 +143,7 @@ where
 }
 
 /// Command Executor Response struct.
-/// Used by the [`CommandExecutor`]
+/// Used by the [`Executor`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into, strip_option), build_fn(validate = "Self::validate"))]
 pub struct Response<TResp>
@@ -314,7 +314,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
+/// # use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -326,21 +326,21 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let executor_options = command_executor::OptionsBuilder::default()
+/// let executor_options = executor::OptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// let mut executor: Executor<Vec<u8>, Vec<u8>, _> = Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
 /// // let request = executor.recv().await.unwrap();
-/// // let response = command_executor::ResponseBuilder::default()
+/// // let response = executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
 ///  // .build().unwrap();
 /// // let request.complete(response).await.unwrap();
 /// # });
 /// ```
 #[allow(unused)]
-pub struct CommandExecutor<TReq, TResp, C>
+pub struct Executor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
@@ -372,21 +372,21 @@ enum State {
 }
 
 /// Implementation of Command Executor.
-impl<TReq, TResp, C> CommandExecutor<TReq, TResp, C>
+impl<TReq, TResp, C> Executor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Create a new [`CommandExecutor`].
+    /// Create a new [`Executor`].
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the command executor is part of.
     /// * `client` - The MQTT client to use for communication.
     /// * `executor_options` - Configuration options.
     ///
-    /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
+    /// Returns Ok([`Executor`]) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
@@ -445,7 +445,7 @@ where
         };
 
         // Create Command executor
-        Ok(CommandExecutor {
+        Ok(Executor {
             application_hlc: application_context.application_hlc,
             mqtt_client: client,
             mqtt_receiver,
@@ -460,9 +460,9 @@ where
         })
     }
 
-    /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
+    /// Shutdown the [`Executor`]. Unsubscribes from the request topic.
     ///
-    /// Note: If this method is called, the [`CommandExecutor`] will no longer receive commands
+    /// Note: If this method is called, the [`Executor`] will no longer receive commands
     /// from the MQTT client, any command requests that have not been processed can still be received
     /// by the executor. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
@@ -1305,7 +1305,7 @@ where
     }
 }
 
-impl<TReq, TResp, C> Drop for CommandExecutor<TReq, TResp, C>
+impl<TReq, TResp, C> Drop for Executor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
@@ -1410,7 +1410,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
+        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1418,11 +1418,11 @@ mod tests {
         .unwrap();
 
         assert_eq!(
-            command_executor.request_topic_pattern.as_subscribe_topic(),
+            executor.request_topic_pattern.as_subscribe_topic(),
             "test/test_command_name/test_executor_id/request"
         );
 
-        assert!(!command_executor.is_idempotent);
+        assert!(!executor.is_idempotent);
     }
 
     #[tokio::test]
@@ -1438,7 +1438,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
+        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1446,11 +1446,11 @@ mod tests {
         .unwrap();
 
         assert_eq!(
-            command_executor.request_topic_pattern.as_subscribe_topic(),
+            executor.request_topic_pattern.as_subscribe_topic(),
             "test_namespace/test/test_command_name/test_executor_id/request"
         );
 
-        assert!(command_executor.is_idempotent);
+        assert!(executor.is_idempotent);
     }
 
     #[test_case(""; "empty command name")]
@@ -1467,8 +1467,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(
+        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            Executor::new(
                 ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
@@ -1503,8 +1503,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(
+        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            Executor::new(
                 ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
@@ -1542,8 +1542,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(
+        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            Executor::new(
                 ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
@@ -1570,14 +1570,13 @@ mod tests {
             .command_name("test_command_name")
             .build()
             .unwrap();
-        let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
-            CommandExecutor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                session.create_managed_client(),
-                executor_options,
-            )
-            .unwrap();
-        assert!(command_executor.shutdown().await.is_ok());
+        let mut executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            session.create_managed_client(),
+            executor_options,
+        )
+        .unwrap();
+        assert!(executor.shutdown().await.is_ok());
     }
 
     // Command Response tests

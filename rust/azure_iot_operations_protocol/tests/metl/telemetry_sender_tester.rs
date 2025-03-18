@@ -12,7 +12,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::telemetry::{telemetry_sender, TelemetrySender};
+use azure_iot_operations_protocol::telemetry::sender::{self, Sender};
 
 use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
@@ -66,7 +66,7 @@ where
             }
         }
 
-        let mut senders: HashMap<String, Arc<TelemetrySender<TestPayload, C>>> = HashMap::new();
+        let mut senders: HashMap<String, Arc<Sender<TestPayload, C>>> = HashMap::new();
 
         let sender_count = test_case.prologue.senders.len();
         let mut ix = 0;
@@ -163,8 +163,8 @@ where
         tcs: &TestCaseSender<SenderDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<TelemetrySender<TestPayload, C>> {
-        let mut sender_options_builder = telemetry_sender::OptionsBuilder::default();
+    ) -> Option<Sender<TestPayload, C>> {
+        let mut sender_options_builder = sender::OptionsBuilder::default();
 
         if let Some(telemetry_topic) = tcs.telemetry_topic.as_ref() {
             sender_options_builder.topic_pattern(telemetry_topic);
@@ -194,7 +194,7 @@ where
 
         let sender_options = options_result.unwrap();
 
-        match TelemetrySender::new(
+        match Sender::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             sender_options,
@@ -213,7 +213,7 @@ where
                         .as_ref()
                         .unwrap();
 
-                    let mut telemetry_message_builder = telemetry_sender::MessageBuilder::default();
+                    let mut telemetry_message_builder = sender::MessageBuilder::default();
 
                     if let Some(telemetry_value) = default_send_telemetry.telemetry_value.clone() {
                         telemetry_message_builder
@@ -274,7 +274,7 @@ where
 
     fn send_telemetry(
         action: &TestCaseAction<SenderDefaults>,
-        senders: &'a HashMap<String, Arc<TelemetrySender<TestPayload, C>>>,
+        senders: &'a HashMap<String, Arc<Sender<TestPayload, C>>>,
         send_chans: &mut VecDeque<SendResultReceiver>,
         tcs: &TestCaseSerializer<SenderDefaults>,
     ) {
@@ -289,7 +289,7 @@ where
             qos,
         } = action
         {
-            let mut telemetry_message_builder = telemetry_sender::MessageBuilder::default();
+            let mut telemetry_message_builder = sender::MessageBuilder::default();
 
             if let Some(telemetry_value) = telemetry_value {
                 telemetry_message_builder
@@ -323,7 +323,7 @@ where
             }
 
             if let Some(cloud_event) = cloud_event {
-                let mut cloud_event_builder = telemetry_sender::CloudEventBuilder::default();
+                let mut cloud_event_builder = sender::CloudEventBuilder::default();
 
                 if let Some(source) = &cloud_event.source {
                     cloud_event_builder.source(source);
@@ -351,7 +351,7 @@ where
                             send_chans.push_back(response_rx);
                             response_tx
                                 .send(Err(Self::from_cloud_event_builder_error(
-                                    telemetry_sender::CloudEventBuilderError::ValidationError(
+                                    sender::CloudEventBuilderError::ValidationError(
                                         error.to_string(),
                                     ),
                                 )))
@@ -366,9 +366,8 @@ where
                 }
 
                 if let Some(Some(subject)) = &cloud_event.subject {
-                    cloud_event_builder.subject(telemetry_sender::CloudEventSubject::Custom(
-                        subject.to_string(),
-                    ));
+                    cloud_event_builder
+                        .subject(sender::CloudEventSubject::Custom(subject.to_string()));
                 }
 
                 match cloud_event_builder.build() {
@@ -587,10 +586,10 @@ where
     }
 
     fn from_sender_options_builder_error(
-        builder_error: telemetry_sender::OptionsBuilderError,
+        builder_error: sender::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            telemetry_sender::OptionsBuilderError::UninitializedField(field_name) => {
+            sender::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,
@@ -618,10 +617,10 @@ where
     }
 
     fn from_cloud_event_builder_error(
-        builder_error: telemetry_sender::CloudEventBuilderError,
+        builder_error: sender::CloudEventBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            telemetry_sender::CloudEventBuilderError::UninitializedField(field_name) => {
+            sender::CloudEventBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => Some("cloud_event".to_string()),
@@ -649,10 +648,10 @@ where
     }
 
     fn from_telemetry_message_builder_error(
-        builder_error: telemetry_sender::MessageBuilderError,
+        builder_error: sender::MessageBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            telemetry_sender::MessageBuilderError::UninitializedField(field_name) => {
+            sender::MessageBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

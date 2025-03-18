@@ -7,7 +7,7 @@ use core::fmt::Debug;
 
 use azure_iot_operations_protocol::{
     common::{aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock},
-    rpc::command_invoker,
+    rpc_command::invoker,
 };
 use thiserror::Error;
 
@@ -145,10 +145,10 @@ where
     pub response: T,
 }
 
-/// Convenience function to convert a `command_invoker::Response` into a `state_store::Response`
+/// Convenience function to convert a `invoker::Response` into a `state_store::Response`
 /// Takes in a closure that converts the payload into the desired type.
 fn convert_response<T, F>(
-    resp: command_invoker::Response<resp3::Response>,
+    resp: invoker::Response<resp3::Response>,
     f: F,
 ) -> Result<Response<T>, Error>
 where

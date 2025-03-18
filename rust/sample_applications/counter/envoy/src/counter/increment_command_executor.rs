@@ -6,7 +6,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::{command_executor, CommandExecutor};
+use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
 
 use super::super::common_types::common_options::CommandOptions;
 use super::increment_request_payload::IncrementRequestPayload;
@@ -14,15 +14,14 @@ use super::increment_response_payload::IncrementResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type IncrementRequest =
-    command_executor::Request<IncrementRequestPayload, IncrementResponsePayload>;
-pub type IncrementResponse = command_executor::Response<IncrementResponsePayload>;
-pub type IncrementResponseBuilderError = command_executor::ResponseBuilderError;
+pub type IncrementRequest = executor::Request<IncrementRequestPayload, IncrementResponsePayload>;
+pub type IncrementResponse = executor::Response<IncrementResponsePayload>;
+pub type IncrementResponseBuilderError = executor::ResponseBuilderError;
 
 /// Builder for [`IncrementResponse`]
 #[derive(Default)]
 pub struct IncrementResponseBuilder {
-    inner_builder: command_executor::ResponseBuilder<IncrementResponsePayload>,
+    inner_builder: executor::ResponseBuilder<IncrementResponsePayload>,
 }
 
 impl IncrementResponseBuilder {
@@ -56,7 +55,7 @@ impl IncrementResponseBuilder {
 
 /// Command Executor for `increment`
 pub struct IncrementCommandExecutor<C>(
-    CommandExecutor<IncrementRequestPayload, IncrementResponsePayload, C>,
+    Executor<IncrementRequestPayload, IncrementResponsePayload, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -76,7 +75,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut executor_options_builder = command_executor::OptionsBuilder::default();
+        let mut executor_options_builder = executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -101,7 +100,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandExecutor::new(application_context, client, executor_options)
+            Executor::new(application_context, client, executor_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
