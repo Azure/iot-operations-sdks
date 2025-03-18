@@ -145,7 +145,7 @@ where
     pub response: T,
 }
 
-/// Convenience function to convert a `invoker::Response` into a `state_store::Response`
+/// Convenience function to convert a [`invoker::Response`] into a [`Response`]
 /// Takes in a closure that converts the payload into the desired type.
 fn convert_response<T, F>(
     resp: invoker::Response<resp3::Response>,
