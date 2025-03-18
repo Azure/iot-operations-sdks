@@ -19,7 +19,7 @@ The chunking mechanism will:
 
 ### Protocol Flow
 **Sending Process:**
-- When a payload exceeds the maximum packet size, the client intercepts it before transmission
+- When a payload exceeds the maximum packet size, the MQTT client intercepts it before transmission
 - The message is split into fixed-size chunks (with potentially smaller last chunk)
 - Each chunk is sent as a separate MQTT message with the same topic but with chunk metadata.
 - Any user properties and additional metadata not mandated by the MQTT protocol to appear in every message, originally set on the initial PUBLISH packet, will be included only in the first chunk.
