@@ -1,12 +1,12 @@
-module github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp
+module eventdrivenapp/input_client
 
 go 1.24.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/mqtt v0.3.0
 	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
-	github.com/Azure/iot-operations-sdks/go/services v0.2.0
 	github.com/lmittmann/tint v1.0.6
+	github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/internal/models v0.0.0
 )
 
 require (
