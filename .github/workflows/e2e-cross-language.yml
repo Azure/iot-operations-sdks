@@ -59,7 +59,7 @@ jobs:
 
       - name: CodeGen .NET Counter samples
         run: |
-          pushd dotnet/samples/TestEnvoys; $codegen --modelFile ../../../eng/test/schema-samples/counter.json --sdkPath ../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
+          pushd dotnet/samples/Protocol/TestEnvoys; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
 
       - name: CodeGen Go Counter samples
         run: |
