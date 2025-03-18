@@ -18,8 +18,7 @@ use envoy::counter::client::{
 use tokio::time::sleep;
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    //async fn main() {
+async fn main() {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
@@ -27,14 +26,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?
-        .build()?;
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()
+        .unwrap()
+        .build()
+        .unwrap();
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()?;
-    let session = Session::new(session_options)?;
+        .build()
+        .unwrap();
+    let session = Session::new(session_options).unwrap();
 
-    let application_context = ApplicationContextBuilder::default().build()?;
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     // Use the managed client to run telemetry checks in another task
     let counter_telemetry_check_handle = tokio::task::spawn(counter_telemetry_check(
@@ -60,8 +62,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         async move { session.run().await.map_err(|e| { e.to_string() }) }
     )
     .is_ok());
-
-    Ok(())
 }
 
 /// Wait for the associated telemetry. Then exit the session.
