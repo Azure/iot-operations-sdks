@@ -16,9 +16,7 @@ use env_logger::Builder;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::MqttPubSub;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
@@ -48,15 +46,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .connection_settings(connection_settings)
         .build()?;
 
-     // Create a new session.
-     let session = Session::new(session_options)?;
+    // Create a new session.
+    let session = Session::new(session_options)?;
 
-     // Spawn task for sending messages using ManagedClient created from the Session.
-     tokio::spawn(send_messages(session.create_managed_client()));
- 
-     // Run the session. This blocks until the session is exited.
-     session.run().await?;
-     Ok(())
+    // Spawn task for sending messages using ManagedClient created from the Session.
+    tokio::spawn(send_messages(session.create_managed_client()));
+
+    // Run the session. This blocks until the session is exited.
+    session.run().await?;
+    Ok(())
 }
 
 /// Indefinitely send messages every second

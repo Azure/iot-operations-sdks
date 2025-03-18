@@ -9,8 +9,7 @@ use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::error::ConnectionError;
 use azure_iot_operations_mqtt::interface::MqttPubSub;
 use azure_iot_operations_mqtt::session::{
-    reconnect_policy::ReconnectPolicy, Session, SessionManagedClient,
-    SessionOptionsBuilder,
+    reconnect_policy::ReconnectPolicy, Session, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 

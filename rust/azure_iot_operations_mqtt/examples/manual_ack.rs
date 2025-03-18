@@ -81,22 +81,21 @@ async fn receive_messages(
     // Receive until there are no more messages
     while let Some((msg, ack_token)) = receiver.recv_manual_ack().await {
         println!("Received: {:?}", msg.payload);
-        
-        match store_message(msg).await {
-            Ok(_) => {
+
+        match store_message(&msg) {
+            Ok(()) => {
                 println!("Stored message");
                 // Acknowledge the message once it is stored
                 if let Some(ack_token) = ack_token {
                     let completion_token = ack_token.ack().await?;
                     match completion_token.await {
-                        Ok(_) => println!("Sent message acknowledgement"),
+                        Ok(()) => println!("Sent message acknowledgement"),
                         Err(e) => println!("Error acknowledging message: {e}"),
                     }
                 }
-            },
+            }
             Err(e) => println!("Error storing message: {e}"),
         }
-
     }
 
     Ok(())
@@ -127,7 +126,7 @@ async fn send_messages(
 }
 
 /// Write the message to disk
-async fn store_message(publish: Publish) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+fn store_message(publish: &Publish) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let payload = str::from_utf8(&publish.payload)?;
     // Store the message in a file
     let mut file = std::fs::OpenOptions::new()
