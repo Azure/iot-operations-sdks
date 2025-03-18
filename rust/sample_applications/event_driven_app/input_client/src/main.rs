@@ -23,12 +23,13 @@ use azure_iot_operations_protocol::{
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use tokio::sync::Notify;
+use tokio::sync::mpsc;
 
 const STATE_STORE_SENSOR_KEY: &str = "event_app_sample";
 const WINDOW_SIZE: i64 = 60;
 const DEFAULT_STATE_STORE_OPERATION_TIMEOUT: Duration = Duration::from_secs(10);
 const SENSOR_DATA_TOPIC: &str = "sensor/data";
+const SENSOR_DATA_CHANNEL_SIZE: usize = 100;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -52,16 +53,14 @@ async fn main() {
     // Create application context
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    // Create a shared vector to store incoming sensor data
-    let incoming_sensor_data = Arc::new(Mutex::new(Vec::new()));
-    let incoming_sensor_data_notify = Arc::new(Notify::new());
+    // Create a channel to send incoming sensor data to the processing task
+    let (sensor_data_processing_tx, sensor_data_processing_rx) = mpsc::unbounded_channel();
 
     // Spawn a task to receive telemetry from a sensor
     let receive_telemetry_handle = tokio::task::spawn(receive_telemetry(
         application_context.clone(),
         session.create_managed_client(),
-        incoming_sensor_data.clone(),
-        incoming_sensor_data_notify.clone(),
+        sensor_data_processing_tx,
     ));
 
     // Spawn a task to collect sensor data and store it in the state store
@@ -69,23 +68,21 @@ async fn main() {
         application_context.clone(),
         session.create_managed_client(),
         session.create_connection_monitor(),
-        incoming_sensor_data.clone(),
-        incoming_sensor_data_notify.clone(),
+        sensor_data_processing_rx,
     ));
 
-    assert!(tokio::try_join!(
+    tokio::try_join!(
         async move { session.run().await.map_err(|e| { e.to_string() }) },
         async move { receive_telemetry_handle.await.map_err(|e| e.to_string()) },
         async move { process_sensor_data_handle.await.map_err(|e| e.to_string()) }
     )
-    .is_ok());
+    .unwrap();
 }
 
 async fn receive_telemetry(
     application_context: ApplicationContext,
     client: SessionManagedClient,
-    incoming_sensor_data: Arc<Mutex<Vec<SensorData>>>,
-    incoming_sensor_data_notify: Arc<Notify>,
+    sensor_data_processing_tx: mpsc::UnboundedSender<SensorData>,
 ) {
     let receiver_options = TelemetryReceiverOptionsBuilder::default()
         .topic_pattern(SENSOR_DATA_TOPIC.to_string())
@@ -100,11 +97,9 @@ async fn receive_telemetry(
     while let Some(message) = telemetry_receiver.recv().await {
         match message {
             Ok((message, _ack_token)) => {
-                incoming_sensor_data
-                    .lock()
-                    .expect("incoming_sensor_data lock is handled properly")
-                    .push(message.payload);
-                incoming_sensor_data_notify.notify_one();
+                sensor_data_processing_tx
+                    .send(message.payload)
+                    .expect("receiver end should not be dropped");
             }
             Err(e) => {
                 log::error!("Failed to receive telemetry: {:?}", e);
@@ -118,8 +113,7 @@ async fn process_sensor_data(
     application_context: ApplicationContext,
     client: SessionManagedClient,
     connection_monitor: SessionConnectionMonitor,
-    incoming_sensor_data: Arc<Mutex<Vec<SensorData>>>,
-    incoming_sensor_data_notify: Arc<Notify>,
+    mut sensor_data_processing_rx: mpsc::UnboundedReceiver<SensorData>,
 ) {
     let state_store_client = state_store::Client::new(
         application_context,
@@ -132,8 +126,14 @@ async fn process_sensor_data(
     .expect("state store client creation with default options should not fail");
 
     loop {
-        // Wait for incoming sensor data
-        incoming_sensor_data_notify.notified().await;
+        // Wait and drain incoming sensor data
+        let mut incoming_sensor_data = Vec::new();
+        let added_count = sensor_data_processing_rx
+            .recv_many(&mut incoming_sensor_data, SENSOR_DATA_CHANNEL_SIZE)
+            .await;
+
+        // added_count being zero means the sender channel has been dropped which should not happen
+        assert!(added_count > 0);
 
         // Fetch historical sensor data from the state store
         let get_result = state_store_client
@@ -145,7 +145,7 @@ async fn process_sensor_data(
         match get_result {
             Ok(get_response) => {
                 // Deserialize the historical sensor data
-                let mut sensor_data: Vec<SensorData> = match get_response.response {
+                let historical_sensor_data: Vec<SensorData> = match get_response.response {
                     Some(serialized_data) => match serde_json::from_slice(&serialized_data) {
                         Ok(sensor_data) => sensor_data,
                         Err(e) => {
@@ -166,20 +166,17 @@ async fn process_sensor_data(
                                     log::error!("Failed to delete state store data: {e:?}");
                                 }
                             }
-                            continue;
+                            Vec::new()
                         }
                     },
                     None => Vec::new(), // No data in the state store
                 };
 
-                // Drain the incoming sensor data and append it to the historical sensor data
-                incoming_sensor_data
-                    .lock()
-                    .expect("incoming_sensor_data lock is handled properly")
-                    .drain(..)
-                    .for_each(|d| {
-                        sensor_data.push(d);
-                    });
+                // Merge the historical sensor data with the incoming sensor data
+                let mut sensor_data = incoming_sensor_data
+                    .into_iter()
+                    .chain(historical_sensor_data.into_iter())
+                    .collect::<Vec<_>>();
 
                 // Discard old data
                 sensor_data

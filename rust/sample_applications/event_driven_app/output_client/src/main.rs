@@ -59,11 +59,11 @@ async fn main() {
         session.create_connection_monitor(),
     ));
 
-    assert!(tokio::try_join!(
+    tokio::try_join!(
         async move { session.run().await.map_err(|e| { e.to_string() }) },
         async move { process_window_task.await.map_err(|e| e.to_string()) },
     )
-    .is_ok());
+    .unwrap();
 }
 
 async fn process_window(
