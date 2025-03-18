@@ -6,6 +6,7 @@ import (
 	"errors"
 )
 
+/// Supported schema formats
 type Format int32
 
 const (

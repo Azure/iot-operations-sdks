@@ -19,10 +19,11 @@ func main() {
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 	app := must(protocol.NewApplication(protocol.WithLogger(log)))
 
-	mqttClient := mqtt.NewSessionClient(
+	mqttClient := must(mqtt.NewSessionClient(
+		"statestoresample",
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
-	)
+	))
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"

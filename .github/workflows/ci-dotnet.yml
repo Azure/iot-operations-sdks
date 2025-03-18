@@ -129,10 +129,10 @@ jobs:
         echo "CLIENT_CERT=$(pwd)/.session/client.crt" >> $GITHUB_ENV 
       
     - name: Test SDK (TLS + SAT)
-      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
     - name: Test SDK (TLS + x509)
-      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
+      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
 
     - name: Build DSS CLI (Debug)
       run:  |

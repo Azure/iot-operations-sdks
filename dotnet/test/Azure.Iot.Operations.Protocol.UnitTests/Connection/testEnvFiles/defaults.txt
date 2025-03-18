@@ -1,1 +1,2 @@
 AIO_BROKER_HOSTNAME = localhost
+AIO_MQTT_CLIENT_ID = clientId

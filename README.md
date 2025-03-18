@@ -64,9 +64,12 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
   
 * Take a look at the [samples and tutorials](/samples) for an summary of the different samples available across the languages.
 
-## Features
+## Components
 
-The following tables outline the current feature set, along with the associated language support:
+The following tables outline the current components, along with the associated language support.
+
+> [!TIP]
+> Additional information on the SDK components is available in our [component documentation](doc/components.md).
 
 | State | Support |
 |-|-|

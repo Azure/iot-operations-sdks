@@ -7,8 +7,6 @@ import (
 	"sync"
 )
 
-// NOTE: this may be moved to the common module once we create one.
-
 type listNode[T any] struct {
 	value T
 	prev  *listNode[T]
@@ -44,7 +42,7 @@ func (l *AppendableListWithRemoval[T]) AppendEntry(
 		l.mu.Lock()
 		defer l.mu.Unlock()
 		if node == nil {
-			// node was already deleted
+			// Node was already deleted.
 			return
 		}
 
@@ -60,7 +58,7 @@ func (l *AppendableListWithRemoval[T]) AppendEntry(
 			node.next.prev = node.prev
 		}
 
-		// set this to nil so the node can be garbage collected
+		// Set this to nil so the node can be garbage collected.
 		node = nil
 	}
 }

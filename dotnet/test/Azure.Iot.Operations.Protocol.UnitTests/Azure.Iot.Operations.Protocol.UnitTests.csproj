@@ -42,6 +42,15 @@
     <None Update="Connection\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Connection\testEnvFiles\missingClientId.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Connection\testMountFilesMissingClientId\BROKER_TARGET_ADDRESS">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Connection\testMountFilesMissingClientId\BROKER_USE_TLS">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

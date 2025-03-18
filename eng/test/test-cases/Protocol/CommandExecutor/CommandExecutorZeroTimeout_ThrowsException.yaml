@@ -15,7 +15,6 @@ prologue:
   - execution-timeout: { seconds: 0 }
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:

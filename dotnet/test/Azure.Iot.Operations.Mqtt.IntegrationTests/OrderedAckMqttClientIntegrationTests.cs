@@ -79,7 +79,7 @@ public class OrderedAckMqttClientIntegrationTests
                 receivedMessage1Tcs.TrySetResult(args);
             }
             else if (messagesReceived == 2)
-            { 
+            {
                 receivedMessage2Tcs.TrySetResult(args);
             }
 
@@ -146,14 +146,5 @@ public class OrderedAckMqttClientIntegrationTests
         Assert.Equal(0, disconnectCount);
 
         await mqttClient.DisconnectAsync();
-    }
-
-    [Fact]
-    public async Task OrderedAckMqttClientCanUseBrokerAssignedClientId()
-    {
-        await using OrderedAckMqttClient mqttClient = await ClientFactory.CreateClientAsyncFromEnvAsync("", false, true);
-
-        Assert.NotNull(mqttClient.ClientId);
-        Assert.NotEmpty(mqttClient.ClientId);
     }
 }

@@ -11,13 +11,13 @@ Review the following links for more information about the product and broader de
 
 To get started with a .NET SDK tutorial, follow these steps:
  
-1. Complete the [Getting started](/README.md#getting-started) steps to setup your cluster and install Azure IoT Operations.
+1. To set up your cluster and install Azure IoT Operations, refer to the [setup guide](/doc/setup.md)
 
 1. Install the [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 1. Run the [Event Driven Application](tutorials/EventDrivenApp) tutorial.
 
-## Developing an edge application
+## Developing your application
 
 1. Create a new .NET application. Use one of the [existing samples](samples) as a starting point if desired.
 
@@ -35,9 +35,11 @@ To get started with a .NET SDK tutorial, follow these steps:
     dotnet add package Azure.IoT.Operations.Services --prerelease
     ```
 
-1. Add your own logic by reviewing the [package documentation](#packages) for details on using the various SDK components and debug your application locally.
+1. Add your own logic by reviewing the [package documentation](#packages) for details on using the various SDK components and debugging your application.
 
-1. [Deploy the application](/doc/deploy.md) to your cluster for final validation.
+## Deploying your application
+
+Refer to the [Deploy the application](/doc/edge_application/deploy.md) documentation to build your image and deploy it to your cluster for final validation.
 
 ## Packages
 
@@ -54,4 +56,4 @@ The following Azure IoT Operations packages are available:
  
 ## Samples
 
-Refer to the [samples](samples) directory for a comprehensive list of samples using the .NET SDK.
+Refer to the [samples directory](samples) for a comprehensive list of samples using the Azure IoT Operations .NET SDK.

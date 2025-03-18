@@ -7,6 +7,9 @@ import (
 	"errors"
 )
 
+<# if (this.enumType.Description != null) { #>
+/// <#=this.enumType.Description#>
+<# } #>
 type <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#> int32
 
 const (

@@ -53,17 +53,9 @@ The SDK supports the following application types:
 > [!NOTE]
 > The Akri connector is part of the Akri service, which is under active development and will be available in the near future.
 
-## Developing edge applications
+## Samples
 
-1. Read more on developing [edge applications](edge_application).
-
-1. Review the [samples](/samples) directory for samples and tutorials.
-
-1. Learn how to [deploy](deploy.md) your application to the cluster.
-
-## Limitations
-
-Review any [known limitations](limitations.md) associated with the current service and client implementations.
+Review the [samples](/samples) directory for samples and tutorials about creating applications for Azure IoT Operations.
 
 ## Reference
 

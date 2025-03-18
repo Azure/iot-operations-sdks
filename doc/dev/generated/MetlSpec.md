@@ -35,7 +35,6 @@ prologue:
   - response-topic-prefix: "prefix/{in/valid}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false
 ```
@@ -43,24 +42,24 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
+test-name: TelemetrySenderSend_TimeoutPropagated
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with payload that cannot deserialize.
+    TelemetrySender sends a Telemetry.
   expect: >-
-    TelemetryReceiver does not relay telemetry to user code.
+    TelemetrySender copies Telemetry timout value into message expiry interval.
 prologue:
-  receivers:
-  - serializer:
-      fail-deserialization: true
+  senders:
+  - { }
 actions:
-- action: receive telemetry
-  packet-index: 0
-- action: await acknowledgement
-  packet-index: 0
+- action: send telemetry
+  timeout: { seconds: 3 }
+- action: await publish
+- action: await send
 epilogue:
-  acknowledgement-count: 1
-  telemetry-count: 0
+  published-messages:
+  - topic: "mock/test"
+    expiry: 3
 ```
 
 ### Key/value kinds
@@ -104,7 +103,6 @@ prologue:
   - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
@@ -181,14 +179,14 @@ Following is an example CommandExecutor prologue:
 ```yaml
 prologue:
   executors:
-  - execution-timeout: { seconds: 0 }
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'executiontimeout'
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -491,14 +489,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - request-topic: "mock/{commandName}/test"
+  - topic-namespace: "invalid/{modelId}"
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
-    is-remote: !!bool false
+    is-remote: !!bool false 
     supplemental:
-      property-name: 'commandname'
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -679,13 +677,13 @@ An `await invocation` action causes the test system to wait for a command invoca
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: internal logic error
-    in-application: !!bool false
+    error-kind: unsupported version
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 500
+    message: "This is a not supported version exception"
     supplemental:
-      property-name: 'buffer'
+      protocol-version: '1.0'
+      supported-protocols: "2 3 4"
 ```
 
 When the value of the `action` key is `await invocation`, the following sibling keys are also available:
@@ -796,15 +794,15 @@ Following is an example TelemetryReceiver prologue:
 
 ```yaml
 prologue:
-  push-acks:
-    subscribe: [ fail ]
   receivers:
-  - { }
+  - telemetry-topic: ""
   catch:
-    error-kind: mqtt error
-    in-application: !!bool false
-    is-shallow: !!bool false
+    error-kind: invalid configuration
+    is-shallow: !!bool true
     is-remote: !!bool false 
+    supplemental:
+      property-name: 'topicpattern'
+      property-value: ""
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -842,7 +840,7 @@ The 'serializer' key provides configuration settings for the test serializer ass
 ```yaml
   receivers:
   - serializer:
-      fail-deserialization: true
+      accept-content-types: [ "", "non.conforming" ]
 ```
 
 A TelemetryReceiver serializer can have the following child keys:
@@ -962,10 +960,10 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
     "id": "dtmi:test:someAssignedId;1"
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
-    "specversion": "1.0"
+    "specversion": "0.707"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
-    "dataschema": ""
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
   packet-index: 0
 ```
 
@@ -1023,7 +1021,6 @@ prologue:
   - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
-    in-application: !!bool false
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
@@ -1091,10 +1088,10 @@ epilogue:
     payload: "Test_Telemetry"
     metadata:
       "source": "dtmi:test:myEventSource;1"
-      "type": "ms.aio.telemetry"
+      "type": "test-type"
       "specversion": "1.0"
       "subject": "mock/test"
-      "dataschema": # not present
+      "dataschema": "dtmi:test:MyModel:_contents:__test;1"
 ```
 
 #### SenderEpilogue
@@ -1136,8 +1133,7 @@ actions:
     source: "dtmi:test:myEventSource;1"
 - action: await send
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
 ```
@@ -1208,8 +1204,7 @@ An `await send` action causes the test system to wait for a telemetry send to co
 ```yaml
 - action: await send
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
     supplemental:
@@ -1320,7 +1315,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "ThisInvokerId"
+    client-id: "MySenderClientId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1368,11 +1363,9 @@ The value of `catch` defines an error that is expected to be caught, as in the f
 
 ```yaml
   catch:
-    error-kind: request version not supported
-    in-application: !!bool false
+    error-kind: unsupported version
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 505
     message: "This is a not supported version exception"
     supplemental:
       protocol-version: '1.0'
@@ -1384,10 +1377,8 @@ The catch can have the following child keys:
 | Key | Test Kind | Required | Value Type | Description |
 | --- | --- | --- | --- | --- |
 | error-kind | check | yes | string | The kind of error expected to be caught. |
-| in-application | check | no | boolean | Whether the error occurs in user-supplied code rather than the SDK or its dependent components. |
 | is-shallow | check | no | boolean | Whether the error is identified immediately after the API was called, prior to any attempted network communication. |
 | is-remote | check | no | boolean | Whether the error is detected by a remote component. |
-| status-code | check | no | integer or null | An HTTP status code from a remote service that initally caught the error. |
 | message | check | no | string | The error message; should be checked only when explicitly set in a test case. |
 | supplemental | check | no | map from string to string | Additional properties that may be set for some error kinds. |
 
@@ -1400,7 +1391,7 @@ See the [error model document](../../reference/error-model.md) for further detai
 A Duration defines a span of time, as in the following example:
 
 ```yaml
-  message-expiry: { seconds: 20 }
+  message-expiry: { seconds: 10 }
 ```
 
 By convention, this object is written in YAML flow style.

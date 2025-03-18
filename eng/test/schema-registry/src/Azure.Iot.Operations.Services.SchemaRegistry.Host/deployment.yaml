@@ -25,7 +25,7 @@ spec:
           mountPath: /var/run/secrets/tokens
         env:
         - name: ConnectionStrings__Mq
-          value: "HostName=aio-broker;CaFile=/certs/ca.crt;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;KeepAlive=PT10M"
+          value: "HostName=aio-broker;ClientId=SchemaRegistryHost;CaFile=/certs/ca.crt;SatAuthFile=/var/run/secrets/tokens/mqtt-client-token;CleanStart=false;ConnectionTimeout=PT5S;KeepAlive=PT10M"
         - name: mqttDiag
           value: "false"
       volumes:

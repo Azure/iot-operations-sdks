@@ -117,13 +117,13 @@ where
     ///
     /// # Arguments
     /// * `get_request` - The request to get a schema from the schema registry.
-    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
+    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns a [`Schema`] if the schema was found, otherwise returns `None`.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if the `timeout` is < 1 ms or > `u32::max`, or there is an error building the request.
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.
@@ -165,26 +165,36 @@ where
                 SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
             })?;
 
-        Ok(self
-            .get_command_invoker
-            .invoke(command_request)
-            .await
-            .map_err(SchemaRegistryErrorKind::from)?
-            .payload
-            .schema)
+        let get_result = self.get_command_invoker.invoke(command_request).await;
+
+        match get_result {
+            Ok(response) => Ok(response.payload.schema),
+            Err(e) => {
+                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
+                    if let Some(nested_error) = &e.nested_error {
+                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
+                            if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
+                                return Ok(None);
+                            }
+                        }
+                    }
+                }
+                Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e)))
+            }
+        }
     }
 
     /// Adds or updates a schema in the schema registry service.
     ///
     /// # Arguments
     /// * `put_request` - The request to put a schema in the schema registry.
-    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request.
+    /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the [`Schema`] that was put if the request was successful.
     ///
     /// # Errors
     /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
-    /// if the `content` is empty, the `timeout` is < 1 ms or > `u32::max`, or there is an error building the request.
+    /// if the `content` is empty, the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
     /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
     /// if there is an error serializing the request.

@@ -251,6 +251,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         // that explains the difference if there was one.
         public MqttClientConnectResult CompareExpectedConnectWithActual(Azure.Iot.Operations.Protocol.Models.MqttClientOptions expectedOptions, MqttClientOptions actualOptions, bool isReconnecting)
         {
+            // This user property is added by the ordered ack client by default
+            expectedOptions.AddUserProperty("metriccategory", "aiosdk-dotnet");
+
             CompareExpectedUserPropertiesWithActual(expectedOptions.UserProperties, actualOptions.UserProperties);
 
             if (expectedOptions.AllowPacketFragmentation != actualOptions.AllowPacketFragmentation)

@@ -9,7 +9,6 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
@@ -67,8 +66,8 @@ func NewTelemetrySender[T any](
 ) (ts *TelemetrySender[T], err error) {
 	var opts TelemetrySenderOptions
 	opts.Apply(opt)
-	logger := log.Wrap(opts.Logger, app.log)
 
+	logger := log.Wrap(opts.Logger, app.log)
 	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
@@ -96,8 +95,7 @@ func NewTelemetrySender[T any](
 		client:   client,
 		encoding: encoding,
 		topic:    tp,
-		version:  version.TelemetryProtocolString,
-		log:      logger,
+		version:  version.Telemetry,
 	}
 
 	return ts, nil
@@ -109,10 +107,10 @@ func (ts *TelemetrySender[T]) Send(
 	val T,
 	opt ...SendOption,
 ) (err error) {
-	shallow := true
 	var opts SendOptions
 	opts.Apply(opt)
 
+	shallow := true
 	defer func() { err = errutil.Return(err, ts.log, shallow) }()
 
 	timeout := opts.Timeout
@@ -125,7 +123,7 @@ func (ts *TelemetrySender[T]) Send(
 		Name:     "MessageExpiry",
 		Text:     telemetrySenderErrStr,
 	}
-	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+	if err := expiry.Validate(); err != nil {
 		return err
 	}
 
@@ -143,11 +141,13 @@ func (ts *TelemetrySender[T]) Send(
 	}
 	pub.Retain = opts.Retain
 
-	ts.log.Debug(ctx, "sending telemetry",
-		slog.String("topic", pub.Topic))
-
 	shallow = false
-	return ts.publisher.publish(ctx, pub)
+	if err := ts.publisher.publish(ctx, pub); err != nil {
+		return err
+	}
+
+	ts.log.Debug(ctx, "telemetry sent", slog.String("topic", pub.Topic))
+	return nil
 }
 
 // Apply resolves the provided list of options.

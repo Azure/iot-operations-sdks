@@ -6,7 +6,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
@@ -21,7 +20,6 @@ type publisher[T any] struct {
 	client   MqttClient
 	encoding Encoding[T]
 	topic    *internal.TopicPattern
-	log      log.Logger
 	version  string
 }
 
@@ -61,11 +59,12 @@ func (p *publisher[T]) build(
 		if msg.CorrelationData != "" {
 			correlationData, err := uuid.Parse(msg.CorrelationData)
 			if err != nil {
-				return nil, &errors.Remote{
-					Base: errors.Base{
-						Message: "correlation data is not a valid UUID",
-						Kind:    errors.InternalLogicError,
+				return nil, &errors.Client{
+					Message: "correlation data is not a valid UUID",
+					Kind: errors.InternalLogicError{
+						PropertyName: "CorrelationData",
 					},
+					Nested: err,
 				}
 			}
 			pub.CorrelationData = correlationData[:]
