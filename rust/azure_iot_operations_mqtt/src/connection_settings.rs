@@ -328,9 +328,7 @@ mod tests {
     use std::env;
     use std::fs;
     use std::path::PathBuf;
-    use std::process;
     use std::sync::Mutex;
-    use std::time::{SystemTime, UNIX_EPOCH};
 
     pub static FILE_DIR_MTX: Mutex<()> = Mutex::new(());
 
@@ -516,18 +514,8 @@ mod tests {
 
     // Helper function to create a unique temporary directory
     fn create_temp_dir() -> (PathBuf, String) {
-        // Create a unique directory name using process ID and timestamp
-        let pid = process::id();
-        let timestamp = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .expect("Time went backwards")
-            .as_secs();
-        let nanos = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .expect("Time went backwards")
-            .subsec_nanos();
-
-        let temp_dir_path = format!("/tmp/mqtt_test_{pid}_{timestamp}_{nanos}");
+        // Create a directory name - it can be sae as tests are using mutex
+        let temp_dir_path = format!("/tmp/mqtt_test");
         let path_buf = PathBuf::from(&temp_dir_path);
 
         // Create the directory
@@ -877,6 +865,8 @@ mod tests {
         assert_eq!(builder.use_tls, Some(false));
         assert_eq!(builder.client_id, Some("custom-client-id".to_string()));
 
+        let settings_result = builder.build();
+        assert!(settings_result.is_ok());
         cleanup_temp_dir(&temp_dir);
     }
 }
