@@ -527,7 +527,7 @@ mod tests {
     // Helper function to create a unique temporary directory
     fn create_temp_dir() -> (PathBuf, String) {
         // Create a directory name - it can be sae as tests are using mutex
-        let temp_dir_path = format!("/tmp/mqtt_test".to_string());
+        let temp_dir_path = "/tmp/mqtt_test".to_string();
         let path_buf = PathBuf::from(&temp_dir_path);
 
         // Create the directory
