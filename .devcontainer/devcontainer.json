@@ -8,6 +8,7 @@
     },
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
         "ghcr.io/devcontainers/features/azure-cli:1": { "extensions": "connectedk8s,k8s-extension,azure-iot-ops" },
         "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": { "minikube": "none" },
         "ghcr.io/devcontainers/features/dotnet:2": { "version": "9.0" },

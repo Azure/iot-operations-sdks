@@ -9,11 +9,14 @@ else
 fi
 
 # create environment variables to support deployment
-echo "export SESSION=$PWD/.session
+echo "
+export SESSION=$PWD/.session
 export CLUSTER_NAME=${BASE_NAME}
 export STORAGE_ACCOUNT=${BASE_NAME}storage
 export SCHEMA_REGISTRY=${BASE_NAME}schema
-export SCHEMA_REGISTRY_NAMESPACE=${BASE_NAME}schemans" >> ~/.bashrc
+export SCHEMA_REGISTRY_NAMESPACE=${BASE_NAME}schemans
+export PATH=$PATH:~/.dotnet/tools
+" >> ~/.bashrc
 
 # create a default resource group if not defined
 if [ -z "$RESOURCE_GROUP" ]; then
