@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.IntegrationTests;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
+using System.Buffers;
 
 namespace Azure.Iot.Operations.Protocol.Session.IntegrationTests;
 
@@ -48,7 +49,7 @@ public class MqttSessionClientIntegrationTests
         }
 
         Assert.NotNull(receivedMessage);
-        Assert.Equal(expectedPayload, receivedMessage.PayloadSegment.Array);
+        Assert.Equal(expectedPayload, receivedMessage.Payload.ToArray());
         Assert.Equal(expectedTopic, receivedMessage.Topic);
 
         MqttClientUnsubscribeResult unsubscribeResult =
@@ -57,14 +58,5 @@ public class MqttSessionClientIntegrationTests
         Assert.Single(unsubscribeResult.Items);
         Assert.Equal(expectedTopic, unsubscribeResult.Items.First().TopicFilter);
         Assert.Equal(MqttClientUnsubscribeReasonCode.Success, unsubscribeResult.Items.First().ReasonCode);
-    }
-
-    [Fact]
-    public async Task MqttSessionClientCanUseBrokerAssignedClientId()
-    {
-        await using MqttSessionClient sessionClient = await ClientFactory.CreateSessionClientFromEnvAsync("", true);
-
-        Assert.NotNull(sessionClient.ClientId);
-        Assert.NotEmpty(sessionClient.ClientId);
     }
 }

@@ -1,0 +1,31 @@
+---
+test-name: TelemetrySenderSendWithCloudEventIdNonUri_Success
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry with CloudEvent info with an ID value that is neither an absolute nor relative URI.
+  expect: >-
+    TelemetrySender performs send and embeds CloudEvent info (including defaults) in Telemetry metadata.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
+    id: "::::"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "source": "dtmi:test:myEventSource;1"
+      "type": "ms.aio.telemetry"
+      "specversion": "1.0"
+      "id": "::::"
+      "subject": "mock/test"
+...

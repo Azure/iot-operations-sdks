@@ -49,7 +49,8 @@
             HeaderRowGenerator.GenerateRows(markdownFile, includedColumns.Select(c => c.Name));
 
             string? defaultPath = tableElt.HasAttribute("defaults") ? tableElt.GetAttribute("defaults") : null;
-            this.propertyRowGenerator.GenerateRows(markdownFile, includedColumns, defaultPath);
+            string[] popDefaults = tableElt.GetAttribute("popDefaults").Split(' ');
+            this.propertyRowGenerator.GenerateRows(markdownFile, includedColumns, defaultPath, popDefaults);
 
             markdownFile.EndTable();
         }

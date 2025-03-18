@@ -1,36 +1,31 @@
-﻿using Azure.Iot.Operations.Protocol;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Collections.ObjectModel;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
     public class MockMqttClient : IMqttClient
     {
-        private string _clientId;
-        private readonly MqttProtocolVersion _protocolVersion;
-        private bool _isConnected;
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public MockMqttClient(string? clientId = null, MqttProtocolVersion protocolVersion = MqttProtocolVersion.V500)
         {
-            _clientId = clientId ?? Guid.NewGuid().ToString();
-            _protocolVersion = protocolVersion;
+            ClientId = clientId ?? Guid.NewGuid().ToString();
+            ProtocolVersion = protocolVersion;
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public bool IsConnected => _isConnected;
+        public bool IsConnected { get; private set; }
 
         public MqttClientOptions Options { get; set; }
 
-        public string? ClientId => _clientId;
+        public string? ClientId { get; private set; }
 
-        public MqttProtocolVersion ProtocolVersion => _protocolVersion;
+        public MqttProtocolVersion ProtocolVersion { get; }
 
         public List<MqttApplicationMessageReceivedEventArgs> AcknowledgedMessages = new();
 
@@ -38,8 +33,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
         public event Func<MqttClientDisconnectedEventArgs, Task>? DisconnectedAsync;
         public event Func<MqttClientOptions, Task<MqttClientConnectResult>>? OnConnectAttempt;
-        public event Func<MqttClientDisconnectOptions, Task>? OnDisconnectAttempt;
-        
+        public event Func<MqttClientDisconnectOptions?, Task>? OnDisconnectAttempt;
+
         public event Func<MqttApplicationMessage, Task<MqttClientPublishResult>>? OnPublishAttempt;
         public event Func<MqttClientSubscribeOptions, Task<MqttClientSubscribeResult>>? OnSubscribeAttempt;
         public event Func<MqttClientUnsubscribeOptions, Task<MqttClientUnsubscribeResult>>? OnUnsubscribeAttempt;
@@ -54,7 +49,10 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 packetId,
                 AcknowledgeReceivedMessageAsync);
 
-            await ApplicationMessageReceivedAsync.Invoke(msgReceivedArgs);
+            if (ApplicationMessageReceivedAsync != null)
+            {
+                await ApplicationMessageReceivedAsync.Invoke(msgReceivedArgs);
+            }
 
             if (msgReceivedArgs.AutoAcknowledge)
             {
@@ -64,7 +62,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public async Task SimulateServerInitiatedDisconnectAsync(Exception cause, MqttClientDisconnectReason reason = MqttClientDisconnectReason.ImplementationSpecificError)
         {
-            _isConnected = false;
+            IsConnected = false;
 
             if (DisconnectedAsync != null)
             {
@@ -88,23 +86,16 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            MqttClientConnectResult connectResult;
-            if (OnConnectAttempt != null)
-            {
-                connectResult = await OnConnectAttempt(options);
-            }
-            else
-            {
-                connectResult = new MqttClientConnectResult()
+            MqttClientConnectResult connectResult = OnConnectAttempt != null
+                ? await OnConnectAttempt(options)
+                : new MqttClientConnectResult()
                 {
                     ResultCode = MqttClientConnectResultCode.Success,
                     IsSessionPresent = !options.CleanSession,
                 };
-            }
-
             if (connectResult.ResultCode == MqttClientConnectResultCode.Success)
             {
-                _isConnected = true;
+                IsConnected = true;
             }
 
             Options = options;
@@ -113,7 +104,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // that are relevant to the client
             if (connectResult.AssignedClientIdentifier != null)
             {
-                _clientId = connectResult.AssignedClientIdentifier;
+                ClientId = connectResult.AssignedClientIdentifier;
                 Options.ClientId = connectResult.AssignedClientIdentifier;
             }
             else if (string.IsNullOrEmpty(options.ClientId))
@@ -126,7 +117,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return connectResult;
         }
 
-        public async Task DisconnectAsync(MqttClientDisconnectOptions options, CancellationToken cancellationToken = default)
+        public async Task DisconnectAsync(MqttClientDisconnectOptions? options, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -135,7 +126,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 await OnDisconnectAttempt(options);
             }
 
-            _isConnected = false;
+            IsConnected = false;
 
             DisconnectedAsync?.Invoke(new MqttClientDisconnectedEventArgs(true, new MqttClientConnectResult(), MqttClientDisconnectReason.NormalDisconnection, "disconnected", new List<MqttUserProperty>(), new Exception()));
         }
@@ -143,11 +134,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public Task PingAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
-        }
-
-        public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
         }
 
         public async Task<MqttClientSubscribeResult> SubscribeAsync(MqttClientSubscribeOptions options, CancellationToken cancellationToken = default)
@@ -206,7 +192,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 return OnPublishAttempt.Invoke(applicationMessage);
             }
 
-            return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, string.Empty, null));
+            return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, string.Empty, new ReadOnlyCollection<MqttUserProperty>(new List<MqttUserProperty>())));
         }
 
         public Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
@@ -229,6 +215,11 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             // nothing to dispose
             return ValueTask.CompletedTask;
+        }
+
+        public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

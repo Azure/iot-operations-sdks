@@ -18,10 +18,16 @@ For more details on how leader election works, please see [here](../../../dotnet
 
 ## Setup script
 
-Run [this script](./setup.sh) to build and run everything necessary for this sample. 
+1. Run [this script](./setup.sh) to initialize cluster, build the sample and run everything necessary for this sample. 
 
 ```bash
 bash ./setup.sh
+```
+
+2. If there is an existing cluster with MQ running already runn [this script](./run-sample.sh). This will only build the sample and run everything necessary. 
+
+```bash
+bash ./run-sample.sh
 ```
 
 For more details, or to deploy this sample one step at time, follow the instructions below.

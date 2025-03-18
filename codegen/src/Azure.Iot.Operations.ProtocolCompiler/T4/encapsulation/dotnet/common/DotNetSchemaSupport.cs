@@ -9,8 +9,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 ArrayType arrayType => $"List<{GetType(arrayType.ElementSchema)}>",
                 MapType mapType => $"Dictionary<string, {GetType(mapType.ValueSchema)}>",
-                ObjectType objectType => objectType.SchemaName,
-                EnumType enumType => enumType.SchemaName,
+                ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.CSharp),
+                EnumType enumType => enumType.SchemaName.GetTypeName(TargetLanguage.CSharp),
                 BooleanType _ => "bool",
                 DoubleType _ => "double",
                 FloatType _ => "float",
@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 StringType _ => "string",
                 BytesType _ => "byte[]",
                 DecimalType _ => "DecimalString",
-                ReferenceType referenceType => referenceType.SchemaName,
+                ReferenceType referenceType => referenceType.SchemaName.GetTypeName(TargetLanguage.CSharp),
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
         }

@@ -65,13 +65,13 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         internal static string ToString(int[] majorProtocolVersionArray)
         {
-            string spaceSeperatedListOfSupportedProtocolVersions = "";
+            string spaceSeparatedListOfSupportedProtocolVersions = "";
             foreach (int supportedProtocolVersion in majorProtocolVersionArray)
             {
-                spaceSeperatedListOfSupportedProtocolVersions += $" {supportedProtocolVersion}";
+                spaceSeparatedListOfSupportedProtocolVersions += $" {supportedProtocolVersion}";
             }
 
-            return spaceSeperatedListOfSupportedProtocolVersions.TrimStart(' ');
+            return spaceSeparatedListOfSupportedProtocolVersions.TrimStart(' ');
         }
     }
 }

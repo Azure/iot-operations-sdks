@@ -10,8 +10,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 ArrayType arrayType => $"[]{GetType(arrayType.ElementSchema, true)}",
                 MapType mapType => $"map[string]{GetType(mapType.ValueSchema, true)}",
-                ObjectType objectType => $"{optRef}{objectType.SchemaName}",
-                EnumType enumType => $"{optRef}{enumType.SchemaName}",
+                ObjectType objectType => $"{optRef}{objectType.SchemaName.GetTypeName(TargetLanguage.Go)}",
+                EnumType enumType => $"{optRef}{enumType.SchemaName.GetTypeName(TargetLanguage.Go)}",
                 BooleanType _ => $"{optRef}bool",
                 DoubleType _ => $"{optRef}float64",
                 FloatType _ => $"{optRef}float32",
@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 StringType _ => $"{optRef}string",
                 BytesType _ => $"{optRef}iso.ByteSlice",
                 DecimalType _ => $"{optRef}decimal.Decimal",
-                ReferenceType referenceType => $"{optRef}{referenceType.SchemaName}",
+                ReferenceType referenceType => $"{optRef}{referenceType.SchemaName.GetTypeName(TargetLanguage.Go)}",
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
         }

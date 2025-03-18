@@ -5,14 +5,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class MapAvroSchema : ITemplateTransform
     {
         private readonly DTSchemaInfo valueSchema;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly int indent;
+        private readonly CodeName? sharedPrefix;
 
-        public MapAvroSchema(DTSchemaInfo valueSchema, DtmiToSchemaName dtmiToSchemaName, int indent)
+        public MapAvroSchema(DTSchemaInfo valueSchema, int indent, CodeName? sharedPrefix)
         {
             this.valueSchema = valueSchema;
-            this.dtmiToSchemaName = dtmiToSchemaName;
             this.indent = indent;
+            this.sharedPrefix = sharedPrefix;
         }
 
         public string FileName { get => string.Empty; }

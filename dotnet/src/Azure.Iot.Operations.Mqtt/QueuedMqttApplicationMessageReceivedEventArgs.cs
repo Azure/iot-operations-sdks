@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
-using MQTTnet.Client;
+using MQTTnet;
 
 namespace Azure.Iot.Operations.Mqtt
 {

@@ -14,8 +14,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreObjectCRUD()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         string key = Guid.NewGuid().ToString();
         string value = Guid.NewGuid().ToString();
@@ -36,8 +36,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreObjectExpiryTime()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
@@ -66,8 +66,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreConditionalSet()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
@@ -138,8 +138,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreConditionalDelete()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
@@ -177,8 +177,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreObserveSingleKey()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         KeyChangeMessageReceivedEventArgs? mostRecentKeyChange = null;
         TaskCompletionSource onKeyChange = new TaskCompletionSource();
@@ -234,8 +234,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreObserveSingleKeyThatExpires()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         KeyChangeMessageReceivedEventArgs? mostRecentKeyChange = null;
         TaskCompletionSource onKeyChange = new TaskCompletionSource();
@@ -294,8 +294,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreUnobserveSingleKey()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         KeyChangeMessageReceivedEventArgs? mostRecentKeyChange = null;
         TaskCompletionSource onKeyChange = new TaskCompletionSource();
@@ -352,8 +352,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task UpdateKeyWithEmptyValueShouldNotThrow()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var resp = await stateStoreClient.SetAsync("keyEmpty", string.Empty);
         Assert.True(resp.Success);
@@ -362,8 +362,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task CreateStateStoreEntryWithLargeSizeKey()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var keyPayload = new byte[6500]; // State store has no defined "max key size", so this is pretty arbitrary
         StateStoreKey largeSizeKey = new StateStoreKey(keyPayload);
@@ -375,8 +375,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task CreateStateStoreEntryWithLargeSizeValue()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var valuePayload = new byte[65000]; // State store has no defined "max value size", so this is pretty arbitrary
         StateStoreKey normalSizeKey = Guid.NewGuid().ToString();
@@ -388,8 +388,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreEmptyValue()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         string key = Guid.NewGuid().ToString();
         string value = "";
@@ -405,8 +405,8 @@ public class StateStoreClientIntegrationTests
     public async Task TestKeyLengthZero()
     // ensures the proper error reason is given for a key length of zero
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         try
         {
@@ -421,8 +421,8 @@ public class StateStoreClientIntegrationTests
     [Fact]
     public async Task TestStateStoreFencingTokenSkew()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync("");
-        await using var stateStoreClient = new StateStoreClient(mqttClient);
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
 
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();

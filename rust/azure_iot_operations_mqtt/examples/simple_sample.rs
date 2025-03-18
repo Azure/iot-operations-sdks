@@ -39,7 +39,7 @@ async fn main() {
         .unwrap();
 
     // Create a new session.
-    let mut session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options).unwrap();
 
     // Spawn tasks for sending and receiving messages using managed clients
     // created from the session.
@@ -56,13 +56,13 @@ async fn main() {
 /// Indefinitely receive
 async fn receive_messages(client: SessionManagedClient) {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let mut receiver = client.create_filtered_pub_receiver(TOPIC, true).unwrap();
+    let mut receiver = client.create_filtered_pub_receiver(TOPIC).unwrap();
     println!("Subscribing to {TOPIC}");
     client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
 
     // Receive indefinitely
     loop {
-        let (msg, _) = receiver.recv().await.unwrap();
+        let msg = receiver.recv().await.unwrap();
         println!("Received: {}", str::from_utf8(&msg.payload).unwrap());
     }
 }

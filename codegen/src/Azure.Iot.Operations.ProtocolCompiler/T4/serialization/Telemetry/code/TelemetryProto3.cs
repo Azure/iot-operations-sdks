@@ -6,26 +6,24 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class TelemetryProto3 : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string schema;
+        private readonly CodeName genNamespace;
+        private readonly ITypeName schema;
         private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
         private readonly HashSet<DTSchemaInfo> uniqueSchemas;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly HashSet<string> importNames;
 
-        public TelemetryProto3(string projectName, string genNamespace, string schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, DtmiToSchemaName dtmiToSchemaName)
+        public TelemetryProto3(string projectName, CodeName genNamespace, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
             this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
             this.uniqueSchemas = new HashSet<DTSchemaInfo>(nameDescSchemaRequiredIndices.Select(ndsi => ndsi.Item3));
-            this.dtmiToSchemaName = dtmiToSchemaName;
             this.importNames = new HashSet<string>();
         }
 
-        public string FileName { get => $"{this.schema}.proto"; }
+        public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.proto"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFileName(TargetLanguage.Independent); }
     }
 }

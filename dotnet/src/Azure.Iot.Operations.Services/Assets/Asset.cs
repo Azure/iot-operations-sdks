@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Services.Assets
         public string? Description { get; set; }
 
         /// <summary>
-        /// A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.
+        /// A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace></ModuleCR.metadata.namespace>.
         /// </summary>
         public string? AssetEndpointProfileRef { get; set; }
 
@@ -90,8 +90,7 @@ namespace Azure.Iot.Operations.Services.Assets
         /// <summary>
         /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
-        [JsonConverter(typeof(JsonDocumentConverter))]
-        public JsonDocument? Attributes { get; set; }
+        public Dictionary<string, string>? Attributes { get; set; }
 
         /// <summary>
         /// Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow.
@@ -188,6 +187,9 @@ namespace Azure.Iot.Operations.Services.Assets
         public string? ProvisioningState { get; set; }
     }
 
+    /// <summary>
+    /// A dataset represents data retrievable from the asset that maps to a single MQTT message. The datapoints within a dataset comprise the payload of the MQTT message.
+    /// </summary>
     public record Dataset
     {
         /// <summary>
@@ -262,6 +264,10 @@ namespace Azure.Iot.Operations.Services.Assets
         public JsonDocument? DataPointConfiguration { get; set; }
     }
 
+    /// <summary>
+    /// An event represents some data that was received from the asset (unprompted). It is similar to a dataset in that it can be forwarded to the MQTT broker
+    /// as an MQTT message.
+    /// </summary>
     public record Event
     {
         /// <summary>
@@ -416,7 +422,7 @@ namespace Azure.Iot.Operations.Services.Assets
         /// <summary>
         /// Defines the message schema reference properties.
         /// </summary>
-        public MessageSchemaReference? MessageSchemaReference { get; set; } //TODO this should be populated during sample w/ the MQTT message schema
+        public MessageSchemaReference? MessageSchemaReference { get; set; }
     }
 
     public record StatusEvents

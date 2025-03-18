@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Mqtt.Session;
 
 var mqttClient = new MqttSessionClient();
 
-MqttConnectionSettings connectionSettings = new("localhost") { TcpPort = 1883, ClientId = "someClientId", UseTls = false };
+MqttConnectionSettings connectionSettings = new("localhost", "someClientId") { TcpPort = 1883, UseTls = false };
 MqttClientConnectResult result = await mqttClient.ConnectAsync(connectionSettings);
 
 if (result.ResultCode != MqttClientConnectResultCode.Success)
@@ -14,7 +14,7 @@ if (result.ResultCode != MqttClientConnectResultCode.Success)
     throw new Exception($"Failed to connect to MQTT broker. Code: {result.ResultCode} Reason: {result.ReasonString}");
 }
 
-await using StateStoreClient stateStoreClient = new(mqttClient);
+await using StateStoreClient stateStoreClient = new(new(), mqttClient);
 TaskCompletionSource onKeyChange = new TaskCompletionSource();
 
 try

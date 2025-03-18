@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 package mqtt
 
-import "github.com/Azure/iot-operations-sdks/go/internal/options"
+import (
+	"maps"
+
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
+)
 
 type (
 	// SubscribeOptions are the resolved subscribe options.
@@ -119,11 +123,9 @@ func (o WithRetainHandling) subscribe(opt *SubscribeOptions) {
 
 func (o WithUserProperties) apply(user map[string]string) map[string]string {
 	if user == nil {
-		user = make(map[string]string, len(user))
+		user = make(map[string]string, len(o))
 	}
-	for key, val := range o {
-		user[key] = val
-	}
+	maps.Copy(user, o)
 	return user
 }
 

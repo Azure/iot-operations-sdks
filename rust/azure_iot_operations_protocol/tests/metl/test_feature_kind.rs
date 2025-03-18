@@ -11,6 +11,9 @@ pub enum TestFeatureKind {
     #[serde(rename = "ack-ordering")]
     AckOrdering,
 
+    #[serde(rename = "topic-filtering")]
+    TopicFiltering,
+
     #[serde(rename = "reconnection")]
     Reconnection,
 
@@ -22,4 +25,7 @@ pub enum TestFeatureKind {
 
     #[serde(rename = "explicit-default")]
     ExplicitDefault,
+
+    #[serde(rename = "multiple-serializers")]
+    MultipleSerializers,
 }

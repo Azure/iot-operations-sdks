@@ -2,7 +2,11 @@
 
 echo "Starting postCreateCommand"
 
-BASE_NAME=`echo ${CODESPACE_NAME//-} | head -c 12`
+if [ "$CODESPACE_NAME" ]; then
+    BASE_NAME=`echo ${CODESPACE_NAME//-} | head -c 12`
+else
+    BASE_NAME=`echo ${HOSTNAME//-} | head -c 12`
+fi
 
 # create environment variables to support deployment
 echo "export SESSION=$PWD/.session

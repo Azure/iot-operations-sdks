@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Mqtt.Session
 {

@@ -6,90 +6,431 @@ import "github.com/Azure/iot-operations-sdks/go/protocol/errors"
 
 ## Index
 
-- [type Error](<#Error>)
-  - [func \(e \*Error\) Attrs\(\) \[\]slog.Attr](<#Error.Attrs>)
-  - [func \(e \*Error\) Error\(\) string](<#Error.Error>)
+- [func IsKind\[K Kind\]\(err error\) \(K, bool\)](<#IsKind>)
+- [type Cancellation](<#Cancellation>)
+  - [func \(Cancellation\) String\(\) string](<#Cancellation.String>)
+- [type Client](<#Client>)
+  - [func \(e \*Client\) Attrs\(\) \[\]slog.Attr](<#Client.Attrs>)
+  - [func \(e \*Client\) Error\(\) string](<#Client.Error>)
+  - [func \(e \*Client\) Unwrap\(\) error](<#Client.Unwrap>)
+- [type ConfigurationInvalid](<#ConfigurationInvalid>)
+  - [func \(e ConfigurationInvalid\) Attrs\(\) \[\]slog.Attr](<#ConfigurationInvalid.Attrs>)
+  - [func \(ConfigurationInvalid\) String\(\) string](<#ConfigurationInvalid.String>)
+- [type ExecutionError](<#ExecutionError>)
+  - [func \(ExecutionError\) String\(\) string](<#ExecutionError.String>)
+- [type HeaderInvalid](<#HeaderInvalid>)
+  - [func \(e HeaderInvalid\) Attrs\(\) \[\]slog.Attr](<#HeaderInvalid.Attrs>)
+  - [func \(HeaderInvalid\) String\(\) string](<#HeaderInvalid.String>)
+- [type HeaderMissing](<#HeaderMissing>)
+  - [func \(e HeaderMissing\) Attrs\(\) \[\]slog.Attr](<#HeaderMissing.Attrs>)
+  - [func \(HeaderMissing\) String\(\) string](<#HeaderMissing.String>)
+- [type InternalLogicError](<#InternalLogicError>)
+  - [func \(InternalLogicError\) String\(\) string](<#InternalLogicError.String>)
 - [type Kind](<#Kind>)
+- [type MqttError](<#MqttError>)
+  - [func \(MqttError\) String\(\) string](<#MqttError.String>)
+- [type PayloadInvalid](<#PayloadInvalid>)
+  - [func \(PayloadInvalid\) String\(\) string](<#PayloadInvalid.String>)
+- [type Remote](<#Remote>)
+  - [func \(e \*Remote\) Attrs\(\) \[\]slog.Attr](<#Remote.Attrs>)
+  - [func \(e \*Remote\) Error\(\) string](<#Remote.Error>)
+- [type StateInvalid](<#StateInvalid>)
+  - [func \(e StateInvalid\) Attrs\(\) \[\]slog.Attr](<#StateInvalid.Attrs>)
+  - [func \(StateInvalid\) String\(\) string](<#StateInvalid.String>)
+- [type Timeout](<#Timeout>)
+  - [func \(e Timeout\) Attrs\(\) \[\]slog.Attr](<#Timeout.Attrs>)
+  - [func \(Timeout\) String\(\) string](<#Timeout.String>)
+- [type UnknownError](<#UnknownError>)
+  - [func \(UnknownError\) String\(\) string](<#UnknownError.String>)
+- [type UnsupportedVersion](<#UnsupportedVersion>)
+  - [func \(e UnsupportedVersion\) Attrs\(\) \[\]slog.Attr](<#UnsupportedVersion.Attrs>)
+  - [func \(UnsupportedVersion\) String\(\) string](<#UnsupportedVersion.String>)
 
 
-<a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L9-L34>)
-
-Error represents a structured protocol error.
+<a name="IsKind"></a>
+## func [IsKind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L114>)
 
 ```go
-type Error struct {
+func IsKind[K Kind](err error) (K, bool)
+```
+
+IsKind is a shorthand to check if an error is of kind K.
+
+<a name="Cancellation"></a>
+## type [Cancellation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L37>)
+
+Cancellation errors indicate that the operation was canceled.
+
+```go
+type Cancellation struct{}
+```
+
+<a name="Cancellation.String"></a>
+### func \(Cancellation\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L142>)
+
+```go
+func (Cancellation) String() string
+```
+
+
+
+<a name="Client"></a>
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L17-L22>)
+
+Client represents a purely client\-side error.
+
+```go
+type Client struct {
     Message string
     Kind    Kind
-
-    NestedError error
-
-    HeaderName  string
-    HeaderValue string
-
-    TimeoutName  string
-    TimeoutValue time.Duration
-
-    PropertyName  string
-    PropertyValue any
-
-    ProtocolVersion                string
-    SupportedMajorProtocolVersions []int
-
-    InApplication  bool
-    IsShallow      bool
-    IsRemote       bool
-    HTTPStatusCode int
+    Nested  error
+    Shallow bool
 }
 ```
 
-<a name="Error.Attrs"></a>
-### func \(\*Error\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L8>)
+<a name="Client.Attrs"></a>
+### func \(\*Client\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L12>)
 
 ```go
-func (e *Error) Attrs() []slog.Attr
+func (e *Client) Attrs() []slog.Attr
 ```
 
-Attrs returns additional error attributes for slog.
 
-<a name="Error.Error"></a>
-### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L60>)
+
+<a name="Client.Error"></a>
+### func \(\*Client\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L101>)
 
 ```go
-func (e *Error) Error() string
+func (e *Client) Error() string
 ```
 
-Error returns the error as a string.
+
+
+<a name="Client.Unwrap"></a>
+### func \(\*Client\) [Unwrap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L105>)
+
+```go
+func (e *Client) Unwrap() error
+```
+
+
+
+<a name="ConfigurationInvalid"></a>
+## type [ConfigurationInvalid](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L41-L44>)
+
+ConfigurationInvalid errors indicate that a provided configuration value or argument is invalid.
+
+```go
+type ConfigurationInvalid struct {
+    PropertyName  string
+    PropertyValue any
+}
+```
+
+<a name="ConfigurationInvalid.Attrs"></a>
+### func \(ConfigurationInvalid\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L51>)
+
+```go
+func (e ConfigurationInvalid) Attrs() []slog.Attr
+```
+
+
+
+<a name="ConfigurationInvalid.String"></a>
+### func \(ConfigurationInvalid\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L143>)
+
+```go
+func (ConfigurationInvalid) String() string
+```
+
+
+
+<a name="ExecutionError"></a>
+## type [ExecutionError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L91>)
+
+ExecutionError errors indicate that the command processor encountered an error while executing the command.
+
+```go
+type ExecutionError struct{}
+```
+
+<a name="ExecutionError.String"></a>
+### func \(ExecutionError\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L151>)
+
+```go
+func (ExecutionError) String() string
+```
+
+
+
+<a name="HeaderInvalid"></a>
+## type [HeaderInvalid](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L58-L61>)
+
+HeaderInvalid errors indicate that an MQTT header property is has an invalid value in the received message.
+
+```go
+type HeaderInvalid struct {
+    HeaderName  string
+    HeaderValue string
+}
+```
+
+<a name="HeaderInvalid.Attrs"></a>
+### func \(HeaderInvalid\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L64>)
+
+```go
+func (e HeaderInvalid) Attrs() []slog.Attr
+```
+
+
+
+<a name="HeaderInvalid.String"></a>
+### func \(HeaderInvalid\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L146>)
+
+```go
+func (HeaderInvalid) String() string
+```
+
+
+
+<a name="HeaderMissing"></a>
+## type [HeaderMissing](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L52-L54>)
+
+HeaderMissing errors indicate that a required MQTT header property is missing from the received message.
+
+```go
+type HeaderMissing struct {
+    HeaderName string
+}
+```
+
+<a name="HeaderMissing.Attrs"></a>
+### func \(HeaderMissing\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L58>)
+
+```go
+func (e HeaderMissing) Attrs() []slog.Attr
+```
+
+
+
+<a name="HeaderMissing.String"></a>
+### func \(HeaderMissing\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L145>)
+
+```go
+func (HeaderMissing) String() string
+```
+
+
+
+<a name="InternalLogicError"></a>
+## type [InternalLogicError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L75-L78>)
+
+InternalLogicError errors indicate that the client or service observed a condition that was thought to be impossible.
+
+```go
+type InternalLogicError struct {
+    // Deprecated: Only for wire protocol compat.
+    PropertyName string
+}
+```
+
+<a name="InternalLogicError.String"></a>
+### func \(InternalLogicError\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L149>)
+
+```go
+func (InternalLogicError) String() string
+```
+
+
 
 <a name="Kind"></a>
-## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L37>)
+## type [Kind](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L9-L14>)
 
-Kind defines the type of error being thrown.
-
-```go
-type Kind int
-```
-
-<a name="HeaderMissing"></a>The following are the defined error kinds.
+Kind defines the type of protocol error being thrown.
 
 ```go
-const (
-    HeaderMissing Kind = iota
-    HeaderInvalid
-    PayloadInvalid
-    Timeout
-    Cancellation
-    ConfigurationInvalid
-    ArgumentInvalid
-    StateInvalid
-    InternalLogicError
-    UnknownError
-    InvocationException
-    ExecutionException
-    MqttError
-    UnsupportedRequestVersion
-    UnsupportedResponseVersion
-)
+type Kind interface {
+    String() string
+    // contains filtered or unexported methods
+}
 ```
+
+<a name="MqttError"></a>
+## type [MqttError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L48>)
+
+MqttError errors indicate that the MQTT communication encountered an error and failed.
+
+```go
+type MqttError struct{}
+```
+
+<a name="MqttError.String"></a>
+### func \(MqttError\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L144>)
+
+```go
+func (MqttError) String() string
+```
+
+
+
+<a name="PayloadInvalid"></a>
+## type [PayloadInvalid](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L65>)
+
+PayloadInvalid errors indicate that the MQTT payload cannot be serialized/deserialized.
+
+```go
+type PayloadInvalid struct{}
+```
+
+<a name="PayloadInvalid.String"></a>
+### func \(PayloadInvalid\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L147>)
+
+```go
+func (PayloadInvalid) String() string
+```
+
+
+
+<a name="Remote"></a>
+## type [Remote](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L25-L28>)
+
+Remote represents an error that is sent between services over the wire.
+
+```go
+type Remote struct {
+    Message string
+    Kind    Kind
+}
+```
+
+<a name="Remote.Attrs"></a>
+### func \(\*Remote\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L32>)
+
+```go
+func (e *Remote) Attrs() []slog.Attr
+```
+
+
+
+<a name="Remote.Error"></a>
+### func \(\*Remote\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L109>)
+
+```go
+func (e *Remote) Error() string
+```
+
+
+
+<a name="StateInvalid"></a>
+## type [StateInvalid](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L69-L71>)
+
+StateInvalid errors indicate that the current program state is invalid relative to the method that was called.
+
+```go
+type StateInvalid struct {
+    PropertyName string
+}
+```
+
+<a name="StateInvalid.Attrs"></a>
+### func \(StateInvalid\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L71>)
+
+```go
+func (e StateInvalid) Attrs() []slog.Attr
+```
+
+
+
+<a name="StateInvalid.String"></a>
+### func \(StateInvalid\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L148>)
+
+```go
+func (StateInvalid) String() string
+```
+
+
+
+<a name="Timeout"></a>
+## type [Timeout](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L31-L34>)
+
+Timeout errors indicate that the operation was aborted due to timeout.
+
+```go
+type Timeout struct {
+    TimeoutName  string
+    TimeoutValue time.Duration
+}
+```
+
+<a name="Timeout.Attrs"></a>
+### func \(Timeout\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L44>)
+
+```go
+func (e Timeout) Attrs() []slog.Attr
+```
+
+
+
+<a name="Timeout.String"></a>
+### func \(Timeout\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L141>)
+
+```go
+func (Timeout) String() string
+```
+
+
+
+<a name="UnknownError"></a>
+## type [UnknownError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L82-L87>)
+
+UnknownError errors indicate that the client or service received an unexpected error from a dependent component.
+
+```go
+type UnknownError struct {
+    // Deprecated: Only for schemaregistry compat.
+    PropertyName string
+    // Deprecated: Only for schemaregistry compat.
+    PropertyValue any
+}
+```
+
+<a name="UnknownError.String"></a>
+### func \(UnknownError\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L150>)
+
+```go
+func (UnknownError) String() string
+```
+
+
+
+<a name="UnsupportedVersion"></a>
+## type [UnsupportedVersion](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L95-L98>)
+
+UnsupportedVersion errors indicate that the command processor or receiver doesn't support the provided protocol version.
+
+```go
+type UnsupportedVersion struct {
+    ProtocolVersion                string
+    SupportedMajorProtocolVersions []int
+}
+```
+
+<a name="UnsupportedVersion.Attrs"></a>
+### func \(UnsupportedVersion\) [Attrs](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/logging.go#L77>)
+
+```go
+func (e UnsupportedVersion) Attrs() []slog.Attr
+```
+
+
+
+<a name="UnsupportedVersion.String"></a>
+### func \(UnsupportedVersion\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/errors/errors.go#L152>)
+
+```go
+func (UnsupportedVersion) String() string
+```
+
+
 
 Generated by [gomarkdoc](<https://github.com/princjef/gomarkdoc>)

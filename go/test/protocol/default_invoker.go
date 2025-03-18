@@ -3,11 +3,12 @@
 package protocol
 
 type DefaultInvoker struct {
-	CommandName         *string `toml:"command-name"`
-	RequestTopic        *string `toml:"request-topic"`
-	TopicNamespace      *string `toml:"topic-namespace"`
-	ResponseTopicPrefix *string `toml:"response-topic-prefix"`
-	ResponseTopicSuffix *string `toml:"response-topic-suffix"`
+	CommandName         *string           `toml:"command-name"`
+	Serializer          DefaultSerializer `toml:"serializer"`
+	RequestTopic        *string           `toml:"request-topic"`
+	TopicNamespace      *string           `toml:"topic-namespace"`
+	ResponseTopicPrefix *string           `toml:"response-topic-prefix"`
+	ResponseTopicSuffix *string           `toml:"response-topic-suffix"`
 }
 
 func (invoker *DefaultInvoker) GetCommandName() *string {
@@ -17,6 +18,10 @@ func (invoker *DefaultInvoker) GetCommandName() *string {
 
 	commandName := *invoker.CommandName
 	return &commandName
+}
+
+func (invoker *DefaultInvoker) GetSerializer() TestCaseSerializer {
+	return invoker.Serializer.GetSerializer()
 }
 
 func (invoker *DefaultInvoker) GetRequestTopic() *string {

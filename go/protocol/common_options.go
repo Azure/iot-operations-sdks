@@ -4,7 +4,7 @@ package protocol
 
 import (
 	"log/slog"
-	"net/url"
+	"maps"
 	"time"
 )
 
@@ -30,9 +30,6 @@ type (
 
 	// WithMetadata specifies user-provided metadata values.
 	WithMetadata map[string]string
-
-	// WithDataSchema specifies a data schema that will be used for CloudEvents.
-	WithDataSchema url.URL
 
 	// WithTopicNamespace specifies a namespace that will be prepended to the
 	// topic.
@@ -80,13 +77,6 @@ func (o WithShareName) telemetryReceiver(opt *TelemetryReceiverOptions) {
 	opt.ShareName = string(o)
 }
 
-func (*WithDataSchema) option() {}
-
-func (o *WithDataSchema) telemetrySender(opt *TelemetrySenderOptions) {
-	dataSchema := url.URL(*o)
-	opt.DataSchema = &dataSchema
-}
-
 func (o WithTopicNamespace) commandExecutor(opt *CommandExecutorOptions) {
 	opt.TopicNamespace = string(o)
 }
@@ -107,11 +97,9 @@ func (o WithTopicNamespace) telemetrySender(opt *TelemetrySenderOptions) {
 
 func (o WithTopicTokens) apply(tokens map[string]string) map[string]string {
 	if tokens == nil {
-		tokens = make(map[string]string, len(tokens))
+		tokens = make(map[string]string, len(o))
 	}
-	for token, value := range o {
-		tokens[token] = value
-	}
+	maps.Copy(tokens, o)
 	return tokens
 }
 
@@ -181,11 +169,9 @@ func (o WithTopicTokenNamespace) telemetrySender(opt *TelemetrySenderOptions) {
 
 func (o WithMetadata) apply(values map[string]string) map[string]string {
 	if values == nil {
-		values = map[string]string{}
+		values = make(map[string]string, len(o))
 	}
-	for key, value := range o {
-		values[key] = value
-	}
+	maps.Copy(values, o)
 	return values
 }
 
@@ -204,12 +190,17 @@ func (o WithMetadata) respond(opt *RespondOptions) {
 // WithLogger enables logging with the provided slog logger.
 func WithLogger(logger *slog.Logger) interface {
 	Option
+	ApplicationOption
 	CommandExecutorOption
 	CommandInvokerOption
 	TelemetryReceiverOption
 	TelemetrySenderOption
 } {
 	return withLogger{logger}
+}
+
+func (o withLogger) application(opt *ApplicationOptions) {
+	opt.Logger = o.Logger
 }
 
 func (o withLogger) commandExecutor(opt *CommandExecutorOptions) {

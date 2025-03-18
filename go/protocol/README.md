@@ -41,19 +41,27 @@ var (
 )
 
 func main() {
+	// Note: Error handling omitted for simplicity.
+
 	ctx := context.Background()
+	app, _ := protocol.NewApplication()
 
 	// Create a new session client for client and server (typically these would
 	// be separate services; they're shown here together for simplicity).
 	//
 	// See the documentation of the mqtt module for more details.
-	server := mqtt.NewSessionClient(mqtt.TCPConnection("localhost", 1883))
-	client := mqtt.NewSessionClient(mqtt.TCPConnection("localhost", 1883))
-
-	// Note: Error handling omitted for simplicity.
+	server, _ := mqtt.NewSessionClient(
+		"server",
+		mqtt.TCPConnection("localhost", 1883),
+	)
+	client, _ := mqtt.NewSessionClient(
+		"client",
+		mqtt.TCPConnection("localhost", 1883),
+	)
 
 	// Create a new executor to handle the requests.
 	executor, _ := protocol.NewCommandExecutor(
+		app,
 		server,
 		pingEncoding,
 		pongEncoding,
@@ -70,11 +78,12 @@ func main() {
 
 	// Create a new invoker to send the requests.
 	invoker, _ := protocol.NewCommandInvoker(
+		app,
 		client,
 		pingEncoding,
 		pongEncoding,
 		reqTopic,
-		protocol.WithResponseTopic(func(string) string { return resTopic }),
+		protocol.WithResponseTopicPattern(resTopic),
 	)
 	defer invoker.Close()
 

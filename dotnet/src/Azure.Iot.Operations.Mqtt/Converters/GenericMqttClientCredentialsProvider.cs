@@ -2,20 +2,15 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
 {
     internal class GenericMqttClientCredentialsProvider : IMqttClientCredentialsProvider
     {
-        private MQTTnet.Client.IMqttClientCredentialsProvider _mqttNetCredentialsProvider;
-        private MQTTnet.Client.IMqttClient _underlyingClient;
+        private readonly MQTTnet.IMqttClientCredentialsProvider _mqttNetCredentialsProvider;
+        private readonly MQTTnet.IMqttClient _underlyingClient;
 
-        public GenericMqttClientCredentialsProvider(MQTTnet.Client.IMqttClientCredentialsProvider mqttNetCredentialsProvider, MQTTnet.Client.IMqttClient underlyingClient)
+        public GenericMqttClientCredentialsProvider(MQTTnet.IMqttClientCredentialsProvider mqttNetCredentialsProvider, MQTTnet.IMqttClient underlyingClient)
         {
             _mqttNetCredentialsProvider = mqttNetCredentialsProvider;
             _underlyingClient = underlyingClient;

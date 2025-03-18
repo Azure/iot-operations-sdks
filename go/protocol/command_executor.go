@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"maps"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/log"
@@ -17,6 +18,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/caching"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -27,6 +29,7 @@ type (
 		handler   CommandHandler[Req, Res]
 		timeout   *internal.Timeout
 		cache     *caching.Cache
+		log       log.Logger
 	}
 
 	// CommandExecutorOption represents a single command executor option.
@@ -48,7 +51,7 @@ type (
 	// CommandHandler is the user-provided implementation of a single command
 	// execution. It is treated as blocking; all parallelism is handled by the
 	// library. This *must* be thread-safe.
-	CommandHandler[Req any, Res any] func(
+	CommandHandler[Req any, Res any] = func(
 		context.Context,
 		*CommandRequest[Req],
 	) (*CommandResponse[Res], error)
@@ -77,10 +80,14 @@ type (
 	}
 )
 
-const commandExecutorErrStr = "command execution"
+const (
+	commandExecutorComponentName = "command executor"
+	commandExecutorErrStr        = "command execution"
+)
 
 // NewCommandExecutor creates a new command executor.
 func NewCommandExecutor[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
@@ -88,10 +95,11 @@ func NewCommandExecutor[Req, Res any](
 	handler CommandHandler[Req, Res],
 	opt ...CommandExecutorOption,
 ) (ce *CommandExecutor[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts CommandExecutorOptions
 	opts.Apply(opt)
+
+	logger := log.Wrap(opts.Logger, app.log)
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -107,7 +115,7 @@ func NewCommandExecutor[Req, Res any](
 		Name:     "ExecutionTimeout",
 		Text:     commandExecutorErrStr,
 	}
-	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
+	if err := to.Validate(); err != nil {
 		return nil, err
 	}
 
@@ -134,20 +142,25 @@ func NewCommandExecutor[Req, Res any](
 		handler: handler,
 		timeout: to,
 		cache:   caching.New(wallclock.Instance),
+		log:     logger,
 	}
 	ce.listener = &listener[Req]{
-		client:         client,
-		encoding:       requestEncoding,
-		topic:          reqTF,
-		shareName:      opts.ShareName,
-		concurrency:    opts.Concurrency,
-		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
-		handler:        ce,
+		app:              app,
+		client:           client,
+		encoding:         requestEncoding,
+		topic:            reqTF,
+		shareName:        opts.ShareName,
+		concurrency:      opts.Concurrency,
+		reqCorrelation:   true,
+		supportedVersion: version.RPCSupported,
+		log:              logger,
+		handler:          ce,
 	}
 	ce.publisher = &publisher[Res]{
+		app:      app,
 		client:   client,
 		encoding: responseEncoding,
+		version:  version.RPC,
 	}
 
 	ce.listener.register()
@@ -156,12 +169,12 @@ func NewCommandExecutor[Req, Res any](
 
 // Start listening to the MQTT request topic.
 func (ce *CommandExecutor[Req, Res]) Start(ctx context.Context) error {
-	return ce.listener.listen(ctx)
+	return ce.listener.start(ctx, commandExecutorComponentName)
 }
 
 // Close the command executor to free its resources.
 func (ce *CommandExecutor[Req, Res]) Close() {
-	ce.listener.close()
+	ce.listener.close(commandExecutorComponentName)
 }
 
 func (ce *CommandExecutor[Req, Res]) onMsg(
@@ -169,15 +182,21 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 	pub *mqtt.Message,
 	msg *Message[Req],
 ) error {
+	ce.log.Debug(ctx, "request received",
+		slog.String("topic", pub.Topic),
+		slog.Any("correlation_data", pub.CorrelationData),
+	)
+
 	if err := ignoreRequest(pub); err != nil {
 		return err
 	}
 
 	if pub.MessageExpiry == 0 {
-		return &errors.Error{
-			Message:    "message expiry missing",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.MessageExpiry,
+		return &errors.Remote{
+			Message: "message expiry missing",
+			Kind: errors.HeaderMissing{
+				HeaderName: constants.MessageExpiry,
+			},
 		}
 	}
 
@@ -212,17 +231,21 @@ func (ce *CommandExecutor[Req, Res]) onMsg(
 		return err
 	}
 
-	defer pub.Ack()
+	defer ce.ack(ctx, pub)
+
 	if rpub == nil {
 		return nil
 	}
 
-	err = ce.publisher.publish(ctx, rpub)
-	if err != nil {
+	if err = ce.publisher.publish(ctx, rpub); err != nil {
 		// If the publish fails onErr will also fail, so just drop the message.
 		ce.listener.drop(ctx, pub, err)
+	} else {
+		ce.log.Debug(ctx, "response sent",
+			slog.String("topic", rpub.Topic),
+			slog.Any("correlation_data", rpub.CorrelationData),
+		)
 	}
-
 	return nil
 }
 
@@ -231,7 +254,7 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	defer pub.Ack()
+	defer ce.ack(ctx, pub)
 
 	if e := ignoreRequest(pub); e != nil {
 		return e
@@ -242,11 +265,18 @@ func (ce *CommandExecutor[Req, Res]) onErr(
 		return e
 	}
 
-	rpub, err := ce.build(pub, nil, err)
-	if err != nil {
-		return err
+	rpub, e := ce.build(pub, nil, err)
+	if e != nil {
+		return e
 	}
-	return ce.publisher.publish(ctx, rpub)
+	if e := ce.publisher.publish(ctx, rpub); e != nil {
+		return e
+	}
+
+	// We successfully returned the error in the response, so just log it as a
+	// warning.
+	ce.log.Warn(ctx, err)
+	return nil
 }
 
 // Call handler with panic catch.
@@ -263,10 +293,9 @@ func (ce *CommandExecutor[Req, Res]) handle(
 		var ret commandReturn[Res]
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
-				ret.err = &errors.Error{
-					Message:       fmt.Sprint(ePanic),
-					Kind:          errors.ExecutionException,
-					InApplication: true,
+				ret.err = &errors.Remote{
+					Message: fmt.Sprint(ePanic),
+					Kind:    errors.ExecutionError{},
 				}
 			}
 
@@ -281,20 +310,14 @@ func (ce *CommandExecutor[Req, Res]) handle(
 			// An error from the context overrides any return value.
 			ret.err = e
 		} else if ret.err != nil {
-			if e, ok := ret.err.(InvocationError); ok {
-				ret.err = &errors.Error{
-					Message:       e.Message,
-					Kind:          errors.InvocationException,
-					InApplication: true,
-					PropertyName:  e.PropertyName,
-					PropertyValue: e.PropertyValue,
-				}
-			} else {
-				ret.err = &errors.Error{
-					Message:       ret.err.Error(),
-					Kind:          errors.ExecutionException,
-					InApplication: true,
-				}
+			ret.err = &errors.Remote{
+				Message: ret.err.Error(),
+				Kind:    errors.ExecutionError{},
+			}
+		} else if ret.res == nil {
+			ret.err = &errors.Remote{
+				Message: "command handler returned no response",
+				Kind:    errors.ExecutionError{},
 			}
 		}
 	}()
@@ -325,9 +348,7 @@ func (ce *CommandExecutor[Req, Res]) build(
 	rpub.CorrelationData = pub.CorrelationData
 	rpub.Topic = pub.ResponseTopic
 	rpub.MessageExpiry = pub.MessageExpiry
-	for key, val := range errutil.ToUserProp(resErr) {
-		rpub.UserProperties[key] = val
-	}
+	maps.Copy(rpub.UserProperties, errutil.ToUserProp(resErr))
 
 	return rpub, nil
 }
@@ -335,21 +356,35 @@ func (ce *CommandExecutor[Req, Res]) build(
 // Check whether this message should be ignored and why.
 func ignoreRequest(pub *mqtt.Message) error {
 	if pub.ResponseTopic == "" {
-		return &errors.Error{
-			Message:    "missing response topic",
-			Kind:       errors.HeaderMissing,
-			HeaderName: constants.ResponseTopic,
+		return &errors.Remote{
+			Message: "missing response topic",
+			Kind: errors.HeaderMissing{
+				HeaderName: constants.ResponseTopic,
+			},
 		}
 	}
 	if !internal.ValidTopic(pub.ResponseTopic) {
-		return &errors.Error{
-			Message:     "invalid response topic",
-			Kind:        errors.HeaderInvalid,
-			HeaderName:  constants.ResponseTopic,
-			HeaderValue: pub.ResponseTopic,
+		return &errors.Remote{
+			Message: "invalid response topic",
+			Kind: errors.HeaderInvalid{
+				HeaderName:  constants.ResponseTopic,
+				HeaderValue: pub.ResponseTopic,
+			},
 		}
 	}
 	return nil
+}
+
+// Ack the request and log it.
+func (ce *CommandExecutor[Req, Res]) ack(
+	ctx context.Context,
+	pub *mqtt.Message,
+) {
+	pub.Ack()
+	ce.log.Debug(ctx, "request acked",
+		slog.String("topic", pub.Topic),
+		slog.Any("correlation_data", pub.CorrelationData),
+	)
 }
 
 // Build a timeout based on the message's expiry.
@@ -370,9 +405,6 @@ func Respond[Res any](
 ) (*CommandResponse[Res], error) {
 	var opts RespondOptions
 	opts.Apply(opt)
-
-	// TODO: Valid metadata keys will be validated by the response publish, but
-	// consider whether we also want to validate them here preemptively.
 
 	return &CommandResponse[Res]{Message[Res]{
 		Payload:  payload,

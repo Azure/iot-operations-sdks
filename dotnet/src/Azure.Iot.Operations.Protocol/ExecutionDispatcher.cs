@@ -12,18 +12,18 @@ namespace Azure.Iot.Operations.Protocol
     internal class ExecutionDispatcher
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
-        private readonly SemaphoreSlim semaphore;
+        private readonly SemaphoreSlim _semaphore;
 
         public static ExecutionDispatcherCollection CollectionInstance = ExecutionDispatcherCollection.GetCollectionInstance();
 
         internal ExecutionDispatcher(int maxConcurrency)
         {
-            semaphore = new SemaphoreSlim(maxConcurrency);
+            _semaphore = new SemaphoreSlim(maxConcurrency);
         }
 
         internal async Task SubmitAsync(Func<Task>? process, Func<Task> acknowledge)
         {
-            await semaphore.WaitAsync().ConfigureAwait(false);
+            await _semaphore.WaitAsync().ConfigureAwait(false);
 
             ThreadPool.UnsafeQueueUserWorkItem(async (_) =>
             {
@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.Protocol
                     Trace.TraceError("Encountered an error while acknowledging an RPC request: {0}", e);
                 }
 
-                semaphore.Release();
+                _semaphore.Release();
             },
             0,
             preferLocal: false);

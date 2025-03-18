@@ -8,9 +8,7 @@ description:
 
 prologue:
   executors:
-  - raise-error:
-      kind: execution
-      message: "This is an execution error"
+  - raise-error: true
 
 actions:
 - action: receive request
@@ -23,6 +21,4 @@ epilogue:
     topic: "response/mock/test"
     command-status: 500 # InternalServerError
     is-application-error: true
-    metadata:
-      "__stMsg": "This is an execution error"
 ...

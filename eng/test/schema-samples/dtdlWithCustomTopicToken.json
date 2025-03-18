@@ -1,0 +1,30 @@
+  {
+    "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:com:example:CustomTopicTokens;1",
+    "@type": [
+        "Interface",
+        "Mqtt"
+    ],
+    "commandTopic": "rpc/command-samples/{executorId}/{commandName}/{ex:myCustomTopicToken}",
+    "telemetryTopic": "telemetry/telemetry-samples/{ex:myCustomTopicToken}",
+    "payloadFormat": "Json/ecma/404",
+    "displayName": "CustomTopicTokens",
+    "contents": [
+        {
+            "@type": "Command",
+            "name": "readCustomTopicToken",
+            "response": {
+                "name": "CustomTopicTokenResponse",
+                "schema": "string"
+            }
+        },
+        {
+            "@type": "Telemetry",
+            "name": "CustomTopicTokenPayload",
+            "schema": "string"
+        }
+    ]
+}

@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             "dtmi:dtdl:instance:Schema:unsignedShort;4",
         };
 
-        public static string GetType(DTSchemaInfo dtSchema, DtmiToSchemaName dtmiToSchemaName)
+        public static string GetType(DTSchemaInfo dtSchema)
         {
             return dtSchema.Id.AbsoluteUri switch
             {
@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 "dtmi:dtdl:instance:Schema:time;2" => "google.protobuf.Timestamp", // google.type.TimeOfDay not supported in Java
                 "dtmi:dtdl:instance:Schema:duration;2" => "google.protobuf.Duration",
                 "dtmi:dtdl:instance:Schema:string;2" => "string",
-                _ => dtmiToSchemaName(dtSchema.Id, dtSchema.EntityKind.ToString()),
+                _ => new CodeName(dtSchema.Id).GetTypeName(TargetLanguage.Independent),
             };
         }
 
@@ -49,12 +49,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             return ScalarTypes.Contains(dtSchema.Id.AbsoluteUri);
         }
 
-        public static bool TryGetImport(DTSchemaInfo dtSchema, DtmiToSchemaName dtmiToSchemaName, out string importName)
+        public static bool TryGetImport(DTSchemaInfo dtSchema, out string importName)
         {
             if (dtSchema.EntityKind == DTEntityKind.Array || dtSchema.EntityKind == DTEntityKind.Map || dtSchema.EntityKind == DTEntityKind.Object || dtSchema.EntityKind == DTEntityKind.Enum)
             {
-                string schemaName = dtmiToSchemaName(dtSchema.Id, dtSchema.EntityKind.ToString());
-                importName = $"{schemaName}.proto";
+                CodeName schemaName = new(dtSchema.Id);
+                importName = $"{schemaName.GetFileName(TargetLanguage.Independent)}.proto";
                 return true;
             }
             else if (dtSchema.Id.AbsoluteUri == "dtmi:dtdl:instance:Schema:date;2")

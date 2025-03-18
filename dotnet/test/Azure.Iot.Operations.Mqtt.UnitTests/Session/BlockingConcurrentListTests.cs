@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
-using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 {

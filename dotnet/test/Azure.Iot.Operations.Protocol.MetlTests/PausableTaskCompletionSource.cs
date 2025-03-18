@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class PausableTaskCompletionSource : Pausable<TriggerableTaskCompletionSource>, IPausable
     {
-        public Task Task { get => source.Task; }
+        public Task Task { get => _source.Task; }
 
         public PausableTaskCompletionSource(TimeSpan delay, bool startPaused)
             : base(delay, startPaused)

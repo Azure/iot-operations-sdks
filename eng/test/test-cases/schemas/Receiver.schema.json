@@ -3,6 +3,11 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "serializer": {
+            "description": "Configuration settings for the test serializer associated with the receiver.",
+            "$ref": "ReceiverSerializer.schema.json",
+            "kind": "drive"
+        },
         "telemetry-topic": {
             "description": "The MQTT topic pattern for the Telemetry.",
             "type": [ "string", "null" ],
@@ -22,8 +27,8 @@
             "kind": "drive"
         },
         "raise-error": {
-            "description": "Raise an error from the Telemetry receive function.",
-            "$ref": "Error.schema.json",
+            "description": "Whether to raise an error from the Telemetry receive function.",
+            "type": "boolean",
             "kind": "drive"
         }
     }

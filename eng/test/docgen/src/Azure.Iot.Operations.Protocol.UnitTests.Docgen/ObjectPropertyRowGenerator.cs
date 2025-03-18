@@ -34,7 +34,7 @@
             objectSchema = jsonSchemata.GetSchema(objectName);
         }
 
-        public void GenerateRows(MarkdownFile markdownFile, IEnumerable<TableColumnSchema> columns, string? defaultPath)
+        public void GenerateRows(MarkdownFile markdownFile, IEnumerable<TableColumnSchema> columns, string? defaultPath, string[] popDefaults)
         {
             List<string> requiredProperties = new();
             if (objectSchema.RootElement.TryGetProperty("required", out JsonElement requiredElt))
@@ -45,11 +45,11 @@
             JsonElement propertiesElt = objectSchema.RootElement.GetProperty("properties");
             foreach (JsonProperty prop in propertiesElt.EnumerateObject())
             {
-                this.GenerateRow(markdownFile, columns, prop, defaultPath, requiredProperties);
+                this.GenerateRow(markdownFile, columns, prop, defaultPath, popDefaults, requiredProperties);
             }
         }
 
-        private void GenerateRow(MarkdownFile markdownFile, IEnumerable<TableColumnSchema> columns, JsonProperty prop, string? defaultPath, List<string> requiredProperties)
+        private void GenerateRow(MarkdownFile markdownFile, IEnumerable<TableColumnSchema> columns, JsonProperty prop, string? defaultPath, string[] popDefaults, List<string> requiredProperties)
         {
             markdownFile.BeginTableRow();
 
@@ -73,7 +73,7 @@
                         markdownFile.TableCell(GetConstValue(prop.Value));
                         break;
                     case "default":
-                        markdownFile.TableCell(defaultPath != null ? defaultValues.GetDefaultAsString(suiteName, defaultPath, prop.Name) ?? GetEmptyDefault(prop.Value) : GetEmptyDefault(prop.Value));
+                        markdownFile.TableCell(defaultPath != null ? defaultValues.GetDefaultAsString(suiteName, defaultPath, prop.Name, popDefaults) ?? GetEmptyDefault(prop.Value) : GetEmptyDefault(prop.Value));
                         break;
                     default:
                         markdownFile.TableCell(prop.Value.GetProperty(column.Field).GetString() ?? string.Empty);

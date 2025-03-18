@@ -1,0 +1,18 @@
+apiVersion: deviceregistry.microsoft.com/v1
+kind: AssetEndpointProfile
+metadata:
+  name: my-sql-qualityanalyzer-profile
+  namespace: azure-iot-operations
+spec:
+  # By providing a leadershipPositionId config, the connector code will do leader election to enable active/passive replication
+  # when deploying multiple pods to connect with this asset endpoint profile. This value should be unique per asset endpoint profile instance.
+  additionalConfiguration: '{"leadershipPositionId" : "sql-server-leadership-position-id"}'
+  authentication:
+    method: UsernamePassword
+    usernamePasswordCredentials:
+      usernameSecretName: sql-server-auth-creds/USERNAME
+      passwordSecretName: sql-server-auth-creds/SA_PASSWORD
+  # discoveredAssetEndpointProfileRef: my-sql-qualityanalyzer-discovered-asset-endpoint-profile
+  endpointProfileType: sql-qualityanalyzer
+  targetAddress: Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=MySampleDB; # Server=mssqlinst,1433;Database=master; # Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=master; # Server=mssqlinst,1433;Database=MySampleDB; # sql-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+  uuid: 1234-5678-9012-3456

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using MQTTnet.Client;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Greeter;
 
@@ -9,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class GreeterService : GreeterEnvoy.Service
 {
-    public GreeterService(IMqttPubSubClient mqttClient) : base(mqttClient) 
+    public GreeterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {
         SetExecutorTimeout(TimeSpan.FromSeconds(30));
     }

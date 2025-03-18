@@ -35,8 +35,8 @@ from <#=this.AsUpper(telemSchema)#>Receiver_g import <#=this.AsUpper(telemSchema
 @service_group_id("<#=this.cmdServiceGroupId#>")
 <# } #>
 
-class <#=this.serviceName#>(object):
-    """<#=this.serviceName#>"""
+class <#=this.serviceName.GetTypeName(TargetLanguage.Python)#>(object):
+    """<#=this.serviceName.AsGiven#>"""
     def __init__(self):
         self.Service.get_model_id = self.get_model_id
         self.Client.get_model_id = self.get_model_id
@@ -53,7 +53,7 @@ class <#=this.serviceName#>(object):
 <# } #>
 
     class Service(<#=this.cmdNameReqResps.Any() ? "ABC" : "object"#>):
-        """<#=this.serviceName#> service"""
+        """<#=this.serviceName.AsGiven#> service"""
         def __init__(self, mqtt_client):
             self._custom_topic_token_map = {}
 
@@ -116,7 +116,7 @@ class <#=this.serviceName#>(object):
 <# } #>
 
     class Client(<#=this.telemSchemas.Any() ? "ABC" : "object"#>):
-        """<#=this.serviceName#> client"""
+        """<#=this.serviceName.AsGiven#> client"""
         def __init__(self, mqtt_client):
             self._custom_topic_token_map = {}
 

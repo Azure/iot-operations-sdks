@@ -3,7 +3,9 @@
 use std::io::Cursor;
 
 use apache_avro;
-use azure_iot_operations_protocol::common::payload_serialize::{FormatIndicator, PayloadSerialize};
+use azure_iot_operations_protocol::common::payload_serialize::{
+    DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
+};
 use lazy_static;
 use serde::{Deserialize, Serialize};
 
@@ -14,19 +16,19 @@ pub struct EmptyAvro {
 impl PayloadSerialize for EmptyAvro{
     type Error = String;
 
-    fn content_type() -> &'static str {
-        "application/avro"
+    fn serialize(self) -> Result<SerializedPayload, Self::Error> {
+        Ok(SerializedPayload {
+            payload: apache_avro::to_avro_datum(&SCHEMA, apache_avro::to_value(self).unwrap()).unwrap(),
+            content_type: "application/avro".to_string(),
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+        })
     }
 
-    fn format_indicator() -> FormatIndicator {
-        FormatIndicator::UnspecifiedBytes
-    }
-
-    fn serialize(self) -> Result<Vec<u8>, Self::Error> {
-        Ok(apache_avro::to_avro_datum(&SCHEMA, apache_avro::to_value(self).unwrap()).unwrap())
-    }
-
-    fn deserialize(payload: &[u8]) -> Result<Self, Self::Error> {
+    fn deserialize(
+        payload: &[u8],
+        _content_type: &Option<String>,
+        _format_indicator: &FormatIndicator,
+    ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(apache_avro::from_value(&apache_avro::from_avro_datum(&SCHEMA, &mut Cursor::new(payload), None).unwrap()).unwrap())
     }
 }

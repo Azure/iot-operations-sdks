@@ -4,6 +4,7 @@ package statestore
 
 import (
 	"context"
+	"log/slog"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
@@ -27,7 +28,12 @@ func (c *Client[K, V]) KeyNotify(
 	ctx context.Context,
 	key K,
 	opt ...KeyNotifyOption,
-) error {
+) (err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return ArgumentError{Name: "key"}
+	}
+
 	var opts KeyNotifyOptions
 	opts.Apply(opt)
 
@@ -36,6 +42,7 @@ func (c *Client[K, V]) KeyNotify(
 	c.keynotifyMu.Lock()
 	defer c.keynotifyMu.Unlock()
 
+	c.logK(ctx, "KEYNOTIFY", key)
 	req := resp.OpK("KEYNOTIFY", key)
 	if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
 		return err
@@ -52,7 +59,12 @@ func (c *Client[K, V]) KeyNotifyStop(
 	ctx context.Context,
 	key K,
 	opt ...KeyNotifyOption,
-) error {
+) (err error) {
+	defer func() { c.logReturn(ctx, err) }()
+	if len(key) == 0 {
+		return ArgumentError{Name: "key"}
+	}
+
 	var opts KeyNotifyOptions
 	opts.Apply(opt)
 
@@ -62,9 +74,9 @@ func (c *Client[K, V]) KeyNotifyStop(
 	defer c.keynotifyMu.Unlock()
 
 	if c.keynotify[k] == 1 {
+		c.logK(ctx, "KEYNOTIFY", key, slog.Bool("stop", true))
 		req := resp.OpK("KEYNOTIFY", key, "STOP")
-		_, err := invoke(ctx, c.invoker, parseOK, &opts, req)
-		if err != nil {
+		if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
 			return err
 		}
 

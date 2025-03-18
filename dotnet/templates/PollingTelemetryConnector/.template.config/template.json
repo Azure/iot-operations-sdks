@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "timtay-microsoft",
+    "classifications": [ "Linux", "Windows", "Service"],
+    "identity": "AzureIotOperations.PollingTelemetryConnector",
+    "name": "Azure IoT Operations Polling Telemetry Connector",
+    "shortName": "aiopollingtelemetryconnector",
+    "sourceName":"AioPollingTelemetryConnector",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    }
+  }

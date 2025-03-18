@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -24,6 +25,7 @@ type (
 		publisher     *publisher[Req]
 		listener      *listener[Res]
 		responseTopic *internal.TopicPattern
+		log           log.Logger
 
 		pending container.SyncMap[string, commandPending[Res]]
 	}
@@ -33,9 +35,9 @@ type (
 
 	// CommandInvokerOptions are the resolved command invoker options.
 	CommandInvokerOptions struct {
-		ResponseTopic       func(string) string
-		ResponseTopicPrefix string
-		ResponseTopicSuffix string
+		ResponseTopicPattern string
+		ResponseTopicPrefix  string
+		ResponseTopicSuffix  string
 
 		TopicNamespace string
 		TopicTokens    map[string]string
@@ -52,12 +54,13 @@ type (
 		Metadata    map[string]string
 	}
 
-	// WithResponseTopic specifies a translation function from the request topic
-	// to the response topic. Note that this overrides any provided response
-	// topic prefix or suffix.
-	WithResponseTopic func(string) string
+	// WithResponseTopicPattern specifies a custom response topic pattern. Note
+	// that this overrides any provided response topic prefix or suffix.
+	WithResponseTopicPattern string
 
 	// WithResponseTopicPrefix specifies a custom prefix for the response topic.
+	// If no response topic options are specified, this will default to a value
+	// of "clients/<MQTT client ID>".
 	WithResponseTopicPrefix string
 
 	// WithResponseTopicSuffix specifies a custom suffix for the response topic.
@@ -80,20 +83,25 @@ type (
 	}
 )
 
-const commandInvokerErrStr = "command invocation"
+const (
+	commandInvokerComponentName = "command invoker"
+	commandInvokerErrStr        = "command invocation"
+)
 
 // NewCommandInvoker creates a new command invoker.
 func NewCommandInvoker[Req, Res any](
+	app *Application,
 	client MqttClient,
 	requestEncoding Encoding[Req],
 	responseEncoding Encoding[Res],
 	requestTopicPattern string,
 	opt ...CommandInvokerOption,
 ) (ci *CommandInvoker[Req, Res], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts CommandInvokerOptions
 	opts.Apply(opt)
+
+	logger := log.Wrap(opts.Logger, app.log)
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":           client,
@@ -103,11 +111,10 @@ func NewCommandInvoker[Req, Res any](
 		return nil, err
 	}
 
-	// Generate the response topic based on the provided options.
-	responseTopic := requestTopicPattern
-	if opts.ResponseTopic != nil {
-		responseTopic = opts.ResponseTopic(requestTopicPattern)
-	} else {
+	responseTopicPattern := opts.ResponseTopicPattern
+	if responseTopicPattern == "" {
+		responseTopicPattern = requestTopicPattern
+
 		if opts.ResponseTopicPrefix != "" {
 			err = internal.ValidateTopicPatternComponent(
 				"responseTopicPrefix",
@@ -117,7 +124,7 @@ func NewCommandInvoker[Req, Res any](
 			if err != nil {
 				return nil, err
 			}
-			responseTopic = opts.ResponseTopicPrefix + "/" + responseTopic
+			responseTopicPattern = opts.ResponseTopicPrefix + "/" + responseTopicPattern
 		}
 		if opts.ResponseTopicSuffix != "" {
 			err = internal.ValidateTopicPatternComponent(
@@ -128,7 +135,15 @@ func NewCommandInvoker[Req, Res any](
 			if err != nil {
 				return nil, err
 			}
-			responseTopic = responseTopic + "/" + opts.ResponseTopicSuffix
+			responseTopicPattern = responseTopicPattern + "/" + opts.ResponseTopicSuffix
+		}
+
+		// If no options were provided, apply a well-known prefix. This ensures
+		// that the response topic is different from the request topic and lets
+		// us document this pattern for auth configuration. Note that this does
+		// not use any topic tokens, since we cannot guarantee their existence.
+		if opts.ResponseTopicPrefix == "" && opts.ResponseTopicSuffix == "" {
+			responseTopicPattern = "clients/" + client.ID() + "/" + requestTopicPattern
 		}
 	}
 
@@ -143,8 +158,8 @@ func NewCommandInvoker[Req, Res any](
 	}
 
 	resTP, err := internal.NewTopicPattern(
-		"responseTopic",
-		responseTopic,
+		"responseTopicPattern",
+		responseTopicPattern,
 		opts.TopicTokens,
 		opts.TopicNamespace,
 	)
@@ -159,24 +174,40 @@ func NewCommandInvoker[Req, Res any](
 
 	ci = &CommandInvoker[Req, Res]{
 		responseTopic: resTP,
+		log:           logger,
 		pending:       container.NewSyncMap[string, commandPending[Res]](),
 	}
 	ci.publisher = &publisher[Req]{
+		app:      app,
 		client:   client,
 		encoding: requestEncoding,
 		topic:    reqTP,
+		version:  version.RPC,
 	}
 	ci.listener = &listener[Res]{
-		client:         client,
-		encoding:       responseEncoding,
-		topic:          resTF,
-		reqCorrelation: true,
-		log:            log.Wrap(opts.Logger),
-		handler:        ci,
+		app:              app,
+		client:           client,
+		encoding:         responseEncoding,
+		topic:            resTF,
+		reqCorrelation:   true,
+		supportedVersion: version.RPCSupported,
+		log:              logger,
+		handler:          ci,
 	}
 
 	ci.listener.register()
 	return ci, nil
+}
+
+// Start listening to the response topic(s). Must be called before any calls to
+// Invoke.
+func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
+	return ci.listener.start(ctx, commandInvokerComponentName)
+}
+
+// Close the command invoker to free its resources.
+func (ci *CommandInvoker[Req, Res]) Close() {
+	ci.listener.close(commandInvokerComponentName)
 }
 
 // Invoke calls the command. This call will block until the command returns; any
@@ -187,11 +218,11 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	req Req,
 	opt ...InvokeOption,
 ) (res *CommandResponse[Res], err error) {
-	shallow := true
-	defer func() { err = errutil.Return(err, shallow) }()
-
 	var opts InvokeOptions
 	opts.Apply(opt)
+
+	shallow := true
+	defer func() { err = errutil.Return(err, ci.log, shallow) }()
 
 	timeout := opts.Timeout
 	if timeout == 0 {
@@ -203,7 +234,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		Name:     "MessageExpiry",
 		Text:     commandInvokerErrStr,
 	}
-	if err := expiry.Validate(errors.ArgumentInvalid); err != nil {
+	if err := expiry.Validate(); err != nil {
 		return nil, err
 	}
 
@@ -237,6 +268,11 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 		return nil, err
 	}
 
+	ci.log.Debug(ctx, "request sent",
+		slog.String("topic", pub.Topic),
+		slog.Any("correlation_data", pub.CorrelationData),
+	)
+
 	// If a message expiry was specified, also time out our own context, so that
 	// we stop listening for a response when none will come.
 	ctx, cancel := expiry.Context(ctx)
@@ -244,6 +280,10 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 
 	select {
 	case res := <-listen:
+		ci.log.Debug(ctx, "response received",
+			slog.String("topic", pub.ResponseTopic),
+			slog.Any("correlation_data", pub.CorrelationData),
+		)
 		return res.res, res.err
 	case <-ctx.Done():
 		return nil, errutil.Context(ctx, commandInvokerErrStr)
@@ -282,23 +322,13 @@ func (ci *CommandInvoker[Req, Res]) sendPending(
 		return nil
 	}
 
-	return &errors.Error{
-		Message:     "unrecognized correlation data",
-		Kind:        errors.HeaderInvalid,
-		HeaderName:  constants.CorrelationData,
-		HeaderValue: cdata,
+	return &errors.Client{
+		Message: "unrecognized correlation data",
+		Kind: errors.HeaderInvalid{
+			HeaderName:  constants.CorrelationData,
+			HeaderValue: cdata,
+		},
 	}
-}
-
-// Start listening to the response topic(s). Must be called before any calls to
-// Invoke.
-func (ci *CommandInvoker[Req, Res]) Start(ctx context.Context) error {
-	return ci.listener.listen(ctx)
-}
-
-// Close the command invoker to free its resources.
-func (ci *CommandInvoker[Req, Res]) Close() {
-	ci.listener.close()
 }
 
 func (ci *CommandInvoker[Req, Res]) onMsg(
@@ -326,11 +356,15 @@ func (ci *CommandInvoker[Req, Res]) onErr(
 	pub *mqtt.Message,
 	err error,
 ) error {
-	// If we received a version error from the listener implementation rather
-	// than the response message, it indicates a version *we* don't support.
-	if e, ok := err.(*errors.Error); ok &&
-		e.Kind == errors.UnsupportedRequestVersion {
-		e.Kind = errors.UnsupportedResponseVersion
+	if re, ok := err.(*errors.Remote); ok {
+		// "Remote" errors returned in onErr for the invoker are actually local.
+		ce := &errors.Client{Message: re.Message, Kind: re.Kind}
+		if _, ok := ce.Kind.(errors.UnsupportedVersion); ok {
+			// A version error from the listener implementation indicates a
+			// *response* version we don't support, so update the message.
+			ce.Message = "response version is not supported"
+		}
+		err = ce
 	}
 	return ci.sendPending(ctx, pub, nil, err)
 }
@@ -360,11 +394,11 @@ func (o *CommandInvokerOptions) commandInvoker(opt *CommandInvokerOptions) {
 
 func (*CommandInvokerOptions) option() {}
 
-func (o WithResponseTopic) commandInvoker(opt *CommandInvokerOptions) {
-	opt.ResponseTopic = o
+func (o WithResponseTopicPattern) commandInvoker(opt *CommandInvokerOptions) {
+	opt.ResponseTopicPattern = string(o)
 }
 
-func (WithResponseTopic) option() {}
+func (WithResponseTopicPattern) option() {}
 
 func (o WithResponseTopicPrefix) commandInvoker(opt *CommandInvokerOptions) {
 	opt.ResponseTopicPrefix = string(o)

@@ -2,11 +2,17 @@
 // Licensed under the MIT License.
 
 //! Client for State Store operations.
+//!
+//! To use this client, the `state_store` feature must be enabled.
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_mqtt::{
+    interface::{AckToken, ManagedClient},
+    session::SessionConnectionMonitor,
+};
 use azure_iot_operations_protocol::{
+    application::ApplicationContext,
     common::hybrid_logical_clock::HybridLogicalClock,
     rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
     telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
@@ -16,11 +22,10 @@ use derive_builder::Builder;
 use tokio::{
     sync::{
         mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
-        Mutex,
+        Mutex, Notify,
     },
     task,
 };
-use tokio_util::sync::CancellationToken;
 
 use crate::state_store::{
     self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
@@ -81,7 +86,7 @@ where
     command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
         ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
-    recv_cancellation_token: CancellationToken,
+    shutdown_notifier: Arc<Notify>,
 }
 
 impl<C> Client<C>
@@ -90,6 +95,13 @@ where
     C::PubReceiver: Send + Sync,
 {
     /// Create a new State Store Client
+    ///
+    /// <div class="warning">
+    ///
+    /// Note: `connection_monitor` must be from the same session as `client`.
+    ///
+    /// </div>
+    ///
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) is possible if
     ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen
@@ -98,7 +110,12 @@ where
     /// Possible panics when building options for the underlying command invoker or telemetry receiver,
     /// but they should be unreachable because we control the static parameters that go into these calls.
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new(client: C, options: ClientOptions) -> Result<Self, StateStoreError> {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        connection_monitor: SessionConnectionMonitor,
+        options: ClientOptions,
+    ) -> Result<Self, StateStoreError> {
         // create invoker for commands
         let command_invoker_options = CommandInvokerOptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -113,8 +130,12 @@ where
             state_store::resp3::Request,
             state_store::resp3::Response,
             C,
-        > = CommandInvoker::new(client.clone(), command_invoker_options)
-            .map_err(StateStoreErrorKind::from)?;
+        > = CommandInvoker::new(
+            application_context.clone(),
+            client.clone(),
+            command_invoker_options,
+        )
+        .map_err(StateStoreErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
@@ -130,8 +151,8 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        // Create the cancellation token for the receiver loop
-        let recv_cancellation_token = CancellationToken::new();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
         // Create a hashmap of keys being observed and channels to send their notifications to
         let observed_keys = Arc::new(Mutex::new(HashMap::new()));
@@ -139,15 +160,16 @@ where
         // Start the receive key notification loop
         task::spawn({
             let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
-                TelemetryReceiver::new(client, telemetry_receiver_options)
+                TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
                     .map_err(StateStoreErrorKind::from)?;
-            let recv_cancellation_token_clone = recv_cancellation_token.clone();
+            let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
             async move {
                 Self::receive_key_notification_loop(
-                    recv_cancellation_token_clone,
+                    shutdown_notifier_clone,
                     notification_receiver,
                     observed_keys_clone,
+                    connection_monitor,
                 )
                 .await;
             }
@@ -156,11 +178,10 @@ where
         Ok(Self {
             command_invoker,
             observed_keys,
-            recv_cancellation_token,
+            shutdown_notifier,
         })
     }
 
-    // TODO: Finish implementing shutdown logic
     /// Shutdown the [`state_store::Client`]. Shuts down the command invoker and telemetry receiver
     /// and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
@@ -171,8 +192,8 @@ where
     /// # Errors
     /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), StateStoreError> {
-        // Cancel the receiver loop to drop the receiver and to prevent the task from looping indefinitely
-        self.recv_cancellation_token.cancel();
+        // Notify the receiver loop to shutdown the telemetry receiver
+        self.shutdown_notifier.notify_one();
 
         self.command_invoker
             .shutdown()
@@ -187,13 +208,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `Set` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -246,13 +267,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `Get` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -290,13 +311,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `Delete` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -309,7 +330,6 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, StateStoreError> {
-        // ) -> Result<state_store::Response<bool>, StateStoreError> {
         if key.is_empty() {
             return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
         }
@@ -325,13 +345,13 @@ where
     ///
     /// Note: timeout refers to the duration until the State Store Client stops
     /// waiting for a `V Delete` response from the Service. This value is not linked
-    /// to the key in the State Store.
+    /// to the key in the State Store. It is rounded up to the nearest second.
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is < 1 ms or > `u32::max`
+    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -421,6 +441,8 @@ where
 
     /// Starts observation of any changes on a key from the State Store Service
     ///
+    /// Note: `timeout` is rounded up to the nearest second.
+    ///
     /// Returns OK([`state_store::Response<KeyObservation>`]) if the key is now being observed.
     /// The [`KeyObservation`] can be used to receive key notifications for this key
     ///
@@ -440,7 +462,7 @@ where
     /// - the `key` is empty
     ///
     /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -506,13 +528,15 @@ where
 
     /// Stops observation of any changes on a key from the State Store Service
     ///
+    /// Note: `timeout` is rounded up to the nearest second.
+    ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
     /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
     /// - the `key` is empty
     ///
     /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
-    /// - the `timeout` is < 1 ms or > `u32::max`
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
     /// - the State Store returns an Error response
@@ -568,20 +592,46 @@ where
         }
     }
 
+    /// only return when the session goes from connected to disconnected
+    async fn notify_on_disconnection(connection_monitor: &SessionConnectionMonitor) {
+        connection_monitor.connected().await;
+        connection_monitor.disconnected().await;
+    }
+
     async fn receive_key_notification_loop(
-        recv_cancellation_token: CancellationToken,
+        shutdown_notifier: Arc<Notify>,
         mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
         >,
+        connection_monitor: SessionConnectionMonitor,
     ) {
+        let mut shutdown_attempt_count = 0;
         loop {
             tokio::select! {
-                  // on shutdown, this cancellation token will be called so this
-                  // loop can exit and the telemetry receiver can be cleaned up
-                  () = recv_cancellation_token.cancelled() => {
-                    break;
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
+                    match telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("Telemetry Receiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down Telemetry Receiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if shutdown_attempt_count < 3 {
+                                shutdown_attempt_count += 1;
+                                shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
+                  },
+                  () = Self::notify_on_disconnection(&connection_monitor) => {
+                    log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
+                    let mut observed_keys_mutex_guard = observed_keys.lock().await;
+                    // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
+                    observed_keys_mutex_guard.drain();
                   },
                   msg = telemetry_receiver.recv() => {
                     if let Some(m) = msg {
@@ -622,19 +672,23 @@ where
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving key notifications: {e}");
-                                break;
+                                log::error!("Error receiving key notifications: {e}. Shutting down Telemetry Receiver.");
+                                // try to shutdown telemetry receiver, but not indefinitely
+                                if shutdown_attempt_count < 3 {
+                                    shutdown_notifier.notify_one();
+                                }
                             }
                         }
                     } else {
-                        log::error!("Telemetry Receiver closed, no more Key Notifications can be received");
+                        log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
+                        let mut observed_keys_mutex_guard = observed_keys.lock().await;
+                        // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
+                        observed_keys_mutex_guard.drain();
                         break;
                     }
                 }
             }
         }
-        let result = telemetry_receiver.shutdown().await;
-        log::info!("Receive key notification loop cancelled: {result:?}");
     }
 }
 
@@ -644,7 +698,8 @@ where
     C::PubReceiver: Send + Sync,
 {
     fn drop(&mut self) {
-        self.recv_cancellation_token.cancel();
+        self.shutdown_notifier.notify_one();
+        log::info!("State Store Client has been dropped.");
     }
 }
 
@@ -655,6 +710,7 @@ mod tests {
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
 
@@ -678,9 +734,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -702,9 +761,12 @@ mod tests {
     #[tokio::test]
     async fn test_get_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -718,9 +780,12 @@ mod tests {
     #[tokio::test]
     async fn test_del_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -736,9 +801,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -754,9 +822,12 @@ mod tests {
     #[tokio::test]
     async fn test_observe_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -772,9 +843,12 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_empty_key() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -790,9 +864,12 @@ mod tests {
     #[tokio::test]
     async fn test_set_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -800,7 +877,7 @@ mod tests {
             .set(
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
-                Duration::from_nanos(50),
+                Duration::from_secs(0),
                 None,
                 SetOptions::default(),
             )
@@ -814,14 +891,17 @@ mod tests {
     #[tokio::test]
     async fn test_get_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
-            .get(b"testKey".to_vec(), Duration::from_nanos(50))
+            .get(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -832,14 +912,17 @@ mod tests {
     #[tokio::test]
     async fn test_del_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
-            .del(b"testKey".to_vec(), None, Duration::from_nanos(50))
+            .del(b"testKey".to_vec(), None, Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -850,9 +933,12 @@ mod tests {
     #[tokio::test]
     async fn test_vdel_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
@@ -861,7 +947,7 @@ mod tests {
                 b"testKey".to_vec(),
                 b"testValue".to_vec(),
                 None,
-                Duration::from_nanos(50),
+                Duration::from_secs(0),
             )
             .await;
         assert!(matches!(
@@ -873,14 +959,17 @@ mod tests {
     #[tokio::test]
     async fn test_observe_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
-            .observe(b"testKey".to_vec(), Duration::from_nanos(50))
+            .observe(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),
@@ -891,14 +980,17 @@ mod tests {
     #[tokio::test]
     async fn test_unobserve_invalid_timeout() {
         let session = create_session();
+        let connection_monitor = session.create_connection_monitor();
         let managed_client = session.create_managed_client();
         let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
+            connection_monitor,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap();
         let response = state_store_client
-            .unobserve(b"testKey".to_vec(), Duration::from_nanos(50))
+            .unobserve(b"testKey".to_vec(), Duration::from_secs(0))
             .await;
         assert!(matches!(
             response.unwrap_err(),

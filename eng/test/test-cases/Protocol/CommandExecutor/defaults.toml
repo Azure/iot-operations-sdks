@@ -6,6 +6,13 @@ idempotent = false
 execution-timeout = { seconds = 10 }
 request-responses-map = { "Test_Request" = [ "Test_Response" ] }
 
+[prologue.executor.serializer]
+out-content-type = "application/json"
+accept-content-types = [ "", "application/json" ]
+indicate-character-data = true
+allow-character-data = true
+fail-deserialization = false
+
 [actions.receive-request]
 topic = "mock/test"
 payload = "Test_Request"

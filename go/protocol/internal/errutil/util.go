@@ -3,6 +3,9 @@
 package errutil
 
 import (
+	"context"
+
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/google/uuid"
 )
@@ -24,12 +27,15 @@ func IsNoReturn(err error) (bool, error) {
 
 // Prepare the error for returning, removing any no-return flags (since this is
 // used outside of the RPC context) and applying the shallow flag if possible.
-func Return(err error, shallow bool) error {
+func Return(err error, logger log.Logger, shallow bool) error {
 	if e, ok := err.(noReturn); ok {
 		err = e.error
 	}
-	if e, ok := err.(*errors.Error); ok {
-		e.IsShallow = shallow
+	if e, ok := err.(*errors.Client); ok {
+		e.Shallow = shallow
+	}
+	if err != nil {
+		logger.Warn(context.Background(), err)
 	}
 	return err
 }
@@ -38,10 +44,11 @@ func Return(err error, shallow bool) error {
 func ValidateNonNil(args map[string]any) error {
 	for k, v := range args {
 		if v == nil {
-			return &errors.Error{
-				Message:      "argument is nil",
-				Kind:         errors.ConfigurationInvalid,
-				PropertyName: k,
+			return &errors.Client{
+				Message: "argument is nil",
+				Kind: errors.ConfigurationInvalid{
+					PropertyName: k,
+				},
 			}
 		}
 	}
@@ -52,10 +59,10 @@ func ValidateNonNil(args map[string]any) error {
 func NewUUID() (string, error) {
 	correlation, err := uuid.NewV7()
 	if err != nil {
-		return "", &errors.Error{
-			Message:     err.Error(),
-			Kind:        errors.UnknownError,
-			NestedError: err,
+		return "", &errors.Client{
+			Message: err.Error(),
+			Kind:    errors.UnknownError{},
+			Nested:  err,
 		}
 	}
 	return correlation.String(), nil

@@ -1,9 +1,5 @@
 # ADR4: Reserved User Properties and the Fencing Token
 
-## Status: 
-
-APPROVED
-
 ## Context: 
 
 The Fencing Token user property is exposed as a standard optional field on Command Requests, although the only current use of it is with the State Store Service Client. We have received questions from consumers of the SDK about when they should or should not be using this field, and what we are doing with the value, and the answer seems to be that they shouldn't use it outside of State Store scenarios, and that we don't do anything other than attach it as a user property. Currently, the fencing token field has to be exposed this way because it starts with our Protocol's reserved prefix `__`, which is validated against, so the State Store Service Client could not add this user property itself.

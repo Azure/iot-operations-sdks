@@ -7,12 +7,12 @@
 
     public class GoTypeGenerator : ITypeGenerator
     {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, string outputFolder, HashSet<string> sourceFilePaths)
+        public void GenerateTypeFromSchema(string projectName, SchemaType schemaType, SerializationFormat serFormat, string outputFolder)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new GoObject(genNamespace, objectType, GetSchemaImports(objectType)),
-                EnumType enumType => enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new GoStringEnum(genNamespace, enumType) : new GoIntegerEnum(genNamespace, enumType),
+                ObjectType objectType => new GoObject(objectType, GetSchemaImports(objectType)),
+                EnumType enumType => enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new GoStringEnum(enumType) : new GoIntegerEnum(enumType),
                 _ => throw new Exception("unrecognized schema type"),
             };
 
@@ -26,7 +26,6 @@
             string outFilePath = Path.Combine(outDirPath, templateTransform.FileName);
             File.WriteAllText(outFilePath, generatedCode);
             Console.WriteLine($"  generated {outFilePath}");
-            sourceFilePaths.Add(outFilePath);
         }
 
 

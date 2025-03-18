@@ -6,8 +6,7 @@ namespace Azure.Iot.Operations.Services.StateStore
     public class StateStoreDeleteResponse
     {
         /// <summary>
-        /// The number of items deleted by the request. If <see cref="StateStoreDeleteRequestOptions.GetPreviousValue"/>
-        /// was set, then this value is null.
+        /// The number of items deleted by the request.
         /// </summary>
         /// <remarks>
         /// If this delete operation was conditional on <see cref="StateStoreDeleteRequestOptions.OnlyDeleteIfValueEquals"/>

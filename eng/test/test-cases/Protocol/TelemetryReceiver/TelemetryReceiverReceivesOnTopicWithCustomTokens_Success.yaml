@@ -1,0 +1,32 @@
+---
+test-name: TelemetryReceiverReceivesOnTopicWithCustomTokens_Success
+description:
+  condition: >-
+    TelemetryReceiver receives a Telemetry on a topic specified with custom tokens.
+  expect: >-
+    TelemetryReceiver relays Telemetry and tokens to user code.
+
+prologue:
+  receivers:
+  - telemetry-topic: "mock/{modelId}/test/{ex:foobar}"
+    topic-token-map:
+      "modelId": "dtmi:test:MyModel;1"
+
+actions:
+- action: receive telemetry
+  topic: "mock/dtmi:test:MyModel;1/test/MyValue"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "mock/dtmi:test:MyModel;1/test/+"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+    topic-tokens:
+      "modelId": "dtmi:test:MyModel;1"
+      "ex:foobar": "MyValue"
+...

@@ -3,4 +3,10 @@ dirs:
 useGitIgnore: true
 ignorePatterns:
   # Ignore links to the GitHub repository itself as this will fail until its public. This is mostly used by the Go autogen docs.
-  - pattern: "^https://github.com/Azure/iot-operations-sdks/.*$"  
+  - pattern: "^https://github.com/Azure/iot-operations-sdks/.*$"
+  # There are some dummy links, ignore these
+  - pattern: "^http://link_to_"
+replacementPatterns:
+  # Linking to a code line doesnt seem to work, so rewrite the line out
+  - pattern: "#L\\d+$"
+    replacement: "#"

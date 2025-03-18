@@ -14,4 +14,7 @@ echo "Environment:
 # Add a convenience alias for the aio-broker
 sudo sh -c 'echo 127.0.0.1 aio-broker >> /etc/hosts'
 
+# Set the workspace as a safe directory
+git config --global --add safe.directory /workspace
+
 echo "Ending postStartCommand"

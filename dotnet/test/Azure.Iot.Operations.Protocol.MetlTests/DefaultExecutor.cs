@@ -5,7 +5,14 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 {
     public class DefaultExecutor
     {
+        public DefaultExecutor()
+        {
+            Serializer = new();
+        }
+
         public string? CommandName { get; set; }
+
+        public DefaultSerializer Serializer { get; set; }
 
         public string? RequestTopic { get; set; }
 

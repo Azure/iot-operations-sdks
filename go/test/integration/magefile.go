@@ -6,7 +6,37 @@
 
 package main
 
-import "github.com/Azure/iot-operations-sdks/go/internal/mage"
+import (
+	"time"
+
+	"github.com/Azure/iot-operations-sdks/go/internal/mage"
+)
+
+var coverPkg = []string{
+	`github.com/Azure/iot-operations-sdks/go/internal`,
+	`github.com/Azure/iot-operations-sdks/go/mqtt`,
+	`github.com/Azure/iot-operations-sdks/go/protocol`,
+	`github.com/Azure/iot-operations-sdks/go/services`,
+}
+
+// Test runs the unit tests.
+func Test() error {
+	return mage.Tester{
+		CoverPkg: coverPkg,
+		Race:     true,
+		Timeout:  30 * time.Second,
+	}.Run()
+}
+
+// TestClean runs the unit tests with no test cache.
+func TestClean() error {
+	return mage.Tester{
+		Clean:    true,
+		CoverPkg: coverPkg,
+		Race:     true,
+		Timeout:  30 * time.Second,
+	}.Run()
+}
 
 // CI runs format, lint, and test.
 func CI() error {
@@ -18,7 +48,7 @@ func CI() error {
 		return err
 	}
 
-	return mage.Test()
+	return Test()
 }
 
 func CIVerify() error {

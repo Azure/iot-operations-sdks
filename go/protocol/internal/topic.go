@@ -54,11 +54,12 @@ func ValidateTopicPatternComponent(
 	name, msgOnErr, pattern string,
 ) error {
 	if !matchPattern.MatchString(pattern) {
-		return &errors.Error{
-			Message:       msgOnErr,
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  name,
-			PropertyValue: pattern,
+		return &errors.Client{
+			Message: msgOnErr,
+			Kind: errors.ConfigurationInvalid{
+				PropertyName:  name,
+				PropertyValue: pattern,
+			},
 		}
 	}
 
@@ -73,26 +74,28 @@ func NewTopicPattern(
 ) (*TopicPattern, error) {
 	if namespace != "" {
 		if !ValidTopic(namespace) {
-			return nil, &errors.Error{
-				Message:       "invalid topic namespace",
-				Kind:          errors.ConfigurationInvalid,
-				PropertyName:  "TopicNamespace",
-				PropertyValue: namespace,
+			return nil, &errors.Client{
+				Message: "invalid topic namespace",
+				Kind: errors.ConfigurationInvalid{
+					PropertyName:  "TopicNamespace",
+					PropertyValue: namespace,
+				},
 			}
 		}
 		pattern = namespace + `/` + pattern
 	}
 
 	if !matchPattern.MatchString(pattern) {
-		return nil, &errors.Error{
-			Message:       "invalid topic pattern",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  name,
-			PropertyValue: pattern,
+		return nil, &errors.Client{
+			Message: "invalid topic pattern",
+			Kind: errors.ConfigurationInvalid{
+				PropertyName:  name,
+				PropertyValue: pattern,
+			},
 		}
 	}
 
-	if err := validateTokens(errors.ConfigurationInvalid, tokens); err != nil {
+	if err := validateTokens(tokens); err != nil {
 		return nil, err
 	}
 	for token, value := range tokens {
@@ -106,7 +109,7 @@ func NewTopicPattern(
 func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	topic := tp.pattern
 
-	if err := validateTokens(errors.ArgumentInvalid, tokens); err != nil {
+	if err := validateTokens(tokens); err != nil {
 		return "", err
 	}
 	for token, value := range tokens {
@@ -116,18 +119,20 @@ func (tp *TopicPattern) Topic(tokens map[string]string) (string, error) {
 	if !ValidTopic(topic) {
 		missingToken := matchToken.FindString(topic)
 		if missingToken != "" {
-			return "", &errors.Error{
-				Message:      "invalid topic",
-				Kind:         errors.ArgumentInvalid,
-				PropertyName: missingToken[1 : len(missingToken)-1],
+			return "", &errors.Client{
+				Message: "invalid topic",
+				Kind: errors.ConfigurationInvalid{
+					PropertyName: missingToken[1 : len(missingToken)-1],
+				},
 			}
 		}
 
-		return "", &errors.Error{
-			Message:       "invalid topic",
-			Kind:          errors.ArgumentInvalid,
-			PropertyName:  tp.name,
-			PropertyValue: topic,
+		return "", &errors.Client{
+			Message: "invalid topic",
+			Kind: errors.ConfigurationInvalid{
+				PropertyName:  tp.name,
+				PropertyValue: topic,
+			},
 		}
 	}
 	return topic, nil
@@ -186,11 +191,12 @@ func ValidTopic(topic string) bool {
 // Return whether the provided string is a valid share name.
 func ValidateShareName(shareName string) error {
 	if shareName != "" && !matchLabel.MatchString(shareName) {
-		return &errors.Error{
-			Message:       "invalid share name",
-			Kind:          errors.ConfigurationInvalid,
-			PropertyName:  "ShareName",
-			PropertyValue: shareName,
+		return &errors.Client{
+			Message: "invalid share name",
+			Kind: errors.ConfigurationInvalid{
+				PropertyName:  "ShareName",
+				PropertyValue: shareName,
+			},
 		}
 	}
 	return nil
@@ -200,18 +206,19 @@ func ValidateShareName(shareName string) error {
 // errors compared to just testing the resulting topic). Takes the error kind as
 // an argument since it may vary between ConfigurationInvalid (tokens provided
 // in the constructor) and ArgumentInvalid (tokens provided at call time).
-func validateTokens(kind errors.Kind, tokens map[string]string) error {
+func validateTokens(tokens map[string]string) error {
 	for k, v := range tokens {
 		// We don't check for the presence of token names in the pattern because
 		// it's valid to provide token values that aren't in the pattern. We do,
 		// however, check to make sure they're valid token names so that we can
 		// warn the user in cases that will never actually be valid.
 		if !matchLabel.MatchString(k) || !matchLabel.MatchString(v) {
-			return &errors.Error{
-				Message:       "invalid topic token",
-				Kind:          kind,
-				PropertyName:  k,
-				PropertyValue: v,
+			return &errors.Client{
+				Message: "invalid topic token",
+				Kind: errors.ConfigurationInvalid{
+					PropertyName:  k,
+					PropertyValue: v,
+				},
 			}
 		}
 	}

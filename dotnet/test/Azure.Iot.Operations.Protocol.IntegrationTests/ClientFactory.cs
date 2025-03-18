@@ -12,26 +12,23 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {
     public class ClientFactory
     {
-        public static async Task<OrderedAckMqttClient> CreateClientAsyncFromEnvAsync(string clientId, bool withTraces = false, bool omitClientId = false, CancellationToken cancellationToken = default)
+        public static async Task<OrderedAckMqttClient> CreateClientAsyncFromEnvAsync(string clientId, bool withTraces = false, CancellationToken cancellationToken = default)
         {
             Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
             string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")}";
-            if (!omitClientId)
-            {
-                cs = cs + $";ClientId={clientId}";
-            }
-
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
-            MQTTnet.Client.IMqttClient mqttClient;
-            if (withTraces)
+            if (string.IsNullOrEmpty(clientId))
             {
-                mqttClient = new MQTTnet.MqttFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger());
+                mcs.ClientId += Guid.NewGuid();
             }
             else
             {
-                mqttClient = new MQTTnet.MqttFactory().CreateMqttClient();
+                mcs.ClientId = clientId;
             }
 
+            MQTTnet.IMqttClient mqttClient = withTraces
+                ? new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
+                : new MQTTnet.MqttClientFactory().CreateMqttClient();
             var orderedAckClient = new OrderedAckMqttClient(mqttClient);
             await orderedAckClient.ConnectAsync(new MqttClientOptions(mcs), cancellationToken);
 
@@ -44,8 +41,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             {
                 clientId = Guid.NewGuid().ToString();
             }
-            string cs = $"{Environment.GetEnvironmentVariable("FAULTABLE_MQTT_TEST_BROKER_CS")};ClientId={clientId}";
+            string cs = Environment.GetEnvironmentVariable("FAULTABLE_MQTT_TEST_BROKER_CS")!;
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+            mcs.ClientId = clientId;
             MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
             {
                 // This retry policy prevents the client from retrying forever
@@ -58,8 +56,8 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             MqttClientOptions clientOptions = new MqttClientOptions(mcs);
             if (ConnectUserProperties != null)
-            { 
-                foreach (var property in ConnectUserProperties) 
+            {
+                foreach (var property in ConnectUserProperties)
                 {
                     clientOptions.AddUserProperty(property.Name, property.Value);
                 }
@@ -69,21 +67,21 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             return sessionClient;
         }
 
-        public static async Task<MqttSessionClient> CreateSessionClientFromEnvAsync(string clientId = "", bool omitClientId = false)
+        public static async Task<MqttSessionClient> CreateSessionClientFromEnvAsync(string clientId = "")
         {
             Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
-            string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")}";
-            if (!omitClientId)
-            {
-                if (string.IsNullOrEmpty(clientId))
-                {
-                    clientId = Guid.NewGuid().ToString();
-                }
-
-                cs = cs + $";ClientId={clientId}";
-            }
+            string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
 
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+            if (string.IsNullOrEmpty(clientId))
+            {
+                mcs.ClientId += Guid.NewGuid();
+            }
+            else
+            {
+                mcs.ClientId = clientId;
+            }
+
             MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
             {
             // This retry policy prevents the client from retrying forever

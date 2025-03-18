@@ -5,12 +5,16 @@ use std::collections::HashMap;
 
 use serde::Deserialize;
 
+use crate::metl::default_serializer::DefaultSerializer;
 use crate::metl::test_case_duration::TestCaseDuration;
 
 #[derive(Deserialize, Debug)]
 pub struct DefaultExecutor {
     #[serde(rename = "command-name")]
     pub command_name: Option<String>,
+
+    #[serde(rename = "serializer")]
+    pub serializer: Option<DefaultSerializer>,
 
     #[serde(rename = "request-topic")]
     pub request_topic: Option<String>,

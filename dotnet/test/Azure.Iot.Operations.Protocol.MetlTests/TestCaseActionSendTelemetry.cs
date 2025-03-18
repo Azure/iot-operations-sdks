@@ -12,6 +12,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public string? TelemetryName { get; set; } = DefaultTelemetryName;
 
+        public Dictionary<string, string>? TopicTokenMap { get; set; }
+
         public TestCaseDuration? Timeout { get; set; } = DefaultTimeout;
 
         public string? TelemetryValue { get; set; } = DefaultTelemetryValue;

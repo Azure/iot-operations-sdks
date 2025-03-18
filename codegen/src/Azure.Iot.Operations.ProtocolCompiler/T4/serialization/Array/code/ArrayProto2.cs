@@ -6,24 +6,22 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class ArrayProto2 : ITemplateTransform
     {
         private readonly string projectName;
-        private readonly string genNamespace;
-        private readonly string schema;
+        private readonly CodeName genNamespace;
+        private readonly CodeName schema;
         private readonly DTSchemaInfo elementSchema;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly HashSet<string> importNames;
 
-        public ArrayProto2(string projectName, string genNamespace, string schema, DTSchemaInfo elementSchema, DtmiToSchemaName dtmiToSchemaName)
+        public ArrayProto2(string projectName, CodeName genNamespace, CodeName schema, DTSchemaInfo elementSchema)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
             this.elementSchema = elementSchema;
-            this.dtmiToSchemaName = dtmiToSchemaName;
             this.importNames = new HashSet<string>();
         }
 
-        public string FileName { get => $"{this.schema}.proto"; }
+        public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.proto"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
     }
 }

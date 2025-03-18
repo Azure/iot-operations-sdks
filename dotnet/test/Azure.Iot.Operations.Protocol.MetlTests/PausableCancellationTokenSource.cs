@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class PausableCancellationTokenSource : Pausable<TriggerableCancellationTokenSource>, IPausable
     {
-        public CancellationTokenSource TokenSource { get => source.TokenSource; }
+        public CancellationTokenSource TokenSource { get => _source.TokenSource; }
 
         public PausableCancellationTokenSource(TimeSpan delay, bool startPaused)
             : base(delay, startPaused)

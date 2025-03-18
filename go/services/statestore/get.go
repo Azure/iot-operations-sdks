@@ -28,7 +28,8 @@ func (c *Client[K, V]) Get(
 	ctx context.Context,
 	key K,
 	opt ...GetOption,
-) (*Response[V], error) {
+) (res *Response[V], err error) {
+	defer func() { c.logReturn(ctx, err) }()
 	if len(key) == 0 {
 		return nil, ArgumentError{Name: "key"}
 	}
@@ -36,6 +37,7 @@ func (c *Client[K, V]) Get(
 	var opts GetOptions
 	opts.Apply(opt)
 
+	c.logK(ctx, "GET", key)
 	req := resp.OpK("GET", key)
 	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }

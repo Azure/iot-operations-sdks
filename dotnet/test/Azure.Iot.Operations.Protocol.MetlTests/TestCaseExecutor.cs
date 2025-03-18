@@ -6,6 +6,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
     public class TestCaseExecutor
     {
         public static string? DefaultCommandName;
+        public static TestCaseSerializer DefaultSerializer = new();
         public static string? DefaultRequestTopic;
         public static string? DefaultExecutorId;
         public static string? DefaultTopicNamespace;
@@ -16,6 +17,8 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public static int? DefaultExecutionConcurrency;
 
         public string? CommandName { get; set; } = DefaultCommandName;
+
+        public TestCaseSerializer Serializer { get; set; } = DefaultSerializer;
 
         public string? RequestTopic { get; set; } = DefaultRequestTopic;
 
@@ -35,9 +38,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public Dictionary<string, string?> ResponseMetadata { get; set; } = new();
 
+        public string? TokenMetadataPrefix { get; set; }
+
         public int? ExecutionConcurrency { get; set; } = DefaultExecutionConcurrency;
 
-        public TestCaseError? RaiseError { get; set; }
+        public bool RaiseError { get; set; }
 
         public List<TestCaseSync> Sync { get; set; } = new();
     }

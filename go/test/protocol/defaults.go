@@ -2,4 +2,7 @@
 // Licensed under the MIT License.
 package protocol
 
-var TestCaseDefaultInfo *DefaultTestCase
+var (
+	TestCaseDefaultInfo       *DefaultTestCase
+	TestCaseDefaultSerializer *DefaultSerializer
+)

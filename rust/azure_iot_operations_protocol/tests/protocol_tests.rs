@@ -28,22 +28,14 @@ use metl::test_feature_kind::TestFeatureKind;
 static TEST_CASE_INDEX: atomic::AtomicI32 = atomic::AtomicI32::new(0);
 
 const PROBLEMATIC_TEST_CASES: &[&str] = &[
-    "CommandExecutorRequestsCompleteOutOfOrder_RequestAckedInOrder",
     "CommandExecutorRequestExpiresWhileDisconnected_RequestNotAcknowledged",
     "CommandExecutorResponsePubAckDroppedByDisconnection_ReconnectAndSuccess",
-    "CommandExecutorUserCodeRaisesContentError_RespondsError",
-    "CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError",
-    "CommandExecutorUserCodeSetsInvalidMetadata_RespondsError",
-    "CommandExecutorRequest_TimeoutPropagated",
     "CommandInvokerInvalidResponseTopicPrefix_ThrowsException",
     "CommandInvokerInvalidResponseTopicSuffix_ThrowsException",
     "CommandInvokerPubAckDroppedByDisconnection_ReconnectAndSuccess",
-    "CommandInvokerWithCustomResponseTopic_Success",
-    "CommandInvokerWithInvalidMetadata_ThrowsException",
-    "CommandInvokerWithSubMillisecTimeout_ThrowsException",
     "CommandInvokerWithZeroTimeout_ThrowsException",
     "TelemetrySenderPubAckDroppedByDisconnection_ReconnectAndSuccess",
-    "TelemetrySenderSendWithCloudEvent_Success",
+    "TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success",
 ];
 
 /*
@@ -72,7 +64,6 @@ fn test_command_invoker_standalone(_path: &Path, contents: String) -> datatest_s
             .unwrap()
             .block_on(CommandInvokerTester::<MqttDriver>::test_command_invoker(
                 test_case,
-                test_case_index,
                 mqtt_driver,
                 mqtt_hub,
             ));
@@ -108,7 +99,6 @@ fn test_command_executor_standalone(_path: &Path, contents: String) -> datatest_
             .unwrap()
             .block_on(CommandExecutorTester::<MqttDriver>::test_command_executor(
                 test_case,
-                test_case_index,
                 mqtt_driver,
                 mqtt_hub,
             ));
@@ -134,7 +124,7 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionInvokerTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -151,7 +141,6 @@ fn test_command_invoker_session(_path: &Path, contents: String) -> datatest_stab
             let _ = tokio::join!(session.run(), async move {
                 CommandInvokerTester::<SessionManagedClient<MqttDriver>>::test_command_invoker(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -181,7 +170,7 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
         let mqtt_client_id =
             get_client_id(&test_case, "SessionExecutorTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -198,7 +187,6 @@ fn test_command_executor_session(_path: &Path, contents: String) -> datatest_sta
             let _ = tokio::join!(session.run(), async move {
                 CommandExecutorTester::<SessionManagedClient<MqttDriver>>::test_command_executor(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -228,7 +216,7 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
         let mqtt_client_id =
             get_client_id(&test_case, "SessionReceiverTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -245,7 +233,6 @@ fn test_telemetry_receiver_session(_path: &Path, contents: String) -> datatest_s
             let _ = tokio::join!(session.run(), async move {
                 TelemetryReceiverTester::<SessionManagedClient<MqttDriver>>::test_telemetry_receiver(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -274,7 +261,7 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
     {
         let mqtt_client_id = get_client_id(&test_case, "SessionSenderTestClient", test_case_index);
         let mut mqtt_hub = MqttHub::new(mqtt_client_id.clone(), MqttEmulationLevel::Event);
-        let mut session = Session::new_from_injection(
+        let session = Session::new_from_injection(
             mqtt_hub.get_driver(),
             mqtt_hub.get_looper(),
             Box::new(ExponentialBackoffWithJitter::default()),
@@ -291,7 +278,6 @@ fn test_telemetry_sender_session(_path: &Path, contents: String) -> datatest_sta
             let _ = tokio::join!(session.run(), async move {
                 TelemetrySenderTester::<SessionManagedClient<MqttDriver>>::test_telemetry_sender(
                     test_case,
-                    test_case_index,
                     managed_client,
                     mqtt_hub,
                 )
@@ -311,13 +297,16 @@ fn does_standalone_support(requirements: &[TestFeatureKind]) -> bool {
         && !requirements.contains(&TestFeatureKind::Reconnection)
         && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
+        && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }
 */
 
 fn does_session_support(requirements: &[TestFeatureKind]) -> bool {
     !requirements.contains(&TestFeatureKind::Unobtanium)
+        && !requirements.contains(&TestFeatureKind::TopicFiltering)
         && !requirements.contains(&TestFeatureKind::Caching)
         && !requirements.contains(&TestFeatureKind::Dispatch)
+        && !requirements.contains(&TestFeatureKind::MultipleSerializers)
 }
 
 fn get_client_id<T: DefaultsType + Default>(

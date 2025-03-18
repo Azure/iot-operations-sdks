@@ -1,0 +1,25 @@
+{
+    "title": "ReceiverSerializer",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "accept-content-types": {
+            "description": "A list of strings allowed as content types on incoming data to deserialize.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "kind": "check"
+        },
+        "allow-character-data": {
+            "description": "Whether to allow a payload format indicator that specifies character data for incoming data to deserialize.",
+            "type": "boolean",
+            "kind": "check"
+        },
+        "fail-deserialization": {
+            "description": "Whether to fail the deserialization of incoming data.",
+            "type": "boolean",
+            "kind": "drive"
+        }
+    }
+}

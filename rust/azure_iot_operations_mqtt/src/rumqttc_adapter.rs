@@ -16,8 +16,9 @@ use crate::control_packet::{
     AuthProperties, Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
 use crate::error::{
-    AckError, ConnectionError, DisconnectError, PublishError, ReauthError, SubscribeError,
-    UnsubscribeError,
+    AckError, AckErrorKind, ConnectionError, DisconnectError, DisconnectErrorKind, PublishError,
+    PublishErrorKind, ReauthError, ReauthErrorKind, SubscribeError, SubscribeErrorKind,
+    UnsubscribeError, UnsubscribeErrorKind,
 };
 use crate::interface::{
     CompletionToken, Event, MqttAck, MqttClient, MqttDisconnect, MqttEventLoop, MqttPubSub,
@@ -35,8 +36,8 @@ impl From<rumqttc::v5::ClientError> for PublishError {
         // As such, we can assume that all rumqttc ClientErrors on publish are due to the client
         // being detached from the event loop
         match err {
-            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
-                PublishError::DetachedClient(r)
+            rumqttc::v5::ClientError::Request(_) | rumqttc::v5::ClientError::TryRequest(_) => {
+                PublishError::new(PublishErrorKind::DetachedClient)
             }
         }
     }
@@ -50,8 +51,8 @@ impl From<rumqttc::v5::ClientError> for SubscribeError {
         // As such, we can assume that all rumqttc ClientErrors on subscribe are due to the client
         // being detached from the event loop
         match err {
-            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
-                SubscribeError::DetachedClient(r)
+            rumqttc::v5::ClientError::Request(_) | rumqttc::v5::ClientError::TryRequest(_) => {
+                SubscribeError::new(SubscribeErrorKind::DetachedClient)
             }
         }
     }
@@ -60,8 +61,8 @@ impl From<rumqttc::v5::ClientError> for SubscribeError {
 impl From<rumqttc::v5::ClientError> for UnsubscribeError {
     fn from(err: rumqttc::v5::ClientError) -> Self {
         match err {
-            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
-                UnsubscribeError::DetachedClient(r)
+            rumqttc::v5::ClientError::Request(_) | rumqttc::v5::ClientError::TryRequest(_) => {
+                UnsubscribeError::new(UnsubscribeErrorKind::DetachedClient)
             }
         }
     }
@@ -70,8 +71,8 @@ impl From<rumqttc::v5::ClientError> for UnsubscribeError {
 impl From<rumqttc::v5::ClientError> for AckError {
     fn from(err: rumqttc::v5::ClientError) -> Self {
         match err {
-            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
-                AckError::DetachedClient(r)
+            rumqttc::v5::ClientError::Request(_) | rumqttc::v5::ClientError::TryRequest(_) => {
+                AckError::new(AckErrorKind::DetachedClient)
             }
         }
     }
@@ -80,8 +81,8 @@ impl From<rumqttc::v5::ClientError> for AckError {
 impl From<rumqttc::v5::ClientError> for DisconnectError {
     fn from(err: rumqttc::v5::ClientError) -> Self {
         match err {
-            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
-                DisconnectError::DetachedClient(r)
+            rumqttc::v5::ClientError::Request(_) | rumqttc::v5::ClientError::TryRequest(_) => {
+                DisconnectError::new(DisconnectErrorKind::DetachedClient)
             }
         }
     }
@@ -90,8 +91,8 @@ impl From<rumqttc::v5::ClientError> for DisconnectError {
 impl From<rumqttc::v5::ClientError> for ReauthError {
     fn from(err: rumqttc::v5::ClientError) -> Self {
         match err {
-            rumqttc::v5::ClientError::Request(r) | rumqttc::v5::ClientError::TryRequest(r) => {
-                ReauthError::DetachedClient(r)
+            rumqttc::v5::ClientError::Request(_) | rumqttc::v5::ClientError::TryRequest(_) => {
+                ReauthError::new(ReauthErrorKind::DetachedClient)
             }
         }
     }
@@ -121,7 +122,7 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     ) -> Result<CompletionToken, PublishError> {
         let topic = topic.into();
         if !TopicName::is_valid_topic_name(&topic) {
-            return Err(PublishError::InvalidTopicName);
+            return Err(PublishError::new(PublishErrorKind::InvalidTopicName));
         }
         let nf = self.publish(topic, qos, retain, payload).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
@@ -137,7 +138,7 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     ) -> Result<CompletionToken, PublishError> {
         let topic = topic.into();
         if !TopicName::is_valid_topic_name(&topic) {
-            return Err(PublishError::InvalidTopicName);
+            return Err(PublishError::new(PublishErrorKind::InvalidTopicName));
         }
         let nf = self
             .publish_with_properties(topic, qos, retain, payload, properties)
@@ -152,7 +153,7 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     ) -> Result<CompletionToken, SubscribeError> {
         let topic = topic.into();
         if !TopicFilter::is_valid_topic_filter(&topic) {
-            return Err(SubscribeError::InvalidTopicFilter);
+            return Err(SubscribeError::new(SubscribeErrorKind::InvalidTopicFilter));
         }
         let nf = self.subscribe(topic, qos).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
@@ -166,7 +167,7 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     ) -> Result<CompletionToken, SubscribeError> {
         let topic = topic.into();
         if !TopicFilter::is_valid_topic_filter(&topic) {
-            return Err(SubscribeError::InvalidTopicFilter);
+            return Err(SubscribeError::new(SubscribeErrorKind::InvalidTopicFilter));
         }
         let nf = self
             .subscribe_with_properties(topic, qos, properties)
@@ -180,7 +181,9 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     ) -> Result<CompletionToken, UnsubscribeError> {
         let topic = topic.into();
         if !TopicFilter::is_valid_topic_filter(&topic) {
-            return Err(UnsubscribeError::InvalidTopicFilter);
+            return Err(UnsubscribeError::new(
+                UnsubscribeErrorKind::InvalidTopicFilter,
+            ));
         }
         let nf = self.unsubscribe(topic).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
@@ -193,7 +196,9 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
     ) -> Result<CompletionToken, UnsubscribeError> {
         let topic = topic.into();
         if !TopicFilter::is_valid_topic_filter(&topic) {
-            return Err(UnsubscribeError::InvalidTopicFilter);
+            return Err(UnsubscribeError::new(
+                UnsubscribeErrorKind::InvalidTopicFilter,
+            ));
         }
         let nf = self.unsubscribe_with_properties(topic, properties).await?;
         Ok(CompletionToken(Box::new(nf.wait_async())))
@@ -202,16 +207,23 @@ impl MqttPubSub for rumqttc::v5::AsyncClient {
 
 #[async_trait]
 impl MqttAck for rumqttc::v5::AsyncClient {
-    async fn ack(&self, publish: &Publish) -> Result<(), AckError> {
+    async fn ack(&self, publish: &Publish) -> Result<CompletionToken, AckError> {
         // NOTE: Despite the contract, there's no (easy) way to have this return AckError::AlreadyAcked
         // if the publish in question has already been acked - doing so would require adding a
         // wrapper, and moving significant portions of the pub_tracker behind the adapter layer.
-        // This would need to be implemented before any non-Session MQTT client gets exposed in API.
+        // Furthermore, that tracker would have be shared with an EventLoop instance, which would
+        // make things dramatically more complex.
+        // For now, this has been circumvented with the ordered_acker.rs module.
         let mut manual_ack = self.get_manual_ack(publish);
         manual_ack.set_reason(rumqttc::v5::ManualAckReason::Success);
         // NOTE: Technically we could have achieved this same behavior by just calling .ack() on
         // the rumqttc client which assumes rc=0, but I prefer to be explicit here.
-        Ok(self.manual_ack(manual_ack).await?)
+        self.manual_ack(manual_ack).await?;
+        // NOTE: rumqttc does not currently return a NoticeFuture from manual_ack, like it does for
+        // publish, subscribe and unsubscribe. For now we simulate one, although this means that
+        // the CompletionToken's completion has no real meaning. This has implications for
+        // correctness in QoS2 especially, but also QoS1 connection loss scenarios.
+        Ok(CompletionToken(Box::new(async { Ok(()) })))
     }
 }
 
@@ -255,6 +267,7 @@ pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,
     manual_ack: bool,
+    connection_user_properties: Vec<(String, String)>,
 ) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), MqttAdapterError> {
     // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1 due to (presumably) a bug.
     // It panics if you set MAX, although MAX - 1 is fine.
@@ -265,6 +278,12 @@ pub fn client(
     }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
+
+    // Add any provided user properties
+    let mut existing_props = mqtt_options.user_properties();
+    existing_props.extend(connection_user_properties);
+    mqtt_options.set_user_properties(existing_props);
+
     Ok(rumqttc::v5::AsyncClient::new(
         mqtt_options,
         channel_capacity,

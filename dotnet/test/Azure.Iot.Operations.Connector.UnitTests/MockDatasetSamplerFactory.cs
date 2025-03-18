@@ -1,15 +1,13 @@
-﻿using Azure.Iot.Operations.Services.Assets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
     internal class MockDatasetSamplerFactory : IDatasetSamplerFactory
     {
-        private bool _isFaulty;
+        private readonly bool _isFaulty;
         public MockDatasetSamplerFactory(bool isFaulty = false)
         {
             _isFaulty = isFaulty;

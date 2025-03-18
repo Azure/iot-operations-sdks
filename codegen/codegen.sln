@@ -5,16 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler", "src\Azure.Iot.Operations.ProtocolCompiler\Azure.Iot.Operations.ProtocolCompiler.csproj", "{C774E83A-0CEB-4B2E-BC3A-8E9F1B06BB97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor", "test\ProtocolCompiler.IntegrationTests\SchemaExtractor\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.SchemaExtractor.csproj", "{26B6C9BF-0FFB-4199-A299-B2388365B78A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.STK", "test\ProtocolCompiler.IntegrationTests\STK\dotnet\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.STK.csproj", "{3A5921D5-8C84-421B-AC31-E4BC43EBFC8B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4", "test\ProtocolCompiler.IntegrationTests\T4\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.T4.csproj", "{66A7EE40-6181-4048-B77A-EEEB45C83FAB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.TestCaseGenerator", "test\ProtocolCompiler.IntegrationTests\TestCaseGenerator\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.TestCaseGenerator.csproj", "{BECB8F4C-1A3C-40E6-B879-B7664A119BEA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.TestCodeGenerator", "test\ProtocolCompiler.IntegrationTests\TestCodeGenerator\Azure.Iot.Operations.ProtocolCompiler.IntegrationTests.TestCodeGenerator.csproj", "{46FC16A1-0458-47C9-BDBB-5116FDF0C4A2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.ProtocolCompiler.UnitTests", "test\ProtocolCompiler.UnitTests\Azure.Iot.Operations.ProtocolCompiler.UnitTests.csproj", "{153379DE-7A0F-421C-AC35-7E332BCCA078}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{45F99640-9B7E-4DAA-870F-95920FD367D7}"
@@ -29,26 +19,6 @@ Global
 		{C774E83A-0CEB-4B2E-BC3A-8E9F1B06BB97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C774E83A-0CEB-4B2E-BC3A-8E9F1B06BB97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C774E83A-0CEB-4B2E-BC3A-8E9F1B06BB97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26B6C9BF-0FFB-4199-A299-B2388365B78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26B6C9BF-0FFB-4199-A299-B2388365B78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26B6C9BF-0FFB-4199-A299-B2388365B78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26B6C9BF-0FFB-4199-A299-B2388365B78A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A5921D5-8C84-421B-AC31-E4BC43EBFC8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A5921D5-8C84-421B-AC31-E4BC43EBFC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A5921D5-8C84-421B-AC31-E4BC43EBFC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A5921D5-8C84-421B-AC31-E4BC43EBFC8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66A7EE40-6181-4048-B77A-EEEB45C83FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66A7EE40-6181-4048-B77A-EEEB45C83FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66A7EE40-6181-4048-B77A-EEEB45C83FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66A7EE40-6181-4048-B77A-EEEB45C83FAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BECB8F4C-1A3C-40E6-B879-B7664A119BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BECB8F4C-1A3C-40E6-B879-B7664A119BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BECB8F4C-1A3C-40E6-B879-B7664A119BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BECB8F4C-1A3C-40E6-B879-B7664A119BEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46FC16A1-0458-47C9-BDBB-5116FDF0C4A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46FC16A1-0458-47C9-BDBB-5116FDF0C4A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46FC16A1-0458-47C9-BDBB-5116FDF0C4A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46FC16A1-0458-47C9-BDBB-5116FDF0C4A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{153379DE-7A0F-421C-AC35-7E332BCCA078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{153379DE-7A0F-421C-AC35-7E332BCCA078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153379DE-7A0F-421C-AC35-7E332BCCA078}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,11 +28,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{26B6C9BF-0FFB-4199-A299-B2388365B78A} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
-		{3A5921D5-8C84-421B-AC31-E4BC43EBFC8B} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
-		{66A7EE40-6181-4048-B77A-EEEB45C83FAB} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
-		{BECB8F4C-1A3C-40E6-B879-B7664A119BEA} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
-		{46FC16A1-0458-47C9-BDBB-5116FDF0C4A2} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
 		{153379DE-7A0F-421C-AC35-7E332BCCA078} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
 	EndGlobalSection
 EndGlobal

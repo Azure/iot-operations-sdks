@@ -18,7 +18,7 @@ The MqttConnectionSettings class enables the operator to configure the MQTT Conn
 |`CaFile`|`AIO_TLS_CA_FILE`|no|string|null|Path to a PEM file to validate server identity|
 |`CleanStart`|`AIO_MQTT_CLEAN_START`|no|bool|false|Whether to use persistent session on first connect, subsequent connections will be `false`. `true` requires a unique `ClientId`.
 |`KeepAlive`|`AIO_MQTT_KEEP_ALIVE`|no|uint32|`60`|Interval of ping packets, in seconds|
-|`ClientId`|`AIO_MQTT_CLIENT_ID`|no|string|empty|MQTT Client Id, required for persistent sessions (`CleanStart=false`)|
+|`ClientId`|`AIO_MQTT_CLIENT_ID`|yes|string|n/a|MQTT Client Id|
 |`SessionExpiry`|`AIO_MQTT_SESSION_EXPIRY`|no|uint32|`3600`|Connection session duration, in seconds|
 |`Username`|`AIO_MQTT_USERNAME`|no|string|null|MQTT Username to authenticate the connection|
 |`PasswordFile`|`AIO_MQTT_PASSWORD_FILE`|no|string|null|MQTT Password file|
@@ -44,9 +44,9 @@ MqttConnectionSettings connSettings = new("aio-broker")
 ### Initialize from environment variables
 
 ```bash
-export MQTT_HOST_NAME=aio-broker
-export MQTT_TCP_PORT=1883
-export MQTT_USE_TLS=false
+export AIO_BROKER_HOSTNAME=aio-broker
+export AIO_BROKER_TCP_PORT=1883
+export AIO_MQTT_USE_TLS=false
 ```
 
 ```cs

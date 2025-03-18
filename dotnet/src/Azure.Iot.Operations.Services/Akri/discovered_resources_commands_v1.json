@@ -87,24 +87,7 @@
               "@type": "Field",
               "name": "status",
               "description": "status of discovered asset endpoint profile creation",
-              "schema": {
-                "@type": "Enum",
-                "valueSchema": "string",
-                "enumValues": [
-                  {
-                    "name": "Created",
-                    "enumValue": "created"
-                  },
-                  {
-                    "name": "Duplicate",
-                    "enumValue": "duplicate"
-                  },
-                  {
-                    "name": "Failed",
-                    "enumValue": "failed"
-                  }
-                ]
-              }
+              "schema": "dtmi:com:microsoft:deviceregistry:StatusSchema;1"
             }
           ]
         }
@@ -225,19 +208,7 @@
                     },
                     {
                       "name": "topic",
-                      "schema": {
-                        "@type": "Object",
-                        "fields": [
-                          {
-                            "name": "path",
-                            "schema": "string"
-                          },
-                          {
-                            "name": "retain",
-                            "schema": "dtmi:com:microsoft:deviceregistry:DiscoveredTopicRetain;1"
-                          }
-                        ]
-                      }
+                      "schema": "dtmi:com:microsoft:deviceregistry:TopicSchema;1"
                     },
                     {
                       "name": "dataPoints",
@@ -293,19 +264,7 @@
                     },
                     {
                       "name": "topic",
-                      "schema": {
-                        "@type": "Object",
-                        "fields": [
-                          {
-                            "name": "path",
-                            "schema": "string"
-                          },
-                          {
-                            "name": "retain",
-                            "schema": "dtmi:com:microsoft:deviceregistry:DiscoveredTopicRetain;1"
-                          }
-                        ]
-                      }
+                      "schema": "dtmi:com:microsoft:deviceregistry:TopicSchema;1"
                     },
                     {
                       "name": "lastUpdatedOn",
@@ -329,24 +288,7 @@
               "@type": "Field",
               "name": "status",
               "description": "status of discovered asset creation",
-              "schema": {
-                "@type": "Enum",
-                "valueSchema": "string",
-                "enumValues": [
-                  {
-                    "name": "Created",
-                    "enumValue": "created"
-                  },
-                  {
-                    "name": "Duplicate",
-                    "enumValue": "duplicate"
-                  },
-                  {
-                    "name": "Failed",
-                    "enumValue": "failed"
-                  }
-                ]
-              }
+              "schema": "dtmi:com:microsoft:deviceregistry:StatusSchema;1"
             }
           ]
         }
@@ -354,6 +296,39 @@
     }
   ],
   "schemas": [
+    {
+      "@id": "dtmi:com:microsoft:deviceregistry:TopicSchema;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "path",
+          "schema": "string"
+        },
+        {
+          "name": "retain",
+          "schema": "dtmi:com:microsoft:deviceregistry:DiscoveredTopicRetain;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:deviceregistry:StatusSchema;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "Created",
+          "enumValue": "created"
+        },
+        {
+          "name": "Duplicate",
+          "enumValue": "duplicate"
+        },
+        {
+          "name": "Failed",
+          "enumValue": "failed"
+        }
+      ]
+    },
     {
       "@id": "dtmi:com:microsoft:deviceregistry:DiscoveredTopicRetain;1",
       "@type": "Enum",
@@ -369,7 +344,6 @@
           "enumValue": "Never"
         }
       ]
-
     }
   ]
 }

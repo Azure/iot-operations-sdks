@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
 {
     internal class Resp3ArrayBuilder
     {
-        private List<byte[]> _resp3Objects;
+        private readonly List<byte[]> _resp3Objects;
 
         internal Resp3ArrayBuilder()
         {

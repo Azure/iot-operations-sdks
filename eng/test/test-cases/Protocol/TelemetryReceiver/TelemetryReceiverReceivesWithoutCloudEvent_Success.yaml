@@ -1,0 +1,27 @@
+---
+test-name: TelemetryReceiverReceivesWithoutCloudEvent_Success
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry with no attached CloudEvent info.
+  expect: >-
+    TelemetryReceiver relays Telemetry without CloudEvent to user code.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "mock/test"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+    cloud-event: # not present
+...

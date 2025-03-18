@@ -10,7 +10,22 @@
     "telemetryTopic": "sample/{senderId}/telemetry",
     "schemas": [
       {
-        "@id": "dtmi:test:intEnumProx;1",
+        "@id": "dtmi:sharedSchemas:results;1",
+        "@type": "Enum",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "success",
+            "enumValue": "succès"
+          },
+          {
+            "name": "failure",
+            "enumValue": "échec"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:sharedSchemas:intEnumProx;1",
         "@type": "Enum",
         "valueSchema": "integer",
         "description": "An enumerated value for expressing qualitative distance.",
@@ -29,10 +44,10 @@
     "contents": [
       {
         "@type": "Telemetry",
-        "name": "doubleArray1D",
+        "name": "resultArray",
         "schema": {
           "@type": "Array",
-          "elementSchema": "double"
+          "elementSchema": "dtmi:sharedSchemas:results;1"
         }
       },
       {
@@ -99,7 +114,7 @@
       {
         "@type": "Telemetry",
         "name": "proximity",
-        "schema": "dtmi:test:intEnumProx;1"
+        "schema": "dtmi:sharedSchemas:intEnumProx;1"
       },
       {
         "@type": "Telemetry",

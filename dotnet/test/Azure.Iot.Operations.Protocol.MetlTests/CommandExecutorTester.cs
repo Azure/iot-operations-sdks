@@ -5,18 +5,16 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 using Tomlyn;
 using Xunit;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using TestModel.dtmi_test_TestModel__1;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Converters;
+using System.Buffers;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
@@ -30,12 +28,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static FreezableWallClock freezableWallClock;
-        private static IPayloadSerializer payloadSerializer;
-        private static ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> sessionRequestResponseSequencers;
-        private static ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> standaloneRequestResponseSequencers;
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly FreezableWallClock freezableWallClock;
+        private static readonly ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> sessionRequestResponseSequencers;
+        private static readonly ConcurrentDictionary<int, ConcurrentDictionary<string, AsyncAtomicInt>> standaloneRequestResponseSequencers;
 
         static CommandExecutorTester()
         {
@@ -59,6 +56,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             if (File.Exists(defaultsFilePath))
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
+
+                TestCaseSerializer.DefaultOutContentType = defaultTestCase.Prologue.Executor.Serializer.OutContentType;
+                TestCaseSerializer.DefaultAcceptContentTypes = defaultTestCase.Prologue.Executor.Serializer.AcceptContentTypes;
+                TestCaseSerializer.DefaultIndicateCharacterData = defaultTestCase.Prologue.Executor.Serializer.IndicateCharacterData;
+                TestCaseSerializer.DefaultAllowCharacterData = defaultTestCase.Prologue.Executor.Serializer.AllowCharacterData;
+                TestCaseSerializer.DefaultFailDeserialization = defaultTestCase.Prologue.Executor.Serializer.FailDeserialization;
 
                 TestCaseExecutor.DefaultCommandName = defaultTestCase.Prologue.Executor.CommandName;
                 TestCaseExecutor.DefaultRequestTopic = defaultTestCase.Prologue.Executor.RequestTopic;
@@ -84,8 +87,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             freezableWallClock = new FreezableWallClock();
             TestCommandExecutor.WallClock = freezableWallClock;
             CommandResponseCache.WallClock = freezableWallClock;
-
-            payloadSerializer = new Utf8JsonSerializer();
 
             sessionRequestResponseSequencers = new();
             standaloneRequestResponseSequencers = new();
@@ -213,7 +214,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     switch (action)
                     {
                         case TestCaseActionReceiveRequest actionReceiveRequest:
-                            await ReceiveRequestAsync(actionReceiveRequest, stubMqttClient, sourceIds, correlationIds, packetIds, testCaseIndex).ConfigureAwait(false);
+                            await ReceiveRequestAsync(actionReceiveRequest, stubMqttClient, sourceIds, correlationIds, packetIds).ConfigureAwait(false);
                             break;
                         case TestCaseActionAwaitAck actionAwaitAck:
                             await AwaitAcknowledgementAsync(actionAwaitAck, stubMqttClient, packetIds).ConfigureAwait(false);
@@ -252,7 +253,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 foreach (string topic in testCase.Epilogue.SubscribedTopics)
                 {
-                    Assert.True(stubMqttClient.HasSubscribed(topic));
+                    Assert.True(stubMqttClient.HasSubscribed(topic), "Never subscribed to the expected topic: " + topic);
                 }
 
                 if (testCase.Epilogue.PublicationCount != null)
@@ -263,7 +264,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 foreach (TestCasePublishedMessage publishedMessage in testCase.Epilogue.PublishedMessages)
                 {
-                    CheckPublishedMessage(publishedMessage, stubMqttClient, correlationIds, testCaseIndex);
+                    CheckPublishedMessage(publishedMessage, stubMqttClient, correlationIds);
                 }
 
                 if (testCase.Epilogue.AcknowledgementCount != null)
@@ -328,8 +329,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
+                ApplicationContext applicationContext = new ApplicationContext();
+                TestSerializer testSerializer = new TestSerializer(testCaseExecutor.Serializer);
+
                 TestCommandExecutor commandExecutor = testCaseExecutor.CacheTtl != null ?
-                    new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
+                    new TestCommandExecutor(applicationContext, mqttClient, testCaseExecutor.CommandName!, testSerializer)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
@@ -338,7 +342,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                         CacheTtl = testCaseExecutor.CacheTtl.ToTimeSpan(),
                         OnCommandReceived = null!,
                     } :
-                    new TestCommandExecutor(mqttClient, testCaseExecutor.CommandName!)
+                    new TestCommandExecutor(applicationContext, mqttClient, testCaseExecutor.CommandName!, testSerializer)
                     {
                         RequestTopicPattern = testCaseExecutor.RequestTopic!,
                         ExecutorId = testCaseExecutor.ExecutorId,
@@ -360,12 +364,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     commandExecutor.ExecutionTimeout = testCaseExecutor.ExecutionTimeout.ToTimeSpan();
                 }
 
-                if (testCaseExecutor.ResponseMetadata.Any())
-                {
-                    commandExecutor.OnCommandReceived = async (extReq, ct) =>
+                commandExecutor.OnCommandReceived = testCaseExecutor.ResponseMetadata.Any() || testCaseExecutor.TokenMetadataPrefix != null
+                    ? (async (extReq, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
-                        Object_Test_Response responsePayload = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
+                        string response = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
 
                         CommandResponseMetadata responseMetadata = new();
                         foreach (KeyValuePair<string, string?> kvp in testCaseExecutor.ResponseMetadata)
@@ -373,24 +376,28 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                             responseMetadata.UserData[kvp.Key] = kvp.Value ?? extReq.RequestMetadata.UserData[kvp.Key];
                         }
 
-                        return new ExtendedResponse<Object_Test_Response>()
+                        if (testCaseExecutor.TokenMetadataPrefix != null)
                         {
-                            Response = responsePayload,
+                            foreach (KeyValuePair<string, string> kvp in extReq.RequestMetadata.TopicTokens)
+                            {
+                                responseMetadata.UserData[testCaseExecutor.TokenMetadataPrefix + kvp.Key] = kvp.Value;
+                            }
+                        }
+
+                        return new ExtendedResponse<string>()
+                        {
+                            Response = response,
                             ResponseMetadata = responseMetadata,
                         };
-                    };
-                }
-                else
-                {
-                    commandExecutor.OnCommandReceived = async (extReq, ct) =>
+                    })
+                    : (async (extReq, ct) =>
                     {
                         await commandExecutor.Track().ConfigureAwait(false);
-                        Object_Test_Response responsePayload = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
-                        return ExtendedResponse<Object_Test_Response>.CreateFromResponse(responsePayload);
-                    };
-                }
+                        string response = await ProcessRequest(extReq, testCaseExecutor, countdownEvents, requestResponseSequencer, ct).ConfigureAwait(false);
+                        return ExtendedResponse<string>.CreateFromResponse(response);
+                    });
 
-                await commandExecutor.StartAsync(testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
+                await commandExecutor.StartAsync(preferredDispatchConcurrency: testCaseExecutor.ExecutionConcurrency).WaitAsync(TestTimeout).ConfigureAwait(false);
 
                 if (testCaseCatch != null)
                 {
@@ -412,7 +419,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private async Task ReceiveRequestAsync(TestCaseActionReceiveRequest actionReceiveRequest, StubMqttClient stubMqttClient, ConcurrentDictionary<int, Guid?> sourceIds, ConcurrentDictionary<int, string?> correlationIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
+        private async Task ReceiveRequestAsync(TestCaseActionReceiveRequest actionReceiveRequest, StubMqttClient stubMqttClient, ConcurrentDictionary<int, Guid?> sourceIds, ConcurrentDictionary<int, string?> correlationIds, ConcurrentDictionary<int, ushort> packetIds)
         {
             Guid? sourceId = null;
             if (actionReceiveRequest.SourceIndex != null)
@@ -458,10 +465,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (actionReceiveRequest.Payload != null)
             {
-                byte[]? payload =
-                    actionReceiveRequest.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveRequest.Payload) :
-                    payloadSerializer.ToBytes(new Object_Test_Request { TestCaseIndex = testCaseIndex, Request = actionReceiveRequest.Payload });
-                requestAppMsgBuilder.WithPayload(payload);
+                requestAppMsgBuilder.WithPayload(Encoding.UTF8.GetBytes(actionReceiveRequest.Payload));
             }
 
             if (sourceId != null)
@@ -554,7 +558,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return freezableWallClock.UnfreezeTimeAsync(freezeTicket);
         }
 
-        private void CheckPublishedMessage(TestCasePublishedMessage publishedMessage, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string?> correlationIds, int testCaseIndex)
+        private void CheckPublishedMessage(TestCasePublishedMessage publishedMessage, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string?> correlationIds)
         {
             string? correlationId = null;
             if (publishedMessage.CorrelationIndex != null)
@@ -575,11 +579,22 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (publishedMessage.Payload == null)
             {
-                Assert.Null(appMsg.PayloadSegment.Array);
+                Assert.False(appMsg.Payload.IsEmpty);
             }
             else if (publishedMessage.Payload is string payload)
             {
-                Assert.Equal(payloadSerializer.ToBytes(new Object_Test_Response { TestCaseIndex = testCaseIndex, Response = payload }), appMsg.PayloadSegment.Array);
+                Assert.False(appMsg.Payload.IsEmpty);
+                Assert.Equal(payload, Encoding.UTF8.GetString(appMsg.Payload.ToArray()));
+            }
+
+            if (publishedMessage.ContentType != null)
+            {
+                Assert.Equal(publishedMessage.ContentType, appMsg.ContentType);
+            }
+
+            if (publishedMessage.FormatIndicator != null)
+            {
+                Assert.Equal(publishedMessage.FormatIndicator, (int)appMsg.PayloadFormatIndicator);
             }
 
             foreach (KeyValuePair<string, string?> kvp in publishedMessage.Metadata)
@@ -620,7 +635,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private static async Task<Object_Test_Response> ProcessRequest(ExtendedRequest<Object_Test_Request> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)
+        private static async Task<string> ProcessRequest(ExtendedRequest<string> extReq, TestCaseExecutor testCaseExecutor, Dictionary<string, AsyncCountdownEvent> countdownEvents, ConcurrentDictionary<string, AsyncAtomicInt> requestResponseSequencer, CancellationToken cancellationToken)
         {
             foreach (TestCaseSync testCaseSync in testCaseExecutor.Sync)
             {
@@ -635,23 +650,26 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (testCaseExecutor.RaiseError != null && testCaseExecutor.RaiseError.Kind != TestErrorKind.None)
+            if (testCaseExecutor.RaiseError)
             {
-                throw testCaseExecutor.RaiseError.Kind == TestErrorKind.Content ?
-                    new InvocationException(testCaseExecutor.RaiseError.Message, testCaseExecutor.RaiseError.PropertyName, testCaseExecutor.RaiseError.PropertyValue) :
-                    new ApplicationException(testCaseExecutor.RaiseError.Message);
+                throw new ApplicationException();
             }
 
-            if (extReq.Request.Request != null && testCaseExecutor.RequestResponsesMap.TryGetValue(extReq.Request.Request, out string[]? responses) && responses.Length > 0)
+            if (extReq.Request == null)
+            {
+                return null!;
+            }
+
+            if (testCaseExecutor.RequestResponsesMap.TryGetValue(extReq.Request, out string[]? responses) && responses.Length > 0)
             {
                 int index = 0;
                 AsyncAtomicInt sequencer = new AsyncAtomicInt(index);
-                if (!requestResponseSequencer.TryAdd(extReq.Request.Request, sequencer))
+                if (!requestResponseSequencer.TryAdd(extReq.Request, sequencer))
                 {
-                    index = await requestResponseSequencer[extReq.Request.Request].Increment().ConfigureAwait(false) % responses.Length;
+                    index = await requestResponseSequencer[extReq.Request].Increment().ConfigureAwait(false) % responses.Length;
                 }
 
-                return new Object_Test_Response { TestCaseIndex = extReq.Request.TestCaseIndex, Response = responses[index] };
+                return responses[index];
             }
             else
             {

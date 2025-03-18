@@ -3,10 +3,11 @@
 
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleCloudEvents;
 
 internal class SchemaRegistryClientFactoryProvider
 {
-    public static Func<IServiceProvider, SchemaRegistryClient> SchemaRegistryFactory = service => new SchemaRegistryClient(service.GetService<MqttSessionClient>()!);
+    public static Func<IServiceProvider, SchemaRegistryClient> SchemaRegistryFactory = service => new SchemaRegistryClient(service.GetRequiredService<ApplicationContext>(), service.GetService<MqttSessionClient>()!);
 }

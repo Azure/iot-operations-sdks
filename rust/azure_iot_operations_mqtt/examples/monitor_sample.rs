@@ -36,7 +36,7 @@ async fn main() {
         .unwrap();
 
     // Create a new session.
-    let mut session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options).unwrap();
 
     // Spawn tasks monitoring uptime and exiting the session.
     tokio::spawn(uptime_monitor(session.create_connection_monitor()));

@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         ///  If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id. 
         ///  Consumers MAY assume that Events with identical source and id are duplicates.
         /// </summary>
-        public string? Id { get; internal set; } = null!; // although id is required, we want update it in the same instance from the sender.
+        public string? Id { get; set; } = null!; // although id is required, we want update it in the same instance from the sender.
 
         /// <summary>
         /// Timestamp of when the occurrence happened. 
@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// by the CloudEvents producer, 
         /// however all producers for the same source MUST be consistent in this respect. 
         /// </summary>
-        public DateTime? Time { get; internal set; }
+        public DateTime? Time { get; set; }
 
         /// <summary>
         ///  Content type of data value. This attribute enables data to carry any type of content, 
@@ -63,7 +63,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source, 
         /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
         /// </summary>
-        public string? Subject { get; internal set; }
+        public string? Subject { get; set; }
 
         /// <summary>
         ///  Identifies the schema that data adheres to. 

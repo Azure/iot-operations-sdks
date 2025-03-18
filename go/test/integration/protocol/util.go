@@ -4,6 +4,7 @@ package protocol
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -14,15 +15,20 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var app = protocol.Must(protocol.NewApplication())
+
 func sessionClients(
 	t *testing.T,
 ) (client, server *mqtt.SessionClient, done func()) {
 	conn := mqtt.TCPConnection("localhost", 1883)
 
-	client = mqtt.NewSessionClient(conn)
+	var err error
+	client, err = mqtt.NewSessionClient(mqtt.RandomClientID(), conn)
+	require.NoError(t, err)
 	require.NoError(t, client.Start())
 
-	server = mqtt.NewSessionClient(conn)
+	server, err = mqtt.NewSessionClient(mqtt.RandomClientID(), conn)
+	require.NoError(t, err)
 	require.NoError(t, server.Start())
 
 	return client, server, func() {
@@ -80,7 +86,7 @@ func SayHelloWithDelay(
 	)
 
 	if req.Payload.Delay == 0 {
-		return nil, fmt.Errorf("delay cannot be zero")
+		return nil, errors.New("delay cannot be zero")
 	}
 
 	select {

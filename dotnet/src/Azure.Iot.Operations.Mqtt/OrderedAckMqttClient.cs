@@ -18,18 +18,20 @@ namespace Azure.Iot.Operations.Mqtt;
 /// </remarks>
 public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 {
-    private BlockingConcurrentDelayableQueue<QueuedMqttApplicationMessageReceivedEventArgs> _receivedMessagesToAcknowledgeQueue = new();
+    private readonly BlockingConcurrentDelayableQueue<QueuedMqttApplicationMessageReceivedEventArgs> _receivedMessagesToAcknowledgeQueue = new();
     private CancellationTokenSource _acknowledgementSenderTaskCancellationTokenSource = new();
     private Task? _acknowledgementSenderTask;
+    private readonly OrderedAckMqttClientOptions _clientOptions;
    
     private TokenRefreshTimer? _tokenRefresh;
 
-    private object _ctsLockObj = new object();
+    private readonly object _ctsLockObj = new object();
 
     internal bool _disposed;
 
-    public OrderedAckMqttClient(MQTTnet.Client.IMqttClient mqttNetClient)
+    public OrderedAckMqttClient(MQTTnet.IMqttClient mqttNetClient, OrderedAckMqttClientOptions? clientOptions = null)
     {
+        _clientOptions = clientOptions ?? new OrderedAckMqttClientOptions();
         UnderlyingMqttClient = mqttNetClient;
                 
         UnderlyingMqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
@@ -45,10 +47,10 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// <summary>
     /// The MQTT client used by this client to handle all MQTT operations.
     /// </summary>
-    public MQTTnet.Client.IMqttClient UnderlyingMqttClient { get; }
+    public MQTTnet.IMqttClient UnderlyingMqttClient { get; }
 
     /// <inheritdoc/>
-    public string? ClientId => UnderlyingMqttClient.Options == null ? null : UnderlyingMqttClient.Options.ClientId;
+    public string? ClientId => UnderlyingMqttClient.Options?.ClientId;
 
     /// <inheritdoc/>
     public MqttProtocolVersion ProtocolVersion => (MqttProtocolVersion)((int) UnderlyingMqttClient.Options.ProtocolVersion);
@@ -73,7 +75,22 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         _maximumPacketSize = options.MaximumPacketSize;
-        MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(MqttNetConverter.FromGeneric(options, UnderlyingMqttClient), cancellationToken).ConfigureAwait(false));
+        var mqttNetOptions = MqttNetConverter.FromGeneric(options, UnderlyingMqttClient);
+
+        if (options.AuthenticationMethod == "K8S-SAT")
+        {
+            // Logs the status codes received by this client in response to re-authentication requests.
+            // Note that this cannot be null because MQTTnet's client implementation will close the connection if
+            // no handler is set, even if the handler does nothing.
+            mqttNetOptions.EnhancedAuthenticationHandler ??= new SatEnhancedAuthenticationHandler();
+        }
+
+        if (_clientOptions.EnableAIOBrokerFeatures)
+        {
+            mqttNetOptions.UserProperties.Add(new("metriccategory", "aiosdk-dotnet"));
+        }
+
+        MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(mqttNetOptions, cancellationToken).ConfigureAwait(false));
         if (options.AuthenticationMethod == "K8S-SAT")
         {
             _tokenRefresh = new TokenRefreshTimer(this, options.UserProperties.Where(p => p.Name == "tokenFilePath").First().Value);
@@ -149,7 +166,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// </remarks>
     private Task ValidateMessageSize(MqttApplicationMessage message)
     {
-        if (_maximumPacketSize > 0 && message.PayloadSegment.Count > _maximumPacketSize)
+        if (_maximumPacketSize > 0 && message.Payload.Length > _maximumPacketSize)
         {
             throw new InvalidOperationException($"Message size is too large. Maximum message size is {_maximumPacketSize} bytes.");
         }
@@ -186,7 +203,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     public bool IsConnected => UnderlyingMqttClient.IsConnected;
 
-    private async Task OnMessageReceived(MQTTnet.Client.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
+    private async Task OnMessageReceived(MQTTnet.MqttApplicationMessageReceivedEventArgs mqttNetArgs)
     {
         // Never let MQTTnet auto ack a message because it may do so out-of-order
         mqttNetArgs.AutoAcknowledge = false;
@@ -259,7 +276,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         }
     }
 
-    private Task OnDisconnectedAsync(MQTTnet.Client.MqttClientDisconnectedEventArgs args)
+    private Task OnDisconnectedAsync(MQTTnet.MqttClientDisconnectedEventArgs args)
     {
         lock (_ctsLockObj)
         {
@@ -274,7 +291,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         return Task.CompletedTask;
     }
 
-    private Task OnConnectedAsync(MQTTnet.Client.MqttClientConnectedEventArgs args)
+    private Task OnConnectedAsync(MQTTnet.MqttClientConnectedEventArgs args)
     {
         if (ConnectedAsync != null)
         {
@@ -332,16 +349,16 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     public virtual async ValueTask DisposeAsync()
     {
-        await DisposeAsyncCore(false);
+        await DisposeAsyncCore();
         GC.SuppressFinalize(this);
     }
 
     public virtual async ValueTask DisposeAsync(bool disposing)
     {
-        await DisposeAsyncCore(disposing);
+        await DisposeAsyncCore();
     }
 
-    private async ValueTask DisposeAsyncCore(bool disposing)
+    private async ValueTask DisposeAsyncCore()
     {
         if (!_disposed)
         {
@@ -360,10 +377,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
                 }
             }
 
-            if (_tokenRefresh != null)
-            {
-                _tokenRefresh.Dispose();
-            }
+            _tokenRefresh?.Dispose();
 
             UnderlyingMqttClient.Dispose();
             _acknowledgementSenderTaskCancellationTokenSource.Dispose();
@@ -371,8 +385,8 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         }
     }
 
-    public Task SendExtendedAuthenticationExchangeDataAsync(MqttExtendedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
+    public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
     {
-        return UnderlyingMqttClient.SendExtendedAuthenticationExchangeDataAsync(MqttNetConverter.FromGeneric(data), cancellationToken);
+        return UnderlyingMqttClient.SendEnhancedAuthenticationExchangeDataAsync(MqttNetConverter.FromGeneric(data), cancellationToken);
     }
 }

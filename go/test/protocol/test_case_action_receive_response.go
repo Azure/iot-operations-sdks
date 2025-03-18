@@ -9,7 +9,6 @@ import (
 type testCaseActionReceiveResponse struct {
 	Topic                *string           `yaml:"topic"`
 	Payload              *string           `yaml:"payload"`
-	BypassSerialization  bool              `yaml:"bypass-serialization"`
 	ContentType          *string           `yaml:"content-type"`
 	FormatIndicator      *int              `yaml:"format-indicator"`
 	Metadata             map[string]string `yaml:"metadata"`

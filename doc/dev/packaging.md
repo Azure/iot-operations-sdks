@@ -67,6 +67,8 @@ To pull the required dependencies from upstream crates.io into Azure IoT Operati
 
 1. **[Optional]** Publish rumqttc:
 
+    Rumqttc is published from [this fork](https://github.com/ryanwinterms/rumqtt/tree/all_test) which contains a number of changes that have been proposed upstream.
+
     ```bash
     cargo publish --manifest-path rumqttc/Cargo.toml --registry aio-sdks --features use-native-tls --no-default-features
     ```

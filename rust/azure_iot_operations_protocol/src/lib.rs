@@ -6,6 +6,7 @@
 #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
+pub mod application;
 pub mod common;
 pub mod rpc;
 pub mod telemetry;

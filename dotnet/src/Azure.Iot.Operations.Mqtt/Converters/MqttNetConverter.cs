@@ -3,12 +3,9 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Azure.Iot.Operations.Mqtt.Converters
 {
@@ -17,9 +14,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
     /// </summary>
     internal static class MqttNetConverter
     {
-        internal static MQTTnet.Client.MqttExtendedAuthenticationExchangeData FromGeneric(MqttExtendedAuthenticationExchangeData generic)
+        internal static MQTTnet.MqttEnhancedAuthenticationExchangeData FromGeneric(MqttEnhancedAuthenticationExchangeData generic)
         {
-            var mqttNetData = new MQTTnet.Client.MqttExtendedAuthenticationExchangeData()
+            var mqttNetData = new MQTTnet.MqttEnhancedAuthenticationExchangeData()
             {
                 AuthenticationData = generic.AuthenticationData,
                 ReasonCode = (MQTTnet.Protocol.MqttAuthenticateReasonCode)generic.ReasonCode,
@@ -80,16 +77,15 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 ContentType = mqttNetMessage.ContentType,
                 CorrelationData = mqttNetMessage.CorrelationData,
                 MessageExpiryInterval = mqttNetMessage.MessageExpiryInterval,
-                PayloadSegment = mqttNetMessage.PayloadSegment,
+                Payload = mqttNetMessage.Payload,
                 PayloadFormatIndicator = (MqttPayloadFormatIndicator)mqttNetMessage.PayloadFormatIndicator,
                 Retain = mqttNetMessage.Retain,
                 SubscriptionIdentifiers = mqttNetMessage.SubscriptionIdentifiers,
                 TopicAlias = mqttNetMessage.TopicAlias,
                 ResponseTopic = mqttNetMessage.ResponseTopic,
                 Dup = mqttNetMessage.Dup,
+                UserProperties = ToGeneric(mqttNetMessage.UserProperties)
             };
-
-            genericMessage.UserProperties = ToGeneric(mqttNetMessage.UserProperties);
 
             return genericMessage;
         }
@@ -102,7 +98,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 .WithContentType(applicationMessage.ContentType)
                 .WithCorrelationData(applicationMessage.CorrelationData)
                 .WithMessageExpiryInterval(applicationMessage.MessageExpiryInterval)
-                .WithPayload(applicationMessage.PayloadSegment)
+                .WithPayload(applicationMessage.Payload)
                 .WithPayloadFormatIndicator(applicationMessage.PayloadFormatIndicator == MqttPayloadFormatIndicator.Unspecified ? MQTTnet.Protocol.MqttPayloadFormatIndicator.Unspecified : MQTTnet.Protocol.MqttPayloadFormatIndicator.CharacterData)
                 .WithQualityOfServiceLevel(applicationMessage.QualityOfServiceLevel == MqttQualityOfServiceLevel.AtMostOnce ? MQTTnet.Protocol.MqttQualityOfServiceLevel.AtMostOnce : applicationMessage.QualityOfServiceLevel == MqttQualityOfServiceLevel.AtLeastOnce ? MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce : MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce)
                 .WithResponseTopic(applicationMessage.ResponseTopic)
@@ -157,64 +153,55 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             return mqttNetUserProperties;
         }
 
-        internal static MQTTnet.Client.MqttClientOptions FromGeneric(MqttClientOptions genericOptions, MQTTnet.Client.IMqttClient underlyingClient)
+        internal static MQTTnet.MqttClientOptions FromGeneric(MqttClientOptions genericOptions, MQTTnet.IMqttClient underlyingClient)
         {
-            var mqttNetOptions = new MQTTnet.Client.MqttClientOptions();
-
-            mqttNetOptions.AllowPacketFragmentation = genericOptions.AllowPacketFragmentation;
-            mqttNetOptions.AuthenticationData = genericOptions.AuthenticationData;
-            mqttNetOptions.AuthenticationMethod = genericOptions.AuthenticationMethod;
-            mqttNetOptions.ChannelOptions = FromGeneric(genericOptions.ChannelOptions);
-            mqttNetOptions.CleanSession = genericOptions.CleanSession;
-            mqttNetOptions.ClientId = genericOptions.ClientId;
-            mqttNetOptions.Credentials = genericOptions.Credentials != null ? new MqttNetMqttClientCredentialsProvider(genericOptions.Credentials, underlyingClient) : null;
-            mqttNetOptions.ExtendedAuthenticationExchangeHandler = genericOptions.ExtendedAuthenticationExchangeHandler != null ? new MqttNetMqttExtendedAuthenticationExchangeHandler(genericOptions.ExtendedAuthenticationExchangeHandler) : null;
-            mqttNetOptions.KeepAlivePeriod = genericOptions.KeepAlivePeriod;
-            mqttNetOptions.MaximumPacketSize = genericOptions.MaximumPacketSize;
-            mqttNetOptions.ProtocolVersion = (MQTTnet.Formatter.MqttProtocolVersion)genericOptions.ProtocolVersion;
-            mqttNetOptions.ReceiveMaximum = genericOptions.ReceiveMaximum;
-            mqttNetOptions.RequestProblemInformation = genericOptions.RequestProblemInformation;
-            mqttNetOptions.RequestResponseInformation = genericOptions.RequestResponseInformation;
-            mqttNetOptions.SessionExpiryInterval = genericOptions.SessionExpiryInterval;
-            mqttNetOptions.ThrowOnNonSuccessfulConnectResponse = genericOptions.ThrowOnNonSuccessfulConnectResponse;
-            mqttNetOptions.Timeout = genericOptions.Timeout;
-            mqttNetOptions.TopicAliasMaximum = genericOptions.TopicAliasMaximum;
-            mqttNetOptions.TryPrivate = genericOptions.TryPrivate;
-            mqttNetOptions.UserProperties = FromGeneric(genericOptions.UserProperties);
-            mqttNetOptions.ValidateFeatures = genericOptions.ValidateFeatures;
-            mqttNetOptions.WillContentType = genericOptions.WillContentType;
-            mqttNetOptions.WillDelayInterval = genericOptions.WillDelayInterval;
-            mqttNetOptions.WillCorrelationData = genericOptions.WillCorrelationData;
-            mqttNetOptions.WillMessageExpiryInterval = genericOptions.WillMessageExpiryInterval;
-            mqttNetOptions.WillPayload = genericOptions.WillPayload;
-            mqttNetOptions.WillPayloadFormatIndicator = (MQTTnet.Protocol.MqttPayloadFormatIndicator)genericOptions.WillPayloadFormatIndicator;
-            mqttNetOptions.WillQualityOfServiceLevel = (MQTTnet.Protocol.MqttQualityOfServiceLevel)genericOptions.WillQualityOfServiceLevel;
-            mqttNetOptions.WillTopic = genericOptions.WillTopic;
-            mqttNetOptions.WillResponseTopic = genericOptions.WillResponseTopic;
-            mqttNetOptions.WillRetain = genericOptions.WillRetain;
-            mqttNetOptions.WillUserProperties = FromGeneric(genericOptions.WillUserProperties);
-            mqttNetOptions.WriterBufferSize = genericOptions.WriterBufferSize;
-            mqttNetOptions.WriterBufferSizeMax = genericOptions.WriterBufferSizeMax;
+            var mqttNetOptions = new MQTTnet.MqttClientOptions
+            {
+                AllowPacketFragmentation = genericOptions.AllowPacketFragmentation,
+                AuthenticationData = genericOptions.AuthenticationData,
+                AuthenticationMethod = genericOptions.AuthenticationMethod,
+                ChannelOptions = FromGeneric(genericOptions.ChannelOptions),
+                CleanSession = genericOptions.CleanSession,
+                ClientId = genericOptions.ClientId,
+                Credentials = genericOptions.Credentials != null ? new MqttNetMqttClientCredentialsProvider(genericOptions.Credentials, underlyingClient) : null,
+                EnhancedAuthenticationHandler = genericOptions.EnhancedAuthenticationHandler != null ? new MqttNetMqttEnhancedAuthenticationHandler(genericOptions.EnhancedAuthenticationHandler) : null,
+                KeepAlivePeriod = genericOptions.KeepAlivePeriod,
+                MaximumPacketSize = genericOptions.MaximumPacketSize,
+                ProtocolVersion = (MQTTnet.Formatter.MqttProtocolVersion)genericOptions.ProtocolVersion,
+                ReceiveMaximum = genericOptions.ReceiveMaximum,
+                RequestProblemInformation = genericOptions.RequestProblemInformation,
+                RequestResponseInformation = genericOptions.RequestResponseInformation,
+                SessionExpiryInterval = genericOptions.SessionExpiryInterval,
+                Timeout = genericOptions.Timeout,
+                TopicAliasMaximum = genericOptions.TopicAliasMaximum,
+                TryPrivate = genericOptions.TryPrivate,
+                UserProperties = FromGeneric(genericOptions.UserProperties),
+                ValidateFeatures = genericOptions.ValidateFeatures,
+                WillContentType = genericOptions.WillContentType,
+                WillDelayInterval = genericOptions.WillDelayInterval,
+                WillCorrelationData = genericOptions.WillCorrelationData,
+                WillMessageExpiryInterval = genericOptions.WillMessageExpiryInterval,
+                WillPayload = genericOptions.WillPayload,
+                WillPayloadFormatIndicator = (MQTTnet.Protocol.MqttPayloadFormatIndicator)genericOptions.WillPayloadFormatIndicator,
+                WillQualityOfServiceLevel = (MQTTnet.Protocol.MqttQualityOfServiceLevel)genericOptions.WillQualityOfServiceLevel,
+                WillTopic = genericOptions.WillTopic,
+                WillResponseTopic = genericOptions.WillResponseTopic,
+                WillRetain = genericOptions.WillRetain,
+                WillUserProperties = FromGeneric(genericOptions.WillUserProperties),
+                WriterBufferSize = genericOptions.WriterBufferSize,
+                WriterBufferSizeMax = genericOptions.WriterBufferSizeMax
+            };
             return mqttNetOptions;
         }
 
-        internal static MqttClientOptions ToGeneric(MQTTnet.Client.MqttClientOptions mqttNetOptions, MQTTnet.Client.IMqttClient underlyingClient)
+        internal static MqttClientOptions ToGeneric(MQTTnet.MqttClientOptions mqttNetOptions, MQTTnet.IMqttClient underlyingClient)
         {
             var genericChannelOptions = ToGeneric(mqttNetOptions.ChannelOptions);
-            MqttClientOptions genericOptions;
-            if (genericChannelOptions is MqttClientTcpOptions tcpOptions)
-            {
-                genericOptions = new MqttClientOptions(tcpOptions);
-            }
-            else if (genericChannelOptions is MqttClientWebSocketOptions websocketOptions)
-            {
-                genericOptions = new MqttClientOptions(websocketOptions);
-            }
-            else
-            {
-                throw new NotSupportedException("Unsupported channel options provided");
-            }
-
+            MqttClientOptions genericOptions = genericChannelOptions is MqttClientTcpOptions tcpOptions
+                ? new MqttClientOptions(tcpOptions)
+                : genericChannelOptions is MqttClientWebSocketOptions websocketOptions
+                    ? new MqttClientOptions(websocketOptions)
+                    : throw new NotSupportedException("Unsupported channel options provided");
             genericOptions.AllowPacketFragmentation = mqttNetOptions.AllowPacketFragmentation;
             genericOptions.AuthenticationData = mqttNetOptions.AuthenticationData;
             genericOptions.AuthenticationMethod = mqttNetOptions.AuthenticationMethod;
@@ -227,7 +214,6 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             genericOptions.RequestProblemInformation = mqttNetOptions.RequestProblemInformation;
             genericOptions.RequestResponseInformation = mqttNetOptions.RequestResponseInformation;
             genericOptions.SessionExpiryInterval = mqttNetOptions.SessionExpiryInterval;
-            genericOptions.ThrowOnNonSuccessfulConnectResponse = mqttNetOptions.ThrowOnNonSuccessfulConnectResponse;
             genericOptions.Timeout = mqttNetOptions.Timeout;
             genericOptions.TopicAliasMaximum = mqttNetOptions.TopicAliasMaximum;
             genericOptions.TryPrivate = mqttNetOptions.TryPrivate;
@@ -252,15 +238,15 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 genericOptions.Credentials = new GenericMqttClientCredentialsProvider(mqttNetOptions.Credentials, underlyingClient);
             }
 
-            if (mqttNetOptions.ExtendedAuthenticationExchangeHandler != null)
+            if (mqttNetOptions.EnhancedAuthenticationHandler != null)
             { 
-                genericOptions.ExtendedAuthenticationExchangeHandler = new GenericMqttExtendedAuthenticationExchangeHandler(mqttNetOptions.ExtendedAuthenticationExchangeHandler, underlyingClient);
+                genericOptions.EnhancedAuthenticationHandler = new GenericMqttExtendedAuthenticationExchangeHandler(mqttNetOptions.EnhancedAuthenticationHandler, underlyingClient);
             }
 
             return genericOptions;
         }
 
-        internal static MqttClientConnectResult? ToGeneric(MQTTnet.Client.MqttClientConnectResult? mqttNetConnectResult)
+        internal static MqttClientConnectResult? ToGeneric(MQTTnet.MqttClientConnectResult? mqttNetConnectResult)
         {
             if (mqttNetConnectResult == null)
             {
@@ -291,9 +277,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static IMqttClientChannelOptions ToGeneric(MQTTnet.Client.IMqttClientChannelOptions mqttNetOptions)
+        internal static IMqttClientChannelOptions ToGeneric(MQTTnet.IMqttClientChannelOptions mqttNetOptions)
         {
-            if (mqttNetOptions is MQTTnet.Client.MqttClientTcpOptions mqttNetTcpOptions)
+            if (mqttNetOptions is MQTTnet.MqttClientTcpOptions mqttNetTcpOptions)
             {
                 return new MqttClientTcpOptions(((DnsEndPoint)mqttNetTcpOptions.RemoteEndpoint).Host, ((DnsEndPoint)mqttNetTcpOptions.RemoteEndpoint).Port)
                 {
@@ -307,7 +293,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                     TlsOptions = ToGeneric(mqttNetTcpOptions.TlsOptions)
                 };
             }
-            else if (mqttNetOptions is MQTTnet.Client.MqttClientWebSocketOptions mqttNetWebsocketOptions)
+            else if (mqttNetOptions is MQTTnet.MqttClientWebSocketOptions mqttNetWebsocketOptions)
             {
                 return new MqttClientWebSocketOptions()
                 {
@@ -329,11 +315,11 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             }
         }
 
-        internal static MQTTnet.Client.IMqttClientChannelOptions FromGeneric(IMqttClientChannelOptions genericOptions)
+        internal static MQTTnet.IMqttClientChannelOptions FromGeneric(IMqttClientChannelOptions genericOptions)
         {
             if (genericOptions is MqttClientTcpOptions genericNetTcpOptions)
             {
-                return new MQTTnet.Client.MqttClientTcpOptions()
+                return new MQTTnet.MqttClientTcpOptions()
                 {
                     AddressFamily = genericNetTcpOptions.AddressFamily,
                     BufferSize = genericNetTcpOptions.BufferSize,
@@ -348,7 +334,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             }
             else if (genericOptions is MqttClientWebSocketOptions genericNetWebsocketOptions)
             {
-                return new MQTTnet.Client.MqttClientWebSocketOptions()
+                return new MQTTnet.MqttClientWebSocketOptions()
                 {
                     CookieContainer = genericNetWebsocketOptions.CookieContainer,
                     Credentials = genericNetWebsocketOptions.Credentials,
@@ -368,7 +354,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             }
         }
 
-        internal static MqttClientTcpOptions ToGeneric(MQTTnet.Client.MqttClientTcpOptions mqttNetOptions)
+        internal static MqttClientTcpOptions ToGeneric(MQTTnet.MqttClientTcpOptions mqttNetOptions)
         {
             return new MqttClientTcpOptions(((DnsEndPoint)mqttNetOptions.RemoteEndpoint).Host, ((DnsEndPoint)mqttNetOptions.RemoteEndpoint).Port)
             {
@@ -383,9 +369,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MQTTnet.Client.MqttClientTcpOptions FromGeneric(MqttClientTcpOptions genericOptions)
+        internal static MQTTnet.MqttClientTcpOptions FromGeneric(MqttClientTcpOptions genericOptions)
         {
-            return new MQTTnet.Client.MqttClientTcpOptions()
+            return new MQTTnet.MqttClientTcpOptions()
             {
                 AddressFamily = genericOptions.AddressFamily,
                 BufferSize = genericOptions.BufferSize,
@@ -399,9 +385,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MQTTnet.Client.MqttClientTlsOptions FromGeneric(MqttClientTlsOptions generic)
+        internal static MQTTnet.MqttClientTlsOptions FromGeneric(MqttClientTlsOptions generic)
         {
-            return new MQTTnet.Client.MqttClientTlsOptions()
+            return new MQTTnet.MqttClientTlsOptions()
             {
                 AllowRenegotiation = generic.AllowRenegotiation,
                 AllowUntrustedCertificates = generic.AllowUntrustedCertificates,
@@ -421,7 +407,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MqttExtendedAuthenticationExchangeContext ToGeneric(MQTTnet.Client.MqttExtendedAuthenticationExchangeContext mqttNetContext)
+        internal static MqttExtendedAuthenticationExchangeContext ToGeneric(MQTTnet.MqttEnhancedAuthenticationEventArgs mqttNetContext)
         {
             return new MqttExtendedAuthenticationExchangeContext((MqttAuthenticateReasonCode)mqttNetContext.ReasonCode)
             {
@@ -432,9 +418,12 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MQTTnet.Client.MqttExtendedAuthenticationExchangeContext FromGeneric(MqttExtendedAuthenticationExchangeContext genericContext, MQTTnet.Client.IMqttClient underlyingClient)
+        internal static MQTTnet.MqttEnhancedAuthenticationEventArgs FromGeneric(MqttExtendedAuthenticationExchangeContext genericContext, MQTTnet.IMqttClient underlyingClient)
         {
-            return new MQTTnet.Client.MqttExtendedAuthenticationExchangeContext(
+            var hiddenField = typeof(MQTTnet.MqttClient).GetField("_adapter", BindingFlags.NonPublic | BindingFlags.Instance);
+            MQTTnet.Adapter.IMqttChannelAdapter? channelAdapter = hiddenField!.GetValue(underlyingClient) as MQTTnet.Adapter.IMqttChannelAdapter;
+
+            return new MQTTnet.MqttEnhancedAuthenticationEventArgs(
                 new MQTTnet.Packets.MqttAuthPacket()
                 {
                     AuthenticationData = genericContext.AuthenticationData,
@@ -443,20 +432,21 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                     ReasonString = genericContext.ReasonString,
                     UserProperties = FromGeneric(genericContext.UserProperties),
                 },
-                underlyingClient as MQTTnet.Client.MqttClient);
+                channelAdapter,
+                default);
         }
 
-        internal static MqttClientTlsOptions ToGeneric(MQTTnet.Client.MqttClientTlsOptions mqttNetOptions)
+        internal static MqttClientTlsOptions ToGeneric(MQTTnet.MqttClientTlsOptions mqttNetOptions)
         {
             return new MqttClientTlsOptions()
             {
                 AllowRenegotiation = mqttNetOptions.AllowRenegotiation,
                 AllowUntrustedCertificates = mqttNetOptions.AllowUntrustedCertificates,
                 ApplicationProtocols = mqttNetOptions.ApplicationProtocols,
-                CertificateSelectionHandler = new GenericCertificateSelectionHandler(mqttNetOptions.CertificateSelectionHandler).HandleCertificateSelection,
-                CertificateValidationHandler = new GenericCertificateValidationHandler(mqttNetOptions.CertificateValidationHandler).HandleCertificateValidation,
+                CertificateSelectionHandler = mqttNetOptions.CertificateSelectionHandler != null ? new GenericCertificateSelectionHandler(mqttNetOptions.CertificateSelectionHandler).HandleCertificateSelection : null,
+                CertificateValidationHandler = mqttNetOptions.CertificateValidationHandler != null ? new GenericCertificateValidationHandler(mqttNetOptions.CertificateValidationHandler).HandleCertificateValidation : null,
                 CipherSuitesPolicy = mqttNetOptions.CipherSuitesPolicy,
-                ClientCertificatesProvider = new GenericMqttClientCertificatesProvider(mqttNetOptions.ClientCertificatesProvider),
+                ClientCertificatesProvider = mqttNetOptions.ClientCertificatesProvider != null ? new GenericMqttClientCertificatesProvider(mqttNetOptions.ClientCertificatesProvider) : null,
                 EncryptionPolicy = mqttNetOptions.EncryptionPolicy,
                 IgnoreCertificateChainErrors = mqttNetOptions.IgnoreCertificateChainErrors,
                 IgnoreCertificateRevocationErrors = mqttNetOptions.IgnoreCertificateRevocationErrors,
@@ -468,17 +458,19 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MQTTnet.Client.MqttClientDisconnectOptions FromGeneric(MqttClientDisconnectOptions genericOptions)
+        internal static MQTTnet.MqttClientDisconnectOptions FromGeneric(MqttClientDisconnectOptions genericOptions)
         {
-            MQTTnet.Client.MqttClientDisconnectOptions mqttNetOptions = new MQTTnet.Client.MqttClientDisconnectOptions();
-            mqttNetOptions.SessionExpiryInterval = genericOptions.SessionExpiryInterval;
-            mqttNetOptions.ReasonString = genericOptions.ReasonString;
-            mqttNetOptions.Reason = (MQTTnet.Client.MqttClientDisconnectOptionsReason)genericOptions.Reason;
-            mqttNetOptions.UserProperties = FromGeneric(genericOptions.UserProperties);
+            MQTTnet.MqttClientDisconnectOptions mqttNetOptions = new MQTTnet.MqttClientDisconnectOptions
+            {
+                SessionExpiryInterval = genericOptions.SessionExpiryInterval,
+                ReasonString = genericOptions.ReasonString,
+                Reason = (MQTTnet.MqttClientDisconnectOptionsReason)genericOptions.Reason,
+                UserProperties = FromGeneric(genericOptions.UserProperties)
+            };
             return mqttNetOptions;
         }
 
-        internal static MqttClientConnectedEventArgs ToGeneric(MQTTnet.Client.MqttClientConnectedEventArgs args)
+        internal static MqttClientConnectedEventArgs ToGeneric(MQTTnet.MqttClientConnectedEventArgs args)
         {
             Debug.Assert(args.ConnectResult != null);
             var generic = ToGeneric(args.ConnectResult);
@@ -486,7 +478,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             return new MqttClientConnectedEventArgs(generic);
         }
 
-        internal static MqttClientDisconnectedEventArgs ToGeneric(MQTTnet.Client.MqttClientDisconnectedEventArgs args)
+        internal static MqttClientDisconnectedEventArgs ToGeneric(MQTTnet.MqttClientDisconnectedEventArgs args)
         {
             return new MqttClientDisconnectedEventArgs(
                 args.ClientWasConnected,
@@ -497,7 +489,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 args.Exception);
         }
 
-        internal static MqttClientWebSocketProxyOptions ToGeneric(MQTTnet.Client.MqttClientWebSocketProxyOptions options)
+        internal static MqttClientWebSocketProxyOptions ToGeneric(MQTTnet.MqttClientWebSocketProxyOptions options)
         {
             return new MqttClientWebSocketProxyOptions(options.Address)
             {
@@ -510,14 +502,14 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MQTTnet.Client.MqttClientWebSocketProxyOptions? FromGeneric(MqttClientWebSocketProxyOptions? options)
+        internal static MQTTnet.MqttClientWebSocketProxyOptions? FromGeneric(MqttClientWebSocketProxyOptions? options)
         {
             if (options == null)
             {
                 return null;
             }
 
-            return new MQTTnet.Client.MqttClientWebSocketProxyOptions()
+            return new MQTTnet.MqttClientWebSocketProxyOptions()
             {
                 Address = options.Address,
                 BypassList = options.BypassList,
@@ -529,9 +521,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             };
         }
 
-        internal static MQTTnet.Client.MqttClientUnsubscribeOptions FromGeneric(MqttClientUnsubscribeOptions options)
+        internal static MQTTnet.MqttClientUnsubscribeOptions FromGeneric(MqttClientUnsubscribeOptions options)
         {
-            MQTTnet.Client.MqttClientUnsubscribeOptions mqttNetOptions = new();
+            MQTTnet.MqttClientUnsubscribeOptions mqttNetOptions = new();
             foreach (string topicFilter in options.TopicFilters)
             { 
                 mqttNetOptions.TopicFilters.Add(topicFilter);
@@ -549,9 +541,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             return mqttNetOptions;
         }
 
-        internal static MQTTnet.Client.MqttClientSubscribeOptions FromGeneric(MqttClientSubscribeOptions options)
+        internal static MQTTnet.MqttClientSubscribeOptions FromGeneric(MqttClientSubscribeOptions options)
         {
-            MQTTnet.Client.MqttClientSubscribeOptions mqttNetOptions = new();
+            MQTTnet.MqttClientSubscribeOptions mqttNetOptions = new();
             foreach (MqttTopicFilter topicFilter in options.TopicFilters)
             {
                 mqttNetOptions.TopicFilters.Add(new()
@@ -578,10 +570,10 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             return mqttNetOptions;
         }
 
-        internal static MqttClientSubscribeResult ToGeneric(MQTTnet.Client.MqttClientSubscribeResult result)
+        internal static MqttClientSubscribeResult ToGeneric(MQTTnet.MqttClientSubscribeResult result)
         {
             List<MqttClientSubscribeResultItem> genericItems = new();
-            foreach (MQTTnet.Client.MqttClientSubscribeResultItem mqttNetItem in result.Items)
+            foreach (MQTTnet.MqttClientSubscribeResultItem mqttNetItem in result.Items)
             {
                 genericItems.Add(new MqttClientSubscribeResultItem(ToGeneric(mqttNetItem.TopicFilter), (MqttClientSubscribeReasonCode)((int)mqttNetItem.ResultCode)));
             }
@@ -593,10 +585,10 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 ToGeneric(result.UserProperties));
         }
 
-        internal static MqttClientUnsubscribeResult ToGeneric(MQTTnet.Client.MqttClientUnsubscribeResult result)
+        internal static MqttClientUnsubscribeResult ToGeneric(MQTTnet.MqttClientUnsubscribeResult result)
         {
             List<MqttClientUnsubscribeResultItem> genericItems = new();
-            foreach (MQTTnet.Client.MqttClientUnsubscribeResultItem mqttNetItem in result.Items)
+            foreach (MQTTnet.MqttClientUnsubscribeResultItem mqttNetItem in result.Items)
             {
                 genericItems.Add(new MqttClientUnsubscribeResultItem(mqttNetItem.TopicFilter, (MqttClientUnsubscribeReasonCode)((int)mqttNetItem.ResultCode)));
             }
@@ -609,7 +601,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
 
         }
 
-        internal static MqttClientPublishResult ToGeneric(MQTTnet.Client.MqttClientPublishResult result)
+        internal static MqttClientPublishResult ToGeneric(MQTTnet.MqttClientPublishResult result)
         {
             return new MqttClientPublishResult(
                 result.PacketIdentifier,
@@ -618,7 +610,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 ToGeneric(result.UserProperties));
         }
 
-        internal static MqttApplicationMessageReceivedEventArgs ToGeneric(MQTTnet.Client.MqttApplicationMessageReceivedEventArgs args, Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> acknowledgementHandler)
+        internal static MqttApplicationMessageReceivedEventArgs ToGeneric(MQTTnet.MqttApplicationMessageReceivedEventArgs args, Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> acknowledgementHandler)
         {
             return new MqttApplicationMessageReceivedEventArgs(
                 args.ClientId,
@@ -627,7 +619,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 acknowledgementHandler);
         }
 
-        internal static Func<MQTTnet.Client.MqttApplicationMessageReceivedEventArgs, Task> FromGeneric(Func<MqttApplicationMessageReceivedEventArgs, Task> genericFunc)
+        internal static Func<MQTTnet.MqttApplicationMessageReceivedEventArgs, Task> FromGeneric(Func<MqttApplicationMessageReceivedEventArgs, Task> genericFunc)
         {
             return new MqttNetHandler(genericFunc).Handle;
         }

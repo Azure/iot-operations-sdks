@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -42,14 +42,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Azure.Iot.Operations.Protocol.UnitTests\Serializers\common\*.cs" />
-    <Compile Include="..\Azure.Iot.Operations.Protocol.UnitTests\Serializers\JSON\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Connection\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
 </Project>

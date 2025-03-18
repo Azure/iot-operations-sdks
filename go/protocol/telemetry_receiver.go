@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/errutil"
+	"github.com/Azure/iot-operations-sdks/go/protocol/internal/version"
 )
 
 type (
@@ -24,6 +25,7 @@ type (
 		handler   TelemetryHandler[T]
 		manualAck bool
 		timeout   *internal.Timeout
+		log       log.Logger
 	}
 
 	// TelemetryReceiverOption represents a single telemetry receiver option.
@@ -47,15 +49,12 @@ type (
 	// TelemetryHandler is the user-provided implementation of a single
 	// telemetry event handler. It is treated as blocking; all parallelism is
 	// handled by the library. This *must* be thread-safe.
-	TelemetryHandler[T any] func(context.Context, *TelemetryMessage[T]) error
+	TelemetryHandler[T any] = func(context.Context, *TelemetryMessage[T]) error
 
 	// TelemetryMessage contains per-message data and methods that are exposed
 	// to the telemetry handlers.
 	TelemetryMessage[T any] struct {
 		Message[T]
-
-		// CloudEvent will be present if the message was sent with cloud events.
-		*CloudEvent
 
 		// Ack provides a function to manually ack if enabled and if possible;
 		// it will be nil otherwise. Note that, since QoS 0 messages cannot be
@@ -68,20 +67,25 @@ type (
 	WithManualAck bool
 )
 
-const telemetryReceiverErrStr = "telemetry receipt"
+const (
+	telemetryReceiverComponentName = "telemetry receiver"
+	telemetryReceiverErrStr        = "telemetry receipt"
+)
 
 // NewTelemetryReceiver creates a new telemetry receiver.
 func NewTelemetryReceiver[T any](
+	app *Application,
 	client MqttClient,
 	encoding Encoding[T],
 	topicPattern string,
 	handler TelemetryHandler[T],
 	opt ...TelemetryReceiverOption,
 ) (tr *TelemetryReceiver[T], err error) {
-	defer func() { err = errutil.Return(err, true) }()
-
 	var opts TelemetryReceiverOptions
 	opts.Apply(opt)
+
+	logger := log.Wrap(opts.Logger, app.log)
+	defer func() { err = errutil.Return(err, logger, true) }()
 
 	if err := errutil.ValidateNonNil(map[string]any{
 		"client":   client,
@@ -96,7 +100,7 @@ func NewTelemetryReceiver[T any](
 		Name:     "ExecutionTimeout",
 		Text:     telemetryReceiverErrStr,
 	}
-	if err := to.Validate(errors.ConfigurationInvalid); err != nil {
+	if err := to.Validate(); err != nil {
 		return nil, err
 	}
 
@@ -123,15 +127,18 @@ func NewTelemetryReceiver[T any](
 		handler:   handler,
 		manualAck: opts.ManualAck,
 		timeout:   to,
+		log:       logger,
 	}
 	tr.listener = &listener[T]{
-		client:      client,
-		encoding:    encoding,
-		topic:       tf,
-		shareName:   opts.ShareName,
-		concurrency: opts.Concurrency,
-		log:         log.Wrap(opts.Logger),
-		handler:     tr,
+		app:              app,
+		client:           client,
+		encoding:         encoding,
+		topic:            tf,
+		shareName:        opts.ShareName,
+		concurrency:      opts.Concurrency,
+		supportedVersion: version.TelemetrySupported,
+		log:              logger,
+		handler:          tr,
 	}
 
 	tr.listener.register()
@@ -140,12 +147,12 @@ func NewTelemetryReceiver[T any](
 
 // Start listening to the MQTT telemetry topic.
 func (tr *TelemetryReceiver[T]) Start(ctx context.Context) error {
-	return tr.listener.listen(ctx)
+	return tr.listener.start(ctx, telemetryReceiverComponentName)
 }
 
 // Close the telemetry receiver to free its resources.
 func (tr *TelemetryReceiver[T]) Close() {
-	tr.listener.close()
+	tr.listener.close(telemetryReceiverComponentName)
 }
 
 func (tr *TelemetryReceiver[T]) onMsg(
@@ -153,6 +160,8 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	pub *mqtt.Message,
 	msg *Message[T],
 ) error {
+	tr.log.Debug(ctx, "telemetry received", slog.String("topic", pub.Topic))
+
 	message := &TelemetryMessage[T]{Message: *msg}
 	var err error
 
@@ -160,8 +169,6 @@ func (tr *TelemetryReceiver[T]) onMsg(
 	if err != nil {
 		return err
 	}
-
-	message.CloudEvent = cloudEventFromMessage(pub)
 
 	if tr.manualAck && pub.QoS > 0 {
 		message.Ack = pub.Ack
@@ -174,21 +181,24 @@ func (tr *TelemetryReceiver[T]) onMsg(
 		return err
 	}
 
-	if !tr.manualAck && pub.QoS > 0 {
-		pub.Ack()
-	}
+	tr.ack(ctx, pub)
 	return nil
 }
 
 func (tr *TelemetryReceiver[T]) onErr(
-	_ context.Context,
+	ctx context.Context,
 	pub *mqtt.Message,
 	err error,
 ) error {
-	if !tr.manualAck && pub.QoS > 0 {
-		pub.Ack()
+	defer tr.ack(ctx, pub)
+
+	// Strip off any no-return flags (without extra logging, since we're about
+	// to drop the message anyways).
+	if no, e := errutil.IsNoReturn(err); no {
+		return e
 	}
-	return errutil.Return(err, false)
+
+	return err
 }
 
 // Call handler with panic catch.
@@ -205,10 +215,9 @@ func (tr *TelemetryReceiver[T]) handle(
 		var err error
 		defer func() {
 			if ePanic := recover(); ePanic != nil {
-				err = &errors.Error{
-					Message:       fmt.Sprint(ePanic),
-					Kind:          errors.ExecutionException,
-					InApplication: true,
+				err = &errors.Remote{
+					Message: fmt.Sprint(ePanic),
+					Kind:    errors.ExecutionError{},
 				}
 			}
 
@@ -223,20 +232,9 @@ func (tr *TelemetryReceiver[T]) handle(
 			// An error from the context overrides any return value.
 			err = e
 		} else if err != nil {
-			if e, ok := err.(InvocationError); ok {
-				err = &errors.Error{
-					Message:       e.Message,
-					Kind:          errors.InvocationException,
-					InApplication: true,
-					PropertyName:  e.PropertyName,
-					PropertyValue: e.PropertyValue,
-				}
-			} else {
-				err = &errors.Error{
-					Message:       err.Error(),
-					Kind:          errors.ExecutionException,
-					InApplication: true,
-				}
+			err = &errors.Remote{
+				Message: err.Error(),
+				Kind:    errors.ExecutionError{},
 			}
 		}
 	}()
@@ -246,6 +244,17 @@ func (tr *TelemetryReceiver[T]) handle(
 		return err
 	case <-ctx.Done():
 		return errutil.Context(ctx, telemetryReceiverErrStr)
+	}
+}
+
+// Ack the telemetry if automatic and log it.
+func (tr *TelemetryReceiver[T]) ack(
+	ctx context.Context,
+	pub *mqtt.Message,
+) {
+	if !tr.manualAck && pub.QoS > 0 {
+		pub.Ack()
+		tr.log.Debug(ctx, "telemetry acked", slog.String("topic", pub.Topic))
 	}
 }
 

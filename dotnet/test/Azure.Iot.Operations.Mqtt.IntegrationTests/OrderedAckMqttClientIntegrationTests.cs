@@ -3,8 +3,8 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Mqtt;
+using System.Buffers;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -49,7 +49,7 @@ public class OrderedAckMqttClientIntegrationTests
         }
 
         Assert.NotNull(receivedMessage);
-        Assert.Equal(expectedPayload, receivedMessage.PayloadSegment.Array);
+        Assert.Equal(expectedPayload, receivedMessage.Payload.ToArray());
         Assert.Equal(expectedTopic, receivedMessage.Topic);
 
         MqttClientUnsubscribeResult unsubscribeResult =
@@ -79,7 +79,7 @@ public class OrderedAckMqttClientIntegrationTests
                 receivedMessage1Tcs.TrySetResult(args);
             }
             else if (messagesReceived == 2)
-            { 
+            {
                 receivedMessage2Tcs.TrySetResult(args);
             }
 
@@ -146,14 +146,5 @@ public class OrderedAckMqttClientIntegrationTests
         Assert.Equal(0, disconnectCount);
 
         await mqttClient.DisconnectAsync();
-    }
-
-    [Fact]
-    public async Task OrderedAckMqttClientCanUseBrokerAssignedClientId()
-    {
-        await using OrderedAckMqttClient mqttClient = await ClientFactory.CreateClientAsyncFromEnvAsync("", false, true);
-
-        Assert.NotNull(mqttClient.ClientId);
-        Assert.NotEmpty(mqttClient.ClientId);
     }
 }

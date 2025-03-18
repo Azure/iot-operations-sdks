@@ -12,6 +12,33 @@
       {
         "file": "testEnvFiles/validVarsWithCertificateRevocationCheck.txt",
         "_justification": "Not a real password but used for testing."
+      },
+      {
+        "file": "eng/test/dummy_credentials/TestCert1Key.txt",
+        "_justification": "Not a real password but used for testing."
+      },
+      {
+        "file": "dotnet/samples/EventDrivenRestThermostatConnector/KubernetesResources/rest-server.yaml",
+        "_justification": "Fake credentials."
+      },
+      {
+        "file": "dotnet/samples/PollingRestThermostatConnector/KubernetesResources/rest-server.yaml",
+        "_justification": "Fake credentials."
+      }
+      ,
+      {
+        "file": "dotnet/samples/SqlConnectorApp/KubernetesResources/sql-server-no-data.yaml",
+        "_justification": "Fake credentials."
+      }
+      ,
+      {
+        "file": "dotnet/samples/SqlConnectorApp/KubernetesResources/sql-server.yaml",
+        "_justification": "Fake credentials."
+      }
+      ,
+      {
+        "file": "dotnet/test/Azure.Iot.Operations.Protocol.UnitTests/Connection/TestSdkLitePwd.txt",
+        "_justification": "Fake credentials."
       }
   ]
 }

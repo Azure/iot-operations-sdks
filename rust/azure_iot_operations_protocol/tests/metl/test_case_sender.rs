@@ -7,6 +7,7 @@ use std::marker::PhantomData;
 use serde::Deserialize;
 
 use crate::metl::defaults::DefaultsType;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 
 #[derive(Clone, Deserialize, Debug)]
 #[allow(dead_code)]
@@ -18,13 +19,13 @@ pub struct TestCaseSender<T: DefaultsType + Default> {
     #[serde(default = "get_default_telemetry_name::<T>")]
     pub telemetry_name: Option<String>,
 
+    #[serde(rename = "serializer")]
+    #[serde(default = "TestCaseSerializer::get_default")]
+    pub serializer: TestCaseSerializer<T>,
+
     #[serde(rename = "telemetry-topic")]
     #[serde(default = "get_default_telemetry_topic::<T>")]
     pub telemetry_topic: Option<String>,
-
-    #[serde(rename = "data-schema")]
-    #[serde(default = "get_default_data_schema::<T>")]
-    pub data_schema: Option<String>,
 
     #[serde(rename = "topic-namespace")]
     #[serde(default = "get_default_topic_namespace::<T>")]
@@ -54,20 +55,6 @@ pub fn get_default_telemetry_topic<T: DefaultsType + Default>() -> Option<String
             if let Some(default_sender) = default_prologue.sender.as_ref() {
                 if let Some(default_telemetry_topic) = default_sender.telemetry_topic.as_ref() {
                     return Some(default_telemetry_topic.to_string());
-                }
-            }
-        }
-    }
-
-    None
-}
-
-pub fn get_default_data_schema<T: DefaultsType + Default>() -> Option<String> {
-    if let Some(default_test_case) = T::get_defaults() {
-        if let Some(default_prologue) = default_test_case.prologue.as_ref() {
-            if let Some(default_sender) = default_prologue.sender.as_ref() {
-                if let Some(default_data_schema) = default_sender.data_schema.as_ref() {
-                    return Some(default_data_schema.to_string());
                 }
             }
         }

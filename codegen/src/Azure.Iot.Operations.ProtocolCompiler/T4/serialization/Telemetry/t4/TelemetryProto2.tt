@@ -1,19 +1,19 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 syntax = "proto2";
 
-package <#=this.genNamespace#>;
+package <#=this.genNamespace.GetTypeName(TargetLanguage.Independent)#>;
 
 option java_multiple_files = true;
-option java_package = "<#=this.genNamespace#>";
+option java_package = "<#=this.genNamespace.GetTypeName(TargetLanguage.Java)#>";
 
-option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>";
 
-<# foreach (var uniqueSchema in this.uniqueSchemas) { if (ProtobufSupport.TryGetImport(uniqueSchema, this.dtmiToSchemaName, out string importName) && this.importNames.Add(importName)) { #>
+<# foreach (var uniqueSchema in this.uniqueSchemas) { if (ProtobufSupport.TryGetImport(uniqueSchema, out string importName) && this.importNames.Add(importName)) { #>
 import "<#=importName#>";
 <# } } #>
 
-message <#=this.schema#> {
+message <#=this.schema.GetTypeName(TargetLanguage.Independent)#> {
 <# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
-    optional <#=ProtobufSupport.GetType(nameDescSchemaRequiredIndex.Item3, this.dtmiToSchemaName)#> <#=nameDescSchemaRequiredIndex.Item1#> = <#=nameDescSchemaRequiredIndex.Item5#>; // <#=nameDescSchemaRequiredIndex.Item2#>
+    optional <#=ProtobufSupport.GetType(nameDescSchemaRequiredIndex.Item3)#> <#=nameDescSchemaRequiredIndex.Item1#> = <#=nameDescSchemaRequiredIndex.Item5#>; // <#=nameDescSchemaRequiredIndex.Item2#>
 <# } #>
 }

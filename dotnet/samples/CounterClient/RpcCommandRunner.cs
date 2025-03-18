@@ -4,8 +4,7 @@
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using MQTTnet.Client;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 
 namespace CounterClient;
 
@@ -15,13 +14,13 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
     {
         try
         {
-
-            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")! + ";ClientId=sampleClient-" + Environment.TickCount);
+            // MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration!.GetConnectionString("Default")!);
+            MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVars();
 
             await mqttClient.ConnectAsync(mcs, stoppingToken);
             await Console.Out.WriteLineAsync($"Connected to: {mcs}");
             var server_id = configuration.GetValue<string>("COUNTER_SERVER_ID") ?? "CounterServer";
-            await counterClient.StartAsync(stoppingToken);
+            await counterClient.StartAsync(cancellationToken: stoppingToken);
             await RunCounterCommands(server_id);
             await mqttClient.DisconnectAsync();
             Environment.Exit(0);
@@ -48,8 +47,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         for (int i = 0; i < tasks.Length; i++)
         {
             CommandRequestMetadata reqMd2 = new();
-            IncrementRequestPayload payload = new IncrementRequestPayload();
-            payload.IncrementValue = 1;
+            IncrementRequestPayload payload = new IncrementRequestPayload
+            {
+                IncrementValue = 1
+            };
             logger.LogInformation("calling counter.incr  with id {id}", reqMd2.CorrelationId);
             Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(server, payload, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;

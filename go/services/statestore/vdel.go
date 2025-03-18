@@ -31,7 +31,8 @@ func (c *Client[K, V]) VDel(
 	key K,
 	val V,
 	opt ...VDelOption,
-) (*Response[int], error) {
+) (res *Response[int], err error) {
+	defer func() { c.logReturn(ctx, err) }()
 	if len(key) == 0 {
 		return nil, ArgumentError{Name: "key"}
 	}
@@ -39,6 +40,7 @@ func (c *Client[K, V]) VDel(
 	var opts VDelOptions
 	opts.Apply(opt)
 
+	c.logKV(ctx, "VDEL", key, val)
 	req := resp.OpKV("VDEL", key, val)
 	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }

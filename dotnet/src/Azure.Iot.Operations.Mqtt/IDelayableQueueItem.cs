@@ -12,11 +12,11 @@ namespace Azure.Iot.Operations.Protocol
         /// Check if this queue item is ready to be dequeued.
         /// </summary>
         /// <returns>True if the queue item is ready to be dequeued.</returns>
-        public bool IsReady();
+        bool IsReady();
 
         /// <summary>
         /// Mark this queue item as ready to be dequeued.
         /// </summary>
-        public void MarkAsReady();
+        void MarkAsReady();
     }
 }

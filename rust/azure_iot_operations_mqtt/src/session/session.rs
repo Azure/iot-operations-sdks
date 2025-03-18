@@ -14,12 +14,11 @@ use crate::auth::{self, SatAuthContext};
 use crate::control_packet::QoS;
 use crate::error::ConnectionError;
 use crate::interface::{Event, Incoming, MqttClient, MqttDisconnect, MqttEventLoop};
-use crate::session::dispatcher::IncomingPublishDispatcher;
 use crate::session::managed_client::SessionManagedClient;
-use crate::session::pub_tracker::{PubTracker, RegisterError};
+use crate::session::receiver::{IncomingPublishDispatcher, PublishReceiverManager};
 use crate::session::reconnect_policy::ReconnectPolicy;
 use crate::session::state::SessionState;
-use crate::session::{SessionError, SessionErrorKind, SessionExitError};
+use crate::session::{SessionError, SessionErrorRepr, SessionExitError, SessionExitErrorKind};
 
 /// Client that manages connections over a single MQTT session.
 ///
@@ -38,18 +37,16 @@ where
     client_id: String,
     /// File path to the SAT token
     sat_file: Option<String>,
-    /// Dispatcher for incoming publishes
-    incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
-    /// Tracker for unacked incoming publishes
-    unacked_pubs: Arc<PubTracker>,
+    /// Manager for the receivers of the Session
+    receiver_manager: Arc<Mutex<PublishReceiverManager>>,
+    /// Receiver dispatcher for incoming publishes
+    incoming_pub_dispatcher: IncomingPublishDispatcher<C>,
     /// Reconnect policy
     reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Current state
     state: Arc<SessionState>,
     /// Notifier for a force exit signal
     notify_force_exit: Arc<Notify>,
-    /// Indicates if Session was previously run. Temporary until re-use is supported.
-    previously_run: bool,
 }
 
 impl<C, EL> Session<C, EL>
@@ -67,22 +64,19 @@ where
         client_id: String,
         sat_file: Option<String>,
     ) -> Self {
-        // NOTE: drop the unfiltered message receiver from the dispatcher here in order to force non-filtered
-        // messages to fail to be dispatched. The .run() method will respond to this failure by acking.
-        // This lets us retain correct functionality while waiting for a more elegant solution with ordered ack.
-        let (incoming_pub_dispatcher, _) = IncomingPublishDispatcher::new();
-        let incoming_pub_dispatcher = Arc::new(Mutex::new(incoming_pub_dispatcher));
+        let incoming_pub_dispatcher = IncomingPublishDispatcher::new(client.clone());
+        let receiver_manager = incoming_pub_dispatcher.get_receiver_manager();
+
         Self {
             client,
             event_loop,
             client_id,
             sat_file,
+            receiver_manager,
             incoming_pub_dispatcher,
-            unacked_pubs: Arc::new(PubTracker::default()),
             reconnect_policy,
             state: Arc::new(SessionState::default()),
             notify_force_exit: Arc::new(Notify::new()),
-            previously_run: false,
         }
     }
 
@@ -107,49 +101,19 @@ where
         SessionManagedClient {
             client_id: self.client_id.clone(),
             pub_sub: self.client.clone(),
-            incoming_pub_dispatcher: self.incoming_pub_dispatcher.clone(),
-            pub_tracker: self.unacked_pubs.clone(),
+            receiver_manager: self.receiver_manager.clone(),
         }
     }
 
     /// Begin running the [`Session`].
     ///
-    /// Blocks until either a session exit or a fatal connection error is encountered.
+    /// Consumes the [`Session`] and blocks until either a session exit or a fatal connection
+    /// error is encountered.
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    // TODO: Suppressing this clippy lint is a temporary solution to a much bigger problem.
-    // Currently the pub dispatcher is locked by a Mutex, which is not supposed to be held
-    // across an await point. Ideally we would just use an async-aware Mutex here (e.g. the
-    // tokio Mutex), but that would break some other internal APIs by forcing them to be
-    // async where we don't want them to be. The correct solution is to eliminate the
-    // Mutex altogether but that is a much larger refactoring task. In the meantime,
-    // just suppress the lint - this technically creates a race condition around a case
-    // where the dispatcher is being used to dispatch and to register simultaneously, but
-    // this is unlikely, and worst case one message gets lost. Fix ASAP though.
-    #[allow(clippy::await_holding_lock)]
-    pub async fn run(&mut self) -> Result<(), SessionError> {
+    pub async fn run(mut self) -> Result<(), SessionError> {
         self.state.transition_running();
-        // TODO: This is a temporary solution to prevent re-use of the session.
-        // Re-use should be available in the future.
-        if self.previously_run {
-            log::error!("Session re-use is not currently supported. Ending session.");
-            return Err(std::convert::Into::into(SessionErrorKind::InvalidState(
-                "Session re-use is not currently supported".to_string(),
-            )));
-        }
-        self.previously_run = true;
-
-        // Reset the pending pub tracker so as not to carry over any state from previous sessions.
-        // NOTE: Dispatcher does not need to be reset, as it prunes itself as necessary.
-        // TODO: Find a solution for dealing with the case were a receiver may ack a publish after
-        // session has been reset. This is out of scope right now (we don't currently support Session re-use)
-        // but it would be nice to, and the library design implies that we can.
-        // TODO: Perhaps instead of clearing, the entries in the tracker should update to indicate that any
-        // acks to them from the surviving listeners should be ignored?
-        self.unacked_pubs.reset();
-        // NOTE: Another necessary change here to support re-use is to handle clean-start. It gets changed from its
-        // original setting during the operation of .run(), and thus, the original setting is lost.
 
         let mut sat_auth_context = None;
         let mut sat_auth_tx = None;
@@ -169,7 +133,7 @@ where
                 Err(e) => {
                     log::error!("Cannot read SAT auth file: {sat_file}");
                     // TODO: This should happen in the auth module, it should be fixed in the future.
-                    return Err(std::convert::Into::into(SessionErrorKind::IoError(e)));
+                    return Err(SessionErrorRepr::IoError(e))?;
                 }
             }
 
@@ -179,7 +143,7 @@ where
             sat_auth_context = Some(
                 SatAuthContext::new(sat_file.clone(), auth_watch_channel_rx).map_err(|e| {
                     log::error!("Error while creating SAT auth context: {e:?}");
-                    SessionError::from(SessionErrorKind::from(e))
+                    SessionErrorRepr::SatAuthError(e)
                 })?,
             );
         }
@@ -189,8 +153,7 @@ where
         tokio::spawn({
             let cancel_token = cancel_token.clone();
             let client = self.client.clone();
-            let unacked_pubs = self.unacked_pubs.clone();
-            run_background(client, unacked_pubs, sat_auth_context, cancel_token)
+            run_background(client, sat_auth_context, cancel_token)
         });
 
         // Indicates whether this session has been previously connected
@@ -223,7 +186,7 @@ where
                         log::error!(
                             "Session state not present on broker after reconnect. Ending session."
                         );
-                        result = Err(SessionErrorKind::SessionLost);
+                        result = Err(SessionErrorRepr::SessionLost);
                         if self.state.desire_exit() {
                             // NOTE: this could happen if the user was exiting when the connection was dropped,
                             // while the Session was not aware of the connection drop. Then, the drop has to last
@@ -264,83 +227,43 @@ where
                 }
                 Ok(Event::Incoming(Incoming::Publish(publish))) => {
                     log::debug!("Incoming PUB: {publish:?}");
-                    // Check if the incoming publish is a duplicate of a publish already being tracked
-                    //
-                    // NOTE: A client is required to treat received duplicates as a new application message
-                    // as per MQTTv5 spec 4.3.2. However, this is only true when a publish with the same PKID
-                    // has previously been acked, because it then becomes impossible to tell if this duplicate
-                    // was a redelivery of the previous message, or a redelivery of another message with the
-                    // same PKID that was lost.
-                    //
-                    // In this case, if our `PubTracker` is currently tracking a publish with the same PKID,
-                    // we know the duplicate message is for the message we have not yet acked, because the
-                    // PKID would not be available for re-use by the broker until that publish was acked.
-                    // Thus, we can safely discard the duplicate.
-                    // In fact, this is necessary for correct tracking of publishes dispatched to the receivers.
-                    if publish.dup && self.unacked_pubs.contains(&publish) {
-                        log::debug!("Duplicate PUB received for PUB already owned. Discarding.");
-                        continue;
-                    }
 
                     // Dispatch the message to receivers
-                    // TODO: Probably don't want to do this unnecessary clone of the publish here,
-                    // ideally the error would contain it, but will revisit this as part of a broader
-                    // error story rework. Could also make dispatch take a borrow, but I think the
-                    // consumption semantics are probably better.
-                    match self
-                        .incoming_pub_dispatcher
-                        .lock()
-                        .unwrap()
-                        .dispatch_publish(publish.clone())
-                    {
-                        Ok(num_dispatches) => {
-                            log::debug!("Dispatched PUB to {num_dispatches} receivers");
-
+                    match self.incoming_pub_dispatcher.dispatch_publish(&publish) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            // If the dispatch fails, we must be responsible for acking.
+                            // However, failure here should never happen in valid MQTT scenarios.
                             match publish.qos {
-                                QoS::AtMostOnce => {
-                                    log::debug!("No ack required for QoS 0 PUB");
+                                QoS::AtLeastOnce | QoS::ExactlyOnce => {
+                                    log::error!("Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}", publish.pkid);
+                                    log::warn!(
+                                        "Auto-ack of PKID {} may not be correctly ordered",
+                                        publish.pkid
+                                    );
+                                    tokio::spawn({
+                                        let acker = self.client.clone();
+                                        async move {
+                                            match acker.ack(&publish).await {
+                                                Ok(ct) => {
+                                                    let _ = ct.await;
+                                                    log::debug!("Auto-ack for failed dispatch PKID {} successful", publish.pkid);
+                                                }
+                                                Err(e) => {
+                                                    log::error!("Auto-ack for failed dispatch PKID {} failed: {e:?}", publish.pkid);
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
-                                // QoS 1 or 2
-                                _ => {
-                                    // Register the dispatched publish to track the acks
-                                    match self
-                                        .unacked_pubs
-                                        .register_pending(&publish, num_dispatches)
-                                    {
-                                        Ok(()) => {
-                                            log::debug!(
-                                                "Registered PUB. Waiting for {num_dispatches} acks"
-                                            );
-                                        }
-                                        Err(RegisterError::AlreadyRegistered(_)) => {
-                                            // Technically this could be reachable if some other thread were manipulating the
-                                            // pub tracker registrations, but at that point, everything is broken.
-                                            // Perhaps panic is more idiomatic? If such scenario occurs, acking is now completely
-                                            // broken, and it is likely that no further acks will be possible, so a panic seems
-                                            // appropriate. Or perhaps exiting the session with failure is preferable?
-                                            unreachable!("Already checked that the pub tracker does not contain the publish");
-                                        }
-                                    }
+                                QoS::AtMostOnce => {
+                                    // No ack needed for QoS 0
+                                    log::error!(
+                                        "Could not dispatch PUB with PKID {}. Reason: {e:?}",
+                                        publish.pkid
+                                    );
                                 }
                             }
-                        }
-                        Err(e) => {
-                            // TODO: This should be an error log. Change this once there is a better path for
-                            // unfiltered messages to be acked.
-                            log::warn!("Error dispatching PUB. Will auto-ack. Reason: {e:?}");
-
-                            // Ack the message in a task to avoid blocking the MQTT event loop.
-                            tokio::spawn({
-                                let acker = self.client.clone();
-                                async move {
-                                    match acker.ack(&publish).await {
-                                        Ok(()) => log::debug!("Auto-ack successful"),
-                                        Err(e) => log::error!(
-                                            "Auto-ack failed. Publish may be redelivered. Reason: {e:?}"
-                                        ),
-                                    };
-                                }
-                            });
                         }
                     }
                 }
@@ -366,7 +289,7 @@ where
                 // Connection refused by broker - unrecoverable
                 Err(ConnectionError::ConnectionRefused(rc)) => {
                     log::error!("Connection Refused: rc: {rc:?}");
-                    result = Err(SessionErrorKind::ConnectionError(next.unwrap_err()));
+                    result = Err(SessionErrorRepr::ConnectionError(next.unwrap_err()));
                     break;
                 }
 
@@ -388,13 +311,13 @@ where
                             () = tokio::time::sleep(delay) => {}
                             () = self.notify_force_exit.notified() => {
                                 log::info!("Reconnect attempts halted by force exit");
-                                result = Err(SessionErrorKind::ForceExit);
+                                result = Err(SessionErrorRepr::ForceExit);
                                 break;
                             }
                         }
                     } else {
                         log::info!("Reconnect attempts halted by reconnect policy");
-                        result = Err(SessionErrorKind::ReconnectHalted);
+                        result = Err(SessionErrorRepr::ReconnectHalted);
                         break;
                     }
                     prev_reconnect_attempts += 1;
@@ -419,24 +342,9 @@ where
 /// Run background tasks for [`Session.run()`]
 async fn run_background(
     client: impl MqttClient + Clone,
-    unacked_pubs: Arc<PubTracker>,
     sat_auth_context: Option<SatAuthContext>,
     cancel_token: CancellationToken,
 ) {
-    /// Loop over the [`PubTracker`] to ack publishes that are ready to be acked.
-    async fn ack_ready_publishes(unacked_pubs: Arc<PubTracker>, acker: impl MqttClient) -> ! {
-        loop {
-            // Get the next ready publish
-            let publish = unacked_pubs.next_ready().await;
-            // Ack the publish
-            match acker.ack(&publish).await {
-                Ok(()) => log::debug!("Sent ACK for PKID {}", publish.pkid),
-                Err(e) => log::error!("ACK failed for PKID {}: {e:?}", publish.pkid),
-                // TODO: how realistically can this fail? And how to respond if it does?
-            }
-        }
-    }
-
     /// Maintain the SAT token authentication by renewing it when the SAT file changes
     async fn maintain_sat_auth(mut sat_auth_context: SatAuthContext, client: impl MqttClient) -> ! {
         let mut retrying = false;
@@ -471,20 +379,8 @@ async fn run_background(
             () = cancel_token.cancelled() => {
                 log::debug!("Session background task cancelled");
             }
-            () = ack_ready_publishes(unacked_pubs, client.clone()) => {
-                log::error!("`ack_ready_publishes` task ended unexpectedly.");
-            }
             () = maintain_sat_auth(sat_auth_context, client) => {
                 log::error!("`maintain_sat_auth` task ended unexpectedly.");
-            }
-        }
-    } else {
-        tokio::select! {
-            () = cancel_token.cancelled() => {
-                log::debug!("Session background task cancelled");
-            }
-            () = ack_ready_publishes(unacked_pubs, client) => {
-                log::error!("`ack_ready_publishes` task ended unexpectedly.");
             }
         }
     }
@@ -523,24 +419,42 @@ where
     /// and may eventually succeed even if this method returns the error
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`] if the Session is not connected to the broker.
     pub async fn try_exit(&self) -> Result<(), SessionExitError> {
         log::debug!("Attempting to exit session gracefully");
+        // Check if the session has already exited
+        if self.state.has_exited() {
+            return Err(SessionExitError {
+                attempted: false,
+                kind: SessionExitErrorKind::Detached,
+            });
+        }
+
         // Check if the session is connected (to best of knowledge)
         if !self.state.is_connected() {
-            return Err(SessionExitError::BrokerUnavailable { attempted: false });
+            return Err(SessionExitError {
+                attempted: false,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            });
         }
         // Initiate the exit
         self.trigger_exit_user().await?;
         // Wait for the exit to complete, or until the session realizes it was already disconnected.
         tokio::select! {
+            // NOTE: Adding biased protects from the case where we called try_exit while connected
+            // and because select alternates between the two branches below, we would return an error
+            // when we should have returned Ok(()).
+            biased;
             // NOTE: These two conditions here are functionally almost identical for now, due to the
             // very loose matching of disconnect events in [`Session::run()`] (as a result of bugs and
             // unreliable behavior in rumqttc). These would be less identical conditions if we tightened
             // that matching back up, and that's why they're here.
             () = self.state.condition_exited() => Ok(()),
-            () = self.state.condition_disconnected() => Err(SessionExitError::BrokerUnavailable{attempted: true})
+            () = self.state.condition_disconnected() => Err(SessionExitError {
+                attempted: true,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            }),
         }
     }
 
@@ -554,17 +468,22 @@ where
     /// after which point this method will return an error. Under this circumstance, the attempt was still made,
     /// and may eventually succeed even if this method returns the error
     /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
-    /// will return an error indicating such.
+    /// will return an error.
     ///
     /// # Arguments
     /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
-    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`] if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`] if the Session is not connected to the broker within the specified timeout interval.
+    ///   within the timeout interval.
     pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
-        tokio::time::timeout(timeout, self.try_exit()).await?
+        tokio::time::timeout(timeout, self.try_exit())
+            .await
+            .map_err(|_| SessionExitError {
+                attempted: true,
+                kind: SessionExitErrorKind::BrokerUnavailable,
+            })?
     }
 
     /// Forcefully end the MQTT session running in the [`Session`] that created this handle.

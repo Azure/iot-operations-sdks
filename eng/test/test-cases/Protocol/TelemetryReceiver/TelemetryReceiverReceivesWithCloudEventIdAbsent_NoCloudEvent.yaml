@@ -1,0 +1,34 @@
+---
+test-name: TelemetryReceiverReceivesWithCloudEventIdAbsent_NoCloudEvent
+description:
+  condition: >-
+    TelemetryReceiver receives a single valid Telemetry with attached CloudEvent info with no ID value.
+  expect: >-
+    TelemetryReceiver relays Telemetry without CloudEvent to user code.
+
+prologue:
+  receivers:
+  - { }
+
+actions:
+- action: receive telemetry
+  metadata:
+    "source": "dtmi:test:myEventSource;1"
+    "type": "test-type"
+    "specversion": "1.0"
+    "time": "1955-11-12T22:04:00Z"
+    "subject": "mock/test"
+    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+  packet-index: 0
+- action: await acknowledgement
+  packet-index: 0
+
+epilogue:
+  telemetry-count: 1
+  subscribed-topics:
+  - "mock/test"
+  acknowledgement-count: 1
+  received-telemetries:
+  - telemetry-value: "Test_Telemetry"
+    cloud-event: # not present
+...

@@ -14,7 +14,7 @@ use crate::rumqttc_adapter as adapter;
 use crate::session::managed_client;
 use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy};
 use crate::session::session;
-use crate::session::{SessionError, SessionErrorKind, SessionExitError};
+use crate::session::{SessionConfigError, SessionError, SessionExitError};
 use crate::topic::TopicParseError;
 use crate::MqttConnectionSettings;
 
@@ -48,7 +48,7 @@ pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
-#[builder(pattern = "owned", setter(into))]
+#[builder(pattern = "owned")]
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
     pub connection_settings: MqttConnectionSettings,
@@ -58,19 +58,34 @@ pub struct SessionOptions {
     /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
     #[builder(default = "100")]
     pub outgoing_max: usize,
+    /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
+    #[builder(default = true)]
+    pub aio_broker_features: bool,
 }
 
 impl Session {
     /// Create a new [`Session`] with the provided options structure.
     ///
     /// # Errors
-    /// Returns a [`SessionError`] if there are errors using the session options.
-    pub fn new(options: SessionOptions) -> Result<Self, SessionError> {
+    /// Returns a [`SessionConfigError`] if there are errors using the session options.
+    pub fn new(options: SessionOptions) -> Result<Self, SessionConfigError> {
         let client_id = options.connection_settings.client_id.clone();
         let sat_file = options.connection_settings.sat_file.clone();
-        let (client, event_loop) =
-            adapter::client(options.connection_settings, options.outgoing_max, true)
-                .map_err(SessionErrorKind::from)?;
+
+        // Add AIO metric to user properties when using AIO MQTT broker features
+        // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
+        let user_properties = if options.aio_broker_features {
+            vec![("metriccategory".into(), "aiosdk-rust".into())]
+        } else {
+            vec![]
+        };
+
+        let (client, event_loop) = adapter::client(
+            options.connection_settings,
+            options.outgoing_max,
+            true,
+            user_properties,
+        )?;
         Ok(Session(session::Session::new_from_injection(
             client,
             event_loop,
@@ -101,7 +116,7 @@ impl Session {
     ///
     /// # Errors
     /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(&mut self) -> Result<(), SessionError> {
+    pub async fn run(self) -> Result<(), SessionError> {
         self.0.run().await
     }
 }
@@ -116,12 +131,14 @@ impl ManagedClient for SessionManagedClient {
     fn create_filtered_pub_receiver(
         &self,
         topic_filter: &str,
-        auto_ack: bool,
     ) -> Result<SessionPubReceiver, TopicParseError> {
         Ok(SessionPubReceiver(
-            self.0
-                .create_filtered_pub_receiver(topic_filter, auto_ack)?,
+            self.0.create_filtered_pub_receiver(topic_filter)?,
         ))
+    }
+
+    fn create_unfiltered_pub_receiver(&self) -> SessionPubReceiver {
+        SessionPubReceiver(self.0.create_unfiltered_pub_receiver())
     }
 }
 
@@ -187,8 +204,12 @@ impl MqttPubSub for SessionManagedClient {
 
 #[async_trait]
 impl PubReceiver for SessionPubReceiver {
-    async fn recv(&mut self) -> Option<(Publish, Option<AckToken>)> {
+    async fn recv(&mut self) -> Option<Publish> {
         self.0.recv().await
+    }
+
+    async fn recv_manual_ack(&mut self) -> Option<(Publish, Option<AckToken>)> {
+        self.0.recv_manual_ack().await
     }
 
     fn close(&mut self) {
@@ -208,8 +229,8 @@ impl SessionExitHandle {
     /// and may eventually succeed even if this method returns the error
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`](crate::session::SessionExitErrorKind) if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`](crate::session::SessionExitErrorKind) if the Session is not connected to the broker.
     pub async fn try_exit(&self) -> Result<(), SessionExitError> {
         self.0.try_exit().await
     }
@@ -224,15 +245,14 @@ impl SessionExitHandle {
     /// after which point this method will return an error. Under this circumstance, the attempt was still made,
     /// and may eventually succeed even if this method returns the error
     /// If the graceful [`Session`] exit attempt does not complete within the specified timeout, this method
-    /// will return an error indicating such.
+    /// will return an error.
     ///
     /// # Arguments
     /// * `timeout` - The duration to wait for the graceful exit to complete before returning an error.
     ///
     /// # Errors
-    /// * [`SessionExitError::Dropped`] if the Session no longer exists.
-    /// * [`SessionExitError::BrokerUnavailable`] if the Session is not connected to the broker.
-    /// * [`SessionExitError::Timeout`] if the graceful exit attempt does not complete within the specified timeout.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::Detached`](crate::session::SessionExitErrorKind) if the Session no longer exists.
+    /// * [`SessionExitError`] of kind [`SessionExitErrorKind::BrokerUnavailable`](crate::session::SessionExitErrorKind) if the Session is not connected to the broker within the specified timeout interval.
     pub async fn try_exit_timeout(&self, timeout: Duration) -> Result<(), SessionExitError> {
         self.0.try_exit_timeout(timeout).await
     }

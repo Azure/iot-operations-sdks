@@ -3,7 +3,6 @@
 
 using System.Text;
 using Azure.Iot.Operations.Services.LeaderElection;
-using Azure.Iot.Operations.Services.LeasedLock;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection

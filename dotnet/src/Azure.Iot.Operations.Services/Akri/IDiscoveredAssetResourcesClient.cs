@@ -3,13 +3,13 @@
 
 namespace Azure.Iot.Operations.Services.Akri;
 
-using AssetEndpointProfileResponseInfo = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAssetEndpointProfile_Response;
-using AssetEndpointProfileRequestAuthMethodSchema = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Enum_CreateDiscoveredAssetEndpointProfile_Request_SupportedAuthenticationMethods_ElementSchema;
-using AssetResponseInfo = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Response;
-using AssetRequestDatasetsElementSchema = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_Datasets_ElementSchema;
-using AssetRequestDefaultTopic = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_DefaultTopic;
-using AssetRequestEventsSchema = dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1.Object_CreateDiscoveredAsset_Request_Events_ElementSchema;
-using Azure.Iot.Operations.Services.Akri.dtmi_com_microsoft_deviceregistry_DiscoveredAssetResources__1;
+using AssetEndpointProfileResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetEndpointProfileResponseSchema;
+using AssetEndpointProfileRequestAuthMethodSchema = DiscoveredAssetResources.SupportedAuthenticationMethodsSchemaElementSchema;
+using AssetResponseInfo = DiscoveredAssetResources.CreateDiscoveredAssetResponseSchema;
+using AssetRequestDatasetsElementSchema = DiscoveredAssetResources.DatasetsSchemaElementSchema;
+using AssetRequestDefaultTopic = DiscoveredAssetResources.DefaultTopicSchema;
+using AssetRequestEventsSchema = DiscoveredAssetResources.EventsSchemaElementSchema;
+using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 
 /// <summary>
 /// Interface for creating discovered assets and asset endpoint profiles.
@@ -26,7 +26,7 @@ public interface IDiscoveredAssetResourcesClient : IAsyncDisposable
     /// A task that represents the asynchronous operation. The task result contains an <see cref="AssetEndpointProfileResponseInfo"/> object
     /// if the asset endpoint profile is successfully created, or <c>null</c> if the operation fails or no response is available.
     /// </returns>
-    public Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(
+    Task<AssetEndpointProfileResponseInfo?> CreateDiscoveredAssetEndpointProfileAsync(
         CreateDiscoveredAssetEndpointProfileRequestPayload discoveredAssetEndpointProfileRequest,
         TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 
@@ -40,7 +40,7 @@ public interface IDiscoveredAssetResourcesClient : IAsyncDisposable
     /// A task that represents the asynchronous operation. The task result contains an <see cref="AssetResponseInfo"/> object
     /// if the asset creation succeeds, or <c>null</c> if the operation fails or no response is available.
     /// </returns>
-    public Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
+    Task<AssetResponseInfo?> CreateDiscoveredAssetAsync(
         CreateDiscoveredAssetRequestPayload discoveredAssetRequest,
         TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }

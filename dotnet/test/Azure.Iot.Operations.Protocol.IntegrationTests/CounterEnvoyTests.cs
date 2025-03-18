@@ -5,7 +5,8 @@ using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
+using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -14,17 +15,20 @@ public class CounterEnvoyTests
     [Fact]
     public async Task IncrementTest()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "counter-server-" + Guid.NewGuid();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
 
-        await using CounterService counterService = new CounterService(mqttExecutor);
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using CounterClient counterClient = new CounterClient(mqttInvoker);
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
 
-        await counterService.StartAsync(null, CancellationToken.None);
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
-        IncrementRequestPayload payload = new IncrementRequestPayload();
-        payload.IncrementValue = 1;
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = 1
+        };
 
         var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
@@ -51,21 +55,25 @@ public class CounterEnvoyTests
     [Fact]
     public async Task DuplicateCorrelationIDThrows()
     {
+        ApplicationContext applicationContext = new ApplicationContext();
         string executorId = "counter-server-" + Guid.NewGuid();
+        ApplicationContext appContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
 
-        await using CounterService counterService = new CounterService(mqttExecutor);
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using CounterClient counterClient = new CounterClient(mqttInvoker);
+        await using CounterClient counterClient = new CounterClient(appContext, mqttInvoker);
 
-        await counterService.StartAsync(null, CancellationToken.None);
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
         var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
         
         CommandRequestMetadata reqMd2 = new();
-        IncrementRequestPayload payload = new IncrementRequestPayload();
-        payload.IncrementValue = 1;
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = 1
+        };
         Task[] tasks = new Task[2];
         for (int i = 0; i < tasks.Length; i++)
         {
@@ -76,15 +84,14 @@ public class CounterEnvoyTests
         Assert.Equal("Command 'increment' invocation failed due to duplicate request with same correlationId" ,exception.Message);
     } 
 
-    
-
     [Fact]
     public async Task WrongCorrelationIDThrows()
     {
         string executorId = "counter-server-" + Guid.NewGuid();
+        ApplicationContext applicationContext = new ApplicationContext();
         await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using CounterService counterService = new CounterService(mqttExecutor);
-        await counterService.StartAsync(null, CancellationToken.None);
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("counter-client-bad");
 
@@ -108,7 +115,7 @@ public class CounterEnvoyTests
 
         MqttApplicationMessageReceivedEventArgs respMsg = await tcs.Task.WaitAsync(TimeSpan.FromMinutes(1));
         var userProps = respMsg.ApplicationMessage.UserProperties;
-        Assert.Equal(5, userProps!.Count);
+        Assert.Equal(6, userProps!.Count); // The user props are __stat, __stMsg, __protVer, __ts, __apErr, __propName.
         Assert.Equal("400", userProps.Where( p => p.Name == "__stat").First().Value);
         Assert.Equal("Correlation data bytes do not conform to a GUID.", userProps.FirstOrDefault(p => p.Name == "__stMsg")!.Value);
         Assert.Equal("Correlation Data", userProps.Where(p => p.Name == "__propName").First().Value);

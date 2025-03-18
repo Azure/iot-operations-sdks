@@ -3,8 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
-using System.Text;
-using TestEnvoys.dtmi_com_example_Counter__1;
+using TestEnvoys.Counter;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {
@@ -14,9 +13,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         [Fact]
         public async Task TestRPCHandlesServiceConnectionDrop()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             string executorId = "counter-server-" + Guid.NewGuid();
             await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv(null, executorId);
-            await using CounterService counterService = new CounterService(mqttExecutor);
+            await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
             TaskCompletionSource faultWasInjectedTcs = new();
             mqttExecutor.DisconnectedAsync += (args) =>
             {
@@ -25,8 +25,8 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             };
             
             await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
-            await using CounterClient counterClient = new CounterClient(mqttInvoker);
-            await counterService.StartAsync(null, CancellationToken.None);
+            await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+            await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
             var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(0, resp.Response.CounterResponse);
@@ -48,8 +48,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             var result = await mqttExecutor.PublishAsync(faultMessage).WaitAsync(TimeSpan.FromMinutes(1));
             Assert.True(result.IsSuccess);
 
-            IncrementRequestPayload payload = new IncrementRequestPayload();
-            payload.IncrementValue = 1;
+            IncrementRequestPayload payload = new IncrementRequestPayload
+            {
+                IncrementValue = 1
+            };
 
             // // Wait until the fault injection happens or until a timeout
             await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
@@ -60,9 +62,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         [Fact]
         public async Task TestRPCHandlesServiceAndClientConnectionDrop()
         {
+            ApplicationContext applicationContext = new ApplicationContext();
             string executorId = "counter-server-" + Guid.NewGuid();
             await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv(null, executorId);
-            await using CounterService counterService = new CounterService(mqttExecutor);
+            await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
             TaskCompletionSource faultWasInjectedTcs1 = new();
             mqttExecutor.DisconnectedAsync += (args) =>
             {
@@ -71,7 +74,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             };
             
             await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientForFaultableBrokerFromEnv();
-            await using CounterClient counterClient = new CounterClient(mqttInvoker);
+            await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
             TaskCompletionSource faultWasInjectedTcs2 = new();
             mqttInvoker.DisconnectedAsync += (args) =>
             {
@@ -79,7 +82,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 return Task.CompletedTask;
             };
             
-            await counterService.StartAsync(null, CancellationToken.None);
+            await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
             var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(0, resp.Response.CounterResponse);
             
@@ -114,8 +117,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             Assert.True(result.IsSuccess);
             await faultWasInjectedTcs2.Task.WaitAsync(TimeSpan.FromSeconds(30));
 
-            IncrementRequestPayload payload = new IncrementRequestPayload();
-            payload.IncrementValue = 1;
+            IncrementRequestPayload payload = new IncrementRequestPayload
+            {
+                IncrementValue = 1
+            };
 
             var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
             Assert.Equal(1, resp2.Response.CounterResponse);   

@@ -1,0 +1,30 @@
+---
+test-name: TelemetrySenderSendWithCloudEventSpecVersionNonNumeric_Success
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry with CloudEvent info with a spec version value that is not numeric.
+  expect: >-
+    TelemetrySender performs send and embeds CloudEvent info (including defaults) in Telemetry metadata.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
+    spec-version: "one point zero"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    metadata:
+      "source": "dtmi:test:myEventSource;1"
+      "type": "ms.aio.telemetry"
+      "specversion": "one point zero"
+      "subject": "mock/test"
+...

@@ -4,17 +4,22 @@ package schemaregistry
 
 import (
 	"context"
+	"encoding/json"
 	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/dtmi_ms_adr_SchemaRegistry__1"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/schemaregistry"
 )
 
 type (
 	// Client represents a client of the schema registry.
 	Client struct {
-		client *dtmi_ms_adr_SchemaRegistry__1.SchemaRegistryClient
+		client *schemaregistry.SchemaRegistryClient
+
+		// TODO: Remove when no longer necessary for compat.
+		invID string
 	}
 
 	// ClientOption represents a single option for the client.
@@ -24,22 +29,33 @@ type (
 	ClientOptions struct {
 		Logger *slog.Logger
 	}
+
+	// Error represents an error returned by the schema registry.
+	Error struct {
+		Message       string
+		PropertyName  string
+		PropertyValue any
+	}
 )
 
 // New creates a new schema registry client.
-func New(client protocol.MqttClient, opt ...ClientOption) (*Client, error) {
+func New(
+	app *protocol.Application,
+	client protocol.MqttClient,
+	opt ...ClientOption,
+) (*Client, error) {
 	var opts ClientOptions
 	opts.Apply(opt)
 
-	sr, err := dtmi_ms_adr_SchemaRegistry__1.NewSchemaRegistryClient(
+	sr, err := schemaregistry.NewSchemaRegistryClient(
+		app,
 		client,
 		opts.invoker(),
-		protocol.WithResponseTopicPrefix("clients/{invokerClientId}"),
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &Client{sr}, nil
+	return &Client{sr, client.ID()}, nil
 }
 
 // Start listening to all underlying MQTT topics.
@@ -50,6 +66,35 @@ func (c *Client) Start(ctx context.Context) error {
 // Close all underlying MQTT topics and free resources.
 func (c *Client) Close() {
 	c.client.Close()
+}
+
+// Error returns the error message.
+func (e *Error) Error() string {
+	return e.Message
+}
+
+//nolint:staticcheck // schemaregistry compat.
+func translateError(err error) error {
+	switch e := err.(type) {
+	case *errors.Remote:
+		if k, ok := e.Kind.(errors.UnknownError); ok && k.PropertyName != "" {
+			return &Error{
+				Message:       err.Error(),
+				PropertyName:  k.PropertyName,
+				PropertyValue: k.PropertyValue,
+			}
+		}
+
+	case *errors.Client:
+		if _, ok := e.Kind.(errors.PayloadInvalid); ok {
+			if j, ok := e.Nested.(*json.SyntaxError); ok && j.Offset == 0 {
+				// We're already returning a nil schema (because of the error),
+				// so just treat the 404 case as not an error.
+				return nil
+			}
+		}
+	}
+	return err
 }
 
 // Apply resolves the provided list of options.

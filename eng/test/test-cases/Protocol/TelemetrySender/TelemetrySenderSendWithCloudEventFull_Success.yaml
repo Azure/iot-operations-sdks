@@ -1,0 +1,39 @@
+---
+test-name: TelemetrySenderSendWithCloudEventFull_Success
+description:
+  condition: >-
+    TelemetrySender sends a Telemetry with fully specified CloudEvent info.
+  expect: >-
+    TelemetrySender performs send and embeds CloudEvent info in Telemetry metadata.
+
+prologue:
+  senders:
+  - { }
+
+actions:
+- action: send telemetry
+  cloud-event:
+    source: "dtmi:test:myEventSource;1"
+    type: "test-type"
+    spec-version: "1.0"
+    id: "TheEventInQuestion"
+    time: "1955-11-12T22:04:00Z"
+    subject: "TheEventSubject"
+    data-schema: "dtmi:test:MyModel:_contents:__test;1"
+- action: await publish
+- action: await send
+
+epilogue:
+  published-messages:
+  - topic: "mock/test"
+    payload: "Test_Telemetry"
+    content-type: "application/json"
+    metadata:
+      "source": "dtmi:test:myEventSource;1"
+      "type": "test-type"
+      "specversion": "1.0"
+      "id": "TheEventInQuestion"
+      "time": "1955-11-12T22:04:00Z"
+      "subject": "TheEventSubject"
+      "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+...

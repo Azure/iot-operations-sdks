@@ -23,7 +23,6 @@ epilogue:
       "source": # not present
       "type": # not present
       "specversion": # not present
-      "datacontenttype": # not present
       "subject": # not present
       "dataschema": # not present
 ...

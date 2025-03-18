@@ -5,16 +5,16 @@
     using System.Linq;
 
     public class DotNetTypeGenerator : ITypeGenerator
-   {
-        public void GenerateTypeFromSchema(string projectName, string genNamespace, SchemaType schemaType, string outputFolder, HashSet<string> sourceFilePaths)
+    {
+        public void GenerateTypeFromSchema(string projectName, SchemaType schemaType, SerializationFormat serFormat, string outputFolder)
         {
             ITemplateTransform templateTransform = schemaType switch
             {
-                ObjectType objectType => new DotNetObject(projectName, genNamespace, objectType),
+                ObjectType objectType => new DotNetObject(projectName, objectType, serFormat),
                 EnumType enumType =>
-                    enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new DotNetStringEnum(projectName, genNamespace, enumType) :
-                    enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new DotNetIntegerEnum(projectName, genNamespace, enumType) :
-                    new DotNetBareEnum(projectName, genNamespace, enumType),
+                    enumType.EnumValues.FirstOrDefault()?.StringValue != null ? new DotNetStringEnum(projectName, enumType) :
+                    enumType.EnumValues.FirstOrDefault()?.IntValue != null ? new DotNetIntegerEnum(projectName, enumType) :
+                    new DotNetBareEnum(projectName, enumType),
                 _ => throw new Exception("unrecognized schema type"),
             };
 
@@ -28,7 +28,6 @@
             string outFilePath = Path.Combine(outDirPath, templateTransform.FileName);
             File.WriteAllText(outFilePath, generatedCode);
             Console.WriteLine($"  generated {outFilePath}");
-            sourceFilePaths.Add(outFilePath);
         }
     }
 }

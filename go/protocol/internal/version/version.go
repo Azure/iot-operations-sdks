@@ -3,18 +3,22 @@
 package version
 
 import (
+	"slices"
 	"strconv"
 	"strings"
 )
 
 const (
-	ProtocolString  = "1.0"
-	SupportedString = "1"
+	RPC       = "1.0"
+	Telemetry = "1.0"
 )
 
-var Supported = ParseSupported(SupportedString)
+var (
+	RPCSupported       = []int{1}
+	TelemetrySupported = []int{1}
+)
 
-func ParseProtocol(v string) (major, minor int) {
+func Parse(v string) (major, minor int) {
 	if v == "" {
 		return 1, 0
 	}
@@ -38,9 +42,6 @@ func ParseProtocol(v string) (major, minor int) {
 
 func ParseSupported(vs string) []int {
 	parts := strings.Split(vs, " ")
-	if len(parts) == 0 {
-		return nil
-	}
 
 	res := make([]int, len(parts))
 	for i, part := range parts {
@@ -53,12 +54,15 @@ func ParseSupported(vs string) []int {
 	return res
 }
 
-func IsSupported(v string) bool {
-	major, _ := ParseProtocol(v)
-	for _, s := range Supported {
-		if major == s {
-			return true
-		}
+func SerializeSupported(vs []int) string {
+	res := make([]string, len(vs))
+	for i, n := range vs {
+		res[i] = strconv.Itoa(n)
 	}
-	return false
+	return strings.Join(res, " ")
+}
+
+func IsSupported(v string, supported []int) bool {
+	major, _ := Parse(v)
+	return slices.Contains(supported, major)
 }

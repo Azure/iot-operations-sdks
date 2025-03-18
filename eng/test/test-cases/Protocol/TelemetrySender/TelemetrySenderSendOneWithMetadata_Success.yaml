@@ -21,6 +21,8 @@ epilogue:
   published-messages:
   - topic: "mock/test"
     payload: "Test_Telemetry"
+    content-type: "application/json"
+    format-indicator: 1
     metadata:
       "telemHeader": "telemValue"
 ...

@@ -13,14 +13,16 @@ type TestFeatureKind int
 const (
 	Unobtanium TestFeatureKind = iota
 	AckOrdering
+	TopicFiltering
 	Reconnection
 	Caching
 	Dispatch
 	ExplicitDefault
+	MultipleSerializers
 )
 
 func (k TestFeatureKind) String() string {
-	return [...]string{"Unobtanium", "AckOrdering", "Reconnection", "Caching", "Dispatch", "ExplicitDefault"}[k]
+	return [...]string{"Unobtanium", "AckOrdering", "TopicFiltering", "Reconnection", "Caching", "Dispatch", "ExplicitDefault"}[k]
 }
 
 func (k *TestFeatureKind) UnmarshalYAML(value *yaml.Node) error {
@@ -37,6 +39,9 @@ func (k *TestFeatureKind) UnmarshalYAML(value *yaml.Node) error {
 	case "ack-ordering":
 		*k = AckOrdering
 		return nil
+	case "topic-filtering":
+		*k = TopicFiltering
+		return nil
 	case "reconnection":
 		*k = Reconnection
 		return nil
@@ -48,6 +53,9 @@ func (k *TestFeatureKind) UnmarshalYAML(value *yaml.Node) error {
 		return nil
 	case "explicit-default":
 		*k = ExplicitDefault
+		return nil
+	case "multiple-serializers":
+		*k = MultipleSerializers
 		return nil
 	}
 }

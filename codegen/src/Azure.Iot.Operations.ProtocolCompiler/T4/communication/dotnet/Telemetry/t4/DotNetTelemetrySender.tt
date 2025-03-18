@@ -3,7 +3,7 @@
 
 #nullable enable
 
-namespace <#=this.projectName#>.<#=this.genNamespace#>
+namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>
 {
     using System.Collections.Generic;
     using Azure.Iot.Operations.Protocol;
@@ -11,43 +11,26 @@ namespace <#=this.projectName#>.<#=this.genNamespace#>
     using Azure.Iot.Operations.Protocol.Models;
     using <#=this.projectName#>;
 
-    public static partial class <#=this.serviceName#>
+    public static partial class <#=this.serviceName.GetTypeName(TargetLanguage.CSharp)#>
     {
         /// <summary>
-        /// Specializes the <c>TelemetrySender</c> class for type <c><#=this.schemaClassName#></c>.
+        /// Specializes the <c>TelemetrySender</c> class for type <c><#=this.schemaType.GetTypeName(TargetLanguage.CSharp)#></c>.
         /// </summary>
-        public class <#=this.componentName#>Sender : TelemetrySender<<#=this.schemaClassName#>>
+        public class <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#> : TelemetrySender<<#=this.schemaType.GetTypeName(TargetLanguage.CSharp)#>>
         {
-            private CombinedPrefixedReadOnlyDictionary<string> effectiveTopicTokenMap;
-
             /// <summary>
-            /// Optionally initializes a custom token map to a dictionary that maps token values to replacement strings; defaults to new empty dictionary.
+            /// Initializes a new instance of the <see cref="<#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>"/> class.
             /// </summary>
-            public Dictionary<string, string> CustomTopicTokenMap { private get; init; } = new();
-
-            /// <summary>
-            /// Gets a dictionary for adding custom token keys and their replacement strings, which will be substituted in telemetry topic patterns.
-            /// Note that keys will automatically be prefixed by "ex:" when used for substitution searches in topic pattern strings.
-            /// </summary>
-            public override Dictionary<string, string> TopicTokenMap { get => CustomTopicTokenMap; }
-
-            /// <summary>
-            /// Gets a dictionary used by the base class's code for substituting tokens in telemetry topic patterns.
-            /// </summary>
-            protected override IReadOnlyDictionary<string, string> EffectiveTopicTokenMap { get => effectiveTopicTokenMap; }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="<#=this.componentName#>Sender"/> class.
-            /// </summary>
-            public <#=this.componentName#>Sender(IMqttPubSubClient mqttClient)
-                : base(mqttClient, <#=this.telemetryName != null ? $"\"{this.telemetryName}\"" : "null"#>, new <#=this.serializerClassName#>())
+            public <#=this.componentName.GetTypeName(TargetLanguage.CSharp)#>(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, new <#=this.serializerClassName#>())
             {
-                this.effectiveTopicTokenMap = new(string.Empty, (IReadOnlyDictionary<string, string>)base.TopicTokenMap, "ex:", this.CustomTopicTokenMap);
-
-                base.TopicTokenMap["modelId"] = "<#=this.modelId#>";
-                base.TopicTokenMap["senderId"] = mqttClient.ClientId!;
-<# if (this.telemetryName != null) { #>
-                base.TopicTokenMap["telemetryName"] = "<#=this.telemetryName#>";
+                TopicTokenMap["modelId"] = "<#=this.modelId#>";
+                if (mqttClient.ClientId != null)
+                {
+                    TopicTokenMap["senderId"] = mqttClient.ClientId;
+                }
+<# if (!this.telemetryName.IsEmpty) { #>
+                TopicTokenMap["telemetryName"] = "<#=this.telemetryName.AsGiven#>";
 <# } #>
             }
         }

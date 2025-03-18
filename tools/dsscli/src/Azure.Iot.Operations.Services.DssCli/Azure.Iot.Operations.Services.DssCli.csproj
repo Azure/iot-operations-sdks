@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<VersionPrefix>0.5.0</VersionPrefix>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PackAsTool>True</PackAsTool>
 		<IsPackable>true</IsPackable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<NoWarn>1701;1702;CA1848</NoWarn>
 		<ToolCommandName>dsscli</ToolCommandName>
 		<Title>IoTMqttBroker DSS CLI</Title>

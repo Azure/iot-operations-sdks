@@ -2,9 +2,9 @@
 test-name: CommandInvokerResponseIndicatesInvocationError_ThrowsException
 description:
   condition: >-
-    CommandInvoker receives response message with status indicating the request data is not valid at the application level.
+    CommandInvoker receives response message with a deprecated status indicating the request data is not valid at the application level.
   expect: >-
-    Invocation throws 'invocation error' exception.
+    Invocation throws 'unknown error' exception, but includes details.
 
 prologue:
   invokers:
@@ -26,11 +26,9 @@ actions:
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: invocation error
-    in-application: !!bool true
+    error-kind: unknown error
     is-shallow: !!bool false
     is-remote: !!bool true
-    status-code: 422
     message: "This is a content error with details"
     supplemental:
       property-name: 'requestheader'

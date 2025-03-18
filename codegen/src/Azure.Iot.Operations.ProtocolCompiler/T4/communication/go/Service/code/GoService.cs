@@ -3,15 +3,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 {
     public partial class GoService : ITemplateTransform
     {
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string modelId;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
-        private readonly List<(string, string?, string?)> cmdNameReqResps;
-        private readonly List<(string?, string)> telemNameSchemas;
+        private readonly List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps;
+        private readonly List<(CodeName, ITypeName)> telemNameSchemas;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
         private readonly bool syncApi;
@@ -20,15 +20,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly bool separateTelemetries;
 
         public GoService(
-            string genNamespace,
+            CodeName genNamespace,
             string modelId,
-            string serviceName,
+            CodeName serviceName,
             string? commandTopic,
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
-            List<(string, string?, string?)> cmdNameReqResps,
-            List<(string?, string)> telemNameSchemas,
+            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps,
+            List<(CodeName, ITypeName)> telemNameSchemas,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
             bool syncApi,
@@ -55,6 +55,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public string FileName { get => "wrapper.go"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Go); }
     }
 }

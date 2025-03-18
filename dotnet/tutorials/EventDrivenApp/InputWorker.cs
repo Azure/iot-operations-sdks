@@ -6,10 +6,11 @@ using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using System.Text.Json;
 using System.Collections.Concurrent;
+using Azure.Iot.Operations.Protocol;
 
 namespace EventDrivenApp;
 
-public class InputWorker(SessionClientFactory clientFactory, ILogger<InputWorker> logger) : BackgroundService
+public class InputWorker(ApplicationContext applicationContext, SessionClientFactory clientFactory, ILogger<InputWorker> logger) : BackgroundService
 {
     private readonly BlockingCollection<SensorData> incomingSensorData = [];
 
@@ -21,11 +22,11 @@ public class InputWorker(SessionClientFactory clientFactory, ILogger<InputWorker
             MqttSessionClient sessionClient = await clientFactory.GetSessionClient("input");
 
             // Start the telemetry receiver
-            var receiver = new SensorTelemetryReceiver(sessionClient)
+            var receiver = new SensorTelemetryReceiver(applicationContext, sessionClient)
             {
                 OnTelemetryReceived = ReceiveTelemetry
             };
-            await receiver.StartAsync(cancellationToken);
+            await receiver.StartAsync(cancellationToken: cancellationToken);
 
             // Enter main loop to process the sensor data
             await ProcessSensorData(sessionClient, cancellationToken);
@@ -59,7 +60,7 @@ public class InputWorker(SessionClientFactory clientFactory, ILogger<InputWorker
 
             List<SensorData> data = [];
 
-            await using StateStoreClient stateStoreClient = new(sessionClient);
+            await using StateStoreClient stateStoreClient = new(applicationContext, sessionClient);
             {
                 try
                 {

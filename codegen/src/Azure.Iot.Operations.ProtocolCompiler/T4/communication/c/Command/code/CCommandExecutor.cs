@@ -8,8 +8,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string commandName;
         private readonly string capitalizedCommandName;
         private readonly string requestTopicName;
-        private readonly string genNamespace;
-        private readonly string serviceName;
+        private readonly CodeName genNamespace;
+        private readonly CodeName serviceName;
         private readonly string serializerSubNamespace;
         private readonly string serializerClassName;
         private readonly string? reqSchema;
@@ -17,13 +17,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         private const string RequestTopicSuffix = "clients/{invokerClientId}/";
 
-        public CCommandExecutor(string modelId, string commandName, string requestTopicName, string genNamespace, string serviceName, string serializerSubNamespace, string serializerClassName, string? reqSchema, string? respSchema, string? normalizedVersionSuffix)
+        public CCommandExecutor(string modelId, CodeName commandName, string requestTopicName, CodeName genNamespace, CodeName serviceName, string serializerSubNamespace, string serializerClassName, string? reqSchema, string? respSchema, string? normalizedVersionSuffix)
         {
             this.modelId = modelId;
             this.normalizedVersionSuffix = normalizedVersionSuffix;
-            this.commandName = commandName;
+            this.commandName = commandName.AsGiven;
             this.requestTopicName = requestTopicName;
-            this.capitalizedCommandName = char.ToUpperInvariant(commandName[0]) + commandName.Substring(1);
+            this.capitalizedCommandName = char.ToUpperInvariant(commandName.AsGiven[0]) + commandName.AsGiven.Substring(1);
             this.genNamespace = genNamespace;
             this.serviceName = serviceName;
             this.serializerSubNamespace = serializerSubNamespace;
@@ -34,7 +34,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public string FileName { get => $"{GetFullyQualifiedName().ToLower()}_executor.h"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
 
         private string GetFullyQualifiedServiceName() =>
             this.normalizedVersionSuffix != null ?

@@ -1,17 +1,17 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 syntax = "proto3";
 
-package <#=this.genNamespace#>;
+package <#=this.genNamespace.GetTypeName(TargetLanguage.Independent)#>;
 
 option java_multiple_files = true;
-option java_package = "<#=this.genNamespace#>";
+option java_package = "<#=this.genNamespace.GetTypeName(TargetLanguage.Java)#>";
 
-option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace#>";
+option csharp_namespace = "<#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.CSharp)#>";
 
-<# if (ProtobufSupport.TryGetImport(this.mapValueSchema, this.dtmiToSchemaName, out string importName) && this.importNames.Add(importName)) { #>
+<# if (ProtobufSupport.TryGetImport(this.mapValueSchema, out string importName) && this.importNames.Add(importName)) { #>
 import "<#=importName#>";
 <# } #>
 
-message <#=this.schema#> {
-    map<string, <#=ProtobufSupport.GetType(this.mapValueSchema, this.dtmiToSchemaName)#>> Value = 1;
+message <#=this.schema.AsGiven#> {
+    map<string, <#=ProtobufSupport.GetType(this.mapValueSchema)#>> Value = 1;
 }

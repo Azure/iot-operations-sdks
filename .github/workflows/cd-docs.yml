@@ -57,7 +57,7 @@ jobs:
       - name: Build Rust docs
         run: |
           cd rust/rust
-          cargo doc --no-deps
+          cargo doc --no-deps --all-features
           cp -a target/doc ../../_site/rust
 
       - name: Checkout Dotnet

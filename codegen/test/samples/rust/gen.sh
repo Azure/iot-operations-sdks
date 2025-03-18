@@ -1,6 +1,6 @@
 set -e
 
-gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler 
+gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler
 
 [[ -d ./CommandVariantsSample ]] && rm -r ./CommandVariantsSample
 $gen --modelFile ../dtdl/CommandVariants.json --outDir ./CommandVariantsSample/command_variants_gen --lang rust --sdkPath ../../../../rust
@@ -13,6 +13,9 @@ $gen --modelFile ../dtdl/CommandRaw.json --outDir ./CommandRawSample/command_raw
 
 [[ -d ./TelemetryAndCommandSample ]] && rm -r ./TelemetryAndCommandSample
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSample/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
+
+[[ -d ./TelemetryAndCommandSampleFromSchema ]] && rm -r ./TelemetryAndCommandSampleFromSchema
+$gen --namespace TelemetryAndCommand --workingDir ../../TelemetryAndCommandSample/telemetry_and_command_gen/target/akri --outDir ./TelemetryAndCommandSampleFromSchema/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 
 [[ -d ./TelemetryAndCommandSampleClientOnly ]] && rm -r ./TelemetryAndCommandSampleClientOnly
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSampleClientOnly/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust --clientOnly
@@ -35,3 +38,16 @@ $gen --modelFile ../dtdl/TelemetryRawSeparate.json --outDir ./TelemetryRawSepara
 [[ -d ./TelemetryAndCommandNestedRaw ]] && rm -r ./TelemetryAndCommandNestedRaw
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen/src/command_raw_gen --lang rust --noProj --sdkPath ../../../../rust
+
+[[ -d ./SharedComplexSchemasSample ]] && rm -r ./SharedComplexSchemasSample
+$gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
+$gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
+
+[[ -d ./ComplexTypeSchemaSample ]] && rm -r ./ComplexTypeSchemaSample
+mkdir ./ComplexTypeSchemaSample
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target/Akri
+mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target/Akri/ComplexTypeSchema
+cp ../json/complex-type-schema.schema.json ./ComplexTypeSchemaSample/complex_type_schema_gen/target/Akri/ComplexTypeSchema
+$gen --namespace ComplexTypeSchema --outDir ./ComplexTypeSchemaSample/complex_type_schema_gen --lang rust --sdkPath ../../../../rust

@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// The key was deleted.
         /// </summary>
         /// <remarks>
-        /// This value does not signal that the key deleted because it expired. <see cref="Expired"/> for that case.
+        /// This value does not signal that the key deleted because it expired.
         /// </remarks>
         Deleted,
 

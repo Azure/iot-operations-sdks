@@ -1,9 +1,5 @@
 # ADR 6: Decoupled Caching
 
-## Status
-
-APPROVED
-
 ## Context
 
 Caching is used for two distinct purposes in the protocol (described in more

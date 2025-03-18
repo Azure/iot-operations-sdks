@@ -1,9 +1,5 @@
 # ADR 2: Source ID Header
 
-## Status
-
-APPROVED
-
 ## Context
 
 Removing knowledge of specific tokens from the SDKs (per [ADR 1](./0001-generalized-topic-tokens.md)) has an important consequence:

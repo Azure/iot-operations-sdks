@@ -4,6 +4,7 @@ package statestore
 
 import (
 	"context"
+	"log/slog"
 	"strconv"
 	"time"
 
@@ -34,7 +35,8 @@ func (c *Client[K, V]) Set(
 	key K,
 	val V,
 	opt ...SetOption,
-) (*Response[bool], error) {
+) (res *Response[bool], err error) {
+	defer func() { c.logReturn(ctx, err) }()
 	if len(key) == 0 {
 		return nil, ArgumentError{Name: "key"}
 	}
@@ -43,16 +45,20 @@ func (c *Client[K, V]) Set(
 	opts.Apply(opt)
 
 	var rest []string
+	var attr []slog.Attr
 	if opts.Condition != Always {
 		rest = append(rest, string(opts.Condition))
+		attr = append(attr, slog.String("condition", string(opts.Condition)))
 	}
 	switch {
 	case opts.Expiry < 0:
 		return nil, ArgumentError{Name: "Expiry", Value: opts.Expiry}
 	case opts.Expiry > 0:
 		rest = append(rest, "PX", strconv.Itoa(int(opts.Expiry.Milliseconds())))
+		attr = append(attr, slog.Duration("expiry", opts.Expiry))
 	}
 
+	c.logK(ctx, "SET", key, attr...)
 	req := resp.OpKV("SET", key, val, rest...)
 	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }

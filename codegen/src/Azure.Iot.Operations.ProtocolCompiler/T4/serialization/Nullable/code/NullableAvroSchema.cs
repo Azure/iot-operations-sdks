@@ -5,14 +5,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
     public partial class NullableAvroSchema : ITemplateTransform
     {
         private readonly DTSchemaInfo schema;
-        private readonly DtmiToSchemaName dtmiToSchemaName;
         private readonly int indent;
+        private readonly CodeName? sharedPrefix;
 
-        public NullableAvroSchema(DTSchemaInfo schema, DtmiToSchemaName dtmiToSchemaName, int indent)
+        public NullableAvroSchema(DTSchemaInfo schema, int indent, CodeName? sharedPrefix)
         {
             this.schema = schema;
-            this.dtmiToSchemaName = dtmiToSchemaName;
             this.indent = indent;
+            this.sharedPrefix = sharedPrefix;
         }
 
         public string FileName { get => string.Empty; }

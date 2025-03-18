@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/lmittmann/tint"
 )
@@ -16,16 +17,18 @@ import (
 func main() {
 	ctx := context.Background()
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
+	app := must(protocol.NewApplication(protocol.WithLogger(log)))
 
-	mqttClient := mqtt.NewSessionClient(
+	mqttClient := must(mqtt.NewSessionClient(
+		"statestoresample",
 		mqtt.TCPConnection("localhost", 1883),
 		mqtt.WithSessionExpiry(600), // 10 minutes
-	)
+	))
 
 	stateStoreKey := "someKey"
 	stateStoreValue := "someValue"
 
-	client := must(statestore.New[string, string](mqttClient, statestore.WithLogger(log)))
+	client := must(statestore.New[string, string](app, mqttClient))
 	defer client.Close()
 
 	kn, rm := client.Notify(stateStoreKey)

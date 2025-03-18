@@ -6,11 +6,16 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type TestCaseCloudEventCapsule struct {
+	CloudEvent *TestCaseCloudEvent `yaml:"cloud-event"`
+}
+
 type testCaseReceivedTelemetry struct {
-	TelemetryValue any                 `yaml:"telemetry-value"`
-	Metadata       *map[string]string  `yaml:"metadata"`
-	CloudEvent     *TestCaseCloudEvent `yaml:"cloud-event"`
-	SourceIndex    *int                `yaml:"source-index"`
+	TelemetryValue any                        `yaml:"telemetry-value"`
+	Metadata       *map[string]string         `yaml:"metadata"`
+	TopicTokens    *map[string]string         `yaml:"topic-tokens"`
+	Capsule        *TestCaseCloudEventCapsule `yaml:",inline"`
+	SourceIndex    *int                       `yaml:"source-index"`
 }
 
 type TestCaseReceivedTelemetry struct {

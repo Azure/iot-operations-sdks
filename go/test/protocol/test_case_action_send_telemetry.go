@@ -8,6 +8,7 @@ import (
 
 type testCaseActionSendTelemetry struct {
 	TelemetryName  *string             `yaml:"telemetry-name"`
+	TopicTokenMap  map[string]string   `yaml:"topic-token-map"`
 	Timeout        *TestCaseDuration   `yaml:"timeout"`
 	TelemetryValue *string             `yaml:"telemetry-value"`
 	Metadata       *map[string]string  `yaml:"metadata"`

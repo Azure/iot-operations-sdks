@@ -3,9 +3,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 {
     public partial class JavaService : ITemplateTransform
     {
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
         private readonly string modelId;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string? commandTopic;
         private readonly string? telemetryTopic;
         private readonly string? cmdServiceGroupId;
@@ -17,15 +17,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly bool doesTelemetryTargetService;
 
         public JavaService(
-            string genNamespace,
+            CodeName genNamespace,
             string modelId,
-            string serviceName,
+            CodeName serviceName,
             string? commandTopic,
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
-            List<(string, string?, string?)> cmdNameReqResps,
-            List<(string?, string)> telemNameSchemas,
+            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps,
+            List<(CodeName, ITypeName)> telemNameSchemas,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService)
@@ -37,8 +37,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.telemetryTopic = telemetryTopic;
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;
-            this.cmdNameReqResps = cmdNameReqResps;
-            this.telemSchemas = telemNameSchemas.Select(tns => tns.Item2).ToList();
+            this.cmdNameReqResps = cmdNameReqResps.Select(nrr => (nrr.Item1.AsGiven, nrr.Item2?.GetTypeName(TargetLanguage.Java), nrr.Item3?.GetTypeName(TargetLanguage.Java))).ToList();
+            this.telemSchemas = telemNameSchemas.Select(tns => tns.Item2.GetTypeName(TargetLanguage.Java)).ToList();
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;
@@ -46,6 +46,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public string FileName { get => $"{this.serviceName}.java"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Java); }
     }
 }

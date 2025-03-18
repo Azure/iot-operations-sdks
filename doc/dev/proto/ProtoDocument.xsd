@@ -19,6 +19,7 @@
     </xs:sequence>
     <xs:attribute name="object" type="xs:string" />
     <xs:attribute name="defaults" type="xs:string" />
+    <xs:attribute name="popDefaults" type="xs:string" />
     <xs:attribute name="consts" type="xs:string" />
     <xs:attribute name="kinds" type="xs:string" />
   </xs:complexType>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Diagnostics;
 using System.Text;
 using Azure.Iot.Operations.Protocol;
@@ -14,30 +15,33 @@ namespace Azure.Iot.Operations.Services.StateStore
     /// A client for interacting with the Akri MQ distributed state store.
     /// </summary>
     public class StateStoreClient : IAsyncDisposable, IStateStoreClient
-    { 
+    {
         private readonly StateStoreGeneratedClientHolder? _generatedClientHolder;
         private readonly IMqttPubSubClient? _mqttClient; // only used in this layer while the code gen patterns for KeyNotify type scenarios aren't solved yet.
         private bool _isSubscribedToNotifications = false;
         private const string NotificationsTopicFormat = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{0}/command/notify";
         private const string NotificationsTopicFilter = NotificationsTopicFormat + "/+";
-        string _clientIdHexString = "";
+        private string _clientIdHexString = "";
         private bool _disposed = false;
+        private readonly ApplicationContext _applicationContext;
 
         internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
 
         public event Func<object?, KeyChangeMessageReceivedEventArgs, Task>? KeyChangeMessageReceivedAsync;
 
-        public StateStoreClient(IMqttPubSubClient mqttClient) 
+        public StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
         {
-            _generatedClientHolder = new StateStoreGeneratedClientHolder(new StateStoreGeneratedClient(mqttClient));
+            _applicationContext = applicationContext;
+            _generatedClientHolder = new StateStoreGeneratedClientHolder(new StateStoreGeneratedClient(applicationContext, mqttClient));
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;
         }
 
         // For unit test purposes only
-        internal StateStoreClient(IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder) 
-            : this(mqttClient)
+        internal StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder)
+            : this(new ApplicationContext(), mqttClient)
         {
+            _applicationContext = applicationContext;
             _generatedClientHolder = generatedClientHolder;
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;
@@ -45,8 +49,8 @@ namespace Azure.Iot.Operations.Services.StateStore
 
         // For unit test purposes only
         internal StateStoreClient()
-        { 
-        
+        {
+            _applicationContext = new();
         }
 
         /// <inheritdoc/>
@@ -59,7 +63,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             if (MqttTopicProcessor.DoesTopicMatchFilter(topic, string.Format(NotificationsTopicFilter, _clientIdHexString)))
             {
                 HybridLogicalClock? version = null;
-                if (args.ApplicationMessage == null || args.ApplicationMessage.PayloadSegment.Count == 0)
+                if (args.ApplicationMessage == null || args.ApplicationMessage.Payload.IsEmpty)
                 {
                     Trace.TraceWarning("Received a message on the key-notify topic without any payload. Ignoring it.");
                     return;
@@ -89,7 +93,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     string lastTopicSegment = topic.Split('/')[7];
                     keyBeingNotified = Convert.FromHexString(lastTopicSegment);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Trace.TraceWarning("Received a message on the key-notify topic with an unexpected topic format. Could not decode the key that was notified. Ignoring it.", ex);
                     return;
@@ -104,13 +108,13 @@ namespace Azure.Iot.Operations.Services.StateStore
                 StateStoreKeyNotification notification;
                 try
                 {
-                    if (args.ApplicationMessage.PayloadSegment.Array == null)
+                    if (args.ApplicationMessage.Payload.IsEmpty)
                     {
                         Trace.TraceWarning("Received a message on the key-notify topic with no payload. Ignoring it.");
                         return;
                     }
 
-                    notification = StateStorePayloadParser.ParseKeyNotification(args.ApplicationMessage.PayloadSegment.Array, keyBeingNotified, version);
+                    notification = StateStorePayloadParser.ParseKeyNotification(args.ApplicationMessage.Payload.ToArray(), keyBeingNotified, version);
                 }
                 catch (Exception ex)
                 {
@@ -118,8 +122,10 @@ namespace Azure.Iot.Operations.Services.StateStore
                     return;
                 }
 
-                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState, version);
-                keyChangeArgs.NewValue = notification.Value;
+                var keyChangeArgs = new KeyChangeMessageReceivedEventArgs(notification.Key, notification.KeyState, version)
+                {
+                    NewValue = notification.Value
+                };
                 if (KeyChangeMessageReceivedAsync != null)
                 {
                     await KeyChangeMessageReceivedAsync.Invoke(this, keyChangeArgs);
@@ -139,10 +145,10 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             byte[] requestPayload = StateStorePayloadParser.BuildGetRequestPayload(key);
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
-            ExtendedResponse<byte[]> commandResponse = 
+            ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    commandTimeout:requestTimeout,
+                    commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
 
             if (commandResponse.Response == null
@@ -187,11 +193,11 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
             if (options.FencingToken != null)
-            { 
+            {
                 requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
             }
 
-            ExtendedResponse<byte[]> commandResponse = 
+            ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
                     requestMetadata,
@@ -222,16 +228,9 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             options ??= new StateStoreDeleteRequestOptions();
 
-            byte[] requestPayload;
-            if (options.OnlyDeleteIfValueEquals != null)
-            {
-                requestPayload = StateStorePayloadParser.BuildVDelRequestPayload(key, options.OnlyDeleteIfValueEquals);
-            }
-            else
-            { 
-                requestPayload = StateStorePayloadParser.BuildDelRequestPayload(key);
-            }
-
+            byte[] requestPayload = options.OnlyDeleteIfValueEquals != null
+                ? StateStorePayloadParser.BuildVDelRequestPayload(key, options.OnlyDeleteIfValueEquals)
+                : StateStorePayloadParser.BuildDelRequestPayload(key);
             LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
 
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
@@ -240,7 +239,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                 requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());
             }
 
-            ExtendedResponse<byte[]> commandResponse = 
+            ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
                     requestMetadata,
@@ -294,14 +293,18 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 _isSubscribedToNotifications = true;
+                Trace.TraceInformation($"Subscribed to notifications for key {key}");
             }
 
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyRequestPayload(key);
-            ExtendedResponse<byte[]> commandResponse = 
+            ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    commandTimeout: requestTimeout, 
+                    commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
+
+            Trace.TraceInformation($"Key notification receiver started for key {key}.");
+            Trace.TraceInformation($"Response from Observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -319,17 +322,20 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             ArgumentNullException.ThrowIfNull(key, nameof(key));
             ArgumentNullException.ThrowIfNull(key.Bytes, nameof(key.Bytes));
-            
+
             ObjectDisposedException.ThrowIf(_disposed, this);
 
             Debug.Assert(_generatedClientHolder != null);
 
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyStopRequestPayload(key);
-            ExtendedResponse<byte[]> commandResponse = 
+            ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientHolder.InvokeAsync(
                     requestPayload,
-                    commandTimeout: requestTimeout, 
+                    commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
+
+            Trace.TraceInformation($"Key notification receiver stopped for key {key}.");
+            Trace.TraceInformation($"Response from Un-observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -360,7 +366,7 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             if (_generatedClientHolder != null && _mqttClient != null)
             {
-                if (_isSubscribedToNotifications 
+                if (_isSubscribedToNotifications
                     && !string.IsNullOrEmpty(_mqttClient.ClientId))
                 {
                     MqttClientUnsubscribeOptions unsubscribeOptions = new MqttClientUnsubscribeOptions(string.Format(NotificationsTopicFormat, _mqttClient.ClientId));
@@ -385,7 +391,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     await _mqttClient.DisposeAsync(disposing);
                 }
             }
-        
+
             _disposed = true;
         }
 

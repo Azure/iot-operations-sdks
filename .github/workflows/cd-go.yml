@@ -12,8 +12,8 @@ permissions:
 
 jobs:
   release:
-
     runs-on: ubuntu-latest
+    name: CD-go
 
     steps:
     - name: Checkout code

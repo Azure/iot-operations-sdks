@@ -17,8 +17,8 @@ type (
 		ttl time.Time
 	}
 
-	// The correlation-data is the primary key, but we also add topic to allow
-	// enforcement of security policies.
+	// The correlation-data is the primary key, but we also add response topic
+	// to allow enforcement of security policies.
 	key struct {
 		c string
 		t string
@@ -67,7 +67,7 @@ func (c *Cache) get(req *mqtt.Message) (*entry, *mqtt.Message, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	id := key{string(req.CorrelationData), req.Topic}
+	id := key{string(req.CorrelationData), req.ResponseTopic}
 	now := c.clock.Now().UTC()
 
 	if e, ok := c.store.Get(id); ok {

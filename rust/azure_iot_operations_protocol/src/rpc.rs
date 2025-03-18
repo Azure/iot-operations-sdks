@@ -39,10 +39,7 @@ pub enum StatusCode {
     /// The content type specified in the request is not supported by this implementation.
     UnsupportedMediaType = 415,
 
-    /// The request was well-formed but was unable to be followed due to semantic errors, as indicated via an [`InvocationException`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InvocationException).
-    UnprocessableContent = 422,
-
-    /// Unknown error, internal logic error, or command processor error other than [`InvocationException`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InvocationException).
+    /// Unknown error, internal logic error, or command processor error.
     InternalServerError = 500,
 
     /// Invalid service state preventing command from executing properly.
@@ -64,9 +61,6 @@ impl FromStr for StatusCode {
                 x if x == StatusCode::UnsupportedMediaType as u16 => {
                     Ok(StatusCode::UnsupportedMediaType)
                 }
-                x if x == StatusCode::UnprocessableContent as u16 => {
-                    Ok(StatusCode::UnprocessableContent)
-                }
                 x if x == StatusCode::InternalServerError as u16 => {
                     Ok(StatusCode::InternalServerError)
                 }
@@ -80,7 +74,6 @@ impl FromStr for StatusCode {
                     true,
                     false,
                     None,
-                    Some(status),
                     Some(format!("Unknown status code: {s}")),
                     None,
                 )),
@@ -89,7 +82,6 @@ impl FromStr for StatusCode {
                 "__stat",
                 s,
                 false,
-                None,
                 Some(format!(
                     "Could not parse status in response '{s}' as an integer: {e}"
                 )),
@@ -112,7 +104,6 @@ mod tests {
     #[test_case(StatusCode::BadRequest; "BadRequest")]
     #[test_case(StatusCode::RequestTimeout; "RequestTimeout")]
     #[test_case(StatusCode::UnsupportedMediaType; "UnsupportedMediaType")]
-    #[test_case(StatusCode::UnprocessableContent; "UnprocessableContent")]
     #[test_case(StatusCode::InternalServerError; "InternalServerError")]
     #[test_case(StatusCode::ServiceUnavailable; "ServiceUnavailable")]
     #[test_case(StatusCode::VersionNotSupported; "VersionNotSupported")]
@@ -131,11 +122,9 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::HeaderInvalid);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(!e.is_remote);
                 assert!(e.nested_error.is_none());
-                assert_eq!(e.http_status_code, None);
                 assert_eq!(e.header_name, Some("__stat".to_string()));
                 assert_eq!(e.header_value, Some(test_invalid_code.to_string()));
             }
@@ -150,11 +139,9 @@ mod tests {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::UnknownError);
-                assert!(!e.in_application);
                 assert!(!e.is_shallow);
                 assert!(e.is_remote);
                 assert!(e.nested_error.is_none());
-                assert_eq!(e.http_status_code, Some(test_unknown_code));
             }
         }
     }

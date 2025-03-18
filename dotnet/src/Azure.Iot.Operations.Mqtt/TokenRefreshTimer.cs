@@ -3,13 +3,9 @@
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
-using System;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Mqtt;
 
@@ -26,13 +22,23 @@ internal class TokenRefreshTimer : IDisposable
         Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
     }
 
-    static int GetTokenExpiry(byte[] token)
+    private static int GetTokenExpiry(byte[] token)
     {
         JwtSecurityToken jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(Encoding.UTF8.GetString(token));
-        return (int)jwtToken.ValidTo.Subtract(DateTime.UtcNow).TotalSeconds - 5;
+
+        DateTime currentTime = DateTime.UtcNow;
+
+        if (jwtToken.ValidTo <= currentTime)
+        {
+            throw new ArgumentException("Provided authentication token has already expired");
+        }
+
+        TimeSpan timeRemaining = jwtToken.ValidTo.Subtract(currentTime);
+
+        return (int)timeRemaining.TotalSeconds - 5;
     }
 
-    void RefreshToken(object? state)
+    private void RefreshToken(object? state)
     {
         Trace.TraceInformation("Refresh token Timer");
         IMqttClient? mqttClient = state! as IMqttClient;
@@ -41,16 +47,24 @@ internal class TokenRefreshTimer : IDisposable
             byte[] token = File.ReadAllBytes(_tokenFilePath);
             Task.Run(async () =>
             {
-                await mqttClient.SendExtendedAuthenticationExchangeDataAsync(
-                    new MqttExtendedAuthenticationExchangeData()
+                await mqttClient.SendEnhancedAuthenticationExchangeDataAsync(
+                    new MqttEnhancedAuthenticationExchangeData()
                     {
                         AuthenticationData = token,
                         ReasonCode = MqttAuthenticateReasonCode.ReAuthenticate
                     });
             });
-            int secondsToRefresh = GetTokenExpiry(token);
-            _refreshTimer.Change(secondsToRefresh * 1000, Timeout.Infinite);
-            Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
+
+            try
+            {
+                int secondsToRefresh = GetTokenExpiry(token);
+                _refreshTimer.Change(secondsToRefresh * 1000, Timeout.Infinite);
+                Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
+            }
+            catch (ArgumentException e)
+            {
+                Trace.TraceError("Failed to get next token renewal due time.", e);
+            }
         }
     }
 

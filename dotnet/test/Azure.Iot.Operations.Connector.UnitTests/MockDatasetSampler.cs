@@ -1,5 +1,8 @@
-﻿using Azure.Iot.Operations.Services.Assets;
-using Azure.Iot.Operations.Services.SchemaRegistry.dtmi_ms_adr_SchemaRegistry__1;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Services.Assets;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +13,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 {
     internal class MockDatasetSampler : IDatasetSampler
     {
-        private bool _isFaulty;
+        private readonly bool _isFaulty;
         private int _sampleAttemptCount = 0;
 
         public MockDatasetSampler(bool isFaulty = false) 
-        { 
-        
+        {
+            _isFaulty = isFaulty;
         }
 
         public ValueTask DisposeAsync()
@@ -36,11 +39,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             }
 
             return Task.FromResult(Encoding.UTF8.GetBytes("someData"));
-        }
-
-        Task<DatasetMessageSchema?> IDatasetSampler.GetMessageSchemaAsync(Dataset dataset, CancellationToken cancellationToken)
-        {
-            return Task.FromResult((DatasetMessageSchema?)null);
         }
     }
 }

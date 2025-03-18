@@ -37,7 +37,21 @@ internal class Program
             description: "Directory for receiving generated code")
             { ArgumentHelpName = "DIRPATH" };
 
+        var namespaceOption = new Option<string?>(
+            name: "--namespace",
 #if DEBUG
+            description: "Namespace for generated code (overrides namespace from model or annex file; required if no model)")
+#else
+            description: "Namespace for generated code (overrides namespace from model)")
+#endif
+            { ArgumentHelpName = "NAMESPACE" };
+
+#if DEBUG
+        var sharedOption = new Option<string?>(
+            name: "--shared",
+            description: "DTMI prefix of shared schemas")
+            { ArgumentHelpName = "IDPREFIX" };
+
         var syncOption = new Option<bool>(
             name: "--sync",
             description: "Generate synchronous API");
@@ -66,6 +80,10 @@ internal class Program
             name: "--noProj",
             description: "Do not generate code in a project");
 
+        var defaultImplOption = new Option<bool>(
+            name: "--defaultImpl",
+            description: "Generate default implementations of user-level callbacks");
+
         var rootCommand = new RootCommand("Akri MQTT code generation tool for DTDL models")
         {
             modelFileOption,
@@ -73,7 +91,9 @@ internal class Program
             dmrRootOption,
             workingDirOption,
             outDirOption,
+            namespaceOption,
 #if DEBUG
+            sharedOption,
             syncOption,
             sdkPathOption,
 #endif
@@ -81,6 +101,7 @@ internal class Program
             clientOnlyOption,
             serverOnlyOption,
             noProjOption,
+            defaultImplOption,
         };
 
         ArgBinder argBinder = new ArgBinder(
@@ -89,14 +110,17 @@ internal class Program
             dmrRootOption,
             workingDirOption,
             outDirOption,
+            namespaceOption,
 #if DEBUG
+            sharedOption,
             syncOption,
             sdkPathOption,
 #endif
             langOption,
             clientOnlyOption,
             serverOnlyOption,
-            noProjOption);
+            noProjOption,
+            defaultImplOption);
 
         rootCommand.SetHandler(
             async (OptionContainer options) => { Environment.ExitCode = await CommandHandler.GenerateCode(options); },

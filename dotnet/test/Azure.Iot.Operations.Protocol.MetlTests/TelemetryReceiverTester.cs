@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
@@ -6,19 +6,15 @@ using System.Globalization;
 using System.Text;
 using Microsoft.VisualStudio.Threading;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 using Tomlyn;
 using Xunit;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using TestModel.dtmi_test_TestModel__1;
 using System.Diagnostics;
-using Azure.Iot.Operations.Mqtt.Converters;
 
 namespace Azure.Iot.Operations.Protocol.MetlTests
 {
@@ -32,12 +28,20 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly HashSet<string> problematicTestCases = new HashSet<string>
         {
+            "TelemetryReceiverReceivesWithCloudEventDataContentTypeNonConforming_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaAbsent_Success",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaEmpty_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaNonUri_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventDataSchemaRelativeUri_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventSourceNonUri_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventSubjectAbsent_Success",
+            "TelemetryReceiverReceivesWithCloudEventSubjectEmpty_NoCloudEvent",
+            "TelemetryReceiverReceivesWithCloudEventTimeAbsent_Success",
         };
 
-        private static IDeserializer yamlDeserializer;
-        private static AsyncAtomicInt TestCaseIndex = new(0);
-        private static FreezableWallClock freezableWallClock;
-        private static IPayloadSerializer payloadSerializer;
+        private static readonly IDeserializer yamlDeserializer;
+        private static readonly AsyncAtomicInt TestCaseIndex = new(0);
+        private static readonly FreezableWallClock freezableWallClock;
 
         static TelemetryReceiverTester()
         {
@@ -60,6 +64,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             {
                 DefaultTestCase defaultTestCase = Toml.ToModel<DefaultTestCase>(File.ReadAllText(defaultsFilePath), defaultsFilePath, new TomlModelOptions { ConvertPropertyName = CaseConverter.PascalToKebabCase });
 
+                TestCaseSerializer.DefaultAcceptContentTypes = defaultTestCase.Prologue.Receiver.Serializer.AcceptContentTypes;
+                TestCaseSerializer.DefaultAllowCharacterData = defaultTestCase.Prologue.Receiver.Serializer.AllowCharacterData;
+                TestCaseSerializer.DefaultFailDeserialization = defaultTestCase.Prologue.Receiver.Serializer.FailDeserialization;
+
                 TestCaseReceiver.DefaultTelemetryTopic = defaultTestCase.Prologue.Receiver.TelemetryTopic;
                 TestCaseReceiver.DefaultTopicNamespace = defaultTestCase.Prologue.Receiver.TopicNamespace;
 
@@ -74,8 +82,6 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             freezableWallClock = new FreezableWallClock();
             TestTelemetryReceiver.WallClock = freezableWallClock;
-
-            payloadSerializer = new Utf8JsonSerializer();
         }
 
         public static IEnumerable<object[]> GetAllTelemetryReceiverCases()
@@ -191,7 +197,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     switch (action)
                     {
                         case TestCaseActionReceiveTelemetry actionReceiveTelemetry:
-                            await ReceiveTelemetryAsync(actionReceiveTelemetry, stubMqttClient, sourceIds, packetIds, testCaseIndex).ConfigureAwait(false);
+                            await ReceiveTelemetryAsync(actionReceiveTelemetry, stubMqttClient, sourceIds, packetIds).ConfigureAwait(false);
                             break;
                         case TestCaseActionAwaitAck actionAwaitAck:
                             await AwaitAcknowledgementAsync(actionAwaitAck, stubMqttClient, packetIds).ConfigureAwait(false);
@@ -247,7 +253,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 foreach (TestCaseReceivedTelemetry receivedTelemetry in testCase.Epilogue.ReceivedTelemetries)
                 {
-                    CheckReceivedTelemetry(receivedTelemetry, testCaseIndex, receivedTelemetries, sourceIds);
+                    CheckReceivedTelemetry(receivedTelemetry, receivedTelemetries, sourceIds);
                 }
 
                 try
@@ -294,7 +300,9 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         {
             try
             {
-                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(mqttClient)
+                TestSerializer testSerializer = new TestSerializer(testCaseReceiver.Serializer);
+
+                TestTelemetryReceiver telemetryReceiver = new TestTelemetryReceiver(new ApplicationContext(), mqttClient, testSerializer)
                 {
                     TopicPattern = testCaseReceiver.TelemetryTopic!,
                     TopicNamespace = testCaseReceiver.TopicNamespace,
@@ -337,7 +345,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private async Task ReceiveTelemetryAsync(TestCaseActionReceiveTelemetry actionReceiveTelemetry, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string> sourceIds, ConcurrentDictionary<int, ushort> packetIds, int testCaseIndex)
+        private async Task ReceiveTelemetryAsync(TestCaseActionReceiveTelemetry actionReceiveTelemetry, StubMqttClient stubMqttClient, ConcurrentDictionary<int, string> sourceIds, ConcurrentDictionary<int, ushort> packetIds)
         {
             string? sourceId = null;
             if (actionReceiveTelemetry.SourceIndex != null)
@@ -372,9 +380,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (actionReceiveTelemetry.Payload != null)
             {
-                byte[]? payload =
-                    actionReceiveTelemetry.BypassSerialization ? Encoding.UTF8.GetBytes(actionReceiveTelemetry.Payload) :
-                    payloadSerializer.ToBytes(actionReceiveTelemetry.Payload);
+                byte[]? payload = Encoding.UTF8.GetBytes(actionReceiveTelemetry.Payload);
                 requestAppMsgBuilder.WithPayload(payload);
             }
 
@@ -438,7 +444,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             return freezableWallClock.UnfreezeTimeAsync(freezeTicket);
         }
 
-        private void CheckReceivedTelemetry(TestCaseReceivedTelemetry receivedTelemetry, int testCaseIndex, AsyncQueue<ReceivedTelemetry> receivedTelemetries, ConcurrentDictionary<int, string> sourceIds)
+        private void CheckReceivedTelemetry(TestCaseReceivedTelemetry receivedTelemetry, AsyncQueue<ReceivedTelemetry> receivedTelemetries, ConcurrentDictionary<int, string> sourceIds)
         {
             Assert.True(receivedTelemetries.TryDequeue(out ReceivedTelemetry? actualReceivedTelemetry));
             Assert.NotNull(actualReceivedTelemetry);
@@ -465,7 +471,17 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 }
             }
 
-            if (receivedTelemetry.CloudEvent != null)
+            foreach (KeyValuePair<string, string> kvp in receivedTelemetry.TopicTokens)
+            {
+                Assert.True(actualReceivedTelemetry.TopicTokens.TryGetValue(kvp.Key, out string? value));
+                Assert.Equal(kvp.Value, value);
+            }
+
+            if (receivedTelemetry.CloudEvent == null)
+            {
+                Assert.Null(actualReceivedTelemetry.CloudEvent);
+            }
+            else if (!receivedTelemetry.CloudEvent.Irrelevant)
             {
                 Assert.NotNull(actualReceivedTelemetry.CloudEvent);
 
@@ -484,19 +500,41 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                     Assert.Equal(receivedTelemetry.CloudEvent.SpecVersion, actualReceivedTelemetry.CloudEvent.SpecVersion);
                 }
 
+                if (receivedTelemetry.CloudEvent.Id != null)
+                {
+                    Assert.Equal(receivedTelemetry.CloudEvent.Id, actualReceivedTelemetry.CloudEvent.Id);
+                }
+
+                if (receivedTelemetry.CloudEvent.Time == null)
+                {
+                    Assert.Null(actualReceivedTelemetry.CloudEvent.Time);
+                }
+                else if (receivedTelemetry.CloudEvent.Time is string time)
+                {
+                    Assert.Equal(time, actualReceivedTelemetry.CloudEvent.Time);
+                }
+
                 if (receivedTelemetry.CloudEvent.DataContentType != null)
                 {
                     Assert.Equal(receivedTelemetry.CloudEvent.DataContentType, actualReceivedTelemetry.CloudEvent.DataContentType);
                 }
 
-                if (receivedTelemetry.CloudEvent.Subject != null)
+                if (receivedTelemetry.CloudEvent.Subject == null)
                 {
-                    Assert.Equal(receivedTelemetry.CloudEvent.Subject, actualReceivedTelemetry.CloudEvent.Subject);
+                    Assert.Null(actualReceivedTelemetry.CloudEvent.Subject);
+                }
+                else if (receivedTelemetry.CloudEvent.Subject is string subject)
+                {
+                    Assert.Equal(subject, actualReceivedTelemetry.CloudEvent.Subject);
                 }
 
-                if (receivedTelemetry.CloudEvent.DataSchema != null)
+                if (receivedTelemetry.CloudEvent.DataSchema == null)
                 {
-                    Assert.Equal(receivedTelemetry.CloudEvent.DataSchema, actualReceivedTelemetry.CloudEvent.DataSchema);
+                    Assert.Null(actualReceivedTelemetry.CloudEvent.DataSchema);
+                }
+                else if (receivedTelemetry.CloudEvent.DataSchema is string dataSchema)
+                {
+                    Assert.Equal(dataSchema, actualReceivedTelemetry.CloudEvent.DataSchema);
                 }
             }
 
@@ -509,39 +547,54 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static void ProcessTelemetry(string sourceId, string telemetry, IncomingTelemetryMetadata metadata,TestCaseReceiver testCaseReceiver, AsyncQueue<ReceivedTelemetry> receivedTelemetries)
         {
-            if (testCaseReceiver.RaiseError != null && testCaseReceiver.RaiseError.Kind != TestErrorKind.None)
+            if (testCaseReceiver.RaiseError)
             {
-                throw testCaseReceiver.RaiseError.Kind == TestErrorKind.Content ?
-                    new InvocationException(testCaseReceiver.RaiseError.Message, testCaseReceiver.RaiseError.PropertyName, testCaseReceiver.RaiseError.PropertyValue) :
-                    new ApplicationException(testCaseReceiver.RaiseError.Message);
+                throw new ApplicationException();
             }
 
-            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.CloudEvent, sourceId));
+            CloudEvent? cloudEvent = null;
+            try
+            {
+                cloudEvent = metadata.GetCloudEvent();
+            }
+            catch (Exception)
+            { 
+                // it wasn't a cloud event, ignore this error
+            }
+
+            receivedTelemetries.Enqueue(new ReceivedTelemetry(telemetry, metadata.UserData, metadata.TopicTokens, cloudEvent, sourceId));
         }
 
         private record ReceivedTelemetry
         {
-            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, CloudEvent? cloudEvent, string sourceId)
+            public ReceivedTelemetry(string telemetryValue, Dictionary<string, string> metadata, Dictionary<string, string> topicTokens, CloudEvent? cloudEvent, string sourceId)
             {
                 TelemetryValue = telemetryValue;
                 Metadata = metadata;
+                TopicTokens = topicTokens;
                 SourceId = sourceId;
 
                 if (cloudEvent != null)
                 {
-                    CloudEvent = new();
-                    CloudEvent.Source = cloudEvent.Source?.ToString();
-                    CloudEvent.Type = cloudEvent.Type;
-                    CloudEvent.SpecVersion = cloudEvent.SpecVersion;
-                    CloudEvent.DataContentType = cloudEvent.DataContentType;
-                    CloudEvent.Subject = cloudEvent.Subject;
-                    CloudEvent.DataSchema = cloudEvent.DataSchema;
+                    CloudEvent = new()
+                    {
+                        Source = cloudEvent.Source?.ToString(),
+                        Type = cloudEvent.Type,
+                        SpecVersion = cloudEvent.SpecVersion,
+                        Id = cloudEvent.Id,
+                        Time = cloudEvent.Time?.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture),
+                        DataContentType = cloudEvent.DataContentType,
+                        Subject = cloudEvent.Subject,
+                        DataSchema = cloudEvent.DataSchema
+                    };
                 }
             }
 
             public string TelemetryValue { get; }
 
             public Dictionary<string, string> Metadata { get; }
+
+            public Dictionary<string, string> TopicTokens { get; }
 
             public TestCaseCloudEvent? CloudEvent { get; }
 

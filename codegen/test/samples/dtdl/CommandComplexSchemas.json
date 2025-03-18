@@ -10,7 +10,7 @@
     "commandTopic": "samples/command/{commandName}",
     "schemas": [
       {
-        "@id": "dtmi:test:results;1",
+        "@id": "dtmi:sharedSchemas:results;1",
         "@type": "Enum",
         "valueSchema": "string",
         "enumValues": [
@@ -21,6 +21,34 @@
           {
             "name": "failure",
             "enumValue": "échec"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:sharedSchemas:someResponseInfo;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "overallResult",
+            "schema": "dtmi:sharedSchemas:results;1"
+          },
+          {
+            "name": "magnitude",
+            "schema": "decimal"
+          },
+          {
+            "name": "details",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "action",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "result",
+                "schema": "dtmi:sharedSchemas:results;1"
+              }
+            }
           }
         ]
       }
@@ -62,34 +90,9 @@
           }
         },
         "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "name": "overallResult",
-                "schema": "dtmi:test:results;1"
-              },
-              {
-                "name": "magnitude",
-                "schema": "decimal"
-              },
-              {
-                "name": "details",
-                "schema": {
-                  "@type": "Map",
-                  "mapKey": {
-                    "name": "action",
-                    "schema": "string"
-                  },
-                  "mapValue": {
-                    "name": "result",
-                    "schema": "dtmi:test:results;1"
-                  }
-                }
-              }
-            ]
-          }
+          "schema": "dtmi:sharedSchemas:someResponseInfo;1"
         }
       }
     ]

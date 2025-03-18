@@ -30,6 +30,8 @@ epilogue:
   published-messages:
   - correlation-index: 0
     payload: "Test_Request"
+    content-type: "application/json"
+    format-indicator: 1
     metadata:
       "requestHeader": "requestValue"
 ...

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/log"
 	"github.com/Azure/iot-operations-sdks/go/internal/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
@@ -27,6 +28,7 @@ type (
 	Client[K, V Bytes] struct {
 		client    protocol.MqttClient
 		listeners protocol.Listeners
+		log       log.Logger
 		done      func()
 
 		invoker  *protocol.CommandInvoker[[]byte, []byte]
@@ -83,18 +85,30 @@ var (
 // parameters to avoid unnecessary casting; both may be string, []byte, or
 // equivalent types.
 func New[K, V Bytes](
+	app *protocol.Application,
 	client MqttClient,
 	opt ...ClientOption,
-) (*Client[K, V], error) {
-	c := &Client[K, V]{
-		client:    client,
-		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
-		keynotify: map[string]uint{},
-	}
-	var err error
+) (c *Client[K, V], err error) {
+	ctx := context.Background()
 
 	var opts ClientOptions
 	opts.Apply(opt)
+
+	c = &Client[K, V]{
+		client:    client,
+		notify:    map[string]map[chan Notify[K, V]]chan struct{}{},
+		keynotify: map[string]uint{},
+		log:       log.Wrap(opts.Logger),
+	}
+
+	defer func() {
+		if err != nil {
+			c.log.Warn(ctx, err)
+			c.listeners.Close()
+			c = nil
+		}
+	}()
+
 	c.manualAck = opts.ManualAck
 
 	tokens := protocol.WithTopicTokens{
@@ -102,6 +116,7 @@ func New[K, V Bytes](
 	}
 
 	c.invoker, err = protocol.NewCommandInvoker(
+		app,
 		client,
 		protocol.Raw{},
 		protocol.Raw{},
@@ -112,12 +127,12 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.listeners.Close()
-		return nil, err
+		return c, err
 	}
 	c.listeners = append(c.listeners, c.invoker)
 
 	c.receiver, err = protocol.NewTelemetryReceiver(
+		app,
 		client,
 		protocol.Raw{},
 		"clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{clientId}/command/notify/{keyName}",
@@ -126,12 +141,11 @@ func New[K, V Bytes](
 		tokens,
 	)
 	if err != nil {
-		c.listeners.Close()
-		return nil, err
+		return c, err
 	}
 	c.listeners = append(c.listeners, c.invoker)
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(ctx)
 	done := client.RegisterConnectEventHandler(func(*mqtt.ConnectEvent) {
 		c.reconnect(ctx)
 	})
@@ -208,6 +222,48 @@ func parseOK(data []byte) (bool, error) {
 
 	default:
 		return false, resp.PayloadError("wrong type %q", data[0])
+	}
+}
+
+func (c *Client[K, V]) logK(
+	ctx context.Context,
+	operation string,
+	key K,
+	attrs ...slog.Attr,
+) {
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		all := []slog.Attr{
+			slog.String("key", string(key)),
+		}
+		if len(attrs) > 0 {
+			all = append(all, attrs...)
+		}
+		c.log.Debug(ctx, operation, all...)
+	}
+}
+
+func (c *Client[K, V]) logKV(
+	ctx context.Context,
+	operation string,
+	key K,
+	value V,
+	attrs ...slog.Attr,
+) {
+	if c.log.Enabled(ctx, slog.LevelDebug) {
+		all := []slog.Attr{
+			slog.String("key", string(key)),
+			slog.String("value", string(value)),
+		}
+		if len(attrs) > 0 {
+			all = append(all, attrs...)
+		}
+		c.log.Debug(ctx, operation, all...)
+	}
+}
+
+func (c *Client[K, V]) logReturn(ctx context.Context, err error) {
+	if err != nil {
+		c.log.Warn(ctx, err)
 	}
 }
 

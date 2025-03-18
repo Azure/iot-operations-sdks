@@ -4,11 +4,12 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using System.Diagnostics;
-using TestEnvoys.dtmi_rpc_samples_math__1;
+using TestEnvoys.Math;
+using Azure.Iot.Operations.Protocol;
 
 namespace SampleServer;
 
-public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_samples_math__1.Math.Service(mqttClient)
+public class MathService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : TestEnvoys.Math.Math.Service(applicationContext, mqttClient)
 {
     public override Task<ExtendedResponse<FibResponsePayload>> FibAsync(FibRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
@@ -26,7 +27,7 @@ public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_sam
         {
             Response = new FibResponsePayload
             {
-                FibResponse = new Object_Fib_Response
+                FibResponse = new FibResponseSchema
                 {
                     FibResult = result
                 }
@@ -55,7 +56,7 @@ public class MathService(MqttSessionClient mqttClient) : TestEnvoys.dtmi_rpc_sam
 
         IsPrimeResponsePayload response = new()
         {
-            IsPrimeResponse = new Object_IsPrime_Response
+            IsPrimeResponse = new IsPrimeResponseSchema
             {
                 Number = request.IsPrimeRequest.Number,
                 ExecutorId = mqttClient.ClientId,

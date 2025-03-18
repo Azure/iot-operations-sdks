@@ -7,6 +7,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? Namespace { get; } = AnnexFileProperties.Namespace;
 
+        public static string? Shared { get; } = AnnexFileProperties.Shared;
+
         public static string? ModelId { get; } = AnnexFileProperties.ModelId;
 
         public static string? ServiceName { get; } = AnnexFileProperties.ServiceName;
@@ -35,6 +37,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? CmdResponseSchema { get; } = AnnexFileProperties.CmdResponseSchema;
 
+        public static string? CmdRequestNamespace { get; } = AnnexFileProperties.CmdRequestNamespace;
+
+        public static string? CmdResponseNamespace { get; } = AnnexFileProperties.CmdResponseNamespace;
+
         public static string? CmdIsIdempotent { get; } = AnnexFileProperties.CmdIsIdempotent;
 
         public static string? CmdCacheability { get; } = AnnexFileProperties.Cacheability;
@@ -42,34 +48,37 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public static string? TelemSeparate { get; } = AnnexFileProperties.TelemSeparate;
 
         private readonly string projectName;
-        private readonly string genNamespace;
+        private readonly CodeName genNamespace;
+        private readonly CodeName? sharedPrefix;
         private readonly string modelId;
         private readonly string serializationFormat;
-        private readonly string serviceName;
+        private readonly CodeName serviceName;
         private readonly string? telemTopicPattern;
         private readonly string? cmdTopicPattern;
         private readonly string? telemServiceGroupId;
         private readonly string? cmdServiceGroupId;
-        private readonly List<(string?, string)> telemNameSchemas;
-        private readonly List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales;
+        private readonly List<(string?, ITypeName)> telemNameSchemas;
+        private readonly List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales;
         private readonly bool separateTelemetries;
 
         public InterfaceAnnex(
             string projectName,
-            string genNamespace,
+            CodeName genNamespace,
+            CodeName? sharedPrefix,
             string modelId,
             string serializationFormat,
-            string serviceName,
+            CodeName serviceName,
             string? telemTopicPattern,
             string? cmdTopicPattern,
             string? telemServiceGroupId,
             string? cmdServiceGroupId,
-            List<(string?, string)> telemNameSchemas,
-            List<(string, string?, string?, bool, string?)> cmdNameReqRespIdemStales,
+            List<(string?, ITypeName)> telemNameSchemas,
+            List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales,
             bool separateTelemetries)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
+            this.sharedPrefix = sharedPrefix;
             this.modelId = modelId;
             this.serializationFormat = serializationFormat;
             this.serviceName = serviceName;
@@ -82,8 +91,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.separateTelemetries = separateTelemetries;
         }
 
-        public string FileName { get => $"{this.serviceName}.annex.json"; }
+        public string FileName { get => $"{this.serviceName.GetFileName(TargetLanguage.Independent)}.annex.json"; }
 
-        public string FolderPath { get => this.genNamespace; }
+        public string FolderPath { get => this.genNamespace.GetFolderName(TargetLanguage.Independent); }
     }
 }

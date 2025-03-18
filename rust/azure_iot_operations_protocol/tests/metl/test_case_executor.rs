@@ -8,7 +8,7 @@ use serde::Deserialize;
 
 use crate::metl::defaults::DefaultsType;
 use crate::metl::test_case_duration::TestCaseDuration;
-use crate::metl::test_case_error::TestCaseError;
+use crate::metl::test_case_serializer::TestCaseSerializer;
 use crate::metl::test_case_sync::TestCaseSync;
 
 #[derive(Clone, Deserialize, Debug)]
@@ -20,6 +20,10 @@ pub struct TestCaseExecutor<T: DefaultsType + Default> {
     #[serde(rename = "command-name")]
     #[serde(default = "get_default_command_name::<T>")]
     pub command_name: Option<String>,
+
+    #[serde(rename = "serializer")]
+    #[serde(default = "TestCaseSerializer::get_default")]
+    pub serializer: TestCaseSerializer<T>,
 
     #[serde(rename = "request-topic")]
     #[serde(default = "get_default_request_topic::<T>")]
@@ -56,12 +60,16 @@ pub struct TestCaseExecutor<T: DefaultsType + Default> {
     #[serde(default)]
     pub response_metadata: HashMap<String, Option<String>>,
 
+    #[serde(rename = "token-metadata-prefix")]
+    pub token_metadata_prefix: Option<String>,
+
     #[serde(rename = "execution-concurrency")]
     #[serde(default = "get_default_execution_concurrency::<T>")]
     pub execution_concurrency: Option<i32>,
 
     #[serde(rename = "raise-error")]
-    pub raise_error: Option<TestCaseError>,
+    #[serde(default)]
+    pub raise_error: bool,
 
     #[serde(rename = "sync")]
     #[serde(default)]

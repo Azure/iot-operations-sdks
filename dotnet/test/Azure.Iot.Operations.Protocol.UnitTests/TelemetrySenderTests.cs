@@ -9,15 +9,15 @@ using System.Runtime.Serialization;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests;
 
-public class StringTelemetrySender(IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
+public class StringTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    : TelemetrySender<string>(applicationContext, mqttClient, new Utf8JsonSerializer())
 { }
 
-public class FaultyTelemetrySender(IMqttPubSubClient mqttClient) : TelemetrySender<string>(mqttClient, "test", new FaultySerializer()) { }
+public class FaultyTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : TelemetrySender<string>(applicationContext, mqttClient, new FaultySerializer()) { }
 
 
-public class TelemetrySenderWithCE(IMqttPubSubClient mqttClient)
-    : TelemetrySender<string>(mqttClient, "test", new Utf8JsonSerializer())
+public class TelemetrySenderWithCE(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    : TelemetrySender<string>(applicationContext, mqttClient, new Utf8JsonSerializer())
 { }
 
 public class TelemetrySenderTests
@@ -26,7 +26,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_FailsWithWrongMqttVersion()
     {
         MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V310);
-        StringTelemetrySender sender = new(mockClient)
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern"
         };
@@ -36,10 +36,8 @@ public class TelemetrySenderTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.ConfigurationInvalid, ex.Kind);
-        Assert.False(ex.InApplication);
         Assert.True(ex.IsShallow);
         Assert.False(ex.IsRemote);
-        Assert.Null(ex.HttpStatusCode);
         Assert.Equal("MQTTClient.ProtocolVersion", ex.PropertyName);
         Assert.Equal(MqttProtocolVersion.V310, ex.PropertyValue);
         Assert.Null(ex.CorrelationId);
@@ -49,7 +47,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_MalformedPayloadThrowsException()
     {
         MockMqttPubSubClient mockClient = new();
-        FaultyTelemetrySender sender = new(mockClient)
+        FaultyTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern"
         };
@@ -58,10 +56,8 @@ public class TelemetrySenderTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.PayloadInvalid, ex.Kind);
-        Assert.False(ex.InApplication);
         Assert.True(ex.IsShallow);
         Assert.False(ex.IsRemote);
-        Assert.Null(ex.HttpStatusCode);
         Assert.Null(ex.CorrelationId);
         Assert.True(ex.InnerException is SerializationException);
     }
@@ -70,7 +66,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_PubAckDropped()
     {
         MockMqttPubSubClient mockClient = new();
-        StringTelemetrySender sender = new(mockClient)
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern/dropPubAck"
         };
@@ -80,7 +76,6 @@ public class TelemetrySenderTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => sendTelemetry);
         Assert.Equal(AkriMqttErrorKind.Timeout, ex.Kind);
-        Assert.False(ex.InApplication);
         Assert.False(ex.IsShallow);
         Assert.False(ex.IsRemote);
         Assert.True(ex.InnerException is Exception);
@@ -93,7 +88,7 @@ public class TelemetrySenderTests
     public async Task SendTelemetry_ChecksCancellationToken()
     {
         MockMqttPubSubClient mockClient = new();
-        StringTelemetrySender sender = new(mockClient)
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
         {
             TopicPattern = "someTopicPattern"
         };

@@ -7,18 +7,18 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
     public class TriggerableTaskCompletionSource : ITriggerable
     {
-        private readonly TaskCompletionSource tcs;
+        private readonly TaskCompletionSource _tcs;
 
-        public Task Task { get => tcs.Task; }
+        public Task Task { get => _tcs.Task; }
 
         public TriggerableTaskCompletionSource()
         {
-            tcs = new TaskCompletionSource();
+            _tcs = new TaskCompletionSource();
         }
 
         public void Trigger()
         {
-            tcs.SetResult();
+            _tcs.SetResult();
         }
     }
 }

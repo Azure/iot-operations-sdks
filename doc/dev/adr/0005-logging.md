@@ -1,9 +1,5 @@
 # ADR5: Logging Alignments Between Languages
 
-## Status: 
-
-PROPOSED
-
 ## Context: 
 
 While logging should not need to be 100% aligned between languages, it would be good to log the same events at the same logging level (to a reasonable extent) across languages.

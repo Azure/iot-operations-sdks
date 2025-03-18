@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
@@ -12,11 +11,11 @@ namespace ConnectionManagementSample
 {
     public class UserManagedConnectionWorker(OrderedAckMqttClient mqttClient, ILogger<UserManagedConnectionWorker> logger, IConfiguration configuration) : BackgroundService
     {
-        readonly SemaphoreSlim _reconnectionMutex = new (1);
+        private readonly SemaphoreSlim _reconnectionMutex = new (1);
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")! + ";ClientId=UserManagedConnectionClient-" + Guid.NewGuid());
+            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(configuration.GetConnectionString("Default")!);
 
             mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
             mqttClient.DisconnectedAsync += OnDisconnect;

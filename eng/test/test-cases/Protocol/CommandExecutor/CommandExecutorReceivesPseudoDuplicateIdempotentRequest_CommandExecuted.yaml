@@ -9,7 +9,6 @@ description:
 prologue:
   executors:
   - idempotent: !!bool true
-    request-topic: "mock/{invokerClientId}/test"
     request-responses-map:
       "Test_Request": [ "Test_Response0", "Test_Response1" ]
 
@@ -20,21 +19,17 @@ actions:
 - action: freeze time
 - action: receive request
   correlation-index: 0
-  topic: "mock/client1/test"
+  response-topic: "clients/client1/response"
 - action: await publish
   correlation-index: 0
 - action: receive request
   correlation-index: 0
-  topic: "mock/client2/test"
+  response-topic: "clients/client2/response"
 - action: unfreeze time
 - action: await publish
   correlation-index: 0
 
 epilogue:
   publication-count: 2
-  published-messages:
-  - correlation-index: 0
-    topic: "response/mock/test"
-    command-status: 200 # OK
   execution-count: 2
 ...
