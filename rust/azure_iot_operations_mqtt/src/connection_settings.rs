@@ -120,6 +120,18 @@ impl MqttConnectionSettingsBuilder {
         let key_password_file = Some(string_from_environment("AIO_TLS_KEY_PASSWORD_FILE")?);
         let sat_file = Some(string_from_environment("AIO_SAT_FILE")?);
 
+        // Log errors if required values are missing
+        // NOTE: Do not error. It is valid to have empty values if the user will be overriding them,
+        // and we do not want to prevent that. However, it likely suggests a misconfiguration, and
+        // the errors from .validate() will not be particularly clear in this case, as it has no
+        // way of knowing if the values originally came from the environment or were set by the user.
+        if client_id.is_none() {
+            log::warn!("AIO_MQTT_CLIENT_ID is not set in environment");
+        }
+        if hostname.is_none() {
+            log::warn!("AIO_BROKER_HOSTNAME is not set in environment");
+        }
+
         // TODO: consider removing some of the Option wrappers in the Builder definition to avoid these spurious Some() wrappers.
 
         Ok(Self {

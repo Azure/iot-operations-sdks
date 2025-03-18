@@ -83,7 +83,7 @@ func main() {
 		pingEncoding,
 		pongEncoding,
 		reqTopic,
-		protocol.WithResponseTopic(resTopic),
+		protocol.WithResponseTopicPattern(resTopic),
 	)
 	defer invoker.Close()
 
