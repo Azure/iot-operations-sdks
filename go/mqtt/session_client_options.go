@@ -18,12 +18,12 @@ type (
 
 	// SessionClientOptions are the resolved options for the session client.
 	SessionClientOptions struct {
-		ClientID              string
-		CleanStart            bool
-		KeepAlive             uint16
-		SessionExpiry         uint32
-		ReceiveMaximum        uint16
-		ConnectUserProperties map[string]string
+		CleanStart               bool
+		KeepAlive                uint16
+		SessionExpiry            uint32
+		ReceiveMaximum           uint16
+		ConnectUserProperties    map[string]string
+		DisableAIOBrokerFeatures bool
 
 		ConnectionRetry   retry.Policy
 		ConnectionTimeout time.Duration
@@ -39,10 +39,6 @@ type (
 	// attempt. If a timeout is desired for the entire connection process, it
 	// should be specified via the connection retry policy.
 	WithConnectionTimeout time.Duration
-
-	// WithClientID sets the client identifier. If not provided, it will default
-	// to a random valid client ID to support session reconnection.
-	WithClientID string
 
 	// WithCleanStart sets whether the initial connection will be made without
 	// retaining any existing session state. This is by definition set to false
@@ -61,6 +57,11 @@ type (
 	// WithConnectUserProperties sets the user properties for the CONNECT
 	// packet.
 	WithConnectUserProperties map[string]string
+
+	// WithDisableAIOBrokerFeatures disables behavior specific to the AIO
+	// Broker. Only use this option if you are using another broker and
+	// encounter failures.
+	WithDisableAIOBrokerFeatures bool
 
 	// WithUsername sets the UsernameProvider that the session client uses to
 	// get the username for each connection.
@@ -95,10 +96,6 @@ func (o WithConnectionTimeout) sessionClient(opt *SessionClientOptions) {
 	opt.ConnectionTimeout = time.Duration(o)
 }
 
-func (o WithClientID) sessionClient(opt *SessionClientOptions) {
-	opt.ClientID = string(o)
-}
-
 func (o WithCleanStart) sessionClient(opt *SessionClientOptions) {
 	opt.CleanStart = bool(o)
 }
@@ -117,9 +114,13 @@ func (o WithReceiveMaximum) sessionClient(opt *SessionClientOptions) {
 
 func (o WithConnectUserProperties) sessionClient(opt *SessionClientOptions) {
 	if opt.ConnectUserProperties == nil {
-		opt.ConnectUserProperties = map[string]string{}
+		opt.ConnectUserProperties = make(map[string]string, len(o))
 	}
 	maps.Copy(opt.ConnectUserProperties, o)
+}
+
+func (o WithDisableAIOBrokerFeatures) sessionClient(opt *SessionClientOptions) {
+	opt.DisableAIOBrokerFeatures = bool(o)
 }
 
 func (o WithUsername) sessionClient(opt *SessionClientOptions) {

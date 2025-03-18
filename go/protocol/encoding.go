@@ -68,9 +68,8 @@ func deserialize[T any](encoding Encoding[T], data *Data) (value T, err error) {
 	if err != nil {
 		if stderr.Is(err, ErrUnsupportedContentType) {
 			return value, &errors.Client{
-				Base: errors.Base{
-					Message:     "content type mismatch",
-					Kind:        errors.HeaderInvalid,
+				Message: "content type mismatch",
+				Kind: errors.HeaderInvalid{
 					HeaderName:  constants.ContentType,
 					HeaderValue: data.ContentType,
 				},
@@ -87,19 +86,15 @@ func payloadError(msg string, err any) error {
 		return e
 	case error:
 		return &errors.Client{
-			Base: errors.Base{
-				Message:     msg,
-				Kind:        errors.PayloadInvalid,
-				NestedError: e,
-			},
+			Message: msg,
+			Kind:    errors.PayloadInvalid{},
+			Nested:  e,
 		}
 	default:
 		return &errors.Client{
-			Base: errors.Base{
-				Message:     msg,
-				Kind:        errors.PayloadInvalid,
-				NestedError: stderr.New(fmt.Sprint(e)),
-			},
+			Message: msg,
+			Kind:    errors.PayloadInvalid{},
+			Nested:  stderr.New(fmt.Sprint(e)),
 		}
 	}
 }
@@ -129,10 +124,8 @@ func (JSON[T]) Deserialize(data *Data) (T, error) {
 func (Empty) Serialize(t any) (*Data, error) {
 	if t != nil {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message: "unexpected payload for empty type",
-				Kind:    errors.PayloadInvalid,
-			},
+			Message: "unexpected payload for empty type",
+			Kind:    errors.PayloadInvalid{},
 		}
 	}
 	return &Data{}, nil
@@ -142,10 +135,8 @@ func (Empty) Serialize(t any) (*Data, error) {
 func (Empty) Deserialize(data *Data) (any, error) {
 	if len(data.Payload) != 0 {
 		return nil, &errors.Client{
-			Base: errors.Base{
-				Message: "unexpected payload for empty type",
-				Kind:    errors.PayloadInvalid,
-			},
+			Message: "unexpected payload for empty type",
+			Kind:    errors.PayloadInvalid{},
 		}
 	}
 	return nil, nil

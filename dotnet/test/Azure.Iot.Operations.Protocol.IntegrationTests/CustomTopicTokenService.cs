@@ -13,7 +13,7 @@ public class CustomTopicTokenService : CustomTopicTokens.Service
     // This is the value of the custom topic token in the most recently received RPC invocation
     public string ReceivedRpcCustomTopicTokenValue { get; private set; } = "";
 
-    public CustomTopicTokenService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : base(applicationContext, mqttClient)
+    public CustomTopicTokenService(ApplicationContext applicationContext, MqttSessionClient mqttClient, Dictionary<string, string>? topicTokenMap = null) : base(applicationContext, mqttClient, topicTokenMap)
     {
     }
 

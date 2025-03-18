@@ -21,11 +21,6 @@ namespace Azure.Iot.Operations.Protocol
         public required AkriMqttErrorKind Kind { get; init; }
 
         /// <summary>
-        /// <c>true</c> if the error occurred in user-supplied code rather than the SDK or its dependent components
-        /// </summary>
-        public required bool InApplication { get; init; }
-
-        /// <summary>
         /// <c>true</c> if the error was identified immediately after the API was called, prior to any attempted network communication
         /// </summary>
         public required bool IsShallow { get; init; }
@@ -34,11 +29,6 @@ namespace Azure.Iot.Operations.Protocol
         /// <c>true</c> if the error was detected by a remote component
         /// </summary>
         public required bool IsRemote { get; init; }
-
-        /// <summary>
-        /// An HTTP status code received from a remote service that caused the Azure.Iot.Operations.Protocol error being reported
-        /// </summary>
-        public int? HttpStatusCode { get; internal init; }
 
         /// <summary>
         /// The correlation data used to connect a command response to a command request.
@@ -103,7 +93,6 @@ namespace Azure.Iot.Operations.Protocol
                 ? new AkriMqttException(message ?? $"invalid configuration value {configurationName} for configuration {configurationName}")
                 {
                     Kind = AkriMqttErrorKind.ConfigurationInvalid,
-                    InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
                     PropertyName = configurationName,
@@ -113,7 +102,6 @@ namespace Azure.Iot.Operations.Protocol
                 : new AkriMqttException(message ?? $"invalid configuration value {configurationName} for configuration {configurationName}", innerException)
                 {
                     Kind = AkriMqttErrorKind.ConfigurationInvalid,
-                    InApplication = false,
                     IsShallow = true,
                     IsRemote = false,
                     PropertyName = configurationName,
@@ -130,8 +118,7 @@ namespace Azure.Iot.Operations.Protocol
 
             return new AkriMqttException(errMsg)
             {
-                Kind = AkriMqttErrorKind.ArgumentInvalid,
-                InApplication = false,
+                Kind = AkriMqttErrorKind.ConfigurationInvalid,
                 IsShallow = true,
                 IsRemote = false,
                 PropertyName = argumentName,
@@ -139,13 +126,11 @@ namespace Azure.Iot.Operations.Protocol
                 CommandName = commandName,
             };
         }
-
         public static AkriMqttException GetPayloadInvalidException()
         {
             return new AkriMqttException($"Command payload invalid")
             {
                 Kind = AkriMqttErrorKind.PayloadInvalid,
-                InApplication = false,
                 IsShallow = false,
                 IsRemote = false
             };

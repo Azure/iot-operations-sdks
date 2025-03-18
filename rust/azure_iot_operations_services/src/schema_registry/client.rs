@@ -105,13 +105,23 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        Ok(self
-            .get_command_invoker
-            .invoke(command_request)
-            .await
-            .map_err(ErrorKind::from)?
-            .payload
-            .schema)
+        let get_result = self.get_command_invoker.invoke(command_request).await;
+
+        match get_result {
+            Ok(response) => Ok(response.payload.schema),
+            Err(e) => {
+                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
+                    if let Some(nested_error) = &e.nested_error {
+                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
+                            if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
+                                return Ok(None);
+                            }
+                        }
+                    }
+                }
+                Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e)))
+            }
+        }
     }
 
     /// Adds or updates a schema in the schema registry service.

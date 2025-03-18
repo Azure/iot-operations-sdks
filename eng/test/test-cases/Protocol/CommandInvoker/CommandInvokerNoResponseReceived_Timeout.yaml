@@ -20,7 +20,6 @@ actions:
   invocation-index: 0
   catch:
     error-kind: timeout
-    in-application: !!bool false
     is-shallow: !!bool false
     is-remote: !!bool false
 ...

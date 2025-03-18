@@ -5,7 +5,10 @@ use std::error::Error;
 use std::fmt;
 use std::time::Duration;
 
-use crate::common::topic_processor::{TopicPatternError, TopicPatternErrorKind};
+use crate::common::{
+    hybrid_logical_clock::{HLCError, HLCErrorKind, ParseHLCError},
+    topic_processor::{TopicPatternError, TopicPatternErrorKind},
+};
 
 /// Represents the kind of error that occurs in an Azure IoT Operations Protocol
 #[derive(Debug, PartialEq)]
@@ -20,10 +23,8 @@ pub enum AIOProtocolErrorKind {
     Timeout,
     /// An operation was cancelled
     Cancellation,
-    /// A struct or enum field, configuration file, or environment variable has an invalid value
+    /// An argument, struct or enum field, configuration file, or environment variable has an invalid value
     ConfigurationInvalid,
-    /// A function was called with an invalid argument value
-    ArgumentInvalid,
     /// The current program state is invalid vis-a-vis the function that was called
     StateInvalid,
     /// The client or service observed a condition that was thought to be impossible
@@ -34,10 +35,8 @@ pub enum AIOProtocolErrorKind {
     ExecutionException,
     /// The MQTT communication encountered an error and failed. The exception message should be inspected for additional information
     ClientError,
-    /// The command executor that received the request doesn't support the provided protocol version.
-    UnsupportedRequestVersion,
-    /// The command invoker received a response that specifies a protocol version that the invoker does not support.
-    UnsupportedResponseVersion,
+    /// A request or response was received containing a protocol version that is not supported
+    UnsupportedVersion,
 }
 
 /// Represents the possible types of the value of a property
@@ -134,22 +133,6 @@ impl fmt::Display for AIOProtocolError {
                         )
                     }
                 }
-                AIOProtocolErrorKind::ArgumentInvalid => {
-                    if let Some(property_value) = &self.property_value {
-                        write!(
-                            f,
-                            "The argument '{}' has an invalid value: {:?}",
-                            self.property_name.as_deref().unwrap_or("Not Specified"),
-                            property_value
-                        )
-                    } else {
-                        write!(
-                            f,
-                            "The argument '{}' has an invalid value: 'Not Specified'",
-                            self.property_name.as_deref().unwrap_or("Not Specified")
-                        )
-                    }
-                }
                 AIOProtocolErrorKind::StateInvalid => write!(
                     f,
                     "Invalid state in property '{}'",
@@ -168,13 +151,8 @@ impl fmt::Display for AIOProtocolError {
                 AIOProtocolErrorKind::ClientError => {
                     write!(f, "An MQTT communication error occurred")
                 }
-                AIOProtocolErrorKind::UnsupportedRequestVersion => {
-                    write!(f, "The command executor that received the request only supports major protocol versions '{:?}', but '{}' was sent on the request.",
-                    self.supported_protocol_major_versions.as_deref().unwrap_or(&[]),
-                    self.protocol_version.as_deref().unwrap_or("Not Specified"))
-                }
-                AIOProtocolErrorKind::UnsupportedResponseVersion => {
-                    write!(f, "Received a response with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
+                AIOProtocolErrorKind::UnsupportedVersion => {
+                    write!(f, "Received data with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
                     self.protocol_version.as_deref().unwrap_or("Not Specified"),
                     self.supported_protocol_major_versions.as_deref().unwrap_or(&[]))
                 }
@@ -240,30 +218,6 @@ impl AIOProtocolError {
                     Some(err_msg),
                     None,
                 )
-            }
-        }
-    }
-
-    pub(crate) fn argument_invalid_from_topic_pattern_error(
-        error: &TopicPatternError,
-    ) -> AIOProtocolError {
-        // NOTE: It's not very ideal that we're matching a single enum variant with the rest panicking,
-        // but this will be revised when AIOProtocolError is replaced in the near future.
-        // TODO: Should this support nesting the error?
-        let err_msg = format!("{error}");
-        match error.kind() {
-            TopicPatternErrorKind::InvalidTokenReplacement(token, replacement) => {
-                let token = token.clone();
-                let replacement = replacement.to_string();
-                AIOProtocolError::new_argument_invalid_error(
-                    &token,
-                    Value::String(replacement.to_string()),
-                    Some(err_msg),
-                    None,
-                )
-            }
-            _ => {
-                unreachable!("Unexpected TopicPatternError: {error}");
             }
         }
     }
@@ -441,34 +395,6 @@ impl AIOProtocolError {
         e
     }
 
-    /// Creates a new [`AIOProtocolError`] for an invalid argument error
-    #[must_use]
-    pub fn new_argument_invalid_error(
-        property_name: &str,
-        property_value: Value,
-        message: Option<String>,
-        command_name: Option<String>,
-    ) -> AIOProtocolError {
-        let mut e = AIOProtocolError {
-            message,
-            kind: AIOProtocolErrorKind::ArgumentInvalid,
-            is_shallow: true,
-            is_remote: false,
-            nested_error: None,
-            header_name: None,
-            header_value: None,
-            timeout_name: None,
-            timeout_value: None,
-            property_name: Some(property_name.to_string()),
-            property_value: Some(property_value),
-            command_name,
-            protocol_version: None,
-            supported_protocol_major_versions: None,
-        };
-        e.ensure_error_message();
-        e
-    }
-
     /// Creates a new [`AIOProtocolError`] for an invalid state error
     #[must_use]
     pub fn new_state_invalid_error(
@@ -615,17 +541,19 @@ impl AIOProtocolError {
 
     /// Creates a new [`AIOProtocolError`] for an unsupported request version error
     #[must_use]
-    pub fn new_unsupported_request_version_error(
+    pub fn new_unsupported_version_error(
         message: Option<String>,
-        request_protocol_version: String,
-        supported_request_protocol_major_versions: Vec<u16>,
+        protocol_version: String,
+        supported_protocol_major_versions: Vec<u16>,
         command_name: Option<String>,
+        is_shallow: bool,
+        is_remote: bool,
     ) -> AIOProtocolError {
         let mut e = AIOProtocolError {
             message,
-            kind: AIOProtocolErrorKind::UnsupportedRequestVersion,
-            is_shallow: false,
-            is_remote: true,
+            kind: AIOProtocolErrorKind::UnsupportedVersion,
+            is_shallow,
+            is_remote,
             nested_error: None,
             header_name: None,
             header_value: None,
@@ -634,36 +562,8 @@ impl AIOProtocolError {
             property_name: None,
             property_value: None,
             command_name,
-            protocol_version: Some(request_protocol_version),
-            supported_protocol_major_versions: Some(supported_request_protocol_major_versions),
-        };
-        e.ensure_error_message();
-        e
-    }
-
-    /// Creates a new [`AIOProtocolError`] for an unsupported response version error
-    #[must_use]
-    pub fn new_unsupported_response_version_error(
-        message: Option<String>,
-        response_protocol_version: String,
-        supported_response_protocol_major_versions: Vec<u16>,
-        command_name: Option<String>,
-    ) -> AIOProtocolError {
-        let mut e = AIOProtocolError {
-            message,
-            kind: AIOProtocolErrorKind::UnsupportedResponseVersion,
-            is_shallow: false,
-            is_remote: false,
-            nested_error: None,
-            header_name: None,
-            header_value: None,
-            timeout_name: None,
-            timeout_value: None,
-            property_name: None,
-            property_value: None,
-            command_name,
-            protocol_version: Some(response_protocol_version),
-            supported_protocol_major_versions: Some(supported_response_protocol_major_versions),
+            protocol_version: Some(protocol_version),
+            supported_protocol_major_versions: Some(supported_protocol_major_versions),
         };
         e.ensure_error_message();
         e
@@ -674,5 +574,38 @@ impl AIOProtocolError {
         if self.message.is_none() {
             self.message = Some(self.to_string());
         }
+    }
+}
+
+impl From<HLCError> for AIOProtocolError {
+    fn from(error: HLCError) -> Self {
+        let (property_name, message) = match error.kind() {
+            HLCErrorKind::OverflowWarning => {
+                ("Counter", "Integer overflow on HybridLogicalClock counter")
+            }
+            HLCErrorKind::ClockDrift => (
+                "MaxClockDrift",
+                "HybridLogicalClock drift is greater than the maximum allowed drift",
+            ),
+        };
+
+        AIOProtocolError::new_state_invalid_error(
+            property_name,
+            None,
+            Some(message.to_string()),
+            None,
+        )
+    }
+}
+
+impl From<ParseHLCError> for AIOProtocolError {
+    fn from(error: ParseHLCError) -> Self {
+        AIOProtocolError::new_header_invalid_error(
+            "HybridLogicalClock",
+            error.input.as_str(),
+            false,
+            Some(format!("{error}")),
+            None,
+        )
     }
 }

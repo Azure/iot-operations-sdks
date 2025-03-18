@@ -4,14 +4,13 @@ description:
   condition: >-
     CommandInvoker invokes command with request topic that contains a '{commandName}' token but no replacement is specified.
   expect: >-
-    CommandInvoker throws 'invalid argument' exception.
+    CommandInvoker throws 'invalid configuration' exception.
 
 prologue:
   invokers:
   - request-topic: "mock/{commandName}/test"
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
     supplemental:

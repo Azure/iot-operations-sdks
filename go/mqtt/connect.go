@@ -152,7 +152,7 @@ func (c *SessionClient) manageConnection(ctx context.Context) error {
 			return nil
 		}
 
-		// if we get here, a reconnection will be attempted
+		// If we get here, a reconnection will be attempted.
 	}
 }
 
@@ -177,7 +177,7 @@ func (c *SessionClient) connect(
 	}
 
 	pahoClient := paho.NewClient(paho.ClientConfig{
-		ClientID:    c.options.ClientID,
+		ClientID:    c.clientID,
 		Session:     c.session,
 		Conn:        conn,
 		AuthHandler: auther,
@@ -214,9 +214,6 @@ func (c *SessionClient) connect(
 		return nil, err
 	}
 
-	// NOTE: there is no way for the user to know if the session was present if
-	// this is the first connection and firstConnectionCleanStart is set to
-	// false
 	c.log.Packet(ctx, "connect", connect)
 	connack, err := pahoClient.Connect(ctx, connect)
 	c.log.Packet(ctx, "connack", connack)
@@ -322,7 +319,7 @@ func (c *SessionClient) buildConnectPacket(
 	reconnect bool,
 ) (*paho.Connect, error) {
 	packet := &paho.Connect{
-		ClientID:   c.options.ClientID,
+		ClientID:   c.clientID,
 		CleanStart: !reconnect && c.options.CleanStart,
 		KeepAlive:  c.options.KeepAlive,
 		Properties: &paho.ConnectProperties{

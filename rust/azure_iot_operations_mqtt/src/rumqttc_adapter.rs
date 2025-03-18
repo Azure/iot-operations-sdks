@@ -267,6 +267,7 @@ pub fn client(
     connection_settings: MqttConnectionSettings,
     channel_capacity: usize,
     manual_ack: bool,
+    connection_user_properties: Vec<(String, String)>,
 ) -> Result<(rumqttc::v5::AsyncClient, rumqttc::v5::EventLoop), MqttAdapterError> {
     // NOTE: channel capacity for AsyncClient must be less than usize::MAX - 1 due to (presumably) a bug.
     // It panics if you set MAX, although MAX - 1 is fine.
@@ -277,6 +278,12 @@ pub fn client(
     }
     let mut mqtt_options: rumqttc::v5::MqttOptions = connection_settings.try_into()?;
     mqtt_options.set_manual_acks(manual_ack);
+
+    // Add any provided user properties
+    let mut existing_props = mqtt_options.user_properties();
+    existing_props.extend(connection_user_properties);
+    mqtt_options.set_user_properties(existing_props);
+
     Ok(rumqttc::v5::AsyncClient::new(
         mqtt_options,
         channel_capacity,

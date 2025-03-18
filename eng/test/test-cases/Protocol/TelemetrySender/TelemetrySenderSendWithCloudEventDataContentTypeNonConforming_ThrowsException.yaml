@@ -4,7 +4,7 @@ description:
   condition: >-
     TelemetrySender sends a Telemetry with CloudEvent info with a data content type value that does not conform to a MIME type syntax.
   expect: >-
-    Send throws 'invalid argument' exception.
+    Send throws 'invalid configuration' exception.
 
 prologue:
   senders:
@@ -17,8 +17,7 @@ actions:
     source: "dtmi:test:myEventSource;1"
 - action: await send
   catch:
-    error-kind: invalid argument
-    in-application: !!bool false
+    error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false
 ...

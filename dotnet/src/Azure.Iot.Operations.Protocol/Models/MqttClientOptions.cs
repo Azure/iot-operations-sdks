@@ -108,7 +108,6 @@ namespace Azure.Iot.Operations.Protocol.Models
                     throw new AkriMqttException(ex.Message, ex)
                     {
                         Kind = AkriMqttErrorKind.StateInvalid,
-                        InApplication = false,
                         IsShallow = true,
                         IsRemote = false,
                         PropertyName = nameof(MqttConnectionSettings),

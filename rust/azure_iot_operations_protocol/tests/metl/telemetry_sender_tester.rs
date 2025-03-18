@@ -628,7 +628,7 @@ where
 
         let mut protocol_error = AIOProtocolError {
             message: None,
-            kind: AIOProtocolErrorKind::ArgumentInvalid,
+            kind: AIOProtocolErrorKind::ConfigurationInvalid,
             is_shallow: true,
             is_remote: false,
             nested_error: Some(Box::new(builder_error)),
@@ -659,7 +659,7 @@ where
 
         let mut protocol_error = AIOProtocolError {
             message: None,
-            kind: AIOProtocolErrorKind::ArgumentInvalid,
+            kind: AIOProtocolErrorKind::ConfigurationInvalid,
             is_shallow: true,
             is_remote: false,
             nested_error: Some(Box::new(builder_error)),
