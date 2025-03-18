@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::sender::{self, Sender},
+    telemetry,
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -51,11 +51,11 @@ async fn main() {
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = sender::OptionsBuilder::default()
+    let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
         .build()
         .unwrap();
-    let sender: Sender<SampleTelemetry, _> = Sender::new(
+    let sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
         application_context,
         session.create_managed_client(),
         sender_options,
@@ -69,15 +69,15 @@ async fn main() {
 
 /// Send 10 telemetry messages, then disconnect
 async fn telemetry_loop(
-    sender: Sender<SampleTelemetry, SessionManagedClient>,
+    sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     for i in 1..10 {
-        let cloud_event = sender::CloudEventBuilder::default()
+        let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
             .build()
             .unwrap();
-        let message = sender::MessageBuilder::default()
+        let message = telemetry::sender::MessageBuilder::default()
             .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,

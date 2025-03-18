@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::telemetry::receiver::{self, Receiver};
+use azure_iot_operations_protocol::telemetry;
 use bytes::Bytes;
 use chrono::SecondsFormat;
 use serde_json;
@@ -187,7 +187,7 @@ where
     }
 
     async fn receiver_loop(
-        mut receiver: Receiver<TestPayload, C>,
+        mut receiver: telemetry::Receiver<TestPayload, C>,
         telemetry_count: Arc<Mutex<i32>>,
         telemetry_tx: mpsc::UnboundedSender<ReceivedTelemetry>,
     ) {
@@ -196,23 +196,24 @@ where
                 Ok((telemetry, ack_token)) => {
                     *telemetry_count.lock().unwrap() += 1;
 
-                    let cloud_event = match receiver::CloudEvent::from_telemetry(&telemetry) {
-                        Ok(cloud_event) => Some(TestCaseCloudEvent {
-                            source: Some(cloud_event.source),
-                            event_type: Some(cloud_event.event_type),
-                            spec_version: Some(cloud_event.spec_version),
-                            id: Some(cloud_event.id),
-                            time: Some(
-                                cloud_event
-                                    .time
-                                    .map(|t| t.to_rfc3339_opts(SecondsFormat::Secs, true)),
-                            ),
-                            data_content_type: cloud_event.data_content_type,
-                            subject: Some(cloud_event.subject),
-                            data_schema: Some(cloud_event.data_schema),
-                        }),
-                        Err(_) => None,
-                    };
+                    let cloud_event =
+                        match telemetry::receiver::CloudEvent::from_telemetry(&telemetry) {
+                            Ok(cloud_event) => Some(TestCaseCloudEvent {
+                                source: Some(cloud_event.source),
+                                event_type: Some(cloud_event.event_type),
+                                spec_version: Some(cloud_event.spec_version),
+                                id: Some(cloud_event.id),
+                                time: Some(
+                                    cloud_event
+                                        .time
+                                        .map(|t| t.to_rfc3339_opts(SecondsFormat::Secs, true)),
+                                ),
+                                data_content_type: cloud_event.data_content_type,
+                                subject: Some(cloud_event.subject),
+                                data_schema: Some(cloud_event.data_schema),
+                            }),
+                            Err(_) => None,
+                        };
 
                     let mut metadata = HashMap::new();
                     for (key, value) in telemetry.custom_user_data {
@@ -245,8 +246,8 @@ where
         tcr: &TestCaseReceiver<ReceiverDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<Receiver<TestPayload, C>> {
-        let mut receiver_options_builder = receiver::OptionsBuilder::default();
+    ) -> Option<telemetry::Receiver<TestPayload, C>> {
+        let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
 
         if let Some(telemetry_topic) = tcr.telemetry_topic.as_ref() {
             receiver_options_builder.topic_pattern(telemetry_topic);
@@ -276,7 +277,7 @@ where
 
         let receiver_options = options_result.unwrap();
 
-        match Receiver::new(
+        match telemetry::Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             receiver_options,
@@ -624,10 +625,10 @@ where
     }
 
     fn from_receiver_options_builder_error(
-        builder_error: receiver::OptionsBuilderError,
+        builder_error: telemetry::receiver::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            receiver::OptionsBuilderError::UninitializedField(field_name) => {
+            telemetry::receiver::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

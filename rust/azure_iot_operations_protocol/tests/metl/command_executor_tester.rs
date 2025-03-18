@@ -14,7 +14,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
+use azure_iot_operations_protocol::rpc_command;
 use bytes::Bytes;
 use serde_json;
 use tokio::time;
@@ -192,7 +192,7 @@ where
     }
 
     async fn executor_loop(
-        mut executor: Executor<TestPayload, TestPayload, C>,
+        mut executor: rpc_command::Executor<TestPayload, TestPayload, C>,
         test_case_executor: TestCaseExecutor<ExecutorDefaults>,
         countdown_events: CountdownEventMap,
         execution_count: Arc<Mutex<i32>>,
@@ -267,7 +267,7 @@ where
                     }
                 }
 
-                let response = executor::ResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(response_payload)
                     .unwrap()
                     .custom_user_data(metadata)
@@ -284,8 +284,8 @@ where
         tce: &TestCaseExecutor<ExecutorDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<Executor<TestPayload, TestPayload, C>> {
-        let mut executor_options_builder = executor::OptionsBuilder::default();
+    ) -> Option<rpc_command::Executor<TestPayload, TestPayload, C>> {
+        let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
 
         if let Some(request_topic) = tce.request_topic.as_ref() {
             executor_options_builder.request_topic_pattern(request_topic);
@@ -321,7 +321,7 @@ where
 
         let executor_options = options_result.unwrap();
 
-        match Executor::new(
+        match rpc_command::Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -718,10 +718,10 @@ where
     }
 
     fn from_executor_options_builder_error(
-        builder_error: executor::OptionsBuilderError,
+        builder_error: rpc_command::executor::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            executor::OptionsBuilderError::UninitializedField(field_name) => {
+            rpc_command::executor::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

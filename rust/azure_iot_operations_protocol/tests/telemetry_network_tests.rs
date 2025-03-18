@@ -15,11 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::{
-        cloud_event::{DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION},
-        receiver::{self, Receiver},
-        sender::{self, Sender},
-    },
+    telemetry,
 };
 
 // These tests test these happy path scenarios
@@ -52,8 +48,8 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 ) -> Result<
     (
         Session,
-        Sender<T, SessionManagedClient>,
-        Receiver<T, SessionManagedClient>,
+        telemetry::Sender<T, SessionManagedClient>,
+        telemetry::Receiver<T, SessionManagedClient>,
         SessionExitHandle,
     ),
     (),
@@ -86,23 +82,23 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = sender::OptionsBuilder::default()
+    let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(topic)
         .build()
         .unwrap();
-    let sender: Sender<T, _> = Sender::new(
+    let sender: telemetry::Sender<T, _> = telemetry::Sender::new(
         application_context.clone(),
         session.create_managed_client(),
         sender_options,
     )
     .unwrap();
 
-    let receiver_options = receiver::OptionsBuilder::default()
+    let receiver_options = telemetry::receiver::OptionsBuilder::default()
         .topic_pattern(topic)
         .auto_ack(auto_ack)
         .build()
         .unwrap();
-    let receiver: Receiver<T, _> = Receiver::new(
+    let receiver: telemetry::Receiver<T, _> = telemetry::Receiver::new(
         application_context,
         session.create_managed_client(),
         receiver_options,
@@ -161,7 +157,7 @@ async fn telemetry_basic_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        assert!(receiver::CloudEvent::from_telemetry(&message).is_err());
+                        assert!(telemetry::receiver::CloudEvent::from_telemetry(&message).is_err());
                         assert_eq!(message.payload, EmptyPayload::default());
                         assert!(message.custom_user_data.is_empty());
                         assert_eq!(message.sender_id.unwrap(), sender_id);
@@ -184,7 +180,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send QoS 0 message with empty payload
-            let message_qos0 = sender::MessageBuilder::default()
+            let message_qos0 = telemetry::sender::MessageBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtMostOnce)
@@ -193,7 +189,7 @@ async fn telemetry_basic_send_receive_network_tests() {
             assert!(sender.send(message_qos0).await.is_ok());
 
             // Send QoS 1 message with empty payload
-            let message_qos1 = sender::MessageBuilder::default()
+            let message_qos1 = telemetry::sender::MessageBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .qos(QoS::AtLeastOnce)
@@ -317,7 +313,7 @@ async fn telemetry_complex_send_receive_network_tests() {
         ("test2".to_string(), "value2".to_string()),
     ];
     let test_cloud_event_source = "aio://test/telemetry";
-    let test_cloud_event = sender::CloudEventBuilder::default()
+    let test_cloud_event = telemetry::sender::CloudEventBuilder::default()
         .source(test_cloud_event_source)
         .build()
         .unwrap();
@@ -336,7 +332,8 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_none());
 
                         // Validate contents of message match expected based on what was sent
-                        let cloud_event = receiver::CloudEvent::from_telemetry(&message).unwrap();
+                        let cloud_event =
+                            telemetry::receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload1);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -349,8 +346,14 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
-                        assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
+                        assert_eq!(
+                            cloud_event.spec_version,
+                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION
+                        );
+                        assert_eq!(
+                            cloud_event.event_type,
+                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                        );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
                         assert!(cloud_event.time.is_some());
@@ -364,7 +367,8 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert!(ack_token.is_some());
 
                         // Validate contents of message match expected based on what was sent
-                        let cloud_event = receiver::CloudEvent::from_telemetry(&message).unwrap();
+                        let cloud_event =
+                            telemetry::receiver::CloudEvent::from_telemetry(&message).unwrap();
                         assert_eq!(message.payload, test_payload2);
                         assert!(test_custom_user_data_clone.iter().all(|(key, value)| {
                             message
@@ -377,8 +381,14 @@ async fn telemetry_complex_send_receive_network_tests() {
                         assert_eq!(message.sender_id.unwrap(), client_id);
                         assert!(message.timestamp.is_some());
                         assert_eq!(cloud_event.source, test_cloud_event_source);
-                        assert_eq!(cloud_event.spec_version, DEFAULT_CLOUD_EVENT_SPEC_VERSION);
-                        assert_eq!(cloud_event.event_type, DEFAULT_CLOUD_EVENT_EVENT_TYPE);
+                        assert_eq!(
+                            cloud_event.spec_version,
+                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION
+                        );
+                        assert_eq!(
+                            cloud_event.event_type,
+                            telemetry::cloud_event::DEFAULT_CLOUD_EVENT_EVENT_TYPE
+                        );
                         assert_eq!(cloud_event.subject.unwrap(), topic);
                         assert_eq!(cloud_event.data_content_type.unwrap(), "application/json");
                         assert!(cloud_event.time.is_some());
@@ -400,7 +410,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send QoS 0 message with more complex payload, custom user data, and a cloud event
-            let message_qos0 = sender::MessageBuilder::default()
+            let message_qos0 = telemetry::sender::MessageBuilder::default()
                 .payload(test_payload1)
                 .unwrap()
                 .custom_user_data(test_custom_user_data.clone())
@@ -411,7 +421,7 @@ async fn telemetry_complex_send_receive_network_tests() {
             assert!(sender.send(message_qos0).await.is_ok());
 
             // Send QoS 1 message with more complex payload, custom user data, and a cloud event
-            let message_qos1 = sender::MessageBuilder::default()
+            let message_qos1 = telemetry::sender::MessageBuilder::default()
                 .payload(test_payload2)
                 .unwrap()
                 .custom_user_data(test_custom_user_data)

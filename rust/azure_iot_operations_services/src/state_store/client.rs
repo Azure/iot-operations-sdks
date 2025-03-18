@@ -12,10 +12,8 @@ use azure_iot_operations_mqtt::{
     session::SessionConnectionMonitor,
 };
 use azure_iot_operations_protocol::{
-    application::ApplicationContext,
-    common::hybrid_logical_clock::HybridLogicalClock,
-    rpc_command::invoker::{self, Invoker},
-    telemetry::receiver::{self, Receiver},
+    application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
+    telemetry,
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
@@ -81,7 +79,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    invoker: Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
+    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
         ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
     shutdown_notifier: Arc<Notify>,
@@ -115,7 +113,7 @@ where
         options: ClientOptions,
     ) -> Result<Self, Error> {
         // create invoker for commands
-        let invoker_options = invoker::OptionsBuilder::default()
+        let invoker_options = rpc_command::invoker::OptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
             .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
@@ -124,15 +122,18 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        let invoker: Invoker<state_store::resp3::Request, state_store::resp3::Response, C> =
-            Invoker::new(application_context.clone(), client.clone(), invoker_options)
-                .map_err(ErrorKind::from)?;
+        let invoker: rpc_command::Invoker<
+            state_store::resp3::Request,
+            state_store::resp3::Response,
+            C,
+        > = rpc_command::Invoker::new(application_context.clone(), client.clone(), invoker_options)
+            .map_err(ErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
-        let receiver_options = receiver::OptionsBuilder::default()
+        let receiver_options = telemetry::receiver::OptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
             .topic_token_map(HashMap::from([(
                 "encodedClientId".to_string(),
@@ -150,8 +151,8 @@ where
 
         // Start the receive key notification loop
         task::spawn({
-            let notification_receiver: Receiver<state_store::resp3::Operation, C> =
-                Receiver::new(application_context, client, receiver_options)
+            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation, C> =
+                telemetry::Receiver::new(application_context, client, receiver_options)
                     .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
@@ -220,7 +221,7 @@ where
         if key.is_empty() {
             return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let mut request_builder = invoker::RequestBuilder::default();
+        let mut request_builder = rpc_command::invoker::RequestBuilder::default();
         request_builder
             .payload(state_store::resp3::Request::Set {
                 key,
@@ -276,7 +277,7 @@ where
         if key.is_empty() {
             return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let request = invoker::RequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
@@ -370,7 +371,7 @@ where
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
-        let mut request_builder = invoker::RequestBuilder::default();
+        let mut request_builder = rpc_command::invoker::RequestBuilder::default();
         request_builder
             .payload(request)
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
@@ -405,7 +406,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<()>, Error> {
         // Send invoke request for observe
-        let request = invoker::RequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
@@ -541,7 +542,7 @@ where
             return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
         // Send invoke request for unobserve
-        let request = invoker::RequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
@@ -588,7 +589,7 @@ where
 
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut receiver: Receiver<state_store::resp3::Operation, C>,
+        mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,

@@ -8,7 +8,7 @@ use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionO
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::BypassPayload;
-use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
+use azure_iot_operations_protocol::rpc_command;
 
 const CLIENT_ID: &str = "aio_example_executor_client";
 const HOSTNAME: &str = "localhost";
@@ -53,13 +53,14 @@ async fn main() {
 /// Handle incoming file transfer command requests
 async fn executor_loop(application_context: ApplicationContext, client: SessionManagedClient) {
     // Create a command executor for the file transfer command
-    let file_transfer_executor_options = executor::OptionsBuilder::default()
+    let file_transfer_executor_options = rpc_command::executor::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("file_transfer")
         .build()
         .unwrap();
-    let mut file_transfer_executor: Executor<BypassPayload, Vec<u8>, _> =
-        Executor::new(application_context, client, file_transfer_executor_options).unwrap();
+    let mut file_transfer_executor: rpc_command::Executor<BypassPayload, Vec<u8>, _> =
+        rpc_command::Executor::new(application_context, client, file_transfer_executor_options)
+            .unwrap();
 
     // Save the file for each incoming request
     loop {
@@ -69,7 +70,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                 // save csv file implementation would go here
                 log::info!("CSV file saved!");
 
-                let response = executor::ResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(b"CSV File Saved".to_vec())
                     .unwrap()
                     .build()
@@ -80,7 +81,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                 // save txt file implementation would go here
                 log::info!("txt file saved!");
 
-                let response = executor::ResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(b"txt File Saved".to_vec())
                     .unwrap()
                     .build()
@@ -90,7 +91,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
             _ => {
                 log::warn!("unknown type file type, not saved");
 
-                let response = executor::ResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(b"unknown file type, not saved".to_vec())
                     .unwrap()
                     .build()

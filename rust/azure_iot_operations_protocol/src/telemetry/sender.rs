@@ -307,7 +307,7 @@ pub struct Options {
 /// # use azure_iot_operations_mqtt::control_packet::QoS;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::telemetry::sender::{self, Sender};
+/// # use azure_iot_operations_protocol::telemetry;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -319,13 +319,13 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let sender_options = sender::OptionsBuilder::default()
+/// let sender_options = telemetry::sender::OptionsBuilder::default()
 ///   .topic_pattern("test/telemetry")
 ///   .topic_namespace("test_namespace")
 ///   .topic_token_map(HashMap::new())
 ///   .build().unwrap();
-/// let sender: Sender<Vec<u8>, _> = Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
-/// let telemetry_message = sender::MessageBuilder::default()
+/// let sender: telemetry::Sender<Vec<u8>, _> = telemetry::Sender::new(application_context, mqtt_session.create_managed_client(), sender_options).unwrap();
+/// let telemetry_message = telemetry::sender::MessageBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .qos(QoS::AtLeastOnce)
 ///   .build().unwrap();

@@ -6,21 +6,21 @@ use std::time::Duration;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::rpc_command::invoker::{self, Invoker};
+use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type ResetRequest = invoker::Request<EmptyJson>;
-pub type ResetResponse = invoker::Response<EmptyJson>;
-pub type ResetRequestBuilderError = invoker::RequestBuilderError;
+pub type ResetRequest = rpc_command::invoker::Request<EmptyJson>;
+pub type ResetResponse = rpc_command::invoker::Response<EmptyJson>;
+pub type ResetRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`ResetRequest`]
 pub struct ResetRequestBuilder {
-    inner_builder: invoker::RequestBuilder<EmptyJson>,
+    inner_builder: rpc_command::invoker::RequestBuilder<EmptyJson>,
     set_executor_id: bool,
     topic_tokens: HashMap<String, String>,
 }
@@ -75,7 +75,7 @@ impl ResetRequestBuilder {
 }
 
 /// Command Invoker for `reset`
-pub struct ResetCommandInvoker<C>(Invoker<EmptyJson, EmptyJson, C>)
+pub struct ResetCommandInvoker<C>(rpc_command::Invoker<EmptyJson, EmptyJson, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -94,7 +94,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut invoker_options_builder = invoker::OptionsBuilder::default();
+        let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -121,7 +121,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            Invoker::new(application_context, client, invoker_options)
+            rpc_command::Invoker::new(application_context, client, invoker_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

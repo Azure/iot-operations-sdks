@@ -5,17 +5,17 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::telemetry::receiver::{self, Receiver};
+use azure_iot_operations_protocol::telemetry;
 
 use super::super::common_types::common_options::TelemetryOptions;
 use super::telemetry_collection::TelemetryCollection;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
 
-pub type TelemetryMessage = receiver::Message<TelemetryCollection>;
+pub type TelemetryMessage = telemetry::receiver::Message<TelemetryCollection>;
 
 /// Telemetry Receiver for `TelemetryCollection`
-pub struct TelemetryReceiver<C>(Receiver<TelemetryCollection, C>)
+pub struct TelemetryReceiver<C>(telemetry::Receiver<TelemetryCollection, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -34,7 +34,7 @@ where
         client: C,
         options: &TelemetryOptions,
     ) -> Self {
-        let mut receiver_options_builder = receiver::OptionsBuilder::default();
+        let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -56,7 +56,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            Receiver::new(application_context, client, receiver_options)
+            telemetry::Receiver::new(application_context, client, receiver_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

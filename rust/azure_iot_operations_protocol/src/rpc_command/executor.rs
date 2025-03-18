@@ -24,7 +24,7 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty, PARTITION_KEY},
     },
-    rpc_command::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc_command::{StatusCode, DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION},
     supported_protocol_major_versions_to_string, ProtocolVersion,
 };
 
@@ -314,7 +314,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
+/// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -326,14 +326,14 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let executor_options = executor::OptionsBuilder::default()
+/// let executor_options = rpc_command::executor::OptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut executor: Executor<Vec<u8>, Vec<u8>, _> = Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// let mut executor: rpc_command::Executor<Vec<u8>, Vec<u8>, _> = rpc_command::Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
 /// // let request = executor.recv().await.unwrap();
-/// // let response = executor::ResponseBuilder::default()
+/// // let response = rpc_command::executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
 ///  // .build().unwrap();
 /// // let request.complete(response).await.unwrap();
@@ -742,7 +742,7 @@ where
                     }
 
                     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                    let mut request_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
+                    let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
                     if let Some((_, protocol_version)) =
                         properties.user_properties.iter().find(|(key, _)| {
                             UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
@@ -1101,7 +1101,7 @@ where
 
             user_properties.push((
                 UserProperty::ProtocolVersion.to_string(),
-                RPC_PROTOCOL_VERSION.to_string(),
+                RPC_COMMAND_PROTOCOL_VERSION.to_string(),
             ));
 
             // Update HLC and use as the timestamp.

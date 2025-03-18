@@ -14,10 +14,15 @@ pub mod invoker;
 /// This module contains the command executor implementation.
 pub mod executor;
 
-/// Protocol version used by all envoys in this module
-pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
+/// Re-export the command invoker and executor for ease of use.
+pub use executor::Executor;
+pub use invoker::Invoker;
+
+/// Protocol version used by all command envoys in this module
+pub(crate) const RPC_COMMAND_PROTOCOL_VERSION: ProtocolVersion =
+    ProtocolVersion { major: 1, minor: 0 };
 /// Assumed version if no version is provided.
-pub(crate) const DEFAULT_RPC_PROTOCOL_VERSION: ProtocolVersion =
+pub(crate) const DEFAULT_RPC_COMMAND_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };
 
 /// Represents the valid status codes for command responses.

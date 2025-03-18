@@ -10,14 +10,14 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::rpc_command::invoker;
+use azure_iot_operations_protocol::rpc_command;
 
 use crate::schema_registry::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
     GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
     PutRequestPayloadBuilder, PutRequestSchemaBuilder,
 };
-use crate::schema_registry::{self, Error, ErrorKind};
+use crate::schema_registry::{Error, ErrorKind, GetRequest, PutRequest, Schema};
 
 /// Schema registry client implementation.
 #[derive(Clone)]
@@ -83,9 +83,9 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get(
         &self,
-        get_request: schema_registry::GetRequest,
+        get_request: GetRequest,
         timeout: Duration,
-    ) -> Result<Option<schema_registry::Schema>, schema_registry::Error> {
+    ) -> Result<Option<Schema>, Error> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
                 GetRequestSchemaBuilder::default()
@@ -97,7 +97,7 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let command_request = invoker::RequestBuilder::default()
+        let command_request = rpc_command::invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(get_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
@@ -144,11 +144,7 @@ where
     ///
     /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn put(
-        &self,
-        put_request: schema_registry::PutRequest,
-        timeout: Duration,
-    ) -> Result<schema_registry::Schema, Error> {
+    pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
                 PutRequestSchemaBuilder::default()
@@ -163,7 +159,7 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let command_request = invoker::RequestBuilder::default()
+        let command_request = rpc_command::invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(put_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?

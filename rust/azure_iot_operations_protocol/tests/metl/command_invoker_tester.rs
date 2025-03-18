@@ -14,7 +14,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::rpc_command::invoker::{self, Invoker};
+use azure_iot_operations_protocol::rpc_command;
 use bytes::Bytes;
 use serde_json;
 use tokio::sync::oneshot;
@@ -35,7 +35,7 @@ use crate::metl::test_payload::TestPayload;
 const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 
 type InvokeResultReceiver =
-    oneshot::Receiver<Result<invoker::Response<TestPayload>, AIOProtocolError>>;
+    oneshot::Receiver<Result<rpc_command::invoker::Response<TestPayload>, AIOProtocolError>>;
 
 pub struct CommandInvokerTester<C>
 where
@@ -69,7 +69,7 @@ where
             }
         }
 
-        let mut invokers: HashMap<String, Arc<Invoker<TestPayload, TestPayload, C>>> =
+        let mut invokers: HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>> =
             HashMap::new();
 
         let invoker_count = test_case.prologue.invokers.len();
@@ -185,8 +185,8 @@ where
         tci: &TestCaseInvoker<InvokerDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<Invoker<TestPayload, TestPayload, C>> {
-        let mut invoker_options_builder = invoker::OptionsBuilder::default();
+    ) -> Option<rpc_command::Invoker<TestPayload, TestPayload, C>> {
+        let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
 
         if let Some(request_topic) = tci.request_topic.as_ref() {
             invoker_options_builder.request_topic_pattern(request_topic);
@@ -220,7 +220,7 @@ where
 
         let invoker_options = options_result.unwrap();
 
-        match Invoker::new(
+        match rpc_command::Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -239,7 +239,8 @@ where
                         .as_ref()
                         .unwrap();
 
-                    let mut command_request_builder = invoker::RequestBuilder::default();
+                    let mut command_request_builder =
+                        rpc_command::invoker::RequestBuilder::default();
 
                     if let Some(request_value) = default_invoke_command.request_value.clone() {
                         command_request_builder
@@ -300,7 +301,7 @@ where
 
     fn invoke_command(
         action: &TestCaseAction<InvokerDefaults>,
-        invokers: &'a HashMap<String, Arc<Invoker<TestPayload, TestPayload, C>>>,
+        invokers: &'a HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>>,
         invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
         tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
@@ -314,7 +315,7 @@ where
             metadata,
         } = action
         {
-            let mut command_request_builder = invoker::RequestBuilder::default();
+            let mut command_request_builder = rpc_command::invoker::RequestBuilder::default();
 
             if let Some(request_value) = request_value {
                 command_request_builder
@@ -745,10 +746,10 @@ where
     }
 
     fn from_invoker_options_builder_error(
-        builder_error: invoker::OptionsBuilderError,
+        builder_error: rpc_command::invoker::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            invoker::OptionsBuilderError::UninitializedField(field_name) => {
+            rpc_command::invoker::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,
@@ -776,10 +777,10 @@ where
     }
 
     fn from_command_request_builder_error(
-        builder_error: invoker::RequestBuilderError,
+        builder_error: rpc_command::invoker::RequestBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            invoker::RequestBuilderError::UninitializedField(field_name) => {
+            rpc_command::invoker::RequestBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

@@ -30,7 +30,7 @@ use crate::{
         user_properties::UserProperty,
     },
     parse_supported_protocol_major_versions,
-    rpc_command::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc_command::{StatusCode, DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION},
     ProtocolVersion,
 };
 
@@ -197,7 +197,7 @@ pub struct Options {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc_command::invoker::{self, Invoker};
+/// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -209,7 +209,7 @@ pub struct Options {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let invoker_options = invoker::OptionsBuilder::default()
+/// let invoker_options = rpc_command::invoker::OptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
@@ -218,8 +218,8 @@ pub struct Options {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let invoker: Invoker<Vec<u8>, Vec<u8>, _> = Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
-/// let request = invoker::RequestBuilder::default()
+/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>, _> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let request = rpc_command::invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
@@ -591,7 +591,7 @@ where
             .push((UserProperty::Timestamp.to_string(), timestamp_str));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            RPC_PROTOCOL_VERSION.to_string(),
+            RPC_COMMAND_PROTOCOL_VERSION.to_string(),
         ));
         request.custom_user_data.push((
             PARTITION_KEY.to_string(),
@@ -873,7 +873,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_value: Option<String> = None;
 
     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut response_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
+    let mut response_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()

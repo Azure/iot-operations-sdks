@@ -10,7 +10,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::{BypassPayload, FormatIndicator};
-use azure_iot_operations_protocol::rpc_command::invoker::{self, Invoker};
+use azure_iot_operations_protocol::rpc_command;
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
 const HOSTNAME: &str = "localhost";
@@ -61,14 +61,15 @@ async fn invoke_loop(
     exit_handle: SessionExitHandle,
 ) {
     // Create a command invoker for the file transfer command
-    let file_transfer_invoker_options = invoker::OptionsBuilder::default()
+    let file_transfer_invoker_options = rpc_command::invoker::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .response_topic_pattern(RESPONSE_TOPIC_PATTERN.to_string())
         .command_name("file_transfer")
         .build()
         .unwrap();
-    let file_transfer_invoker: Invoker<BypassPayload, Vec<u8>, _> =
-        Invoker::new(application_context, client, file_transfer_invoker_options).unwrap();
+    let file_transfer_invoker: rpc_command::Invoker<BypassPayload, Vec<u8>, _> =
+        rpc_command::Invoker::new(application_context, client, file_transfer_invoker_options)
+            .unwrap();
 
     // Send 10 file transfer requests
     for i in 1..6 {
@@ -77,7 +78,7 @@ async fn invoke_loop(
             content_type: "text/csv".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let request = invoker::RequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(payload)
             .unwrap()
             .timeout(Duration::from_secs(2))
@@ -92,7 +93,7 @@ async fn invoke_loop(
             content_type: "text/plain".to_string(),
             format_indicator: FormatIndicator::Utf8EncodedCharacterData,
         };
-        let request = invoker::RequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(payload)
             .unwrap()
             .timeout(Duration::from_secs(2))

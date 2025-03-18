@@ -20,7 +20,7 @@ use azure_iot_operations_protocol::application::{ApplicationContext, Application
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
-use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
+use azure_iot_operations_protocol::rpc_command;
 
 const EXECUTOR_CLIENT_ID_1: &str = "aio_example_executor_client_1";
 const EXECUTOR_CLIENT_ID_2: &str = "aio_example_executor_client_2";
@@ -107,14 +107,14 @@ async fn executor_loop(
 ) {
     println!("{executor_client_id}: Starting executor loop");
     // Create a command executor for the increment command
-    let incr_executor_options = executor::OptionsBuilder::default()
+    let incr_executor_options = rpc_command::executor::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .service_group_id(SERVICE_GROUP_ID)
         .command_name("increment")
         .build()
         .unwrap();
-    let mut incr_executor: Executor<IncrRequestPayload, IncrResponsePayload, _> =
-        Executor::new(application_context, client, incr_executor_options).unwrap();
+    let mut incr_executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload, _> =
+        rpc_command::Executor::new(application_context, client, incr_executor_options).unwrap();
 
     // Increment the counter for each incoming request
     while let Some(request) = incr_executor.recv().await {
@@ -129,7 +129,7 @@ async fn executor_loop(
                 let response = IncrResponsePayload {
                     counter_response: updated_counter,
                 };
-                let response = executor::ResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(response)
                     .unwrap()
                     .build()

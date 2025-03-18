@@ -5,21 +5,21 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::rpc_command::executor::{self, Executor};
+use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type ResetRequest = executor::Request<EmptyJson, EmptyJson>;
-pub type ResetResponse = executor::Response<EmptyJson>;
-pub type ResetResponseBuilderError = executor::ResponseBuilderError;
+pub type ResetRequest = rpc_command::executor::Request<EmptyJson, EmptyJson>;
+pub type ResetResponse = rpc_command::executor::Response<EmptyJson>;
+pub type ResetResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
 /// Builder for [`ResetResponse`]
 #[derive(Default)]
 pub struct ResetResponseBuilder {
-    inner_builder: executor::ResponseBuilder<EmptyJson>,
+    inner_builder: rpc_command::executor::ResponseBuilder<EmptyJson>,
 }
 
 impl ResetResponseBuilder {
@@ -42,7 +42,7 @@ impl ResetResponseBuilder {
 }
 
 /// Command Executor for `reset`
-pub struct ResetCommandExecutor<C>(Executor<EmptyJson, EmptyJson, C>)
+pub struct ResetCommandExecutor<C>(rpc_command::Executor<EmptyJson, EmptyJson, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -61,7 +61,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut executor_options_builder = executor::OptionsBuilder::default();
+        let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -86,7 +86,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            Executor::new(application_context, client, executor_options)
+            rpc_command::Executor::new(application_context, client, executor_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
