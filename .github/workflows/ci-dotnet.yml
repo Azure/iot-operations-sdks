@@ -134,15 +134,6 @@ jobs:
     - name: Test SDK (TLS + x509)
       run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
 
-    - name: Build DSS CLI (Debug)
-      run:  |
-        cd tools/dsscli/src/Azure.Iot.Operations.Services.DssCli
-        dotnet restore
-        dotnet build -c Debug Azure.Iot.Operations.Services.DssCli.csproj
-
-    - name: Build DSS CLI (Release)
-      run: dotnet build -c Release tools/dsscli/src/Azure.Iot.Operations.Services.DssCli/Azure.Iot.Operations.Services.DssCli.csproj
-
     - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: always()
