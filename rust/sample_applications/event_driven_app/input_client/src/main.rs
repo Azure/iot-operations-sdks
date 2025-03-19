@@ -4,10 +4,7 @@
 //! This sample application demonstrates how to create an event-driven application that receives
 //! incoming sensor data and stores it in a state store.
 
-use std::{
-    sync::{Arc, Mutex},
-    time::Duration,
-};
+use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
     session::{Session, SessionConnectionMonitor, SessionManagedClient, SessionOptionsBuilder},
