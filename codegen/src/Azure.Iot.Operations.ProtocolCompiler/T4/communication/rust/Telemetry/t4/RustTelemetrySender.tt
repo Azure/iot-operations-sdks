@@ -9,13 +9,7 @@ use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEvent, TelemetryMessage as TelemetryMessageBase,
-    TelemetryMessageBuilder as TelemetryMessageBuilderBase,
-    TelemetryMessageBuilderError as TelemetryMessageBuilderBaseError,
-    TelemetrySender as TelemetrySenderBase,
-    TelemetrySenderOptionsBuilder as TelemetrySenderOptionsBaseBuilder,
-};
+use azure_iot_operations_protocol::telemetry;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
 <# if (this.schemaType is CodeName) { #>
@@ -28,13 +22,13 @@ use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 
-pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = TelemetryMessageBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
-pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>BuilderError = TelemetryMessageBuilderBaseError;
+pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = telemetry::sender::Message<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
+pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>BuilderError = telemetry::sender::MessageBuilderError;
 
 /// Builder for [`<#=this.messageName.GetTypeName(TargetLanguage.Rust)#>`]
 #[derive(Default)]
 pub struct <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>Builder {
-    inner_builder: TelemetryMessageBuilderBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>,
+    inner_builder: telemetry::sender::MessageBuilder<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -68,7 +62,7 @@ impl <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>Builder {
     }
 
     /// Cloud event for the message
-    pub fn cloud_event(&mut self, cloud_event: Option<CloudEvent>) -> &mut Self {
+    pub fn cloud_event(&mut self, cloud_event: Option<telemetry::sender::CloudEvent>) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
@@ -98,7 +92,7 @@ impl <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>Builder {
 
 /// Telemetry Sender for `<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>`
 pub struct <#=this.componentName.GetTypeName(TargetLanguage.Rust)#><C>(
-    TelemetrySenderBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>, C>,
+    telemetry::Sender<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>, C>,
 )
 where
     C: ManagedClient + Send + Sync + 'static;
@@ -112,7 +106,7 @@ where
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
-        let mut sender_options_builder = TelemetrySenderOptionsBaseBuilder::default();
+        let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -138,7 +132,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetrySenderBase::new(application_context, client, sender_options)
+            telemetry::Sender::new(application_context, client, sender_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

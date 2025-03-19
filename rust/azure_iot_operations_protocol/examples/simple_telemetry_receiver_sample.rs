@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_receiver::{self, TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    telemetry,
 };
 
 const CLIENT_ID: &str = "myReceiver";
@@ -69,7 +69,7 @@ async fn telemetry_loop(
     exit_handle: SessionExitHandle,
 ) {
     // Create a telemetry receiver for the temperature telemetry
-    let receiver_options = TelemetryReceiverOptionsBuilder::default()
+    let receiver_options = telemetry::receiver::OptionsBuilder::default()
         .topic_pattern(TOPIC)
         .topic_token_map(HashMap::from([(
             "modelId".to_string(),
@@ -78,10 +78,10 @@ async fn telemetry_loop(
         .auto_ack(false)
         .build()
         .unwrap();
-    let mut telemetry_receiver: TelemetryReceiver<SampleTelemetry, _> =
-        TelemetryReceiver::new(application_context, client, receiver_options).unwrap();
+    let mut receiver: telemetry::Receiver<SampleTelemetry, _> =
+        telemetry::Receiver::new(application_context, client, receiver_options).unwrap();
 
-    while let Some(message) = telemetry_receiver.recv().await {
+    while let Some(message) = receiver.recv().await {
         match message {
             // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
             Ok((message, ack_token)) => {
@@ -93,7 +93,7 @@ async fn telemetry_loop(
                 );
 
                 // Parse cloud event
-                match telemetry_receiver::CloudEvent::from_telemetry(&message) {
+                match telemetry::receiver::CloudEvent::from_telemetry(&message) {
                     Ok(cloud_event) => {
                         println!("{cloud_event}");
                     }

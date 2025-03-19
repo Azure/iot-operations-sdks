@@ -15,7 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    telemetry,
 };
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use chrono::{DateTime, Utc};
@@ -81,13 +81,13 @@ async fn receive_telemetry(
     client: SessionManagedClient,
     sensor_data_processing_tx: mpsc::UnboundedSender<SensorData>,
 ) {
-    let receiver_options = TelemetryReceiverOptionsBuilder::default()
+    let receiver_options = telemetry::receiver::OptionsBuilder::default()
         .topic_pattern(SENSOR_DATA_TOPIC.to_string())
         .build()
         .expect("Telemetry receiver options should not fail");
 
-    let mut telemetry_receiver: TelemetryReceiver<SensorData, _> =
-        TelemetryReceiver::new(application_context, client, receiver_options)
+    let mut telemetry_receiver: telemetry::Receiver<SensorData, _> =
+        telemetry::Receiver::new(application_context, client, receiver_options)
             .expect("Telemetry receiver creation should not fail");
 
     // Start the telemetry receiver
