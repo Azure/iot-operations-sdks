@@ -2,6 +2,13 @@
 
 The following instructions will setup up a development environment for building and running the samples, as well as creating and testing your own Azure IoT Operations edge applications.
 
+**Contents:**
+* [Setup the environment](#setup-the-environment)
+* [Install Azure IoT Operations](#install-azure-iot-operations)
+* [Shell configuration](#shell-configuration)
+* [Testing the installation](#testing-the-installation)
+* [Configuration summary](#configuration-summary)
+
 ## Setup the environment
 
 The following development environment setup options utilize [k3d](https://k3d.io/#what-is-k3d) to simplify Kubernetes cluster creation. Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
