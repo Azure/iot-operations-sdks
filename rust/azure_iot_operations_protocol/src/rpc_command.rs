@@ -9,15 +9,20 @@ use crate::common::aio_protocol_error::AIOProtocolError;
 use crate::ProtocolVersion;
 
 /// This module contains the command invoker implementation.
-pub mod command_invoker;
+pub mod invoker;
 
 /// This module contains the command executor implementation.
-pub mod command_executor;
+pub mod executor;
 
-/// Protocol version used by all envoys in this module
-pub(crate) const RPC_PROTOCOL_VERSION: ProtocolVersion = ProtocolVersion { major: 1, minor: 0 };
+/// Re-export the command invoker and executor for ease of use.
+pub use executor::Executor;
+pub use invoker::Invoker;
+
+/// Protocol version used by all command envoys in this module
+pub(crate) const RPC_COMMAND_PROTOCOL_VERSION: ProtocolVersion =
+    ProtocolVersion { major: 1, minor: 0 };
 /// Assumed version if no version is provided.
-pub(crate) const DEFAULT_RPC_PROTOCOL_VERSION: ProtocolVersion =
+pub(crate) const DEFAULT_RPC_COMMAND_PROTOCOL_VERSION: ProtocolVersion =
     ProtocolVersion { major: 1, minor: 0 };
 
 /// Represents the valid status codes for command responses.
@@ -97,7 +102,7 @@ mod tests {
 
     use test_case::test_case;
 
-    use crate::{common::aio_protocol_error::AIOProtocolErrorKind, rpc::StatusCode};
+    use crate::{common::aio_protocol_error::AIOProtocolErrorKind, rpc_command::StatusCode};
 
     #[test_case(StatusCode::Ok; "Ok")]
     #[test_case(StatusCode::NoContent; "NoContent")]

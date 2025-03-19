@@ -15,9 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_sender::{
-        CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
-    },
+    telemetry,
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -52,11 +50,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
 
-    // Create a TelemetrySender
-    let sender_options = TelemetrySenderOptionsBuilder::default()
+    // Create a telemetry sender
+    let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .build()?;
-    let telemetry_sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
+        .build()
+        .unwrap();
+    let telemetry_sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
         application_context,
         session.create_managed_client(),
         sender_options,
@@ -78,13 +77,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 /// Indefinitely send Telemetry
 async fn telemetry_loop(
-    telemetry_sender: TelemetrySender<SampleTelemetry, SessionManagedClient>,
+    telemetry_sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     loop {
-        let cloud_event = CloudEventBuilder::default()
+        let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
-            .build()?;
-        let message = TelemetryMessageBuilder::default()
+            .build()
+            .unwrap();
+        let message = telemetry::sender::MessageBuilder::default()
             .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
@@ -100,6 +100,7 @@ async fn telemetry_loop(
             Ok(()) => log::info!("Sent telemetry successfully"),
             Err(e) => log::error!("Error sending telemetry: {:?}", e)
         }
+        tokio::time::sleep(Duration::from_secs(1)).await;
     }
 }
 
