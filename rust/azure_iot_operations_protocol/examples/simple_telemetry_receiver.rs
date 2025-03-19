@@ -25,7 +25,7 @@ const TOPIC: &str = "akri/samples/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
@@ -39,17 +39,23 @@ async fn main() {
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
 
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
 
-    let session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options)?;
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context = ApplicationContextBuilder::default().build()?;
+
+    // // Run the session and the Telemetry Receiver logic concurrently
+    // tokio::select! {
+    //     r1 = telemetry_loop(application_context, session.create_managed_client(), session.create_exit_handle()) => {
+    //         r1
+    //     },
+    // }
+
 
     // Use the managed client to run a telemetry receiver in another task
     tokio::task::spawn(telemetry_loop(
@@ -60,6 +66,8 @@ async fn main() {
 
     // Run the session
     session.run().await.unwrap();
+
+    Ok(())
 }
 
 // Handle incoming telemetry messages
@@ -114,9 +122,6 @@ async fn telemetry_loop(
             }
         }
     }
-
-    // End the session if there will be no more messages
-    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]
