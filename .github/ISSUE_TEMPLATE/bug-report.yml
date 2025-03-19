@@ -1,28 +1,67 @@
 name: Bug report
 description: Report issues with the SDKs and Codegen
 title: "[BUG] "
-labels: ["bug"]
+labels: ["bug", "triage"]
+assignees:
+  - ryanwinter
+  - avishekpant
+
 body:
-  - type: input
----
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      multiple: true
+      description: What Product(s) (SDKs or tools) is this impacting?
+      options:
+        - .NET SDK
+        - Go SDK
+        - Rust SDK
+        - Protocol Compiler (Codegen)
+        - State store CLI
+        - Documentation
+        - Other (Outline below)
+    validations:
+      required: true
 
-# **Describe the bug**
-# A clear and concise description of what the bug is.
+  - type: textarea
+    id: aio-version
+    attributes:
+      label: Azure Iot Operations version
+      description: Paste the output of the command `az iot ops show --name myinstance -g myresourcegroup`.
+    validations:
+      required: true
 
-# **To Reproduce**
-# Steps to reproduce the behavior:
-# 1. Go to '...'
-# 2. Click on '....'
-# 3. Scroll down to '....'
-# 4. See error
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also, what was the expected behavior?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
 
-# **Expected behavior**
-# A clear and concise description of what you expected to happen.
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: List the steps to reproduce
+      description: Please provide a minimal set of steps to reproduce the issue.
+    validations:
+      required: true
 
-# **Language**
-# - Language/Tools: [e.g. Go, Rust,  Codegen]
-# - Version: [e.g. 0.5]
-# - OS: [e.g. Linux]
+  - type: textarea
+    id: logs
+    attributes:
+      label: ARelevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
 
-# **Additional context**
-# Add any other context about the problem here.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Azure/iot-operations-sdks/blob/main/CODE_OF_CONDUCT.md). 
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
