@@ -13,6 +13,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(RestThermostatDatasetSamplerFactory.RestDatasetSourceFactoryProvider);
         services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
+        services.AddSingleton(new ConnectorLeaderElectionConfigurationProvider(new("some-http-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9))));
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();
