@@ -4,8 +4,7 @@ use (
 	./internal
 	./mqtt
 	./protocol
-	./samples/application/eventdrivenapp/input_client
-	./samples/application/eventdrivenapp/output_client
+	./samples/application/eventdrivenapp/
 	./samples/protocol/cloudevents/client
 	./samples/protocol/cloudevents/envoy
 	./samples/protocol/cloudevents/server
