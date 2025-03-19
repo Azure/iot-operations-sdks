@@ -39,7 +39,7 @@ pub enum AIOProtocolErrorKind {
     UnsupportedVersion,
 }
 
-/// Represents the possible types of the value of a property
+/// Represents the possible types of the value of a property in a [`AIOProtocolError`]
 #[derive(Debug, PartialEq)]
 pub enum Value {
     /// A 32-bit integer value

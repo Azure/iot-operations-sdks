@@ -72,7 +72,7 @@ pub enum TopicPatternErrorKind {
 /// # Arguments
 /// * `s` - A string slice to check for invalid characters
 #[must_use]
-pub(crate) fn contains_invalid_char(s: &str) -> bool {
+pub fn contains_invalid_char(s: &str) -> bool {
     s.chars().any(|c| {
         !c.is_ascii() || !('!'..='~').contains(&c) || c == '+' || c == '#' || c == '{' || c == '}'
     })
@@ -87,7 +87,7 @@ pub(crate) fn contains_invalid_char(s: &str) -> bool {
 /// # Arguments
 /// * `s` - A string slice to check for validity
 #[must_use]
-pub(crate) fn is_valid_replacement(s: &str) -> bool {
+pub fn is_valid_replacement(s: &str) -> bool {
     !(s.is_empty()
         || contains_invalid_char(s)
         || s.starts_with('/')

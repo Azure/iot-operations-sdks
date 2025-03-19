@@ -59,7 +59,7 @@ pub struct SessionOptions {
     #[builder(default = "100")]
     pub outgoing_max: usize,
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
-    #[builder(default = true)]
+    #[builder(default = "true")]
     pub aio_broker_features: bool,
 }
 
