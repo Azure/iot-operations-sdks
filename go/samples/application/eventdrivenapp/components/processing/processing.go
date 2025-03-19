@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/internal/models"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
+	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/components/models"
 )
 
 func HandleSensorData(ctx context.Context, stateClient *statestore.Client[string, string], data models.SensorData) error {

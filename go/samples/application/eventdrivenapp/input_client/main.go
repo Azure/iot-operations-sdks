@@ -14,7 +14,7 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/internal/models"
+	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/components/models"
 	"github.com/lmittmann/tint"
 )
 
