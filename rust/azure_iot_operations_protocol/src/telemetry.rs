@@ -5,13 +5,17 @@
 use crate::ProtocolVersion;
 
 /// This module contains the telemetry sender implementation.
-pub mod telemetry_sender;
+pub mod sender;
 
 /// This module contains the telemetry receiver implementation.
-pub mod telemetry_receiver;
+pub mod receiver;
 
 /// This module contains the cloud events enum for the Azure IoT Operations Protocol.
 pub mod cloud_event;
+
+/// Re-export the telemetry sender and receiver for ease of use.
+pub use receiver::Receiver;
+pub use sender::Sender;
 
 /// Protocol version used by all envoys in this module
 pub(crate) const TELEMETRY_PROTOCOL_VERSION: ProtocolVersion =
