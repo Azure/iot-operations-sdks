@@ -74,6 +74,7 @@ namespace Azure.Iot.Operations.Connector
         {
             string candidateName = Guid.NewGuid().ToString();
             bool isLeader = false;
+            bool doingLeaderElection = false;
 
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
@@ -121,6 +122,7 @@ namespace Azure.Iot.Operations.Connector
 
                         if (_leaderElectionConfiguration != null)
                         {
+                            doingLeaderElection = true;
                             string leadershipPositionId = _leaderElectionConfiguration.LeadershipPositionId;
 
                             _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
@@ -177,7 +179,7 @@ namespace Azure.Iot.Operations.Connector
                         _assetMonitor.ObserveAssets(null, cancellationToken);
 
                         // Wait until the worker is cancelled or it is no longer the leader
-                        while (!cancellationToken.IsCancellationRequested && (isLeader || _leaderElectionConfiguration != null) && !aepDeletedOrUpdatedTcs.Task.IsCompleted)
+                        while (!cancellationToken.IsCancellationRequested && (isLeader || !doingLeaderElection) && !aepDeletedOrUpdatedTcs.Task.IsCompleted)
                         {
                             try
                             {
