@@ -12,10 +12,7 @@ We will implement sdk-level message chunking as part of the MQTT layer by using 
 The chunking mechanism will:
 1. Be applied only to MQTT PUBLISH packets
 2. Use standardized user properties for chunk metadata:
-   - `__ci`: Chunk index in the sequence (0-based)
-   - `__tc`: Total number of chunks in the complete message
-   - `__mid`: Original message identifier for reassembly
-   - `__cs`: Optional hash/checksum of complete payload
+   - `__chunk`: `mid:<original message id>;ci:<chunk index>;tc:<total chunk count>;cs:<full message check sum>`; `mid,ci` - present for every chunk; `tc,cs` - present only for the first chunk.
 
 ### Protocol Flow
 **Sending Process:**
