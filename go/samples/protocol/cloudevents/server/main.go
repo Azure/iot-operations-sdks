@@ -23,11 +23,10 @@ func main() {
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 	app := must(protocol.NewApplication())
 
-	mqttClient := must(mqtt.NewSessionClient(
-		"cloudeventsampleserver",
-		mqtt.TCPConnection("localhost", 1883),
-		mqtt.WithSessionExpiry(600), // 10 minutes
+	mqttClient := must(mqtt.NewSessionClientFromEnv(
+		mqtt.WithLogger(slog.Default()),
 	))
+
 	server := must(oven.NewOvenService(app, mqttClient))
 	defer server.Close()
 
