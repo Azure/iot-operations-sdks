@@ -74,7 +74,6 @@ namespace Azure.Iot.Operations.Connector
         {
             string candidateName = Guid.NewGuid().ToString();
             bool isLeader = false;
-            bool doingLeaderElection = false;
 
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
@@ -84,6 +83,7 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
+            bool doingLeaderElection = false;
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -183,11 +183,11 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                if (_leaderElectionConfiguration != null)
+                                if (doingLeaderElection)
                                 {
                                     await Task.WhenAny(
                                         aepDeletedOrUpdatedTcs.Task,
-                                        Task.Delay(_leaderElectionConfiguration.LeadershipPositionTermLength)).WaitAsync(cancellationToken);
+                                        Task.Delay(_leaderElectionConfiguration!.LeadershipPositionTermLength)).WaitAsync(cancellationToken);
                                 }
                                 else
                                 {
@@ -209,7 +209,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation("Received a notification that the asset endpoint profile has changed. This pod will now cancel current asset sampling and restart monitoring assets.");
                         }
-                        else if (_leaderElectionConfiguration != null)
+                        else if (doingLeaderElection)
                         {
                             _logger.LogInformation("This pod is no longer the leader. It will now stop monitoring and sampling assets.");
                         }
