@@ -2,12 +2,12 @@
 
 #nullable enable
 
-namespace CloudEventsSample.Oven
+namespace CloudEvents.Oven
 {
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
-    using CloudEventsSample;
+    using CloudEvents;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.9.0.0")]
     public partial class TelemetryCollection

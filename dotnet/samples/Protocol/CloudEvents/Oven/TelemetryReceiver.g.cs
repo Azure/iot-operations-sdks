@@ -2,14 +2,14 @@
 
 #nullable enable
 
-namespace CloudEventsSample.Oven
+namespace CloudEvents.Oven
 {
     using System;
     using System.Collections.Generic;
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Protocol.Models;
-    using CloudEventsSample;
+    using CloudEvents;
 
     public static partial class Oven
     {

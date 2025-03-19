@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace CloudEventsSample.Oven
+namespace CloudEvents.Oven
 {
     using System;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace CloudEventsSample.Oven
     using Azure.Iot.Operations.Protocol;
     using Azure.Iot.Operations.Protocol.RPC;
     using Azure.Iot.Operations.Protocol.Telemetry;
-    using CloudEventsSample;
+    using CloudEvents;
 
     [TelemetryTopic("akri/samples/{modelId}/{senderId}")]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.9.0.0")]

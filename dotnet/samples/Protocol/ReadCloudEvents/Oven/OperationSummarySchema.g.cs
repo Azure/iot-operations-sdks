@@ -2,12 +2,12 @@
 
 #nullable enable
 
-namespace ReadCloudEventsSample.Oven
+namespace ReadCloudEvents.Oven
 {
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
-    using ReadCloudEventsSample;
+    using ReadCloudEvents;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.9.0.0")]
     public partial class OperationSummarySchema
