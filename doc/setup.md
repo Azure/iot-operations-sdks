@@ -112,6 +112,14 @@ Azure IoT Operations will be installed to the development cluster, and then the 
     ./tools/deployment/deploy-aio.sh
     ```
 
+## Shell configuration
+
+The samples within this repository read configuration from environment variables. We have provided a [.env](/.env) file in the repository root that exports the variables used by the samples to connect to the MQTT Broker.
+
+```bash
+source <REPOSITORY ROOT>/.env
+```
+
 ## Testing the installation
 
 To test the setup is working correctly, use `mosquitto_pub` to connect to the MQTT broker to validate the x509 certs, SAT and trust bundle.
