@@ -3,8 +3,8 @@ module github.com/Azure/iot-operations-sdks/go/services
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.2.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.0
 	github.com/stretchr/testify v1.10.0
 )
 

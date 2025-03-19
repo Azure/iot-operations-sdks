@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/protocol
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.2.0
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.0
 	github.com/google/uuid v1.6.0
 	github.com/relvacode/iso8601 v1.6.0
 	github.com/sosodev/duration v1.3.1
