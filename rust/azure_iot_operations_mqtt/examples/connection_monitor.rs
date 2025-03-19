@@ -15,7 +15,7 @@ const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
@@ -28,15 +28,13 @@ async fn main() {
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
 
     // Create a new session.
-    let session = Session::new(session_options).unwrap();
+    let session = Session::new(session_options)?;
 
     // Spawn tasks monitoring uptime and exiting the session.
     tokio::spawn(uptime_monitor(session.create_connection_monitor()));
@@ -45,9 +43,11 @@ async fn main() {
         Duration::from_secs(60),
     ));
     // Run the session. This blocks until the session is exited.
-    session.run().await.unwrap();
+    session.run().await?;
     // Briefly block to ensure uptime has time to log disconnect.
     tokio::time::sleep(Duration::from_secs(1)).await;
+
+    Ok(())
 }
 
 /// Monitor uptime
@@ -70,5 +70,13 @@ async fn uptime_monitor(monitor: SessionConnectionMonitor) {
 /// Exit session after specified time
 async fn exit_after_duration(exit_handle: SessionExitHandle, duration: Duration) {
     tokio::time::sleep(duration).await;
-    exit_handle.try_exit().await.unwrap();
+    log::info!("Exiting session after {:?}", duration);
+    match exit_handle.try_exit().await {
+        Ok(()) => println!("Session exited successfully"),
+        Err(e) => {
+            log::info!("Graceful session exit failed: {e}");
+            log::info!("Forcing session exit");
+            exit_handle.exit_force().await;
+        }
+    }
 }
