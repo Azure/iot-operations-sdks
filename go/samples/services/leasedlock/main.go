@@ -22,10 +22,8 @@ func main() {
 	log := slog.New(tint.NewHandler(os.Stdout, nil))
 	app := must(protocol.NewApplication())
 
-	mqttClient := must(mqtt.NewSessionClient(
-		"leasedlocksample",
-		mqtt.TCPConnection("localhost", 1883),
-		mqtt.WithSessionExpiry(600), // 10 minutes
+	mqttClient := must(mqtt.NewSessionClientFromEnv(
+		mqtt.WithLogger(slog.Default()),
 	))
 
 	client := must(statestore.New[string, string](app, mqttClient))

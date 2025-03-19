@@ -30,24 +30,24 @@ use crate::{
         user_properties::UserProperty,
     },
     parse_supported_protocol_major_versions,
-    rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc_command::{StatusCode, DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION},
     ProtocolVersion,
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
 /// Command Request struct.
-/// Used by the [`CommandInvoker`]
+/// Used by the [`Invoker`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct CommandRequest<TReq>
+pub struct Request<TReq>
 where
     TReq: PayloadSerialize,
 {
     /// Payload of the command request.
     #[builder(setter(custom))]
     serialized_payload: SerializedPayload,
-    /// Strongly link `CommandRequest` with type `TReq`
+    /// Strongly link `Request` with type `TReq`
     #[builder(private)]
     request_payload_type: PhantomData<TReq>,
     /// User data that will be set as custom MQTT User Properties on the Request message.
@@ -63,7 +63,7 @@ where
     #[builder(setter(custom))]
     timeout: Duration,
 }
-impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
+impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
     /// # Errors
@@ -139,9 +139,9 @@ impl<TReq: PayloadSerialize> CommandRequestBuilder<TReq> {
 }
 
 /// Command Response struct.
-/// Used by the [`CommandInvoker`]
+/// Used by the [`Invoker`]
 #[derive(Debug)]
-pub struct CommandResponse<TResp>
+pub struct Response<TResp>
 where
     TResp: PayloadSerialize,
 {
@@ -160,7 +160,7 @@ where
 /// Command Invoker Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
-pub struct CommandInvokerOptions {
+pub struct Options {
     /// Topic pattern for the command request.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
@@ -197,7 +197,7 @@ pub struct CommandInvokerOptions {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder, CommandResponse};
+/// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_client")
@@ -209,7 +209,7 @@ pub struct CommandInvokerOptions {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let invoker_options = CommandInvokerOptionsBuilder::default()
+/// let invoker_options = rpc_command::invoker::OptionsBuilder::default()
 ///   .request_topic_pattern("test/request")
 ///   .response_topic_pattern("test/response".to_string())
 ///   .command_name("test_command")
@@ -218,17 +218,17 @@ pub struct CommandInvokerOptions {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let command_invoker: CommandInvoker<Vec<u8>, Vec<u8>, _> = CommandInvoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
-/// let request = CommandRequestBuilder::default()
+/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>, _> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let request = rpc_command::invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
 ///   .topic_tokens(HashMap::from([("executorId".to_string(), "test_executor".to_string())]))
 ///   .build().unwrap();
-/// let result = command_invoker.invoke(request);
-/// //let response: CommandResponse<Vec<u8>> = result.await.unwrap();
+/// let result = invoker.invoke(request);
+/// //let response: Response<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```
-pub struct CommandInvoker<TReq, TResp, C>
+pub struct Invoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
@@ -244,14 +244,14 @@ where
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    invoker_state_mutex: Arc<Mutex<State>>,
     // Used to send information to manage state
     shutdown_notifier: Arc<Notify>,
     response_tx: Sender<Option<Publish>>,
 }
 
 /// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
-enum CommandInvokerState {
+enum State {
     New,
     Subscribed,
     ShutdownInitiated,
@@ -259,40 +259,40 @@ enum CommandInvokerState {
 }
 
 /// Implementation of Command Invoker.
-impl<TReq, TResp, C> CommandInvoker<TReq, TResp, C>
+impl<TReq, TResp, C> Invoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`CommandInvoker`].
+    /// Creates a new [`Invoker`].
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the command invoker is part of.
     /// * `client` - The MQTT client to use for communication.
     /// * `invoker_options` - Configuration options.
     ///
-    /// Returns Ok([`CommandInvoker`]) on success, otherwise returns [`AIOProtocolError`].
+    /// Returns Ok([`Invoker`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if:
-    /// - [`command_name`](CommandInvokerOptions::command_name) is empty, whitespace or invalid
-    /// - [`request_topic_pattern`](CommandInvokerOptions::request_topic_pattern) is empty or whitespace
-    /// - [`response_topic_pattern`](CommandInvokerOptions::response_topic_pattern) is Some and empty or whitespace
-    ///     - [`response_topic_pattern`](CommandInvokerOptions::response_topic_pattern) is None and
-    ///         [`response_topic_prefix`](CommandInvokerOptions::response_topic_prefix) or
-    ///         [`response_topic_suffix`](CommandInvokerOptions::response_topic_suffix) are Some and empty or whitespace
-    /// - [`request_topic_pattern`](CommandInvokerOptions::request_topic_pattern),
-    ///     [`response_topic_pattern`](CommandInvokerOptions::response_topic_pattern),
-    ///     [`topic_namespace`](CommandInvokerOptions::topic_namespace),
-    ///     [`response_topic_prefix`](CommandInvokerOptions::response_topic_prefix),
-    ///     [`response_topic_suffix`](CommandInvokerOptions::response_topic_suffix),
+    /// - [`command_name`](Options::command_name) is empty, whitespace or invalid
+    /// - [`request_topic_pattern`](Options::request_topic_pattern) is empty or whitespace
+    /// - [`response_topic_pattern`](Options::response_topic_pattern) is Some and empty or whitespace
+    ///     - [`response_topic_pattern`](Options::response_topic_pattern) is None and
+    ///         [`response_topic_prefix`](Options::response_topic_prefix) or
+    ///         [`response_topic_suffix`](Options::response_topic_suffix) are Some and empty or whitespace
+    /// - [`request_topic_pattern`](Options::request_topic_pattern),
+    ///     [`response_topic_pattern`](Options::response_topic_pattern),
+    ///     [`topic_namespace`](Options::topic_namespace),
+    ///     [`response_topic_prefix`](Options::response_topic_prefix),
+    ///     [`response_topic_suffix`](Options::response_topic_suffix),
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](CommandInvokerOptions::topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](Options::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        invoker_options: CommandInvokerOptions,
+        invoker_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
         if invoker_options.command_name.is_empty()
@@ -362,7 +362,7 @@ where
         })?;
 
         // Create mutex to track invoker state
-        let invoker_state_mutex = Arc::new(Mutex::new(CommandInvokerState::New));
+        let invoker_state_mutex = Arc::new(Mutex::new(State::New));
 
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = match client
@@ -418,16 +418,16 @@ where
 
     /// Invokes a command.
     ///
-    /// Returns Ok([`CommandResponse`]) on success, otherwise returns [`AIOProtocolError`].
+    /// Returns Ok([`Response`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Arguments
-    /// * `request` - [`CommandRequest`] to invoke
+    /// * `request` - [`Request`] to invoke
     /// # Errors
     ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - any [`topic_tokens`](CommandRequest::topic_tokens) are invalid
+    /// - any [`topic_tokens`](Request::topic_tokens) are invalid
     ///
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](AIOProtocolErrorKind::PayloadInvalid) if
-    /// - [`response_payload`][CommandResponse::payload] deserialization fails
+    /// - [`response_payload`][Response::payload] deserialization fails
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::NoContent`] but the payload isn't empty
     /// - The response has a [`UserProperty::Status`] of [`StatusCode::BadRequest`] and there is no [`UserProperty::InvalidPropertyName`] or [`UserProperty::InvalidPropertyValue`] specified
     ///
@@ -441,7 +441,7 @@ where
     /// - The publish fails
     /// - The puback reason code doesn't indicate success.
     ///
-    /// [`AIOProtocolError`] of kind [`Cancellation`](AIOProtocolErrorKind::Cancellation) if the [`CommandInvoker`] has been dropped
+    /// [`AIOProtocolError`] of kind [`Cancellation`](AIOProtocolErrorKind::Cancellation) if the [`Invoker`] has been dropped
     ///
     /// [`AIOProtocolError`] of kind [`HeaderInvalid`](AIOProtocolErrorKind::HeaderInvalid) if
     /// - The response's `content_type` isn't supported
@@ -469,8 +469,8 @@ where
     /// - the response has a [`UserProperty::Status`] of [`StatusCode::ServiceUnavailable`]
     pub async fn invoke(
         &self,
-        request: CommandRequest<TReq>,
-    ) -> Result<CommandResponse<TResp>, AIOProtocolError> {
+        request: Request<TReq>,
+    ) -> Result<Response<TResp>, AIOProtocolError> {
         // Get the timeout duration to use
         let command_timeout = request.timeout;
 
@@ -541,14 +541,14 @@ where
 
     async fn invoke_internal(
         &self,
-        mut request: CommandRequest<TReq>,
-    ) -> Result<CommandResponse<TResp>, AIOProtocolError> {
-        // Validate parameters. Custom user data, timeout, and payload serialization have already been validated in CommandRequestBuilder
+        mut request: Request<TReq>,
+    ) -> Result<Response<TResp>, AIOProtocolError> {
+        // Validate parameters. Custom user data, timeout, and payload serialization have already been validated in RequestBuilder
         // Validate message expiry interval
         let message_expiry_interval: u32 = match request.timeout.as_secs().try_into() {
             Ok(val) => val,
             Err(_) => {
-                // should be validated in CommandRequestBuilder
+                // should be validated in RequestBuilder
                 unreachable!();
             }
         };
@@ -591,7 +591,7 @@ where
             .push((UserProperty::Timestamp.to_string(), timestamp_str));
         request.custom_user_data.push((
             UserProperty::ProtocolVersion.to_string(),
-            RPC_PROTOCOL_VERSION.to_string(),
+            RPC_COMMAND_PROTOCOL_VERSION.to_string(),
         ));
         request.custom_user_data.push((
             PARTITION_KEY.to_string(),
@@ -614,13 +614,12 @@ where
         {
             let mut invoker_state = self.invoker_state_mutex.lock().await;
             match *invoker_state {
-                CommandInvokerState::New => {
+                State::New => {
                     self.subscribe_to_response_filter().await?;
-                    *invoker_state = CommandInvokerState::Subscribed;
+                    *invoker_state = State::Subscribed;
                 }
-                CommandInvokerState::Subscribed => { /* No-op, already subscribed */ }
-                CommandInvokerState::ShutdownInitiated
-                | CommandInvokerState::ShutdownSuccessful => {
+                State::Subscribed => { /* No-op, already subscribed */ }
+                State::ShutdownInitiated | State::ShutdownSuccessful => {
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
                         None,
@@ -778,10 +777,10 @@ where
         }
     }
 
-    /// Shutdown the [`CommandInvoker`]. Unsubscribes from the response topic and closes the
+    /// Shutdown the [`Invoker`]. Unsubscribes from the response topic and closes the
     /// MQTT receiver to stop receiving messages.
     ///
-    /// Note: If this method is called, the [`CommandInvoker`] should not be used again.
+    /// Note: If this method is called, the [`Invoker`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
@@ -793,12 +792,12 @@ where
 
         let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
         match *invoker_state_mutex_guard {
-            CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+            State::New | State::ShutdownSuccessful => {
                 /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
             }
-            CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+            State::ShutdownInitiated | State::Subscribed => {
                 // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
-                *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+                *invoker_state_mutex_guard = State::ShutdownInitiated;
                 let unsubscribe_result = self
                     .mqtt_client
                     .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
@@ -835,7 +834,7 @@ where
 
         log::info!("[{}] Shutdown", self.command_name);
         // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
-        *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
+        *invoker_state_mutex_guard = State::ShutdownSuccessful;
         Ok(())
     }
 }
@@ -845,7 +844,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     command_name: String,
     response_payload: &Bytes,
     response_properties: PublishProperties,
-) -> Result<CommandResponse<TResp>, AIOProtocolError> {
+) -> Result<Response<TResp>, AIOProtocolError> {
     // Create a default response error so we can update details as we parse
     let mut response_error = AIOProtocolError {
         kind: AIOProtocolErrorKind::UnknownError, // should be overwritten
@@ -874,7 +873,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let mut invalid_property_value: Option<String> = None;
 
     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-    let mut response_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
+    let mut response_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
     if let Some((_, protocol_version)) = response_properties
         .user_properties
         .iter()
@@ -1013,13 +1012,13 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
             // if status code isn't ok or no content, form `AIOProtocolError` about response
             match status_code {
                 StatusCode::Ok => {
-                    // Continue to form success CommandResponse
+                    // Continue to form success Command Response
                     break 'block;
                 }
                 StatusCode::NoContent => {
                     // If status code is no content, an error will be returned if there is content
                     if response_payload.is_empty() {
-                        // continue to form success CommandResponse
+                        // continue to form success Command Response
                         break 'block;
                     }
                     // If there is content, return an error
@@ -1133,7 +1132,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
         },
     };
 
-    Ok(CommandResponse {
+    Ok(Response {
         payload: deserialized_response_payload,
         content_type: response_properties.content_type,
         format_indicator,
@@ -1142,7 +1141,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     })
 }
 
-impl<TReq, TResp, C> Drop for CommandInvoker<TReq, TResp, C>
+impl<TReq, TResp, C> Drop for Invoker<TReq, TResp, C>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
@@ -1166,17 +1165,17 @@ where
 
 async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
     mqtt_client: C,
-    invoker_state_mutex: Arc<Mutex<CommandInvokerState>>,
+    invoker_state_mutex: Arc<Mutex<State>>,
     unsubscribe_filter: String,
 ) {
     let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
     match *invoker_state_mutex_guard {
-        CommandInvokerState::New | CommandInvokerState::ShutdownSuccessful => {
+        State::New | State::ShutdownSuccessful => {
             /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
         }
-        CommandInvokerState::ShutdownInitiated | CommandInvokerState::Subscribed => {
+        State::ShutdownInitiated | State::Subscribed => {
             // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
-            *invoker_state_mutex_guard = CommandInvokerState::ShutdownInitiated;
+            *invoker_state_mutex_guard = State::ShutdownInitiated;
             match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
                 Ok(_) => {
                     log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
@@ -1189,7 +1188,7 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
     }
 
     // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
-    *invoker_state_mutex_guard = CommandInvokerState::ShutdownSuccessful;
+    *invoker_state_mutex_guard = State::ShutdownSuccessful;
 }
 
 #[cfg(test)]
@@ -1233,21 +1232,21 @@ mod tests {
     async fn test_new_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
         .unwrap();
         assert_eq!(
-            command_invoker.response_topic_pattern.as_subscribe_topic(),
+            invoker.response_topic_pattern.as_subscribe_topic(),
             "clients/test_client/test/test_command_name/+/request"
         );
     }
@@ -1256,7 +1255,7 @@ mod tests {
     async fn test_new_override_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .response_topic_pattern("test/{commandName}/{executorId}/response".to_string())
             .command_name("test_command_name")
@@ -1267,7 +1266,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1275,7 +1274,7 @@ mod tests {
         .unwrap();
         // prefix and suffix should be ignored if response_topic_pattern is provided
         assert_eq!(
-            command_invoker.response_topic_pattern.as_subscribe_topic(),
+            invoker.response_topic_pattern.as_subscribe_topic(),
             "test_namespace/test/test_command_name/+/response"
         );
     }
@@ -1331,7 +1330,7 @@ mod tests {
             _ => panic!("Invalid property_name"),
         }
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .response_topic_pattern(response_topic_pattern)
             .response_topic_prefix(response_topic_prefix)
@@ -1340,13 +1339,12 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                invoker_options,
-            );
-        match command_invoker {
+        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        match invoker {
             Ok(_) => panic!("Expected error"),
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1376,7 +1374,7 @@ mod tests {
         let command_name = "test_command_name".to_string();
         let request_topic_pattern = "test/req/topic".to_string();
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
             .response_topic_prefix(response_topic_prefix)
@@ -1384,18 +1382,14 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                invoker_options,
-            );
-        assert!(command_invoker.is_ok());
+        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        assert!(invoker.is_ok());
         assert_eq!(
-            command_invoker
-                .unwrap()
-                .response_topic_pattern
-                .as_subscribe_topic(),
+            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
             expected_response_topic_subscribe_pattern
         );
     }
@@ -1408,24 +1402,20 @@ mod tests {
         let command_name = "test_command_name";
         let request_topic_pattern = "test/req/topic";
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                invoker_options,
-            );
-        assert!(command_invoker.is_ok());
+        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        assert!(invoker.is_ok());
         assert_eq!(
-            command_invoker
-                .unwrap()
-                .response_topic_pattern
-                .as_subscribe_topic(),
+            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
             "clients/test_client/test/req/topic"
         );
     }
@@ -1439,25 +1429,21 @@ mod tests {
         let request_topic_pattern = "test/req/topic";
         let response_topic_suffix = "custom/suffix";
 
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic_pattern)
             .command_name(command_name)
             .topic_token_map(create_topic_tokens())
             .response_topic_suffix(response_topic_suffix.to_string())
             .build()
             .unwrap();
-        let command_invoker: Result<CommandInvoker<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandInvoker::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                invoker_options,
-            );
-        assert!(command_invoker.is_ok());
+        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            invoker_options,
+        );
+        assert!(invoker.is_ok());
         assert_eq!(
-            command_invoker
-                .unwrap()
-                .response_topic_pattern
-                .as_subscribe_topic(),
+            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
             "test/req/topic/custom/suffix"
         );
     }
@@ -1470,14 +1456,14 @@ mod tests {
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1518,13 +1504,13 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
-        *invoker_state = CommandInvokerState::Subscribed;
+        let mut invoker_state = invoker.invoker_state_mutex.lock().await;
+        *invoker_state = State::Subscribed;
         drop(invoker_state);
 
-        let response = command_invoker
+        let response = invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(5))
@@ -1540,14 +1526,14 @@ mod tests {
     async fn test_invoke_times_out() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1571,9 +1557,9 @@ mod tests {
         //      pub sent (puback received)
         //      pub not received
 
-        let response = command_invoker
+        let response = invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(1))
@@ -1599,14 +1585,14 @@ mod tests {
     async fn test_invoke_times_out_timeout_rounded() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1630,9 +1616,9 @@ mod tests {
         //      pub sent (puback received)
         //      pub not received
 
-        let response = command_invoker
+        let response = invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_nanos(1))
@@ -1660,14 +1646,14 @@ mod tests {
 
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1704,13 +1690,13 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut invoker_state = command_invoker.invoker_state_mutex.lock().await;
-        *invoker_state = CommandInvokerState::Subscribed;
+        let mut invoker_state = invoker.invoker_state_mutex.lock().await;
+        *invoker_state = State::Subscribed;
         drop(invoker_state);
 
-        let response = command_invoker
+        let response = invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_millis(2))
@@ -1733,14 +1719,14 @@ mod tests {
     async fn test_invoke_executor_id_invalid_value() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1758,9 +1744,9 @@ mod tests {
             })
             .times(1);
 
-        let response = command_invoker
+        let response = invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
@@ -1788,14 +1774,14 @@ mod tests {
     async fn test_invoke_missing_token() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = OptionsBuilder::default()
             .request_topic_pattern("test/req/{executorId}/topic")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_invoker: CommandInvoker<MockPayload, MockPayload, _> = CommandInvoker::new(
+        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1813,9 +1799,9 @@ mod tests {
             })
             .times(1);
 
-        let response = command_invoker
+        let response = invoker
             .invoke(
-                CommandRequestBuilder::default()
+                RequestBuilder::default()
                     .payload(mock_request_payload)
                     .unwrap()
                     .timeout(Duration::from_secs(2))
@@ -1845,7 +1831,7 @@ mod tests {
             .returning(|| Err("dummy error".to_string()))
             .times(1);
 
-        let mut binding = CommandRequestBuilder::default();
+        let mut binding = RequestBuilder::default();
         let req_builder = binding.payload(mock_request_payload);
         match req_builder {
             Err(e) => {
@@ -1871,7 +1857,7 @@ mod tests {
             })
             .times(1);
 
-        let mut binding = CommandRequestBuilder::default();
+        let mut binding = RequestBuilder::default();
         let req_builder = binding.payload(mock_request_payload);
         match req_builder {
             Err(e) => {
@@ -1906,7 +1892,7 @@ mod tests {
             })
             .times(1);
 
-        let request_builder_result = CommandRequestBuilder::default()
+        let request_builder_result = RequestBuilder::default()
             .payload(mock_request_payload)
             .unwrap()
             .timeout(timeout)
@@ -1916,7 +1902,7 @@ mod tests {
     }
 }
 
-// CommandRequest tests
+// Command Request tests
 // Test cases for subscribe
 // Tests success:
 //    Subscribe is called on first invoke request and suback is received
@@ -1959,7 +1945,7 @@ mod tests {
 // Tests success:
 //     content type isn't present
 //     format indicator not present, 0, or (1 and TResp format indicator is 1)
-//     valid timestamp present and is returned on the CommandResponse
+//     valid timestamp present and is returned on the Command Response
 //     no timestamp is present
 //     status is a number and is one of StatusCode's enum values
 //     in_application is interpreted as false if it is anything other than "true" and there are no errors parsing this

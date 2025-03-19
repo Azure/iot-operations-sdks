@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <VersionPrefix>0.9.0</VersionPrefix>
+    <VersionPrefix>0.10.0</VersionPrefix>
     <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>

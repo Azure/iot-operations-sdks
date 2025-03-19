@@ -5,15 +5,11 @@
 
 use core::fmt::Debug;
 
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use thiserror::Error;
 
-use crate::state_store::{
-    KeyObservation, ServiceError as StateStoreServiceError, StateStoreError, StateStoreErrorKind,
-};
-
+use crate::state_store::{self, KeyObservation, ServiceError as StateStoreServiceError};
 pub use crate::state_store::{Response, SetCondition, SetOptions};
-
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
 /// A struct to manage receiving notifications for a lock
 pub type LockObservation = KeyObservation;
@@ -39,8 +35,8 @@ impl Error {
     }
 }
 
-impl From<StateStoreError> for Error {
-    fn from(error: StateStoreError) -> Self {
+impl From<state_store::Error> for Error {
+    fn from(error: state_store::Error) -> Self {
         let kind: ErrorKind = (error.consuming_kind()).into();
         kind.into()
     }
@@ -82,24 +78,26 @@ pub enum ErrorKind {
     DuplicateObserve,
 }
 
-impl From<StateStoreErrorKind> for ErrorKind {
-    fn from(kind: StateStoreErrorKind) -> Self {
+impl From<state_store::ErrorKind> for ErrorKind {
+    fn from(kind: state_store::ErrorKind) -> Self {
         match kind {
-            StateStoreErrorKind::AIOProtocolError(protocol_error) => {
+            state_store::ErrorKind::AIOProtocolError(protocol_error) => {
                 ErrorKind::AIOProtocolError(protocol_error)
             }
-            StateStoreErrorKind::ServiceError(service_error) => {
+            state_store::ErrorKind::ServiceError(service_error) => {
                 ErrorKind::ServiceError(service_error)
             }
-            StateStoreErrorKind::KeyLengthZero => ErrorKind::KeyLengthZero,
-            StateStoreErrorKind::SerializationError(error_string) => {
+            state_store::ErrorKind::KeyLengthZero => ErrorKind::KeyLengthZero,
+            state_store::ErrorKind::SerializationError(error_string) => {
                 ErrorKind::SerializationError(error_string)
             }
-            StateStoreErrorKind::InvalidArgument(argument) => ErrorKind::InvalidArgument(argument),
-            StateStoreErrorKind::UnexpectedPayload(payload) => {
+            state_store::ErrorKind::InvalidArgument(argument) => {
+                ErrorKind::InvalidArgument(argument)
+            }
+            state_store::ErrorKind::UnexpectedPayload(payload) => {
                 ErrorKind::UnexpectedPayload(payload)
             }
-            StateStoreErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve,
+            state_store::ErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve,
         }
     }
 }

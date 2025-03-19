@@ -10,10 +10,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 <# if (this.reqSchema != null) { #>
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 <# } #>
-use azure_iot_operations_protocol::rpc::command_invoker::{
-    CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
-    CommandRequestBuilderError, CommandResponse,
-};
+use azure_iot_operations_protocol::rpc_command;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
 <# if (this.reqSchema is CodeName) { #>
@@ -40,14 +37,14 @@ use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 
-pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#> = CommandRequest<<#=this.RequestType()#>>;
-pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> = CommandResponse<<#=this.ResponseType()#>>;
-pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder", "error")#> = CommandRequestBuilderError;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#> = rpc_command::invoker::Request<<#=this.RequestType()#>>;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> =rpc_command::invoker::Response<<#=this.ResponseType()#>>;
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder", "error")#> = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`<#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>`]
 pub struct <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder")#> {
-    inner_builder: CommandRequestBuilder<<#=this.RequestType()#>>,
+    inner_builder: rpc_command::invoker::RequestBuilder<<#=this.RequestType()#>>,
 <# if (this.doesCommandTargetExecutor) { #>
     set_executor_id: bool,
 <# } #>
@@ -127,7 +124,7 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder")#
 
 /// Command Invoker for `<#=this.commandName.AsGiven#>`
 pub struct <#=this.commandName.GetTypeName(TargetLanguage.Rust, "command", "invoker")#><C>(
-    CommandInvoker<<#=this.RequestType()#>, <#=this.ResponseType()#>, C>,
+    rpc_command::Invoker<<#=this.RequestType()#>, <#=this.ResponseType()#>, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -143,7 +140,7 @@ where
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(application_context: ApplicationContext, client: C, options: &CommandOptions) -> Self {
-        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -167,7 +164,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandInvoker::new(application_context, client, invoker_options)
+            rpc_command::Invoker::new(application_context, client, invoker_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
