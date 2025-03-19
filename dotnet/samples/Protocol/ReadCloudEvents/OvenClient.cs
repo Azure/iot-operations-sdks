@@ -7,10 +7,10 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Protocol;
-using ReadCloudEventsSample.Oven;
+using ReadCloudEvents.Oven;
 
 public class OvenClient(ApplicationContext applicationContext, MqttSessionClient mqttClient, SchemaRegistryClient schemaRegistryClient, ILogger<OvenClient> logger) 
-    : Oven.Oven.Client(applicationContext, mqttClient)
+    : Oven.Client(applicationContext, mqttClient)
 {
 
     private readonly Dictionary<string, string> _schemaCache = new();
