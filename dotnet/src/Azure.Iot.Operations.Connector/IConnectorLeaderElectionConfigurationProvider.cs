@@ -1,16 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Azure.Iot.Operations.Connector
 {
+    /// <summary>
+    /// Defines how a user passes in leader election information to a connector application.
+    /// </summary>
     public interface IConnectorLeaderElectionConfigurationProvider
     {
+        /// <summary>
+        /// Get the leader election configuration to use in this connector.
+        /// </summary>
+        /// <returns>The leader election configuration to use in this connector</returns>
         ConnectorLeaderElectionConfiguration GetLeaderElectionConfiguration();
     }
 }
