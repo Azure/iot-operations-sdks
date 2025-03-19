@@ -36,6 +36,7 @@ impl Error {
 
     /// Returns the [`ErrorKind`] of the error.
     #[must_use]
+    #[allow(dead_code)]
     pub(crate) fn consuming_kind(self) -> ErrorKind {
         self.0
     }
