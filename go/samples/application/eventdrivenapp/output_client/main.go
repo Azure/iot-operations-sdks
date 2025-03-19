@@ -14,10 +14,9 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
-	"github.com/lmittmann/tint"
-
 	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/internal/models"
 	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/internal/processing"
+	"github.com/lmittmann/tint"
 )
 
 func main() {
