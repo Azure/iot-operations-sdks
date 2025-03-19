@@ -36,6 +36,7 @@ impl StateStoreError {
 
     /// Returns the [`StateStoreErrorKind`] of the error.
     #[must_use]
+    #[allow(dead_code)]
     pub(crate) fn consuming_kind(self) -> StateStoreErrorKind {
         self.0
     }

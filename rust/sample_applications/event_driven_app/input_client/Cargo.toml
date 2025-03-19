@@ -1,0 +1,18 @@
+[package]
+name = "input_client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"]}
+serde_json = { version = "1.0.105"}
+chrono = { version = "0.4.31", features = ["serde", "alloc"] }
+tokio.workspace = true
+env_logger.workspace = true
+log.workspace = true
+azure_iot_operations_mqtt = { path = "../../../azure_iot_operations_mqtt", registry = "aio-sdks" }
+azure_iot_operations_protocol = { path = "../../../azure_iot_operations_protocol", registry = "aio-sdks" }
+azure_iot_operations_services = { path = "../../../azure_iot_operations_services", registry = "aio-sdks", features=["state_store"] }
+
+[lints]
+workspace = true

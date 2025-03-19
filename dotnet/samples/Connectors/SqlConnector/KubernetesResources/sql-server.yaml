@@ -1,0 +1,162 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mssql-config
+  namespace: azure-iot-operations
+data:
+  setup.sql: |
+    PRINT 'Starting setup script';
+    USE [master];
+    GO
+    IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'MySampleDB')
+    BEGIN
+        CREATE DATABASE MySampleDB;
+        PRINT 'Created MySampleDB database';
+    END
+    ELSE
+    BEGIN
+        PRINT 'MySampleDB database already exists';
+    END
+    GO
+    USE MySampleDB;
+    PRINT 'Switched to MySampleDB database';
+    GO
+    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'CountryMeasurements')
+    BEGIN
+        CREATE TABLE CountryMeasurements (
+            ID INT PRIMARY KEY IDENTITY(1,1),
+            Country CHAR(2),
+            Viscosity DECIMAL(3,2),
+            Sweetness DECIMAL(3,2),
+            ParticleSize DECIMAL(3,2),
+            Overall DECIMAL(3,2)
+        );
+        INSERT INTO CountryMeasurements (Country, Viscosity, Sweetness, ParticleSize, Overall)
+        VALUES
+            ('us', 0.50, 0.80, 0.70, 0.40),
+            ('fr', 0.60, 0.85, 0.75, 0.45),
+            ('jp', 0.53, 0.83, 0.73, 0.43),
+            ('uk', 0.51, 0.81, 0.71, 0.41);
+        PRINT 'Created and populated CountryMeasurements table';
+    END
+    ELSE
+    BEGIN
+        PRINT 'CountryMeasurements table already exists';
+    END
+    GO
+    PRINT 'Setup script completed';
+  mssql.conf: |
+    [network]
+    forceencryption = 0
+    trustservercertificate = 1
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mssql-data
+  namespace: azure-iot-operations
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sql-server-auth-credentials
+  namespace: azure-iot-operations
+type: Opaque
+data:
+  USERNAME: c2E=
+  SA_PASSWORD: TXlFeHRyZW1lbHlTdHJvbmdwYXNzd29yZEAxMjM=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssql-deployment
+  namespace: azure-iot-operations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql
+  template:
+    metadata:
+      labels:
+        app: mssql
+    spec:
+      terminationGracePeriodSeconds: 30
+      hostname: mssqlinst
+      securityContext:
+        fsGroup: 10001
+        runAsUser: 10001
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-data
+        - name: mssql-config
+          configMap:
+            name: mssql-config
+      containers:
+        - name: mssql
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          securityContext:
+            runAsUser: 10001
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+          resources:
+            requests:
+              memory: "2G"
+              cpu: "2000m"
+            limits:
+              memory: "2G"
+              cpu: "2000m"
+          ports:
+            - containerPort: 1433
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+              subPath: data
+            - name: mssql-config
+              mountPath: /usr/config
+          env:
+            - name: MSSQL_PID
+              value: "Developer"
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-server-auth-credentials
+                  key: SA_PASSWORD
+          command: ["/bin/bash"]
+          args:
+            - "-c"
+            - |
+              cp /usr/config/mssql.conf /var/opt/mssql/mssql.conf
+              /opt/mssql/bin/sqlservr &
+              pid=$!
+              sleep 60
+              /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i /usr/config/setup.sql -C
+              if [ $? -ne 0 ]; then
+                echo "Setup script failed"
+                exit 1
+              fi
+              wait $pid
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-deployment
+  namespace: azure-iot-operations
+spec:
+  selector:
+    app: mssql
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+  type: LoadBalancer

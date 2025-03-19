@@ -21,6 +21,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     private readonly BlockingConcurrentDelayableQueue<QueuedMqttApplicationMessageReceivedEventArgs> _receivedMessagesToAcknowledgeQueue = new();
     private CancellationTokenSource _acknowledgementSenderTaskCancellationTokenSource = new();
     private Task? _acknowledgementSenderTask;
+    private readonly OrderedAckMqttClientOptions _clientOptions;
    
     private TokenRefreshTimer? _tokenRefresh;
 
@@ -28,8 +29,9 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
     internal bool _disposed;
 
-    public OrderedAckMqttClient(MQTTnet.IMqttClient mqttNetClient)
+    public OrderedAckMqttClient(MQTTnet.IMqttClient mqttNetClient, OrderedAckMqttClientOptions? clientOptions = null)
     {
+        _clientOptions = clientOptions ?? new OrderedAckMqttClientOptions();
         UnderlyingMqttClient = mqttNetClient;
                 
         UnderlyingMqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
@@ -81,6 +83,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
             // Note that this cannot be null because MQTTnet's client implementation will close the connection if
             // no handler is set, even if the handler does nothing.
             mqttNetOptions.EnhancedAuthenticationHandler ??= new SatEnhancedAuthenticationHandler();
+        }
+
+        if (_clientOptions.EnableAIOBrokerFeatures)
+        {
+            mqttNetOptions.UserProperties.Add(new("metriccategory", "aiosdk-dotnet"));
         }
 
         MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(mqttNetOptions, cancellationToken).ConfigureAwait(false));

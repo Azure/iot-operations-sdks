@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
     /// <summary>
     /// The optional parameters that can be specified when creating a session client.
     /// </summary>
-    public class MqttSessionClientOptions
+    public class MqttSessionClientOptions : OrderedAckMqttClientOptions
     {
         /// <summary>
         /// The maximum number of publishes, subscribes, or unsubscribes that will be allowed to be enqueued locally at a time.
