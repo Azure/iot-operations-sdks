@@ -118,13 +118,20 @@ async fn process_window(
                                 continue;
                             }
 
+                            let temperatures: Vec<f64> =
+                                sensor_data.iter().map(|d| d.temperature).collect();
+                            let pressures: Vec<f64> =
+                                sensor_data.iter().map(|d| d.pressure).collect();
+                            let vibrations: Vec<f64> =
+                                sensor_data.iter().map(|d| d.vibration).collect();
+
                             // Aggregate the sensor data into a window
                             let output_window_data = WindowDataBuilder::default()
                                 .timestamp(Utc::now())
                                 .window_size(WINDOW_SIZE)
-                                .temperature(&sensor_data)
-                                .pressure(&sensor_data)
-                                .vibration(&sensor_data)
+                                .temperature(temperatures)
+                                .pressure(pressures)
+                                .vibration(vibrations)
                                 .build()
                                 .expect("output_window_data should contain all fields");
                             let output_data_clone = output_window_data.clone();
@@ -222,18 +229,14 @@ pub struct WindowSensorData {
 pub struct WindowData {
     pub timestamp: DateTime<Utc>,
     pub window_size: i64,
-    #[builder(setter(custom))]
     pub temperature: WindowSensorData,
-    #[builder(setter(custom))]
     pub pressure: WindowSensorData,
-    #[builder(setter(custom))]
     pub vibration: WindowSensorData,
 }
 
-impl WindowDataBuilder {
-    /// Helper function to aggregate sensor data into a window
-    fn aggregate(sensor_data: &[f64]) -> WindowSensorData {
-        let mut sensor_data: Vec<f64> = sensor_data.to_vec();
+impl From<Vec<f64>> for WindowSensorData {
+    fn from(sensor_data: Vec<f64>) -> Self {
+        let mut sensor_data: Vec<f64> = sensor_data.clone();
 
         sensor_data.sort_by(|a, b| a.partial_cmp(b).expect("f64 comparison should not fail"));
         let count: i64 = sensor_data
@@ -261,27 +264,6 @@ impl WindowDataBuilder {
             median,
             count,
         }
-    }
-
-    pub fn temperature(&mut self, input_data: &[SensorData]) -> &mut Self {
-        let data: Vec<f64> = input_data.iter().map(|d| d.temperature).collect();
-        self.temperature = Some(Self::aggregate(&data));
-
-        self
-    }
-
-    pub fn pressure(&mut self, input_data: &[SensorData]) -> &mut Self {
-        let data: Vec<f64> = input_data.iter().map(|d| d.pressure).collect();
-        self.pressure = Some(Self::aggregate(&data));
-
-        self
-    }
-
-    pub fn vibration(&mut self, input_data: &[SensorData]) -> &mut Self {
-        let data: Vec<f64> = input_data.iter().map(|d| d.vibration).collect();
-        self.vibration = Some(Self::aggregate(&data));
-
-        self
     }
 }
 
