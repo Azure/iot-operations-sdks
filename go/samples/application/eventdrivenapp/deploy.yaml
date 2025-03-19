@@ -1,47 +1,49 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: go-event-driven-input
+  name: event-driven-app
   namespace: azure-iot-operations
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-event-driven-input
+  name: event-driven-app
   namespace: azure-iot-operations
 spec:
   selector:
     matchLabels:
-      app: go-event-driven-input
+      app: event-driven-app
   template:
     metadata:
       labels:
-        app: go-event-driven-input
+        app: event-driven-app
     spec:
-      serviceAccountName: go-event-driven-input
+      serviceAccountName: event-driven-app
+
       volumes:
-        - name: go-event-driven-input-token
+        - name: event-driven-app-token
           projected:
             sources:
               - serviceAccountToken:
-                  path: go-event-driven-input-token
+                  path: event-driven-app-token
                   audience: aio-internal
                   expirationSeconds: 86400
         - name: aio-ca-trust-bundle
           configMap:
             name: azure-iot-operations-aio-ca-trust-bundle
+
       containers:
-        - name: input-client
-          image: go-event-driven-input # Pull image from k3d cluster
+        - name: event-driven-app
+          image: event-driven-app
           imagePullPolicy: Never
           volumeMounts:
-            - name: go-event-driven-input-token
+            - name: event-driven-app-token
               mountPath: /var/run/secrets/tokens/
             - name: aio-ca-trust-bundle
               mountPath: /var/run/certs/aio-ca/
           env:
             - name: MQTT_CLIENT_ID
-              value: "GoEventDrivenInput"
+              value: "EventDrivenAppGo"
             - name: AIO_BROKER_HOSTNAME
               value: "aio-broker"
             - name: AIO_BROKER_TCP_PORT
@@ -51,5 +53,4 @@ spec:
             - name: AIO_TLS_CA_FILE
               value: "/var/run/certs/aio-ca/ca.crt"
             - name: AIO_SAT_FILE
-              value: "/var/run/secrets/tokens/go-event-driven-input-token"
-              
+              value: "/var/run/secrets/tokens/event-driven-app-token"
