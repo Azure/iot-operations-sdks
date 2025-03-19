@@ -3,12 +3,12 @@ module github.com/Azure/iot-operations-sdks/go/test/integration
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.2.0
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.3.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.0
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy v0.0.0
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy v0.0.0
-	github.com/Azure/iot-operations-sdks/go/services v0.2.0
+	github.com/Azure/iot-operations-sdks/go/services v0.3.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
 )

@@ -6,10 +6,7 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    TelemetryMessage as TelemetryMessageBase, TelemetryReceiver as TelemetryReceiverBase,
-    TelemetryReceiverOptionsBuilder as TelemetryReceiverOptionsBaseBuilder,
-};
+use azure_iot_operations_protocol::telemetry;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
 <# if (this.schemaType is CodeName) { #>
@@ -25,11 +22,11 @@ use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
 use super::super::common_types::common_options::TelemetryOptions;
 
-pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = TelemetryMessageBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
+pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = telemetry::receiver::Message<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
 
 /// Telemetry Receiver for `<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>`
 pub struct <#=this.componentName.GetTypeName(TargetLanguage.Rust)#><C>(
-    TelemetryReceiverBase<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>, C>,
+    telemetry::Receiver<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -45,7 +42,7 @@ where
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
-        let mut receiver_options_builder = TelemetryReceiverOptionsBaseBuilder::default();
+        let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -73,7 +70,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetryReceiverBase::new(application_context, client, receiver_options)
+            telemetry::Receiver::new(application_context, client, receiver_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

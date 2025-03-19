@@ -15,9 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_sender::{
-        CloudEventBuilder, TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
-    },
+    telemetry,
 };
 
 const CLIENT_ID: &str = "myClient";
@@ -53,33 +51,33 @@ async fn main() {
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = TelemetrySenderOptionsBuilder::default()
+    let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
         .build()
         .unwrap();
-    let telemetry_sender: TelemetrySender<SampleTelemetry, _> = TelemetrySender::new(
+    let sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
         application_context,
         session.create_managed_client(),
         sender_options,
     )
     .unwrap();
 
-    tokio::task::spawn(telemetry_loop(telemetry_sender, exit_handle));
+    tokio::task::spawn(telemetry_loop(sender, exit_handle));
 
     session.run().await.unwrap();
 }
 
 /// Send 10 telemetry messages, then disconnect
 async fn telemetry_loop(
-    telemetry_sender: TelemetrySender<SampleTelemetry, SessionManagedClient>,
+    sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     for i in 1..10 {
-        let cloud_event = CloudEventBuilder::default()
+        let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
             .build()
             .unwrap();
-        let message = TelemetryMessageBuilder::default()
+        let message = telemetry::sender::MessageBuilder::default()
             .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
@@ -93,7 +91,7 @@ async fn telemetry_loop(
             .cloud_event(cloud_event)
             .build()
             .unwrap();
-        let result = telemetry_sender.send(message).await;
+        let result = sender.send(message).await;
         log::info!("Result {}: {:?}", i, result);
     }
 
