@@ -6,9 +6,7 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{
-    Session, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
@@ -27,7 +25,7 @@ const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
@@ -40,21 +38,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
         .build()?;
-
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()?;
-
     let session = Session::new(session_options)?;
 
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
 
-    // Create a telemetry sender
+    // Create a telemetry Sender
     let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .build()
-        .unwrap();
+        .build()?;
     let telemetry_sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
         application_context,
         session.create_managed_client(),
@@ -63,22 +58,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Run the session and the telemetry loop concurrently
     tokio::select! {
-        r1 = telemetry_loop(telemetry_sender) => {
-            r1.map_err(|e| e as Box<dyn std::error::Error>)?
-        },
-        r2 = session.run() => {
-            r2?
-        },
+        r1 = telemetry_loop(telemetry_sender) => r1,
+        r2 = session.run() => r2?,
     };
 
     Ok(())
 }
 
-
 /// Indefinitely send Telemetry
 async fn telemetry_loop(
     telemetry_sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
-) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+) {
     loop {
         let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
@@ -88,17 +78,19 @@ async fn telemetry_loop(
             .payload(SampleTelemetry {
                 external_temperature: 100,
                 internal_temperature: 200,
-            })?
+            })
+            .unwrap()
             .topic_tokens(HashMap::from([(
                 "modelId".to_string(),
                 MODEL_ID.to_string(),
             )]))
             .message_expiry(Duration::from_secs(2))
             .cloud_event(cloud_event)
-            .build()?;
+            .build()
+            .unwrap();
         match telemetry_sender.send(message).await {
             Ok(()) => log::info!("Sent telemetry successfully"),
-            Err(e) => log::error!("Error sending telemetry: {:?}", e)
+            Err(e) => log::error!("Error sending telemetry: {:?}", e),
         }
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
