@@ -5,71 +5,19 @@
 //!
 //! To use this client, the `schema_registry` feature must be enabled.
 
-use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::rpc::command_invoker::CommandRequestBuilder;
-use derive_builder::Builder;
+use azure_iot_operations_protocol::rpc_command;
 
-use super::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
-use super::schemaregistry_gen::schema_registry::client::{
+use crate::schema_registry::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
+use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
     GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
     PutRequestPayloadBuilder, PutRequestSchemaBuilder,
 };
-use super::{Format, Schema, SchemaType};
-use super::{SchemaRegistryError, SchemaRegistryErrorKind};
-
-/// The default schema version to use if not provided.
-const DEFAULT_SCHEMA_VERSION: &str = "1";
-
-/// Request to get a schema from the schema registry.
-#[derive(Builder, Clone, Debug)]
-#[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct GetRequest {
-    /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
-    id: String,
-    /// The version of the schema to fetch. If not specified, defaults to "1.0.0".
-    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    version: String,
-}
-
-impl GetRequestBuilder {
-    /// Validate the [`GetRequest`].
-    ///
-    /// # Errors
-    /// Returns a `String` describing the errors if `id` is empty or not provided.
-    fn validate(&self) -> Result<(), String> {
-        if let Some(id) = &self.id {
-            if id.is_empty() {
-                return Err("id cannot be empty".to_string());
-            }
-        }
-
-        Ok(())
-    }
-}
-
-/// Request to put a schema in the schema registry.
-#[derive(Builder, Clone, Debug)]
-#[builder(setter(into))]
-pub struct PutRequest {
-    /// The content of the schema to be added or updated in the registry.
-    content: String,
-    /// The format of the schema. Specifies how the schema content should be interpreted.
-    format: Format,
-    /// The type of the schema, such as message schema or data schema.
-    #[builder(default = "SchemaType::MessageSchema")]
-    schema_type: SchemaType,
-    /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
-    #[builder(default)]
-    tags: HashMap<String, String>,
-    /// The version of the schema to add or update. If not specified, defaults to "1.0.0".
-    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    version: String,
-}
+use crate::schema_registry::{Error, ErrorKind, GetRequest, PutRequest, Schema};
 
 /// Schema registry client implementation.
 #[derive(Clone)]
@@ -122,48 +70,40 @@ where
     /// Returns a [`Schema`] if the schema was found, otherwise returns `None`.
     ///
     /// # Errors
-    /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
     /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
-    /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
+    /// [`Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
     /// if there is an error serializing the request.
     ///
-    /// [`SchemaRegistryError`] of kind [`ServiceError`](SchemaRegistryErrorKind::ServiceError)
+    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
     ///
-    /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get(
         &self,
         get_request: GetRequest,
         timeout: Duration,
-    ) -> Result<Option<Schema>, SchemaRegistryError> {
+    ) -> Result<Option<Schema>, Error> {
         let get_request_payload = GetRequestPayloadBuilder::default()
             .get_schema_request(
                 GetRequestSchemaBuilder::default()
                     .name(Some(get_request.id))
                     .version(Some(get_request.version))
                     .build()
-                    .map_err(|e| {
-                        SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
-                    })?,
+                    .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?,
             )
             .build()
-            .map_err(|e| {
-                SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
-            })?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let command_request = CommandRequestBuilder::default()
+        let command_request = rpc_command::invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(get_request_payload)
-            .map_err(|e| {
-                SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
-            })?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| {
-                SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
-            })?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let get_result = self.get_command_invoker.invoke(command_request).await;
 
@@ -179,7 +119,7 @@ where
                         }
                     }
                 }
-                Err(SchemaRegistryError(SchemaRegistryErrorKind::from(e)))
+                Err(Error(ErrorKind::from(e)))
             }
         }
     }
@@ -193,22 +133,18 @@ where
     /// Returns the [`Schema`] that was put if the request was successful.
     ///
     /// # Errors
-    /// [`SchemaRegistryError`] of kind [`InvalidArgument`](SchemaRegistryErrorKind::InvalidArgument)
+    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
     /// if the `content` is empty, the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
-    /// [`SchemaRegistryError`] of kind [`SerializationError`](SchemaRegistryErrorKind::SerializationError)
+    /// [`Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
     /// if there is an error serializing the request.
     ///
-    /// [`SchemaRegistryError`] of kind [`ServiceError`](SchemaRegistryErrorKind::ServiceError)
+    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
     ///
-    /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn put(
-        &self,
-        put_request: PutRequest,
-        timeout: Duration,
-    ) -> Result<Schema, SchemaRegistryError> {
+    pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
                 PutRequestSchemaBuilder::default()
@@ -218,32 +154,24 @@ where
                     .tags(Some(put_request.tags))
                     .schema_type(Some(put_request.schema_type))
                     .build()
-                    .map_err(|e| {
-                        SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
-                    })?,
+                    .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?,
             )
             .build()
-            .map_err(|e| {
-                SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
-            })?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let command_request = CommandRequestBuilder::default()
+        let command_request = rpc_command::invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(put_request_payload)
-            .map_err(|e| {
-                SchemaRegistryError(SchemaRegistryErrorKind::SerializationError(e.to_string()))
-            })?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| {
-                SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(e.to_string()))
-            })?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         Ok(self
             .put_command_invoker
             .invoke(command_request)
             .await
-            .map_err(SchemaRegistryErrorKind::from)?
+            .map_err(ErrorKind::from)?
             .payload
             .schema)
     }
@@ -253,21 +181,21 @@ where
     /// Note: If this method is called, the [`Client`] should not be used again.
     /// If the method returns an error, it may be called again to re-attempt unsubscribing.
     ///
-    /// Returns Ok(()) on success, otherwise returns [`SchemaRegistryError`].
+    /// Returns Ok(()) on success, otherwise returns [`Error`].
     /// # Errors
-    /// [`SchemaRegistryError`] of kind [`AIOProtocolError`](SchemaRegistryErrorKind::AIOProtocolError)
+    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&self) -> Result<(), SchemaRegistryError> {
+    pub async fn shutdown(&self) -> Result<(), Error> {
         // Shutdown the get command invoker
         self.get_command_invoker
             .shutdown()
             .await
-            .map_err(SchemaRegistryErrorKind::from)?;
+            .map_err(ErrorKind::from)?;
         // Shutdown the put command invoker
         self.put_command_invoker
             .shutdown()
             .await
-            .map_err(SchemaRegistryErrorKind::from)?;
+            .map_err(ErrorKind::from)?;
         Ok(())
     }
 }
@@ -283,9 +211,8 @@ mod tests {
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::schema_registry::{
-        client::{GetRequestBuilderError, DEFAULT_SCHEMA_VERSION},
-        Client, Format, GetRequestBuilder, PutRequestBuilder, SchemaRegistryError,
-        SchemaRegistryErrorKind, SchemaType,
+        Client, Error, ErrorKind, Format, GetRequestBuilder, GetRequestBuilderError,
+        PutRequestBuilder, SchemaType, DEFAULT_SCHEMA_VERSION,
     };
 
     // TODO: This should return a mock ManagedClient instead.
@@ -381,7 +308,7 @@ mod tests {
 
         assert!(matches!(
             get_result.unwrap_err(),
-            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
 
         let get_result = client
@@ -396,7 +323,7 @@ mod tests {
 
         assert!(matches!(
             get_result.unwrap_err(),
-            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -421,7 +348,7 @@ mod tests {
 
         assert!(matches!(
             put_result.unwrap_err(),
-            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
 
         let put_result = client
@@ -437,7 +364,7 @@ mod tests {
 
         assert!(matches!(
             put_result.unwrap_err(),
-            SchemaRegistryError(SchemaRegistryErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 }

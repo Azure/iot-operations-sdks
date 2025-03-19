@@ -14,9 +14,7 @@ use azure_iot_operations_protocol::application::{ApplicationContext, Application
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
-use azure_iot_operations_protocol::rpc::command_invoker::{
-    CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder,
-};
+use azure_iot_operations_protocol::rpc_command;
 
 const CLIENT_ID: &str = "aio_example_invoker_client";
 const HOSTNAME: &str = "localhost";
@@ -67,18 +65,18 @@ async fn invoke_loop(
     exit_handle: SessionExitHandle,
 ) {
     // Create a command invoker for the increment command
-    let incr_invoker_options = CommandInvokerOptionsBuilder::default()
+    let incr_invoker_options = rpc_command::invoker::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .response_topic_pattern(RESPONSE_TOPIC_PATTERN.to_string())
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_invoker: CommandInvoker<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandInvoker::new(application_context, client, incr_invoker_options).unwrap();
+    let incr_invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, _> =
+        rpc_command::Invoker::new(application_context, client, incr_invoker_options).unwrap();
 
     // Send 10 increment requests
     for i in 1..11 {
-        let payload = CommandRequestBuilder::default()
+        let payload = rpc_command::invoker::RequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))

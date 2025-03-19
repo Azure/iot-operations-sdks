@@ -24,7 +24,7 @@ use crate::{
         topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
         user_properties::{validate_user_properties, UserProperty, PARTITION_KEY},
     },
-    rpc::{StatusCode, DEFAULT_RPC_PROTOCOL_VERSION, RPC_PROTOCOL_VERSION},
+    rpc_command::{StatusCode, DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION},
     supported_protocol_major_versions_to_string, ProtocolVersion,
 };
 
@@ -51,15 +51,15 @@ struct ResponseArguments {
     message_expiry_interval: Option<u32>,
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
-    cached_key: Option<CommandExecutorCacheKey>,
-    cached_entry_status: CommandExecutorCacheEntryStatus,
+    cached_key: Option<CacheKey>,
+    cached_entry_status: CacheEntryStatus,
 }
 
-/// Command Request struct.
-/// Used by the [`CommandExecutor`]
+/// Command Executor Request struct.
+/// Used by the [`Executor`]
 ///
 /// If dropped, executor will send an error response to the invoker
-pub struct CommandRequest<TReq, TResp>
+pub struct Request<TReq, TResp>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
@@ -80,11 +80,11 @@ where
     pub topic_tokens: HashMap<String, String>,
     // Internal fields
     command_name: String,
-    response_tx: oneshot::Sender<CommandResponse<TResp>>,
+    response_tx: oneshot::Sender<Response<TResp>>,
     publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
 }
 
-impl<TReq, TResp> CommandRequest<TReq, TResp>
+impl<TReq, TResp> Request<TReq, TResp>
 where
     TReq: PayloadSerialize,
     TResp: PayloadSerialize,
@@ -95,7 +95,7 @@ where
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Arguments
-    /// * `response` - The [`CommandResponse`] to send.
+    /// * `response` - The [`Response`] to send.
     ///
     /// # Errors
     ///
@@ -110,7 +110,7 @@ where
     ///
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
     /// if the response publish completion fails. This should not happen.
-    pub async fn complete(self, response: CommandResponse<TResp>) -> Result<(), AIOProtocolError> {
+    pub async fn complete(self, response: Response<TResp>) -> Result<(), AIOProtocolError> {
         // We can ignore the error here. If the receiver of the response is dropped it may be
         // because the executor is shutting down in which case the receive below will fail.
         // If the executor is not shutting down, the receive below will succeed and we'll receive a
@@ -142,18 +142,18 @@ where
     }
 }
 
-/// Command Response struct.
-/// Used by the [`CommandExecutor`]
+/// Command Executor Response struct.
+/// Used by the [`Executor`]
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into, strip_option), build_fn(validate = "Self::validate"))]
-pub struct CommandResponse<TResp>
+pub struct Response<TResp>
 where
     TResp: PayloadSerialize,
 {
     /// Payload of the command response.
     #[builder(setter(custom))]
     serialized_payload: SerializedPayload,
-    /// Strongly link `CommandResponse` with type `TResp`
+    /// Strongly link `Response` with type `TResp`
     #[builder(private)]
     response_payload_type: PhantomData<TResp>,
     /// Custom user data set as custom MQTT User Properties on the response message.
@@ -163,7 +163,7 @@ where
     custom_user_data: Vec<(String, String)>,
 }
 
-impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
+impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
     /// Add a payload to the command response. Validates successful serialization of the payload.
     ///
     /// # Errors
@@ -217,14 +217,14 @@ impl<TResp: PayloadSerialize> CommandResponseBuilder<TResp> {
 ///
 /// Used to uniquely identify a command request.
 #[derive(Eq, Hash, PartialEq, Clone)]
-struct CommandExecutorCacheKey {
+struct CacheKey {
     response_topic: String,
     correlation_data: Bytes,
 }
 
 /// Command Executor Cache Entry struct.
 #[derive(Clone, PartialEq, Debug)]
-struct CommandExecutorCacheEntry {
+struct CacheEntry {
     serialized_payload: SerializedPayload,
     properties: PublishProperties,
     expiration_time: Instant,
@@ -238,9 +238,9 @@ struct CommandExecutorCacheEntry {
 /// session. If a command request is received, the session will drop duplicates while the original
 /// request is being processed.
 #[derive(PartialEq, Debug)]
-enum CommandExecutorCacheEntryStatus {
+enum CacheEntryStatus {
     /// The cache entry is cached and has not expired
-    Cached(CommandExecutorCacheEntry),
+    Cached(CacheEntry),
     /// The cache entry is expired
     Expired,
     /// The cache entry is not found
@@ -251,28 +251,24 @@ enum CommandExecutorCacheEntryStatus {
 ///
 /// Used to cache command responses and determine if a command request is a duplicate.
 #[derive(Clone)]
-struct CommandExecutorCache(
-    Arc<Mutex<HashMap<CommandExecutorCacheKey, CommandExecutorCacheEntry>>>,
-);
+struct Cache(Arc<Mutex<HashMap<CacheKey, CacheEntry>>>);
 
-impl CommandExecutorCache {
-    /// Get a cache entry from the [`CommandExecutorCache`].
+impl Cache {
+    /// Get a cache entry from the [`Cache`].
     ///
     /// # Arguments
     /// `key` - The cache key to get the cache entry for.
     ///
-    /// Returns a [`CommandExecutorCacheEntryStatus`] indicating the status of the cache entry.
-    fn get(&self, key: &CommandExecutorCacheKey) -> CommandExecutorCacheEntryStatus {
+    /// Returns a [`CacheEntryStatus`] indicating the status of the cache entry.
+    fn get(&self, key: &CacheKey) -> CacheEntryStatus {
         let cache = self.0.lock().unwrap();
-        cache
-            .get(key)
-            .map_or(CommandExecutorCacheEntryStatus::NotFound, |entry| {
-                if entry.expiration_time.elapsed().is_zero() {
-                    CommandExecutorCacheEntryStatus::Cached(entry.clone())
-                } else {
-                    CommandExecutorCacheEntryStatus::Expired
-                }
-            })
+        cache.get(key).map_or(CacheEntryStatus::NotFound, |entry| {
+            if entry.expiration_time.elapsed().is_zero() {
+                CacheEntryStatus::Cached(entry.clone())
+            } else {
+                CacheEntryStatus::Expired
+            }
+        })
     }
 
     /// Set a cache entry in the cache. Also removes expired cache entries.
@@ -280,7 +276,7 @@ impl CommandExecutorCache {
     /// # Arguments
     /// `key` - The cache key to set the cache entry for.
     /// `entry` - The cache entry to set.
-    fn set(&self, key: CommandExecutorCacheKey, entry: CommandExecutorCacheEntry) {
+    fn set(&self, key: CacheKey, entry: CacheEntry) {
         let mut cache = self.0.lock().unwrap();
         cache.retain(|_, entry| entry.expiration_time.elapsed().is_zero());
         cache.insert(key, entry);
@@ -291,7 +287,7 @@ impl CommandExecutorCache {
 #[allow(unused)]
 #[derive(Builder, Clone)]
 #[builder(setter(into, strip_option))]
-pub struct CommandExecutorOptions {
+pub struct Options {
     /// Topic pattern for the command request.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
@@ -318,7 +314,7 @@ pub struct CommandExecutorOptions {
 /// # use tokio_test::block_on;
 /// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-/// # use azure_iot_operations_protocol::rpc::command_executor::{CommandExecutor, CommandExecutorOptionsBuilder, CommandResponse, CommandResponseBuilder, CommandRequest};
+/// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 /// # let mut connection_settings = MqttConnectionSettingsBuilder::default()
 /// #     .client_id("test_server")
@@ -330,21 +326,21 @@ pub struct CommandExecutorOptions {
 /// #     .build().unwrap();
 /// # let mqtt_session = Session::new(session_options).unwrap();
 /// # let application_context = ApplicationContextBuilder::default().build().unwrap();;
-/// let executor_options = CommandExecutorOptionsBuilder::default()
+/// let executor_options = rpc_command::executor::OptionsBuilder::default()
 ///   .command_name("test_command")
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut command_executor: CommandExecutor<Vec<u8>, Vec<u8>, _> = CommandExecutor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
-/// // let request = command_executor.recv().await.unwrap();
-/// // let response = CommandResponseBuilder::default()
+/// let mut executor: rpc_command::Executor<Vec<u8>, Vec<u8>, _> = rpc_command::Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// // let request = executor.recv().await.unwrap();
+/// // let response = rpc_command::executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
 ///  // .build().unwrap();
 /// // let request.complete(response).await.unwrap();
 /// # });
 /// ```
 #[allow(unused)]
-pub struct CommandExecutor<TReq, TResp, C>
+pub struct Executor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
@@ -360,49 +356,49 @@ where
     command_name: String,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
-    cache: CommandExecutorCache,
+    cache: Cache,
     // Describes state
-    executor_state: CommandExecutorState,
+    executor_state: State,
     // Information to manage state
     executor_cancellation_token: CancellationToken,
 }
 
 /// Describes state of executor
 #[derive(PartialEq)]
-enum CommandExecutorState {
+enum State {
     New,
     Subscribed,
     ShutdownSuccessful,
 }
 
 /// Implementation of Command Executor.
-impl<TReq, TResp, C> CommandExecutor<TReq, TResp, C>
+impl<TReq, TResp, C> Executor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Create a new [`CommandExecutor`].
+    /// Create a new [`Executor`].
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the command executor is part of.
     /// * `client` - The MQTT client to use for communication.
     /// * `executor_options` - Configuration options.
     ///
-    /// Returns Ok([`CommandExecutor`]) on success, otherwise returns [`AIOProtocolError`].
+    /// Returns Ok([`Executor`]) on success, otherwise returns [`AIOProtocolError`].
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
-    /// - [`command_name`](CommandExecutorOptions::command_name) is empty, whitespace or invalid
-    /// - [`request_topic_pattern`](CommandExecutorOptions::request_topic_pattern),
-    ///     [`topic_namespace`](CommandExecutorOptions::topic_namespace)
+    /// - [`command_name`](Options::command_name) is empty, whitespace or invalid
+    /// - [`request_topic_pattern`](Options::request_topic_pattern),
+    ///     [`topic_namespace`](Options::topic_namespace)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](CommandExecutorOptions::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_map`](Options::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        executor_options: CommandExecutorOptions,
+        executor_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
         // TopicPattern::new
@@ -449,7 +445,7 @@ where
         };
 
         // Create Command executor
-        Ok(CommandExecutor {
+        Ok(Executor {
             application_hlc: application_context.application_hlc,
             mqtt_client: client,
             mqtt_receiver,
@@ -458,15 +454,15 @@ where
             command_name: executor_options.command_name,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            cache: CommandExecutorCache(Arc::new(Mutex::new(HashMap::new()))),
-            executor_state: CommandExecutorState::New,
+            cache: Cache(Arc::new(Mutex::new(HashMap::new()))),
+            executor_state: State::New,
             executor_cancellation_token: CancellationToken::new(),
         })
     }
 
-    /// Shutdown the [`CommandExecutor`]. Unsubscribes from the request topic.
+    /// Shutdown the [`Executor`]. Unsubscribes from the request topic.
     ///
-    /// Note: If this method is called, the [`CommandExecutor`] will no longer receive commands
+    /// Note: If this method is called, the [`Executor`] will no longer receive commands
     /// from the MQTT client, any command requests that have not been processed can still be received
     /// by the executor. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
@@ -478,11 +474,11 @@ where
         self.mqtt_receiver.close();
 
         match self.executor_state {
-            CommandExecutorState::New | CommandExecutorState::ShutdownSuccessful => {
+            State::New | State::ShutdownSuccessful => {
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
-                self.executor_state = CommandExecutorState::ShutdownSuccessful;
+                self.executor_state = State::ShutdownSuccessful;
             }
-            CommandExecutorState::Subscribed => {
+            State::Subscribed => {
                 let unsubscribe_result = self
                     .mqtt_client
                     .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
@@ -491,7 +487,7 @@ where
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
                         Ok(()) => {
-                            self.executor_state = CommandExecutorState::ShutdownSuccessful;
+                            self.executor_state = State::ShutdownSuccessful;
                         }
                         Err(e) => {
                             log::error!("[{}] Unsuback error: {e}", self.command_name);
@@ -564,7 +560,7 @@ where
     /// Receive a command request or [`None`] if there will be no more requests.
     ///
     /// If there are messages:
-    /// - Returns Ok([`CommandRequest`]) on success
+    /// - Returns Ok([`Request`]) on success
     /// - Returns [`AIOProtocolError`] on error.
     ///
     /// Will also subscribe to the request topic if not already subscribed.
@@ -575,13 +571,13 @@ where
     /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     ///
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
-    pub async fn recv(&mut self) -> Option<Result<CommandRequest<TReq, TResp>, AIOProtocolError>> {
+    pub async fn recv(&mut self) -> Option<Result<Request<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        if CommandExecutorState::New == self.executor_state {
+        if State::New == self.executor_state {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
-            self.executor_state = CommandExecutorState::Subscribed;
+            self.executor_state = State::Subscribed;
         }
 
         loop {
@@ -663,7 +659,7 @@ where
                     supported_protocol_major_versions: None,
                     request_protocol_version: None,
                     cached_key: None,
-                    cached_entry_status: CommandExecutorCacheEntryStatus::NotFound,
+                    cached_entry_status: CacheEntryStatus::NotFound,
                 };
 
                 // Get message expiry interval
@@ -687,7 +683,7 @@ where
                 if let Some(correlation_data) = properties.correlation_data {
                     if correlation_data.len() == 16 {
                         response_arguments.correlation_data = Some(correlation_data.clone());
-                        response_arguments.cached_key = Some(CommandExecutorCacheKey {
+                        response_arguments.cached_key = Some(CacheKey {
                             response_topic: response_arguments.response_topic.clone(),
                             correlation_data,
                         });
@@ -741,14 +737,12 @@ where
                     response_arguments.cached_entry_status = self.cache.get(cache_key);
 
                     // If the cache entry is not found, continue processing the request
-                    if response_arguments.cached_entry_status
-                        != CommandExecutorCacheEntryStatus::NotFound
-                    {
+                    if response_arguments.cached_entry_status != CacheEntryStatus::NotFound {
                         break 'process_request;
                     }
 
                     // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                    let mut request_protocol_version = DEFAULT_RPC_PROTOCOL_VERSION; // assume default version if none is provided
+                    let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
                     if let Some((_, protocol_version)) =
                         properties.user_properties.iter().find(|(key, _)| {
                             UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
@@ -896,7 +890,7 @@ where
                     let (response_tx, response_rx) = oneshot::channel();
                     let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
 
-                    let command_request = CommandRequest {
+                    let command_request = Request {
                         payload,
                         content_type: properties.content_type,
                         format_indicator,
@@ -952,7 +946,7 @@ where
 
                 // If the command has expired, we do not respond to the invoker.
                 match response_arguments.cached_entry_status {
-                    CommandExecutorCacheEntryStatus::Expired => {
+                    CacheEntryStatus::Expired => {
                         log::debug!(
                             "[{}][pkid: {}] Duplicate request has expired",
                             self.command_name,
@@ -1012,18 +1006,15 @@ where
         client: C,
         pkid: u16,
         mut response_arguments: ResponseArguments,
-        response_rx: Option<oneshot::Receiver<CommandResponse<TResp>>>,
+        response_rx: Option<oneshot::Receiver<Response<TResp>>>,
         completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
-        cache: CommandExecutorCache,
+        cache: Cache,
     ) {
         let mut serialized_payload = SerializedPayload::default();
         let mut publish_properties = PublishProperties::default();
-        let cache_not_found =
-            response_arguments.cached_entry_status == CommandExecutorCacheEntryStatus::NotFound;
+        let cache_not_found = response_arguments.cached_entry_status == CacheEntryStatus::NotFound;
 
-        if let CommandExecutorCacheEntryStatus::Cached(entry) =
-            response_arguments.cached_entry_status
-        {
+        if let CacheEntryStatus::Cached(entry) = response_arguments.cached_entry_status {
             // The command has already been processed, we can respond with the cached response
             log::debug!(
                 "[{}][pkid: {}] Duplicate request, responding with cached response",
@@ -1110,7 +1101,7 @@ where
 
             user_properties.push((
                 UserProperty::ProtocolVersion.to_string(),
-                RPC_PROTOCOL_VERSION.to_string(),
+                RPC_COMMAND_PROTOCOL_VERSION.to_string(),
             ));
 
             // Update HLC and use as the timestamp.
@@ -1229,7 +1220,7 @@ where
             // Store cache, even if the response is an error
             if cache_not_found {
                 if let Some(cached_key) = response_arguments.cached_key {
-                    let cache_entry = CommandExecutorCacheEntry {
+                    let cache_entry = CacheEntry {
                         properties: publish_properties.clone(),
                         serialized_payload: serialized_payload.clone(),
                         expiration_time: command_expiration_time,
@@ -1312,7 +1303,7 @@ where
     }
 }
 
-impl<TReq, TResp, C> Drop for CommandExecutor<TReq, TResp, C>
+impl<TReq, TResp, C> Drop for Executor<TReq, TResp, C>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
@@ -1326,7 +1317,7 @@ where
         self.mqtt_receiver.close();
 
         // If the executor has not been unsubscribed, attempt to unsubscribe
-        if CommandExecutorState::Subscribed == self.executor_state {
+        if State::Subscribed == self.executor_state {
             tokio::spawn({
                 let request_topic = self.request_topic_pattern.as_subscribe_topic();
                 let mqtt_client = self.mqtt_client.clone();
@@ -1410,14 +1401,14 @@ mod tests {
     async fn test_new_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let executor_options = CommandExecutorOptionsBuilder::default()
+        let executor_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
+        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1425,18 +1416,18 @@ mod tests {
         .unwrap();
 
         assert_eq!(
-            command_executor.request_topic_pattern.as_subscribe_topic(),
+            executor.request_topic_pattern.as_subscribe_topic(),
             "test/test_command_name/test_executor_id/request"
         );
 
-        assert!(!command_executor.is_idempotent);
+        assert!(!executor.is_idempotent);
     }
 
     #[tokio::test]
     async fn test_new_override_defaults() {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let executor_options = CommandExecutorOptionsBuilder::default()
+        let executor_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/{executorId}/request")
             .command_name("test_command_name")
             .topic_namespace("test_namespace")
@@ -1445,7 +1436,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let command_executor: CommandExecutor<MockPayload, MockPayload, _> = CommandExecutor::new(
+        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1453,11 +1444,11 @@ mod tests {
         .unwrap();
 
         assert_eq!(
-            command_executor.request_topic_pattern.as_subscribe_topic(),
+            executor.request_topic_pattern.as_subscribe_topic(),
             "test_namespace/test/test_command_name/test_executor_id/request"
         );
 
-        assert!(command_executor.is_idempotent);
+        assert!(executor.is_idempotent);
     }
 
     #[test_case(""; "empty command name")]
@@ -1467,15 +1458,15 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
 
-        let executor_options = CommandExecutorOptionsBuilder::default()
+        let executor_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name(command_name.to_string())
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(
+        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            Executor::new(
                 ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
@@ -1503,15 +1494,15 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
 
-        let executor_options = CommandExecutorOptionsBuilder::default()
+        let executor_options = OptionsBuilder::default()
             .request_topic_pattern(request_topic.to_string())
             .command_name("test_command_name")
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(
+        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            Executor::new(
                 ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
@@ -1541,7 +1532,7 @@ mod tests {
     async fn test_invalid_topic_namespace(topic_namespace: &str) {
         let session = create_session();
         let managed_client = session.create_managed_client();
-        let executor_options = CommandExecutorOptionsBuilder::default()
+        let executor_options = OptionsBuilder::default()
             .request_topic_pattern("test/{commandName}/request")
             .command_name("test_command_name")
             .topic_namespace(topic_namespace.to_string())
@@ -1549,8 +1540,8 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<CommandExecutor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            CommandExecutor::new(
+        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
+            Executor::new(
                 ApplicationContextBuilder::default().build().unwrap(),
                 managed_client,
                 executor_options,
@@ -1572,22 +1563,21 @@ mod tests {
     #[tokio::test]
     async fn test_shutdown_without_subscribe() {
         let session = create_session();
-        let executor_options = CommandExecutorOptionsBuilder::default()
+        let executor_options = OptionsBuilder::default()
             .request_topic_pattern("test/request")
             .command_name("test_command_name")
             .build()
             .unwrap();
-        let mut command_executor: CommandExecutor<MockPayload, MockPayload, _> =
-            CommandExecutor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                session.create_managed_client(),
-                executor_options,
-            )
-            .unwrap();
-        assert!(command_executor.shutdown().await.is_ok());
+        let mut executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            session.create_managed_client(),
+            executor_options,
+        )
+        .unwrap();
+        assert!(executor.shutdown().await.is_ok());
     }
 
-    // CommandResponse tests
+    // Command Response tests
     #[test]
     fn test_response_serialization_error() {
         let mut mock_response_payload = MockPayload::new();
@@ -1596,7 +1586,7 @@ mod tests {
             .returning(|| Err("dummy error".to_string()))
             .times(1);
 
-        let mut binding = CommandResponseBuilder::default();
+        let mut binding = ResponseBuilder::default();
         let resp_builder = binding.payload(mock_response_payload);
         match resp_builder {
             Err(e) => {
@@ -1621,7 +1611,7 @@ mod tests {
             })
             .times(1);
 
-        let mut binding = CommandResponseBuilder::default();
+        let mut binding = ResponseBuilder::default();
         let resp_builder = binding.payload(mock_response_payload);
         match resp_builder {
             Err(e) => {
@@ -1641,23 +1631,23 @@ mod tests {
 
     #[tokio::test]
     async fn test_cache_not_found() {
-        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
-        let key = CommandExecutorCacheKey {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
         let status = cache.get(&key);
-        assert_eq!(status, CommandExecutorCacheEntryStatus::NotFound);
+        assert_eq!(status, CacheEntryStatus::NotFound);
     }
 
     #[tokio::test]
     async fn test_cache_found() {
-        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
-        let key = CommandExecutorCacheKey {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CommandExecutorCacheEntry {
+        let entry = CacheEntry {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1668,17 +1658,17 @@ mod tests {
         };
         cache.set(key.clone(), entry.clone());
         let status = cache.get(&key);
-        assert_eq!(status, CommandExecutorCacheEntryStatus::Cached(entry));
+        assert_eq!(status, CacheEntryStatus::Cached(entry));
     }
 
     #[tokio::test]
     async fn test_cache_expired() {
-        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
-        let key = CommandExecutorCacheKey {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CommandExecutorCacheEntry {
+        let entry = CacheEntry {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1689,10 +1679,10 @@ mod tests {
         };
         cache.set(key.clone(), entry);
         let status = cache.get(&key);
-        assert_eq!(status, CommandExecutorCacheEntryStatus::Expired);
+        assert_eq!(status, CacheEntryStatus::Expired);
 
         // Set a new entry and check if the expired entry is deleted
-        let new_entry = CommandExecutorCacheEntry {
+        let new_entry = CacheEntry {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("new_test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1705,20 +1695,17 @@ mod tests {
         cache.set(key.clone(), new_entry.clone());
 
         let new_status = cache.get(&key);
-        assert_eq!(
-            new_status,
-            CommandExecutorCacheEntryStatus::Cached(new_entry)
-        );
+        assert_eq!(new_status, CacheEntryStatus::Cached(new_entry));
     }
 
     #[tokio::test]
     async fn test_cache_expired_with_different_key_set() {
-        let cache = CommandExecutorCache(Arc::new(Mutex::new(HashMap::new())));
-        let key = CommandExecutorCacheKey {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
             response_topic: String::from("test_response_topic"),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CommandExecutorCacheEntry {
+        let entry = CacheEntry {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1729,14 +1716,14 @@ mod tests {
         };
         cache.set(key.clone(), entry);
         let status = cache.get(&key);
-        assert_eq!(status, CommandExecutorCacheEntryStatus::Expired);
+        assert_eq!(status, CacheEntryStatus::Expired);
 
         // Set a new entry with a different key and check if the expired entry is deleted
-        let new_key = CommandExecutorCacheKey {
+        let new_key = CacheKey {
             response_topic: String::from("new_test_response_topic"),
             correlation_data: Bytes::from("new_test_correlation_data"),
         };
-        let new_entry = CommandExecutorCacheEntry {
+        let new_entry = CacheEntry {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("new_test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1748,9 +1735,9 @@ mod tests {
         cache.set(new_key.clone(), new_entry.clone());
 
         let status = cache.get(&key);
-        assert_eq!(status, CommandExecutorCacheEntryStatus::NotFound);
+        assert_eq!(status, CacheEntryStatus::NotFound);
         let status = cache.get(&new_key);
-        assert_eq!(status, CommandExecutorCacheEntryStatus::Cached(new_entry));
+        assert_eq!(status, CacheEntryStatus::Cached(new_entry));
     }
 }
 

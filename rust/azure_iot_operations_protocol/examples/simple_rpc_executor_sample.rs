@@ -11,9 +11,7 @@ use azure_iot_operations_protocol::application::{ApplicationContext, Application
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
-};
+use azure_iot_operations_protocol::rpc_command;
 
 const CLIENT_ID: &str = "aio_example_executor_client";
 const HOSTNAME: &str = "localhost";
@@ -58,13 +56,13 @@ async fn main() {
 /// Handle incoming increment command requests
 async fn executor_loop(application_context: ApplicationContext, client: SessionManagedClient) {
     // Create a command executor for the increment command
-    let incr_executor_options = CommandExecutorOptionsBuilder::default()
+    let incr_executor_options = rpc_command::executor::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
         .build()
         .unwrap();
-    let mut incr_executor: CommandExecutor<IncrRequestPayload, IncrResponsePayload, _> =
-        CommandExecutor::new(application_context, client, incr_executor_options).unwrap();
+    let mut incr_executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload, _> =
+        rpc_command::Executor::new(application_context, client, incr_executor_options).unwrap();
 
     // Counter to increment
     let mut counter = 0;
@@ -77,7 +75,7 @@ async fn executor_loop(application_context: ApplicationContext, client: SessionM
                 let response = IncrResponsePayload {
                     counter_response: counter,
                 };
-                let response = CommandResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(response)
                     .unwrap()
                     .build()
