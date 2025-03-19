@@ -54,8 +54,7 @@ Some of these samples ([cloudevents](protocol/cloudevents) and [counter](protoco
 
 ## Services samples
 
-Services samples are located in the [services directory](./services). Each sample utilizes a client to interact with a Azure IoT Operations services.
-
+Services samples are located in the [services directory](./services). Each sample utilizes a client to interact with an Azure IoT Operations service.
 To run one a sample, navigate to its directory (`go/samples/services/<sample>`) and run it via:
 
 ```bash
