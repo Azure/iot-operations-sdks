@@ -17,10 +17,9 @@ body:
         - .NET SDK
         - Go SDK
         - Rust SDK
-        - Protocol Compiler (Codegen)
         - State store CLI
         - Documentation
-        - Other (Outline below)
+        - Other
     validations:
       required: true
 
@@ -30,15 +29,14 @@ body:
       label: Azure Iot Operations version
       description: Paste the output of the command `az iot ops show --name myinstance -g myresourcegroup`.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: what-happened
     attributes:
       label: What happened?
       description: Also, what was the expected behavior?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      placeholder: Provide as much detail as possible.
     validations:
       required: true
 
@@ -48,14 +46,7 @@ body:
       label: List the steps to reproduce
       description: Please provide a minimal set of steps to reproduce the issue.
     validations:
-      required: true
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: ARelevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
+      required: false
 
   - type: checkboxes
     id: terms
