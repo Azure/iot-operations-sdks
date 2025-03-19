@@ -224,7 +224,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 clientId = File.ReadAllText(configMapPath + "/AIO_MQTT_CLIENT_ID");
                 if (string.IsNullOrEmpty(clientId))
                 {
-                    throw AkriMqttException.GetConfigurationInvalidException("AIO_MQTT_CLIENT_ID", string.Empty, "AIO_MQTT_CLIENT_ID is missing.");
+                    clientId = Guid.NewGuid().ToString();
                 }
             }
             catch (Exception e)
