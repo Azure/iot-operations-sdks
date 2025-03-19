@@ -15,7 +15,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(SqlQualityAnalyzerDatasetSamplerFactory.DatasetSamplerFactoryProvider);
         services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddSingleton(new ConnectorLeaderElectionConfigurationProvider(new("some-sql-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9))));
+        services.AddSingleton(ConnectorLeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();

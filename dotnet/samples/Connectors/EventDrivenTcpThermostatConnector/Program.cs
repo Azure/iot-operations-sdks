@@ -12,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
         services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
         services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
-        services.AddSingleton(new ConnectorLeaderElectionConfigurationProvider(new("some-tcp-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9))));
+        services.AddSingleton(ConnectorLeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
         services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();
     })
     .Build();
