@@ -19,11 +19,11 @@ This directory contains documentation relating to the implementation of the SDKs
 |-|-|-|
 | :red_circle: | [Commands](commands.md) | Describes at a high level how the RPC protocol is adapted to Command Execution |
 | :red_circle: | [Command Cache](command-cache.md) | The command cache is used for de-duplicating requests to avoid multiple invocation during disconnection |
-| :yellow_circle: | [Command Errors](command-errors.md) | Outline the different error conditions that arise during Command execution and how these are communicated to the user. |
+| :green_circle: | [Command Errors](command-errors.md) | Outline the different error conditions that arise during Command execution and how these are communicated to the user. |
 | :yellow_circle: | [Command Timeouts](command-timeouts.md) | Command timeouts are used during command execution. This document describes how the different timeouts are resolved to a predictable behavior |
 | :red_circle: | [Connection Management](connection-management.md) | Outlines the strategies that are undertaken to predictable response to different type of connection loss |
-| :yellow_circle: | [Connection Settings](connection-settings.md) | Outlines the parameters of MQTT settings long with the associated environment variables and default value |
-| :yellow_circle: | [Error Model](error-model.md) | Describes the different types of errors reported by the SDKs during exceptional circumstances |
+| :green_circle: | [Connection Settings](connection-settings.md) | Outlines the parameters of MQTT settings long with the associated environment variables and default value |
+| :green_circle: | [Error Model](error-model.md) | Describes the different types of errors reported by the SDKs during exceptional circumstances |
 | :yellow_circle: | [Message Metadata](message-metadata.md) | Describes the user and system properties used across Telemetry and Commands |
 | :red_circle: | [RPC Protocol](rpc-protocol.md) | Details on the RPC implementation, used by the Commands |
 | :yellow_circle: | [Session Client](session-client.md) | Details on the session client implementation |
