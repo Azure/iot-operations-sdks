@@ -221,8 +221,11 @@ namespace Azure.Iot.Operations.Protocol.Connection
             string clientId;
             try
             {
-                clientId = File.ReadAllText(configMapPath + "/AIO_MQTT_CLIENT_ID");
-                if (string.IsNullOrEmpty(clientId))
+                if (File.Exists(configMapPath + "/AIO_MQTT_CLIENT_ID"))
+                {
+                    clientId = File.ReadAllText(configMapPath + "/AIO_MQTT_CLIENT_ID");
+                }
+                else
                 {
                     clientId = Guid.NewGuid().ToString();
                 }
