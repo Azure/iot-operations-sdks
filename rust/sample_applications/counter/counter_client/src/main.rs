@@ -60,7 +60,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
     .is_ok());
 
-    Ok(())
+    Err("test string")?
 }
 
 /// Wait for the associated telemetry. Then exit the session.
