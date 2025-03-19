@@ -6,10 +6,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandRequest, CommandResponse,
-    CommandResponseBuilder, CommandResponseBuilderError,
-};
+use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
@@ -17,14 +14,14 @@ use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type ReadCounterRequest = CommandRequest<EmptyJson, ReadCounterResponsePayload>;
-pub type ReadCounterResponse = CommandResponse<ReadCounterResponsePayload>;
-pub type ReadCounterResponseBuilderError = CommandResponseBuilderError;
+pub type ReadCounterRequest = rpc_command::executor::Request<EmptyJson, ReadCounterResponsePayload>;
+pub type ReadCounterResponse = rpc_command::executor::Response<ReadCounterResponsePayload>;
+pub type ReadCounterResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
 /// Builder for [`ReadCounterResponse`]
 #[derive(Default)]
 pub struct ReadCounterResponseBuilder {
-    inner_builder: CommandResponseBuilder<ReadCounterResponsePayload>,
+    inner_builder: rpc_command::executor::ResponseBuilder<ReadCounterResponsePayload>,
 }
 
 impl ReadCounterResponseBuilder {
@@ -57,7 +54,9 @@ impl ReadCounterResponseBuilder {
 }
 
 /// Command Executor for `readCounter`
-pub struct ReadCounterCommandExecutor<C>(CommandExecutor<EmptyJson, ReadCounterResponsePayload, C>)
+pub struct ReadCounterCommandExecutor<C>(
+    rpc_command::Executor<EmptyJson, ReadCounterResponsePayload, C>,
+)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -76,7 +75,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
+        let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -101,7 +100,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandExecutor::new(application_context, client, executor_options)
+            rpc_command::Executor::new(application_context, client, executor_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

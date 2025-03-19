@@ -8,26 +8,20 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::telemetry::telemetry_sender::{
-    CloudEvent, TelemetryMessage as TelemetryMessageBase,
-    TelemetryMessageBuilder as TelemetryMessageBuilderBase,
-    TelemetryMessageBuilderError as TelemetryMessageBuilderBaseError,
-    TelemetrySender as TelemetrySenderBase,
-    TelemetrySenderOptionsBuilder as TelemetrySenderOptionsBaseBuilder,
-};
+use azure_iot_operations_protocol::telemetry;
 
 use super::super::common_types::common_options::TelemetryOptions;
 use super::telemetry_collection::TelemetryCollection;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
 
-pub type TelemetryMessage = TelemetryMessageBase<TelemetryCollection>;
-pub type TelemetryMessageBuilderError = TelemetryMessageBuilderBaseError;
+pub type TelemetryMessage = telemetry::sender::Message<TelemetryCollection>;
+pub type TelemetryMessageBuilderError = telemetry::sender::MessageBuilderError;
 
 /// Builder for [`TelemetryMessage`]
 #[derive(Default)]
 pub struct TelemetryMessageBuilder {
-    inner_builder: TelemetryMessageBuilderBase<TelemetryCollection>,
+    inner_builder: telemetry::sender::MessageBuilder<TelemetryCollection>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -61,7 +55,7 @@ impl TelemetryMessageBuilder {
     }
 
     /// Cloud event for the message
-    pub fn cloud_event(&mut self, cloud_event: Option<CloudEvent>) -> &mut Self {
+    pub fn cloud_event(&mut self, cloud_event: Option<telemetry::sender::CloudEvent>) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
@@ -87,7 +81,7 @@ impl TelemetryMessageBuilder {
 }
 
 /// Telemetry Sender for `TelemetryCollection`
-pub struct TelemetrySender<C>(TelemetrySenderBase<TelemetryCollection, C>)
+pub struct TelemetrySender<C>(telemetry::Sender<TelemetryCollection, C>)
 where
     C: ManagedClient + Send + Sync + 'static;
 
@@ -104,7 +98,7 @@ where
         client: C,
         options: &TelemetryOptions,
     ) -> Self {
-        let mut sender_options_builder = TelemetrySenderOptionsBaseBuilder::default();
+        let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -126,7 +120,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            TelemetrySenderBase::new(application_context, client, sender_options)
+            telemetry::Sender::new(application_context, client, sender_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }

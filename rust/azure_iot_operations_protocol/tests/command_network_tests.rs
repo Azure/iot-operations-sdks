@@ -14,12 +14,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    rpc::{
-        command_executor::{
-            CommandExecutor, CommandExecutorOptionsBuilder, CommandResponseBuilder,
-        },
-        command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
-    },
+    rpc_command,
 };
 
 // These tests test these happy path scenarios
@@ -46,8 +41,8 @@ fn setup_test<
 ) -> Result<
     (
         Session,
-        CommandInvoker<TReq, TResp, SessionManagedClient>,
-        CommandExecutor<TReq, TResp, SessionManagedClient>,
+        rpc_command::Invoker<TReq, TResp, SessionManagedClient>,
+        rpc_command::Executor<TReq, TResp, SessionManagedClient>,
         SessionExitHandle,
     ),
     (),
@@ -80,25 +75,25 @@ fn setup_test<
 
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let invoker_options = CommandInvokerOptionsBuilder::default()
+    let invoker_options = rpc_command::invoker::OptionsBuilder::default()
         .request_topic_pattern(topic)
         .response_topic_prefix("response".to_string())
         .command_name(client_id)
         .build()
         .unwrap();
-    let invoker: CommandInvoker<TReq, TResp, _> = CommandInvoker::new(
+    let invoker: rpc_command::Invoker<TReq, TResp, _> = rpc_command::Invoker::new(
         application_context.clone(),
         session.create_managed_client(),
         invoker_options,
     )
     .unwrap();
 
-    let executor_options = CommandExecutorOptionsBuilder::default()
+    let executor_options = rpc_command::executor::OptionsBuilder::default()
         .request_topic_pattern(topic)
         .command_name(client_id)
         .build()
         .unwrap();
-    let executor: CommandExecutor<TReq, TResp, _> = CommandExecutor::new(
+    let executor: rpc_command::Executor<TReq, TResp, _> = rpc_command::Executor::new(
         application_context,
         session.create_managed_client(),
         executor_options,
@@ -160,7 +155,7 @@ async fn command_basic_invoke_response_network_tests() {
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
-                        let response = CommandResponseBuilder::default()
+                        let response = rpc_command::executor::ResponseBuilder::default()
                             .payload(EmptyPayload::default())
                             .unwrap()
                             .build()
@@ -179,7 +174,7 @@ async fn command_basic_invoke_response_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send request with empty payload
-            let request = CommandRequestBuilder::default()
+            let request = rpc_command::invoker::RequestBuilder::default()
                 .payload(EmptyPayload::default())
                 .unwrap()
                 .timeout(Duration::from_secs(2))
@@ -408,7 +403,7 @@ async fn command_complex_invoke_response_network_tests() {
                         assert!(request.topic_tokens.is_empty());
 
                         // send response
-                        let response = CommandResponseBuilder::default()
+                        let response = rpc_command::executor::ResponseBuilder::default()
                             .payload(test_response_payload_clone)
                             .unwrap()
                             .custom_user_data(test_response_custom_user_data_clone)
@@ -429,7 +424,7 @@ async fn command_complex_invoke_response_network_tests() {
             tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Send request with more complex payload and custom user data
-            let request = CommandRequestBuilder::default()
+            let request = rpc_command::invoker::RequestBuilder::default()
                 .payload(test_request_payload)
                 .unwrap()
                 .custom_user_data(test_request_custom_user_data.clone())

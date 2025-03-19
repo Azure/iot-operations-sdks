@@ -8,7 +8,7 @@
 
 pub mod application;
 pub mod common;
-pub mod rpc;
+pub mod rpc_command;
 pub mod telemetry;
 
 /// Struct containing the major and minor version of the protocol.

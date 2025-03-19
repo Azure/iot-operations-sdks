@@ -7,10 +7,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
-use azure_iot_operations_protocol::rpc::command_invoker::{
-    CommandInvoker, CommandInvokerOptionsBuilder, CommandRequest, CommandRequestBuilder,
-    CommandRequestBuilderError, CommandResponse,
-};
+use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::common_options::CommandOptions;
 use super::get_request_payload::GetRequestPayload;
@@ -18,14 +15,14 @@ use super::get_response_payload::GetResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 
-pub type GetRequest = CommandRequest<GetRequestPayload>;
-pub type GetResponse = CommandResponse<GetResponsePayload>;
-pub type GetRequestBuilderError = CommandRequestBuilderError;
+pub type GetRequest = rpc_command::invoker::Request<GetRequestPayload>;
+pub type GetResponse = rpc_command::invoker::Response<GetResponsePayload>;
+pub type GetRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`GetRequest`]
 pub struct GetRequestBuilder {
-    inner_builder: CommandRequestBuilder<GetRequestPayload>,
+    inner_builder: rpc_command::invoker::RequestBuilder<GetRequestPayload>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -74,7 +71,7 @@ impl GetRequestBuilder {
 }
 
 /// Command Invoker for `get`
-pub struct GetCommandInvoker<C>(CommandInvoker<GetRequestPayload, GetResponsePayload, C>)
+pub struct GetCommandInvoker<C>(rpc_command::Invoker<GetRequestPayload, GetResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -93,7 +90,7 @@ where
         client: C,
         options: &CommandOptions,
     ) -> Self {
-        let mut invoker_options_builder = CommandInvokerOptionsBuilder::default();
+        let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
         }
@@ -120,7 +117,7 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         Self(
-            CommandInvoker::new(application_context, client, invoker_options)
+            rpc_command::Invoker::new(application_context, client, invoker_options)
                 .expect("DTDL schema generated invalid arguments"),
         )
     }
