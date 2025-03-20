@@ -1,0 +1,58 @@
+name: Bug report
+description: Report issues with the SDKs and Codegen
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees:
+  - ryanwinter
+  - avishekpant
+
+body:
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      multiple: true
+      description: What Product(s) (SDKs or tools) is this impacting?
+      options:
+        - .NET SDK
+        - Go SDK
+        - Rust SDK
+        - State store CLI
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: aio-version
+    attributes:
+      label: Azure Iot Operations version
+      description: Paste the output of the command `az iot ops show --name myinstance -g myresourcegroup`.
+    validations:
+      required: false
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also, what was the expected behavior?
+      placeholder: Provide as much detail as possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: List the steps to reproduce
+      description: Please provide a minimal set of steps to reproduce the issue.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Azure/iot-operations-sdks/blob/main/CODE_OF_CONDUCT.md). 
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

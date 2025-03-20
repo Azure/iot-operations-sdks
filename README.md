@@ -6,7 +6,7 @@
 [![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
 
 > [!CAUTION]
-> The assets in this repository are currently in **Private Preview** and have been made available for early access and feedback purposes.
+> The assets in this repository are currently in **Public Preview** and have been made available for early access and feedback purposes.
 
 ## What is Azure IoT Operations?
 
@@ -88,23 +88,9 @@ The following tables outline the current components, along with the associated l
 | **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **Akri** client | Asset and asset endpoint configuration and asset discovery | :green_circle: | :yellow_circle: | :yellow_circle: |
 
-## Protocol compiler (Codegen)
+## Need support?
 
-The [Protocol compiler](/codegen) is a command line tool distributed as a NuGet package. It generates client libraries and server stubs in multiple languages.
-
-| Component | Description | .NET | Go | Rust |
-|-|-|-|-|-|
-| [**Protocol compiler CLI**](/codegen) | The Protocol Compiler generates client libraries and server stubs from a DTDL definition. | :green_circle: | :green_circle:  | :green_circle:  |
-| [**JSON**](https://www.json.org/) Serialization | Json serialization support | :green_circle: | :green_circle:  | :green_circle:  |
-| [**Apache Avro**](https://avro.apache.org/) Serialization | Avro serialization support | :green_circle: | :orange_circle: | :orange_circle: |
-| [**Protobuf**](https://protobuf.dev/) Serialization | Protobuf serialization support| :orange_circle: | :orange_circle: | :orange_circle: |
-
-## Need help?
-
-* Read through the [SDK documentation](./doc)
-* Check for an answer in the [troubleshooting](./doc/troubleshooting.md)
-* File an issue via [Github Issues](https://github.com/Azure/iot-operations-sdks/issues/new/choose)
-* Check the [discussions](https://github.com/Azure/iot-operations-sdks/discussions) or start a new one
+Refer to [SUPPORT.md](./SUPPORT.md) for guidance on reporting bugs and getting assistance.
 
 ## Contributing
 
