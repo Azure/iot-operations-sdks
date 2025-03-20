@@ -63,19 +63,19 @@ Build the application within your development environment following the instruct
     Rust contains seperate applications for the input client and the output client.
 
     ```bash
-    ( cd rust/sample_applications/event_driven_app/input_client;  cargo build --target-dir out )
-    ( cd rust/sample_applications/event_driven_app/output_client; cargo build --target-dir out )
+    cd rust
+    cargo build -p input_client -p output_client
     ```
 
     </details>
 
-    <details>
+    <!-- <details>
     <summary>Go</summary>
 
     ```bash
     <TBD>
     ```
-    </details>
+    </details> -->
 
 > [!NOTE]
 > It's also possible to run the application directly from your development environment if you are using the standard setup as the MQTT Broker will be available externally from the cluster.
@@ -84,13 +84,14 @@ Build the application within your development environment following the instruct
 
 The application can also be deployed to the cluster by building a container and applying the `app.yml`:
 
-1. Change to the required directory depending on your language choice:
+1. Build the application container:
 
     <details>
     <summary>.NET</summary>
 
     ```bash
     cd dotnet/samples/applications/EventDrivenApp
+    docker build -t event-driven-app .
     ```
     </details>
 
@@ -98,30 +99,50 @@ The application can also be deployed to the cluster by building a container and 
     <summary>Rust</summary>
 
     ```bash
-    rust/sample_applications/event_driven_app
+    cd rust
+    docker build -f sample_applications/event_driven_app/Dockerfile -t event-driven-app .
     ```
     </details>
 
-    <details>
+    <!-- <details>
     <summary>Go</summary>
 
     ```bash
     <TBD>
     ```
-    </details>
+    </details> -->
 
-1. Build the container and import to the cluster:
+1. Import the container to the cluster:
 
     ```bash
-    docker build -t event-driven-app .
     k3d image import event-driven-app
     ```
 
-1. Apply the application deployment:
+1. Deploy the application to the cluster:
+
+    <details>
+    <summary>.NET</summary>
 
     ```bash
-    kubectl apply -f app.yml
+    kubectl apply -f dotnet/samples/applications/EventDrivenApp/app.yml
     ```
+    </details>
+
+    <details>
+    <summary>Rust</summary>
+
+    ```bash
+    kubectl apply -f rust/sample_applications/event_driven_app/app.yml
+    ```
+    </details>
+
+    <!-- <details>
+    <summary>Go</summary>
+
+    ```bash
+    <TBD>
+    ```
+    </details> -->
 
 1. Confirm that the application deployed successfully. The pod should report all containers are ready after a short interval:
 
@@ -142,13 +163,13 @@ The application can also be deployed to the cluster by building a container and 
 
 Create test data by deploying a simulator. It emulates a sensor by sending sample temperature, vibration, and pressure readings to the MQTT broker on the `sensor/data` topic every 10 seconds.
 
-1. Deploy the simulator:
+1. Deploy the simulator to the cluster:
 
     ```bash
-    kubectl apply -f ./samples/EventDrivenApp/simulator.yml
+    kubectl apply -f samples/EventDrivenApp/simulator.yml
     ```
 
-1. Confirm the simulator is running correctly by observing the logging output:
+1. Confirm the simulator is running correctly by observing the published messages:
 
     ```bash
     kubectl logs -f -l app=event-driven-app-simulator -n azure-iot-operations
