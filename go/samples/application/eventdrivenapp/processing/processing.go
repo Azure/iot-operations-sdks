@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/models"
+	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 )
 
 func HandleSensorData(ctx context.Context, stateClient *statestore.Client[string, string], data models.SensorData) error {
@@ -58,7 +58,7 @@ func HandleSensorData(ctx context.Context, stateClient *statestore.Client[string
 	return err
 }
 
-func ProcessWindow(ctx context.Context, stateClient *statestore.Client[string, string], sender *protocol.TelemetrySender[models.WindowOutput]) error {
+func ProcessPublishWindow(ctx context.Context, stateClient *statestore.Client[string, string], sender *protocol.TelemetrySender[models.WindowOutput]) error {
 	resp, err := stateClient.Get(ctx, models.StateStoreKey)
 	if err != nil {
 		return err
@@ -73,7 +73,8 @@ func ProcessWindow(ctx context.Context, stateClient *statestore.Client[string, s
 		return nil
 	}
 
-	cutoff := time.Now().Add(-models.SlidingWindowSize * time.Second)
+	now := time.Now()
+	cutoff := now.Add(-models.SlidingWindowSize * time.Second)
 	windowData := models.SensorDataHistory{}
 	for _, item := range history {
 		if !item.Timestamp.Before(cutoff) {
@@ -94,7 +95,7 @@ func ProcessWindow(ctx context.Context, stateClient *statestore.Client[string, s
 	}, windowData)
 
 	output := models.WindowOutput{
-		Timestamp:   time.Now(),
+		Timestamp:   now,
 		WindowSize:  models.SlidingWindowSize,
 		Temperature: tempStats,
 		Pressure:    pressureStats,
