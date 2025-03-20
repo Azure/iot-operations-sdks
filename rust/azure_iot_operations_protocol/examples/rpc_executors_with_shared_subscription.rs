@@ -175,10 +175,10 @@ async fn increment_executor_loop(
 async fn exit(exit_handle: SessionExitHandle, client_id: &str) {
     log::info!("{client_id}: Exiting session");
     match exit_handle.try_exit().await {
-        Ok(()) => println!("{client_id}: Session exited gracefully"),
+        Ok(()) => log::info!("{client_id}: Session exited gracefully"),
         Err(e) => {
-            println!("{client_id}: Graceful session exit failed: {e}");
-            println!("{client_id}: Forcing session exit");
+            log::error!("{client_id}: Graceful session exit failed: {e}");
+            log::warn!("{client_id}: Forcing session exit");
             exit_handle.exit_force().await;
         }
     }
