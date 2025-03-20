@@ -594,57 +594,31 @@ where
                     let message_received_time = Instant::now();
 
                     // Clone properties
-                    let properties = match &m.properties {
-                        Some(properties) => properties.clone(),
-                        None => {
-                            log::error!(
-                                "[{}][pkid: {}] Properties missing",
-                                self.command_name,
-                                m.pkid
-                            );
-                            tokio::task::spawn({
-                                let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
-                                async move {
-                                    handle_ack(
-                                        ack_token,
-                                        executor_cancellation_token_clone,
-                                        m.pkid,
-                                    )
-                                    .await;
-                                }
-                            });
-                            continue;
-                        }
+                    let properties = if let Some(properties) = &m.properties { properties.clone() } else {
+                        log::error!(
+                            "[{}][pkid: {}] Properties missing",
+                            self.command_name,
+                            m.pkid
+                        );
+                        tokio::task::spawn({
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            async move {
+                                handle_ack(
+                                    ack_token,
+                                    executor_cancellation_token_clone,
+                                    m.pkid,
+                                )
+                                .await;
+                            }
+                        });
+                        continue;
                     };
 
                     // Get response topic
-                    let response_topic = match properties.response_topic {
-                        Some(rt) => {
-                            if !is_valid_replacement(&rt) {
-                                log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
-                                tokio::task::spawn({
-                                    let executor_cancellation_token_clone =
-                                        self.executor_cancellation_token.clone();
-                                    async move {
-                                        handle_ack(
-                                            ack_token,
-                                            executor_cancellation_token_clone,
-                                            m.pkid,
-                                        )
-                                        .await;
-                                    }
-                                });
-                                continue;
-                            }
-                            rt
-                        }
-                        _ => {
-                            log::error!(
-                                "[{}][pkid: {}] Response topic missing",
-                                self.command_name,
-                                m.pkid
-                            );
+                    let response_topic = if let Some(rt) = properties.response_topic {
+                        if !is_valid_replacement(&rt) {
+                            log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
                             tokio::task::spawn({
                                 let executor_cancellation_token_clone =
                                     self.executor_cancellation_token.clone();
@@ -659,6 +633,26 @@ where
                             });
                             continue;
                         }
+                        rt
+                    } else {
+                        log::error!(
+                            "[{}][pkid: {}] Response topic missing",
+                            self.command_name,
+                            m.pkid
+                        );
+                        tokio::task::spawn({
+                            let executor_cancellation_token_clone =
+                                self.executor_cancellation_token.clone();
+                            async move {
+                                handle_ack(
+                                    ack_token,
+                                    executor_cancellation_token_clone,
+                                    m.pkid,
+                                )
+                                .await;
+                            }
+                        });
+                        continue;
                     };
 
                     let mut command_expiration_time_calculated = false;
@@ -698,39 +692,33 @@ where
                     }
 
                     // Get correlation data
-                    match properties.correlation_data {
-                        Some(correlation_data) => {
-                            if correlation_data.len() == 16 {
-                                response_arguments.correlation_data =
-                                    Some(correlation_data.clone());
-                                response_arguments.cached_key = Some(CacheKey {
-                                    response_topic: response_arguments.response_topic.clone(),
-                                    correlation_data,
-                                });
-                            } else {
-                                response_arguments.status_code = StatusCode::BadRequest;
-                                response_arguments.status_message = Some(
-                                    "Correlation data bytes do not conform to a GUID".to_string(),
-                                );
-                                response_arguments.invalid_property_name =
-                                    Some("Correlation Data".to_string());
-                                match String::from_utf8(correlation_data.to_vec()) {
-                                    Ok(correlation_data_str) => {
-                                        response_arguments.invalid_property_value =
-                                            Some(correlation_data_str);
-                                    }
-                                    _ => { /* Ignore */ }
-                                }
-                                response_arguments.correlation_data = Some(correlation_data);
-                            }
-                        }
-                        _ => {
+                    if let Some(correlation_data) = properties.correlation_data {
+                        if correlation_data.len() == 16 {
+                            response_arguments.correlation_data =
+                                Some(correlation_data.clone());
+                            response_arguments.cached_key = Some(CacheKey {
+                                response_topic: response_arguments.response_topic.clone(),
+                                correlation_data,
+                            });
+                        } else {
                             response_arguments.status_code = StatusCode::BadRequest;
-                            response_arguments.status_message =
-                                Some("Correlation data missing".to_string());
+                            response_arguments.status_message = Some(
+                                "Correlation data bytes do not conform to a GUID".to_string(),
+                            );
                             response_arguments.invalid_property_name =
                                 Some("Correlation Data".to_string());
+                            if let Ok(correlation_data_str) = String::from_utf8(correlation_data.to_vec()) {
+                                response_arguments.invalid_property_value =
+                                    Some(correlation_data_str);
+                            } else { /* Ignore */ }
+                            response_arguments.correlation_data = Some(correlation_data);
                         }
+                    } else {
+                        response_arguments.status_code = StatusCode::BadRequest;
+                        response_arguments.status_message =
+                            Some("Correlation data missing".to_string());
+                        response_arguments.invalid_property_name =
+                            Some("Correlation Data".to_string());
                     };
 
                     'process_request: {
@@ -1044,168 +1032,158 @@ where
         let mut publish_properties = PublishProperties::default();
         let cache_not_found = response_arguments.cached_entry_status == CacheEntryStatus::NotFound;
 
-        match response_arguments.cached_entry_status {
-            CacheEntryStatus::Cached(entry) => {
-                // The command has already been processed, we can respond with the cached response
-                log::debug!(
-                    "[{}][pkid: {}] Duplicate request, responding with cached response",
-                    response_arguments.command_name,
-                    pkid
-                );
-                publish_properties = entry.properties;
-                serialized_payload = entry.serialized_payload;
-            }
-            _ => {
-                let mut user_properties: Vec<(String, String)> = Vec::new();
-                'process_response: {
-                    let Some(command_expiration_time) = response_arguments.command_expiration_time
-                    else {
-                        break 'process_response;
-                    };
-                    match response_rx {
-                        Some(response_rx) => {
-                            // Wait for response
-                            let response = match timeout(
-                                command_expiration_time.duration_since(Instant::now()),
-                                response_rx,
-                            )
-                            .await
-                            {
-                                Ok(response_timer) => {
-                                    if let Ok(response_app) = response_timer {
-                                        response_app
-                                    } else {
-                                        // Happens when the sender is dropped by the application.
-                                        response_arguments.status_code =
-                                            StatusCode::InternalServerError;
-                                        response_arguments.status_message = Some(
-                                            "Request has been dropped by the application"
-                                                .to_string(),
-                                        );
-                                        response_arguments.is_application_error = true;
-                                        break 'process_response;
-                                    }
-                                }
-                                _ => {
-                                    log::error!(
-                                        "[{}][pkid: {}] Request timed out",
-                                        response_arguments.command_name,
-                                        pkid
-                                    );
-                                    // Notify the application that a timeout occurred
-                                    if let Some(completion_tx) = completion_tx {
-                                        let _ = completion_tx.send(Err(
-                                            AIOProtocolError::new_timeout_error(
-                                                false,
-                                                None,
-                                                &response_arguments.command_name,
-                                                Duration::from_secs(
-                                                    response_arguments
-                                                        .message_expiry_interval
-                                                        .unwrap_or_default()
-                                                        .into(),
-                                                ),
-                                                None,
-                                                Some(response_arguments.command_name.clone()),
-                                            ),
-                                        ));
-                                    }
-                                    return;
-                                }
-                            };
-
-                            user_properties = response.custom_user_data;
-
-                            // Serialize payload
-                            serialized_payload = response.serialized_payload;
-
-                            if serialized_payload.payload.is_empty() {
-                                response_arguments.status_code = StatusCode::NoContent;
-                            }
+        if let CacheEntryStatus::Cached(entry) = response_arguments.cached_entry_status {
+            // The command has already been processed, we can respond with the cached response
+            log::debug!(
+                "[{}][pkid: {}] Duplicate request, responding with cached response",
+                response_arguments.command_name,
+                pkid
+            );
+            publish_properties = entry.properties;
+            serialized_payload = entry.serialized_payload;
+        } else {
+            let mut user_properties: Vec<(String, String)> = Vec::new();
+            'process_response: {
+                let Some(command_expiration_time) = response_arguments.command_expiration_time
+                else {
+                    break 'process_response;
+                };
+                if let Some(response_rx) = response_rx {
+                    // Wait for response
+                    let response = if let Ok(response_timer) = timeout(
+                        command_expiration_time.duration_since(Instant::now()),
+                        response_rx,
+                    )
+                    .await {
+                        if let Ok(response_app) = response_timer {
+                            response_app
+                        } else {
+                            // Happens when the sender is dropped by the application.
+                            response_arguments.status_code =
+                                StatusCode::InternalServerError;
+                            response_arguments.status_message = Some(
+                                "Request has been dropped by the application"
+                                    .to_string(),
+                            );
+                            response_arguments.is_application_error = true;
+                            break 'process_response;
                         }
-                        _ => { /* Error */ }
+                    } else {
+                        log::error!(
+                            "[{}][pkid: {}] Request timed out",
+                            response_arguments.command_name,
+                            pkid
+                        );
+                        // Notify the application that a timeout occurred
+                        if let Some(completion_tx) = completion_tx {
+                            let _ = completion_tx.send(Err(
+                                AIOProtocolError::new_timeout_error(
+                                    false,
+                                    None,
+                                    &response_arguments.command_name,
+                                    Duration::from_secs(
+                                        response_arguments
+                                            .message_expiry_interval
+                                            .unwrap_or_default()
+                                            .into(),
+                                    ),
+                                    None,
+                                    Some(response_arguments.command_name.clone()),
+                                ),
+                            ));
+                        }
+                        return;
+                    };
+
+                    user_properties = response.custom_user_data;
+
+                    // Serialize payload
+                    serialized_payload = response.serialized_payload;
+
+                    if serialized_payload.payload.is_empty() {
+                        response_arguments.status_code = StatusCode::NoContent;
                     }
-                }
-
-                if response_arguments.status_code != StatusCode::Ok
-                    || response_arguments.status_code != StatusCode::NoContent
-                {
-                    user_properties.push((
-                        UserProperty::IsApplicationError.to_string(),
-                        response_arguments.is_application_error.to_string(),
-                    ));
-                }
-
-                user_properties.push((
-                    UserProperty::Status.to_string(),
-                    (response_arguments.status_code as u16).to_string(),
-                ));
-
-                user_properties.push((
-                    UserProperty::ProtocolVersion.to_string(),
-                    RPC_COMMAND_PROTOCOL_VERSION.to_string(),
-                ));
-
-                // Update HLC and use as the timestamp.
-                // If there are errors updating the HLC (unlikely when updating against now),
-                // the timestamp will not be added.
-                if let Ok(timestamp_str) = application_hlc.update_now() {
-                    user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
-                }
-
-                if let Some(status_message) = response_arguments.status_message {
-                    log::error!(
-                        "[{}][pkid: {}] {}",
-                        response_arguments.command_name,
-                        pkid,
-                        status_message
-                    );
-                    user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
-                }
-
-                if let Some(name) = response_arguments.invalid_property_name {
-                    user_properties.push((
-                        UserProperty::InvalidPropertyName.to_string(),
-                        name.to_string(),
-                    ));
-                }
-
-                if let Some(value) = response_arguments.invalid_property_value {
-                    user_properties.push((
-                        UserProperty::InvalidPropertyValue.to_string(),
-                        value.to_string(),
-                    ));
-                }
-
-                if let Some(supported_protocol_major_versions) =
-                    response_arguments.supported_protocol_major_versions
-                {
-                    user_properties.push((
-                        UserProperty::SupportedMajorVersions.to_string(),
-                        supported_protocol_major_versions_to_string(
-                            &supported_protocol_major_versions,
-                        ),
-                    ));
-                }
-
-                if let Some(request_protocol_version) = response_arguments.request_protocol_version
-                {
-                    user_properties.push((
-                        UserProperty::RequestProtocolVersion.to_string(),
-                        request_protocol_version,
-                    ));
-                }
-
-                // Create publish properties
-                publish_properties.payload_format_indicator =
-                    Some(serialized_payload.format_indicator.clone() as u8);
-                publish_properties.topic_alias = None;
-                publish_properties.response_topic = None;
-                publish_properties.correlation_data = response_arguments.correlation_data;
-                publish_properties.user_properties = user_properties;
-                publish_properties.subscription_identifiers = Vec::new();
-                publish_properties.content_type = Some(serialized_payload.content_type.to_string());
+                } else { /* Error */ }
             }
+
+            if response_arguments.status_code != StatusCode::Ok
+                || response_arguments.status_code != StatusCode::NoContent
+            {
+                user_properties.push((
+                    UserProperty::IsApplicationError.to_string(),
+                    response_arguments.is_application_error.to_string(),
+                ));
+            }
+
+            user_properties.push((
+                UserProperty::Status.to_string(),
+                (response_arguments.status_code as u16).to_string(),
+            ));
+
+            user_properties.push((
+                UserProperty::ProtocolVersion.to_string(),
+                RPC_COMMAND_PROTOCOL_VERSION.to_string(),
+            ));
+
+            // Update HLC and use as the timestamp.
+            // If there are errors updating the HLC (unlikely when updating against now),
+            // the timestamp will not be added.
+            if let Ok(timestamp_str) = application_hlc.update_now() {
+                user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
+            }
+
+            if let Some(status_message) = response_arguments.status_message {
+                log::error!(
+                    "[{}][pkid: {}] {}",
+                    response_arguments.command_name,
+                    pkid,
+                    status_message
+                );
+                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+            }
+
+            if let Some(name) = response_arguments.invalid_property_name {
+                user_properties.push((
+                    UserProperty::InvalidPropertyName.to_string(),
+                    name.to_string(),
+                ));
+            }
+
+            if let Some(value) = response_arguments.invalid_property_value {
+                user_properties.push((
+                    UserProperty::InvalidPropertyValue.to_string(),
+                    value.to_string(),
+                ));
+            }
+
+            if let Some(supported_protocol_major_versions) =
+                response_arguments.supported_protocol_major_versions
+            {
+                user_properties.push((
+                    UserProperty::SupportedMajorVersions.to_string(),
+                    supported_protocol_major_versions_to_string(
+                        &supported_protocol_major_versions,
+                    ),
+                ));
+            }
+
+            if let Some(request_protocol_version) = response_arguments.request_protocol_version
+            {
+                user_properties.push((
+                    UserProperty::RequestProtocolVersion.to_string(),
+                    request_protocol_version,
+                ));
+            }
+
+            // Create publish properties
+            publish_properties.payload_format_indicator =
+                Some(serialized_payload.format_indicator.clone() as u8);
+            publish_properties.topic_alias = None;
+            publish_properties.response_topic = None;
+            publish_properties.correlation_data = response_arguments.correlation_data;
+            publish_properties.user_properties = user_properties;
+            publish_properties.subscription_identifiers = Vec::new();
+            publish_properties.content_type = Some(serialized_payload.content_type.to_string());
         };
 
         match response_arguments.command_expiration_time {

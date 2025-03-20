@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+#![allow(clippy::ref_option)]       // TODO: address this
 
 use std::fmt::Debug;
 
@@ -59,7 +60,7 @@ pub struct SerializedPayload {
 ///     })
 ///   }
 ///   fn deserialize(payload: &[u8],
-///     content_type: &Option<String>,
+///     content_type: Option<&String>,
 ///     _format_indicator: &FormatIndicator,
 ///   ) -> Result<Self, DeserializationError<String>> {
 ///     if let Some(content_type) = content_type {
@@ -75,6 +76,7 @@ pub struct SerializedPayload {
 ///   }
 /// }
 /// ```
+#[allow(clippy::ref_option)]        // TODO: Fix this trait
 pub trait PayloadSerialize: Clone {
     /// The type returned in the event of a serialization/deserialization error
     type Error: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>;
@@ -95,6 +97,7 @@ pub trait PayloadSerialize: Clone {
     fn deserialize(
         payload: &[u8],
         content_type: &Option<String>,
+        //content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>>;
 }
@@ -132,6 +135,7 @@ impl PayloadSerialize for BypassPayload {
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         let ct: String = content_type.clone().unwrap_or_default();
+
         Ok(BypassPayload {
             content_type: ct,
             format_indicator: format_indicator.clone(),
