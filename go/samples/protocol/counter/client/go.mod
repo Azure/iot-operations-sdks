@@ -3,14 +3,14 @@ module github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/client
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.3.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.0
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy v0.0.0
 	github.com/lmittmann/tint v1.0.7
 )
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.2.0 // indirect
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.1.7 // indirect
 	github.com/eclipse/paho.golang v0.22.0 // indirect

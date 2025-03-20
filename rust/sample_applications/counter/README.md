@@ -15,6 +15,8 @@ The contents of the [`envoy`](./envoy) crate contains code generated from a DTDL
 This sample assumes the system has the required [environment variables](/doc/reference/connection-settings.md) set, and an MQTT broker running on the specified host that accepts the supplied credentials.
 We recommend the use of the Azure IoT Operations MQ broker, but any broker will do for this sample.
 
+Additionally, the `counter_client` will require an additional `COUNTER_SERVER_ID` environment variable indicating the client ID that the `counter_server` will be using.
+
 ## Running the sample
 
 1) Navigate to the `counter_server` directory, and run the command `cargo run`.
