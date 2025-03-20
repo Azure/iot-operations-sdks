@@ -27,7 +27,7 @@ use crate::{
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 
-/// Cloud Event struct used by the [`TelemetryReceiver`].
+/// Cloud Event struct used by the [`Receiver`].
 ///
 /// Implements the cloud event spec 1.0 for the telemetry receiver.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -201,7 +201,7 @@ impl CloudEvent {
 }
 
 /// Telemetry message struct.
-/// Used by the [`TelemetryReceiver`].
+/// Used by the [`Receiver`].
 #[derive(Debug)]
 pub struct Message<T: PayloadSerialize> {
     /// Payload of the telemetry message. Must implement [`PayloadSerialize`].
@@ -302,21 +302,21 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`TelemetryReceiver`].
+    /// Creates a new [`Receiver`].
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the telemetry receiver is part of.
     /// * `client` - [`ManagedClient`] to use for telemetry communication.
     /// * `receiver_options` - [`Options`] to configure the telemetry receiver.
     ///
-    /// Returns Ok([`TelemetryReceiver`]) on success, otherwise returns[`AIOProtocolError`].
+    /// Returns Ok([`Receiver`]) on success, otherwise returns[`AIOProtocolError`].
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid)
-    /// - [`topic_pattern`](Options::topic_pattern),
-    ///   [`topic_namespace`](Options::topic_namespace), are Some and invalid
+    /// - [`topic_pattern`](OptionsBuilder::topic_pattern),
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace), are Some and invalid
     ///   or contain a token with no valid replacement
-    /// - [`topic_token_map`](Options::topic_token_map) is not empty
+    /// - [`topic_token_map`](OptionsBuilder::topic_token_map) is not empty
     ///   and contains invalid key(s) and/or token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
@@ -368,9 +368,9 @@ where
         })
     }
 
-    /// Shutdown the [`TelemetryReceiver`]. Unsubscribes from the telemetry topic if subscribed.
+    /// Shutdown the [`Receiver`]. Unsubscribes from the telemetry topic if subscribed.
     ///
-    /// Note: If this method is called, the [`TelemetryReceiver`] will no longer receive telemetry messages
+    /// Note: If this method is called, the [`Receiver`] will no longer receive telemetry messages
     /// from the MQTT client, any messages that have not been processed can still be received by the
     /// receiver. If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///

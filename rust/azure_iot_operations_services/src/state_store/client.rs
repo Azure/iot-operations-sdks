@@ -99,7 +99,7 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) is possible if
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) is possible if
     ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen
     ///
     /// # Panics
@@ -180,9 +180,9 @@ where
     /// Note: If this method is called, the [`state_store::Client`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
-    /// Returns Ok(()) on success, otherwise returns [`Error`].
+    /// Returns Ok(()) on success, otherwise returns [`struct@Error`].
     /// # Errors
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), Error> {
         // Notify the receiver loop to shutdown the telemetry receiver
         self.shutdown_notifier.notify_one();
@@ -201,15 +201,15 @@ where
     ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
-    /// [`Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn set(
         &self,
         key: Vec<u8>,
@@ -260,15 +260,15 @@ where
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
-    /// [`Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn get(
         &self,
         key: Vec<u8>,
@@ -304,15 +304,15 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
-    /// [`Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn del(
         &self,
         key: Vec<u8>,
@@ -338,15 +338,15 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
-    /// [`Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`Invoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn vdel(
         &self,
         key: Vec<u8>,
@@ -447,18 +447,18 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
     /// - the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Observe` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`Invoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn observe(
         &self,
         key: Vec<u8>,
@@ -521,18 +521,18 @@ where
     ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
-    /// [`Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
     /// - the `key` is empty
     ///
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Unobserve` request
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`Invoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn unobserve(
         &self,
         key: Vec<u8>,

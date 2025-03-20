@@ -282,7 +282,7 @@ pub struct ParseHLCError {
     message: String,
     /// The input string that failed to parse
     // NOTE: This is only needed for AIOProtocolError compatibility
-    pub input: String,
+    pub(crate) input: String,
 }
 
 // Functions to allow manipulation of the system time for testing purposes
