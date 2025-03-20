@@ -60,7 +60,7 @@ Build the application within your development environment following the instruct
     <details>
     <summary>Rust</summary>
 
-    Rust contains seperate applications for the input client and the output client.
+    Rust contains separate applications for the input client and the output client.
 
     ```bash
     cd rust

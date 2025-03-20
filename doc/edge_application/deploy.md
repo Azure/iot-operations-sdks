@@ -31,14 +31,13 @@ This definition uses the [Official .NET SDK image](https://github.com/dotnet/dot
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /build
 COPY . .
-RUN dotnet restore
-RUN dotnet publish -o out
+RUN dotnet publish -o dist
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/runtime:9.0
-WORKDIR /
-COPY --from=build /build/out .
-ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
+WORKDIR /app
+COPY --from=build /build/dist .
+ENTRYPOINT ["./MyApplication"]
 ```
 
 ## Rust Dockerfile
@@ -57,7 +56,7 @@ FROM debian:bookworm-slim
 WORKDIR /
 RUN apt update; apt install -y libssl3
 COPY --from=build work/rust-application .
-ENTRYPOINT ["/rust-application"]
+ENTRYPOINT ["./rust-application"]
 ```
 
 ## Go Dockerfile
@@ -75,7 +74,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o .
 FROM alpine:3
 WORKDIR /
 COPY --from=build /build/go-application .
-ENTRYPOINT ["/go-application"]
+ENTRYPOINT ["./go-application"]
 ```
 
 ## Build the container image
