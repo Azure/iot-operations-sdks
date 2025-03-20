@@ -390,11 +390,11 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
-    /// - [`command_name`](Options::command_name) is empty, whitespace or invalid
-    /// - [`request_topic_pattern`](Options::request_topic_pattern),
-    ///     [`topic_namespace`](Options::topic_namespace)
+    /// - [`command_name`](OptionsBuilder::command_name) is empty, whitespace or invalid
+    /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern),
+    ///     [`topic_namespace`](OptionsBuilder::topic_namespace)
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](Options::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
+    /// - [`topic_token_map`](OptionsBuilder::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     pub fn new(
         application_context: ApplicationContext,
         client: C,

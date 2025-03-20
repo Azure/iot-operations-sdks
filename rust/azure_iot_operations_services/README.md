@@ -12,7 +12,7 @@ The Azure IoT Operations Services provides clients for the various services in A
  
 - State Store
 - Schema Registry
-- Leased Lock (coming soon)
+- Leased Lock
 - Leader Election (coming soon)
 
 ## Features
@@ -21,3 +21,4 @@ To enable a specific client, the corresponding feature must be enabled.
 - `all`: Enables all clients.
 - `state_store`: Enables the State Store client.
 - `schema_registry`: Enables the Schema Registry client.
+- `leased_lock`: Enables the Leased Lock client.

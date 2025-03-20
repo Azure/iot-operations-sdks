@@ -43,18 +43,22 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public AssetEndpointProfile? AssetEndpointProfile { get; set; }
 
+        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
+
         public TelemetryConnectorWorker(
             ApplicationContext applicationContext,
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAssetMonitor assetMonitor)
+            IAssetMonitor assetMonitor,
+            IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _applicationContext = applicationContext;
             _logger = logger;
             _mqttClient = mqttClient;
             _messageSchemaProviderFactory = messageSchemaProviderFactory;
             _assetMonitor = assetMonitor;
+            _leaderElectionConfiguration = leaderElectionConfigurationProvider?.GetLeaderElectionConfiguration();
         }
 
         ///<inheritdoc/>
@@ -80,7 +84,6 @@ namespace Azure.Iot.Operations.Connector
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
             bool doingLeaderElection = false;
-            TimeSpan leaderElectionTermLength = TimeSpan.FromSeconds(5);
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -117,13 +120,10 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation("Successfully discovered the asset endpoint profile");
 
-                        if (AssetEndpointProfile.AdditionalConfiguration != null
-                            && AssetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("leadershipPositionId", out JsonElement value)
-                            && value.ValueKind == JsonValueKind.String
-                            && value.GetString() != null)
+                        if (_leaderElectionConfiguration != null)
                         {
                             doingLeaderElection = true;
-                            string leadershipPositionId = value.GetString()!;
+                            string leadershipPositionId = _leaderElectionConfiguration.LeadershipPositionId;
 
                             _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
@@ -132,8 +132,8 @@ namespace Azure.Iot.Operations.Connector
                             leaderElectionClient.AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
                                 AutomaticRenewal = true,
-                                ElectionTerm = leaderElectionTermLength,
-                                RenewalPeriod = leaderElectionTermLength.Subtract(TimeSpan.FromSeconds(1))
+                                ElectionTerm = _leaderElectionConfiguration.LeadershipPositionTermLength,
+                                RenewalPeriod = _leaderElectionConfiguration.LeadershipPositionRenewalRate
                             };
 
                             leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
@@ -148,7 +148,7 @@ namespace Azure.Iot.Operations.Connector
                             };
 
                             _logger.LogInformation("This pod is waiting to be elected leader.");
-                            await leaderElectionClient.CampaignAsync(leaderElectionTermLength);
+                            await leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength);
 
                             _logger.LogInformation("This pod was elected leader.");
                         }
@@ -187,7 +187,7 @@ namespace Azure.Iot.Operations.Connector
                                 {
                                     await Task.WhenAny(
                                         aepDeletedOrUpdatedTcs.Task,
-                                        Task.Delay(leaderElectionTermLength)).WaitAsync(cancellationToken);
+                                        Task.Delay(_leaderElectionConfiguration!.LeadershipPositionTermLength)).WaitAsync(cancellationToken);
                                 }
                                 else
                                 {
