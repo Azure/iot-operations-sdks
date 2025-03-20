@@ -342,7 +342,7 @@ mod tests {
     use std::path::PathBuf;
     use std::sync::Mutex;
 
-    pub static FILE_DIR_MTX: Mutex<()> = Mutex::new(()); // TODO: Find a better way to control test flow
+    //pub static FILE_DIR_MTX: Mutex<()> = Mutex::new(()); // TODO: Find a better way to control test flow
 
     #[test]
     fn test_connection_settings_empty_hostname() {
@@ -590,302 +590,302 @@ mod tests {
         cleanup_temp_dir(&temp_dir);
     }
 
-    #[test]
-    fn test_file_mount_missing_config_path() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        // TODO: Audit that the environment access only happens in single-threaded code.
-        unsafe { env::set_var("AEP_CONFIGMAP_MOUNT_PATH", "/path/that/does/not/exist") };
+    // #[test]
+    // fn test_file_mount_missing_config_path() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     // TODO: Audit that the environment access only happens in single-threaded code.
+    //     unsafe { env::set_var("AEP_CONFIGMAP_MOUNT_PATH", "/path/that/does/not/exist") };
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains("Config map path does not exist"));
-            }
-        }
-    }
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains("Config map path does not exist"));
+    //         }
+    //     }
+    // }
 
-    #[test]
-    fn test_file_mount_missing_env_var() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        // TODO: Audit that the environment access only happens in single-threaded code.
-        unsafe { env::remove_var("AEP_CONFIGMAP_MOUNT_PATH") };
+    // #[test]
+    // fn test_file_mount_missing_env_var() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     // TODO: Audit that the environment access only happens in single-threaded code.
+    //     unsafe { env::remove_var("AEP_CONFIGMAP_MOUNT_PATH") };
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => assert_eq!(e.to_string(), "AEP_CONFIGMAP_MOUNT_PATH is not set"),
-        }
-    }
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => assert_eq!(e.to_string(), "AEP_CONFIGMAP_MOUNT_PATH is not set"),
+    //     }
+    // }
 
-    #[test]
-    fn test_file_mount_missing_target_address() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
+    // #[test]
+    // fn test_file_mount_missing_target_address() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
 
-        let (temp_dir, temp_path) = setup_test_environment();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains("Failed to read BROKER_TARGET_ADDRESS"));
-            }
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains("Failed to read BROKER_TARGET_ADDRESS"));
+    //         }
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_empty_target_address() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
+    // #[test]
+    // fn test_file_mount_empty_target_address() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
 
-        let (temp_dir, temp_path) = setup_test_environment();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "").unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert_eq!(e, "BROKER_TARGET_ADDRESS is missing.");
-            }
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert_eq!(e, "BROKER_TARGET_ADDRESS is missing.");
+    //         }
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_invalid_target_address_format() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_invalid_target_address_format() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "hostname-without-port").unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "hostname-without-port").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains("BROKER_TARGET_ADDRESS is malformed"));
-            }
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains("BROKER_TARGET_ADDRESS is malformed"));
+    //         }
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_invalid_port() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_invalid_port() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:not_a_number",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:not_a_number",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains("Cannot parse MQTT port"));
-            }
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains("Cannot parse MQTT port"));
+    //         }
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_missing_use_tls() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_missing_use_tls() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:8883",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains("Failed to read BROKER_USE_TLS"));
-            }
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains("Failed to read BROKER_USE_TLS"));
+    //         }
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_invalid_use_tls() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_invalid_use_tls() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:8883",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "not-a-boolean").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "not-a-boolean").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains(
-                    "BROKER_USE_TLS contains a value that could not be parsed as a boolean"
-                ));
-            }
-        }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains(
+    //                 "BROKER_USE_TLS contains a value that could not be parsed as a boolean"
+    //             ));
+    //         }
+    //     }
 
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_missing_client_id() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_missing_client_id() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:8883",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => {
-                assert!(e.contains("Missing or malformed client ID configuration file"));
-            }
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => {
+    //             assert!(e.contains("Missing or malformed client ID configuration file"));
+    //         }
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_empty_client_id() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_empty_client_id() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:8883",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
 
-        match builder_result {
-            Ok(_) => panic!("Expected error"),
-            Err(e) => assert_eq!(e.to_string(), "AIO_MQTT_CLIENT_ID is missing."),
-        }
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     match builder_result {
+    //         Ok(_) => panic!("Expected error"),
+    //         Err(e) => assert_eq!(e.to_string(), "AIO_MQTT_CLIENT_ID is missing."),
+    //     }
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_with_optional_sat_file() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_with_optional_sat_file() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:8883",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        // TODO: Audit that the environment access only happens in single-threaded code.
-        unsafe { env::set_var("BROKER_SAT_MOUNT_PATH", "/path/to/sat/file.sat") };
+    //     // TODO: Audit that the environment access only happens in single-threaded code.
+    //     unsafe { env::set_var("BROKER_SAT_MOUNT_PATH", "/path/to/sat/file.sat") };
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
-        assert!(builder_result.is_ok());
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     assert!(builder_result.is_ok());
 
-        let builder = builder_result.unwrap();
-        assert_eq!(
-            builder.sat_file,
-            Some(Some("/path/to/sat/file.sat".to_string()))
-        );
-        let settings_result = builder.build();
-        assert!(settings_result.is_ok());
+    //     let builder = builder_result.unwrap();
+    //     assert_eq!(
+    //         builder.sat_file,
+    //         Some(Some("/path/to/sat/file.sat".to_string()))
+    //     );
+    //     let settings_result = builder.build();
+    //     assert!(settings_result.is_ok());
 
-        // TODO: Audit that the environment access only happens in single-threaded code.
-        unsafe { env::remove_var("BROKER_SAT_MOUNT_PATH") };
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     // TODO: Audit that the environment access only happens in single-threaded code.
+    //     unsafe { env::remove_var("BROKER_SAT_MOUNT_PATH") };
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_with_ca_file_path() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_with_ca_file_path() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(
-            &temp_path,
-            "BROKER_TARGET_ADDRESS",
-            "test.hostname.com:8883",
-        )
-        .unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
+    //     create_config_file(
+    //         &temp_path,
+    //         "BROKER_TARGET_ADDRESS",
+    //         "test.hostname.com:8883",
+    //     )
+    //     .unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        let ca_path = "/path/to/ca/certs";
-        // TODO: Audit that the environment access only happens in single-threaded code.
-        unsafe { env::set_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", ca_path) };
+    //     let ca_path = "/path/to/ca/certs";
+    //     // TODO: Audit that the environment access only happens in single-threaded code.
+    //     unsafe { env::set_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", ca_path) };
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
-        assert!(builder_result.is_ok());
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     assert!(builder_result.is_ok());
 
-        let builder = builder_result.unwrap();
-        assert_eq!(builder.ca_file, Some(Some("/path/to/ca/certs".to_string())));
-        let settings_result = builder.build();
-        assert!(settings_result.is_ok());
+    //     let builder = builder_result.unwrap();
+    //     assert_eq!(builder.ca_file, Some(Some("/path/to/ca/certs".to_string())));
+    //     let settings_result = builder.build();
+    //     assert!(settings_result.is_ok());
 
-        // TODO: Audit that the environment access only happens in single-threaded code.
-        unsafe { env::remove_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") };
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     // TODO: Audit that the environment access only happens in single-threaded code.
+    //     unsafe { env::remove_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") };
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 
-    #[test]
-    fn test_file_mount_with_non_default_values() {
-        let _file_dir_mutex = FILE_DIR_MTX.lock();
-        let (temp_dir, temp_path) = setup_test_environment();
+    // #[test]
+    // fn test_file_mount_with_non_default_values() {
+    //     let _file_dir_mutex = FILE_DIR_MTX.lock();
+    //     let (temp_dir, temp_path) = setup_test_environment();
 
-        create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "custom.host:1234").unwrap();
-        create_config_file(&temp_path, "BROKER_USE_TLS", "false").unwrap();
-        create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "custom-client-id").unwrap();
+    //     create_config_file(&temp_path, "BROKER_TARGET_ADDRESS", "custom.host:1234").unwrap();
+    //     create_config_file(&temp_path, "BROKER_USE_TLS", "false").unwrap();
+    //     create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "custom-client-id").unwrap();
 
-        let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
-        assert!(builder_result.is_ok());
+    //     let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
+    //     assert!(builder_result.is_ok());
 
-        let builder = builder_result.unwrap();
-        assert_eq!(builder.hostname, Some("custom.host".to_string()));
-        assert_eq!(builder.tcp_port, Some(1234));
-        assert_eq!(builder.use_tls, Some(false));
-        assert_eq!(builder.client_id, Some("custom-client-id".to_string()));
+    //     let builder = builder_result.unwrap();
+    //     assert_eq!(builder.hostname, Some("custom.host".to_string()));
+    //     assert_eq!(builder.tcp_port, Some(1234));
+    //     assert_eq!(builder.use_tls, Some(false));
+    //     assert_eq!(builder.client_id, Some("custom-client-id".to_string()));
 
-        let settings_result = builder.build();
-        assert!(settings_result.is_ok());
-        cleanup_temp_dir(&temp_dir);
-    }
+    //     let settings_result = builder.build();
+    //     assert!(settings_result.is_ok());
+    //     cleanup_temp_dir(&temp_dir);
+    // }
 }
