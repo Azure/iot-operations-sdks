@@ -22,10 +22,19 @@ The following Azure IoT Operations modules are available:
 > [!CAUTION]
 > These modules are currently in preview and are subject to change until version 1.0. Pinning a specific release will protect you from any breaking changes, which are subject to occur until we release 1.0.
 
+To install a modules, add them to the `go.mod` for your project:
+
+```bash
+go get github.com/Azure/iot-operations-sdks/go/mqtt@<version>
+go get github.com/Azure/iot-operations-sdks/go/protocol@<version>
+go get github.com/Azure/iot-operations-sdks/go/services@<version>
+```
+
 ## Getting Started
 
-1. Complete the [Getting started](/README.md#getting-started) steps to setup your cluster and install Azure IoT Operations.
+1. Complete the [setup](/doc/setup.md) steps to setup your cluster and install Azure IoT Operations.
 
 2. Install [Go](https://go.dev/doc/install).
 
 3. Run one of the Go [samples](samples).
+
