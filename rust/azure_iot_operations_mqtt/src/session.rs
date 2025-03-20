@@ -4,11 +4,11 @@
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 //! 
 //! This module provides several key components for managing an MQTT session:
-//! [`Session`] - Manages the lifetime of the MQTT session
-//! [`SessionManagedClient`] - Sends MQTT messages to the broker
-//! [`SessionPubReceiver`] - Receives MQTT messages from the broker
-//! [`SessionConnectionMonitor`] - Provides information about MQTT connection state
-//! [`SessionExitHandle`] - Allows the user to exit the session gracefully
+//! * [`Session`] - Manages the lifetime of the MQTT session
+//! * [`SessionManagedClient`] - Sends MQTT messages to the broker
+//! * [`SessionPubReceiver`] - Receives MQTT messages from the broker
+//! * [`SessionConnectionMonitor`] - Provides information about MQTT connection state
+//! * [`SessionExitHandle`] - Allows the user to exit the session gracefully
 //! 
 //! # [`Session`] lifespan
 //! Each instance of [`Session`] is single use - after configuring a [`Session`], and creating any
