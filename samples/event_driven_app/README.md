@@ -41,7 +41,7 @@ This tutorial is available in the following languages:
     ```
 
 > [!NOTE]
-> The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The setup instructions will configure the MQTT broker with this configuration.
+> The guide assumes that the MQTT broker is running with SAT authentication on port 8884. The [setup](/doc/setup.md) instructions will configure the MQTT broker with this configuration.
 
 ## Build the application
 
@@ -77,14 +77,14 @@ Build the application within your development environment following the instruct
     ```
     </details> -->
 
-> [!NOTE]
-> It's also possible to run the application directly from your development environment if you are using the standard setup as the MQTT Broker will be available externally from the cluster.
+> [!TIP]
+> You can run the application directly from your development environment if you are using the standard [setup](/doc/setup) as the MQTT Broker will be available externally from the cluster.
 
 ## Run the application on cluster
 
 The application can also be deployed to the cluster by building a container and applying the `app.yml`:
 
-1. Build the application container:
+1. Build the application container and import to your cluster:
 
     <details>
     <summary>.NET</summary>
@@ -92,6 +92,7 @@ The application can also be deployed to the cluster by building a container and 
     ```bash
     cd dotnet/samples/applications/EventDrivenApp
     docker build -t event-driven-app .
+    k3d image import event-driven-app
     ```
     </details>
 
@@ -101,6 +102,7 @@ The application can also be deployed to the cluster by building a container and 
     ```bash
     cd rust
     docker build -f sample_applications/event_driven_app/Dockerfile -t event-driven-app .
+    k3d image import event-driven-app
     ```
     </details>
 
@@ -111,12 +113,6 @@ The application can also be deployed to the cluster by building a container and 
     <TBD>
     ```
     </details> -->
-
-1. Import the container to the cluster:
-
-    ```bash
-    k3d image import event-driven-app
-    ```
 
 1. Deploy the application to the cluster:
 
