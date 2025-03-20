@@ -14,10 +14,10 @@ use std::time::Duration;
 use env_logger::Builder;
 use thiserror::Error;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -155,10 +155,14 @@ async fn increment_executor_loop(
         // Send the response
         match request.complete(response).await {
             Ok(()) => {
-                log::info!("{executor_client_id}: Responded to 'increment' request with counter value: {updated_counter}");
+                log::info!(
+                    "{executor_client_id}: Responded to 'increment' request with counter value: {updated_counter}"
+                );
             }
             Err(err) => {
-                log::error!("{executor_client_id}: Error sending response to 'increment' command request: {err}");
+                log::error!(
+                    "{executor_client_id}: Error sending response to 'increment' command request: {err}"
+                );
                 return Err(err.into());
             }
         }

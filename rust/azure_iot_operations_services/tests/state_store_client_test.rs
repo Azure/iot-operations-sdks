@@ -7,10 +7,10 @@ use std::{env, time::Duration};
 
 use env_logger::Builder;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions};
@@ -196,11 +196,13 @@ async fn state_store_basic_set_delete_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 2 ~~~~~~~~
@@ -329,11 +331,13 @@ async fn state_store_fencing_token_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ never key ~~~~~~~~
@@ -393,11 +397,13 @@ async fn state_store_key_not_found_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 3 ~~~~~~~~
@@ -516,11 +522,13 @@ async fn state_store_set_conditions_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 4 ~~~~~~~~
@@ -602,11 +610,13 @@ async fn state_store_key_set_conditions_2_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 5 ~~~~~~~~
@@ -698,11 +708,13 @@ async fn state_store_set_key_notifications_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 6 ~~~~~~~~
@@ -792,11 +804,13 @@ async fn state_store_del_key_notifications_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 7 ~~~~~~~~
@@ -899,11 +913,13 @@ async fn state_store_observe_unobserve_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// ~~~~~~~~ Key 8 ~~~~~~~~
@@ -1101,11 +1117,13 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[ignore]
@@ -1129,9 +1147,11 @@ async fn state_store_shutdown_right_away_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }

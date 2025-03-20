@@ -5,8 +5,8 @@ use std::time::Duration;
 use env_logger::Builder;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,

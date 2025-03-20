@@ -5,12 +5,12 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";

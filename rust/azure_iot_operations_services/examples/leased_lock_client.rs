@@ -6,10 +6,10 @@ use std::{sync::Arc, time::Duration};
 use env_logger::Builder;
 use tokio::sync::Notify;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{
     self, AcquireAndUpdateKeyOption, SetCondition, SetOptions,
@@ -243,7 +243,9 @@ async fn leased_lock_client_2_operations(
         loop {
             let Some((notification, _)) = observe_response.response.recv_notification().await
             else {
-                log::warn!("Received None for lock notification. Client probably disconnected. observe_lock() must be called again.");
+                log::warn!(
+                    "Received None for lock notification. Client probably disconnected. observe_lock() must be called again."
+                );
                 break;
             };
 

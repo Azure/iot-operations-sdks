@@ -7,7 +7,7 @@ use std::sync::Arc;
 use std::{path::Path, time::Duration};
 
 use notify::RecommendedWatcher;
-use notify_debouncer_full::{new_debouncer, RecommendedCache};
+use notify_debouncer_full::{RecommendedCache, new_debouncer};
 use rumqttc::v5::mqttbytes::v5::{AuthProperties, AuthReasonCode};
 use thiserror::Error;
 use tokio::sync::Notify;

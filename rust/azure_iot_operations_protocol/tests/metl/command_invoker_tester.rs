@@ -21,7 +21,7 @@ use tokio::sync::oneshot;
 use tokio::time;
 
 use crate::metl::aio_protocol_error_checker;
-use crate::metl::defaults::{get_invoker_defaults, InvokerDefaults};
+use crate::metl::defaults::{InvokerDefaults, get_invoker_defaults};
 use crate::metl::mqtt_hub::MqttHub;
 use crate::metl::qos;
 use crate::metl::test_case::TestCase;
@@ -279,7 +279,8 @@ where
                         _ => {
                             panic!(
                                 "Expected {} error when calling recv() on CommandInvoker but got timeout instead",
-                                catch.error_kind);
+                                catch.error_kind
+                            );
                         }
                     };
 
@@ -655,93 +656,117 @@ where
         }
 
         if expected_message.content_type.is_some() {
-            match published_message.properties.as_ref() { Some(properties) => {
-                assert_eq!(expected_message.content_type, properties.content_type);
-            } _ => {
-                panic!("expected content type but found no properties in published message");
-            }}
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(expected_message.content_type, properties.content_type);
+                }
+                _ => {
+                    panic!("expected content type but found no properties in published message");
+                }
+            }
         }
 
         if expected_message.format_indicator.is_some() {
-            match published_message.properties.as_ref() { Some(properties) => {
-                assert_eq!(
-                    expected_message.format_indicator,
-                    properties.payload_format_indicator
-                );
-            } _ => {
-                panic!("expected format indicator but found no properties in published message");
-            }}
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(
+                        expected_message.format_indicator,
+                        properties.payload_format_indicator
+                    );
+                }
+                _ => {
+                    panic!(
+                        "expected format indicator but found no properties in published message"
+                    );
+                }
+            }
         }
 
         if !expected_message.metadata.is_empty() {
-            match published_message.properties.as_ref() { Some(properties) => {
-                for (key, value) in &expected_message.metadata {
-                    let found = properties.user_properties.iter().find(|&k| &k.0 == key);
-                    if let Some(value) = value {
-                        assert_eq!(
-                            value,
-                            &found.unwrap().1,
-                            "metadata key {key} expected {value}"
-                        );
-                    } else {
-                        assert_eq!(None, found, "metadata key {key} not expected");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    for (key, value) in &expected_message.metadata {
+                        let found = properties.user_properties.iter().find(|&k| &k.0 == key);
+                        if let Some(value) = value {
+                            assert_eq!(
+                                value,
+                                &found.unwrap().1,
+                                "metadata key {key} expected {value}"
+                            );
+                        } else {
+                            assert_eq!(None, found, "metadata key {key} not expected");
+                        }
                     }
                 }
-            } _ => {
-                panic!("expected metadata but found no properties in published message");
-            }}
+                _ => {
+                    panic!("expected metadata but found no properties in published message");
+                }
+            }
         }
 
         if let Some(command_status) = expected_message.command_status {
-            match published_message.properties.as_ref() { Some(properties) => {
-                let found = properties
-                    .user_properties
-                    .iter()
-                    .find(|&k| &k.0 == "__stat");
-                if let Some(command_status) = command_status {
-                    assert_eq!(
-                        command_status.to_string(),
-                        found.unwrap().1,
-                        "status property expected {command_status}"
-                    );
-                } else {
-                    assert_eq!(None, found, "status property not expected");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    let found = properties
+                        .user_properties
+                        .iter()
+                        .find(|&k| &k.0 == "__stat");
+                    if let Some(command_status) = command_status {
+                        assert_eq!(
+                            command_status.to_string(),
+                            found.unwrap().1,
+                            "status property expected {command_status}"
+                        );
+                    } else {
+                        assert_eq!(None, found, "status property not expected");
+                    }
                 }
-            } _ => {
-                panic!("expected status property but found no properties in published message");
-            }}
+                _ => {
+                    panic!("expected status property but found no properties in published message");
+                }
+            }
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            match published_message.properties.as_ref() { Some(properties) => {
-                let found = properties
-                    .user_properties
-                    .iter()
-                    .find(|&k| &k.0 == "__apErr");
-                if is_application_error {
-                    assert!(
-                        found.unwrap().1.to_lowercase() == "true",
-                        "is application error"
-                    );
-                } else {
-                    assert!(
-                        found.is_none() || found.unwrap().1.to_lowercase() == "false",
-                        "is application error"
-                    );
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    let found = properties
+                        .user_properties
+                        .iter()
+                        .find(|&k| &k.0 == "__apErr");
+                    if is_application_error {
+                        assert!(
+                            found.unwrap().1.to_lowercase() == "true",
+                            "is application error"
+                        );
+                    } else {
+                        assert!(
+                            found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                            "is application error"
+                        );
+                    }
                 }
-            } _ => if is_application_error {
-                panic!("expected is application error property but found no properties in published message");
-            }}
+                _ => {
+                    if is_application_error {
+                        panic!(
+                            "expected is application error property but found no properties in published message"
+                        );
+                    }
+                }
+            }
         }
 
         if expected_message.expiry.is_some() {
-            match published_message.properties.as_ref() { Some(properties) => {
-                assert_eq!(expected_message.expiry, properties.message_expiry_interval);
-            } _ => {
-                panic!(
-                    "expected message expiry interval but found no properties in published message"
-                );
-            }}
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(expected_message.expiry, properties.message_expiry_interval);
+                }
+                _ => {
+                    panic!(
+                        "expected message expiry interval but found no properties in published message"
+                    );
+                }
+            }
         }
     }
 

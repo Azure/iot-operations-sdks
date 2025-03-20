@@ -9,15 +9,16 @@ use bytes::Bytes;
 use iso8601_duration;
 use tokio::{
     sync::{
-        broadcast::{error::RecvError, Sender},
         Mutex, Notify,
+        broadcast::{Sender, error::RecvError},
     },
     task, time,
 };
 use uuid::Uuid;
 
-use crate::common::user_properties::{validate_invoker_user_properties, PARTITION_KEY};
+use crate::common::user_properties::{PARTITION_KEY, validate_invoker_user_properties};
 use crate::{
+    ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, AIOProtocolErrorKind, Value},
@@ -26,12 +27,11 @@ use crate::{
         payload_serialize::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
-        topic_processor::{contains_invalid_char, TopicPattern},
+        topic_processor::{TopicPattern, contains_invalid_char},
         user_properties::UserProperty,
     },
     parse_supported_protocol_major_versions,
-    rpc_command::{StatusCode, DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION},
-    ProtocolVersion,
+    rpc_command::{DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION, StatusCode},
 };
 
 const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
@@ -680,27 +680,31 @@ where
             // wait for incoming pub
             match response_rx.recv().await {
                 Ok(rsp_pub) => {
-                    match rsp_pub { Some(rsp_pub) => {
-                        // check correlation id for match, otherwise loop again
-                        if let Some(ref rsp_properties) = rsp_pub.properties {
-                            if let Some(ref response_correlation_data) =
-                                rsp_properties.correlation_data
-                            {
-                                if *response_correlation_data == correlation_data {
-                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                    // This is the response for this request, validate and parse it and send it back to the application
-                                    return validate_and_parse_response(
-                                        &self.application_hlc,
-                                        self.command_name.clone(),
-                                        &rsp_pub.payload,
-                                        rsp_properties.clone(),
-                                    );
+                    match rsp_pub {
+                        Some(rsp_pub) => {
+                            // check correlation id for match, otherwise loop again
+                            if let Some(ref rsp_properties) = rsp_pub.properties {
+                                if let Some(ref response_correlation_data) =
+                                    rsp_properties.correlation_data
+                                {
+                                    if *response_correlation_data == correlation_data {
+                                        // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                        // This is the response for this request, validate and parse it and send it back to the application
+                                        return validate_and_parse_response(
+                                            &self.application_hlc,
+                                            self.command_name.clone(),
+                                            &rsp_pub.payload,
+                                            rsp_properties.clone(),
+                                        );
+                                    }
                                 }
                             }
                         }
-                    } _ => {
-                        log::error!("Command Invoker has been shutdown and will no longer receive a response");
-                        return Err(AIOProtocolError::new_cancellation_error(
+                        _ => {
+                            log::error!(
+                                "Command Invoker has been shutdown and will no longer receive a response"
+                            );
+                            return Err(AIOProtocolError::new_cancellation_error(
                             false,
                             None,
                             Some(
@@ -709,17 +713,22 @@ where
                             ),
                             Some(self.command_name.clone()),
                         ));
-                    }}
+                        }
+                    }
 
                     // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
                 }
                 Err(RecvError::Lagged(e)) => {
-                    log::error!("[ERROR] Invoker response receiver lagged. Response may not be received: {e}");
+                    log::error!(
+                        "[ERROR] Invoker response receiver lagged. Response may not be received: {e}"
+                    );
                     // Keep waiting for response even though it may have gotten overwritten.
                     continue;
                 }
                 Err(RecvError::Closed) => {
-                    log::error!("[ERROR] MQTT Receiver has been cleaned up and will no longer send a response");
+                    log::error!(
+                        "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
+                    );
                     return Err(AIOProtocolError::new_cancellation_error(
                         false,
                         None,
@@ -1097,7 +1106,9 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     let format_indicator = match response_properties.payload_format_indicator.try_into() {
         Ok(format_indicator) => format_indicator,
         Err(e) => {
-            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.");
+            log::error!(
+                "Received invalid payload format indicator: {e}. This should not be possible to receive from the broker."
+            );
             // Use default format indicator
             FormatIndicator::default()
         }
@@ -1178,7 +1189,9 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
             *invoker_state_mutex_guard = State::ShutdownInitiated;
             match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
                 Ok(_) => {
-                    log::debug!("Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending.");
+                    log::debug!(
+                        "Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
+                    );
                 }
                 Err(e) => {
                     log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
@@ -1195,14 +1208,14 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
 mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 
     use super::*;
     use crate::application::ApplicationContextBuilder;
     use crate::common::{
         aio_protocol_error::AIOProtocolErrorKind,
-        payload_serialize::{FormatIndicator, MockPayload, DESERIALIZE_MTX},
+        payload_serialize::{DESERIALIZE_MTX, FormatIndicator, MockPayload},
     };
 
     // TODO: This should return a mock ManagedClient instead.

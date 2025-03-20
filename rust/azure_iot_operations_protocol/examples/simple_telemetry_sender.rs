@@ -6,8 +6,8 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
     common::payload_serialize::{

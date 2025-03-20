@@ -6,8 +6,8 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
     common::payload_serialize::{
@@ -142,7 +142,7 @@ impl PayloadSerialize for SampleTelemetry {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
-                )))
+                )));
             }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
@@ -155,7 +155,7 @@ impl PayloadSerialize for SampleTelemetry {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
-                )))
+                )));
             }
         };
         let internal_temperature = match payload[1]
@@ -167,7 +167,7 @@ impl PayloadSerialize for SampleTelemetry {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
-                )))
+                )));
             }
         };
 

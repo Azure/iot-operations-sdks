@@ -6,8 +6,8 @@ use std::{num::ParseIntError, str::Utf8Error};
 use env_logger::Builder;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -151,7 +151,7 @@ impl PayloadSerialize for IncrResponsePayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(
                     IncrSerializerError::Utf8Error(e),
-                ))
+                ));
             }
         };
 

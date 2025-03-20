@@ -11,7 +11,7 @@ use std::string::FromUtf8Error;
 use std::sync::{Arc, Mutex};
 
 use thiserror::Error;
-use tokio::sync::mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender};
+use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
 
 use crate::control_packet::{Publish, QoS};
 use crate::error::AckError;
@@ -91,12 +91,15 @@ impl PublishReceiverManager {
 
         let (tx, rx) = unbounded_channel();
         // If the topic filter is already in use, add to the associated vector
-        match self.filtered_txs.get_mut(topic_filter) { Some(v) => {
-            v.push(tx);
-        // Otherwise, create a new vector and add
-        } _ => {
-            self.filtered_txs.insert(topic_filter.clone(), vec![tx]);
-        }}
+        match self.filtered_txs.get_mut(topic_filter) {
+            Some(v) => {
+                v.push(tx);
+                // Otherwise, create a new vector and add
+            }
+            _ => {
+                self.filtered_txs.insert(topic_filter.clone(), vec![tx]);
+            }
+        }
 
         rx
     }
@@ -1028,14 +1031,16 @@ mod tests {
                 .len(),
             2
         ); // Type 1
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter1)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 1
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter1)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 1
         assert_eq!(
             manager
                 .lock()
@@ -1046,19 +1051,23 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter4)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter4)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 2
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
         assert_eq!(
             manager
                 .lock()
@@ -1069,14 +1078,16 @@ mod tests {
                 .len(),
             1
         ); // Type 4
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter7)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 4
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter7)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 4
 
         // Drop the remaining receivers
         drop(filter_rx1); // Type 1
@@ -1106,11 +1117,13 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
         assert_eq!(
             manager
                 .lock()
@@ -1142,14 +1155,16 @@ mod tests {
                 .len(),
             1
         ); // Type 4
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter8)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 4
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter8)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 4
 
         drop(filter_rx8);
     }
@@ -1320,14 +1335,16 @@ mod tests {
                 .len(),
             2
         ); // Type 1
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter3)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 1
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter3)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 1
         assert_eq!(
             manager
                 .lock()
@@ -1338,19 +1355,23 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter5)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter5)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 2
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
 
         // Drop one of each type of receiver remaining
         drop(filter_rx2); // Type 1
@@ -1378,11 +1399,13 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
 
         // Dispatch a publish that only matches one of the filters for dropped receivers.
         let topic_name = TopicName::from_str("sport/tennis/player2").unwrap();
@@ -1406,14 +1429,16 @@ mod tests {
                 .len(),
             1
         ); // Type 1
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter2)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 1
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter2)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 1
         assert_eq!(
             manager
                 .lock()
@@ -1424,14 +1449,16 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter4)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 2
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter4)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 2
 
         // Drop the remaining receivers
         drop(filter_rx1);

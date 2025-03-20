@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use std::collections::{hash_map::HashMap, hash_set::HashSet, VecDeque};
+use std::collections::{VecDeque, hash_map::HashMap, hash_set::HashSet};
 
 use azure_iot_operations_mqtt::control_packet::Publish;
 use azure_iot_operations_mqtt::error::{ConnectionError, StateError};
@@ -144,11 +144,14 @@ impl MqttHub {
     }
 
     pub fn receive_message(&mut self, message: Publish) {
-        match self.message_tx.as_mut() { Some(message_tx) => {
-            message_tx.send(message).unwrap();
-        } _ => {
-            self.receive_incoming_event(Incoming::Publish(message));
-        }}
+        match self.message_tx.as_mut() {
+            Some(message_tx) => {
+                message_tx.send(message).unwrap();
+            }
+            _ => {
+                self.receive_incoming_event(Incoming::Publish(message));
+            }
+        }
     }
 
     pub fn disconnect(&mut self) {
@@ -168,11 +171,10 @@ impl MqttHub {
                 } => {
                     self.publication_count += 1;
 
-                    let correlation_data = match properties.clone() { Some(properties) => {
-                        properties.correlation_data
-                    } _ => {
-                        None
-                    }};
+                    let correlation_data = match properties.clone() {
+                        Some(properties) => properties.correlation_data,
+                        _ => None,
+                    };
                     self.published_correlation_data
                         .push_back(correlation_data.clone());
                     let publish = Publish {

@@ -4,7 +4,7 @@
 [package]
 name = "azure_iot_operations_mqtt"
 version = "0.8.0"
-edition = "2021"
+edition = "2024"
 license = "MIT"
 description = "MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications"
 repository = "https://github.com/Azure/iot-operations-sdks"
