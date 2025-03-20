@@ -58,8 +58,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             incr_invoker_options,
         )?;
 
-    log::info!("HERE");
-
     // Run the Session and and the 'increment' command invoker concurrently
     tokio::select! {
         () = increment_invoke_loop(incr_invoker) => (),
