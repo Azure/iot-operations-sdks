@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a questions
+    url: https://github.com/Azure/iot-operations-sdks/discussions
+    about: For general questions
+  - name: Read the documentation
+    url: https://github.com/Azure/iot-operations-sdks/blob/main/doc
+    about: The documentation contains information about the SDKs and tools
+  - name: Check the troubleshooting guide
+    url: https://github.com/Azure/iot-operations-sdks/blob/main/doc/troubleshooting.md
+    about: Take a look at the troubleshooting guide for common issues
