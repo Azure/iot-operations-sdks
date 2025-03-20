@@ -23,7 +23,7 @@ The focus of the SDKs it to assist customers in developing applications by provi
 | Feature | Description |
 |-|-|
 | **Highly available** | Provides infrastructure and guidance to build HA into your applications |
-| **Any language** | The SDKs target multiple languages to support any development environment |
+| **Choice of language** | The SDKs target multiple languages to support any development environment |
 | **Secure** | Uses the latest crypto libraries and protocols |
 | **Zero data loss** | Builds on MQTT broker to remove data loss due to application failure |
 | **Low latency** | Optimized layering and tight MQTT client coupling minimized overheads |
@@ -82,10 +82,10 @@ The following tables outline the current components, along with the associated l
 | **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
 | **Command** client | Command (invoker/executor) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
 | **Telemetry** client | Telemetry (sender/receiver) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
+| **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :green_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
-| **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **Akri** client | Asset and asset endpoint configuration and asset discovery | :green_circle: | :yellow_circle: | :yellow_circle: |
 
 ## Need support?
