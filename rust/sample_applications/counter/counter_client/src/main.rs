@@ -26,8 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?
-        .build()?;
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?.build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()?;
