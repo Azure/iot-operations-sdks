@@ -66,10 +66,20 @@ jobs:
         set -e
         ENABLE_NETWORK_TESTS=true FEATURES="all" make test
 
-    - name: Run Coverage Report
+    - name: Run Coverage Report (azure_iot_operations_mqtt)
       run: |
         set -e
-        make coverage
+        MANIFEST=../../rust/azure_iot_operations_mqtt make coverage
+
+    - name: Run Coverage Report (azure_iot_operations_protocol)
+      run: |
+        set -e
+        MANIFEST=../../rust/azure_iot_operations_protocol make coverage
+
+    - name: Run Coverage Report (azure_iot_operations_services)
+      run: |
+        set -e
+        MANIFEST=../../rust/azure_iot_operations_services make coverage
 
     - uses: "actions/upload-artifact@v4"
       with:

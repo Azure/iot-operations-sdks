@@ -76,10 +76,11 @@ if [ -z "${SUMMARY_ONLY:+_}" ]; then
         --manifest-path="${MANIFEST}" \
         --verbose \
         --html \
+        --all-features \
         report
 fi
 
-cargo llvm-cov --manifest-path="${MANIFEST}" --verbose --summary-only --json report \
+cargo llvm-cov --manifest-path="${MANIFEST}" --verbose --summary-only --all-features --json report \
 | jq -crf "${REPOSITORY_ROOT}/rust/ci/jq/coverage.jq" \
         --arg root "${REPOSITORY_ROOT}" \
         --arg manifest "${MANIFEST}" \
