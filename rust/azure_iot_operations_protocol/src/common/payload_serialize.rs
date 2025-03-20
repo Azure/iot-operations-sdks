@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+#![allow(clippy::ref_option)]
 
 use std::fmt::Debug;
 

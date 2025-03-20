@@ -45,7 +45,7 @@ where
     managed_client: PhantomData<C>,
 }
 
-impl<'a, C> CommandInvokerTester<C>
+impl<C> CommandInvokerTester<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
@@ -302,7 +302,7 @@ where
 
     fn invoke_command(
         action: &TestCaseAction<InvokerDefaults>,
-        invokers: &'a HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>>,
+        invokers: &HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>>,
         invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
         tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
@@ -747,11 +747,9 @@ where
                     }
                 }
                 _ => {
-                    if is_application_error {
-                        panic!(
+                    assert!(!is_application_error, 
                             "expected is application error property but found no properties in published message"
                         );
-                    }
                 }
             }
         }
