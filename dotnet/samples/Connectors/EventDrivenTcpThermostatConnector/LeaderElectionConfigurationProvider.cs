@@ -5,11 +5,11 @@ using Azure.Iot.Operations.Connector;
 
 namespace EventDrivenTcpThermostatConnector
 {
-    public class ConnectorLeaderElectionConfigurationProvider : IConnectorLeaderElectionConfigurationProvider
+    public class LeaderElectionConfigurationProvider : IConnectorLeaderElectionConfigurationProvider
     {
         public static Func<IServiceProvider, IConnectorLeaderElectionConfigurationProvider> ConnectorLeaderElectionConfigurationProviderFactory = service =>
         {
-            return new ConnectorLeaderElectionConfigurationProvider();
+            return new LeaderElectionConfigurationProvider();
         };
 
         public ConnectorLeaderElectionConfiguration GetLeaderElectionConfiguration()
