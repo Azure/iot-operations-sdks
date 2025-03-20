@@ -3,7 +3,8 @@
 
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
 //! 
-//! This module provides several components for managing an MQTT session
+//! This module provides several components for managing an MQTT session:
+//! [`Session`] - 
 
 pub mod managed_client;     // TODO: This really ought be private, but we need it public for testing
 pub(crate) mod receiver;
