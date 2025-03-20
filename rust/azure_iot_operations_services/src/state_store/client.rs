@@ -623,7 +623,7 @@ where
                     observed_keys_mutex_guard.drain();
                   },
                   msg = receiver.recv() => {
-                    match msg { Some(m) => {
+                    if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {
                                 let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
@@ -668,13 +668,13 @@ where
                                 }
                             }
                         }
-                    } _ => {
+                    } else {
                         log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
                         let mut observed_keys_mutex_guard = observed_keys.lock().await;
                         // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
                         observed_keys_mutex_guard.drain();
                         break;
-                    }}
+                    }
                 }
             }
         }
