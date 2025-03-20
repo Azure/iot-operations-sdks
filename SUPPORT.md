@@ -1,8 +1,10 @@
 # Support
 
-## Private Preview
+## Public Preview
 
-This project and repository is currently in preview and available to selected customers to provide feedback to the API's, samples, documentation and implementation.
+This repository is currently in public preview and has been made available to all customers to provide feedback to the API's, implementation, samples and documentation.
+
+The public preview is focused on the [.NET SDK](/dotnet), [Go SDK](/go), [Rust SDK](/rust) and the [State Store CLI](/tools/statestore-cli). All other components found in the repository are a work in progress, not suitable for consumption and no support is provided for these items.
 
 ## How to file issues and get help  
 
@@ -10,8 +12,13 @@ This project uses GitHub Issues to track bugs and feature requests. Please searc
 issues before filing new issues to avoid duplicates. For new issues, file your bug or 
 feature request as a new Issue.
 
-For help and questions about using the SDKs, please contact your Azure IoT Operations representative via email or one of the other available communication channels.
+Additional help can be found in the following links:
 
-## Microsoft Support Policy  
+* Read through the [SDK documentation](./doc)
+* Check for an answer in the [troubleshooting](./doc/troubleshooting.md)
+* File an issue via [Github Issues](https://github.com/Azure/iot-operations-sdks/issues/new/choose)
+* Check the [discussions](https://github.com/Azure/iot-operations-sdks/discussions) or start a new one
+
+## Microsoft Support Policy
 
 Support for this project is limited to the resources listed above.
