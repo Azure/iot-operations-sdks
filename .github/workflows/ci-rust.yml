@@ -67,16 +67,11 @@ jobs:
         set -e
         ENABLE_NETWORK_TESTS=true FEATURES="all" make test
 
-    - name: Run Coverage Report (azure_iot_operations_mqtt)
+    - name: Run Coverage Report
       run: |
         set -e
         ls
         IGNORE_FILENAME_REGEX=sample_applications make coverage
-
-    - name: Run Coverage Report
-      run: |
-        set -e
-        make coverage
 
     - uses: "actions/upload-artifact@v4"
       with:
