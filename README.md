@@ -83,7 +83,7 @@ The following tables outline the current components, along with the associated l
 | **Command** client | Command (invoker/executor) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
 | **Telemetry** client | Telemetry (sender/receiver) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
-| **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :yellow_circle: |
+| **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :green_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
 | **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **Akri** client | Asset and asset endpoint configuration and asset discovery | :green_circle: | :yellow_circle: | :yellow_circle: |

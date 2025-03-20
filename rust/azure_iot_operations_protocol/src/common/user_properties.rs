@@ -11,9 +11,6 @@ use std::{
 /// Users cannot set this property on the invoker. For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
 pub(crate) const PARTITION_KEY: &str = "$partition";
 
-/// A reserved prefix for all user properties known to `azure_iot_operations_protocol`, `azure_iot_operations_services`, and `azure_iot_operations_mqtt`; custom properties from user code should not start with this prefix.
-pub const RESERVED_PREFIX: &str = "__";
-
 /// Enum representing the system properties.
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum UserProperty {
@@ -85,7 +82,9 @@ impl FromStr for UserProperty {
 /// # Errors
 /// Returns a `String` describing the error if any of `property_list`'s keys are invalid utf-8
 /// or are the reserved key [`PARTITION_KEY`].
-pub fn validate_invoker_user_properties(property_list: &[(String, String)]) -> Result<(), String> {
+pub(crate) fn validate_invoker_user_properties(
+    property_list: &[(String, String)],
+) -> Result<(), String> {
     for (key, value) in property_list {
         if super::is_invalid_utf8(key) || super::is_invalid_utf8(value) {
             return Err(format!(
@@ -103,7 +102,7 @@ pub fn validate_invoker_user_properties(property_list: &[(String, String)]) -> R
 ///
 /// # Errors
 /// Returns a `String` describing the error if any of `property_list`'s keys or values are invalid utf-8
-pub fn validate_user_properties(property_list: &[(String, String)]) -> Result<(), String> {
+pub(crate) fn validate_user_properties(property_list: &[(String, String)]) -> Result<(), String> {
     for (key, value) in property_list {
         if super::is_invalid_utf8(key) || super::is_invalid_utf8(value) {
             return Err(format!(
