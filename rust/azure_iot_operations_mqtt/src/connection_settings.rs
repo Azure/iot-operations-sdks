@@ -342,7 +342,7 @@ mod tests {
     use std::path::PathBuf;
     use std::sync::Mutex;
 
-    pub static FILE_DIR_MTX: Mutex<()> = Mutex::new(());
+    pub static FILE_DIR_MTX: Mutex<()> = Mutex::new(());    // TODO: Find a better way to control test flow
 
     #[test]
     fn test_connection_settings_empty_hostname() {

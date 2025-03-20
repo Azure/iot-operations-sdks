@@ -95,27 +95,24 @@ where
             let should_ack = {
                 let mut pkid_ack_queue = self.pkid_ack_queue.lock().unwrap();
                 let mut pending_acks = self.pending_acks.lock().unwrap();
-                match pkid_ack_queue.check_next_ack_pkid() {
-                    Some(next_ack_pkid) => {
-                        if next_ack_pkid == &publish.pkid {
-                            // Publish PKID is the next ack, so pop data
-                            pkid_ack_queue.pop_next_ack_pkid();
-                            pending_acks.remove(&publish.pkid);
-                            true
-                        } else {
-                            false
-                        }
-                    }
-                    _ => {
-                        // NOTE: This should not happen when used correctly, as the PKID should always be
-                        // inserted into the PKID queue before being acked. However, the implementation
-                        // handles this by waiting until the next PKID is inserted into the queue.
-                        log::warn!(
-                            "Attempted ordered ack for PKID {} but no PKIDs in queue",
-                            publish.pkid
-                        );
+                if let Some(next_ack_pkid) = pkid_ack_queue.check_next_ack_pkid() {
+                    if next_ack_pkid == &publish.pkid {
+                        // Publish PKID is the next ack, so pop data
+                        pkid_ack_queue.pop_next_ack_pkid();
+                        pending_acks.remove(&publish.pkid);
+                        true
+                    } else {
                         false
                     }
+                } else {
+                    // NOTE: This should not happen when used correctly, as the PKID should always be
+                    // inserted into the PKID queue before being acked. However, the implementation
+                    // handles this by waiting until the next PKID is inserted into the queue.
+                    log::warn!(
+                        "Attempted ordered ack for PKID {} but no PKIDs in queue",
+                        publish.pkid
+                    );
+                    false
                 }
             };
 
@@ -160,7 +157,7 @@ impl PkidAckQueue {
 
     /// Return the next PKID in the queue, if there is one
     pub fn check_next_ack_pkid(&self) -> Option<&u16> {
-        return self.queue.front();
+        self.queue.front()
     }
 
     /// Return the next PKID in the queue, if there is one, removing it from the queue
