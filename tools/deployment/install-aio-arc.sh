@@ -3,7 +3,7 @@
 set -o errexit # fail if any command fails
 
 # login if needed
-if ! az account show;
+if ! az account show; then
     az login
 fi
 
