@@ -33,13 +33,13 @@
 //! 
 //! [`SessionPubReceiver`]s can be either filtered or unfiltered - a filtered receiver will only
 //! receive messages that match a specific topic filter, while an unfiltered receiver will receive
-//! all messages that do not match another existing filter. If an incoming message is received that
-//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT broker and
-//! discarded.
+//! all messages that do not match another existing filter.
 //! 
 //! Note that in order to receive incoming data, you must both subscribe to the topic filter of
 //! interest using the [`SessionManagedClient`] and create a [`SessionPubReceiver`] (filtered or
-//! unfiltered). In order to guarantee that messages will not be lost, you should create the
+//! unfiltered). If an incoming message is received that
+//! does not match any [`SessionPubReceiver`]s, it will be acknowledged to the MQTT broker and
+//! discarded. Thus, in order to guarantee that messages will not be lost, you should create the
 //! [`SessionPubReceiver`] *before* subscribing to the topic filter.
 //! 
 pub mod managed_client;     // TODO: This really ought be private, but we need it public for testing
