@@ -69,7 +69,7 @@ where
     /// `lock_expiration` is how long the lock will remain held in the State Store after acquired, if not released before then.
     /// `request_timeout` is the maximum time the function will wait for receiving a response from the State Store service, it is rounded up to the nearest second.
     ///
-    /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or Error(LockAlreadyHeld) if lock is not acquired.
+    /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or `Error(LockAlreadyHeld)` if lock is not acquired.
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///

@@ -6,11 +6,9 @@ use std::{num::ParseIntError, str::Utf8Error};
 use env_logger::Builder;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
@@ -23,48 +21,30 @@ const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 const RESPONSE_TOPIC_PATTERN: &str = "topic/for/response";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
-        .filter_level(log::LevelFilter::Warn)
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    // Create a session
+    // Create a Session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
     let session = Session::new(session_options).unwrap();
 
+    // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    // Use the managed client to run command invocations in another task
-    tokio::task::spawn(invoke_loop(
-        application_context,
-        session.create_managed_client(),
-        session.create_exit_handle(),
-    ));
-
-    // Run the session
-    session.run().await.unwrap();
-}
-
-/// Send 10 increment command requests and wait for their responses, then disconnect
-async fn invoke_loop(
-    application_context: ApplicationContext,
-    client: SessionManagedClient,
-    exit_handle: SessionExitHandle,
-) {
-    // Create a command invoker for the increment command
+    // Create an RPC command Invoker for the 'increment' command
     let incr_invoker_options = rpc_command::invoker::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .response_topic_pattern(RESPONSE_TOPIC_PATTERN.to_string())
@@ -72,24 +52,42 @@ async fn invoke_loop(
         .build()
         .unwrap();
     let incr_invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, _> =
-        rpc_command::Invoker::new(application_context, client, incr_invoker_options).unwrap();
+        rpc_command::Invoker::new(
+            application_context,
+            session.create_managed_client(),
+            incr_invoker_options,
+        )?;
 
-    // Send 10 increment requests
-    for i in 1..11 {
+    // Run the Session and and the 'increment' command invoker concurrently
+    tokio::select! {
+        () = increment_invoke_loop(incr_invoker) => (),
+        sr = session.run() => sr?,
+    }
+    Ok(())
+}
+
+/// Indefinitely send 'increment' command requests
+async fn increment_invoke_loop(
+    invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, SessionManagedClient>,
+) {
+    loop {
         let payload = rpc_command::invoker::RequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
             .build()
             .unwrap();
-        let response = incr_invoker.invoke(payload).await;
-        log::info!("Response {}: {:?}", i, response);
+        log::info!("Sending 'increment' command request...");
+        match invoker.invoke(payload).await {
+            Ok(response) => {
+                log::info!("Response: {:?}", response);
+            }
+            Err(e) => {
+                log::error!("Error invoking 'increment' command: {:?}", e);
+            }
+        }
+        tokio::time::sleep(Duration::from_secs(5)).await;
     }
-
-    incr_invoker.shutdown().await.unwrap();
-
-    // End the session
-    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]

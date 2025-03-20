@@ -6,12 +6,10 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
-    application::{ApplicationContext, ApplicationContextBuilder},
+    application::ApplicationContextBuilder,
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
@@ -25,50 +23,30 @@ const TOPIC: &str = "akri/samples/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Debug)
+        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    // Create a session
+    // Create a Session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
-        .build()
-        .unwrap();
-
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
+    let session = Session::new(session_options)?;
 
-    let session = Session::new(session_options).unwrap();
+    // Create an ApplicationContext
+    let application_context = ApplicationContextBuilder::default().build()?;
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
-
-    // Use the managed client to run a telemetry receiver in another task
-    tokio::task::spawn(telemetry_loop(
-        application_context,
-        session.create_managed_client(),
-        session.create_exit_handle(),
-    ));
-
-    // Run the session
-    session.run().await.unwrap();
-}
-
-// Handle incoming telemetry messages
-async fn telemetry_loop(
-    application_context: ApplicationContext,
-    client: SessionManagedClient,
-    exit_handle: SessionExitHandle,
-) {
-    // Create a telemetry receiver for the temperature telemetry
+    // Create a telemetry Receiver
     let receiver_options = telemetry::receiver::OptionsBuilder::default()
         .topic_pattern(TOPIC)
         .topic_token_map(HashMap::from([(
@@ -76,47 +54,60 @@ async fn telemetry_loop(
             MODEL_ID.to_string(),
         )]))
         .auto_ack(false)
-        .build()
-        .unwrap();
-    let mut receiver: telemetry::Receiver<SampleTelemetry, _> =
-        telemetry::Receiver::new(application_context, client, receiver_options).unwrap();
+        .build()?;
+    let receiver: telemetry::Receiver<SampleTelemetry, _> = telemetry::Receiver::new(
+        application_context,
+        session.create_managed_client(),
+        receiver_options,
+    )?;
 
-    while let Some(message) = receiver.recv().await {
-        match message {
-            // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
-            Ok((message, ack_token)) => {
-                let sender_id = message.sender_id.as_ref().unwrap();
+    // Run the Session and the telemetry loop concurrently
+    tokio::select! {
+        r1 = telemetry_loop(receiver) => r1.map_err(|e| e as Box<dyn std::error::Error>)?,
+        r2 = session.run() => r2?,
+    }
 
-                println!(
-                    "Sender {} sent temperature reading: {:?}",
-                    sender_id, message.payload
-                );
+    Ok(())
+}
 
-                // Parse cloud event
-                match telemetry::receiver::CloudEvent::from_telemetry(&message) {
-                    Ok(cloud_event) => {
-                        println!("{cloud_event}");
-                    }
-                    Err(e) => {
-                        // Note: if a cloud event is not present, this error is expected
-                        println!("Error parsing cloud event: {e}");
-                    }
-                }
+// Handle incoming telemetry messages
+async fn telemetry_loop(
+    mut telemetry_receiver: telemetry::Receiver<SampleTelemetry, SessionManagedClient>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    while let Some(msg_result) = telemetry_receiver.recv().await {
+        let (message, ack_token) = msg_result?;
+        // Handle the telemetry message. If no acknowledgement is needed, ack_token will be None
+        log::info!(
+            "Sender {:?} sent temperature reading: {:?}",
+            message.sender_id,
+            message.payload
+        );
 
-                // Acknowledge the message if ack_token is present
-                if let Some(ack_token) = ack_token {
-                    ack_token.ack().await.unwrap().await.unwrap();
-                }
+        // Parse cloud event
+        match telemetry::receiver::CloudEvent::from_telemetry(&message) {
+            Ok(cloud_event) => {
+                log::info!("{cloud_event}");
             }
             Err(e) => {
-                println!("Error receiving telemetry message: {e:?}");
-                break;
+                // If a cloud event is not present, this error is expected
+                log::warn!("Error parsing cloud event: {e}");
+            }
+        }
+
+        // Acknowledge the message if ack_token is present
+        if let Some(ack_token) = ack_token {
+            let completion_token = ack_token.ack().await?;
+            match completion_token.await {
+                Ok(()) => log::info!("Acknowledged message"),
+                Err(e) => log::error!("Error acknowledging message: {e}"),
             }
         }
     }
 
-    // End the session if there will be no more messages
-    exit_handle.try_exit().await.unwrap();
+    // Shut down if there are no more telemetry messages
+    telemetry_receiver.shutdown().await?;
+
+    Ok(())
 }
 
 #[derive(Clone, Debug, Default)]

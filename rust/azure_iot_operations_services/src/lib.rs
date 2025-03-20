@@ -11,6 +11,7 @@
 //! - `all`: Enables all features.
 //! - `schema_registry`: Enabled the Schema Registry Client.
 //! - `state_store`: Enabled the State Store Client.
+//! - `leased_lock`: Enables the Leased Lock Client.
 //!
 //! This example shows how you could import features for only the Schema Registry Client:
 //!
