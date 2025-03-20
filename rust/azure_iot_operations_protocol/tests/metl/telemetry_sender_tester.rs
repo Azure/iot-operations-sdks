@@ -42,7 +42,7 @@ where
     managed_client: PhantomData<C>,
 }
 
-impl<'a, C> TelemetrySenderTester<C>
+impl<C> TelemetrySenderTester<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
@@ -275,7 +275,7 @@ where
 
     fn send_telemetry(
         action: &TestCaseAction<SenderDefaults>,
-        senders: &'a HashMap<String, Arc<telemetry::Sender<TestPayload, C>>>,
+        senders: &HashMap<String, Arc<telemetry::Sender<TestPayload, C>>>,
         send_chans: &mut VecDeque<SendResultReceiver>,
         tcs: &TestCaseSerializer<SenderDefaults>,
     ) {
@@ -588,9 +588,7 @@ where
                     }
                 }
                 _ => {
-                    if is_application_error {
-                        panic!("expected is application error property but found no properties in published message");
-                    }
+                    assert!(!is_application_error, "expected is application error property but found no properties in published message");
                 }
             }
         }
