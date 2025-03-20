@@ -59,6 +59,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
     .is_ok());
 
+    assert!(false);
     Err("test string")?
 }
 
