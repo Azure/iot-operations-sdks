@@ -19,31 +19,6 @@
 		<ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
 	</ItemGroup>
 
-<<<<<<< HEAD
-  <!-- Add strong name signing properties for release pipeline compatibility -->
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <PublicSign>true</PublicSign>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
-
-=======
-  <ItemGroup>
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Services.UnitTests" />
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Connector.UnitTests" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\..\..\eng\dtdl\aep-name-based-operations.json">
-      <Link>AssetAndDeviceRegistry\aep-name-based-operations.json</Link>
-    </Content>
-    <Content Include="..\..\..\eng\dtdl\aep-type-based-operations.json">
-      <Link>AssetAndDeviceRegistry\aep-type-based-operations.json</Link>
-    </Content>
-  </ItemGroup>
-	
->>>>>>> f84ee6fa (Generate asset and device registry models and converters from protocol compiler)
   <!-- Add strong name signing properties for release pipeline compatibility -->
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
@@ -65,5 +40,5 @@
       <Link>AssetAndDeviceRegistry\aep-type-based-operations.json</Link>
     </Content>
   </ItemGroup>
-	
+
 </Project>
