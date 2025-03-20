@@ -51,15 +51,17 @@ Refer to each language directory below for additional samples.
 
 **.NET SDK:**
 
-* [.NET samples](/dotnet/samples)
-* [.NET tutorials](/dotnet/tutorials)
+* [Tutorials](/dotnet/samples/applications)
+* [Samples](/dotnet/samples)
 
 **Go SDK:**
 
-* [Go samples](/go/samples)
+<!-- * [Tutorials](/go/samples/application) -->
+* [Samples](/go/samples)
 
 **Rust SDK:**
 
-* [Rust Protocol samples](/rust/azure_iot_operations_protocol/examples/)
-* [Rust MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
-* [Rust Services samples](/rust/azure_iot_operations_services/examples/)
+* [Tutorials](/rust/sample_applications)
+* [Protocol samples](/rust/azure_iot_operations_protocol/examples/)
+* [MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
+* [Services samples](/rust/azure_iot_operations_services/examples/)

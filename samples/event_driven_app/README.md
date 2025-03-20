@@ -32,7 +32,7 @@ This tutorial is available in the following languages:
 
 1. Follow the [Setup documentation](/doc/setup.md) to setup your environment and install Azure IoT Operations
 
-1. Open a shell in the [Azure IoT Operations SDKS repository](https://github.com/azure/iot-operations-sdks) root.
+1. Open a shell in the [Azure IoT Operations SDKS repository](https://github.com/azure/iot-operations-sdks/) root.
 
 1. Source the [.env](/.env) to export variables used by the samples to connect to MQTT broker:
 
@@ -78,7 +78,7 @@ Build the application within your development environment following the instruct
     </details> -->
 
 > [!TIP]
-> You can run the application directly from your development environment if you are using the standard [setup](/doc/setup) as the MQTT Broker will be available externally from the cluster.
+> You can run the application directly from your development environment if you are using the standard [setup](/doc/setup.md) as the MQTT broker will be available externally from the cluster.
 
 ## Deploy the application
 
@@ -231,7 +231,7 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
 
 ## Troubleshooting
 
-**Application fails to authenticate with MQTT Broker**
+**Application fails to authenticate with MQTT broker**
 
 1. *Local execution* - Make sure to `source` the .env file in the root to export the requirement environment variables.
 1. *Local execution* - The SAT auth token can expire, download a new token by refreshing credentials:
