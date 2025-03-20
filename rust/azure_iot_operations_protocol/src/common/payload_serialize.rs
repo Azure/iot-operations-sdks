@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-#![allow(clippy::ref_option)]       // TODO: address this
+#![allow(clippy::ref_option)] // TODO: address this
 
 use std::fmt::Debug;
 
@@ -76,7 +76,7 @@ pub struct SerializedPayload {
 ///   }
 /// }
 /// ```
-#[allow(clippy::ref_option)]        // TODO: Fix this trait
+#[allow(clippy::ref_option)] // TODO: Fix this trait
 pub trait PayloadSerialize: Clone {
     /// The type returned in the event of a serialization/deserialization error
     type Error: Debug + Into<Box<dyn std::error::Error + Sync + Send + 'static>>;

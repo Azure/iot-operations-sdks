@@ -256,8 +256,9 @@ where
                 for (key, value) in &test_case_executor.response_metadata {
                     if let Some(val) = value {
                         metadata.push((key.clone(), val.clone()));
-                    } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key) {
-                            metadata.push((key.clone(), kvp.1.to_string()));
+                    } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key)
+                    {
+                        metadata.push((key.clone(), kvp.1.to_string()));
                     }
                 }
 

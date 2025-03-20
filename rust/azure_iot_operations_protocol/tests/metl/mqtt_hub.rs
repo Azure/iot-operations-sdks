@@ -135,7 +135,7 @@ impl MqttHub {
         self.subscribed_topics.contains(topic)
     }
 
-    #[allow(clippy::ref_option)]    // TODO: fix
+    #[allow(clippy::ref_option)] // TODO: fix
     pub fn get_published_message(&self, correlation_data: &Option<Bytes>) -> Option<&Publish> {
         self.published_messages.get(correlation_data)
     }

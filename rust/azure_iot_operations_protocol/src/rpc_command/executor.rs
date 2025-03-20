@@ -594,7 +594,9 @@ where
                     let message_received_time = Instant::now();
 
                     // Clone properties
-                    let properties = if let Some(properties) = &m.properties { properties.clone() } else {
+                    let properties = if let Some(properties) = &m.properties {
+                        properties.clone()
+                    } else {
                         log::error!(
                             "[{}][pkid: {}] Properties missing",
                             self.command_name,
@@ -604,12 +606,8 @@ where
                             let executor_cancellation_token_clone =
                                 self.executor_cancellation_token.clone();
                             async move {
-                                handle_ack(
-                                    ack_token,
-                                    executor_cancellation_token_clone,
-                                    m.pkid,
-                                )
-                                .await;
+                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                    .await;
                             }
                         });
                         continue;
@@ -644,12 +642,8 @@ where
                             let executor_cancellation_token_clone =
                                 self.executor_cancellation_token.clone();
                             async move {
-                                handle_ack(
-                                    ack_token,
-                                    executor_cancellation_token_clone,
-                                    m.pkid,
-                                )
-                                .await;
+                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                    .await;
                             }
                         });
                         continue;
@@ -694,23 +688,24 @@ where
                     // Get correlation data
                     if let Some(correlation_data) = properties.correlation_data {
                         if correlation_data.len() == 16 {
-                            response_arguments.correlation_data =
-                                Some(correlation_data.clone());
+                            response_arguments.correlation_data = Some(correlation_data.clone());
                             response_arguments.cached_key = Some(CacheKey {
                                 response_topic: response_arguments.response_topic.clone(),
                                 correlation_data,
                             });
                         } else {
                             response_arguments.status_code = StatusCode::BadRequest;
-                            response_arguments.status_message = Some(
-                                "Correlation data bytes do not conform to a GUID".to_string(),
-                            );
+                            response_arguments.status_message =
+                                Some("Correlation data bytes do not conform to a GUID".to_string());
                             response_arguments.invalid_property_name =
                                 Some("Correlation Data".to_string());
-                            if let Ok(correlation_data_str) = String::from_utf8(correlation_data.to_vec()) {
+                            if let Ok(correlation_data_str) =
+                                String::from_utf8(correlation_data.to_vec())
+                            {
                                 response_arguments.invalid_property_value =
                                     Some(correlation_data_str);
-                            } else { /* Ignore */ }
+                            } else { /* Ignore */
+                            }
                             response_arguments.correlation_data = Some(correlation_data);
                         }
                     } else {
@@ -1054,17 +1049,15 @@ where
                         command_expiration_time.duration_since(Instant::now()),
                         response_rx,
                     )
-                    .await {
+                    .await
+                    {
                         if let Ok(response_app) = response_timer {
                             response_app
                         } else {
                             // Happens when the sender is dropped by the application.
-                            response_arguments.status_code =
-                                StatusCode::InternalServerError;
-                            response_arguments.status_message = Some(
-                                "Request has been dropped by the application"
-                                    .to_string(),
-                            );
+                            response_arguments.status_code = StatusCode::InternalServerError;
+                            response_arguments.status_message =
+                                Some("Request has been dropped by the application".to_string());
                             response_arguments.is_application_error = true;
                             break 'process_response;
                         }
@@ -1076,21 +1069,19 @@ where
                         );
                         // Notify the application that a timeout occurred
                         if let Some(completion_tx) = completion_tx {
-                            let _ = completion_tx.send(Err(
-                                AIOProtocolError::new_timeout_error(
-                                    false,
-                                    None,
-                                    &response_arguments.command_name,
-                                    Duration::from_secs(
-                                        response_arguments
-                                            .message_expiry_interval
-                                            .unwrap_or_default()
-                                            .into(),
-                                    ),
-                                    None,
-                                    Some(response_arguments.command_name.clone()),
+                            let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                                false,
+                                None,
+                                &response_arguments.command_name,
+                                Duration::from_secs(
+                                    response_arguments
+                                        .message_expiry_interval
+                                        .unwrap_or_default()
+                                        .into(),
                                 ),
-                            ));
+                                None,
+                                Some(response_arguments.command_name.clone()),
+                            )));
                         }
                         return;
                     };
@@ -1103,7 +1094,8 @@ where
                     if serialized_payload.payload.is_empty() {
                         response_arguments.status_code = StatusCode::NoContent;
                     }
-                } else { /* Error */ }
+                } else { /* Error */
+                }
             }
 
             if response_arguments.status_code != StatusCode::Ok
@@ -1161,14 +1153,11 @@ where
             {
                 user_properties.push((
                     UserProperty::SupportedMajorVersions.to_string(),
-                    supported_protocol_major_versions_to_string(
-                        &supported_protocol_major_versions,
-                    ),
+                    supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
                 ));
             }
 
-            if let Some(request_protocol_version) = response_arguments.request_protocol_version
-            {
+            if let Some(request_protocol_version) = response_arguments.request_protocol_version {
                 user_properties.push((
                     UserProperty::RequestProtocolVersion.to_string(),
                     request_protocol_version,
