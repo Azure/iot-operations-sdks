@@ -1,5 +1,3 @@
-# "Event Driven App" Sample
+# Tutorial: Build an event-driven app
 
-TODO: Update once tutorials folder is at root
-
-For more details on running this sample refer to the [`tutorials folder`](../../../dotnet/tutorials/EventDrivenApp/README.md)
+Refer to [Event Driven Tutorial](/samples/event_driven_app) for instructions on running the tutorial.
