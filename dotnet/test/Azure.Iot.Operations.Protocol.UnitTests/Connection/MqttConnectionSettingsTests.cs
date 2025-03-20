@@ -728,16 +728,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         }
 
         [Fact]
-        public void CreateFromFileMount_UsesRandomClientIdIfNotPresent()
-        {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./Connection/testMountFilesMissingClientId");
-            Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
-            Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", "Connection");
-            var ex = MqttConnectionSettings.FromFileMount();
-            Assert.NotNull(ex.ClientId);
-        }
-
-        [Fact]
         public void CreateFromEnvVars_ThrowsIfClientIdIsNotSet()
         {
             ResetEnvironmentVariables();

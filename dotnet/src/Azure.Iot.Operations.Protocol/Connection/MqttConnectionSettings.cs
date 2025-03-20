@@ -218,17 +218,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 }
             }
 
-            string clientId;
-            try
-            {
-                clientId = File.Exists(configMapPath + "/AIO_MQTT_CLIENT_ID")
-                    ? File.ReadAllText(configMapPath + "/AIO_MQTT_CLIENT_ID")
-                    : Guid.NewGuid().ToString();
-            }
-            catch (Exception e)
-            {
-                throw AkriMqttException.GetConfigurationInvalidException("AIO_MQTT_CLIENT_ID", string.Empty, "Missing or malformed client ID configuration file", e);
-            }
+            string clientId = Guid.NewGuid().ToString();
 
             try
             {
