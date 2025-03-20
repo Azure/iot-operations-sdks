@@ -6,9 +6,7 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
@@ -25,54 +23,53 @@ const TOPIC: &str = "akri/samples/{modelId}/new";
 const MODEL_ID: &str = "dtmi:akri:samples:oven;1";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
+    // Create a Session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
-        .build()
-        .unwrap();
-
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
+    let session = Session::new(session_options)?;
 
-    let session = Session::new(session_options).unwrap();
-    let exit_handle = session.create_exit_handle();
+    // Create an ApplicationContext
+    let application_context = ApplicationContextBuilder::default().build()?;
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
-
+    // Create a telemetry Sender
     let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(TOPIC)
-        .build()
-        .unwrap();
-    let sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
+        .build()?;
+    let telemetry_sender: telemetry::Sender<SampleTelemetry, _> = telemetry::Sender::new(
         application_context,
         session.create_managed_client(),
         sender_options,
-    )
-    .unwrap();
+    )?;
 
-    tokio::task::spawn(telemetry_loop(sender, exit_handle));
+    // Run the session and the telemetry loop concurrently
+    tokio::select! {
+        r1 = telemetry_loop(telemetry_sender) => r1,
+        r2 = session.run() => r2?,
+    };
 
-    session.run().await.unwrap();
+    Ok(())
 }
 
-/// Send 10 telemetry messages, then disconnect
+/// Indefinitely send Telemetry
 async fn telemetry_loop(
-    sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
-    exit_handle: SessionExitHandle,
+    telemetry_sender: telemetry::Sender<SampleTelemetry, SessionManagedClient>,
 ) {
-    for i in 1..10 {
+    loop {
         let cloud_event = telemetry::sender::CloudEventBuilder::default()
             .source("aio://oven/sample")
             .build()
@@ -91,11 +88,12 @@ async fn telemetry_loop(
             .cloud_event(cloud_event)
             .build()
             .unwrap();
-        let result = sender.send(message).await;
-        log::info!("Result {}: {:?}", i, result);
+        match telemetry_sender.send(message).await {
+            Ok(()) => log::info!("Sent telemetry successfully"),
+            Err(e) => log::error!("Error sending telemetry: {:?}", e),
+        }
+        tokio::time::sleep(Duration::from_secs(1)).await;
     }
-
-    exit_handle.try_exit().await.unwrap();
 }
 
 #[derive(Clone, Debug, Default)]
