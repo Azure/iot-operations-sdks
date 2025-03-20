@@ -184,7 +184,8 @@ mock! {
 #[cfg(test)]
 use std::sync::Mutex;
 
-// Mutex needed to check mock calls of static method `PayloadSerialize::deserialize`,
+// TODO: Remove this mutex. Find a better way to control test ordering
+/// Mutex needed to check mock calls of static method `PayloadSerialize::deserialize`,
 #[cfg(test)]
 pub static DESERIALIZE_MTX: Mutex<()> = Mutex::new(());
 
