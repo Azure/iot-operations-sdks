@@ -178,7 +178,7 @@ async fn exit(exit_handle: SessionExitHandle, client_id: &str) {
         Ok(()) => log::error!("{client_id}: Session exited gracefully"),
         Err(e) => {
             log::error!("{client_id}: Graceful session exit failed: {e}");
-            log::error!("{client_id}: Forcing session exit");
+            log::warn!("{client_id}: Forcing session exit");
             exit_handle.exit_force().await;
         }
     }
