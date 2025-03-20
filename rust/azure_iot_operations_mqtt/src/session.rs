@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 //! MQTT client providing a managed connection with automatic reconnection across a single MQTT session.
+//! 
+//! This module provides several components for managing an MQTT session
 
-pub mod managed_client;
+pub mod managed_client;     // TODO: This really ought be private, but we need it public for testing
 pub(crate) mod receiver;
 pub mod reconnect_policy;
 #[doc(hidden)]
