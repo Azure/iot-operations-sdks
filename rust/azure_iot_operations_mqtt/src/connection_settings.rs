@@ -549,7 +549,8 @@ mod tests {
         let (temp_dir, temp_path) = create_temp_dir();
 
         // Set the environment variable
-        env::set_var("AEP_CONFIGMAP_MOUNT_PATH", &temp_path);
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::set_var("AEP_CONFIGMAP_MOUNT_PATH", &temp_path) };
 
         (temp_dir, temp_path)
     }
@@ -592,7 +593,8 @@ mod tests {
     #[test]
     fn test_file_mount_missing_config_path() {
         let _file_dir_mutex = FILE_DIR_MTX.lock();
-        env::set_var("AEP_CONFIGMAP_MOUNT_PATH", "/path/that/does/not/exist");
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::set_var("AEP_CONFIGMAP_MOUNT_PATH", "/path/that/does/not/exist") };
 
         let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
         match builder_result {
@@ -606,7 +608,8 @@ mod tests {
     #[test]
     fn test_file_mount_missing_env_var() {
         let _file_dir_mutex = FILE_DIR_MTX.lock();
-        env::remove_var("AEP_CONFIGMAP_MOUNT_PATH");
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::remove_var("AEP_CONFIGMAP_MOUNT_PATH") };
 
         let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
         match builder_result {
@@ -813,7 +816,8 @@ mod tests {
         create_config_file(&temp_path, "BROKER_USE_TLS", "true").unwrap();
         create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
-        env::set_var("BROKER_SAT_MOUNT_PATH", "/path/to/sat/file.sat");
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::set_var("BROKER_SAT_MOUNT_PATH", "/path/to/sat/file.sat") };
 
         let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
         assert!(builder_result.is_ok());
@@ -826,7 +830,8 @@ mod tests {
         let settings_result = builder.build();
         assert!(settings_result.is_ok());
 
-        env::remove_var("BROKER_SAT_MOUNT_PATH");
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::remove_var("BROKER_SAT_MOUNT_PATH") };
         cleanup_temp_dir(&temp_dir);
     }
 
@@ -845,7 +850,8 @@ mod tests {
         create_config_file(&temp_path, "AIO_MQTT_CLIENT_ID", "test-client-id").unwrap();
 
         let ca_path = "/path/to/ca/certs";
-        env::set_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", ca_path);
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::set_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", ca_path) };
 
         let builder_result = MqttConnectionSettingsBuilder::from_file_mount();
         assert!(builder_result.is_ok());
@@ -855,7 +861,8 @@ mod tests {
         let settings_result = builder.build();
         assert!(settings_result.is_ok());
 
-        env::remove_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH");
+        // TODO: Audit that the environment access only happens in single-threaded code.
+        unsafe { env::remove_var("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH") };
         cleanup_temp_dir(&temp_dir);
     }
 

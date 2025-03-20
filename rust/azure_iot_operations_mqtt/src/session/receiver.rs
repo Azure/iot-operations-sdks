@@ -91,12 +91,12 @@ impl PublishReceiverManager {
 
         let (tx, rx) = unbounded_channel();
         // If the topic filter is already in use, add to the associated vector
-        if let Some(v) = self.filtered_txs.get_mut(topic_filter) {
+        match self.filtered_txs.get_mut(topic_filter) { Some(v) => {
             v.push(tx);
         // Otherwise, create a new vector and add
-        } else {
+        } _ => {
             self.filtered_txs.insert(topic_filter.clone(), vec![tx]);
-        }
+        }}
 
         rx
     }

@@ -623,7 +623,7 @@ where
                     observed_keys_mutex_guard.drain();
                   },
                   msg = receiver.recv() => {
-                    if let Some(m) = msg {
+                    match msg { Some(m) => {
                         match m {
                             Ok((notification, ack_token)) => {
                                 let Some(key_name) = notification.topic_tokens.get("encodedKeyName") else {
@@ -644,7 +644,7 @@ where
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
 
                                 // if key is in the hashmap of observed keys
-                                if let Some(sender) = observed_keys_mutex_guard.get_mut(key_name) {
+                                match observed_keys_mutex_guard.get_mut(key_name) { Some(sender) => {
 
                                         if sender.is_closed() {
                                             log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
@@ -655,9 +655,9 @@ where
                                                 log::error!("Error delivering key notification {key_notification:?}: {e}");
                                             }
                                         }
-                                } else {
+                                } _ => {
                                     log::info!("Key is not being observed. Received Notification: {key_notification:?}");
-                                }
+                                }}
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
@@ -668,13 +668,13 @@ where
                                 }
                             }
                         }
-                    } else {
+                    } _ => {
                         log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
                         let mut observed_keys_mutex_guard = observed_keys.lock().await;
                         // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
                         observed_keys_mutex_guard.drain();
                         break;
-                    }
+                    }}
                 }
             }
         }

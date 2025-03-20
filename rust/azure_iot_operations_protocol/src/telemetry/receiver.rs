@@ -477,7 +477,7 @@ where
         }
 
         loop {
-            if let Some((m, mut ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
+            match self.mqtt_receiver.recv_manual_ack().await { Some((m, mut ack_token)) => {
                 // Drop the ack token if the user does not desire it
                 // TODO: change API around this receive to simplify
                 if self.auto_ack {
@@ -636,10 +636,10 @@ where
                         }
                     });
                 }
-            } else {
+            } _ => {
                 // There will be no more messages
                 return None;
-            }
+            }}
         }
     }
 }

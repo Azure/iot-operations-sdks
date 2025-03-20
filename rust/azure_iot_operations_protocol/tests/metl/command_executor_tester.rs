@@ -224,7 +224,7 @@ where
                     continue;
                 }
 
-                let response_value = if let Some(request_value) = request.payload.payload.as_ref() {
+                let response_value = match request.payload.payload.as_ref() { Some(request_value) => {
                     if let Some(response_sequence) =
                         test_case_executor.request_responses_map.get(request_value)
                     {
@@ -235,9 +235,9 @@ where
                     } else {
                         None
                     }
-                } else {
+                } _ => {
                     None
-                };
+                }};
 
                 let response_payload = TestPayload {
                     payload: response_value,
@@ -255,10 +255,10 @@ where
                 for (key, value) in &test_case_executor.response_metadata {
                     if let Some(val) = value {
                         metadata.push((key.clone(), val.clone()));
-                    } else if let Some(kvp) = request.custom_user_data.iter().find(|&m| m.0 == *key)
-                    {
+                    } else { match request.custom_user_data.iter().find(|&m| m.0 == *key)
+                    { Some(kvp) => {
                         metadata.push((key.clone(), kvp.1.to_string()));
-                    }
+                    } _ => {}}}
                 }
 
                 if let Some(token_prefix) = &test_case_executor.token_metadata_prefix {
@@ -626,26 +626,26 @@ where
         }
 
         if expected_message.content_type.is_some() {
-            if let Some(properties) = published_message.properties.as_ref() {
+            match published_message.properties.as_ref() { Some(properties) => {
                 assert_eq!(expected_message.content_type, properties.content_type);
-            } else {
+            } _ => {
                 panic!("expected content type but found no properties in published message");
-            }
+            }}
         }
 
         if expected_message.format_indicator.is_some() {
-            if let Some(properties) = published_message.properties.as_ref() {
+            match published_message.properties.as_ref() { Some(properties) => {
                 assert_eq!(
                     expected_message.format_indicator,
                     properties.payload_format_indicator
                 );
-            } else {
+            } _ => {
                 panic!("expected format indicator but found no properties in published message");
-            }
+            }}
         }
 
         if !expected_message.metadata.is_empty() {
-            if let Some(properties) = published_message.properties.as_ref() {
+            match published_message.properties.as_ref() { Some(properties) => {
                 for (key, value) in &expected_message.metadata {
                     let found = properties.user_properties.iter().find(|&k| &k.0 == key);
                     if let Some(value) = value {
@@ -659,13 +659,13 @@ where
                         assert_eq!(None, found, "metadata key {key} not expected");
                     }
                 }
-            } else {
+            } _ => {
                 panic!("expected metadata but found no properties in published message");
-            }
+            }}
         }
 
         if let Some(command_status) = expected_message.command_status {
-            if let Some(properties) = published_message.properties.as_ref() {
+            match published_message.properties.as_ref() { Some(properties) => {
                 let found = properties
                     .user_properties
                     .iter()
@@ -679,13 +679,13 @@ where
                 } else {
                     assert_eq!(None, found, "status property not expected");
                 }
-            } else {
+            } _ => {
                 panic!("expected status property but found no properties in published message");
-            }
+            }}
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            if let Some(properties) = published_message.properties.as_ref() {
+            match published_message.properties.as_ref() { Some(properties) => {
                 let found = properties
                     .user_properties
                     .iter()
@@ -701,19 +701,19 @@ where
                         "is application error"
                     );
                 }
-            } else if is_application_error {
+            } _ => if is_application_error {
                 panic!("expected is application error property but found no properties in published message");
-            }
+            }}
         }
 
         if expected_message.expiry.is_some() {
-            if let Some(properties) = published_message.properties.as_ref() {
+            match published_message.properties.as_ref() { Some(properties) => {
                 assert_eq!(expected_message.expiry, properties.message_expiry_interval);
-            } else {
+            } _ => {
                 panic!(
                     "expected message expiry interval but found no properties in published message"
                 );
-            }
+            }}
         }
     }
 

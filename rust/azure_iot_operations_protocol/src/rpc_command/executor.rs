@@ -581,7 +581,7 @@ where
         }
 
         loop {
-            if let Some((m, ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
+            match self.mqtt_receiver.recv_manual_ack().await { Some((m, ack_token)) => {
                 let Some(ack_token) = ack_token else {
                     // No ack token, ignore the message. This should never happen as the executor
                     // should always receive QoS 1 messages that have an ack token.
@@ -614,7 +614,7 @@ where
                 };
 
                 // Get response topic
-                let response_topic = if let Some(rt) = properties.response_topic {
+                let response_topic = match properties.response_topic { Some(rt) => {
                     if !is_valid_replacement(&rt) {
                         log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
                         tokio::task::spawn({
@@ -628,7 +628,7 @@ where
                         continue;
                     }
                     rt
-                } else {
+                } _ => {
                     log::error!(
                         "[{}][pkid: {}] Response topic missing",
                         self.command_name,
@@ -642,7 +642,7 @@ where
                         }
                     });
                     continue;
-                };
+                }};
 
                 let mut command_expiration_time_calculated = false;
                 let mut response_arguments = ResponseArguments {
@@ -663,14 +663,14 @@ where
                 };
 
                 // Get message expiry interval
-                let command_expiration_time = if let Some(ct) = properties.message_expiry_interval {
+                let command_expiration_time = match properties.message_expiry_interval { Some(ct) => {
                     response_arguments.message_expiry_interval = Some(ct);
                     message_received_time.checked_add(Duration::from_secs(ct.into()))
-                } else {
+                } _ => {
                     message_received_time.checked_add(Duration::from_secs(u64::from(
                         DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS,
                     )))
-                };
+                }};
 
                 // Check if there was an error calculating the command expiration time
                 // if not, set the command expiration time
@@ -680,7 +680,7 @@ where
                 }
 
                 // Get correlation data
-                if let Some(correlation_data) = properties.correlation_data {
+                match properties.correlation_data { Some(correlation_data) => {
                     if correlation_data.len() == 16 {
                         response_arguments.correlation_data = Some(correlation_data.clone());
                         response_arguments.cached_key = Some(CacheKey {
@@ -693,20 +693,19 @@ where
                             Some("Correlation data bytes do not conform to a GUID".to_string());
                         response_arguments.invalid_property_name =
                             Some("Correlation Data".to_string());
-                        if let Ok(correlation_data_str) =
-                            String::from_utf8(correlation_data.to_vec())
-                        {
+                        match String::from_utf8(correlation_data.to_vec())
+                        { Ok(correlation_data_str) => {
                             response_arguments.invalid_property_value = Some(correlation_data_str);
-                        } else { /* Ignore */
-                        }
+                        } _ => { /* Ignore */
+                        }}
                         response_arguments.correlation_data = Some(correlation_data);
                     }
-                } else {
+                } _ => {
                     response_arguments.status_code = StatusCode::BadRequest;
                     response_arguments.status_message =
                         Some("Correlation data missing".to_string());
                     response_arguments.invalid_property_name = Some("Correlation Data".to_string());
-                };
+                }};
 
                 'process_request: {
                     // If the cache key was not created it means the correlation data was invalid
@@ -994,10 +993,10 @@ where
                         Some(self.command_name.clone()),
                     )));
                 }
-            } else {
+            } _ => {
                 // There will be no more requests
                 return None;
-            }
+            }}
         }
     }
 
@@ -1014,7 +1013,7 @@ where
         let mut publish_properties = PublishProperties::default();
         let cache_not_found = response_arguments.cached_entry_status == CacheEntryStatus::NotFound;
 
-        if let CacheEntryStatus::Cached(entry) = response_arguments.cached_entry_status {
+        match response_arguments.cached_entry_status { CacheEntryStatus::Cached(entry) => {
             // The command has already been processed, we can respond with the cached response
             log::debug!(
                 "[{}][pkid: {}] Duplicate request, responding with cached response",
@@ -1023,21 +1022,21 @@ where
             );
             publish_properties = entry.properties;
             serialized_payload = entry.serialized_payload;
-        } else {
+        } _ => {
             let mut user_properties: Vec<(String, String)> = Vec::new();
             'process_response: {
                 let Some(command_expiration_time) = response_arguments.command_expiration_time
                 else {
                     break 'process_response;
                 };
-                if let Some(response_rx) = response_rx {
+                match response_rx { Some(response_rx) => {
                     // Wait for response
-                    let response = if let Ok(response_timer) = timeout(
+                    let response = match timeout(
                         command_expiration_time.duration_since(Instant::now()),
                         response_rx,
                     )
                     .await
-                    {
+                    { Ok(response_timer) => {
                         if let Ok(response_app) = response_timer {
                             response_app
                         } else {
@@ -1048,7 +1047,7 @@ where
                             response_arguments.is_application_error = true;
                             break 'process_response;
                         }
-                    } else {
+                    } _ => {
                         log::error!(
                             "[{}][pkid: {}] Request timed out",
                             response_arguments.command_name,
@@ -1071,7 +1070,7 @@ where
                             )));
                         }
                         return;
-                    };
+                    }};
 
                     user_properties = response.custom_user_data;
 
@@ -1081,8 +1080,8 @@ where
                     if serialized_payload.payload.is_empty() {
                         response_arguments.status_code = StatusCode::NoContent;
                     }
-                } else { /* Error */
-                }
+                } _ => { /* Error */
+                }}
             }
 
             if response_arguments.status_code != StatusCode::Ok
@@ -1160,9 +1159,9 @@ where
             publish_properties.user_properties = user_properties;
             publish_properties.subscription_identifiers = Vec::new();
             publish_properties.content_type = Some(serialized_payload.content_type.to_string());
-        };
+        }};
 
-        if let Some(command_expiration_time) = response_arguments.command_expiration_time {
+        match response_arguments.command_expiration_time { Some(command_expiration_time) => {
             // Calculating remaining time until the command expires
             let response_message_expiry_interval =
                 command_expiration_time.saturating_duration_since(Instant::now());
@@ -1233,12 +1232,12 @@ where
                     cache.set(cached_key, cache_entry);
                 }
             }
-        } else {
+        } _ => {
             // Happens when the command expiration time was not able to be calculated.
             // We don't cache the response in this case.
             publish_properties.message_expiry_interval =
                 Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
-        }
+        }}
 
         // Try to publish
         match client
