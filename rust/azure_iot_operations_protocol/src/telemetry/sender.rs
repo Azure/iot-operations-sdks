@@ -29,7 +29,7 @@ use crate::{
     },
 };
 
-/// Cloud Event struct used by the [`TelemetrySender`].
+/// Cloud Event struct used by the [`Sender`].
 ///
 /// Implements the cloud event spec 1.0 for the telemetry sender.
 /// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
@@ -75,7 +75,7 @@ pub struct CloudEvent {
     subject: CloudEventSubject,
 }
 
-/// Enum representing the different values that the [`subject`](CloudEvent::subject) field of a [`CloudEvent`] can take.
+/// Enum representing the different values that the [`subject`](CloudEventBuilder::subject) field of a [`CloudEvent`] can take.
 #[derive(Clone, Debug)]
 pub enum CloudEventSubject {
     /// The telemetry topic should be used as the subject when the [`CloudEvent`] is sent across the wire
@@ -160,7 +160,7 @@ impl CloudEvent {
 }
 
 /// Telemetry Message struct.
-/// Used by the [`TelemetrySender`].
+/// Used by the [`Sender`].
 #[derive(Builder, Clone, Debug)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct Message<T: PayloadSerialize> {
@@ -351,21 +351,21 @@ where
     T: PayloadSerialize,
     C: ManagedClient + Send + Sync + 'static,
 {
-    /// Creates a new [`TelemetrySender`].
+    /// Creates a new [`Sender`].
     ///
     /// # Arguments
     /// * `application_context` - [`ApplicationContext`] that the telemetry sender is part of.
     /// * `client` - The MQTT client to use for telemetry communication.
     /// * `sender_options` - Configuration options.
     ///
-    /// Returns Ok([`TelemetrySender`]) on success, otherwise returns [`AIOProtocolError`].
+    /// Returns Ok([`Sender`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - [`topic_pattern`](Options::topic_pattern) is empty or whitespace
-    /// - [`topic_pattern`](Options::topic_pattern),
-    ///     [`topic_namespace`](Options::topic_namespace),
+    /// - [`topic_pattern`](OptionsBuilder::topic_pattern) is empty or whitespace
+    /// - [`topic_pattern`](OptionsBuilder::topic_pattern),
+    ///     [`topic_namespace`](OptionsBuilder::topic_namespace),
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](Options::topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
@@ -394,11 +394,11 @@ where
         })
     }
 
-    /// Sends a [`TelemetryMessage`].
+    /// Sends a [`Message`].
     ///
     /// Returns `Ok(())` on success, otherwise returns [`AIOProtocolError`].
     /// # Arguments
-    /// * `message` - [`TelemetryMessage`] to send
+    /// * `message` - [`Message`] to send
     /// # Errors
     /// [`AIOProtocolError`] of kind [`MqttError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if
     /// - The publish fails
