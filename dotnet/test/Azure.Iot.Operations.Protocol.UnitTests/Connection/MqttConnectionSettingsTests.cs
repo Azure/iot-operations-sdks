@@ -728,13 +728,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
         }
 
         [Fact]
-        public void CreateFromFileMount_ThrowsIfClientIdFileIsEmpty()
+        public void CreateFromFileMount_UsesRandomClientIdIfNotPresent()
         {
             Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./Connection/testMountFilesMissingClientId");
             Environment.SetEnvironmentVariable("BROKER_SAT_MOUNT_PATH", "sat.txt");
             Environment.SetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", "Connection");
-            var ex = Assert.Throws<AkriMqttException>(() => MqttConnectionSettings.FromFileMount());
-            Assert.Equal("AIO_MQTT_CLIENT_ID", ex.PropertyName);
+            var ex = MqttConnectionSettings.FromFileMount();
+            Assert.NotNull(ex.ClientId);
         }
 
         [Fact]
