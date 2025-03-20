@@ -301,27 +301,23 @@ where
                     log::error!("Error: {e:?}");
 
                     // Defer decision to reconnect policy
-                    match self
+                    if let Some(delay) = self
                         .reconnect_policy
-                        .next_reconnect_delay(prev_reconnect_attempts, &e)
-                    {
-                        Some(delay) => {
-                            log::info!("Attempting reconnect in {delay:?}");
-                            // Wait for either the reconnect delay time, or a force exit signal
-                            tokio::select! {
-                                () = tokio::time::sleep(delay) => {}
-                                () = self.notify_force_exit.notified() => {
-                                    log::info!("Reconnect attempts halted by force exit");
-                                    result = Err(SessionErrorRepr::ForceExit);
-                                    break;
-                                }
+                        .next_reconnect_delay(prev_reconnect_attempts, &e) {
+                        log::info!("Attempting reconnect in {delay:?}");
+                        // Wait for either the reconnect delay time, or a force exit signal
+                        tokio::select! {
+                            () = tokio::time::sleep(delay) => {}
+                            () = self.notify_force_exit.notified() => {
+                                log::info!("Reconnect attempts halted by force exit");
+                                result = Err(SessionErrorRepr::ForceExit);
+                                break;
                             }
                         }
-                        _ => {
-                            log::info!("Reconnect attempts halted by reconnect policy");
-                            result = Err(SessionErrorRepr::ReconnectHalted);
-                            break;
-                        }
+                    } else {
+                        log::info!("Reconnect attempts halted by reconnect policy");
+                        result = Err(SessionErrorRepr::ReconnectHalted);
+                        break;
                     }
                     prev_reconnect_attempts += 1;
                 }

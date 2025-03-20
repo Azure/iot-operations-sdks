@@ -240,10 +240,10 @@ where
         // Dispatch the publish to all relevant receivers
         let mut num_dispatches = 0;
         // First, dispatch to all filtered receivers that match the topic name
-        num_dispatches += self.dispatch_filtered(&topic_name, publish, &plenary_ack);
+        num_dispatches += self.dispatch_filtered(&topic_name, publish, plenary_ack.as_ref());
         // Then, if no filters matched, dispatch to all unfiltered receivers (if present)
         if num_dispatches == 0 {
-            num_dispatches += self.dispatch_unfiltered(publish, &plenary_ack);
+            num_dispatches += self.dispatch_unfiltered(publish, plenary_ack.as_ref());
         }
 
         log::debug!(
@@ -264,7 +264,7 @@ where
         &mut self,
         topic_name: &TopicName,
         publish: &Publish,
-        plenary_ack: &Option<PlenaryAck>,
+        plenary_ack: Option<&PlenaryAck>,
     ) -> usize {
         let mut num_dispatches = 0;
         let mut closed = vec![]; // (topic filter, position in vector)
@@ -307,7 +307,7 @@ where
     fn dispatch_unfiltered(
         &mut self,
         publish: &Publish,
-        plenary_ack: &Option<PlenaryAck>,
+        plenary_ack: Option<&PlenaryAck>,
     ) -> usize {
         let mut num_dispatches = 0;
         let mut closed = vec![];
@@ -341,9 +341,8 @@ fn extract_publish_topic_name(publish: &Publish) -> Result<TopicName, InvalidPub
     )?)?)
 }
 
-fn create_ack_token(plenary_ack: &Option<PlenaryAck>) -> Option<AckToken> {
+fn create_ack_token(plenary_ack: Option<&PlenaryAck>) -> Option<AckToken> {
     plenary_ack
-        .as_ref()
         .map(|plenary_ack| AckToken(plenary_ack.create_member()))
 }
 
