@@ -9,7 +9,7 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
 
-using CloudEventsSample.Oven;
+using CloudEvents.Oven;
 
 namespace CloudEventsSample;
 

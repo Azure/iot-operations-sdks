@@ -15,9 +15,7 @@ use azure_iot_operations_protocol::{
     common::payload_serialize::{
         DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
     },
-    telemetry::telemetry_sender::{
-        TelemetryMessageBuilder, TelemetrySender, TelemetrySenderOptionsBuilder,
-    },
+    telemetry,
 };
 use azure_iot_operations_services::state_store::{self};
 use chrono::{DateTime, Utc};
@@ -72,12 +70,13 @@ async fn process_window(
     connection_monitor: SessionConnectionMonitor,
 ) {
     // Create sender
-    let sender_options = TelemetrySenderOptionsBuilder::default()
+    let sender_options = telemetry::sender::OptionsBuilder::default()
         .topic_pattern(WINDOW_DATA_TOPIC)
         .build()
         .expect("Telemetry sender options should not fail");
-    let sender = TelemetrySender::new(application_context.clone(), client.clone(), sender_options)
-        .expect("Telemetry sender creation should not fail");
+    let sender =
+        telemetry::Sender::new(application_context.clone(), client.clone(), sender_options)
+            .expect("Telemetry sender creation should not fail");
 
     // Create state store client
     let state_store_client = state_store::Client::new(
@@ -136,7 +135,7 @@ async fn process_window(
                                 .expect("output_window_data should contain all fields");
                             let output_data_clone = output_window_data.clone();
 
-                            let message = TelemetryMessageBuilder::default()
+                            let message = telemetry::sender::MessageBuilder::default()
                                 .payload(output_window_data)
                                 .expect("output_window_data is a valid payload")
                                 .build()

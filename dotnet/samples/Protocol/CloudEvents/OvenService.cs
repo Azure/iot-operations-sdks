@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Protocol;
 
 namespace CloudEventsSample;
 
-public class OvenService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : CloudEventsSample.Oven.Oven.Service(applicationContext, mqttClient)
+public class OvenService(ApplicationContext applicationContext, MqttSessionClient mqttClient) : CloudEvents.Oven.Oven.Service(applicationContext, mqttClient)
 {
 
 }

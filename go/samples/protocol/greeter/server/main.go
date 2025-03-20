@@ -23,10 +23,8 @@ func main() {
 	slog.SetDefault(slog.New(tint.NewHandler(os.Stdout, nil)))
 	app := must(protocol.NewApplication())
 
-	mqttClient := must(mqtt.NewSessionClient(
-		"greetersampleserver",
-		mqtt.TCPConnection("localhost", 1883),
-		mqtt.WithSessionExpiry(600), // 10 minutes
+	mqttClient := must(mqtt.NewSessionClientFromEnv(
+		mqtt.WithLogger(slog.Default()),
 	))
 	server := must(envoy.NewGreeterServer(app, mqttClient, &Handlers{}))
 	defer server.Close()
