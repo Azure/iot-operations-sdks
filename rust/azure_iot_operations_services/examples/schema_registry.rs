@@ -31,28 +31,27 @@ const JSON_SCHEMA: &str = r#"
 "#;
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    // Create a session
+    // Create a Session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("sampleSchemaRegistry")
         .hostname("localhost")
         .tcp_port(1883u16)
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
-    let session = Session::new(session_options).unwrap();
+        .build()?;
+    let session = Session::new(session_options)?;
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    // Create an ApplicationContext
+    let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create a channel to send the schema ID from the put task to the get task
     let (schema_id_tx, schema_id_rx) = oneshot::channel();
@@ -60,18 +59,20 @@ async fn main() {
     let schema_registry_client =
         schema_registry::Client::new(application_context, &session.create_managed_client());
 
-    tokio::task::spawn(schema_registry_put(
-        schema_registry_client.clone(),
-        schema_id_tx,
-    ));
+    // tokio::task::spawn(schema_registry_put(
+    //     schema_registry_client.clone(),
+    //     schema_id_tx,
+    // ));
 
-    tokio::task::spawn(schema_registry_get(
-        schema_registry_client.clone(),
-        schema_id_rx,
-        session.create_exit_handle(),
-    ));
+    // tokio::task::spawn(schema_registry_get(
+    //     schema_registry_client.clone(),
+    //     schema_id_rx,
+    //     session.create_exit_handle(),
+    // ));
 
-    session.run().await.unwrap();
+    // session.run().await.unwrap();
+
+    Ok(())
 }
 
 async fn schema_registry_put(

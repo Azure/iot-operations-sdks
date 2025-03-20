@@ -52,15 +52,15 @@ test-case.workspace = true
 workspace = true
 
 [[example]]
-name = "state_store_client"
+name = "state_store"
 required-features = ["state_store"]
 
 [[example]]
-name = "schema_registry_client"
+name = "schema_registry"
 required-features = ["schema_registry"]
 
 [[example]]
-name = "leased_lock_client"
+name = "leased_lock"
 required-features = ["leased_lock"]
 
 [package.metadata.docs.rs]
