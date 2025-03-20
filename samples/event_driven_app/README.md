@@ -80,9 +80,9 @@ Build the application within your development environment following the instruct
 > [!TIP]
 > You can run the application directly from your development environment if you are using the standard [setup](/doc/setup) as the MQTT Broker will be available externally from the cluster.
 
-## Run the application on cluster
+## Deploy the application
 
-The application can also be deployed to the cluster by building a container and applying the `app.yml`:
+The application will be deployed to the cluster by building a container and applying the `app.yml`:
 
 1. Build the application container and import to your cluster:
 
@@ -140,20 +140,17 @@ The application can also be deployed to the cluster by building a container and 
     ```
     </details> -->
 
-1. Confirm that the application deployed successfully. The pod should report all containers are ready after a short interval:
+1. Confirm that the application running by getting the pod status:
 
     ```bash
     kubectl get pods -l app=event-driven-app -n azure-iot-operations
     ```
 
     Output:
-
     ```output
     NAME                   READY   STATUS              RESTARTS   AGE
     event-driven-app-xxx   1/1     Running             0          10s
     ```
-
-1. Continue with [Verify the application output](#verify-the-application-output) to review the aggregated output.
 
 ## Deploy the simulator
 
