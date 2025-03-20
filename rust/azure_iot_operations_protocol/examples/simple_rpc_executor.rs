@@ -7,7 +7,7 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
 };
@@ -19,75 +19,95 @@ const PORT: u16 = 1883;
 const REQUEST_TOPIC_PATTERN: &str = "topic/for/request";
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
-        .filter_level(log::LevelFilter::Warn)
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    // Create a session
+    // Create a Session
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(CLIENT_ID)
         .hostname(HOSTNAME)
         .tcp_port(PORT)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
-        .build()
-        .unwrap();
+        .build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
+        .build()?;
     let session = Session::new(session_options).unwrap();
 
+    // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    // Use the managed client to run a a command executor in another task
-    tokio::task::spawn(executor_loop(
-        application_context,
-        session.create_managed_client(),
-    ));
-
-    // Run the session
-    session.run().await.unwrap();
-}
-
-/// Handle incoming increment command requests
-async fn executor_loop(application_context: ApplicationContext, client: SessionManagedClient) {
-    // Create a command executor for the increment command
+    // Create an RPC command Executor for the 'increment' command
     let incr_executor_options = rpc_command::executor::OptionsBuilder::default()
         .request_topic_pattern(REQUEST_TOPIC_PATTERN)
         .command_name("increment")
         .build()
         .unwrap();
-    let mut incr_executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload, _> =
-        rpc_command::Executor::new(application_context, client, incr_executor_options).unwrap();
+    let incr_executor: rpc_command::Executor<IncrRequestPayload, IncrResponsePayload, _> =
+        rpc_command::Executor::new(
+            application_context,
+            session.create_managed_client(),
+            incr_executor_options,
+        )?;
 
+    // Run the Session and the Executor loop concurrently
+    tokio::select! {
+        r1 = increment_executor_loop(incr_executor) => r1.map_err(|e| e as Box<dyn std::error::Error>)?,
+        r2 = session.run() => r2?,
+    }
+
+    Ok(())
+}
+
+/// Handle incoming increment command requests
+async fn increment_executor_loop(
+    mut executor: rpc_command::Executor<
+        IncrRequestPayload,
+        IncrResponsePayload,
+        SessionManagedClient,
+    >,
+) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     // Counter to increment
     let mut counter = 0;
 
     // Increment the counter for each incoming request
-    while let Some(request) = incr_executor.recv().await {
-        match request {
-            Ok(request) => {
-                counter += 1;
-                let response = IncrResponsePayload {
-                    counter_response: counter,
-                };
-                let response = rpc_command::executor::ResponseBuilder::default()
-                    .payload(response)
-                    .unwrap()
-                    .build()
-                    .unwrap();
-                request.complete(response).await.unwrap();
+    while let Some(recv_result) = executor.recv().await {
+        let request = recv_result?;
+        // Update the counter
+        counter += 1;
+        log::info!("Counter incremented to: {counter}");
+        // Create the response
+        let response = IncrResponsePayload {
+            counter_response: counter,
+        };
+        let response = rpc_command::executor::ResponseBuilder::default()
+            .payload(response)
+            .unwrap()
+            .build()
+            .unwrap();
+        // Send the response
+        match request.complete(response).await {
+            Ok(()) => {
+                log::info!("Sent response to 'increment' command request");
             }
-            Err(err) => {
-                println!("Error receiving request: {err}");
-                return;
+            Err(e) => {
+                log::error!(
+                    "Error sending response to 'increment' command request: {:?}",
+                    e
+                );
             }
         }
     }
+
+    // Shut down if there are no more requests
+    executor.shutdown().await?;
+
+    Ok(())
 }
 
 #[derive(Clone, Debug, Default)]

@@ -6,7 +6,7 @@ metadata:
 spec:
   # By providing a leadershipPositionId config, the connector code will do leader election to enable active/passive replication
   # when deploying multiple pods to connect with this asset endpoint profile. This value should be unique per asset endpoint profile instance.
-  additionalConfiguration: '{"leadershipPositionId" : "sql-server-leadership-position-id"}'
+  additionalConfiguration: '{}'
   authentication:
     method: UsernamePassword
     usernamePasswordCredentials:

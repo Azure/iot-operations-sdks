@@ -70,16 +70,16 @@ where
     /// Returns a [`Schema`] if the schema was found, otherwise returns `None`.
     ///
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
     /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
-    /// [`Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
     /// if there is an error serializing the request.
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get(
         &self,
@@ -133,16 +133,16 @@ where
     /// Returns the [`Schema`] that was put if the request was successful.
     ///
     /// # Errors
-    /// [`Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
     /// if the `content` is empty, the `timeout` is zero or > `u32::max`, or there is an error building the request.
     ///
-    /// [`Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
     /// if there is an error serializing the request.
     ///
-    /// [`Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
     ///
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
         let put_request_payload = PutRequestPayloadBuilder::default()
@@ -181,9 +181,9 @@ where
     /// Note: If this method is called, the [`Client`] should not be used again.
     /// If the method returns an error, it may be called again to re-attempt unsubscribing.
     ///
-    /// Returns Ok(()) on success, otherwise returns [`Error`].
+    /// Returns Ok(()) on success, otherwise returns [`struct@Error`].
     /// # Errors
-    /// [`Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), Error> {
         // Shutdown the get command invoker

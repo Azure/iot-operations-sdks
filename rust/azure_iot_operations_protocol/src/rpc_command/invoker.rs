@@ -276,19 +276,19 @@ where
     /// Returns Ok([`Invoker`]) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if:
-    /// - [`command_name`](Options::command_name) is empty, whitespace or invalid
-    /// - [`request_topic_pattern`](Options::request_topic_pattern) is empty or whitespace
-    /// - [`response_topic_pattern`](Options::response_topic_pattern) is Some and empty or whitespace
-    ///     - [`response_topic_pattern`](Options::response_topic_pattern) is None and
-    ///         [`response_topic_prefix`](Options::response_topic_prefix) or
-    ///         [`response_topic_suffix`](Options::response_topic_suffix) are Some and empty or whitespace
-    /// - [`request_topic_pattern`](Options::request_topic_pattern),
-    ///     [`response_topic_pattern`](Options::response_topic_pattern),
-    ///     [`topic_namespace`](Options::topic_namespace),
-    ///     [`response_topic_prefix`](Options::response_topic_prefix),
-    ///     [`response_topic_suffix`](Options::response_topic_suffix),
+    /// - [`command_name`](OptionsBuilder::command_name) is empty, whitespace or invalid
+    /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern) is empty or whitespace
+    /// - [`response_topic_pattern`](OptionsBuilder::response_topic_pattern) is Some and empty or whitespace
+    ///     - [`response_topic_pattern`](OptionsBuilder::response_topic_pattern) is None and
+    ///         [`response_topic_prefix`](OptionsBuilder::response_topic_prefix) or
+    ///         [`response_topic_suffix`](OptionsBuilder::response_topic_suffix) are Some and empty or whitespace
+    /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern),
+    ///     [`response_topic_pattern`](OptionsBuilder::response_topic_pattern),
+    ///     [`topic_namespace`](OptionsBuilder::topic_namespace),
+    ///     [`response_topic_prefix`](OptionsBuilder::response_topic_prefix),
+    ///     [`response_topic_suffix`](OptionsBuilder::response_topic_suffix),
     ///     are Some and invalid or contain a token with no valid replacement
-    /// - [`topic_token_map`](Options::topic_token_map) isn't empty and contains invalid key(s)/token(s)
+    /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     pub fn new(
         application_context: ApplicationContext,
         client: C,
@@ -424,7 +424,7 @@ where
     /// # Errors
     ///
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](AIOProtocolErrorKind::ConfigurationInvalid) if
-    /// - any [`topic_tokens`](Request::topic_tokens) are invalid
+    /// - any [`topic_tokens`](RequestBuilder::topic_tokens) are invalid
     ///
     /// [`AIOProtocolError`] of kind [`PayloadInvalid`](AIOProtocolErrorKind::PayloadInvalid) if
     /// - [`response_payload`][Response::payload] deserialization fails
