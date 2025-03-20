@@ -747,9 +747,10 @@ where
                     }
                 }
                 _ => {
-                    assert!(!is_application_error, 
-                            "expected is application error property but found no properties in published message"
-                        );
+                    assert!(
+                        !is_application_error,
+                        "expected is application error property but found no properties in published message"
+                    );
                 }
             }
         }

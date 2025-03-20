@@ -342,8 +342,7 @@ fn extract_publish_topic_name(publish: &Publish) -> Result<TopicName, InvalidPub
 }
 
 fn create_ack_token(plenary_ack: Option<&PlenaryAck>) -> Option<AckToken> {
-    plenary_ack
-        .map(|plenary_ack| AckToken(plenary_ack.create_member()))
+    plenary_ack.map(|plenary_ack| AckToken(plenary_ack.create_member()))
 }
 
 #[cfg(test)]

@@ -314,7 +314,8 @@ where
                     // Defer decision to reconnect policy
                     if let Some(delay) = self
                         .reconnect_policy
-                        .next_reconnect_delay(prev_reconnect_attempts, &e) {
+                        .next_reconnect_delay(prev_reconnect_attempts, &e)
+                    {
                         log::info!("Attempting reconnect in {delay:?}");
                         // Wait for either the reconnect delay time, or a force exit signal
                         tokio::select! {
