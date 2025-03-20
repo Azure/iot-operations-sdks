@@ -33,6 +33,9 @@
 #   - MANIFEST: OPTIONAL
 #     Path to a `Cargo.toml`.  If unset, the script will use the
 #     Cargo-inferred ambient manifest.
+#   - IGNORE_FILENAME_REGEX: OPTIONAL
+#     A regex pattern to match filenames to ignore when generating the
+#     coverage report.  If unset, the script will not ignore any files.
 # - Environment:
 #   - BAD: DEFAULT = "40"
 #     Integer threshold for "bad" coverage percentage, below which a
@@ -55,6 +58,13 @@ MANIFEST="$(
         ${1:+--manifest-path="${1}"} \
         --message-format=plain
 )"
+IGNORE_FILENAME_REGEX=${2:+--ignore-filename-regex="$2"}
+
+if [ -n "${IGNORE_FILENAME_REGEX}" ]; then
+    IGNORE_FILENAME_REGEX_ARG="${IGNORE_FILENAME_REGEX}"
+else
+    IGNORE_FILENAME_REGEX_ARG=""
+fi
 
 : "${BAD:=40}" "${GOOD:=70}" "${TARGET_KEY:=report}"
 
@@ -77,10 +87,11 @@ if [ -z "${SUMMARY_ONLY:+_}" ]; then
         --verbose \
         --html \
         --all-features \
+        ${IGNORE_FILENAME_REGEX_ARG} \
         report
 fi
 
-cargo llvm-cov --manifest-path="${MANIFEST}" --verbose --summary-only --all-features --json report \
+cargo llvm-cov --manifest-path="${MANIFEST}" --verbose --summary-only --all-features ${IGNORE_FILENAME_REGEX_ARG} --json report \
 | jq -crf "${REPOSITORY_ROOT}/rust/ci/jq/coverage.jq" \
         --arg root "${REPOSITORY_ROOT}" \
         --arg manifest "${MANIFEST}" \

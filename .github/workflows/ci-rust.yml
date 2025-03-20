@@ -71,17 +71,12 @@ jobs:
       run: |
         set -e
         ls
-        MANIFEST=azure_iot_operations_mqtt/Cargo.toml make coverage
+        IGNORE_FILENAME_REGEX=sample_applications make coverage
 
-    - name: Run Coverage Report (azure_iot_operations_protocol)
+    - name: Run Coverage Report
       run: |
         set -e
-        MANIFEST=azure_iot_operations_protocol/Cargo.toml make coverage
-
-    - name: Run Coverage Report (azure_iot_operations_services)
-      run: |
-        set -e
-        MANIFEST=azure_iot_operations_services/Cargo.toml make coverage
+        make coverage
 
     - uses: "actions/upload-artifact@v4"
       with:
