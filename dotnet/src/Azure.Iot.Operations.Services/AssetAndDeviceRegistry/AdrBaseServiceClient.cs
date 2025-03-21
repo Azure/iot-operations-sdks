@@ -8,12 +8,9 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-public class AdrBaseServiceClient(
-    ApplicationContext applicationContext,
-    IMqttPubSubClient mqttClient) : IAdrBaseServiceClient
+public class AdrBaseServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : IAdrBaseServiceClient
 {
-    private readonly AdrBaseServiceClientStub _client = new(applicationContext,
-        mqttClient);
+    private readonly AdrBaseServiceClientStub _client = new(applicationContext, mqttClient);
 
     private bool _disposed;
     private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
@@ -215,52 +212,16 @@ public class AdrBaseServiceClient(
             result => result.CreateDetectedAssetResponse);
     }
 
-    public async Task ReceiveTelemetry(
-        string senderId,
-        AssetEndpointProfileUpdateEventTelemetry telemetry,
-        IncomingTelemetryMetadata metadata)
+    public event Func<string, AssetEndpointProfileUpdateEventTelemetry, IncomingTelemetryMetadata, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry
     {
-        try
-        {
-            await _client.ReceiveTelemetry(senderId, telemetry, metadata);
-        }
-        catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
-        {
-            // This is likely because the user received a "not found" response payload from the service, but the service is an
-            // older version that sends an empty payload instead of the expected "{}" payload.
-        }
-        catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
-        {
-            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
-            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
-            throw new AdrBaseServiceException("Invocation error returned by ADR base service",
-                e.PropertyName,
-                e.PropertyValue);
-        }
+        add => _client.OnReceiveAssetEndpointProfileUpdateTelemetry += value;
+        remove => _client.OnReceiveAssetEndpointProfileUpdateTelemetry -= value;
     }
 
-    public async Task ReceiveTelemetry(
-        string senderId,
-        AssetUpdateEventTelemetry telemetry,
-        IncomingTelemetryMetadata metadata)
+    public event Func<string, AssetUpdateEventTelemetry, IncomingTelemetryMetadata, Task>? OnReceiveAssetUpdateEventTelemetry
     {
-        try
-        {
-            await _client.ReceiveTelemetry(senderId, telemetry, metadata);
-        }
-        catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
-        {
-            // This is likely because the user received a "not found" response payload from the service, but the service is an
-            // older version that sends an empty payload instead of the expected "{}" payload.
-        }
-        catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
-        {
-            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
-            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
-            throw new AdrBaseServiceException("Invocation error returned by ADR base service",
-                e.PropertyName,
-                e.PropertyValue);
-        }
+        add => _client.OnReceiveAssetUpdateEventTelemetry += value;
+        remove => _client.OnReceiveAssetUpdateEventTelemetry -= value;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken = default)
@@ -272,20 +233,10 @@ public class AdrBaseServiceClient(
         {
             await _client.StartAsync(cancellationToken);
         }
-        catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
-        {
-            // This is likely because the user received a "not found" response payload from the service, but the service is an
-            // older version that sends an empty payload instead of the expected "{}" payload.
-        }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
-            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
-            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
-            throw new AdrBaseServiceException("Invocation error returned by ADR base service",
-                e.PropertyName,
-                e.PropertyValue);
+            throw new AdrBaseServiceException("Invocation error returned by ADR base service", e.PropertyName, e.PropertyValue);
         }
-
     }
 
     public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -297,18 +248,9 @@ public class AdrBaseServiceClient(
         {
             await _client.StopAsync(cancellationToken);
         }
-        catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
-        {
-            // This is likely because the user received a "not found" response payload from the service, but the service is an
-            // older version that sends an empty payload instead of the expected "{}" payload.
-        }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
-            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
-            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
-            throw new AdrBaseServiceException("Invocation error returned by ADR base service",
-                e.PropertyName,
-                e.PropertyValue);
+            throw new AdrBaseServiceException("Invocation error returned by ADR base service", e.PropertyName, e.PropertyValue);
         }
     }
 
@@ -343,9 +285,7 @@ public class AdrBaseServiceClient(
         {
             // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
             // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
-            throw new AdrBaseServiceException("Invocation error returned by ADR base service",
-                e.PropertyName,
-                e.PropertyValue);
+            throw new AdrBaseServiceException("Invocation error returned by ADR base service", e.PropertyName, e.PropertyValue);
         }
     }
 }

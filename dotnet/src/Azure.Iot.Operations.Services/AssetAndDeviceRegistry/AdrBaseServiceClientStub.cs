@@ -10,13 +10,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
     : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap)
 {
+    public event Func<string, AssetEndpointProfileUpdateEventTelemetry, IncomingTelemetryMetadata, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry;
+    public event Func<string, AssetUpdateEventTelemetry, IncomingTelemetryMetadata, Task>? OnReceiveAssetUpdateEventTelemetry;
+
     public override async Task ReceiveTelemetry(string senderId, AssetEndpointProfileUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        throw new NotImplementedException();
+        if (OnReceiveAssetEndpointProfileUpdateTelemetry != null)
+        {
+            await OnReceiveAssetEndpointProfileUpdateTelemetry.Invoke(senderId, telemetry, metadata);
+        }
     }
 
     public override async Task ReceiveTelemetry(string senderId, AssetUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        throw new NotImplementedException();
+        if (OnReceiveAssetUpdateEventTelemetry != null)
+        {
+            await OnReceiveAssetUpdateEventTelemetry.Invoke(senderId, telemetry, metadata);
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 
@@ -59,15 +58,9 @@ public interface IAdrBaseServiceClient : IAsyncDisposable
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
-    Task ReceiveTelemetry(
-        string senderId,
-        AssetEndpointProfileUpdateEventTelemetry telemetry,
-        IncomingTelemetryMetadata metadata);
+    event Func<string, AssetEndpointProfileUpdateEventTelemetry, IncomingTelemetryMetadata, Task> OnReceiveAssetEndpointProfileUpdateTelemetry;
 
-    Task ReceiveTelemetry(
-        string senderId,
-        AssetUpdateEventTelemetry telemetry,
-        IncomingTelemetryMetadata metadata);
+    event Func<string, AssetUpdateEventTelemetry, IncomingTelemetryMetadata, Task> OnReceiveAssetUpdateEventTelemetry;
 
     Task StartAsync(CancellationToken cancellationToken = default);
     Task StopAsync(CancellationToken cancellationToken = default);
