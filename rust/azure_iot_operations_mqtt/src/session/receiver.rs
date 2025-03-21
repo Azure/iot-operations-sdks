@@ -94,7 +94,7 @@ impl PublishReceiverManager {
             // If the topic filter is already in use, add to the associated vector
             Some(v) => {
                 v.push(tx);
-            // Otherwise, create a new vector and add
+                // Otherwise, create a new vector and add
             }
             _ => {
                 self.filtered_txs.insert(topic_filter.clone(), vec![tx]);

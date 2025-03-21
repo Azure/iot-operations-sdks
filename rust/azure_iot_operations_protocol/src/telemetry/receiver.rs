@@ -604,17 +604,20 @@ where
                         let topic_tokens = self.topic_pattern.parse_tokens(topic);
 
                         // Deserialize payload
-                        let payload =
-                            match T::deserialize(&m.payload, content_type.as_ref(), &format_indicator) {
-                                Ok(p) => p,
-                                Err(e) => {
-                                    log::error!(
-                                        "[pkid: {}] Payload deserialization error: {e:?}",
-                                        m.pkid
-                                    );
-                                    break 'process_message;
-                                }
-                            };
+                        let payload = match T::deserialize(
+                            &m.payload,
+                            content_type.as_ref(),
+                            &format_indicator,
+                        ) {
+                            Ok(p) => p,
+                            Err(e) => {
+                                log::error!(
+                                    "[pkid: {}] Payload deserialization error: {e:?}",
+                                    m.pkid
+                                );
+                                break 'process_message;
+                            }
+                        };
 
                         let telemetry_message = Message {
                             payload,
