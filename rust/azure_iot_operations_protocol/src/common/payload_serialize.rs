@@ -183,6 +183,7 @@ mock! {
     impl PayloadSerialize for Payload {
         type Error = String;
         fn serialize(self) -> Result<SerializedPayload, String>;
+        #[allow(clippy::ref_option_ref)]    // NOTE: This may not be required if mockall gets updated for 2024 edition
         fn deserialize<'a>(payload: &[u8], content_type: Option<&'a String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
     }
 }
