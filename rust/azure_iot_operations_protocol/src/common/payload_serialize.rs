@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-#![allow(clippy::ref_option)]
+#![allow(clippy::ref_option)]   // TODO: ADDRESS PAYLOADSERIALIZE CLIPPY WARNING
 
 use std::fmt::Debug;
 
