@@ -10,9 +10,9 @@ use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::common_options::CommandOptions;
 use super::super::common_types::empty_json::EmptyJson;
-use super::read_counter_response_payload::ReadCounterResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
+use super::read_counter_response_payload::ReadCounterResponsePayload;
 
 pub type ReadCounterRequest = rpc_command::invoker::Request<EmptyJson>;
 pub type ReadCounterResponse = rpc_command::invoker::Response<ReadCounterResponsePayload>;

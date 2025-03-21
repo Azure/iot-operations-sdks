@@ -205,14 +205,14 @@ mod tests {
     use std::collections::HashMap;
 
     use azure_iot_operations_mqtt::{
-        session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
+        session::{Session, SessionOptionsBuilder},
     };
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::schema_registry::{
-        Client, Error, ErrorKind, Format, GetRequestBuilder, GetRequestBuilderError,
-        PutRequestBuilder, SchemaType, DEFAULT_SCHEMA_VERSION,
+        Client, DEFAULT_SCHEMA_VERSION, Error, ErrorKind, Format, GetRequestBuilder,
+        GetRequestBuilderError, PutRequestBuilder, SchemaType,
     };
 
     // TODO: This should return a mock ManagedClient instead.

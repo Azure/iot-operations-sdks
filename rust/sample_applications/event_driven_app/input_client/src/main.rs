@@ -7,8 +7,8 @@
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::{
-    session::{Session, SessionConnectionMonitor, SessionManagedClient, SessionOptionsBuilder},
     MqttConnectionSettingsBuilder,
+    session::{Session, SessionConnectionMonitor, SessionManagedClient, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::{
     application::{ApplicationContext, ApplicationContextBuilder},
@@ -224,7 +224,7 @@ impl PayloadSerialize for SensorData {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {

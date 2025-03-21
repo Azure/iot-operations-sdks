@@ -123,7 +123,7 @@ impl PayloadSerialize for EmptyPayload {
     }
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
@@ -206,11 +206,13 @@ async fn telemetry_basic_send_receive_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -233,7 +235,7 @@ impl PayloadSerialize for DataPayload {
     }
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataPayload, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -249,7 +251,7 @@ impl PayloadSerialize for DataPayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
-                )))
+                )));
             }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
@@ -262,7 +264,7 @@ impl PayloadSerialize for DataPayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
-                )))
+                )));
             }
         };
         let internal_temperature = match payload[1]
@@ -274,7 +276,7 @@ impl PayloadSerialize for DataPayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing telemetry: {e}"
-                )))
+                )));
             }
         };
 
@@ -440,9 +442,11 @@ async fn telemetry_complex_send_receive_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }

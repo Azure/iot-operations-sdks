@@ -15,8 +15,8 @@ use azure_iot_operations_mqtt::interface::{
 //use azure_iot_operations_mqtt::topic::{TopicFilter, TopicParseError};
 use bytes::Bytes;
 use futures::future::TryFutureExt;
-use rumqttc::v5::mqttbytes::v5::{PubAckReason, SubscribeReasonCode, UnsubAckReason};
 use rumqttc::NoticeError;
+use rumqttc::v5::mqttbytes::v5::{PubAckReason, SubscribeReasonCode, UnsubAckReason};
 use tokio::sync::{broadcast, mpsc, oneshot};
 
 //use crate::metl::mqtt_listener::MqttListener;
