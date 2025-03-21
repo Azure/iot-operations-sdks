@@ -26,7 +26,7 @@ This tutorial is available in the following languages:
 
  * [.NET](/dotnet/samples/applications/EventDrivenApp)
  * [Rust](/rust/sample_applications/event_driven_app)
- * Go - In progress
+ * [Go](/go/samples/application/eventdrivenapp)
 
 ## Prerequisites
 
@@ -69,13 +69,14 @@ Build the application within your development environment following the instruct
 
     </details>
 
-    <!-- <details>
+    <details>
     <summary>Go</summary>
 
     ```bash
+    go build -C go/samples/application/eventdrivenapp
     <TBD>
     ```
-    </details> -->
+    </details>
 
 > [!TIP]
 > You can run the application directly from your development environment if you are using the standard [setup](/doc/setup.md) as the MQTT broker will be available externally from the cluster.
@@ -106,13 +107,15 @@ The application will be deployed to the cluster by building a container and appl
     ```
     </details>
 
-    <!-- <details>
+    <details>
     <summary>Go</summary>
 
     ```bash
-    <TBD>
+    cd go/samples/application/eventdrivenapp
+    docker build -t event-driven-app .
+    k3d image import event-driven-app
     ```
-    </details> -->
+    </details>
 
 1. Deploy the application to the cluster:
 
@@ -132,13 +135,13 @@ The application will be deployed to the cluster by building a container and appl
     ```
     </details>
 
-    <!-- <details>
+    <details>
     <summary>Go</summary>
 
     ```bash
-    <TBD>
+    kubectl apply -f go/samples/application/eventdrivenapp/app.yml
     ```
-    </details> -->
+    </details>
 
 1. Confirm that the application running by getting the pod status:
 
