@@ -30,10 +30,14 @@ kubectl delete configmap client-ca-trust-bundle -n azure-iot-operations --ignore
 kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
     --from-literal=client_ca.pem="$(cat $session_dir/intermediate_ca.crt $session_dir/root_ca.crt)"
 
-# Setup the MQTT broker
-kubectl delete BrokerListeners --all
-kubectl delete BrokerAuthentications --all
-kubectl apply -f yaml/aio-developer.yaml
+# Create the broker if missing
+if ! kubectl get Broker default &> /dev/null; then
+    echo Missing broker, creating...
+    kubectl apply -f yaml/broker.yaml
+fi
+
+# Configure the broker
+kubectl replace -f yaml/broker-listeners.yaml
 
 # Create the credentials for auth to the MQTT broker
 $script_dir/update-credentials.sh

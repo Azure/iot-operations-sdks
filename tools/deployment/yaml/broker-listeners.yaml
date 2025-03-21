@@ -1,4 +1,4 @@
-# Setup default Broker/Listener
+# Setup default Listener
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
@@ -33,7 +33,7 @@ spec:
           - aio-internal
 
 
-# Setup external listener (LoadBalancer)
+# Setup external Listener (LoadBalancer)
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
