@@ -18,7 +18,7 @@ sudo sh -c 'echo 127.0.0.1 aio-broker >> /etc/hosts'
 git config --global --add safe.directory /workspaces
 
 # Stop and start the cluster, so its in a fresh state
-k3d cluster stop --wait
+k3d cluster stop
 k3d cluster start --wait
 
 echo "Ending postStartCommand"

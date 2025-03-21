@@ -1,21 +1,6 @@
 # Setup default Broker/Listener
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
-kind: Broker
-metadata:
-  name: default
-  namespace: azure-iot-operations
-spec:
-  generateResourceLimits:
-    cpu: disabled
-  cardinality:
-    backendChain:
-      partitions: 1
-      redundancyFactor: 2
-    frontend:
-      replicas: 1
----
-apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
 metadata:
   name: default
