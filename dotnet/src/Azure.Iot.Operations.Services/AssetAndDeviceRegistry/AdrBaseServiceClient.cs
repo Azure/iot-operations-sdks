@@ -46,14 +46,10 @@ public class AdrBaseServiceClient(ApplicationContext applicationContext, IMqttPu
         }
         catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
         {
-            // This is likely because the user received a "not found" response payload from the service, but the service is an
-            // older version that sends an empty payload instead of the expected "{}" payload.
             return null;
         }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
-            // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
-            // that the protocol layer should no longer recognize 422 as an expected error kind, so assume unknown errors are just 422's
             throw new AdrBaseServiceException("Invocation error returned by ADR base service",
                 e.PropertyName,
                 e.PropertyValue);
