@@ -1,4 +1,29 @@
-# Setup default Listener
+# Create Authentication
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerAuthentication
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: serviceAccountToken
+      serviceAccountTokenSettings:
+        audiences: 
+          - aio-internal
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerAuthentication
+metadata:
+  name: default-x509
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: X509
+      x509Settings:
+        trustedClientCaCert: client-ca-trust-bundle
+
+# Create Listeners
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
@@ -19,21 +44,6 @@ spec:
             kind: ClusterIssuer
             group: cert-manager.io
             name: azure-iot-operations-aio-certificate-issuer
----
-apiVersion: mqttbroker.iotoperations.azure.com/v1
-kind: BrokerAuthentication
-metadata:
-  name: default
-  namespace: azure-iot-operations
-spec:
-  authenticationMethods:
-    - method: serviceAccountToken
-      serviceAccountTokenSettings:
-        audiences: 
-          - aio-internal
-
-
-# Setup external Listener (LoadBalancer)
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
@@ -76,14 +86,3 @@ spec:
               - localhost
             ip:
               - 127.0.0.1
----
-apiVersion: mqttbroker.iotoperations.azure.com/v1
-kind: BrokerAuthentication
-metadata:
-  name: default-x509
-  namespace: azure-iot-operations
-spec:
-  authenticationMethods:
-    - method: X509
-      x509Settings:
-        trustedClientCaCert: client-ca-trust-bundle
