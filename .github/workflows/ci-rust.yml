@@ -70,7 +70,6 @@ jobs:
     - name: Run Coverage Report
       run: |
         set -e
-        ls
         IGNORE_FILENAME_REGEX=sample_applications make coverage
 
     - uses: "actions/upload-artifact@v4"

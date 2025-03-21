@@ -33,9 +33,6 @@
 #   - MANIFEST: OPTIONAL
 #     Path to a `Cargo.toml`.  If unset, the script will use the
 #     Cargo-inferred ambient manifest.
-#   - IGNORE_FILENAME_REGEX: OPTIONAL
-#     A regex pattern to match filenames to ignore when generating the
-#     coverage report.  If unset, the script will not ignore any files.
 # - Environment:
 #   - BAD: DEFAULT = "40"
 #     Integer threshold for "bad" coverage percentage, below which a
@@ -49,6 +46,9 @@
 #   - TARGET_KEY: DEFAULT = "report"
 #     Subdirectory of the workspace target directory in which to place
 #     the coverage summary and optional HTML report.
+#   - IGNORE_FILENAME_REGEX: OPTIONAL
+#     A regex pattern to match filenames to ignore when generating the
+#     coverage report.  If unset, the script will not ignore any files.
 
 set -euxo pipefail
 
@@ -58,12 +58,10 @@ MANIFEST="$(
         ${1:+--manifest-path="${1}"} \
         --message-format=plain
 )"
-IGNORE_FILENAME_REGEX=${2:+--ignore-filename-regex="$2"}
-
-if [ -n "${IGNORE_FILENAME_REGEX}" ]; then
-    IGNORE_FILENAME_REGEX_ARG="${IGNORE_FILENAME_REGEX}"
-else
+if [ -z "${IGNORE_FILENAME_REGEX:+_}" ]; then
     IGNORE_FILENAME_REGEX_ARG=""
+else
+    IGNORE_FILENAME_REGEX_ARG="--ignore-filename-regex=${IGNORE_FILENAME_REGEX}"
 fi
 
 : "${BAD:=40}" "${GOOD:=70}" "${TARGET_KEY:=report}"
