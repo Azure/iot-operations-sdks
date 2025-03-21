@@ -60,7 +60,7 @@ pub struct SerializedPayload {
 ///     })
 ///   }
 ///   fn deserialize(payload: &[u8],
-///     content_type: &Option<String>,
+///     content_type: Option<&String>,
 ///     _format_indicator: &FormatIndicator,
 ///   ) -> Result<Self, DeserializationError<String>> {
 ///     if let Some(content_type) = content_type {
@@ -183,7 +183,7 @@ mock! {
     impl PayloadSerialize for Payload {
         type Error = String;
         fn serialize(self) -> Result<SerializedPayload, String>;
-        fn deserialize(payload: &[u8], content_type: Option<&String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
+        fn deserialize<'a>(payload: &[u8], content_type: Option<&'a String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
     }
 }
 #[cfg(test)]
