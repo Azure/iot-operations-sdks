@@ -40,10 +40,38 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         public static string? CmdRequestNamespace { get; } = AnnexFileProperties.CmdRequestNamespace;
 
         public static string? CmdResponseNamespace { get; } = AnnexFileProperties.CmdResponseNamespace;
+    
+        public static string? NormalResultName { get; } = AnnexFileProperties.NormalResultName;
+
+        public static string? NormalResultSchema { get; } = AnnexFileProperties.NormalResultSchema;
+
+        public static string? NormalResultNamespace { get; } = AnnexFileProperties.NormalResultNamespace;
+
+        public static string? ErrorResultName { get; } = AnnexFileProperties.ErrorResultName;
+
+        public static string? ErrorResultSchema { get; } = AnnexFileProperties.ErrorResultSchema;
+
+        public static string? ErrorResultNamespace { get; } = AnnexFileProperties.ErrorResultNamespace;
+
+        public static string? RequestIsNullable { get; } = AnnexFileProperties.RequestIsNullable;
+
+        public static string? ResponseIsNullable { get; } = AnnexFileProperties.ResponseIsNullable;
 
         public static string? CmdIsIdempotent { get; } = AnnexFileProperties.CmdIsIdempotent;
 
         public static string? CmdCacheability { get; } = AnnexFileProperties.Cacheability;
+
+        public static string? ErrorList { get; } = AnnexFileProperties.ErrorList;
+
+        public static string? ErrorSchema { get; } = AnnexFileProperties.ErrorSchema;
+
+        public static string? ErrorNamespace { get; } = AnnexFileProperties.ErrorNamespace;
+
+        public static string? ErrorDescription { get; } = AnnexFileProperties.ErrorDescription;
+
+        public static string? ErrorMessageField { get; } = AnnexFileProperties.ErrorMessageField;
+
+        public static string? ErrorMessageIsNullable { get; } = AnnexFileProperties.ErrorMessageIsNullable;
 
         public static string? TelemSeparate { get; } = AnnexFileProperties.TelemSeparate;
 
@@ -57,8 +85,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? cmdTopicPattern;
         private readonly string? telemServiceGroupId;
         private readonly string? cmdServiceGroupId;
-        private readonly List<(string?, ITypeName)> telemNameSchemas;
-        private readonly List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales;
+        private readonly List<TelemetrySchemaInfo> telemSchemaInfos;
+        private readonly List<CommandSchemaInfo> cmdSchemaInfos;
+        private readonly List<ErrorSchemaInfo> errSchemaInfos;
         private readonly bool separateTelemetries;
 
         public InterfaceAnnex(
@@ -72,8 +101,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? cmdTopicPattern,
             string? telemServiceGroupId,
             string? cmdServiceGroupId,
-            List<(string?, ITypeName)> telemNameSchemas,
-            List<(string, ITypeName?, ITypeName?, bool, string?)> cmdNameReqRespIdemStales,
+            List<TelemetrySchemaInfo> telemSchemaInfos,
+            List<CommandSchemaInfo> cmdSchemaInfos,
+            List<ErrorSchemaInfo> errSchemaInfos,
             bool separateTelemetries)
         {
             this.projectName = projectName;
@@ -86,8 +116,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.cmdTopicPattern = cmdTopicPattern;
             this.telemServiceGroupId = telemServiceGroupId;
             this.cmdServiceGroupId = cmdServiceGroupId;
-            this.telemNameSchemas = telemNameSchemas;
-            this.cmdNameReqRespIdemStales = cmdNameReqRespIdemStales;
+            this.telemSchemaInfos = telemSchemaInfos;
+            this.cmdSchemaInfos = cmdSchemaInfos;
+            this.errSchemaInfos = errSchemaInfos;
             this.separateTelemetries = separateTelemetries;
         }
 

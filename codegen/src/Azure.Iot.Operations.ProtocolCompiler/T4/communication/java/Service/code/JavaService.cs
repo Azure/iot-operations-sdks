@@ -24,8 +24,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
-            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps,
-            List<(CodeName, ITypeName)> telemNameSchemas,
+            List<CommandEnvoyInfo> cmdEnvoyInfos,
+            List<TelemetryEnvoyInfo> telemEnvoyInfos,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService)
@@ -37,8 +37,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.telemetryTopic = telemetryTopic;
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;
-            this.cmdNameReqResps = cmdNameReqResps.Select(nrr => (nrr.Item1.AsGiven, nrr.Item2?.GetTypeName(TargetLanguage.Java), nrr.Item3?.GetTypeName(TargetLanguage.Java))).ToList();
-            this.telemSchemas = telemNameSchemas.Select(tns => tns.Item2.GetTypeName(TargetLanguage.Java)).ToList();
+            this.cmdNameReqResps = cmdEnvoyInfos.Select(cei => (cei.Name.AsGiven, cei.RequestSchema?.GetTypeName(TargetLanguage.Java), cei.ResponseSchema?.GetTypeName(TargetLanguage.Java))).ToList();
+            this.telemSchemas = telemEnvoyInfos.Select(tei => tei.Schema.GetTypeName(TargetLanguage.Java)).ToList();
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;

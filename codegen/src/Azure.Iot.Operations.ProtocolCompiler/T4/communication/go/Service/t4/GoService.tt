@@ -3,7 +3,7 @@
 package <#=this.genNamespace.GetFolderName(TargetLanguage.Go)#>
 
 import (
-<# if ((this.generateServer && this.cmdNameReqResps.Any()) || (this.generateClient && this.separateTelemetries && this.telemNameSchemas.Any())) { #>
+<# if ((this.generateServer && this.cmdEnvoyInfos.Any()) || (this.generateClient && this.separateTelemetries && this.telemEnvoyInfos.Any())) { #>
 	"context"
 
 <# } #>
@@ -11,37 +11,37 @@ import (
 )
 
 <# if (this.generateServer) { #>
-<# if (this.cmdNameReqResps.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any()) { #>
 type <#=this.serviceName.GetTypeName(TargetLanguage.Go, "command", "handlers")#> interface {
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
-	<#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.Go)#>(
+	<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.Go)#>(
 		context.Context,
-		*protocol.CommandRequest[<#=this.AsSchema(cmdNameReqResp.Item2)#>],
-	) (*protocol.CommandResponse[<#=this.AsSchema(cmdNameReqResp.Item3)#>], error)
+		*protocol.CommandRequest[<#=this.AsSchema(cmdEnvoyInfo.RequestSchema)#>],
+	) (*protocol.CommandResponse[<#=this.AsSchema(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>], error)
 <# } #>
 }
 
 <# } #>
 type <#=this.serviceName.GetTypeName(TargetLanguage.Go, "service")#> struct {
 	protocol.Listeners
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-	*<#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.Go, "command", "executor")#>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+	*<#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "command", "executor")#>
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-	*<#=telemNameSchema.Item1.GetTypeName(TargetLanguage.Go, "telemetry", "sender")#>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+	*<#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "telemetry", "sender")#>
 <# } #>
 }
 
 <# } #>
 <# if (this.generateClient) { #>
-<# if (this.separateTelemetries && this.telemNameSchemas.Any()) { #>
+<# if (this.separateTelemetries && this.telemEnvoyInfos.Any()) { #>
 type <#=this.serviceName.GetTypeName(TargetLanguage.Go, "telemetry", "handlers")#> interface {
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
-	<#=telemNameSchema.Item1.GetMethodName(TargetLanguage.Go)#>(
+	<#=telemEnvoyInfo.Name.GetMethodName(TargetLanguage.Go)#>(
 		context.Context,
-		*protocol.TelemetryMessage[<#=this.AsSchema(telemNameSchema.Item2)#>],
+		*protocol.TelemetryMessage[<#=this.AsSchema(telemEnvoyInfo.Schema)#>],
 	) error
 <# } #>
 }
@@ -49,11 +49,11 @@ type <#=this.serviceName.GetTypeName(TargetLanguage.Go, "telemetry", "handlers")
 <# } #>
 type <#=this.serviceName.GetTypeName(TargetLanguage.Go, "client")#> struct {
 	protocol.Listeners
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-	*<#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.Go, "command", "invoker")#>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+	*<#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "command", "invoker")#>
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-	*<#=telemNameSchema.Item1.GetTypeName(TargetLanguage.Go, "telemetry", "receiver")#>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+	*<#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "telemetry", "receiver")#>
 <# } #>
 }
 
@@ -74,7 +74,7 @@ const (
 func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "service", prefix: "new")#>(
 	app *protocol.Application,
 	client protocol.MqttClient,
-<# if (this.cmdNameReqResps.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any()) { #>
 	commandHandlers <#=this.serviceName.GetTypeName(TargetLanguage.Go, "command", "handlers")#>,
 <# } #>
 	opts ...protocol.Option,
@@ -98,36 +98,36 @@ func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "service", prefix: "ne
 <# } #>
 		},
 	}
-<# if (this.cmdNameReqResps.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any()) { #>
 
 	var executorOpts protocol.CommandExecutorOptions
 	executorOpts.ApplyOptions(opts, serverOpts...)
 <# } #>
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemEnvoyInfos.Any()) { #>
 
 	var senderOpts protocol.TelemetrySenderOptions
 	senderOpts.ApplyOptions(opts, serverOpts...)
 <# } #>
 
 	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#> := &<#=this.serviceName.GetTypeName(TargetLanguage.Go, "service")#>{}
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.<#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.Go, "command", "executor")#>, err = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.Go, "command", "executor", prefix: "new")#>(
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.<#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "command", "executor")#>, err = <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.Go, "command", "executor", prefix: "new")#>(
 		app,
 		client,
 		CommandTopic,
-		commandHandlers.<#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.Go)#>,
+		commandHandlers.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.Go)#>,
 		&executorOpts,
 	)
 	if err != nil {
 		<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.Close()
 		return nil, err
 	}
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.Listeners = append(<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.Listeners, <#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.<#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.Go, "command", "executor")#>)
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.Listeners = append(<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.Listeners, <#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.<#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "command", "executor")#>)
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.<#=telemNameSchema.Item1.GetTypeName(TargetLanguage.Go, "telemetry", "sender")#>, err = <#=telemNameSchema.Item1.GetMethodName(TargetLanguage.Go, "telemetry", "sender", prefix: "new")#>(
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "service")#>.<#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "telemetry", "sender")#>, err = <#=telemEnvoyInfo.Name.GetMethodName(TargetLanguage.Go, "telemetry", "sender", prefix: "new")#>(
 		app,
 		client,
 		TelemetryTopic,
@@ -147,11 +147,11 @@ func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "service", prefix: "ne
 func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "client", prefix: "new")#>(
 	app *protocol.Application,
 	client protocol.MqttClient,
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemEnvoyInfos.Any()) { #>
 <# if (this.separateTelemetries) { #>
 	telemetryHandlers <#=this.serviceName.GetTypeName(TargetLanguage.Go, "telemetry", "handlers")#>,
 <# } else { #>
-	telemetryHandler protocol.TelemetryHandler[<#=this.AsSchema(this.telemNameSchemas.First().Item2)#>],
+	telemetryHandler protocol.TelemetryHandler[<#=this.AsSchema(this.telemEnvoyInfos.First().Schema)#>],
 <# } #>
 <# } #>
 	opts ...protocol.Option,
@@ -172,21 +172,21 @@ func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "client", prefix: "new
 <# } #>
 		},
 	}
-<# if (this.cmdNameReqResps.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any()) { #>
 
 	var invokerOpts protocol.CommandInvokerOptions
 	invokerOpts.ApplyOptions(opts, clientOpts...)
 <# } #>
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemEnvoyInfos.Any()) { #>
 
 	var receiverOpts protocol.TelemetryReceiverOptions
 	receiverOpts.ApplyOptions(opts, clientOpts...)
 <# } #>
 
 	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#> := &<#=this.serviceName.GetTypeName(TargetLanguage.Go, "client")#>{}
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.Go, "command", "invoker")#>, err = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.Go, "command", "invoker", prefix: "new")#>(
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "command", "invoker")#>, err = <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.Go, "command", "invoker", prefix: "new")#>(
 		app,
 		client,
 		CommandTopic,
@@ -196,16 +196,16 @@ func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "client", prefix: "new
 		<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Close()
 		return nil, err
 	}
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners = append(<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners, <#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.Go, "command", "invoker")#>)
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners = append(<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners, <#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "command", "invoker")#>)
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=telemNameSchema.Item1.GetTypeName(TargetLanguage.Go, "telemetry", "receiver")#>, err = <#=telemNameSchema.Item1.GetMethodName(TargetLanguage.Go, "telemetry", "receiver", prefix: "new")#>(
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "telemetry", "receiver")#>, err = <#=telemEnvoyInfo.Name.GetMethodName(TargetLanguage.Go, "telemetry", "receiver", prefix: "new")#>(
 		app,
 		client,
 		TelemetryTopic,
 <# if (this.separateTelemetries) { #>
-		telemetryHandlers.<#=telemNameSchema.Item1.GetMethodName(TargetLanguage.Go)#>,
+		telemetryHandlers.<#=telemEnvoyInfo.Name.GetMethodName(TargetLanguage.Go)#>,
 <# } else { #>
 		telemetryHandler,
 <# } #>
@@ -215,7 +215,7 @@ func <#=this.serviceName.GetMethodName(TargetLanguage.Go, "client", prefix: "new
 		<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Close()
 		return nil, err
 	}
-	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners = append(<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners, <#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=telemNameSchema.Item1.GetTypeName(TargetLanguage.Go, "telemetry", "receiver")#>)
+	<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners = append(<#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.Listeners, <#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>.<#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.Go, "telemetry", "receiver")#>)
 <# } #>
 
 	return <#=this.serviceName.GetVariableName(TargetLanguage.Go, "client")#>, nil

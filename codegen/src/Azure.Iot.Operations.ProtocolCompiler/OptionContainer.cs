@@ -28,9 +28,6 @@
         /// <summary>Gets or sets a DTMI prefix for shared schemas.</summary>
         public string? SharedPrefix { get; set; }
 
-        /// <summary>Gets or sets an indication of whether to generate synchronous API.</summary>
-        public bool Sync { get; set; }
-
         /// <summary>Gets or sets a local path or feed URL for Azure.Iot.Operations.Protocol SDK.</summary>
         public string? SdkPath { get; set; }
 

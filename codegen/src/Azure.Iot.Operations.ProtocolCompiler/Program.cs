@@ -52,10 +52,6 @@ internal class Program
             description: "DTMI prefix of shared schemas")
             { ArgumentHelpName = "IDPREFIX" };
 
-        var syncOption = new Option<bool>(
-            name: "--sync",
-            description: "Generate synchronous API");
-
         var sdkPathOption = new Option<string?>(
             name: "--sdkPath",
             description: "Local path or feed URL for Azure.Iot.Operations.Protocol SDK")
@@ -94,7 +90,6 @@ internal class Program
             namespaceOption,
 #if DEBUG
             sharedOption,
-            syncOption,
             sdkPathOption,
 #endif
             langOption,
@@ -113,7 +108,6 @@ internal class Program
             namespaceOption,
 #if DEBUG
             sharedOption,
-            syncOption,
             sdkPathOption,
 #endif
             langOption,

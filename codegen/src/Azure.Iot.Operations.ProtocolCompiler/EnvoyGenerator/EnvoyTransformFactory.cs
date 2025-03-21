@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             { PayloadFormat.Custom, new SerializerValues("custom", "ExternalSerializer", EmptyTypeName.CustomInstance) },
         };
 
-        public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool syncApi, bool generateClient, bool generateServer, bool defaultImpl, string genRoot, CodeName? sharedPrefix, bool generateProject)
+        public static IEnumerable<ITemplateTransform> GetTransforms(string language, string projectName, JsonDocument annexDocument, string? workingPath, string? sdkPath, bool generateClient, bool generateServer, bool defaultImpl, string genRoot, CodeName? sharedPrefix, bool generateProject)
         {
             string modelId = annexDocument.RootElement.GetProperty(AnnexFileProperties.ModelId).GetString()!;
             CodeName genNamespace = new CodeName(annexDocument.RootElement.GetProperty(AnnexFileProperties.Namespace).GetString()!);
@@ -37,10 +37,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? version = modelId.IndexOf(";") > 0 ? modelId.Substring(modelId.IndexOf(";") + 1) : null;
             string? normalizedVersionSuffix = version?.Replace(".", "_");
 
-            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps = new();
-            List<(CodeName, ITypeName)> telemNameSchemas = new();
-
-            List<CodeName> schemaTypes = new();
+            List<CommandEnvoyInfo> cmdEnvoyInfos = new();
+            List<TelemetryEnvoyInfo> telemEnvoyInfos = new();
 
             if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemetryList, out JsonElement telemsElt) && telemsElt.GetArrayLength() > 0)
             {
@@ -51,7 +49,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement telemEl in telemsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemNameSchemas, workingPath, schemaTypes, generateClient, generateServer, useSharedSubscription: telemServiceGroupId != null))
+                    foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemEnvoyInfos, workingPath, generateClient, generateServer, useSharedSubscription: telemServiceGroupId != null))
                     {
                         yield return templateTransform;
                     }
@@ -67,14 +65,25 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement cmdEl in cmdsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, cmdEl, cmdNameReqResps, normalizedVersionSuffix, workingPath, schemaTypes, generateClient, generateServer, useSharedSubscription: cmdServiceGroupId != null))
+                    foreach (ITemplateTransform templateTransform in GetCommandTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, cmdEl, cmdEnvoyInfos, normalizedVersionSuffix, workingPath, generateClient, generateServer, useSharedSubscription: cmdServiceGroupId != null))
                     {
                         yield return templateTransform;
                     }
                 }
             }
 
-            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, sharedNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, sharedPrefix, genRoot, syncApi, generateClient, generateServer, defaultImpl, separateTelemetries))
+            if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.ErrorList, out JsonElement errsElt) && errsElt.GetArrayLength() > 0)
+            {
+                foreach (JsonElement errEl in errsElt.EnumerateArray())
+                {
+                    foreach (ITemplateTransform templateTranform in GetErrorTransforms(language, projectName, genNamespace, errEl))
+                    {
+                        yield return templateTranform;
+                    }
+                }
+            }
+
+            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, sharedNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, sharedPrefix, genRoot, generateClient, generateServer, defaultImpl, separateTelemetries))
             {
                 yield return templateTransform;
             }
@@ -84,13 +93,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 yield return templateTransform;
             }
 
-            foreach (ITemplateTransform templateTransform in GetProjectTransforms(language, projectName, genNamespace, genFormat, sdkPath, schemaTypes, sharedPrefix, generateProject))
+            foreach (ITemplateTransform templateTransform in GetProjectTransforms(language, projectName, genNamespace, genFormat, sdkPath, sharedPrefix, generateProject))
             {
                 yield return templateTransform;
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, JsonElement telemElt, List<(CodeName, ITypeName)> telemNameSchemas, string? workingPath, List<CodeName> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
+        private static IEnumerable<ITemplateTransform> GetTelemetryTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, JsonElement telemElt, List<TelemetryEnvoyInfo> telemEnvoyInfos, string? workingPath, bool generateClient, bool generateServer, bool useSharedSubscription)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
@@ -173,7 +182,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                     if (schemaType is CodeName rustSchema)
                     {
-                        schemaTypes.Add(rustSchema);
                         yield return new RustSerialization(genNamespace, genFormat, rustSchema, workingPath);
                     }
 
@@ -184,10 +192,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            telemNameSchemas.Add((telemetryName, schemaType));
+            telemEnvoyInfos.Add(new TelemetryEnvoyInfo(telemetryName, schemaType));
         }
 
-        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps, string? normalizedVersionSuffix, string? workingPath, List<CodeName> schemaTypes, bool generateClient, bool generateServer, bool useSharedSubscription)
+        private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<CommandEnvoyInfo> cmdEnvoyInfos, string? normalizedVersionSuffix, string? workingPath, bool generateClient, bool generateServer, bool useSharedSubscription)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
@@ -213,6 +221,15 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 _ => new CodeName(respSchemaRep),
             };
             CodeName? respSchemaNamespace = cmdElt.TryGetProperty(AnnexFileProperties.CmdResponseNamespace, out JsonElement respNamespaceElt) ? new(respNamespaceElt.GetString()!) : null;
+
+            CodeName? normalResultName = cmdElt.TryGetProperty(AnnexFileProperties.NormalResultName, out JsonElement normalNameElt) ? new(normalNameElt.GetString()!) : null;
+            CodeName? normalResultSchema = cmdElt.TryGetProperty(AnnexFileProperties.NormalResultSchema, out JsonElement normalSchemaElt) ? new(normalSchemaElt.GetString()!) : null;
+            CodeName? normalResultNamespace = cmdElt.TryGetProperty(AnnexFileProperties.NormalResultNamespace, out JsonElement normalNamespaceElt) ? new(normalNamespaceElt.GetString()!) : null;
+            CodeName? errorResultName = cmdElt.TryGetProperty(AnnexFileProperties.ErrorResultName, out JsonElement errorNameElt) ? new(errorNameElt.GetString()!) : null;
+            CodeName? errorResultSchema = cmdElt.TryGetProperty(AnnexFileProperties.ErrorResultSchema, out JsonElement errorSchemaElt) ? new(errorSchemaElt.GetString()!) : null;
+            CodeName? errorResultNamespace = cmdElt.TryGetProperty(AnnexFileProperties.ErrorResultNamespace, out JsonElement errorNamespaceElt) ? new(errorNamespaceElt.GetString()!) : null;
+            bool isRequestNullable = cmdElt.TryGetProperty(AnnexFileProperties.RequestIsNullable, out JsonElement reqNullableElt) ? reqNullableElt.GetBoolean() : false;
+            bool isResponseNullable = cmdElt.TryGetProperty(AnnexFileProperties.ResponseIsNullable, out JsonElement respNullableElt) ? respNullableElt.GetBoolean() : false;
 
             bool isIdempotent = cmdElt.GetProperty(AnnexFileProperties.CmdIsIdempotent).GetBoolean();
             string? cacheability = cmdElt.GetProperty(AnnexFileProperties.Cacheability).GetString();
@@ -247,12 +264,12 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case "go":
                     if (generateClient)
                     {
-                        yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaType, respSchemaType, doesCommandTargetExecutor);
+                        yield return new GoCommandInvoker(commandName, genNamespace, serializerSubNamespace, reqSchemaType, respSchemaType, normalResultName, normalResultSchema, errorResultName, errorResultSchema, isResponseNullable, doesCommandTargetExecutor);
                     }
 
                     if (generateServer)
                     {
-                        yield return new GoCommandExecutor(commandName, genNamespace, serializerSubNamespace, reqSchemaType, respSchemaType, isIdempotent, cacheability);
+                        yield return new GoCommandExecutor(commandName, genNamespace, serializerSubNamespace, reqSchemaType, respSchemaType, normalResultName, normalResultSchema, errorResultName, errorResultSchema, isResponseNullable, isIdempotent, cacheability);
                     }
 
                     break;
@@ -283,24 +300,27 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case "rust":
                     if (generateClient)
                     {
-                        yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, doesCommandTargetExecutor);
+                        yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, normalResultName, normalResultSchema, normalResultNamespace, errorResultName, errorResultSchema, errorResultNamespace, isResponseNullable, doesCommandTargetExecutor);
                     }
 
                     if (generateServer)
                     {
-                        yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, isIdempotent, cacheability, useSharedSubscription);
+                        yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, normalResultName, normalResultSchema, normalResultNamespace, errorResultName, errorResultSchema, errorResultNamespace, isResponseNullable, isIdempotent, cacheability, useSharedSubscription);
                     }
 
                     if (reqSchemaType is CodeName rustReqSchema)
                     {
-                        schemaTypes.Add(rustReqSchema);
                         yield return new RustSerialization(reqSchemaNamespace ?? genNamespace, genFormat, rustReqSchema, workingPath);
                     }
 
                     if (respSchemaType is CodeName rustRespSchema)
                     {
-                        schemaTypes.Add(rustRespSchema);
                         yield return new RustSerialization(respSchemaNamespace ?? genNamespace, genFormat, rustRespSchema, workingPath);
+                    }
+
+                    if (normalResultSchema != null)
+                    {
+                        yield return new RustSerialization(respSchemaNamespace ?? genNamespace, genFormat, normalResultSchema, workingPath);
                     }
 
                     break;
@@ -320,10 +340,40 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            cmdNameReqResps.Add((commandName, reqSchemaType, respSchemaType));
+            cmdEnvoyInfos.Add(new CommandEnvoyInfo(commandName, reqSchemaType, respSchemaType, normalResultName, normalResultSchema, errorResultName, errorResultSchema, isRequestNullable, isResponseNullable));
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, CodeName genNamespace, CodeName? sharedNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps, List<(CodeName, ITypeName)> telemNameSchemas, CodeName? sharedPrefix, string genRoot, bool syncApi, bool generateClient, bool generateServer, bool defaultImpl, bool separateTelemetries)
+        private static IEnumerable<ITemplateTransform> GetErrorTransforms(string language, string projectName, CodeName genNamespace, JsonElement errElt)
+        {
+            CodeName schemaName = new CodeName(errElt.GetProperty(AnnexFileProperties.ErrorSchema).GetString()!);
+            CodeName schemaNamespace = errElt.TryGetProperty(AnnexFileProperties.ErrorNamespace, out JsonElement namespaceElt) ? new CodeName(namespaceElt.GetString()!) : genNamespace;
+            string description = errElt.TryGetProperty(AnnexFileProperties.ErrorDescription, out JsonElement descriptionElt) ? descriptionElt.GetString() ?? schemaName.AsGiven : schemaName.AsGiven;
+            CodeName? messageField = errElt.TryGetProperty(AnnexFileProperties.ErrorMessageField, out JsonElement msgFieldElt) ? new CodeName(msgFieldElt.GetString()!) : null;
+            bool isNullable = errElt.TryGetProperty(AnnexFileProperties.ErrorMessageIsNullable, out JsonElement nullableElt) ? nullableElt.GetBoolean() : false;
+
+            switch (language)
+            {
+                case "csharp":
+                    yield return new DotNetError(projectName, schemaName, schemaNamespace, description, messageField, isNullable);
+                    break;
+                case "go":
+                    yield return new GoError(schemaName, schemaNamespace, description, messageField, isNullable);
+                    break;
+                case "java":
+                    break;
+                case "python":
+                    break;
+                case "rust":
+                    yield return new RustError(schemaName, schemaNamespace, description, messageField, isNullable);
+                    break;
+                case "c":
+                    break;
+                default:
+                    throw GetLanguageNotRecognizedException(language);
+            }
+        }
+
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, CodeName genNamespace, CodeName? sharedNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<CommandEnvoyInfo> cmdEnvoyInfos, List<TelemetryEnvoyInfo> telemEnvoyInfos, CodeName? sharedPrefix, string genRoot, bool generateClient, bool generateServer, bool defaultImpl, bool separateTelemetries)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
@@ -334,16 +384,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, sharedNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, syncApi, generateClient, generateServer, defaultImpl);
+                    yield return new DotNetService(projectName, genNamespace, sharedNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, generateClient, generateServer, defaultImpl);
                     break;
                 case "go":
-                    yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetService, doesTelemetryTargetService, syncApi, generateClient, generateServer, separateTelemetries);
+                    yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetService, doesTelemetryTargetService, generateClient, generateServer, separateTelemetries);
                     break;
                 case "java":
-                    yield return new JavaService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new JavaService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "python":
-                    yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdNameReqResps, telemNameSchemas, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
+                    yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "rust":
                     yield return new RustService(genNamespace, modelId, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, generateClient, generateServer, genRoot);
@@ -359,7 +409,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? sdkPath, List<CodeName> schemaTypes, CodeName? sharedPrefix, bool generateProject)
+        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? sdkPath, CodeName? sharedPrefix, bool generateProject)
         {
             switch (language)
             {

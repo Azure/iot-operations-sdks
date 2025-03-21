@@ -16,18 +16,14 @@ use iso8601_duration;
 <# } #>
 
 <# if (this.reqSchema is CodeName) { #>
-<# if (this.reqNamespace == null) { #>
-use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
-<# } else { #>
-use super::super::<#=this.reqNamespace.GetFolderName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
-<# } #>
+use super::<#=this.NamespaceRef(this.reqNamespace)#><#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 <# if (this.respSchema is CodeName) { #>
-<# if (this.respNamespace == null) { #>
-use super::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
-<# } else { #>
-use super::super::<#=this.respNamespace.GetFolderName(TargetLanguage.Rust)#>::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
+use super::<#=this.NamespaceRef(this.respNamespace)#><#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
+<# if (this.errorResultName != null) { #>
+use super::<#=this.NamespaceRef(this.normalResultNamespace)#><#=this.normalResultSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#>;
+use super::<#=this.NamespaceRef(this.errorResultNamespace)#><#=this.errorResultSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 <# if (this.useSharedSubscription) { #>
 use super::COMMAND_SERVICE_GROUP_ID;
@@ -67,9 +63,26 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: <#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>,
+        payload: <#=(this.normalResultSchema ?? this.respSchema).GetTypeName(TargetLanguage.Rust)#>,
     ) -> Result<&mut Self, AIOProtocolError> {
+<# if (this.errorResultName != null) { #>
+        self.inner_builder.payload(<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#> {
+            <#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>: <#=this.CondSome($"payload.{this.normalResultName.GetFieldName(TargetLanguage.Rust)}", !this.isRespNullable)#>,
+            <#=this.errorResultName.GetFieldName(TargetLanguage.Rust)#>: None,
+        })?;
+<# } else { #>
         self.inner_builder.payload(payload)?;
+<# } #>
+        Ok(self)
+    }
+
+<# } #>
+<# if (this.errorResultName != null) { #>
+    pub fn error(&mut self, error: <#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>) -> Result<&mut Self, AIOProtocolError> {
+        self.inner_builder.payload(<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#> {
+            <#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>: None,
+            <#=this.errorResultName.GetFieldName(TargetLanguage.Rust)#>: Some(error),
+        })?;
         Ok(self)
     }
 
@@ -169,4 +182,8 @@ where
     private string RequestType() => this.reqSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
     private string ResponseType() => this.respSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
+
+    private string NamespaceRef(CodeName schemaNamespace) => schemaNamespace != null ? $"super::{schemaNamespace.GetFolderName(TargetLanguage.Rust)}::" : "";
+
+    private string CondSome(string expr, bool doWrap) => doWrap ? $"Some({expr})" : expr;
 #>

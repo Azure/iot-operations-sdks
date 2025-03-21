@@ -6,6 +6,9 @@ import (
 	"context"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+<# if (this.errorResultName != null && !this.isRespNullable) { #>
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+<# } #>
 )
 
 type <#=this.commandName.GetTypeName(TargetLanguage.Go, "command", "invoker")#> struct {
@@ -25,7 +28,7 @@ func <#=this.commandName.GetMethodName(TargetLanguage.Go, "command", "invoker", 
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"commandName":     "<#=this.commandName.AsGiven#>",
+			"commandName": "<#=this.commandName.AsGiven#>",
 		},
 	)
 
@@ -51,7 +54,7 @@ func (invoker <#=this.commandName.GetTypeName(TargetLanguage.Go, "command", "inv
 <# } #>
 	opt ...protocol.InvokeOption,
 <# if (this.respSchema != null) { #>
-) (*protocol.CommandResponse[<#=this.AsSchema(this.respSchema)#>], error) {
+) (*protocol.CommandResponse[<#=this.AsSchema(this.normalResultSchema ?? this.respSchema)#>], error) {
 <# } else { #>
 ) error {
 <# } #>
@@ -73,7 +76,42 @@ func (invoker <#=this.commandName.GetTypeName(TargetLanguage.Go, "command", "inv
 		&invokeOpts,
 	)
 
+<# if (this.errorResultName != null) { #>
+	if err != nil {
+		return nil, err
+	}
+
+	if response.Payload.<#=this.errorResultName.GetFieldName(TargetLanguage.Go)#> != nil {
+		return nil, response.Payload.<#=this.errorResultName.GetFieldName(TargetLanguage.Go)#>
+	}
+
+<# if (!this.isRespNullable) { #>
+	if response.Payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Go)#> == nil {
+		return nil, &errors.Client{
+			Message: "Command response has neither normal nor error payload content",
+			Kind:    errors.PayloadInvalid{},
+			Shallow: false,
+		}
+	}
+
+<# } #>
+	mappedResponse := protocol.CommandResponse[<#=this.normalResultSchema.GetTypeName(TargetLanguage.Go)#>]{
+		protocol.Message[<#=this.normalResultSchema.GetTypeName(TargetLanguage.Go)#>]{
+			Payload: <#=this.normalResultSchema.GetTypeName(TargetLanguage.Go)#>{
+				<#=this.normalResultName.GetFieldName(TargetLanguage.Go)#>: <#=this.isRespNullable ? "" : "*"#>response.Payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Go)#>,
+			},
+			ClientID:        response.ClientID,
+			CorrelationData: response.CorrelationData,
+			Timestamp:       response.Timestamp,
+			TopicTokens:     response.TopicTokens,
+			Metadata:        response.Metadata,
+		},
+	}
+
+	return &mappedResponse, nil
+<# } else { #>
 	return <#=this.respSchema != null ? "response, " : ""#>err
+<# } #>
 }
 <#+
     private string AsSchema(ITypeName schema) => schema == null ? "any" : schema.GetTypeName(TargetLanguage.Go);
