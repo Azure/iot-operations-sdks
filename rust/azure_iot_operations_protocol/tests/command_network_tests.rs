@@ -118,7 +118,7 @@ impl PayloadSerialize for EmptyPayload {
     }
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
@@ -229,7 +229,7 @@ impl PayloadSerialize for DataRequestPayload {
     }
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataRequestPayload, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -293,7 +293,7 @@ impl PayloadSerialize for DataResponsePayload {
     }
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataResponsePayload, DeserializationError<String>> {
         if let Some(content_type) = content_type {

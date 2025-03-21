@@ -207,7 +207,7 @@ impl PayloadSerialize for IncrRequestPayload {
     }
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<IncrRequestPayload, DeserializationError<IncrSerializerError>> {
         Ok(IncrRequestPayload {})
@@ -228,7 +228,7 @@ impl PayloadSerialize for IncrResponsePayload {
 
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
         // This is a response payload, executor does not need to deserialize it

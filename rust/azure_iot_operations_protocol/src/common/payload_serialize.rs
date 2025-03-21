@@ -95,7 +95,7 @@ pub trait PayloadSerialize: Clone {
     /// Returns a [`DeserializationError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>>;
 }
@@ -129,10 +129,14 @@ impl PayloadSerialize for BypassPayload {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        //content_type: &Option<String>,
+        content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        let ct: String = content_type.clone().unwrap_or_default();
+        let ct = match content_type {
+            Some(ct) => ct.clone(),
+            None => String::default(),
+        };
         Ok(BypassPayload {
             content_type: ct,
             format_indicator: format_indicator.clone(),
@@ -154,7 +158,7 @@ impl PayloadSerialize for Vec<u8> {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -179,7 +183,7 @@ mock! {
     impl PayloadSerialize for Payload {
         type Error = String;
         fn serialize(self) -> Result<SerializedPayload, String>;
-        fn deserialize(payload: &[u8], content_type: &Option<String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
+        fn deserialize(payload: &[u8], content_type: Option<&String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
     }
 }
 #[cfg(test)]

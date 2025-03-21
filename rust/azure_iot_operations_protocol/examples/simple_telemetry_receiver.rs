@@ -126,7 +126,7 @@ impl PayloadSerialize for SampleTelemetry {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<SampleTelemetry, DeserializationError<String>> {
         if let Some(content_type) = content_type {

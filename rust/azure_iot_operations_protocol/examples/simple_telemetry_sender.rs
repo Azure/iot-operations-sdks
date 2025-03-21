@@ -119,7 +119,7 @@ impl PayloadSerialize for SampleTelemetry {
 
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<SampleTelemetry, DeserializationError<String>> {
         // Not used in this example

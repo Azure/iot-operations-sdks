@@ -86,7 +86,7 @@ impl PayloadSerialize for Request {
 
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         Err(DeserializationError::InvalidPayload(
@@ -273,7 +273,7 @@ impl PayloadSerialize for Response {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -335,7 +335,7 @@ impl PayloadSerialize for Operation {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -475,7 +475,7 @@ mod tests {
         assert_eq!(
             Response::deserialize(
                 payload,
-                &Some("application/octet-stream".to_string()),
+                Some(&"application/octet-stream".to_string()),
                 &FormatIndicator::UnspecifiedBytes
             )
             .unwrap(),
@@ -486,7 +486,7 @@ mod tests {
     #[test]
     fn test_response_deserialization_no_content_type_success() {
         assert_eq!(
-            Response::deserialize(b"+OK\r\n", &None, &FormatIndicator::UnspecifiedBytes).unwrap(),
+            Response::deserialize(b"+OK\r\n", None, &FormatIndicator::UnspecifiedBytes).unwrap(),
             Response::Ok
         );
     }
@@ -513,7 +513,7 @@ mod tests {
         assert!(
             Response::deserialize(
                 payload,
-                &Some("application/octet-stream".to_string()),
+                Some(&"application/octet-stream".to_string()),
                 &FormatIndicator::UnspecifiedBytes
             )
             .is_err()
@@ -525,7 +525,7 @@ mod tests {
         assert!(
             Response::deserialize(
                 b"+OK\r\n",
-                &Some("application/json".to_string()),
+                Some(&"application/json".to_string()),
                 &FormatIndicator::UnspecifiedBytes
             )
             .is_err()

@@ -884,7 +884,7 @@ where
                         };
                         let payload = match TReq::deserialize(
                             &m.payload,
-                            &properties.content_type,
+                            properties.content_type.as_ref(),
                             &format_indicator,
                         ) {
                             Ok(payload) => payload,

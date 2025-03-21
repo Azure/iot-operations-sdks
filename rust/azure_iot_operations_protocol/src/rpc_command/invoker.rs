@@ -1112,7 +1112,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
     };
     let deserialized_response_payload = match TResp::deserialize(
         response_payload,
-        &response_properties.content_type,
+        response_properties.content_type.as_ref(),
         &format_indicator,
     ) {
         Ok(payload) => payload,

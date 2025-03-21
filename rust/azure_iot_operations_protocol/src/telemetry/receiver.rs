@@ -605,7 +605,7 @@ where
 
                         // Deserialize payload
                         let payload =
-                            match T::deserialize(&m.payload, &content_type, &format_indicator) {
+                            match T::deserialize(&m.payload, content_type.as_ref(), &format_indicator) {
                                 Ok(p) => p,
                                 Err(e) => {
                                     log::error!(
