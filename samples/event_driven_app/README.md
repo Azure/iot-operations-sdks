@@ -83,7 +83,7 @@ Build the application within your development environment following the instruct
 
 ## Deploy the application
 
-The application will be deployed to the cluster by building a container and applying the `app.yml`:
+The application will be deployed to the cluster by building a container and applying the `app.yaml`:
 
 1. Build the application container and import to your cluster:
 
@@ -123,7 +123,7 @@ The application will be deployed to the cluster by building a container and appl
     <summary>.NET</summary>
 
     ```bash
-    kubectl apply -f dotnet/samples/applications/EventDrivenApp/app.yml
+    kubectl apply -f dotnet/samples/applications/EventDrivenApp/app.yaml
     ```
     </details>
 
@@ -131,7 +131,7 @@ The application will be deployed to the cluster by building a container and appl
     <summary>Rust</summary>
 
     ```bash
-    kubectl apply -f rust/sample_applications/event_driven_app/app.yml
+    kubectl apply -f rust/sample_applications/event_driven_app/app.yaml
     ```
     </details>
 
@@ -139,7 +139,7 @@ The application will be deployed to the cluster by building a container and appl
     <summary>Go</summary>
 
     ```bash
-    kubectl apply -f go/samples/application/eventdrivenapp/app.yml
+    kubectl apply -f go/samples/application/eventdrivenapp/app.yaml
     ```
     </details>
 
@@ -162,7 +162,7 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
 1. Deploy the simulator to the cluster:
 
     ```bash
-    kubectl apply -f samples/EventDrivenApp/simulator.yml
+    kubectl apply -f samples/EventDrivenApp/simulator.yaml
     ```
 
 1. Confirm the simulator is running correctly by observing the published messages:
