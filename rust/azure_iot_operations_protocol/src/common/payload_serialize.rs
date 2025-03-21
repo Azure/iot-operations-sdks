@@ -175,6 +175,7 @@ impl PayloadSerialize for Vec<u8> {
 use mockall::mock;
 #[cfg(test)]
 mock! {
+    #[allow(clippy::ref_option_ref)]    // NOTE: This may not be required if mockall gets updated for 2024 edition
     pub Payload{}
     impl Clone for Payload {
         fn clone(&self) -> Self;
