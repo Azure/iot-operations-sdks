@@ -123,15 +123,12 @@ func calculateStats(valueSelector func(SensorData) float64, data SensorDataHisto
 		sum += v
 	}
 
-	sortedValues := make([]float64, len(values))
-	copy(sortedValues, values)
-	sort.Float64s(sortedValues)
-
+	sort.Float64s(values)
 	var median float64
-	if len(sortedValues)%2 == 0 {
-		median = (sortedValues[len(sortedValues)/2-1] + sortedValues[len(sortedValues)/2]) / 2
+	if len(values)%2 == 0 {
+		median = (values[len(values)/2-1] + values[len(values)/2]) / 2
 	} else {
-		median = sortedValues[len(sortedValues)/2]
+		median = values[len(values)/2]
 	}
 
 	return WindowStats{
