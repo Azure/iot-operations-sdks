@@ -5,10 +5,10 @@ use std::time::{Duration, Instant};
 
 use env_logger::Builder;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionConnectionMonitor, SessionExitHandle, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";

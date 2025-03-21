@@ -8,7 +8,7 @@ use std::{fmt, fs, time::Duration};
 use async_trait::async_trait;
 use bytes::Bytes;
 use openssl::{pkey::PKey, x509::X509};
-use rumqttc::{self, tokio_native_tls::native_tls, TlsConfiguration, Transport};
+use rumqttc::{self, TlsConfiguration, Transport, tokio_native_tls::native_tls};
 use thiserror::Error;
 
 use crate::connection_settings::MqttConnectionSettings;
@@ -548,7 +548,7 @@ fn tls_config(
     )))
 }
 
-/// -------------------------------------------
+// -------------------------------------------
 
 #[cfg(test)]
 mod tests {

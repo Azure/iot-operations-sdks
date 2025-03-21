@@ -6,10 +6,10 @@ use std::{sync::Arc, time::Duration};
 use env_logger::Builder;
 use tokio::sync::Notify;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{
     self, AcquireAndUpdateKeyOption, SetCondition, SetOptions,
@@ -123,7 +123,7 @@ fn create_clients(
 /// In the functions below we show different calls that an application could make
 /// into the `leased_lock::Client`. Not necessarily an application would need to
 /// make all these calls, but they do show all that can be done with this client.
-
+///
 /// In `leased_lock_client_1_operations` you will find the following examples:
 /// 1. Acquire a lock using `acquire_lock()`
 /// 2. Sets a key in the State Store using the `fencing_token` obtained from the lock.
@@ -243,7 +243,9 @@ async fn leased_lock_client_2_operations(
         loop {
             let Some((notification, _)) = observe_response.response.recv_notification().await
             else {
-                log::warn!("Received None for lock notification. Client probably disconnected. observe_lock() must be called again.");
+                log::warn!(
+                    "Received None for lock notification. Client probably disconnected. observe_lock() must be called again."
+                );
                 break;
             };
 

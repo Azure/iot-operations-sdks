@@ -86,7 +86,7 @@ impl PayloadSerialize for Request {
 
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         Err(DeserializationError::InvalidPayload(
@@ -273,7 +273,7 @@ impl PayloadSerialize for Response {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -335,7 +335,7 @@ impl PayloadSerialize for Operation {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -426,7 +426,7 @@ fn parse_value(payload: &[u8], prefix: &[u8]) -> Result<Vec<u8>, String> {
         // get length of value
         let (value_len, mut current_index) = get_numeric(stripped_payload)?;
         current_index += 1; // '\r' that triggered get_numeric to return
-                            // '\n' should be next
+        // '\n' should be next
         if current_index == stripped_payload.len() || stripped_payload[current_index] != b'\n' {
             return Err(format!("Invalid format: {payload:?}"));
         }
@@ -475,7 +475,7 @@ mod tests {
         assert_eq!(
             Response::deserialize(
                 payload,
-                &Some("application/octet-stream".to_string()),
+                Some(&"application/octet-stream".to_string()),
                 &FormatIndicator::UnspecifiedBytes
             )
             .unwrap(),
@@ -486,7 +486,7 @@ mod tests {
     #[test]
     fn test_response_deserialization_no_content_type_success() {
         assert_eq!(
-            Response::deserialize(b"+OK\r\n", &None, &FormatIndicator::UnspecifiedBytes).unwrap(),
+            Response::deserialize(b"+OK\r\n", None, &FormatIndicator::UnspecifiedBytes).unwrap(),
             Response::Ok
         );
     }
@@ -510,22 +510,26 @@ mod tests {
     #[test_case(b"+OK"; "OK response doesn't end with newline")]
 
     fn test_response_deserialization_failures(payload: &[u8]) {
-        assert!(Response::deserialize(
-            payload,
-            &Some("application/octet-stream".to_string()),
-            &FormatIndicator::UnspecifiedBytes
-        )
-        .is_err());
+        assert!(
+            Response::deserialize(
+                payload,
+                Some(&"application/octet-stream".to_string()),
+                &FormatIndicator::UnspecifiedBytes
+            )
+            .is_err()
+        );
     }
 
     #[test]
     fn test_response_deserialization_content_type_failure() {
-        assert!(Response::deserialize(
-            b"+OK\r\n",
-            &Some("application/json".to_string()),
-            &FormatIndicator::UnspecifiedBytes
-        )
-        .is_err());
+        assert!(
+            Response::deserialize(
+                b"+OK\r\n",
+                Some(&"application/json".to_string()),
+                &FormatIndicator::UnspecifiedBytes
+            )
+            .is_err()
+        );
     }
 
     // --------------- Internal Fns tests ---------------------

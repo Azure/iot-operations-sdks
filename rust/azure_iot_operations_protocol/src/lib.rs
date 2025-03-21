@@ -94,8 +94,8 @@ struct ReadmeDoctests;
 #[cfg(test)]
 mod tests {
     use crate::{
-        parse_supported_protocol_major_versions, supported_protocol_major_versions_to_string,
-        ProtocolVersion,
+        ProtocolVersion, parse_supported_protocol_major_versions,
+        supported_protocol_major_versions_to_string,
     };
     use test_case::test_case;
 

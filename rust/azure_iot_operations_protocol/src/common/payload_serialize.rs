@@ -59,7 +59,7 @@ pub struct SerializedPayload {
 ///     })
 ///   }
 ///   fn deserialize(payload: &[u8],
-///     content_type: &Option<String>,
+///     content_type: Option<&String>,
 ///     _format_indicator: &FormatIndicator,
 ///   ) -> Result<Self, DeserializationError<String>> {
 ///     if let Some(content_type) = content_type {
@@ -94,7 +94,7 @@ pub trait PayloadSerialize: Clone {
     /// Returns a [`DeserializationError::UnsupportedContentType`] if the content type isn't supported by this deserialization implementation.
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>>;
 }
@@ -128,10 +128,13 @@ impl PayloadSerialize for BypassPayload {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        let ct: String = content_type.clone().unwrap_or_default();
+        let ct = match content_type {
+            Some(ct) => ct.clone(),
+            None => String::default(),
+        };
         Ok(BypassPayload {
             content_type: ct,
             format_indicator: format_indicator.clone(),
@@ -153,7 +156,7 @@ impl PayloadSerialize for Vec<u8> {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -171,6 +174,7 @@ impl PayloadSerialize for Vec<u8> {
 use mockall::mock;
 #[cfg(test)]
 mock! {
+    #[allow(clippy::ref_option_ref)]    // NOTE: This may not be required if mockall gets updated for 2024 edition
     pub Payload{}
     impl Clone for Payload {
         fn clone(&self) -> Self;
@@ -178,13 +182,15 @@ mock! {
     impl PayloadSerialize for Payload {
         type Error = String;
         fn serialize(self) -> Result<SerializedPayload, String>;
-        fn deserialize(payload: &[u8], content_type: &Option<String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
+        #[allow(clippy::ref_option_ref)]    // NOTE: This may not be required if mockall gets updated for 2024 edition
+        fn deserialize<'a>(payload: &[u8], content_type: Option<&'a String>, format_indicator: &FormatIndicator) -> Result<Self, DeserializationError<String>>;
     }
 }
 #[cfg(test)]
 use std::sync::Mutex;
 
-// Mutex needed to check mock calls of static method `PayloadSerialize::deserialize`,
+// TODO: Remove this mutex. Find a better way to control test ordering
+/// Mutex needed to check mock calls of static method `PayloadSerialize::deserialize`,
 #[cfg(test)]
 pub static DESERIALIZE_MTX: Mutex<()> = Mutex::new(());
 
