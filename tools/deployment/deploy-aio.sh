@@ -37,7 +37,7 @@ if ! kubectl get Broker default &> /dev/null; then
 fi
 
 # Configure the broker
-kubectl replace -f yaml/broker-listeners.yaml
+kubectl apply -f yaml/broker-listeners.yaml --force
 
 # Create the credentials for auth to the MQTT broker
 $script_dir/update-credentials.sh
