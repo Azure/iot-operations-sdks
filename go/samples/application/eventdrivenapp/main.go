@@ -5,6 +5,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -13,11 +14,18 @@ import (
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/models"
-	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/processing"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/lmittmann/tint"
 )
+
+type Application struct {
+	app             *protocol.Application
+	mqttClient      *mqtt.SessionClient
+	stateStoreClient *statestore.Client[string, []byte]
+	inputReceiver   *protocol.TelemetryReceiver[SensorData]
+	outputSender    *protocol.TelemetrySender[WindowOutput]
+	log             *slog.Logger
+}
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
@@ -27,15 +35,22 @@ func main() {
 		Level: slog.LevelInfo,
 	}))
 
-	app, mqttClient, stateStoreClient := initializeComponents(log)
-	defer stateStoreClient.Close()
+	app, err := NewApplication(log)
+	if err != nil {
+		log.Error("failed to initialize application", "error", err)
+		os.Exit(1)
+	}
+	defer app.Close()
 
-	inputWorker := createInputWorker(ctx, app, mqttClient, stateStoreClient, log)
-	defer inputWorker.Close()
+	if err := app.SetupWorkers(ctx); err != nil {
+		log.Error("failed to setup workers", "error", err)
+		os.Exit(1)
+	}
 
-	createOutputWorker(ctx, app, mqttClient, stateStoreClient, log)
-
-	startServices(ctx, mqttClient, stateStoreClient, inputWorker, log)
+	if err := app.Start(ctx); err != nil {
+		log.Error("failed to start application", "error", err)
+		os.Exit(1)
+	}
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
@@ -45,119 +60,112 @@ func main() {
 	cancel()
 }
 
-func initializeComponents(log *slog.Logger) (*protocol.Application, *mqtt.SessionClient, *statestore.Client[string, string]) {
-	log.Info("initializing application components...")
-
+func NewApplication(log *slog.Logger) (*Application, error) {
 	app, err := protocol.NewApplication(protocol.WithLogger(log))
 	if err != nil {
-		log.Error("failed to create protocol application", "error", err)
-		os.Exit(1)
+		return nil, fmt.Errorf("failed to create protocol application: %w", err)
 	}
 
 	mqttClient, err := mqtt.NewSessionClientFromEnv(mqtt.WithLogger(log))
 	if err != nil {
-		log.Error("failed to create MQTT client", "error", err)
-		os.Exit(1)
+		return nil, fmt.Errorf("failed to create MQTT client: %w", err)
 	}
 
-	stateStoreClient, err := statestore.New[string, string](app, mqttClient, statestore.WithLogger(log))
+	stateStoreClient, err := statestore.New[string, []byte](app, mqttClient, statestore.WithLogger(log))
 	if err != nil {
-		log.Error("failed to create state store client", "error", err)
-		os.Exit(1)
+		return nil, fmt.Errorf("failed to create state store client: %w", err)
 	}
 
-	return app, mqttClient, stateStoreClient
+	return &Application{
+		app:             app,
+		mqttClient:      mqttClient,
+		stateStoreClient: stateStoreClient,
+		log:             log,
+	}, nil
 }
 
-func createInputWorker(ctx context.Context, app *protocol.Application, mqttClient protocol.MqttClient,
-	stateStoreClient *statestore.Client[string, string], log *slog.Logger) *protocol.TelemetryReceiver[models.SensorData] {
-
-	log.Info("creating input telemetry receiver...")
-	inputReceiver, err := protocol.NewTelemetryReceiver(
-		app,
-		mqttClient,
-		protocol.JSON[models.SensorData]{},
-		models.SensorDataTopic,
-		func(ctx context.Context, msg *protocol.TelemetryMessage[models.SensorData]) error {
-			log.Info("received sensor data",
+func (a *Application) SetupWorkers(ctx context.Context) error {
+	var err error
+	
+	// Create input receiver
+	a.inputReceiver, err = protocol.NewTelemetryReceiver(
+		a.app,
+		a.mqttClient,
+		protocol.JSON[SensorData]{},
+		SensorDataTopic,
+		func(ctx context.Context, msg *protocol.TelemetryMessage[SensorData]) error {
+			a.log.Info("received sensor data",
 				"temp", msg.Payload.Temperature,
 				"pressure", msg.Payload.Pressure,
 				"vibration", msg.Payload.Vibration)
-			return processing.HandleSensorData(ctx, stateStoreClient, msg.Payload)
+			return HandleSensorData(ctx, a.stateStoreClient, msg.Payload)
 		},
-		protocol.WithLogger(log),
+		protocol.WithLogger(a.log),
 	)
 	if err != nil {
-		log.Error("failed to create input telemetry receiver", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("failed to create input telemetry receiver: %w", err)
 	}
 
-	return inputReceiver
-}
-
-func createOutputWorker(ctx context.Context, app *protocol.Application, mqttClient protocol.MqttClient,
-	stateStoreClient *statestore.Client[string, string], log *slog.Logger) *protocol.TelemetrySender[models.WindowOutput] {
-
-	log.Info("creating output telemetry sender...")
-	outputSender, err := protocol.NewTelemetrySender(
-		app,
-		mqttClient,
-		protocol.JSON[models.WindowOutput]{},
-		models.SensorWindowTopic,
-		protocol.WithLogger(log),
+	a.outputSender, err = protocol.NewTelemetrySender(
+		a.app,
+		a.mqttClient,
+		protocol.JSON[WindowOutput]{},
+		SensorWindowTopic,
+		protocol.WithLogger(a.log),
 	)
 	if err != nil {
-		log.Error("failed to create output telemetry sender", "error", err)
-		os.Exit(1)
+		return fmt.Errorf("failed to create output telemetry sender: %w", err)
 	}
 
-	go runWindowProcessor(ctx, stateStoreClient, outputSender, log)
-
-	return outputSender
+	go a.runWindowProcessor(ctx)
+	
+	return nil
 }
 
-func runWindowProcessor(ctx context.Context, stateStoreClient *statestore.Client[string, string],
-	outputSender *protocol.TelemetrySender[models.WindowOutput], log *slog.Logger) {
+func (a *Application) Start(ctx context.Context) error {
+	a.log.Info("starting MQTT connection...")
+	if err := a.mqttClient.Start(); err != nil {
+		return fmt.Errorf("failed to start MQTT connection: %w", err)
+	}
 
-	outputTicker := time.NewTicker(models.OutputPublishPeriod * time.Second)
+	a.log.Info("starting state store client...")
+	if err := a.stateStoreClient.Start(ctx); err != nil {
+		return fmt.Errorf("failed to start state store client: %w", err)
+	}
+
+	a.log.Info("starting input receiver...")
+	if err := a.inputReceiver.Start(ctx); err != nil {
+		return fmt.Errorf("failed to start input receiver: %w", err)
+	}
+
+	a.log.Info("application startup complete - listening for sensor data and publishing window statistics")
+	return nil
+}
+
+func (a *Application) Close() {
+	if a.inputReceiver != nil {
+		a.inputReceiver.Close()
+	}
+	if a.stateStoreClient != nil {
+		a.stateStoreClient.Close()
+	}
+}
+
+func (a *Application) runWindowProcessor(ctx context.Context) {
+	outputTicker := time.NewTicker(OutputPublishPeriod * time.Second)
 	defer outputTicker.Stop()
 
 	for {
 		select {
 		case <-outputTicker.C:
-			if err := processing.ProcessPublishWindow(ctx, stateStoreClient, outputSender); err != nil {
-				log.Error("error processing window", "error", err)
+			if err := ProcessPublishWindow(ctx, a.stateStoreClient, a.outputSender); err != nil {
+				a.log.Error("error processing window", "error", err)
 			} else {
-				log.Info("processed and published window statistics")
+				a.log.Info("processed and published window statistics")
 			}
 		case <-ctx.Done():
-			log.Info("window processor shutting down")
+			a.log.Info("window processor shutting down")
 			return
 		}
 	}
-}
-
-func startServices(ctx context.Context, mqttClient *mqtt.SessionClient,
-	stateStoreClient *statestore.Client[string, string],
-	inputReceiver *protocol.TelemetryReceiver[models.SensorData], log *slog.Logger) {
-
-	log.Info("starting MQTT connection...")
-	if err := mqttClient.Start(); err != nil {
-		log.Error("failed to start MQTT connection", "error", err)
-		os.Exit(1)
-	}
-
-	log.Info("starting state store client...")
-	if err := stateStoreClient.Start(ctx); err != nil {
-		log.Error("failed to start state store client", "error", err)
-		os.Exit(1)
-	}
-
-	log.Info("starting input receiver...")
-	if err := inputReceiver.Start(ctx); err != nil {
-		log.Error("failed to start input receiver", "error", err)
-		os.Exit(1)
-	}
-
-	log.Info("application startup complete - listening for sensor data and publishing window statistics")
 }

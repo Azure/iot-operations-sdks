@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package processing
+package main
 
 import (
 	"context"
@@ -10,39 +10,33 @@ import (
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/samples/application/eventdrivenapp/models"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 )
 
-func HandleSensorData(ctx context.Context, stateClient *statestore.Client[string, string], data models.SensorData) error {
-	resp, err := stateClient.Get(ctx, models.StateStoreKey)
-	if err != nil {
-		var history models.SensorDataHistory
+func HandleSensorData(ctx context.Context, stateClient *statestore.Client[string, []byte], data SensorData) error {
+	resp, err := stateClient.Get(ctx, StateStoreKey)
+
+	var history SensorDataHistory
+	if err != nil || resp.Value == nil || len(resp.Value) == 0 {
 		historyJSON, err := json.Marshal(history)
 		if err != nil {
 			return err
 		}
 
-		_, err = stateClient.Set(ctx, models.StateStoreKey, string(historyJSON))
+		_, err = stateClient.Set(ctx, StateStoreKey, historyJSON)
 		if err != nil {
 			return err
 		}
-
-		resp, err = stateClient.Get(ctx, models.StateStoreKey)
-		if err != nil {
-			return err
+	} else {
+		if err := json.Unmarshal(resp.Value, &history); err != nil {
+			history = SensorDataHistory{}
 		}
-	}
-
-	var history models.SensorDataHistory
-	if err := json.Unmarshal([]byte(resp.Value), &history); err != nil {
-		return err
 	}
 
 	history = append(history, data)
 
-	cutoff := time.Now().Add(-models.SlidingWindowSize * time.Second)
-	newHistory := models.SensorDataHistory{}
+	cutoff := time.Now().Add(-SlidingWindowSize * time.Second)
+	newHistory := SensorDataHistory{}
 	for _, item := range history {
 		if !item.Timestamp.Before(cutoff) {
 			newHistory = append(newHistory, item)
@@ -54,17 +48,17 @@ func HandleSensorData(ctx context.Context, stateClient *statestore.Client[string
 		return err
 	}
 
-	_, err = stateClient.Set(ctx, models.StateStoreKey, string(historyJSON))
+	_, err = stateClient.Set(ctx, StateStoreKey, historyJSON)
 	return err
 }
 
-func ProcessPublishWindow(ctx context.Context, stateClient *statestore.Client[string, string], sender *protocol.TelemetrySender[models.WindowOutput]) error {
-	resp, err := stateClient.Get(ctx, models.StateStoreKey)
+func ProcessPublishWindow(ctx context.Context, stateClient *statestore.Client[string, []byte], sender *protocol.TelemetrySender[WindowOutput]) error {
+	resp, err := stateClient.Get(ctx, StateStoreKey)
 	if err != nil {
 		return err
 	}
 
-	var history models.SensorDataHistory
+	var history SensorDataHistory
 	if err := json.Unmarshal([]byte(resp.Value), &history); err != nil {
 		return err
 	}
@@ -74,29 +68,29 @@ func ProcessPublishWindow(ctx context.Context, stateClient *statestore.Client[st
 	}
 
 	now := time.Now()
-	cutoff := now.Add(-models.SlidingWindowSize * time.Second)
-	windowData := models.SensorDataHistory{}
+	cutoff := now.Add(-SlidingWindowSize * time.Second)
+	windowData := SensorDataHistory{}
 	for _, item := range history {
 		if !item.Timestamp.Before(cutoff) {
 			windowData = append(windowData, item)
 		}
 	}
 
-	tempStats := calculateStats(func(data models.SensorData) float64 {
+	tempStats := calculateStats(func(data SensorData) float64 {
 		return data.Temperature
 	}, windowData)
 
-	pressureStats := calculateStats(func(data models.SensorData) float64 {
+	pressureStats := calculateStats(func(data SensorData) float64 {
 		return data.Pressure
 	}, windowData)
 
-	vibrationStats := calculateStats(func(data models.SensorData) float64 {
+	vibrationStats := calculateStats(func(data SensorData) float64 {
 		return data.Vibration
 	}, windowData)
 
-	output := models.WindowOutput{
+	output := WindowOutput{
 		Timestamp:   now,
-		WindowSize:  models.SlidingWindowSize,
+		WindowSize:  SlidingWindowSize,
 		Temperature: tempStats,
 		Pressure:    pressureStats,
 		Vibration:   vibrationStats,
@@ -105,9 +99,9 @@ func ProcessPublishWindow(ctx context.Context, stateClient *statestore.Client[st
 	return sender.Send(ctx, output)
 }
 
-func calculateStats(valueSelector func(models.SensorData) float64, data models.SensorDataHistory) models.WindowStats {
+func calculateStats(valueSelector func(SensorData) float64, data SensorDataHistory) WindowStats {
 	if len(data) == 0 {
-		return models.WindowStats{}
+		return WindowStats{}
 	}
 
 	values := make([]float64, len(data))
@@ -140,7 +134,7 @@ func calculateStats(valueSelector func(models.SensorData) float64, data models.S
 		median = sortedValues[len(sortedValues)/2]
 	}
 
-	return models.WindowStats{
+	return WindowStats{
 		Min:    min,
 		Max:    max,
 		Mean:   sum / float64(len(values)),
