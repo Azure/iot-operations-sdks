@@ -129,7 +129,6 @@ impl PayloadSerialize for BypassPayload {
 
     fn deserialize(
         payload: &[u8],
-        //content_type: &Option<String>,
         content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
