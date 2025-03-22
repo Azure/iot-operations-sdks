@@ -25,7 +25,6 @@ Some languages have built in container support, however all binaries can be cont
 
 This definition uses the [Official .NET SDK image](https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md) to build the application, and then copies the resulting package into the [.NET runtime image](https://hub.docker.com/_/alpine).
 
-
 ```dockerfile
 # Build application
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
@@ -71,7 +70,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o .
 
 # Build runtime image
-FROM alpine:3
+FROM debian:bookworm-slim
 WORKDIR /
 COPY --from=build /build/go-application .
 ENTRYPOINT ["./go-application"]

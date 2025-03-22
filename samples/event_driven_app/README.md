@@ -55,6 +55,7 @@ Build the application within your development environment following the instruct
     ```bash
     dotnet build dotnet/samples/applications/EventDrivenApp
     ```
+
     </details>
 
     <details>
@@ -75,6 +76,7 @@ Build the application within your development environment following the instruct
     ```bash
     go build -C go/samples/application/eventdrivenapp
     ```
+
     </details>
 
 > [!TIP]
@@ -94,6 +96,7 @@ The application will be deployed to the cluster by building a container and appl
     docker build -t event-driven-app .
     k3d image import event-driven-app
     ```
+
     </details>
 
     <details>
@@ -104,6 +107,7 @@ The application will be deployed to the cluster by building a container and appl
     docker build -f sample_applications/event_driven_app/Dockerfile -t event-driven-app .
     k3d image import event-driven-app
     ```
+
     </details>
 
     <details>
@@ -114,6 +118,7 @@ The application will be deployed to the cluster by building a container and appl
     docker build -t event-driven-app .
     k3d image import event-driven-app
     ```
+
     </details>
 
 1. Deploy the application to the cluster:
@@ -124,6 +129,7 @@ The application will be deployed to the cluster by building a container and appl
     ```bash
     kubectl apply -f dotnet/samples/applications/EventDrivenApp/app.yaml
     ```
+
     </details>
 
     <details>
@@ -132,6 +138,7 @@ The application will be deployed to the cluster by building a container and appl
     ```bash
     kubectl apply -f rust/sample_applications/event_driven_app/app.yaml
     ```
+
     </details>
 
     <details>
@@ -140,6 +147,7 @@ The application will be deployed to the cluster by building a container and appl
     ```bash
     kubectl apply -f go/samples/application/eventdrivenapp/app.yaml
     ```
+
     </details>
 
 1. Confirm that the application running by getting the pod status:
@@ -149,6 +157,7 @@ The application will be deployed to the cluster by building a container and appl
     ```
 
     Output:
+
     ```output
     NAME                   READY   STATUS              RESTARTS   AGE
     event-driven-app-xxx   1/1     Running             0          10s
@@ -233,14 +242,14 @@ Create test data by deploying a simulator. It emulates a sensor by sending sampl
 
 ## Troubleshooting
 
-**Application fails to authenticate with MQTT broker**
+### Application fails to authenticate with MQTT broker
 
 1. *Local execution* - Make sure to `source` the .env file in the root to export the requirement environment variables.
 1. *Local execution* - The SAT auth token can expire, download a new token by refreshing credentials:
 
-    > ```bash
-    > ./tools/deployment/update-credentials.sh
-    > ```
+    ```bash
+    ./tools/deployment/update-credentials.sh
+    ```
 
 1. *On cluster* - check the Deployment yaml to make sure that the required volume mounts are present.
 
