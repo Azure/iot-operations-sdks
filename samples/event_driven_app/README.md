@@ -74,7 +74,6 @@ Build the application within your development environment following the instruct
 
     ```bash
     go build -C go/samples/application/eventdrivenapp
-    <TBD>
     ```
     </details>
 

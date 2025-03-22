@@ -2,7 +2,8 @@
 FROM golang:1 AS build
 WORKDIR /build
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64 
+RUN go build .
 
 # Build runtime image
 FROM alpine:3
