@@ -39,7 +39,7 @@ impl PayloadSerialize for TestPayload {
 
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         let test_payload: TestPayload = serde_json::from_slice(payload).unwrap();

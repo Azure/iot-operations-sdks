@@ -3,10 +3,10 @@
 
 use std::time::Duration;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::schema_registry::{
     self, Format, GetRequestBuilder, PutRequestBuilder, SchemaType,

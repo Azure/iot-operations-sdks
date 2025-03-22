@@ -4,6 +4,9 @@
 #![warn(missing_docs)]
 
 //! MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
+//!
+//! Use the components of the [`session`] module to communicate over MQTT with
+//! an automatically managed connection across a single MQTT session.
 
 pub use crate::connection_settings::{
     MqttConnectionSettings, MqttConnectionSettingsBuilder, MqttConnectionSettingsBuilderError,

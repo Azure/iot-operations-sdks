@@ -5,10 +5,10 @@ use std::{env, time::Duration};
 
 use env_logger::Builder;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::{
     common::payload_serialize::{
@@ -118,7 +118,7 @@ impl PayloadSerialize for EmptyPayload {
     }
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<EmptyPayload, DeserializationError<String>> {
         Ok(EmptyPayload::default())
@@ -200,11 +200,13 @@ async fn command_basic_invoke_response_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -227,7 +229,7 @@ impl PayloadSerialize for DataRequestPayload {
     }
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataRequestPayload, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -242,7 +244,7 @@ impl PayloadSerialize for DataRequestPayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing request: {e}"
-                )))
+                )));
             }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
@@ -255,7 +257,7 @@ impl PayloadSerialize for DataRequestPayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing request: {e}"
-                )))
+                )));
             }
         };
         let requested_color = payload[1]
@@ -291,7 +293,7 @@ impl PayloadSerialize for DataResponsePayload {
     }
     fn deserialize(
         payload: &[u8],
-        content_type: &Option<String>,
+        content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<DataResponsePayload, DeserializationError<String>> {
         if let Some(content_type) = content_type {
@@ -306,7 +308,7 @@ impl PayloadSerialize for DataResponsePayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing response: {e}"
-                )))
+                )));
             }
         };
         let payload = payload.split(',').collect::<Vec<&str>>();
@@ -319,7 +321,7 @@ impl PayloadSerialize for DataResponsePayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing response: {e}"
-                )))
+                )));
             }
         };
         let old_color = payload[1].trim_start_matches("\"oldColor\":").to_string();
@@ -333,7 +335,7 @@ impl PayloadSerialize for DataResponsePayload {
             Err(e) => {
                 return Err(DeserializationError::InvalidPayload(format!(
                     "Error while deserializing response: {e}"
-                )))
+                )));
             }
         };
 
@@ -451,9 +453,11 @@ async fn command_complex_invoke_response_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }

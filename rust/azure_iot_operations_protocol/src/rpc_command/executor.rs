@@ -9,10 +9,11 @@ use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
 use bytes::Bytes;
 use tokio::sync::oneshot;
-use tokio::time::{timeout, Instant};
+use tokio::time::{Instant, timeout};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
+    ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
@@ -21,11 +22,11 @@ use crate::{
         payload_serialize::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
-        topic_processor::{contains_invalid_char, is_valid_replacement, TopicPattern},
-        user_properties::{validate_user_properties, UserProperty, PARTITION_KEY},
+        topic_processor::{TopicPattern, contains_invalid_char, is_valid_replacement},
+        user_properties::{PARTITION_KEY, UserProperty, validate_user_properties},
     },
-    rpc_command::{StatusCode, DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION},
-    supported_protocol_major_versions_to_string, ProtocolVersion,
+    rpc_command::{DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION, StatusCode},
+    supported_protocol_major_versions_to_string,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
@@ -581,21 +582,22 @@ where
         }
 
         loop {
-            if let Some((m, ack_token)) = self.mqtt_receiver.recv_manual_ack().await {
-                let Some(ack_token) = ack_token else {
-                    // No ack token, ignore the message. This should never happen as the executor
-                    // should always receive QoS 1 messages that have an ack token.
-                    log::warn!("[{}] Received message without ack token", self.command_name);
-                    continue;
-                };
-                // Process the request
-                log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
-                let message_received_time = Instant::now();
+            match self.mqtt_receiver.recv_manual_ack().await {
+                Some((m, ack_token)) => {
+                    let Some(ack_token) = ack_token else {
+                        // No ack token, ignore the message. This should never happen as the executor
+                        // should always receive QoS 1 messages that have an ack token.
+                        log::warn!("[{}] Received message without ack token", self.command_name);
+                        continue;
+                    };
+                    // Process the request
+                    log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
+                    let message_received_time = Instant::now();
 
-                // Clone properties
-                let properties = match &m.properties {
-                    Some(properties) => properties.clone(),
-                    None => {
+                    // Clone properties
+                    let properties = if let Some(properties) = &m.properties {
+                        properties.clone()
+                    } else {
                         log::error!(
                             "[{}][pkid: {}] Properties missing",
                             self.command_name,
@@ -610,13 +612,37 @@ where
                             }
                         });
                         continue;
-                    }
-                };
+                    };
 
-                // Get response topic
-                let response_topic = if let Some(rt) = properties.response_topic {
-                    if !is_valid_replacement(&rt) {
-                        log::error!("[{}][pkid: {}] Response topic invalid, command response will not be published", self.command_name, m.pkid);
+                    // Get response topic
+                    let response_topic = if let Some(rt) = properties.response_topic {
+                        if !is_valid_replacement(&rt) {
+                            log::error!(
+                                "[{}][pkid: {}] Response topic invalid, command response will not be published",
+                                self.command_name,
+                                m.pkid
+                            );
+                            tokio::task::spawn({
+                                let executor_cancellation_token_clone =
+                                    self.executor_cancellation_token.clone();
+                                async move {
+                                    handle_ack(
+                                        ack_token,
+                                        executor_cancellation_token_clone,
+                                        m.pkid,
+                                    )
+                                    .await;
+                                }
+                            });
+                            continue;
+                        }
+                        rt
+                    } else {
+                        log::error!(
+                            "[{}][pkid: {}] Response topic missing",
+                            self.command_name,
+                            m.pkid
+                        );
                         tokio::task::spawn({
                             let executor_cancellation_token_clone =
                                 self.executor_cancellation_token.clone();
@@ -626,377 +652,375 @@ where
                             }
                         });
                         continue;
-                    }
-                    rt
-                } else {
-                    log::error!(
-                        "[{}][pkid: {}] Response topic missing",
-                        self.command_name,
-                        m.pkid
-                    );
-                    tokio::task::spawn({
-                        let executor_cancellation_token_clone =
-                            self.executor_cancellation_token.clone();
-                        async move {
-                            handle_ack(ack_token, executor_cancellation_token_clone, m.pkid).await;
+                    };
+
+                    let mut command_expiration_time_calculated = false;
+                    let mut response_arguments = ResponseArguments {
+                        command_name: self.command_name.clone(),
+                        response_topic,
+                        correlation_data: None,
+                        status_code: StatusCode::Ok,
+                        status_message: None,
+                        is_application_error: false,
+                        invalid_property_name: None,
+                        invalid_property_value: None,
+                        message_expiry_interval: None,
+                        command_expiration_time: None,
+                        supported_protocol_major_versions: None,
+                        request_protocol_version: None,
+                        cached_key: None,
+                        cached_entry_status: CacheEntryStatus::NotFound,
+                    };
+
+                    // Get message expiry interval
+                    let command_expiration_time = match properties.message_expiry_interval {
+                        Some(ct) => {
+                            response_arguments.message_expiry_interval = Some(ct);
+                            message_received_time.checked_add(Duration::from_secs(ct.into()))
                         }
-                    });
-                    continue;
-                };
+                        _ => message_received_time.checked_add(Duration::from_secs(u64::from(
+                            DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS,
+                        ))),
+                    };
 
-                let mut command_expiration_time_calculated = false;
-                let mut response_arguments = ResponseArguments {
-                    command_name: self.command_name.clone(),
-                    response_topic,
-                    correlation_data: None,
-                    status_code: StatusCode::Ok,
-                    status_message: None,
-                    is_application_error: false,
-                    invalid_property_name: None,
-                    invalid_property_value: None,
-                    message_expiry_interval: None,
-                    command_expiration_time: None,
-                    supported_protocol_major_versions: None,
-                    request_protocol_version: None,
-                    cached_key: None,
-                    cached_entry_status: CacheEntryStatus::NotFound,
-                };
+                    // Check if there was an error calculating the command expiration time
+                    // if not, set the command expiration time
+                    if let Some(command_expiration_time) = command_expiration_time {
+                        response_arguments.command_expiration_time = Some(command_expiration_time);
+                        command_expiration_time_calculated = true;
+                    }
 
-                // Get message expiry interval
-                let command_expiration_time = if let Some(ct) = properties.message_expiry_interval {
-                    response_arguments.message_expiry_interval = Some(ct);
-                    message_received_time.checked_add(Duration::from_secs(ct.into()))
-                } else {
-                    message_received_time.checked_add(Duration::from_secs(u64::from(
-                        DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS,
-                    )))
-                };
-
-                // Check if there was an error calculating the command expiration time
-                // if not, set the command expiration time
-                if let Some(command_expiration_time) = command_expiration_time {
-                    response_arguments.command_expiration_time = Some(command_expiration_time);
-                    command_expiration_time_calculated = true;
-                }
-
-                // Get correlation data
-                if let Some(correlation_data) = properties.correlation_data {
-                    if correlation_data.len() == 16 {
-                        response_arguments.correlation_data = Some(correlation_data.clone());
-                        response_arguments.cached_key = Some(CacheKey {
-                            response_topic: response_arguments.response_topic.clone(),
-                            correlation_data,
-                        });
+                    // Get correlation data
+                    if let Some(correlation_data) = properties.correlation_data {
+                        if correlation_data.len() == 16 {
+                            response_arguments.correlation_data = Some(correlation_data.clone());
+                            response_arguments.cached_key = Some(CacheKey {
+                                response_topic: response_arguments.response_topic.clone(),
+                                correlation_data,
+                            });
+                        } else {
+                            response_arguments.status_code = StatusCode::BadRequest;
+                            response_arguments.status_message =
+                                Some("Correlation data bytes do not conform to a GUID".to_string());
+                            response_arguments.invalid_property_name =
+                                Some("Correlation Data".to_string());
+                            if let Ok(correlation_data_str) =
+                                String::from_utf8(correlation_data.to_vec())
+                            {
+                                response_arguments.invalid_property_value =
+                                    Some(correlation_data_str);
+                            } else { /* Ignore */
+                            }
+                            response_arguments.correlation_data = Some(correlation_data);
+                        }
                     } else {
                         response_arguments.status_code = StatusCode::BadRequest;
                         response_arguments.status_message =
-                            Some("Correlation data bytes do not conform to a GUID".to_string());
+                            Some("Correlation data missing".to_string());
                         response_arguments.invalid_property_name =
                             Some("Correlation Data".to_string());
-                        if let Ok(correlation_data_str) =
-                            String::from_utf8(correlation_data.to_vec())
-                        {
-                            response_arguments.invalid_property_value = Some(correlation_data_str);
-                        } else { /* Ignore */
+                    };
+
+                    'process_request: {
+                        // If the cache key was not created it means the correlation data was invalid
+                        let Some(cache_key) = &response_arguments.cached_key else {
+                            break 'process_request;
+                        };
+
+                        // Checking if command expiration time was calculated after correlation
+                        // to provide a more accurate response to the invoker.
+                        let Some(command_expiration_time) = command_expiration_time else {
+                            response_arguments.status_code = StatusCode::InternalServerError;
+                            response_arguments.status_message =
+                                Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string());
+                            break 'process_request;
+                        };
+
+                        // Check if message expiry interval is present
+                        if properties.message_expiry_interval.is_none() {
+                            response_arguments.status_code = StatusCode::BadRequest;
+                            response_arguments.status_message =
+                                Some("Message expiry interval missing".to_string());
+                            response_arguments.invalid_property_name =
+                                Some("Message Expiry".to_string());
+                            break 'process_request;
                         }
-                        response_arguments.correlation_data = Some(correlation_data);
-                    }
-                } else {
-                    response_arguments.status_code = StatusCode::BadRequest;
-                    response_arguments.status_message =
-                        Some("Correlation data missing".to_string());
-                    response_arguments.invalid_property_name = Some("Correlation Data".to_string());
-                };
 
-                'process_request: {
-                    // If the cache key was not created it means the correlation data was invalid
-                    let Some(cache_key) = &response_arguments.cached_key else {
-                        break 'process_request;
-                    };
+                        // Check cache
+                        response_arguments.cached_entry_status = self.cache.get(cache_key);
 
-                    // Checking if command expiration time was calculated after correlation
-                    // to provide a more accurate response to the invoker.
-                    let Some(command_expiration_time) = command_expiration_time else {
-                        response_arguments.status_code = StatusCode::InternalServerError;
-                        response_arguments.status_message =
-                            Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string());
-                        break 'process_request;
-                    };
+                        // If the cache entry is not found, continue processing the request
+                        if response_arguments.cached_entry_status != CacheEntryStatus::NotFound {
+                            break 'process_request;
+                        }
 
-                    // Check if message expiry interval is present
-                    if properties.message_expiry_interval.is_none() {
-                        response_arguments.status_code = StatusCode::BadRequest;
-                        response_arguments.status_message =
-                            Some("Message expiry interval missing".to_string());
-                        response_arguments.invalid_property_name =
-                            Some("Message Expiry".to_string());
-                        break 'process_request;
-                    }
-
-                    // Check cache
-                    response_arguments.cached_entry_status = self.cache.get(cache_key);
-
-                    // If the cache entry is not found, continue processing the request
-                    if response_arguments.cached_entry_status != CacheEntryStatus::NotFound {
-                        break 'process_request;
-                    }
-
-                    // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
-                    let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
-                    if let Some((_, protocol_version)) =
-                        properties.user_properties.iter().find(|(key, _)| {
-                            UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
-                        })
-                    {
-                        if let Some(request_version) =
-                            ProtocolVersion::parse_protocol_version(protocol_version)
+                        // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
+                        let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
+                        if let Some((_, protocol_version)) =
+                            properties.user_properties.iter().find(|(key, _)| {
+                                UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                            })
                         {
-                            request_protocol_version = request_version;
-                        } else {
+                            if let Some(request_version) =
+                                ProtocolVersion::parse_protocol_version(protocol_version)
+                            {
+                                request_protocol_version = request_version;
+                            } else {
+                                response_arguments.status_code = StatusCode::VersionNotSupported;
+                                response_arguments.status_message = Some(format!(
+                                    "Unparsable protocol version value provided: {protocol_version}."
+                                ));
+                                response_arguments.supported_protocol_major_versions =
+                                    Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
+                                response_arguments.request_protocol_version =
+                                    Some(protocol_version.to_string());
+                                break 'process_request;
+                            }
+                        }
+                        // Check that the version (or the default version if one isn't provided) is supported
+                        if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
                             response_arguments.status_code = StatusCode::VersionNotSupported;
                             response_arguments.status_message = Some(format!(
-                                "Unparsable protocol version value provided: {protocol_version}."
+                                "The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."
                             ));
                             response_arguments.supported_protocol_major_versions =
                                 Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
                             response_arguments.request_protocol_version =
-                                Some(protocol_version.to_string());
+                                Some(request_protocol_version.to_string());
                             break 'process_request;
                         }
-                    }
-                    // Check that the version (or the default version if one isn't provided) is supported
-                    if !request_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                        response_arguments.status_code = StatusCode::VersionNotSupported;
-                        response_arguments.status_message = Some(format!("The command executor that received the request only supports major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}', but '{request_protocol_version}' was sent on the request."));
-                        response_arguments.supported_protocol_major_versions =
-                            Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
-                        response_arguments.request_protocol_version =
-                            Some(request_protocol_version.to_string());
-                        break 'process_request;
-                    }
 
-                    let mut user_data = Vec::new();
-                    let mut timestamp = None;
-                    let mut invoker_id = None;
-                    for (key, value) in properties.user_properties {
-                        match UserProperty::from_str(&key) {
-                            Ok(UserProperty::Timestamp) => {
-                                match HybridLogicalClock::from_str(&value) {
-                                    Ok(ts) => {
-                                        // Update application HLC against received __ts
-                                        if let Err(e) = self.application_hlc.update(&ts) {
-                                            response_arguments.status_message = Some(format!("Failure updating application HLC against {value}: {e}"));
+                        let mut user_data = Vec::new();
+                        let mut timestamp = None;
+                        let mut invoker_id = None;
+                        for (key, value) in properties.user_properties {
+                            match UserProperty::from_str(&key) {
+                                Ok(UserProperty::Timestamp) => {
+                                    match HybridLogicalClock::from_str(&value) {
+                                        Ok(ts) => {
+                                            // Update application HLC against received __ts
+                                            if let Err(e) = self.application_hlc.update(&ts) {
+                                                response_arguments.status_message = Some(format!(
+                                                    "Failure updating application HLC against {value}: {e}"
+                                                ));
+                                                response_arguments.invalid_property_name =
+                                                    Some(UserProperty::Timestamp.to_string());
+                                                response_arguments.invalid_property_value =
+                                                    Some(value);
+                                                match e.kind() {
+                                                    HLCErrorKind::ClockDrift => {
+                                                        response_arguments.status_code =
+                                                            StatusCode::ServiceUnavailable;
+                                                    }
+                                                    HLCErrorKind::OverflowWarning => {
+                                                        response_arguments.status_code =
+                                                            StatusCode::InternalServerError;
+                                                    }
+                                                }
+                                                break 'process_request;
+                                            }
+                                            timestamp = Some(ts);
+                                        }
+                                        Err(e) => {
+                                            response_arguments.status_code = StatusCode::BadRequest;
+                                            response_arguments.status_message =
+                                                Some(format!("Timestamp invalid: {e}"));
                                             response_arguments.invalid_property_name =
                                                 Some(UserProperty::Timestamp.to_string());
                                             response_arguments.invalid_property_value = Some(value);
-                                            match e.kind() {
-                                                HLCErrorKind::ClockDrift => {
-                                                    response_arguments.status_code =
-                                                        StatusCode::ServiceUnavailable;
-                                                }
-                                                HLCErrorKind::OverflowWarning => {
-                                                    response_arguments.status_code =
-                                                        StatusCode::InternalServerError;
-                                                }
-                                            }
                                             break 'process_request;
                                         }
-                                        timestamp = Some(ts);
-                                    }
-                                    Err(e) => {
-                                        response_arguments.status_code = StatusCode::BadRequest;
-                                        response_arguments.status_message =
-                                            Some(format!("Timestamp invalid: {e}"));
-                                        response_arguments.invalid_property_name =
-                                            Some(UserProperty::Timestamp.to_string());
-                                        response_arguments.invalid_property_value = Some(value);
-                                        break 'process_request;
                                     }
                                 }
-                            }
-                            Ok(UserProperty::SourceId) => {
-                                invoker_id = Some(value);
-                            }
-                            Ok(UserProperty::ProtocolVersion) => {
-                                // skip, already processed
-                            }
-                            Err(()) => {
-                                if key == PARTITION_KEY {
-                                    // Ignore partition key, it is meant for the broker
-                                    continue;
+                                Ok(UserProperty::SourceId) => {
+                                    invoker_id = Some(value);
                                 }
-                                user_data.push((key, value));
+                                Ok(UserProperty::ProtocolVersion) => {
+                                    // skip, already processed
+                                }
+                                Err(()) => {
+                                    if key == PARTITION_KEY {
+                                        // Ignore partition key, it is meant for the broker
+                                        continue;
+                                    }
+                                    user_data.push((key, value));
+                                }
+                                _ => {
+                                    /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
+                                    // Don't return error, although above properties shouldn't be in the request
+                                    log::warn!(
+                                        "Request should not contain MQTT user property {key}. Value is {value}"
+                                    );
+                                    user_data.push((key, value));
+                                }
                             }
-                            _ => {
-                                /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
-                                // Don't return error, although above properties shouldn't be in the request
-                                log::warn!("Request should not contain MQTT user property {key}. Value is {value}");
-                                user_data.push((key, value));
+                        }
+
+                        let topic = match std::str::from_utf8(&m.topic) {
+                            Ok(topic) => topic,
+                            Err(e) => {
+                                // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
+                                response_arguments.status_code = StatusCode::BadRequest;
+                                response_arguments.status_message =
+                                    Some(format!("Error deserializing topic: {e:?}"));
+                                break 'process_request;
                             }
+                        };
+
+                        let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
+
+                        // Deserialize payload
+                        let format_indicator = match properties.payload_format_indicator.try_into()
+                        {
+                            Ok(format_indicator) => format_indicator,
+                            Err(e) => {
+                                log::error!(
+                                    "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
+                                    m.pkid
+                                );
+                                // Use default format indicator
+                                FormatIndicator::default()
+                            }
+                        };
+                        let payload = match TReq::deserialize(
+                            &m.payload,
+                            properties.content_type.as_ref(),
+                            &format_indicator,
+                        ) {
+                            Ok(payload) => payload,
+                            Err(e) => match e {
+                                DeserializationError::InvalidPayload(deserialization_e) => {
+                                    response_arguments.status_code = StatusCode::BadRequest;
+                                    response_arguments.status_message = Some(format!(
+                                        "Error deserializing payload: {deserialization_e:?}"
+                                    ));
+                                    break 'process_request;
+                                }
+                                DeserializationError::UnsupportedContentType(message) => {
+                                    response_arguments.status_code =
+                                        StatusCode::UnsupportedMediaType;
+                                    response_arguments.status_message = Some(message);
+                                    response_arguments.invalid_property_name =
+                                        Some("Content Type".to_string());
+                                    response_arguments.invalid_property_value =
+                                        Some(properties.content_type.unwrap_or("None".to_string()));
+                                    break 'process_request;
+                                }
+                            },
+                        };
+
+                        let (response_tx, response_rx) = oneshot::channel();
+                        let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
+
+                        let command_request = Request {
+                            payload,
+                            content_type: properties.content_type,
+                            format_indicator,
+                            custom_user_data: user_data,
+                            timestamp,
+                            invoker_id,
+                            topic_tokens,
+                            command_name: self.command_name.clone(),
+                            response_tx,
+                            publish_completion_rx,
+                        };
+
+                        // Check the command has not expired, if it has, we do not respond to the invoker.
+                        if command_expiration_time.elapsed().is_zero() {
+                            // Elapsed returns zero if the time has not passed
+                            tokio::task::spawn({
+                                let app_hlc_clone = self.application_hlc.clone();
+                                let client_clone = self.mqtt_client.clone();
+                                let cache_clone = self.cache.clone();
+                                let executor_cancellation_token_clone =
+                                    self.executor_cancellation_token.clone();
+                                let pkid = m.pkid;
+                                async move {
+                                    tokio::select! {
+                                        () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                        () = Self::process_command(
+                                            app_hlc_clone,
+                                            client_clone,
+                                            pkid,
+                                            response_arguments,
+                                            Some(response_rx),
+                                            Some(publish_completion_tx),
+                                            cache_clone,
+
+                                        ) => {
+                                            // Finished processing command
+                                            handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                        },
+                                    }
+                                }
+                            });
+                            return Some(Ok(command_request));
                         }
                     }
 
-                    let topic = match std::str::from_utf8(&m.topic) {
-                        Ok(topic) => topic,
-                        Err(e) => {
-                            // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                            response_arguments.status_code = StatusCode::BadRequest;
-                            response_arguments.status_message =
-                                Some(format!("Error deserializing topic: {e:?}"));
-                            break 'process_request;
+                    // Checking that command expiration time was calculated and has not
+                    // expired. If it has, we do not respond to the invoker.
+                    if let Some(command_expiration_time) = command_expiration_time {
+                        if !command_expiration_time.elapsed().is_zero() {
+                            continue;
                         }
-                    };
+                    }
 
-                    let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
-
-                    // Deserialize payload
-                    let format_indicator = match properties.payload_format_indicator.try_into() {
-                        Ok(format_indicator) => format_indicator,
-                        Err(e) => {
-                            log::error!(
-                                "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
+                    // If the command has expired, we do not respond to the invoker.
+                    match response_arguments.cached_entry_status {
+                        CacheEntryStatus::Expired => {
+                            log::debug!(
+                                "[{}][pkid: {}] Duplicate request has expired",
+                                self.command_name,
                                 m.pkid
                             );
-                            // Use default format indicator
-                            FormatIndicator::default()
+                            continue;
                         }
-                    };
-                    let payload = match TReq::deserialize(
-                        &m.payload,
-                        &properties.content_type,
-                        &format_indicator,
-                    ) {
-                        Ok(payload) => payload,
-                        Err(e) => match e {
-                            DeserializationError::InvalidPayload(deserialization_e) => {
-                                response_arguments.status_code = StatusCode::BadRequest;
-                                response_arguments.status_message = Some(format!(
-                                    "Error deserializing payload: {deserialization_e:?}"
-                                ));
-                                break 'process_request;
-                            }
-                            DeserializationError::UnsupportedContentType(message) => {
-                                response_arguments.status_code = StatusCode::UnsupportedMediaType;
-                                response_arguments.status_message = Some(message);
-                                response_arguments.invalid_property_name =
-                                    Some("Content Type".to_string());
-                                response_arguments.invalid_property_value =
-                                    Some(properties.content_type.unwrap_or("None".to_string()));
-                                break 'process_request;
-                            }
-                        },
-                    };
-
-                    let (response_tx, response_rx) = oneshot::channel();
-                    let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
-
-                    let command_request = Request {
-                        payload,
-                        content_type: properties.content_type,
-                        format_indicator,
-                        custom_user_data: user_data,
-                        timestamp,
-                        invoker_id,
-                        topic_tokens,
-                        command_name: self.command_name.clone(),
-                        response_tx,
-                        publish_completion_rx,
-                    };
-
-                    // Check the command has not expired, if it has, we do not respond to the invoker.
-                    if command_expiration_time.elapsed().is_zero() {
-                        // Elapsed returns zero if the time has not passed
-                        tokio::task::spawn({
-                            let app_hlc_clone = self.application_hlc.clone();
-                            let client_clone = self.mqtt_client.clone();
-                            let cache_clone = self.cache.clone();
-                            let executor_cancellation_token_clone =
-                                self.executor_cancellation_token.clone();
-                            let pkid = m.pkid;
-                            async move {
-                                tokio::select! {
-                                    () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                                    () = Self::process_command(
-                                        app_hlc_clone,
-                                        client_clone,
-                                        pkid,
-                                        response_arguments,
-                                        Some(response_rx),
-                                        Some(publish_completion_tx),
-                                        cache_clone,
-
-                                    ) => {
-                                        // Finished processing command
-                                        handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
-                                    },
+                        _ => {
+                            tokio::task::spawn({
+                                let app_hlc_clone = self.application_hlc.clone();
+                                let client_clone = self.mqtt_client.clone();
+                                let cache_clone = self.cache.clone();
+                                let executor_cancellation_token_clone =
+                                    self.executor_cancellation_token.clone();
+                                let pkid = m.pkid;
+                                async move {
+                                    tokio::select! {
+                                        () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                        () = Self::process_command(
+                                            app_hlc_clone,
+                                            client_clone,
+                                            pkid,
+                                            response_arguments,
+                                            None,
+                                            None,
+                                            cache_clone,
+                                        ) => {
+                                            // Finished processing command
+                                            handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                        },
+                                    }
                                 }
-                            }
-                        });
-                        return Some(Ok(command_request));
+                            });
+                        }
                     }
-                }
 
-                // Checking that command expiration time was calculated and has not
-                // expired. If it has, we do not respond to the invoker.
-                if let Some(command_expiration_time) = command_expiration_time {
-                    if !command_expiration_time.elapsed().is_zero() {
-                        continue;
+                    if !command_expiration_time_calculated {
+                        return Some(Err(AIOProtocolError::new_internal_logic_error(
+                            true,
+                            false,
+                            None,
+                            "command_expiration_time",
+                            None,
+                            Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string()),
+                            Some(self.command_name.clone()),
+                        )));
                     }
                 }
-
-                // If the command has expired, we do not respond to the invoker.
-                match response_arguments.cached_entry_status {
-                    CacheEntryStatus::Expired => {
-                        log::debug!(
-                            "[{}][pkid: {}] Duplicate request has expired",
-                            self.command_name,
-                            m.pkid
-                        );
-                        continue;
-                    }
-                    _ => {
-                        tokio::task::spawn({
-                            let app_hlc_clone = self.application_hlc.clone();
-                            let client_clone = self.mqtt_client.clone();
-                            let cache_clone = self.cache.clone();
-                            let executor_cancellation_token_clone =
-                                self.executor_cancellation_token.clone();
-                            let pkid = m.pkid;
-                            async move {
-                                tokio::select! {
-                                    () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                                    () = Self::process_command(
-                                        app_hlc_clone,
-                                        client_clone,
-                                        pkid,
-                                        response_arguments,
-                                        None,
-                                        None,
-                                        cache_clone,
-                                    ) => {
-                                        // Finished processing command
-                                        handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
-                                    },
-                                }
-                            }
-                        });
-                    }
+                _ => {
+                    // There will be no more requests
+                    return None;
                 }
-
-                if !command_expiration_time_calculated {
-                    return Some(Err(AIOProtocolError::new_internal_logic_error(
-                        true,
-                        false,
-                        None,
-                        "command_expiration_time",
-                        None,
-                        Some(INTERNAL_LOGIC_EXPIRATION_ERROR.to_string()),
-                        Some(self.command_name.clone()),
-                    )));
-                }
-            } else {
-                // There will be no more requests
-                return None;
             }
         }
     }
@@ -1162,82 +1186,86 @@ where
             publish_properties.content_type = Some(serialized_payload.content_type.to_string());
         };
 
-        if let Some(command_expiration_time) = response_arguments.command_expiration_time {
-            // Calculating remaining time until the command expires
-            let response_message_expiry_interval =
-                command_expiration_time.saturating_duration_since(Instant::now());
-            if response_message_expiry_interval.is_zero() {
-                log::error!(
-                    "[{}][pkid: {}] Request timed out",
-                    response_arguments.command_name,
-                    pkid
-                );
-                // Notify the application that a timeout occurred
-                if let Some(completion_tx) = completion_tx {
-                    let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
-                        false,
-                        None,
-                        &response_arguments.command_name,
-                        Duration::from_secs(
-                            response_arguments
-                                .message_expiry_interval
-                                .unwrap_or_default()
-                                .into(),
-                        ),
-                        None,
-                        Some(response_arguments.command_name.clone()),
-                    )));
-                }
-                return;
-            }
-
-            // Rounding remaining expiration time up to the nearest second
-            let response_message_expiry_interval =
-                if response_message_expiry_interval.subsec_nanos() != 0 {
-                    // NOTE: We should always be able to add 1 since the seconds portion of the
-                    // response_message_expiry_interval is always at least one less than its initial
-                    // value when received in this block.
-                    // NOTE: Rounding up to the nearest second to ensure the invoker will time out
-                    // at or before the response expires.
-                    response_message_expiry_interval.as_secs().saturating_add(1)
-                } else {
-                    response_message_expiry_interval.as_secs()
-                };
-
-            let Ok(response_message_expiry_interval) = response_message_expiry_interval.try_into()
-            else {
-                // Unreachable, will be smaller than u32::MAX
-                log::error!(
-                    "[{}][pkid: {}] Message expiry interval is too large",
-                    response_arguments.command_name,
-                    pkid
-                );
-                return;
-            };
-
-            publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
-
-            // Store cache, even if the response is an error
-            if cache_not_found {
-                if let Some(cached_key) = response_arguments.cached_key {
-                    let cache_entry = CacheEntry {
-                        properties: publish_properties.clone(),
-                        serialized_payload: serialized_payload.clone(),
-                        expiration_time: command_expiration_time,
-                    };
-                    log::info!(
-                        "[{}][pkid: {}] Caching response",
+        match response_arguments.command_expiration_time {
+            Some(command_expiration_time) => {
+                // Calculating remaining time until the command expires
+                let response_message_expiry_interval =
+                    command_expiration_time.saturating_duration_since(Instant::now());
+                if response_message_expiry_interval.is_zero() {
+                    log::error!(
+                        "[{}][pkid: {}] Request timed out",
                         response_arguments.command_name,
                         pkid
                     );
-                    cache.set(cached_key, cache_entry);
+                    // Notify the application that a timeout occurred
+                    if let Some(completion_tx) = completion_tx {
+                        let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                            false,
+                            None,
+                            &response_arguments.command_name,
+                            Duration::from_secs(
+                                response_arguments
+                                    .message_expiry_interval
+                                    .unwrap_or_default()
+                                    .into(),
+                            ),
+                            None,
+                            Some(response_arguments.command_name.clone()),
+                        )));
+                    }
+                    return;
+                }
+
+                // Rounding remaining expiration time up to the nearest second
+                let response_message_expiry_interval =
+                    if response_message_expiry_interval.subsec_nanos() != 0 {
+                        // NOTE: We should always be able to add 1 since the seconds portion of the
+                        // response_message_expiry_interval is always at least one less than its initial
+                        // value when received in this block.
+                        // NOTE: Rounding up to the nearest second to ensure the invoker will time out
+                        // at or before the response expires.
+                        response_message_expiry_interval.as_secs().saturating_add(1)
+                    } else {
+                        response_message_expiry_interval.as_secs()
+                    };
+
+                let Ok(response_message_expiry_interval) =
+                    response_message_expiry_interval.try_into()
+                else {
+                    // Unreachable, will be smaller than u32::MAX
+                    log::error!(
+                        "[{}][pkid: {}] Message expiry interval is too large",
+                        response_arguments.command_name,
+                        pkid
+                    );
+                    return;
+                };
+
+                publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
+
+                // Store cache, even if the response is an error
+                if cache_not_found {
+                    if let Some(cached_key) = response_arguments.cached_key {
+                        let cache_entry = CacheEntry {
+                            properties: publish_properties.clone(),
+                            serialized_payload: serialized_payload.clone(),
+                            expiration_time: command_expiration_time,
+                        };
+                        log::info!(
+                            "[{}][pkid: {}] Caching response",
+                            response_arguments.command_name,
+                            pkid
+                        );
+                        cache.set(cached_key, cache_entry);
+                    }
                 }
             }
-        } else {
-            // Happens when the command expiration time was not able to be calculated.
-            // We don't cache the response in this case.
-            publish_properties.message_expiry_interval =
-                Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
+            _ => {
+                // Happens when the command expiration time was not able to be calculated.
+                // We don't cache the response in this case.
+                publish_properties.message_expiry_interval =
+                    Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
+            }
         }
 
         // Try to publish
@@ -1324,7 +1352,9 @@ where
                 async move {
                     match mqtt_client.unsubscribe(request_topic.clone()).await {
                         Ok(_) => {
-                            log::debug!("Unsubscribe sent on topic {request_topic}. Unsuback may still be pending.");
+                            log::debug!(
+                                "Unsubscribe sent on topic {request_topic}. Unsuback may still be pending."
+                            );
                         }
                         Err(e) => {
                             log::error!("Unsubscribe error on topic {request_topic}: {e}");

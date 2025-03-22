@@ -152,9 +152,14 @@ impl fmt::Display for AIOProtocolError {
                     write!(f, "An MQTT communication error occurred")
                 }
                 AIOProtocolErrorKind::UnsupportedVersion => {
-                    write!(f, "Received data with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
-                    self.protocol_version.as_deref().unwrap_or("Not Specified"),
-                    self.supported_protocol_major_versions.as_deref().unwrap_or(&[]))
+                    write!(
+                        f,
+                        "Received data with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
+                        self.protocol_version.as_deref().unwrap_or("Not Specified"),
+                        self.supported_protocol_major_versions
+                            .as_deref()
+                            .unwrap_or(&[])
+                    )
                 }
             }
         }

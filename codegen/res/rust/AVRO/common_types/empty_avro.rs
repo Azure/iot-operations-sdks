@@ -26,7 +26,7 @@ impl PayloadSerialize for EmptyAvro{
 
     fn deserialize(
         payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(apache_avro::from_value(&apache_avro::from_avro_datum(&SCHEMA, &mut Cursor::new(payload), None).unwrap()).unwrap())

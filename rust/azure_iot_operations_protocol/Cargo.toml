@@ -4,7 +4,7 @@
 [package]
 name = "azure_iot_operations_protocol"
 version = "0.8.0"
-edition = "2021"
+edition = "2024"
 license = "MIT"
 description = "Utilities for using the Azure IoT Operations Protocol over MQTT"
 repository = "https://github.com/Azure/iot-operations-sdks"
@@ -32,7 +32,7 @@ ctor = "0.2"
 datatest-stable = "0.2"
 env_logger.workspace = true
 futures = "0.3.31"
-mockall = "0.12.1"
+mockall = "0.13.1"
 rumqttc = { version = "0.24.0-fork.3", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

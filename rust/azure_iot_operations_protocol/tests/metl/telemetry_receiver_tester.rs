@@ -302,7 +302,8 @@ where
                         _ => {
                             panic!(
                                 "Expected {} error when calling recv() on TelemetryReceiver but got timeout instead",
-                                catch.error_kind);
+                                catch.error_kind
+                            );
                         }
                     };
                     None
@@ -593,11 +594,9 @@ where
                                         .expect("missing cloud event data schema")
                                 );
                             } else {
-                                assert!(received_cloud_event
-                                    .data_schema
-                                    .as_ref()
-                                    .unwrap()
-                                    .is_none());
+                                assert!(
+                                    received_cloud_event.data_schema.as_ref().unwrap().is_none()
+                                );
                             }
                         }
                     } else {

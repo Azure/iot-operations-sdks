@@ -6,10 +6,10 @@ use std::{env, sync::Arc, time::Duration};
 use test_case::test_case;
 use tokio::sync::Notify;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::{ManagedClient, MqttPubSub, PubReceiver};
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 
 fn setup_test(client_id: &str) -> Result<Session, ()> {
     let _ = env_logger::Builder::new()
@@ -103,17 +103,19 @@ async fn test_simple_recv(qos: QoS) {
         exit_handle.try_exit().await
     };
 
-    assert!(tokio::try_join!(
-        async move { tokio::task::spawn(sender).await.map_err(|e| e.to_string()) },
-        async move {
-            tokio::task::spawn(receiver)
-                .await
-                .map_err(|e| e.to_string())
-        },
-        async move { test_complete.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) },
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { tokio::task::spawn(sender).await.map_err(|e| e.to_string()) },
+            async move {
+                tokio::task::spawn(receiver)
+                    .await
+                    .map_err(|e| e.to_string())
+            },
+            async move { test_complete.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) },
+        )
+        .is_ok()
+    );
 }
 
 #[test_case(QoS::AtLeastOnce; "QoS 1")]
@@ -195,11 +197,13 @@ async fn test_simple_recv_manual_ack(qos: QoS) {
     let receiver_jh = tokio::task::spawn(receiver);
     let test_complete_jh = tokio::task::spawn(test_complete);
 
-    assert!(tokio::try_join!(
-        async move { sender_jh.await.map_err(|e| { e.to_string() }) },
-        async move { receiver_jh.await.map_err(|e| { e.to_string() }) },
-        async move { test_complete_jh.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) },
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { sender_jh.await.map_err(|e| { e.to_string() }) },
+            async move { receiver_jh.await.map_err(|e| { e.to_string() }) },
+            async move { test_complete_jh.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) },
+        )
+        .is_ok()
+    );
 }
