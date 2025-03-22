@@ -44,7 +44,7 @@ spec:
               mountPath: /var/run/certs/aio-ca/
           env:
             - name: AIO_MQTT_CLIENT_ID
-              value: "EventDrivenApp"
+              value: "EventDrivenAppInput"
             - name: AIO_BROKER_HOSTNAME
               value: "aio-broker"
             - name: AIO_BROKER_TCP_PORT
@@ -67,7 +67,7 @@ spec:
               mountPath: /var/run/certs/aio-ca/
           env:
             - name: AIO_MQTT_CLIENT_ID
-              value: "EventDrivenApp"
+              value: "EventDrivenAppOutput"
             - name: AIO_BROKER_HOSTNAME
               value: "aio-broker"
             - name: AIO_BROKER_TCP_PORT

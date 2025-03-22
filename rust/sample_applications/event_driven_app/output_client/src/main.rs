@@ -39,7 +39,6 @@ async fn main() {
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::from_environment()
         .unwrap()
-        .client_id("edge_sample_output_client")
         .build()
         .unwrap();
     let session_options = SessionOptionsBuilder::default()
