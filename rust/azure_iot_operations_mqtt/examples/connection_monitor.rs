@@ -61,9 +61,9 @@ async fn uptime_monitor(monitor: SessionConnectionMonitor) {
         monitor.disconnected().await;
         let disconnect_time = Instant::now();
         let uptime = disconnect_time - connect_time;
-        log::info!("Disconnected after {:?}", uptime);
+        log::info!("Disconnected after {uptime:?}");
         total_uptime += uptime;
-        log::info!("Total uptime: {:?}", total_uptime);
+        log::info!("Total uptime: {total_uptime:?}");
     }
 }
 

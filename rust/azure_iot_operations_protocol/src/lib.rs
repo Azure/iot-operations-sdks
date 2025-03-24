@@ -70,8 +70,7 @@ pub(crate) fn parse_supported_protocol_major_versions(
                 Some(v)
             } else {
                 log::warn!(
-                    "Invalid major version in received supported major versions: '{}'",
-                    s
+                    "Invalid major version in received supported major versions: '{s}'",
                 );
                 None
             }
