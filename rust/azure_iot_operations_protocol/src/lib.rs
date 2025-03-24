@@ -69,10 +69,7 @@ pub(crate) fn parse_supported_protocol_major_versions(
             if let Ok(v) = s.parse::<u16>() {
                 Some(v)
             } else {
-                log::warn!(
-                    "Invalid major version in received supported major versions: '{}'",
-                    s
-                );
+                log::warn!("Invalid major version in received supported major versions: '{s}'",);
                 None
             }
         })
