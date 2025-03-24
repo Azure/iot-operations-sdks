@@ -19,8 +19,4 @@
     <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoError>CS8002</NoError>
-  </PropertyGroup>
-
 </Project>
