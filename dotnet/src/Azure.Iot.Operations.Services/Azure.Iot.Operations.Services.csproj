@@ -24,5 +24,12 @@
     <InternalsVisibleTo Include="Azure.Iot.Operations.Services.UnitTests" />
     <InternalsVisibleTo Include="Azure.Iot.Operations.Connector.UnitTests" />
   </ItemGroup>
-	
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <AssemblyOriginatorKeyFile>$(RootDir)\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    <PublicSign>true</PublicSign>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+
 </Project>

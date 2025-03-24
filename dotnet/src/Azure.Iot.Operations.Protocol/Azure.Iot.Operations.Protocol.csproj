@@ -16,4 +16,11 @@
 	<ItemGroup>
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
 	</ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <AssemblyOriginatorKeyFile>$(RootDir)\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    <PublicSign>true</PublicSign>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
 </Project>
