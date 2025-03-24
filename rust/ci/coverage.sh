@@ -85,11 +85,11 @@ if [ -z "${SUMMARY_ONLY:+_}" ]; then
         --verbose \
         --html \
         --all-features \
-        ${IGNORE_FILENAME_REGEX_ARG} \
+        --ignore-filename-regex=sample_applications \
         report
 fi
 
-cargo llvm-cov --manifest-path="${MANIFEST}" --verbose --summary-only --all-features ${IGNORE_FILENAME_REGEX_ARG} --json report \
+cargo llvm-cov --manifest-path="${MANIFEST}" --verbose --summary-only --all-features --ignore-filename-regex=sample_applications --json report \
 | jq -crf "${REPOSITORY_ROOT}/rust/ci/jq/coverage.jq" \
         --arg root "${REPOSITORY_ROOT}" \
         --arg manifest "${MANIFEST}" \
