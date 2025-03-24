@@ -6,5 +6,6 @@ using System.Runtime.CompilerServices;
 #if (DEBUG)
 [assembly: InternalsVisibleTo("Azure.Iot.Operations.Protocol.UnitTests")]
 [assembly: InternalsVisibleTo("Azure.Iot.Operations.Protocol.MetlTests")]
+[assembly: InternalsVisibleTo("Azure.Iot.Operations.Services.UnitTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 #endif
