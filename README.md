@@ -3,7 +3,8 @@
 [![CI-dotnet](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-dotnet.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-dotnet.yml)
 [![CI-go](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-go.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-go.yml)
 [![CI-Rust](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml)
-[![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
+[![CD-Docs](https://github.com/Azure/iot-operations-sdks/actions/workflows/cd-docs.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/cd-docs.yml)
+[![E2E-cross-language](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
 
 > [!CAUTION]
 > The assets in this repository are currently in **Public Preview** and have been made available for early access and feedback purposes.
