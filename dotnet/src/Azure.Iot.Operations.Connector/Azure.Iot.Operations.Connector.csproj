@@ -15,7 +15,7 @@
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
-    <PublicSign>true</PublicSign>
+    <DelaySign>true</DelaySign>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 </Project>
