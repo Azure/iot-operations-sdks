@@ -97,8 +97,7 @@ async fn increment_executor_loop(
             }
             Err(e) => {
                 log::error!(
-                    "Error sending response to 'increment' command request: {:?}",
-                    e
+                    "Error sending response to 'increment' command request: {e}"
                 );
             }
         }
