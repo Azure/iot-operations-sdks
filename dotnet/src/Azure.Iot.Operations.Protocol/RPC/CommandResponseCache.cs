@@ -257,7 +257,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             _requestResponseCache.Remove(correlationId);
         }
 
-        private class FullCorrelationId(string responseTopic, byte[] correlationData)
+        private sealed class FullCorrelationId(string responseTopic, byte[] correlationData)
         {
             public string ResponseTopic { get; } = responseTopic;
 
@@ -281,7 +281,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private class FullRequest(string commandName, string invokerId, ReadOnlySequence<byte> payload)
+        private sealed class FullRequest(string commandName, string invokerId, ReadOnlySequence<byte> payload)
         {
             public string CommandName = commandName;
 
@@ -311,7 +311,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             public long Size => CommandName.Length + InvokerId.Length + Payload.Length;
         }
 
-        private record RequestResponse
+        private sealed record RequestResponse
         {
             public RequestResponse(FullRequest? fullRequest)
             {
