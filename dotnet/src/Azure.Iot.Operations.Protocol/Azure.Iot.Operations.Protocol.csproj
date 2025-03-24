@@ -18,7 +18,7 @@
 	</ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <PublicSign>true</PublicSign>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
