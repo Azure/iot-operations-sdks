@@ -14,9 +14,10 @@
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <AssemblyOriginatorKeyFile>$(RootDir)\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
-    <PublicSign>true</PublicSign>
-    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <PublicSign>false</PublicSign>
+    <ImportDefaultReferences>false</ImportDefaultReferences>
   </PropertyGroup>
 </Project>
  
