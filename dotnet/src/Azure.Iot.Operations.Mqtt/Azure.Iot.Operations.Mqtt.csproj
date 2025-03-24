@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <NoWarn>CS8002</NoWarn>
+    <NoError>CS8002</NoError>
   </PropertyGroup>
 
 </Project>
