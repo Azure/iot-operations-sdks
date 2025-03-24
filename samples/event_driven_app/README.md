@@ -47,13 +47,17 @@ This tutorial is available in the following languages:
 
 Build the application within your development environment following the instructions for the language of your choice:
 
+> [!NOTE]
+> Run this command from the repository root.
+
 1. Build the application:
 
     <details>
     <summary>.NET</summary>
 
     ```bash
-    dotnet build dotnet/samples/applications/EventDrivenApp
+    cd dotnet
+    dotnet build samples/applications/EventDrivenApp
     ```
 
     </details>
@@ -74,7 +78,8 @@ Build the application within your development environment following the instruct
     <summary>Go</summary>
 
     ```bash
-    go build -C go/samples/application/eventdrivenapp
+    cd go
+    go build -C samples/application/eventdrivenapp
     ```
 
     </details>
@@ -86,14 +91,17 @@ Build the application within your development environment following the instruct
 
 The application will be deployed to the cluster by building a container and applying the `app.yaml`:
 
+> [!NOTE]
+> Run this command from the repository root.
+
 1. Build the application container and import to your cluster:
 
     <details>
     <summary>.NET</summary>
 
     ```bash
-    cd dotnet/samples/applications/EventDrivenApp
-    docker build -t event-driven-app .
+    cd dotnet
+    docker build -f samples/applications/EventDrivenApp/Dockerfile -t event-driven-app .
     k3d image import event-driven-app
     ```
 
@@ -114,8 +122,8 @@ The application will be deployed to the cluster by building a container and appl
     <summary>Go</summary>
 
     ```bash
-    cd go/samples/application/eventdrivenapp
-    docker build -t event-driven-app .
+    cd go
+    docker build -f samples/application/eventdrivenapp/Dockerfile -t event-driven-app .
     k3d image import event-driven-app
     ```
 
@@ -127,7 +135,7 @@ The application will be deployed to the cluster by building a container and appl
     <summary>.NET</summary>
 
     ```bash
-    kubectl apply -f dotnet/samples/applications/EventDrivenApp/app.yaml
+    kubectl apply -f samples/applications/EventDrivenApp/app.yaml
     ```
 
     </details>
@@ -136,7 +144,7 @@ The application will be deployed to the cluster by building a container and appl
     <summary>Rust</summary>
 
     ```bash
-    kubectl apply -f rust/sample_applications/event_driven_app/app.yaml
+    kubectl apply -f sample_applications/event_driven_app/app.yaml
     ```
 
     </details>
@@ -145,7 +153,7 @@ The application will be deployed to the cluster by building a container and appl
     <summary>Go</summary>
 
     ```bash
-    kubectl apply -f go/samples/application/eventdrivenapp/app.yaml
+    kubectl apply -f samples/application/eventdrivenapp/app.yaml
     ```
 
     </details>

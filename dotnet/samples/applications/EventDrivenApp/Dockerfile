@@ -5,7 +5,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /build
 COPY . .
-RUN dotnet publish -o dist
+RUN dotnet publish samples/applications/EventDrivenApp -o dist
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/runtime:9.0

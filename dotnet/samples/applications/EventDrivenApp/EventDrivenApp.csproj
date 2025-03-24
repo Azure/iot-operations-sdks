@@ -14,9 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.IoT.Operations.Mqtt" Version="0.10.0-nightly-20250319.1" />
-        <PackageReference Include="Azure.IoT.Operations.Protocol" Version="0.10.0-nightly-20250319.1" />
-        <PackageReference Include="Azure.IoT.Operations.Services" Version="0.10.0-nightly-20250319.1" />
+        <ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+        <ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+        <ProjectReference Include="..\..\..\src\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
     </ItemGroup>
 
 </Project>
