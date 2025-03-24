@@ -328,7 +328,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             public long Size => Response.Task.Status == TaskStatus.RanToCompletion ? (FullRequest?.Size ?? 0) + (Response.Task.Result.Payload.Length) : 0;
         }
 
-        private record ReuseReference
+        private sealed record ReuseReference
         {
             public ReuseReference(FullCorrelationId fullCorrelationId)
             {
