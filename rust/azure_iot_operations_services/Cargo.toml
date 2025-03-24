@@ -12,8 +12,8 @@ readme = "README.md"
 publish = true
 
 [features]
-default = []
-all = ["state_store", "schema_registry", "leased_lock"]
+default = ["all"]
+all = ["state_store", "schema_registry", "leased_lock", "observability"]
 state_store = []
 schema_registry = [
   "serde",
@@ -26,6 +26,7 @@ schema_registry = [
   "uuid"
 ]
 leased_lock = ["state_store"]
+observability = []
 
 [dependencies]
 azure_iot_operations_protocol = { version = "0.9", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }

@@ -33,16 +33,16 @@
         "valueSchema": "string",
         "enumValues": [
           {
-            "name": "1P_internal",
-            "enumValue": "1P_internal"
+            "name": "internal",
+            "enumValue": "internal"
           },
           {
-            "name": "1P_regular",
-            "enumValue": "1P_regular"
+            "name": "regular",
+            "enumValue": "regular"
           },
           {
-            "name": "3P",
-            "enumValue": "3P"
+            "name": "customer",
+            "enumValue": "customer"
           }
         ]
       }
