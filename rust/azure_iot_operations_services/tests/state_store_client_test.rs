@@ -141,8 +141,7 @@ async fn state_store_basic_set_delete_network_tests() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Delete key1: {:?}",
-                delete_cleanup_response
+                "[{log_identifier}] Delete key1: {delete_cleanup_response:?}",
             );
 
             // Tests 1 (valid new key/value with default setOptions), 6 (without fencing token where fencing_token not required)

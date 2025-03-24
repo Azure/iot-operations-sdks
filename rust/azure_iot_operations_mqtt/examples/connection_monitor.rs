@@ -70,7 +70,7 @@ async fn uptime_monitor(monitor: SessionConnectionMonitor) {
 /// Exit session after specified time
 async fn exit_after_duration(exit_handle: SessionExitHandle, duration: Duration) {
     tokio::time::sleep(duration).await;
-    log::info!("Exiting session after {:?}", duration);
+    log::info!("Exiting session after {duration:?}");
     match exit_handle.try_exit().await {
         Ok(()) => println!("Session exited successfully"),
         Err(e) => {

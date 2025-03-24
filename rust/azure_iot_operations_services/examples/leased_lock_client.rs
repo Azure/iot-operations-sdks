@@ -158,7 +158,7 @@ async fn leased_lock_client_1_operations(
             acquire_lock_result // a.k.a., the fencing token.
         }
         Err(e) => {
-            log::error!("Failed acquiring lock {:?}", e);
+            log::error!("Failed acquiring lock {e}");
             return;
         }
     };
@@ -179,12 +179,12 @@ async fn leased_lock_client_1_operations(
             if set_response.response {
                 log::info!("Key set successfully");
             } else {
-                log::error!("Could not set key {:?}", set_response);
+                log::error!("Could not set key {set_response:?}");
                 return;
             }
         }
         Err(e) => {
-            log::error!("Failed setting key {:?}", e);
+            log::error!("Failed setting key {e}");
             return;
         }
     };
@@ -198,7 +198,7 @@ async fn leased_lock_client_1_operations(
             log::info!("Lock released successfully");
         }
         Err(e) => {
-            log::error!("Failed releasing lock {:?}", e);
+            log::error!("Failed releasing lock {e}");
             return;
         }
     };
@@ -300,7 +300,7 @@ async fn leased_lock_client_2_operations(
             }
         }
         Err(e) => {
-            log::error!("Failed setting key {:?}", e);
+            log::error!("Failed setting key: {e}");
             return;
         }
     };
@@ -325,14 +325,13 @@ async fn leased_lock_client_2_operations(
                 log::info!("Key successfully deleted");
             } else {
                 log::error!(
-                    "Could not delete key {:?}",
-                    acquire_lock_and_update_value_result
+                    "Could not delete key {acquire_lock_and_update_value_result:?}",
                 );
                 return;
             }
         }
         Err(e) => {
-            log::error!("Failed deleting key {:?}", e);
+            log::error!("Failed deleting key: {e}");
             return;
         }
     };
@@ -359,7 +358,7 @@ async fn get_lock_holder(
             }
         },
         Err(e) => {
-            log::error!("Failed getting lock holder {:?}", e);
+            log::error!("Failed getting lock holder: {e}");
         }
     };
 }
