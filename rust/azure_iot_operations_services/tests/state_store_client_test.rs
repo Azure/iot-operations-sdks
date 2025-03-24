@@ -157,8 +157,7 @@ async fn state_store_basic_set_delete_network_tests() {
                 .unwrap();
             assert!(set_new_key_value.response);
             log::info!(
-                "[{log_identifier}] set_new_key_value response: {:?}",
-                set_new_key_value
+                "[{log_identifier}] set_new_key_value response: {set_new_key_value:?}"
             );
 
             // Tests 2 (valid existing key/value with default setOptions)
@@ -174,8 +173,7 @@ async fn state_store_basic_set_delete_network_tests() {
                 .unwrap();
             assert!(set_existing_key_value.response);
             log::info!(
-                "[{log_identifier}] set_existing_key_value response: {:?}",
-                set_existing_key_value
+                "[{log_identifier}] set_existing_key_value response: {set_existing_key_value:?}"
             );
 
             // Tests 15 (where key exists), 19 (without fencing token where fencing_token not required)
@@ -184,7 +182,7 @@ async fn state_store_basic_set_delete_network_tests() {
                 .await
                 .unwrap();
             assert_eq!(delete_response.response, 1);
-            log::info!("[{log_identifier}] Delete response: {:?}", delete_response);
+            log::info!("[{log_identifier}] Delete response: {delete_response:?}");
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
@@ -237,8 +235,7 @@ async fn state_store_fencing_token_network_tests() {
                 .unwrap();
             assert!(set_fencing_token.response);
             log::info!(
-                "[{log_identifier}] set_fencing_token response: {:?}",
-                set_fencing_token
+                "[{log_identifier}] set_fencing_token response: {set_fencing_token:?}"
             );
             key2_fencing_token = set_fencing_token.version.unwrap();
 
@@ -258,8 +255,7 @@ async fn state_store_fencing_token_network_tests() {
                 .unwrap();
             assert!(set_fencing_token_required.response);
             log::info!(
-                "[{log_identifier}] set_fencing_token_required response: {:?}",
-                set_fencing_token_required
+                "[{log_identifier}] set_fencing_token_required response: {set_fencing_token_required:?}"
             );
             // save new version of fencing token
             key2_fencing_token = set_fencing_token_required.version.unwrap();
@@ -276,8 +272,7 @@ async fn state_store_fencing_token_network_tests() {
                 .await
                 .expect_err("Expected error");
             log::info!(
-                "[{log_identifier}] set_missing_fencing_token response: {:?}",
-                set_missing_fencing_token
+                "[{log_identifier}] set_missing_fencing_token response: {set_missing_fencing_token:?}"
             );
 
             // Tests 13 (where key exists), and also validates that `get` doesn't need fencing token
@@ -285,7 +280,7 @@ async fn state_store_fencing_token_network_tests() {
                 .get(key2.to_vec(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get response: {:?}", get_response);
+            log::info!("[{log_identifier}] Get response: {get_response:?}");
             if let Some(value) = get_response.response {
                 assert_eq!(value, VALUE4.to_vec());
             }
@@ -296,8 +291,7 @@ async fn state_store_fencing_token_network_tests() {
                 .await
                 .expect_err("Expected error");
             log::info!(
-                "[{log_identifier}] delete_missing_fencing_token_response: {:?}",
-                delete_missing_fencing_token_response
+                "[{log_identifier}] delete_missing_fencing_token_response: {delete_missing_fencing_token_response:?}"
             );
 
             // Tests 24 (without fencing token where fencing_token required (expect error))
@@ -306,8 +300,7 @@ async fn state_store_fencing_token_network_tests() {
                 .await
                 .expect_err("Expected error");
             log::info!(
-                "[{log_identifier}] v_delete_missing_fencing_token_response: {:?}",
-                v_delete_missing_fencing_token_response
+                "[{log_identifier}] v_delete_missing_fencing_token_response: {v_delete_missing_fencing_token_response:?}"
             );
 
             // Tests 15 (where key exists), 17 (with fencing token where fencing_token required)
@@ -317,8 +310,7 @@ async fn state_store_fencing_token_network_tests() {
                 .unwrap();
             assert_eq!(delete_with_fencing_token_response.response, 1);
             log::info!(
-                "[{log_identifier}] delete_with_fencing_token_response: {:?}",
-                delete_with_fencing_token_response
+                "[{log_identifier}] delete_with_fencing_token_response: {delete_with_fencing_token_response:?}"
             );
 
             // Shutdown state store client and underlying resources
@@ -361,8 +353,7 @@ async fn state_store_key_not_found_network_tests() {
                 .unwrap();
             assert!(get_no_key_response.response.is_none());
             log::info!(
-                "[{log_identifier}] get_no_key_response: {:?}",
-                get_no_key_response
+                "[{log_identifier}] get_no_key_response: {get_no_key_response:?}"
             );
 
             // Tests 16 (where key does not exist (expect success that indicates 0 keys were deleted))
@@ -372,8 +363,7 @@ async fn state_store_key_not_found_network_tests() {
                 .unwrap();
             assert_eq!(delete_no_key_response.response, 0);
             log::info!(
-                "[{log_identifier}] delete_no_key_response: {:?}",
-                delete_no_key_response
+                "[{log_identifier}] delete_no_key_response: {delete_no_key_response:?}"
             );
 
             // Tests 21 (where key does not exist (expect success that indicates 0 keys were deleted))
@@ -383,8 +373,7 @@ async fn state_store_key_not_found_network_tests() {
                 .unwrap();
             assert_eq!(v_delete_no_key_response.response, 0);
             log::info!(
-                "[{log_identifier}] v_delete_no_key_response: {:?}",
-                v_delete_no_key_response
+                "[{log_identifier}] v_delete_no_key_response: {v_delete_no_key_response:?}"
             );
 
             // Shutdown state store client and underlying resources
@@ -437,8 +426,7 @@ async fn state_store_set_conditions_network_tests() {
                 .unwrap();
             assert!(set_if_not_exist.response);
             log::info!(
-                "[{log_identifier}] set_if_not_exist response: {:?}",
-                set_if_not_exist
+                "[{log_identifier}] set_if_not_exist response: {set_if_not_exist:?}"
             );
 
             // Tests 9 (with setCondition OnlyIfDoesNotExist and key exists (expect success that indicates the key wasn't set))
@@ -457,8 +445,7 @@ async fn state_store_set_conditions_network_tests() {
                 .unwrap();
             assert!(!set_if_not_exist_fail.response);
             log::info!(
-                "[{log_identifier}] set_if_not_exist_fail response: {:?}",
-                set_if_not_exist_fail
+                "[{log_identifier}] set_if_not_exist_fail response: {set_if_not_exist_fail:?}"
             );
 
             // Tests 10 (with setCondition OnlyIfEqualOrDoesNotExist and key exists and is equal)
@@ -477,8 +464,7 @@ async fn state_store_set_conditions_network_tests() {
                 .unwrap();
             assert!(set_if_equal_or_not_exist_equal.response);
             log::info!(
-                "[{log_identifier}] set_if_equal_or_not_exist_equal response: {:?}",
-                set_if_equal_or_not_exist_equal
+                "[{log_identifier}] set_if_equal_or_not_exist_equal response: {set_if_equal_or_not_exist_equal:?}"
             );
 
             // Tests 11 (with setCondition OnlyIfEqualOrDoesNotExist and key exists and isn't equal (expect success that indicates the key wasn't set))
@@ -497,8 +483,7 @@ async fn state_store_set_conditions_network_tests() {
                 .unwrap();
             assert!(!set_if_equal_or_not_exist_fail.response);
             log::info!(
-                "[{log_identifier}] set_if_equal_or_not_exist_fail response: {:?}",
-                set_if_equal_or_not_exist_fail
+                "[{log_identifier}] set_if_equal_or_not_exist_fail response: {set_if_equal_or_not_exist_fail:?}"
             );
 
             // Tests 25 (without fencing token where fencing_token not required)
@@ -508,8 +493,7 @@ async fn state_store_set_conditions_network_tests() {
                 .unwrap();
             assert_eq!(v_delete_response_no_fencing_token.response, 1);
             log::info!(
-                "[{log_identifier}] v_delete_response_no_fencing_token response: {:?}",
-                v_delete_response_no_fencing_token
+                "[{log_identifier}] v_delete_response_no_fencing_token response: {v_delete_response_no_fencing_token:?}"
             );
 
             // Shutdown state store client and underlying resources
@@ -563,8 +547,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
                 .unwrap();
             assert!(set_if_equal_or_not_exist_does_not_exist.response);
             log::info!(
-                "[{log_identifier}] set_if_equal_or_not_exist_does_not_exist response: {:?}",
-                set_if_equal_or_not_exist_does_not_exist
+                "[{log_identifier}] set_if_equal_or_not_exist_does_not_exist response: {set_if_equal_or_not_exist_does_not_exist:?}"
             );
             key4_fencing_token = set_if_equal_or_not_exist_does_not_exist.version.unwrap();
 
@@ -580,8 +563,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
                 .unwrap();
             assert_eq!(v_delete_value_mismatch.response, -1);
             log::info!(
-                "[{log_identifier}] v_delete_value_mismatch response: {:?}",
-                v_delete_value_mismatch
+                "[{log_identifier}] v_delete_value_mismatch response: {v_delete_value_mismatch:?}"
             );
 
             // Tests 20 (where key exists and value matches), 23 (with fencing token where fencing_token required)
@@ -596,8 +578,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
                 .unwrap();
             assert_eq!(v_delete_response.response, 1);
             log::info!(
-                "[{log_identifier}] VDelete response: {:?}",
-                v_delete_response
+                "[{log_identifier}] VDelete response: {v_delete_response:?}"
             );
 
             // Shutdown state store client and underlying resources
@@ -640,8 +621,7 @@ async fn state_store_set_key_notifications_network_tests() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] observe_no_key response: {:?}",
-                observe_no_key
+                "[{log_identifier}] observe_no_key response: {observe_no_key:?}"
             );
             let receive_notifications_task = tokio::task::spawn({
                 async move {
@@ -651,7 +631,7 @@ async fn state_store_set_key_notifications_network_tests() {
                         observe_no_key.response.recv_notification().await
                     {
                         count += 1;
-                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        log::info!("[{log_identifier}] Notification: {notification:?}");
                         assert_eq!(notification.key, key5);
                         assert_eq!(
                             notification.operation,
@@ -681,8 +661,7 @@ async fn state_store_set_key_notifications_network_tests() {
                 .unwrap();
             assert!(set_for_notification.response);
             log::info!(
-                "[{log_identifier}] set_for_notification response: {:?}",
-                set_for_notification
+                "[{log_identifier}] set_for_notification response: {set_for_notification:?}"
             );
 
             // Tests 31 (where key is being observed)
@@ -692,8 +671,7 @@ async fn state_store_set_key_notifications_network_tests() {
                 .unwrap();
             assert!(unobserve_where_observed.response);
             log::info!(
-                "[{log_identifier}] unobserve_where_observed response: {:?}",
-                unobserve_where_observed
+                "[{log_identifier}] unobserve_where_observed response: {unobserve_where_observed:?}"
             );
 
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
@@ -746,8 +724,7 @@ async fn state_store_del_key_notifications_network_tests() {
                 .unwrap();
             assert!(set_for_key6_notification.response);
             log::info!(
-                "[{log_identifier}] set_for_key6_notification response: {:?}",
-                set_for_key6_notification
+                "[{log_identifier}] set_for_key6_notification response: {set_for_key6_notification:?}"
             );
 
             // Tests 26 (where key exists)
@@ -755,7 +732,7 @@ async fn state_store_del_key_notifications_network_tests() {
                 .observe(key6.to_vec(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] observe_key response: {:?}", observe_key);
+            log::info!("[{log_identifier}] observe_key response: {observe_key:?}");
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     let mut count = 0;
@@ -764,7 +741,7 @@ async fn state_store_del_key_notifications_network_tests() {
                         observe_key.response.recv_notification().await
                     {
                         count += 1;
-                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        log::info!("[{log_identifier}] Notification: {notification:?}");
                         assert_eq!(notification.key, key6);
                         assert_eq!(notification.operation, state_store::Operation::Del);
                         // if something weird happens, this should prevent an infinite loop.
@@ -782,8 +759,7 @@ async fn state_store_del_key_notifications_network_tests() {
                 .unwrap();
             assert_eq!(del_for_notification.response, 1);
             log::info!(
-                "[{log_identifier}] del_for_notification response: {:?}",
-                del_for_notification
+                "[{log_identifier}] del_for_notification response: {del_for_notification:?}"
             );
 
             // wait to make sure delete notification is received before shutting down
@@ -835,8 +811,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .unwrap();
             assert!(!unobserve_no_observe.response);
             log::info!(
-                "[{log_identifier}] unobserve_no_observe response: {:?}",
-                unobserve_no_observe
+                "[{log_identifier}] unobserve_no_observe response: {unobserve_no_observe:?}"
             );
 
             // Tests 27 (where key does not exist (success))
@@ -845,8 +820,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] observe_key7 response: {:?}",
-                observe_key7
+                "[{log_identifier}] observe_key7 response: {observe_key7:?}"
             );
 
             // Tests 28 (where key is already being observed (error returned))
@@ -855,8 +829,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .await
                 .expect_err("Expected error");
             log::info!(
-                "[{log_identifier}] double_observe_key7 response: {:?}",
-                double_observe_key7
+                "[{log_identifier}] double_observe_key7 response: {double_observe_key7:?}"
             );
 
             // drop KeyObservation
@@ -868,8 +841,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] observe_key7_after_drop response: {:?}",
-                observe_key7_after_drop
+                "[{log_identifier}] observe_key7_after_drop response: {observe_key7_after_drop:?}"
             );
 
             let unobserve_key7 = state_store_client
@@ -878,8 +850,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .unwrap();
             assert!(unobserve_key7.response);
             log::info!(
-                "[{log_identifier}] unobserve_key7 response: {:?}",
-                unobserve_key7
+                "[{log_identifier}] unobserve_key7 response: {unobserve_key7:?}"
             );
 
             // Tests 30 (where key was observed, unobserved, and then observed again (successful))
@@ -888,8 +859,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] observe_key7_after_unobserve response: {:?}",
-                observe_key7_after_unobserve
+                "[{log_identifier}] observe_key7_after_unobserve response: {observe_key7_after_unobserve:?}"
             );
 
             // clean up
@@ -899,8 +869,7 @@ async fn state_store_observe_unobserve_network_tests() {
                 .unwrap();
             assert!(unobserve_key7_cleanup.response);
             log::info!(
-                "[{log_identifier}] unobserve_key7_cleanup response: {:?}",
-                unobserve_key7_cleanup
+                "[{log_identifier}] unobserve_key7_cleanup response: {unobserve_key7_cleanup:?}"
             );
 
             // Shutdown state store client and underlying resources
@@ -954,8 +923,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert!(set_for_key8_notification.response);
             log::info!(
-                "[{log_identifier}] set_for_key8_notification response: {:?}",
-                set_for_key8_notification
+                "[{log_identifier}] set_for_key8_notification response: {set_for_key8_notification:?}"
             );
 
             let del_for_key8_notification = state_store_client
@@ -964,8 +932,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert_eq!(del_for_key8_notification.response, 1);
             log::info!(
-                "[{log_identifier}] del_for_key8_notification response: {:?}",
-                del_for_key8_notification
+                "[{log_identifier}] del_for_key8_notification response: {del_for_key8_notification:?}"
             );
 
             let mut observe_key8 = state_store_client
@@ -973,8 +940,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] observe_key8 response: {:?}",
-                observe_key8
+                "[{log_identifier}] observe_key8 response: {observe_key8:?}"
             );
             let receive_notifications_task = tokio::task::spawn({
                 async move {
@@ -982,7 +948,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                     if let Some((notification, _)) = observe_key8.response.recv_notification().await
                     {
                         count += 1;
-                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        log::info!("[{log_identifier}] Notification: {notification:?}");
                         assert_eq!(notification.key, key8);
                         assert_eq!(
                             notification.operation,
@@ -992,14 +958,14 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                     if let Some((notification, _)) = observe_key8.response.recv_notification().await
                     {
                         count += 1;
-                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        log::info!("[{log_identifier}] Notification: {notification:?}");
                         assert_eq!(notification.key, key8);
                         assert_eq!(notification.operation, state_store::Operation::Del);
                     }
                     if let Some((notification, _)) = observe_key8.response.recv_notification().await
                     {
                         count += 1;
-                        log::info!("[{log_identifier}] Notification: {:?}", notification);
+                        log::info!("[{log_identifier}] Notification: {notification:?}");
                         assert_eq!(notification.key, key8);
                         assert_eq!(
                             notification.operation,
@@ -1010,7 +976,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                         observe_key8.response.recv_notification().await
                     {
                         count += 1;
-                        log::error!("[{log_identifier}] Unexpected: {:?}", notification);
+                        log::error!("[{log_identifier}] Unexpected: {notification:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
                         assert!(count < 4);
@@ -1035,8 +1001,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert!(set_key8_value2.response);
             log::info!(
-                "[{log_identifier}] set_key8_value2 response: {:?}",
-                set_key8_value2
+                "[{log_identifier}] set_key8_value2 response: {set_key8_value2:?}"
             );
 
             let del_key8 = state_store_client
@@ -1044,7 +1009,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .await
                 .unwrap();
             assert_eq!(del_key8.response, 1);
-            log::info!("[{log_identifier}] del_key8 response: {:?}", del_key8);
+            log::info!("[{log_identifier}] del_key8 response: {del_key8:?}");
 
             let set_key8_value3 = state_store_client
                 .set(
@@ -1061,8 +1026,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert!(set_key8_value3.response);
             log::info!(
-                "[{log_identifier}] set_key8_value3 response: {:?}",
-                set_key8_value3
+                "[{log_identifier}] set_key8_value3 response: {set_key8_value3:?}"
             );
 
             // Tests 31 (where key is being observed)
@@ -1072,8 +1036,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert!(unobserve_key8.response);
             log::info!(
-                "[{log_identifier}] unobserve_key8 response: {:?}",
-                unobserve_key8
+                "[{log_identifier}] unobserve_key8 response: {unobserve_key8:?}"
             );
 
             let set_key8_no_notification = state_store_client
@@ -1091,8 +1054,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert!(set_key8_no_notification.response);
             log::info!(
-                "[{log_identifier}] set_key8_no_notification response: {:?}",
-                set_key8_no_notification
+                "[{log_identifier}] set_key8_no_notification response: {set_key8_no_notification:?}"
             );
 
             let del_key8_no_notification = state_store_client
@@ -1101,8 +1063,7 @@ async fn state_store_complicated_recv_key_notifications_network_tests() {
                 .unwrap();
             assert_eq!(del_key8_no_notification.response, 1);
             log::info!(
-                "[{log_identifier}] del_key8_no_notification response: {:?}",
-                del_key8_no_notification
+                "[{log_identifier}] del_key8_no_notification response: {del_key8_no_notification:?}"
             );
 
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
