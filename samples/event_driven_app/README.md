@@ -24,9 +24,9 @@ The **Output Client** performs the following steps:
 
 This tutorial is available in the following languages:
 
- * [.NET](/dotnet/samples/applications/EventDrivenApp)
- * [Rust](/rust/sample_applications/event_driven_app)
- * [Go](/go/samples/application/eventdrivenapp)
+* [.NET](/dotnet/samples/applications/EventDrivenApp)
+* [Rust](/rust/sample_applications/event_driven_app)
+* [Go](/go/samples/application/eventdrivenapp)
 
 ## Prerequisites
 
