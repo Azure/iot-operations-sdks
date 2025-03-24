@@ -58,13 +58,13 @@ async fn state_store_operations(client: state_store::Client<SessionManagedClient
     let observe_response = client
         .observe(state_store_key.to_vec(), Duration::from_secs(10))
         .await;
-    log::info!("Observe response: {:?}", observe_response);
+    log::info!("Observe response: {observe_response:?}");
 
     tokio::task::spawn({
         async move {
             if let Ok(mut response) = observe_response {
                 while let Some((notification, _)) = response.response.recv_notification().await {
-                    log::info!("Notification: {:?}", notification);
+                    log::info!("Notification: {notification:?}");
                 }
                 log::info!("Notification receiver closed");
             }
@@ -84,28 +84,28 @@ async fn state_store_operations(client: state_store::Client<SessionManagedClient
         )
         .await
     {
-        Ok(response) => log::info!("Set response: {:?}", response),
-        Err(e) => log::error!("Set error: {:?}", e),
+        Ok(response) => log::info!("Set response: {response:?}"),
+        Err(e) => log::error!("Set error: {e:?}"),
     }
 
     match client.get(state_store_key.to_vec(), timeout).await {
-        Ok(response) => log::info!("Get response: {:?}", response),
-        Err(e) => log::error!("Get error: {:?}", e),
+        Ok(response) => log::info!("Get response: {response:?}"),
+        Err(e) => log::error!("Get error: {e:?}"),
     }
 
     match client.unobserve(state_store_key.to_vec(), timeout).await {
-        Ok(response) => log::info!("Unobserve response: {:?}", response),
-        Err(e) => log::error!("Unobserve error: {:?}", e),
+        Ok(response) => log::info!("Unobserve response: {response:?}"),
+        Err(e) => log::error!("Unobserve error: {e:?}"),
     }
 
     match client.del(state_store_key.to_vec(), None, timeout).await {
-        Ok(response) => log::info!("Delete response: {:?}", response),
-        Err(e) => log::error!("Delete error: {:?}", e),
+        Ok(response) => log::info!("Delete response: {response:?}"),
+        Err(e) => log::error!("Delete error: {e:?}"),
     }
 
     match client.shutdown().await {
         Ok(()) => log::info!("State Store client shutdown successfully"),
-        Err(e) => log::error!("State Store client shutdown error: {:?}", e),
+        Err(e) => log::error!("State Store client shutdown error: {e:?}"),
     }
 }
 

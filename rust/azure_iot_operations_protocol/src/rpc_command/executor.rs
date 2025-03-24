@@ -1383,10 +1383,10 @@ async fn handle_ack(
         ack_res = ack_token.ack() => {
             match ack_res {
                 Ok(_) => {
-                    log::info!("[pkid: {}] Acknowledged", pkid);
+                    log::info!("[pkid: {pkid}] Acknowledged");
                 },
                 Err(e) => {
-                    log::error!("[pkid: {}] Ack error: {e}", pkid);
+                    log::error!("[pkid: {pkid}] Ack error: {e}");
                 }
             }
         }
