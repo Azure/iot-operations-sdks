@@ -1,0 +1,156 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:jsonTest:AkriObservabilityServiceMetricsApis;1",
+    "@type": [
+      "Interface",
+      "Mqtt"
+    ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "akri/connector/resources/telemetry/{ex:connectorClientId}/metrics",
+    "schemas": [
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:MetricType;1",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "Gauge",
+            "enumValue": "Gauge"
+          },
+          {
+            "name": "Histogram",
+            "enumValue": "Histogram"
+          }
+        ]
+      },
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:MetricScope;1",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "1P_internal",
+            "enumValue": "1P_internal"
+          },
+          {
+            "name": "1P_regular",
+            "enumValue": "1P_regular"
+          },
+          {
+            "name": "3P",
+            "enumValue": "3P"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "Metric",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": "Field",
+              "name": "name",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "value",
+              "schema": "double"
+            },
+            {
+              "@type": "Field",
+              "name": "unit",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "timestamp",
+              "schema": "dateTime"
+            },
+            {
+              "@type": "Field",
+              "name": "metricType",
+              "schema": "dtmi:com:microsoft:akri:MetricType;1"
+            },
+            {
+              "@type": "Field",
+              "name": "metricScope",
+              "schema": "dtmi:com:microsoft:akri:MetricScope;1"
+            },
+            {
+              "@type": "Field",
+              "name": "tags",
+              "schema": {
+                "@type": "Map",
+                "mapKey": {
+                  "name": "attributeKey",
+                  "schema": "string"
+                },
+                "mapValue": {
+                  "name": "attributeValue",
+                  "schema": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "Counter",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": "Field",
+              "name": "name",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "value",
+              "schema": "double"
+            },
+            {
+              "@type": "Field",
+              "name": "unit",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "timestamp",
+              "schema": "dateTime"
+            },
+            {
+              "@type": "Field",
+              "name": "metricScope",
+              "schema": "dtmi:com:microsoft:akri:MetricScope;1"
+            },
+            {
+              "@type": "Field",
+              "name": "tags",
+              "schema": {
+                "@type": "Map",
+                "mapKey": {
+                  "name": "attributeKey",
+                  "schema": "string"
+                },
+                "mapValue": {
+                  "name": "attributeValue",
+                  "schema": "string"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
