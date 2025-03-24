@@ -29,6 +29,6 @@ if [ -z "$LOCATION" ]; then
 fi
 
 # Set the workspace as a safe directory
-git config --global --add safe.directory /workspace
+git config --global --add safe.directory /workspaces
 
 echo "Ending postCreateCommand"

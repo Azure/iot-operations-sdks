@@ -90,7 +90,7 @@ async fn telemetry_loop(
             .unwrap();
         match telemetry_sender.send(message).await {
             Ok(()) => log::info!("Sent telemetry successfully"),
-            Err(e) => log::error!("Error sending telemetry: {:?}", e),
+            Err(e) => log::error!("Error sending telemetry: {e}"),
         }
         tokio::time::sleep(Duration::from_secs(1)).await;
     }

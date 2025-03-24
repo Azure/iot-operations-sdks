@@ -1,19 +1,29 @@
-# Setup default Broker/Listener
+# Create Authentication
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
-kind: Broker
+kind: BrokerAuthentication
 metadata:
   name: default
   namespace: azure-iot-operations
 spec:
-  generateResourceLimits:
-    cpu: disabled
-  cardinality:
-    backendChain:
-      partitions: 1
-      redundancyFactor: 2
-    frontend:
-      replicas: 1
+  authenticationMethods:
+    - method: serviceAccountToken
+      serviceAccountTokenSettings:
+        audiences: 
+          - aio-internal
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerAuthentication
+metadata:
+  name: default-x509
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: X509
+      x509Settings:
+        trustedClientCaCert: client-ca-trust-bundle
+
+# Create Listeners
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
@@ -36,21 +46,6 @@ spec:
             name: azure-iot-operations-aio-certificate-issuer
 ---
 apiVersion: mqttbroker.iotoperations.azure.com/v1
-kind: BrokerAuthentication
-metadata:
-  name: default
-  namespace: azure-iot-operations
-spec:
-  authenticationMethods:
-    - method: serviceAccountToken
-      serviceAccountTokenSettings:
-        audiences: 
-          - aio-internal
-
-
-# Setup external listener (LoadBalancer)
----
-apiVersion: mqttbroker.iotoperations.azure.com/v1
 kind: BrokerListener
 metadata:
   name: default-external
@@ -60,8 +55,8 @@ spec:
   serviceName: aio-broker-external
   serviceType: loadBalancer
   ports:
-    - port: 31883
-    - port: 38883
+    - port: 1883
+    - port: 8883
       authenticationRef: default-x509
       tls:
         mode: automatic
@@ -76,7 +71,7 @@ spec:
               - localhost
             ip:
               - 127.0.0.1
-    - port: 38884
+    - port: 8884
       authenticationRef: default
       tls:
         mode: automatic
@@ -91,14 +86,3 @@ spec:
               - localhost
             ip:
               - 127.0.0.1
----
-apiVersion: mqttbroker.iotoperations.azure.com/v1
-kind: BrokerAuthentication
-metadata:
-  name: default-x509
-  namespace: azure-iot-operations
-spec:
-  authenticationMethods:
-    - method: X509
-      x509Settings:
-        trustedClientCaCert: client-ca-trust-bundle

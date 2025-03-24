@@ -61,16 +61,16 @@ async fn uptime_monitor(monitor: SessionConnectionMonitor) {
         monitor.disconnected().await;
         let disconnect_time = Instant::now();
         let uptime = disconnect_time - connect_time;
-        log::info!("Disconnected after {:?}", uptime);
+        log::info!("Disconnected after {uptime:?}");
         total_uptime += uptime;
-        log::info!("Total uptime: {:?}", total_uptime);
+        log::info!("Total uptime: {total_uptime:?}");
     }
 }
 
 /// Exit session after specified time
 async fn exit_after_duration(exit_handle: SessionExitHandle, duration: Duration) {
     tokio::time::sleep(duration).await;
-    log::info!("Exiting session after {:?}", duration);
+    log::info!("Exiting session after {duration:?}");
     match exit_handle.try_exit().await {
         Ok(()) => println!("Session exited successfully"),
         Err(e) => {

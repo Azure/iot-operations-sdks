@@ -3,7 +3,8 @@
 [![CI-dotnet](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-dotnet.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-dotnet.yml)
 [![CI-go](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-go.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-go.yml)
 [![CI-Rust](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/ci-rust.yml)
-[![e2e-cross-language-samples](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
+[![CD-Docs](https://github.com/Azure/iot-operations-sdks/actions/workflows/cd-docs.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/cd-docs.yml)
+[![E2E-cross-language](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml/badge.svg)](https://github.com/Azure/iot-operations-sdks/actions/workflows/e2e-cross-language.yml)
 
 > [!CAUTION]
 > The assets in this repository are currently in **Public Preview** and have been made available for early access and feedback purposes.
@@ -44,10 +45,10 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
 
 1. Follow the [Azure IoT Operations documentation](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces#connect-cluster-to-azure-arc) to connect Azure Arc and deploy Azure IoT Operations.
 
-1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
+1. Run the `configure-aio` script to configure Azure IoT Operations for development:
 
     ```bash
-    ./tools/deployment/deploy-aio.sh
+    ./tools/deployment/configure-aio.sh
     ```
 
 ## Next steps

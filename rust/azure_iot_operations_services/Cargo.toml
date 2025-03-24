@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_services"
-version = "0.7.0"
+version = "0.8.0"
 edition = "2024"
 license = "MIT"
 description = "Azure IoT Operations Services"
@@ -28,8 +28,8 @@ schema_registry = [
 leased_lock = ["state_store"]
 
 [dependencies]
-azure_iot_operations_protocol = { version = "0.8", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
-azure_iot_operations_mqtt = { version = "0.8", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
+azure_iot_operations_protocol = { version = "0.9", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
+azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 derive_builder.workspace = true
 log.workspace = true
 thiserror.workspace = true
