@@ -293,8 +293,7 @@ async fn leased_lock_client_2_operations(
                 log::info!("Key successfully set");
             } else {
                 log::error!(
-                    "Could not set key {:?}",
-                    acquire_lock_and_update_value_result
+                    "Could not set key {acquire_lock_and_update_value_result:?}"
                 );
                 return;
             }
