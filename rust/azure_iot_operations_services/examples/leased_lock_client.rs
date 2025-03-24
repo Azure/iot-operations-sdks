@@ -292,9 +292,7 @@ async fn leased_lock_client_2_operations(
             if acquire_lock_and_update_value_result.response {
                 log::info!("Key successfully set");
             } else {
-                log::error!(
-                    "Could not set key {acquire_lock_and_update_value_result:?}"
-                );
+                log::error!("Could not set key {acquire_lock_and_update_value_result:?}");
                 return;
             }
         }
@@ -323,9 +321,7 @@ async fn leased_lock_client_2_operations(
             if acquire_lock_and_update_value_result.response {
                 log::info!("Key successfully deleted");
             } else {
-                log::error!(
-                    "Could not delete key {acquire_lock_and_update_value_result:?}",
-                );
+                log::error!("Could not delete key {acquire_lock_and_update_value_result:?}",);
                 return;
             }
         }
