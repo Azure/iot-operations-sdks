@@ -73,16 +73,22 @@ pub enum ErrorKind {
 #[derive(Error, Debug)]
 pub enum ServiceError {
     /// the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    #[error(
+        "the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    )]
     TimestampSkew,
     /// A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it
     #[error("a fencing token is required for this request")]
     MissingFencingToken,
     /// the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    #[error(
+        "the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    )]
     FencingTokenSkew,
     /// The request fencing token is a lower version than the fencing token protecting the resource.
-    #[error("the request fencing token is a lower version than the fencing token protecting the resource")]
+    #[error(
+        "the request fencing token is a lower version than the fencing token protecting the resource"
+    )]
     FencingTokenLowerVersion,
     /// The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
     #[error("the quota has been exceeded")]

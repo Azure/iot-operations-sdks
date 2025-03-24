@@ -19,13 +19,13 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
-        user_properties::{validate_user_properties, UserProperty},
+        user_properties::{UserProperty, validate_user_properties},
     },
     telemetry::{
+        TELEMETRY_PROTOCOL_VERSION,
         cloud_event::{
             CloudEventFields, DEFAULT_CLOUD_EVENT_EVENT_TYPE, DEFAULT_CLOUD_EVENT_SPEC_VERSION,
         },
-        TELEMETRY_PROTOCOL_VERSION,
     },
 };
 
@@ -523,8 +523,8 @@ mod tests {
         telemetry::sender::{OptionsBuilder, Sender},
     };
     use azure_iot_operations_mqtt::{
-        session::{Session, SessionOptionsBuilder},
         MqttConnectionSettingsBuilder,
+        session::{Session, SessionOptionsBuilder},
     };
 
     use super::MessageBuilder;

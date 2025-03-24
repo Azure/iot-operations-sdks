@@ -4,10 +4,10 @@
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::counter::service::{

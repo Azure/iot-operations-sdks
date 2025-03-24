@@ -8,9 +8,9 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;
 
 use super::super::common_types::common_options::TelemetryOptions;
-use super::telemetry_collection::TelemetryCollection;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
+use super::telemetry_collection::TelemetryCollection;
 
 pub type TelemetryMessage = telemetry::receiver::Message<TelemetryCollection>;
 

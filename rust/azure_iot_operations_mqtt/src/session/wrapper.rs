@@ -5,6 +5,7 @@ use std::time::Duration;
 use async_trait::async_trait;
 use bytes::Bytes;
 
+use crate::MqttConnectionSettings;
 use crate::control_packet::{
     Publish, PublishProperties, QoS, SubscribeProperties, UnsubscribeProperties,
 };
@@ -16,7 +17,6 @@ use crate::session::reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPo
 use crate::session::session;
 use crate::session::{SessionConfigError, SessionError, SessionExitError};
 use crate::topic::TopicParseError;
-use crate::MqttConnectionSettings;
 
 /// Client that manages connections over a single MQTT session.
 ///

@@ -14,7 +14,7 @@ pub trait ReconnectPolicy {
     /// Get the next reconnect delay.
     /// Returns None if no reconnect should be attempted.
     fn next_reconnect_delay(&self, prev_attempts: u32, error: &ConnectionError)
-        -> Option<Duration>;
+    -> Option<Duration>;
 }
 
 /// A reconnect policy that will exponentially backoff the the delay between reconnect attempts.

@@ -9,10 +9,10 @@ use env_logger::Builder;
 
 use tokio::{sync::Notify, time::sleep, time::timeout};
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::leased_lock::{
     self, AcquireAndUpdateKeyOption, SetCondition, SetOptions,
@@ -136,11 +136,13 @@ async fn leased_lock_basic_try_acquire_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -184,11 +186,13 @@ async fn leased_lock_single_holder_acquires_a_lock_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -281,13 +285,15 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_simultaneously_with_rel
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-        async move { test_task2.await.map_err(|e| { e.to_string() }) },
-        async move { session2.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session2.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -398,13 +404,15 @@ async fn leased_lock_two_holders_attempt_to_acquire_lock_first_renews_network_te
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-        async move { test_task2.await.map_err(|e| { e.to_string() }) },
-        async move { session2.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session2.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -464,13 +472,15 @@ async fn leased_lock_second_holder_acquires_non_released_expired_lock_network_te
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-        async move { test_task2.await.map_err(|e| { e.to_string() }) },
-        async move { session2.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session2.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -543,9 +553,11 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
             });
 
             // [B] Wait task1 delay elapse...
-            assert!(timeout(Duration::from_secs(5), receive_notifications_task)
-                .await
-                .is_ok());
+            assert!(
+                timeout(Duration::from_secs(5), receive_notifications_task)
+                    .await
+                    .is_ok()
+            );
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
@@ -556,13 +568,15 @@ async fn leased_lock_second_holder_observes_until_lock_is_released_network_tests
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-        async move { test_task2.await.map_err(|e| { e.to_string() }) },
-        async move { session2.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session2.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -603,11 +617,13 @@ async fn leased_lock_shutdown_state_store_while_observing_lock_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -669,9 +685,11 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
                 }
             });
 
-            assert!(timeout(Duration::from_secs(5), receive_notifications_task)
-                .await
-                .is_ok());
+            assert!(
+                timeout(Duration::from_secs(5), receive_notifications_task)
+                    .await
+                    .is_ok()
+            );
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
@@ -682,20 +700,21 @@ async fn leased_lock_second_holder_observes_until_lock_expires_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-        async move { test_task2.await.map_err(|e| { e.to_string() }) },
-        async move { session2.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session2.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
-async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests(
-) {
-    let test_id =
-        "leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests";
+async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests()
+ {
+    let test_id = "leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests";
     if !setup_test(test_id) {
         return;
     }
@@ -735,12 +754,14 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
                     .response
             );
 
-            assert!(leased_lock_client1
-                .get_lock_holder(request_timeout)
-                .await
-                .unwrap()
-                .response
-                .is_none());
+            assert!(
+                leased_lock_client1
+                    .get_lock_holder(request_timeout)
+                    .await
+                    .unwrap()
+                    .response
+                    .is_none()
+            );
 
             assert_eq!(
                 state_store_client1
@@ -770,12 +791,14 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
                     .response
             );
 
-            assert!(state_store_client1
-                .get(shared_resource_key_name.into_bytes(), request_timeout)
-                .await
-                .unwrap()
-                .response
-                .is_none());
+            assert!(
+                state_store_client1
+                    .get(shared_resource_key_name.into_bytes(), request_timeout)
+                    .await
+                    .unwrap()
+                    .response
+                    .is_none()
+            );
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
@@ -786,18 +809,19 @@ async fn leased_lock_single_holder_do_acquire_lock_and_update_value_to_set_and_d
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
-async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests(
-) {
-    let test_id =
-        "leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests";
+async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests()
+ {
+    let test_id = "leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_delete_key_network_tests";
     if !setup_test(test_id) {
         return;
     }
@@ -845,12 +869,14 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
                     .response
             );
 
-            assert!(leased_lock_client1
-                .get_lock_holder(request_timeout)
-                .await
-                .unwrap()
-                .response
-                .is_none());
+            assert!(
+                leased_lock_client1
+                    .get_lock_holder(request_timeout)
+                    .await
+                    .unwrap()
+                    .response
+                    .is_none()
+            );
 
             assert_eq!(
                 state_store_client1
@@ -882,12 +908,14 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
 
             task2_notify.notified().await;
 
-            assert!(leased_lock_client2
-                .get_lock_holder(request_timeout)
-                .await
-                .unwrap()
-                .response
-                .is_none());
+            assert!(
+                leased_lock_client2
+                    .get_lock_holder(request_timeout)
+                    .await
+                    .unwrap()
+                    .response
+                    .is_none()
+            );
 
             assert!(
                 leased_lock_client2
@@ -902,22 +930,26 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
                     .response
             );
 
-            assert!(leased_lock_client2
-                .get_lock_holder(request_timeout)
-                .await
-                .unwrap()
-                .response
-                .is_none());
+            assert!(
+                leased_lock_client2
+                    .get_lock_holder(request_timeout)
+                    .await
+                    .unwrap()
+                    .response
+                    .is_none()
+            );
 
-            assert!(state_store_client2
-                .get(
-                    test_task2_shared_resource_key_name.into_bytes(),
-                    request_timeout
-                )
-                .await
-                .unwrap()
-                .response
-                .is_none());
+            assert!(
+                state_store_client2
+                    .get(
+                        test_task2_shared_resource_key_name.into_bytes(),
+                        request_timeout
+                    )
+                    .await
+                    .unwrap()
+                    .response
+                    .is_none()
+            );
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
@@ -928,13 +960,15 @@ async fn leased_lock_two_holders_do_acquire_lock_and_update_value_to_set_and_del
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task1.await.map_err(|e| { e.to_string() }) },
-        async move { session1.run().await.map_err(|e| { e.to_string() }) },
-        async move { test_task2.await.map_err(|e| { e.to_string() }) },
-        async move { session2.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { session1.run().await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session2.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -972,11 +1006,13 @@ async fn leased_lock_attempt_to_release_lock_twice_network_tests() {
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 #[tokio::test]
@@ -1011,9 +1047,11 @@ async fn leased_lock_attempt_to_observe_lock_that_does_not_exist_network_tests()
 
     // if an assert fails in the test task, propagate the panic to end the test,
     // while still running the test task and the session to completion on the happy path
-    assert!(tokio::try_join!(
-        async move { test_task.await.map_err(|e| { e.to_string() }) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }

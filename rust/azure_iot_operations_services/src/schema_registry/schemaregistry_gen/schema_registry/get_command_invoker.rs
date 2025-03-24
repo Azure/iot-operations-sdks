@@ -10,10 +10,10 @@ use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::common_options::CommandOptions;
-use super::get_request_payload::GetRequestPayload;
-use super::get_response_payload::GetResponsePayload;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
+use super::get_request_payload::GetRequestPayload;
+use super::get_response_payload::GetResponsePayload;
 
 pub type GetRequest = rpc_command::invoker::Request<GetRequestPayload>;
 pub type GetResponse = rpc_command::invoker::Response<GetResponsePayload>;
