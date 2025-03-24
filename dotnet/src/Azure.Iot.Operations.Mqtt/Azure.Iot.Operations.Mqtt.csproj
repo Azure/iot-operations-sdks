@@ -21,5 +21,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <NoWarn>CS8002</NoWarn>
+  </PropertyGroup>
 
 </Project>
