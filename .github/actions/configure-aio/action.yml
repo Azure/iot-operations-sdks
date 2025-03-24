@@ -34,14 +34,14 @@ runs:
       uses: azure/iot-operations-sdks-action@main
 
     - name: Configure AIO
-      run: tools/deployment/deploy-aio.sh
+      run: tools/deployment/configure-aio.sh
       shell: bash
 
     - name: Setup .NET
       if: inputs.install-dotnet == 'true'
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.200
+        dotnet-version: 9.x
 
     - name: Setup GO
       if: inputs.install-go == 'true'

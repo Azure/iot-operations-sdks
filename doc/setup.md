@@ -113,10 +113,10 @@ Azure IoT Operations will be installed to the development cluster, and then the 
     ╰─────────────────────────────╯
     ```
 
-1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
+1. Run the `configure-aio` script to configure Azure IoT Operations for development:
 
     ```bash
-    ./tools/deployment/deploy-aio.sh
+    ./tools/deployment/configure-aio.sh
     ```
 
 ## Shell configuration
@@ -179,11 +179,10 @@ The MQTT broker can be accessed both on-cluster and off-cluster using the connec
 
 | Hostname | Authentication | TLS | On cluster port | Off cluster port |
 |-|-|-|-|-|
-| `aio-broker` | SAT | :white_check_mark: | `18883` | - | 
-| `localhost` | None | :x: | `31883` | `1883` |
-| `localhost` | x509 | :white_check_mark: | `38883` | `8883` |
-| `localhost` | SAT | :white_check_mark: | `38884` | `8884` |
-
+| `aio-broker` | SAT | :white_check_mark: | `18883` | - |
+| `localhost` | None | :x: | `1883` | `1883` |
+| `localhost` | x509 | :white_check_mark: | `8883` | `8883` |
+| `localhost` | SAT | :white_check_mark: | `8884` | `8884` |
 
 ### Development artifacts
 

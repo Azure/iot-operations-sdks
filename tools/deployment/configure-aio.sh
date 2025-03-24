@@ -30,12 +30,6 @@ kubectl delete configmap client-ca-trust-bundle -n azure-iot-operations --ignore
 kubectl create configmap client-ca-trust-bundle -n azure-iot-operations \
     --from-literal=client_ca.pem="$(cat $session_dir/intermediate_ca.crt $session_dir/root_ca.crt)"
 
-# Create the broker if missing
-if ! kubectl get Broker default &> /dev/null; then
-    echo Missing broker, creating...
-    kubectl apply -f yaml/broker.yaml
-fi
-
 # Configure the broker
 kubectl apply -f yaml/broker-listeners.yaml --force
 

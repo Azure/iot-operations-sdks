@@ -55,8 +55,8 @@ spec:
   serviceName: aio-broker-external
   serviceType: loadBalancer
   ports:
-    - port: 31883
-    - port: 38883
+    - port: 1883
+    - port: 8883
       authenticationRef: default-x509
       tls:
         mode: automatic
@@ -71,7 +71,7 @@ spec:
               - localhost
             ip:
               - 127.0.0.1
-    - port: 38884
+    - port: 8884
       authenticationRef: default
       tls:
         mode: automatic

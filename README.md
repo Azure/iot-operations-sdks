@@ -44,10 +44,10 @@ Use GitHub Codespaces to try the Azure IoT Operations SDKs on a Kubernetes clust
 
 1. Follow the [Azure IoT Operations documentation](https://learn.microsoft.com/azure/iot-operations/get-started-end-to-end-sample/quickstart-deploy?tabs=codespaces#connect-cluster-to-azure-arc) to connect Azure Arc and deploy Azure IoT Operations.
 
-1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
+1. Run the `configure-aio` script to configure Azure IoT Operations for development:
 
     ```bash
-    ./tools/deployment/deploy-aio.sh
+    ./tools/deployment/configure-aio.sh
     ```
 
 ## Next steps

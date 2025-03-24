@@ -38,7 +38,7 @@ jobs:
       # Install prerequesities
       #=======================================================================
       - name: Install AIO
-        uses: ./.github/actions/deploy-aio
+        uses: ./.github/actions/configure-aio
         with:
           wait-for-broker: 'true'
           install-go: 'true'
