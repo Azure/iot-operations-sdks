@@ -12,7 +12,7 @@ We will implement sdk-level message chunking as part of the MQTT layer by using 
 The chunking mechanism will:
 1. Be applied only to MQTT PUBLISH packets
 2. Use standardized user properties for chunk metadata:
-   - `__chunk`: `mid:<original message id>;ci:<chunk index>;tc:<total chunk count>;cs:<full message check sum>`; `mid,ci` - present for every chunk; `tc,cs` - present only for the first chunk.
+   - `__chunk`: `<original message id>;<chunk index>;<total chunk count>;<full message check sum>`; `<original message id>,<chunk index>` - present for every chunk; `<total chunk count>,<full message check sum>` - present only for the first chunk.
 
 ### Protocol Flow
 **Sending Process:**
@@ -24,22 +24,21 @@ The chunking mechanism will:
 
 **Receiving Process:**
    - The MQTT client receives messages and identifies chunked messages by the presence of chunk metadata.
-   - Chunks are stored in a temporary buffer, indexed by message ID (`__mid`) and chunk index (`__ci`).
-   - When all chunks for a message ID are received, they are reassembled in order.
+   - Chunks are stored in a temporary buffer, indexed by message ID and chunk index.
+   - When all chunks for a message ID are received, they are reassembled in order and message checksum verified.
    - The reconstructed message is then processed as a single message by the application callback.
 
 ## Consequences
 
 ### Benefits
 - **Standards-Based:** Uses existing MQTT features rather than custom transport mechanisms
-- **Protocol Transparent:** Makes chunking behavior explicit in the protocol
+- **Protocol Transparent:** Makes chunking behavior explicit in the MQTT protocol
 - **Property Preservation:** Maintains topic, QoS, and other message properties consistently
 - **Network Optimized:** Allows efficient transmission of large payloads over constrained networks
 
 ### Implementation Considerations
 - **Error Handling:**
   - Chunk timeout mechanisms
-  - Missing chunk detection
   - Error propagation to application code
 - **Performance Optimization:**
   - Dynamic chunk sizing based on broker limitations
@@ -52,3 +51,4 @@ The chunking mechanism will:
 ## Open Questions
 1. How do we determine the optimal chunk size? Should it be based on the broker's max size, network conditions, or configurable by the application?
 2. Do we create a new API method (`PublishLargeAsync()`) or use the existing `PublishAsync()` API with transparent chunking for oversized payloads?
+3. Chunking and shared subscriptions: How do we handle chunked messages across multiple subscribers?
