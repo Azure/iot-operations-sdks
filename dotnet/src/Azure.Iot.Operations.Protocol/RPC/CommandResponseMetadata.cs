@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Azure.Iot.Operations.Services.UnitTests")]
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -24,7 +23,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandResponseMetadata is constructed within a user-code execution function on the CommandExecutor, the Timestamp is set from the HybridLogicalClock of the CommandExecutor.
         /// When CommandResponseMetadata is returned by command invocation on the CommandInvoker, the Timestamp is set from the response message; this will be null if the message contains no timestamp header.
         /// </summary>
-        public HybridLogicalClock? Timestamp { get; internal set; }
+        public HybridLogicalClock? Timestamp { get; init; }
 
         /// <summary>
         /// The content type of a command response received by a command invoker if a content type was provided on the MQTT message.
