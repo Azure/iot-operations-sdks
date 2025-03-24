@@ -28,6 +28,9 @@ The chunking mechanism will:
    - When all chunks for a message ID are received, they are reassembled in order and message checksum verified.
    - The reconstructed message is then processed as a single message by the application callback.
 
+**Note:**
+Chunk size is a three party agreement: *publisher-broker-subscriber*. Publisher can set the chunk size, but it is capped by the subscriber's or broker's maximum packet size which ever is smaller.
+
 ## Consequences
 
 ### Benefits
@@ -41,7 +44,6 @@ The chunking mechanism will:
   - Chunk timeout mechanisms
   - Error propagation to application code
 - **Performance Optimization:**
-  - Dynamic chunk sizing based on broker limitations
   - Concurrent chunk transmission
   - Efficient memory usage during reassembly
 - **Security:**
@@ -49,6 +51,5 @@ The chunking mechanism will:
   - Prevent chunk injection attacks
 
 ## Open Questions
-1. How do we determine the optimal chunk size? Should it be based on the broker's max size, network conditions, or configurable by the application?
-2. Do we create a new API method (`PublishLargeAsync()`) or use the existing `PublishAsync()` API with transparent chunking for oversized payloads?
-3. Chunking and shared subscriptions: How do we handle chunked messages across multiple subscribers?
+1. Do we create a new API method (`PublishLargeAsync()`) or use the existing `PublishAsync()` API with transparent chunking for oversized payloads?
+2. Chunking and shared subscriptions: How do we handle chunked messages across multiple subscribers?
