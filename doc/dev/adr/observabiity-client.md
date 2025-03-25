@@ -54,12 +54,3 @@ impl Histogram {
     }
 }  
 ```
-
-## Questions:
-
-- The above assumes aggregation occurs at this client level, will both Counter and Metric types be aggregated together?
-  - The dtdl only allows for one telemetry message to be sent at a time with both one Counter and one Metric piece of telemetry. Are we going to send a batch of individual telemetry messages containing the data or should the dtdl change to allow aggregation?
-- Is counter going to be treated differently than metric? They contain the same data except for the Metric type.
-  - If not, the `increment` API should have different arguments to reflect a `Counter`: `increment()` and `reset()`
-- Should the API for each metric type change? Gauge and Histogram make sense to have the same as it is only reporting a number.
-- Will errors be scraped from the terminal?
