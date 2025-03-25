@@ -34,11 +34,11 @@ runs:
       uses: actions/checkout@v4
       with:
         repository: azure/iot-operations-sdks-action
+        token: ${{ secrets.IOT_OPERATIONS_SDKS_ACTION }}
 
-    - name: Install AIO
+    - name: Install AIO 
       run: ./install.sh
       shell: bash
-    #   uses: azure/iot-operations-sdks-action@main
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
