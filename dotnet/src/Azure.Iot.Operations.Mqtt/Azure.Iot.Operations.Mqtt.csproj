@@ -2,15 +2,21 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks/</PackageProjectUrl>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Microsoft</Authors>
     <VersionPrefix>0.10.0</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Mqtt.UnitTests" />
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Protocol.MetlTests" />
-  </ItemGroup>
+  
+  <!--The MQTTnet version we take a dependency on isn't strong name signed, but this library is. Ideally, MQTTnet would go back to strong name
+  signing like its slightly older versions do-->
+  <PropertyGroup>
+    <NoWarn>CS8002</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
@@ -19,4 +25,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <!-- Add strong name signing properties -->
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
 </Project>

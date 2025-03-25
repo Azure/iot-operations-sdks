@@ -1,12 +1,12 @@
 # Initializing a Kubernetes cluster and installing Azure IoT Operations
 
-These scripts support the general [Setups](/doc/setup.md) documentation.
+These scripts support the repository [setup](/doc/setup.md) documentation.
 
 ## Supported environments
 
 The scripts have been tested in the following environments:
 
-1. [CodeSpaces](https://github.com/features/codespaces) - Launch this repository directly in codespaces
+1. [Codespaces](https://github.com/features/codespaces) - Launch this repository directly in Codespaces
 1. [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) - Create the environment in docker running on your local box using VSCode
 
 1. WSL - Deploy on k3d installed in WSL
@@ -32,7 +32,7 @@ The scripts have been tested in the following environments:
 3. Configure Azure IoT Operations for development:
 
     ```bash
-    ./tools/deployment/deploy-aio.sh
+    ./tools/deployment/configure-aio.sh
     ```
 
 ### Update credentials
@@ -62,7 +62,7 @@ Installs prerequisites and creates a new cluster:
 1. Set up port forwarding for ports `1883`, `8883`, and `8884` to enable TLS
 1. Create a local registry
 
-### `deploy-aio`
+### `configure-aio`
 
 Configures the MQTT broker for development purposes:
 

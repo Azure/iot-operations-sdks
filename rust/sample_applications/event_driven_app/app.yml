@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: event-driven-app
+  namespace: azure-iot-operations
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-driven-app
+  namespace: azure-iot-operations
+spec:
+  selector:
+    matchLabels:
+      app: event-driven-app
+  template:
+    metadata:
+      labels:
+        app: event-driven-app
+    spec:
+      serviceAccountName: event-driven-app
+
+      volumes:
+        - name: event-driven-app-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: event-driven-app-token
+                  audience: aio-internal
+                  expirationSeconds: 86400
+        - name: aio-ca-trust-bundle
+          configMap:
+            name: azure-iot-operations-aio-ca-trust-bundle
+
+      containers:
+        - name: event-driven-app-input
+          image: event-driven-app # Pull image from k3d cluster
+          imagePullPolicy: Never
+          command: ["./input_client"]
+          volumeMounts:
+            - name: event-driven-app-token
+              mountPath: /var/run/secrets/tokens/
+            - name: aio-ca-trust-bundle
+              mountPath: /var/run/certs/aio-ca/
+          env:
+            - name: AIO_MQTT_CLIENT_ID
+              value: "EventDrivenAppInput"
+            - name: AIO_BROKER_HOSTNAME
+              value: "aio-broker"
+            - name: AIO_BROKER_TCP_PORT
+              value: "18883"
+            - name: AIO_MQTT_USE_TLS
+              value: "true"
+            - name: AIO_TLS_CA_FILE
+              value: "/var/run/certs/aio-ca/ca.crt"
+            - name: AIO_SAT_FILE
+              value: "/var/run/secrets/tokens/event-driven-app-token"
+
+        - name: event-driven-app-output
+          image: event-driven-app # Pull image from k3d cluster
+          imagePullPolicy: Never
+          command: ["./output_client"]
+          volumeMounts:
+            - name: event-driven-app-token
+              mountPath: /var/run/secrets/tokens/
+            - name: aio-ca-trust-bundle
+              mountPath: /var/run/certs/aio-ca/
+          env:
+            - name: AIO_MQTT_CLIENT_ID
+              value: "EventDrivenAppOutput"
+            - name: AIO_BROKER_HOSTNAME
+              value: "aio-broker"
+            - name: AIO_BROKER_TCP_PORT
+              value: "18883"
+            - name: AIO_MQTT_USE_TLS
+              value: "true"
+            - name: AIO_TLS_CA_FILE
+              value: "/var/run/certs/aio-ca/ca.crt"
+            - name: AIO_SAT_FILE
+              value: "/var/run/secrets/tokens/event-driven-app-token"

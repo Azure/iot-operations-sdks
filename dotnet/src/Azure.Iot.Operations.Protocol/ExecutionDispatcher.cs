@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Azure.Iot.Operations.Protocol
 {
 #pragma warning disable CA1001 // Types that own disposable fields should be disposable
-    internal class ExecutionDispatcher
+    internal sealed class ExecutionDispatcher
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
         private readonly SemaphoreSlim _semaphore;
