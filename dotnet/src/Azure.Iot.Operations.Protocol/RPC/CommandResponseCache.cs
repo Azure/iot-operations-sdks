@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Azure.Iot.Operations.Protocol.RPC
 {
 #pragma warning disable CA1001 // Types that own disposable fields should be disposable
-    internal sealed class CommandResponseCache : ICommandResponseCache
+    internal class CommandResponseCache : ICommandResponseCache
 #pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
         private static readonly TimeSpan MaxWaitDuration = TimeSpan.FromHours(1);
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public int FixedProcessingOverheadMillis { get; set; } = 10;
 
-        public double CostWeightedBenefit(ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, TimeSpan executionDuration)
+        public virtual double CostWeightedBenefit(ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, TimeSpan executionDuration)
         {
             double executionBypassBenefit = FixedProcessingOverheadMillis + executionDuration.TotalMilliseconds;
             double storageCost = UnitStorageOverheadBytes + (requestPayload.Length) + (responseMessage.Payload.Length);
