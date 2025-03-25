@@ -13,19 +13,19 @@ static RECEIVER_DEFAULTS: OnceLock<DefaultTestCase> = OnceLock::new();
 static SENDER_DEFAULTS: OnceLock<DefaultTestCase> = OnceLock::new();
 
 pub fn get_invoker_defaults() -> Option<&'static DefaultTestCase> {
-    return INVOKER_DEFAULTS.get();
+    INVOKER_DEFAULTS.get()
 }
 
 pub fn get_executor_defaults() -> Option<&'static DefaultTestCase> {
-    return EXECUTOR_DEFAULTS.get();
+    EXECUTOR_DEFAULTS.get()
 }
 
 pub fn get_receiver_defaults() -> Option<&'static DefaultTestCase> {
-    return RECEIVER_DEFAULTS.get();
+    RECEIVER_DEFAULTS.get()
 }
 
 pub fn get_sender_defaults() -> Option<&'static DefaultTestCase> {
-    return SENDER_DEFAULTS.get();
+    SENDER_DEFAULTS.get()
 }
 
 #[ctor::ctor]
@@ -47,7 +47,7 @@ fn init() {
 fn get_default_test_case(folder_name: &str) -> DefaultTestCase {
     let file_path = format!("../../eng/test/test-cases/Protocol/{folder_name}/defaults.toml");
     let toml_text = fs::read_to_string(file_path).unwrap();
-    return toml::from_str(toml_text.as_str()).unwrap();
+    toml::from_str(toml_text.as_str()).unwrap()
 }
 
 pub trait DefaultsType {

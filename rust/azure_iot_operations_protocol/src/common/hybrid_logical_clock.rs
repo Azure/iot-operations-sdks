@@ -181,7 +181,7 @@ impl FromStr for HybridLogicalClock {
                         "Malformed HLC. Could not parse first segment as an integer: {e}"
                     ),
                     input: s.to_string(),
-                })
+                });
             }
         };
         let Some(timestamp) = UNIX_EPOCH.checked_add(Duration::from_millis(ms_since_epoch)) else {
@@ -312,9 +312,10 @@ mod tests {
     #[test]
     fn test_validate_default() {
         let hlc = HybridLogicalClock::new();
-        assert!(hlc
-            .validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT)
-            .is_ok());
+        assert!(
+            hlc.validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT)
+                .is_ok()
+        );
     }
 
     // Test validate when the HLC is in the future or the past
@@ -382,9 +383,10 @@ mod tests {
 
         // a sufficiently large counter value that isn't u64::MAX should pass validation
         hlc.counter = u64::MAX - 1;
-        assert!(hlc
-            .validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT)
-            .is_ok());
+        assert!(
+            hlc.validate(now_ms_precision(), DEFAULT_MAX_CLOCK_DRIFT)
+                .is_ok()
+        );
     }
 
     // Test update_now with default HLC
@@ -446,9 +448,11 @@ mod tests {
             set_time_offset(Duration::from_secs(0), true);
         }
 
-        assert!(self_hlc
-            .update(&self_clone, DEFAULT_MAX_CLOCK_DRIFT)
-            .is_ok());
+        assert!(
+            self_hlc
+                .update(&self_clone, DEFAULT_MAX_CLOCK_DRIFT)
+                .is_ok()
+        );
         // assert that no update occurred
         assert_eq!(self_hlc.timestamp, self_ts_copy);
         assert_eq!(self_hlc.counter, 0);

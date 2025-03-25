@@ -157,7 +157,7 @@ impl PkidAckQueue {
 
     /// Return the next PKID in the queue, if there is one
     pub fn check_next_ack_pkid(&self) -> Option<&u16> {
-        return self.queue.front();
+        self.queue.front()
     }
 
     /// Return the next PKID in the queue, if there is one, removing it from the queue

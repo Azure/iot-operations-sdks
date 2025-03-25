@@ -4,10 +4,10 @@
 use core::panic;
 use std::{env, time::Duration};
 
+use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
 use envoy::counter::client::{
@@ -52,16 +52,18 @@ async fn main() {
     ));
 
     // Wait for all tasks to finish and run the session, if any of the tasks fail, the program will panic
-    assert!(tokio::try_join!(
-        async move {
-            counter_telemetry_check_handle
-                .await
-                .map_err(|e| e.to_string())
-        },
-        async move { increment_and_check_handle.await.map_err(|e| e.to_string()) },
-        async move { session.run().await.map_err(|e| { e.to_string() }) }
-    )
-    .is_ok());
+    assert!(
+        tokio::try_join!(
+            async move {
+                counter_telemetry_check_handle
+                    .await
+                    .map_err(|e| e.to_string())
+            },
+            async move { increment_and_check_handle.await.map_err(|e| e.to_string()) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
 }
 
 /// Wait for the associated telemetry. Then exit the session.

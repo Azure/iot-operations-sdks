@@ -6,8 +6,8 @@ use std::time::Duration;
 
 use env_logger::Builder;
 
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder,
     common::payload_serialize::{
@@ -90,7 +90,7 @@ async fn telemetry_loop(
             .unwrap();
         match telemetry_sender.send(message).await {
             Ok(()) => log::info!("Sent telemetry successfully"),
-            Err(e) => log::error!("Error sending telemetry: {:?}", e),
+            Err(e) => log::error!("Error sending telemetry: {e}"),
         }
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
@@ -119,7 +119,7 @@ impl PayloadSerialize for SampleTelemetry {
 
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<SampleTelemetry, DeserializationError<String>> {
         // Not used in this example

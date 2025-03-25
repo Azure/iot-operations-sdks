@@ -32,7 +32,7 @@ The scripts have been tested in the following environments:
 3. Configure Azure IoT Operations for development:
 
     ```bash
-    ./tools/deployment/deploy-aio.sh
+    ./tools/deployment/configure-aio.sh
     ```
 
 ### Update credentials
@@ -62,7 +62,7 @@ Installs prerequisites and creates a new cluster:
 1. Set up port forwarding for ports `1883`, `8883`, and `8884` to enable TLS
 1. Create a local registry
 
-### `deploy-aio`
+### `configure-aio`
 
 Configures the MQTT broker for development purposes:
 

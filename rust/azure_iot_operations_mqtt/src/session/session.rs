@@ -195,7 +195,9 @@ where
                             // NOTE: The reason that the misattribution of cause may occur in logs is due to the
                             // (current) loose matching of received disconnects on account of an rumqttc bug.
                             // See the error cases below in this match statement for more information.
-                            log::debug!("Session-initiated exit triggered when User-initiated exit was already in-progress. There may be two disconnects, both attributed to Session");
+                            log::debug!(
+                                "Session-initiated exit triggered when User-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+                            );
                         }
                         self.trigger_session_exit().await;
                     }
@@ -236,7 +238,10 @@ where
                             // However, failure here should never happen in valid MQTT scenarios.
                             match publish.qos {
                                 QoS::AtLeastOnce | QoS::ExactlyOnce => {
-                                    log::error!("Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}", publish.pkid);
+                                    log::error!(
+                                        "Could not dispatch PUB with PKID {}. Will be auto-acked. Reason: {e:?}",
+                                        publish.pkid
+                                    );
                                     log::warn!(
                                         "Auto-ack of PKID {} may not be correctly ordered",
                                         publish.pkid
@@ -247,10 +252,16 @@ where
                                             match acker.ack(&publish).await {
                                                 Ok(ct) => {
                                                     let _ = ct.await;
-                                                    log::debug!("Auto-ack for failed dispatch PKID {} successful", publish.pkid);
+                                                    log::debug!(
+                                                        "Auto-ack for failed dispatch PKID {} successful",
+                                                        publish.pkid
+                                                    );
                                                 }
                                                 Err(e) => {
-                                                    log::error!("Auto-ack for failed dispatch PKID {} failed: {e:?}", publish.pkid);
+                                                    log::error!(
+                                                        "Auto-ack for failed dispatch PKID {} failed: {e:?}",
+                                                        publish.pkid
+                                                    );
                                                 }
                                             }
                                         }
