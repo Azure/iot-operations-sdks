@@ -2,6 +2,9 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <ProjectUrl>https://github.com/Azure/iot-operations-sdks/</ProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
     <VersionPrefix>0.10.0</VersionPrefix>
     <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>

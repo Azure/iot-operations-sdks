@@ -2,11 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <ProjectUrl>https://github.com/Azure/iot-operations-sdks/</ProjectUrl>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <VersionPrefix>0.10.0</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+  
   <!--The MQTTnet version we take a dependency on isn't strong name signed, but this library is. Ideally, MQTTnet would go back to strong name
   signing like its slightly older versions do-->
   <PropertyGroup>
