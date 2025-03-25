@@ -30,6 +30,11 @@ runs:
       run: tools/deployment/initialize-cluster.sh
       shell: bash
 
+    - name: Checkout deploy action
+      uses: actions/checkout@v4
+      with:
+        repository: azure/iot-operations-sdks-action
+
     - name: Install AIO
       uses: azure/iot-operations-sdks-action@main
 
