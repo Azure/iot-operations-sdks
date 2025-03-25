@@ -3,8 +3,6 @@
 
 using System.Runtime.CompilerServices;
 
-#if (DEBUG)
 [assembly: InternalsVisibleTo("Azure.Iot.Operations.Mqtt.UnitTests")]
 [assembly: InternalsVisibleTo("Azure.Iot.Operations.Mqtt.MetlTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-#endif
