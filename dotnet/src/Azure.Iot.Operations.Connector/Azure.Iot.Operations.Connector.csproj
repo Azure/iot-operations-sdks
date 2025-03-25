@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <VersionPrefix>0.9.0</VersionPrefix>
+    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks/</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <Authors>Microsoft</Authors>
+    <VersionPrefix>0.10.0</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -13,5 +18,12 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
+  <!-- Add strong name signing properties for release pipeline compatibility -->
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
 </Project>
  

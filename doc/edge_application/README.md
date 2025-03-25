@@ -49,6 +49,6 @@ To get started with your edge application, review the following steps to familia
 
 1. Learn how to [deploy](./deploy.md) your application to the cluster
 
-1. Run the [Event driven app tutorial](/dotnet/tutorials/EventDrivenApp/) to gain an understanding on a simple edge application scenario
+1. Run the [event driven app](/samples/event_driven_app/) tutorial to see a simple edge scenario in action
 
-1. Review the [samples](/samples) directory for samples and tutorials
+1. Review the [samples](/samples) directory for additional samples and tutorials

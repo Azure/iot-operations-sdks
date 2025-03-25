@@ -3,87 +3,75 @@
 
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::session::{
-    Session, SessionConnectionMonitor, SessionExitHandle, SessionManagedClient,
-    SessionOptionsBuilder,
-};
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
+use azure_iot_operations_mqtt::session::{
+    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
+};
+use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
-    // Create a session
-    let connection_settings = MqttConnectionSettingsBuilder::default()
-        .client_id("someClientId")
-        .hostname("localhost")
-        .tcp_port(1883u16)
-        .keep_alive(Duration::from_secs(5))
-        .use_tls(false)
-        .build()
-        .unwrap();
+    // Create a Session and exit handle
+    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?.build()?;
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
-        .build()
-        .unwrap();
-    let session = Session::new(session_options).unwrap();
+        .build()?;
+    let session = Session::new(session_options)?;
+    let exit_handle = session.create_exit_handle();
 
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    // Create an ApplicationContext
+    let application_context = ApplicationContextBuilder::default().build()?;
 
-    tokio::task::spawn(state_store_operations(
+    // Create a State Store Client
+    let state_store_client = state_store::Client::new(
         application_context,
         session.create_managed_client(),
         session.create_connection_monitor(),
-        session.create_exit_handle(),
-    ));
+        state_store::ClientOptionsBuilder::default().build()?,
+    )?;
 
-    session.run().await.unwrap();
+    // Run the Session and the State Store operations concurrently
+    let results = tokio::join! {
+        async {
+            state_store_operations(state_store_client).await;
+            exit(exit_handle).await;
+        },
+        session.run(),
+    };
+    results.1?;
+    Ok(())
 }
 
-async fn state_store_operations(
-    application_context: ApplicationContext,
-    client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
-    exit_handle: SessionExitHandle,
-) {
+async fn state_store_operations(client: state_store::Client<SessionManagedClient>) {
     let state_store_key = b"someKey";
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
 
-    let state_store_client = state_store::Client::new(
-        application_context,
-        client,
-        connection_monitor,
-        state_store::ClientOptionsBuilder::default()
-            .build()
-            .unwrap(),
-    )
-    .unwrap();
-
-    let observe_response = state_store_client
+    let observe_response = client
         .observe(state_store_key.to_vec(), Duration::from_secs(10))
         .await;
-    log::info!("Observe response: {:?}", observe_response);
+    log::info!("Observe response: {observe_response:?}");
 
     tokio::task::spawn({
         async move {
             if let Ok(mut response) = observe_response {
                 while let Some((notification, _)) = response.response.recv_notification().await {
-                    log::info!("Notification: {:?}", notification);
+                    log::info!("Notification: {notification:?}");
                 }
                 log::info!("Notification receiver closed");
             }
         }
     });
 
-    let set_response = state_store_client
+    match client
         .set(
             state_store_key.to_vec(),
             state_store_value.to_vec(),
@@ -95,28 +83,41 @@ async fn state_store_operations(
             },
         )
         .await
-        .unwrap();
-    log::info!("Set response: {:?}", set_response);
+    {
+        Ok(response) => log::info!("Set response: {response:?}"),
+        Err(e) => log::error!("Set error: {e:?}"),
+    }
 
-    let get_response = state_store_client
-        .get(state_store_key.to_vec(), timeout)
-        .await
-        .unwrap();
-    log::info!("Get response: {:?}", get_response);
+    match client.get(state_store_key.to_vec(), timeout).await {
+        Ok(response) => log::info!("Get response: {response:?}"),
+        Err(e) => log::error!("Get error: {e:?}"),
+    }
 
-    let unobserve_response = state_store_client
-        .unobserve(state_store_key.to_vec(), timeout)
-        .await
-        .unwrap();
-    log::info!("Unobserve response: {:?}", unobserve_response);
+    match client.unobserve(state_store_key.to_vec(), timeout).await {
+        Ok(response) => log::info!("Unobserve response: {response:?}"),
+        Err(e) => log::error!("Unobserve error: {e:?}"),
+    }
 
-    let delete_response = state_store_client
-        .del(state_store_key.to_vec(), None, timeout)
-        .await
-        .unwrap();
-    log::info!("Delete response: {:?}", delete_response);
+    match client.del(state_store_key.to_vec(), None, timeout).await {
+        Ok(response) => log::info!("Delete response: {response:?}"),
+        Err(e) => log::error!("Delete error: {e:?}"),
+    }
 
-    state_store_client.shutdown().await.unwrap();
+    match client.shutdown().await {
+        Ok(()) => log::info!("State Store client shutdown successfully"),
+        Err(e) => log::error!("State Store client shutdown error: {e:?}"),
+    }
+}
 
-    exit_handle.try_exit().await.unwrap();
+// Exit the Session
+async fn exit(exit_handle: SessionExitHandle) {
+    log::info!("Exiting session");
+    match exit_handle.try_exit().await {
+        Ok(()) => log::error!("Session exited gracefully"),
+        Err(e) => {
+            log::error!("Graceful session exit failed: {e}");
+            log::error!("Forcing session exit");
+            exit_handle.exit_force().await;
+        }
+    }
 }

@@ -3,12 +3,12 @@ module github.com/Azure/iot-operations-sdks/go/test/integration
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/internal v0.2.0
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.3.0
-	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.0
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.0
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy v0.0.0
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy v0.0.0
-	github.com/Azure/iot-operations-sdks/go/services v0.2.0
+	github.com/Azure/iot-operations-sdks/go/services v0.3.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
 )
@@ -29,7 +29,7 @@ require (
 	github.com/relvacode/iso8601 v1.6.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
-	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

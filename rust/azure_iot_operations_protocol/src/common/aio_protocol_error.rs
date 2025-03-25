@@ -39,7 +39,7 @@ pub enum AIOProtocolErrorKind {
     UnsupportedVersion,
 }
 
-/// Represents the possible types of the value of a property
+/// Represents the possible types of the value of a property in a [`AIOProtocolError`]
 #[derive(Debug, PartialEq)]
 pub enum Value {
     /// A 32-bit integer value
@@ -152,9 +152,14 @@ impl fmt::Display for AIOProtocolError {
                     write!(f, "An MQTT communication error occurred")
                 }
                 AIOProtocolErrorKind::UnsupportedVersion => {
-                    write!(f, "Received data with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
-                    self.protocol_version.as_deref().unwrap_or("Not Specified"),
-                    self.supported_protocol_major_versions.as_deref().unwrap_or(&[]))
+                    write!(
+                        f,
+                        "Received data with an unsupported protocol version '{}', but only major protocol versions '{:?}' are supported.",
+                        self.protocol_version.as_deref().unwrap_or("Not Specified"),
+                        self.supported_protocol_major_versions
+                            .as_deref()
+                            .unwrap_or(&[])
+                    )
                 }
             }
         }
@@ -178,7 +183,7 @@ impl AIOProtocolError {
         // This will be sorted out when AIOProtocolError is replaced in the near future.
         let err_msg = format!("{error}");
         match error.kind() {
-            TopicPatternErrorKind::InvalidPattern(pattern) => {
+            TopicPatternErrorKind::Pattern(pattern) => {
                 let pattern = pattern.to_string();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
@@ -188,7 +193,7 @@ impl AIOProtocolError {
                     None,
                 )
             }
-            TopicPatternErrorKind::InvalidShareName(share_name) => {
+            TopicPatternErrorKind::ShareName(share_name) => {
                 let share_name = share_name.to_string();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
@@ -198,7 +203,7 @@ impl AIOProtocolError {
                     None,
                 )
             }
-            TopicPatternErrorKind::InvalidNamespace(namespace) => {
+            TopicPatternErrorKind::Namespace(namespace) => {
                 let namespace = namespace.to_string();
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
@@ -208,7 +213,7 @@ impl AIOProtocolError {
                     None,
                 )
             }
-            TopicPatternErrorKind::InvalidTokenReplacement(token, replacement) => {
+            TopicPatternErrorKind::TokenReplacement(token, replacement) => {
                 let token = token.clone();
                 let replacement = replacement.to_string();
                 AIOProtocolError::new_configuration_invalid_error(

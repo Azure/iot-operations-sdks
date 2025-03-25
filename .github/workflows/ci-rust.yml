@@ -7,13 +7,13 @@ on:
   # Triggers the workflow on PR events
   pull_request:
     paths:
-      - '.devcontainer/**'
+      - '.github/**'
       - 'rust/**'
       - 'eng/test/**'
       - 'tools/statestore-cli/**'
       - 'codegen/**'
       - 'tools/deployment/**'
-      - '.github/workflows/ci-rust.yml'
+
   # Triggers the workflow on push events for the "main" branch
   push:
     branches:
@@ -51,10 +51,11 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install AIO
-      uses: ./.github/actions/deploy-aio
+      uses: ./.github/actions/configure-aio
       with:
         wait-for-broker: 'true'
         install-rust: 'true'
+        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
     - name: Run Checks
       run: |
@@ -77,7 +78,6 @@ jobs:
         path: "${{ runner.temp }}/report"
         if-no-files-found: "error"
         retention-days: 10
-
 
     - name: Verify Tools
       working-directory: tools/statestore-cli

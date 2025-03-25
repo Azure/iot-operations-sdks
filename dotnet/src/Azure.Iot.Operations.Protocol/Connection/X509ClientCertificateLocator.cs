@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Azure.Iot.Operations.Protocol.Connection
 {
-    internal class X509ClientCertificateLocator
+    internal sealed class X509ClientCertificateLocator
     {
         internal static X509Certificate2 Load(string certFile, string keyFile, string? keyFilePassword)
         {

@@ -2,6 +2,14 @@
 
 The following instructions will setup up a development environment for building and running the samples, as well as creating and testing your own Azure IoT Operations edge applications.
 
+**Contents:**
+
+* [Setup the environment](#setup-the-environment)
+* [Install Azure IoT Operations](#install-azure-iot-operations)
+* [Shell configuration](#shell-configuration)
+* [Testing the installation](#testing-the-installation)
+* [Configuration summary](#configuration-summary)
+
 ## Setup the environment
 
 The following development environment setup options utilize [k3d](https://k3d.io/#what-is-k3d) to simplify Kubernetes cluster creation. Codespaces provides the most streamlined experience and can get the development environment up and running in a couple of minutes.
@@ -53,7 +61,7 @@ Follow the steps in **one of the sections** below to get your development enviro
 
 1. When prompted, enter the *Azure IoT Operations SDKs* URL:
 
-    ```
+    ```bash
     https://github.com/azure/iot-operations-sdks
     ```
 
@@ -97,7 +105,7 @@ Azure IoT Operations will be installed to the development cluster, and then the 
 
     Expected output:
 
-    ```
+    ```bash
     ╭─────── Check Summary ───────╮
     │ 13 check(s) succeeded.      │
     │ 0 check(s) raised warnings. │
@@ -106,11 +114,19 @@ Azure IoT Operations will be installed to the development cluster, and then the 
     ╰─────────────────────────────╯
     ```
 
-1. Run the `deploy-aio` script to configure Azure IoT Operations for development:
+1. Run the `configure-aio` script to configure Azure IoT Operations for development:
 
     ```bash
-    ./tools/deployment/deploy-aio.sh
+    ./tools/deployment/configure-aio.sh
     ```
+
+## Shell configuration
+
+The samples within this repository read configuration from environment variables. We have provided a [.env](/.env) file in the repository root that exports the variables used by the samples to connect to the MQTT Broker.
+
+```bash
+source <REPOSITORY ROOT>/.env
+```
 
 ## Testing the installation
 
@@ -146,17 +162,17 @@ To test the setup is working correctly, use `mosquitto_pub` to connect to the MQ
 
  With the installation complete, the cluster will contain the following MQTT broker definitions:
 
-| Component Type | Name | Description
+| Component Type | Name | Description |
 |-|-|-|
 | `Broker` | default | The MQTT broker |
 | `BrokerListener` | default | Provides **cluster access** to the MQTT Broker |
 | `BrokerListener` | default-external | Provides **off-cluster access** to the MQTT Broker |
-| `BrokerAuthentication` | default | SAT authentication definition
-| `BrokerAuthentication` | default-x509 | An x509 authentication definition
+| `BrokerAuthentication` | default | SAT authentication definition |
+| `BrokerAuthentication` | default-x509 | An x509 authentication definition |
 
 ### MQTT broker access
 
-The MQTT broker can be accessed both on-cluster and off-cluster using the connection information below. Refer to [ Connection Settings](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/connection-settings.md) for information on which environment variables to use when configuration your application.
+The MQTT broker can be accessed both on-cluster and off-cluster using the connection information below. Refer to [Connection Settings](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/connection-settings.md) for information on which environment variables to use when configuration your application.
 
 > [!NOTE]
 >
@@ -164,11 +180,10 @@ The MQTT broker can be accessed both on-cluster and off-cluster using the connec
 
 | Hostname | Authentication | TLS | On cluster port | Off cluster port |
 |-|-|-|-|-|
-| `aio-broker` | SAT | :white_check_mark: | `18883` | - | 
-| `localhost` | None | :x: | `31883` | `1883` |
-| `localhost` | x509 | :white_check_mark: | `38883` | `8883` |
-| `localhost` | SAT | :white_check_mark: | `38884` | `8884` |
-
+| `aio-broker` | SAT | :white_check_mark: | `18883` | - |
+| `localhost` | None | :x: | `1883` | `1883` |
+| `localhost` | x509 | :white_check_mark: | `8883` | `8883` |
+| `localhost` | SAT | :white_check_mark: | `8884` | `8884` |
 
 ### Development artifacts
 
@@ -176,16 +191,16 @@ As part of the deployment script, the following files are created in the local e
 
 | File | Description |
 |-|-|
-| `broker-ca.crt` | The MQTT broker trust bundle required to validate the MQTT broker on ports `8883` and `8884`
-| `token.txt` | A Service authentication token (SAT) for authenticating with the MQTT broker on `8884`
-| `client.crt` | A x509 client certificate for authenticating with the MQTT broker on port `8883`
-| `client.key` | A x509 client private key for authenticating with the MQTT broker on port `8883`
+| `broker-ca.crt` | The MQTT broker trust bundle required to validate the MQTT broker on ports `8883` and `8884` |
+| `token.txt` | A Service authentication token (SAT) for authenticating with the MQTT broker on `8884` |
+| `client.crt` | A x509 client certificate for authenticating with the MQTT broker on port `8883` |
+| `client.key` | A x509 client private key for authenticating with the MQTT broker on port `8883` |
 
 ## Next Steps
 
 The development environment is now setup! Refer to the language documentation for further instructions on setting up the SDK:
 
-* Get started with the [.NET SDK ](/dotnet/)
+* Get started with the [.NET SDK](/dotnet/)
 
 * Get started with the [Go SDK](/go/)
 

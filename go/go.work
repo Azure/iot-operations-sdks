@@ -4,6 +4,7 @@ use (
 	./internal
 	./mqtt
 	./protocol
+	./samples/application/eventdrivenapp/
 	./samples/protocol/cloudevents/client
 	./samples/protocol/cloudevents/envoy
 	./samples/protocol/cloudevents/server
@@ -28,8 +29,8 @@ use (
 // * Changing these versions will trigger a release.                    *
 // **********************************************************************
 replace (
-	github.com/Azure/iot-operations-sdks/go/internal v0.2.0 => ./internal
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.3.0 => ./mqtt
-	github.com/Azure/iot-operations-sdks/go/protocol v0.3.0 => ./protocol
-	github.com/Azure/iot-operations-sdks/go/services v0.2.0 => ./services
+	github.com/Azure/iot-operations-sdks/go/internal v0.3.0 => ./internal
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.0 => ./mqtt
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.0 => ./protocol
+	github.com/Azure/iot-operations-sdks/go/services v0.3.0 => ./services
 )

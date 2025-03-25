@@ -50,16 +50,16 @@ impl std::fmt::Display for TopicPatternError {
 pub enum TopicPatternErrorKind {
     /// The topic pattern is invalid
     #[error("Topic pattern is invalid")]
-    InvalidPattern(String),
+    Pattern(String),
     /// The share name is invalid
     #[error("Share name '{0}' is invalid")]
-    InvalidShareName(String),
+    ShareName(String),
     /// The topic namespace is invalid
     #[error("Topic namespace '{0}' is invalid")]
-    InvalidNamespace(String),
+    Namespace(String),
     /// Could not replace a token in the topic pattern
     #[error("Token '{0}' replacement value '{1}' is invalid")]
-    InvalidTokenReplacement(String, String),
+    TokenReplacement(String, String),
 }
 
 /// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
@@ -72,7 +72,7 @@ pub enum TopicPatternErrorKind {
 /// # Arguments
 /// * `s` - A string slice to check for invalid characters
 #[must_use]
-pub(crate) fn contains_invalid_char(s: &str) -> bool {
+pub fn contains_invalid_char(s: &str) -> bool {
     s.chars().any(|c| {
         !c.is_ascii() || !('!'..='~').contains(&c) || c == '+' || c == '#' || c == '{' || c == '}'
     })
@@ -87,7 +87,7 @@ pub(crate) fn contains_invalid_char(s: &str) -> bool {
 /// # Arguments
 /// * `s` - A string slice to check for validity
 #[must_use]
-pub(crate) fn is_valid_replacement(s: &str) -> bool {
+pub fn is_valid_replacement(s: &str) -> bool {
     !(s.is_empty()
         || contains_invalid_char(s)
         || s.starts_with('/')
@@ -122,10 +122,10 @@ impl TopicPattern {
     ///
     /// # Errors
     /// The kind of error is determined by which argument is invalid:
-    /// - Has kind [`TopicPatternErrorKind::InvalidPattern`] if the pattern is invalid
-    /// - Has kind [`TopicPatternErrorKind::InvalidShareName`] if the share name is invalid
-    /// - Has kind [`TopicPatternErrorKind::InvalidNamespace`] if the topic namespace is invalid
-    /// - Has kind [`TopicPatternErrorKind::InvalidTokenReplacement`] if the token replacement is invalid
+    /// - Has kind [`TopicPatternErrorKind::Pattern`] if the pattern is invalid
+    /// - Has kind [`TopicPatternErrorKind::ShareName`] if the share name is invalid
+    /// - Has kind [`TopicPatternErrorKind::Namespace`] if the topic namespace is invalid
+    /// - Has kind [`TopicPatternErrorKind::TokenReplacement`] if the token replacement is invalid
     ///
     /// # Panics
     /// If any regex fails to compile which is impossible given that the regex are pre-defined.
@@ -141,14 +141,14 @@ impl TopicPattern {
         if pattern.trim().is_empty() {
             return Err(TopicPatternError {
                 msg: Some("Pattern is empty".to_string()),
-                kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
             });
         }
 
         if pattern.starts_with('$') {
             return Err(TopicPatternError {
                 msg: Some("Pattern must not start with '$'".to_string()),
-                kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
             });
         }
 
@@ -159,7 +159,7 @@ impl TopicPattern {
             {
                 return Err(TopicPatternError {
                     msg: None,
-                    kind: TopicPatternErrorKind::InvalidShareName(share_name.to_string()),
+                    kind: TopicPatternErrorKind::ShareName(share_name.to_string()),
                 });
             }
         }
@@ -171,7 +171,7 @@ impl TopicPattern {
         if empty_level_regex.is_match(pattern) {
             return Err(TopicPatternError {
                 msg: Some("Contains empty level(s)".to_string()),
-                kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
             });
         }
 
@@ -182,7 +182,7 @@ impl TopicPattern {
             if !is_valid_replacement(topic_namespace) {
                 return Err(TopicPatternError {
                     msg: None,
-                    kind: TopicPatternErrorKind::InvalidNamespace(topic_namespace.to_string()),
+                    kind: TopicPatternErrorKind::Namespace(topic_namespace.to_string()),
                 });
             }
             acc_pattern.push_str(topic_namespace);
@@ -209,14 +209,14 @@ impl TopicPattern {
             if token_without_braces.trim().is_empty() {
                 return Err(TopicPatternError {
                     msg: Some("Contains empty token".to_string()),
-                    kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                    kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
                 });
             }
 
             if last_end_index != 0 && last_end_index == token_capture.start() {
                 return Err(TopicPatternError {
                     msg: Some("Contains adjacent tokens".to_string()),
-                    kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                    kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
                 });
             }
 
@@ -228,7 +228,7 @@ impl TopicPattern {
             if invalid_regex.is_match(acc) {
                 return Err(TopicPatternError {
                     msg: Some("Contains invalid characters".to_string()),
-                    kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                    kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
                 });
             }
 
@@ -240,7 +240,7 @@ impl TopicPattern {
                     msg: Some(format!(
                         "Contains invalid characters in token {token_without_braces}"
                     )),
-                    kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                    kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
                 });
             }
 
@@ -249,7 +249,7 @@ impl TopicPattern {
                 if !is_valid_replacement(val) {
                     return Err(TopicPatternError {
                         msg: None,
-                        kind: TopicPatternErrorKind::InvalidTokenReplacement(
+                        kind: TopicPatternErrorKind::TokenReplacement(
                             token_without_braces.to_string(),
                             val.to_string(),
                         ),
@@ -268,7 +268,7 @@ impl TopicPattern {
         if invalid_regex.is_match(acc) {
             return Err(TopicPatternError {
                 msg: Some("Contains invalid characters".to_string()),
-                kind: TopicPatternErrorKind::InvalidPattern(pattern.to_string()),
+                kind: TopicPatternErrorKind::Pattern(pattern.to_string()),
             });
         }
 
@@ -309,7 +309,7 @@ impl TopicPattern {
     ///     no replacements to be made
     ///
     /// # Errors
-    /// The error kind will be [`TopicPatternErrorKind::InvalidTokenReplacement`] if the topic
+    /// The error kind will be [`TopicPatternErrorKind::TokenReplacement`] if the topic
     /// contains a token that was not provided in the replacement map, or if the replacement is
     /// invalid.
     ///
@@ -340,7 +340,7 @@ impl TopicPattern {
                 if !is_valid_replacement(val) {
                     return Err(TopicPatternError {
                         msg: None,
-                        kind: TopicPatternErrorKind::InvalidTokenReplacement(
+                        kind: TopicPatternErrorKind::TokenReplacement(
                             key.to_string(),
                             val.to_string(),
                         ),
@@ -350,10 +350,7 @@ impl TopicPattern {
             } else {
                 return Err(TopicPatternError {
                     msg: None,
-                    kind: TopicPatternErrorKind::InvalidTokenReplacement(
-                        key.to_string(),
-                        String::new(),
-                    ),
+                    kind: TopicPatternErrorKind::TokenReplacement(key.to_string(), String::new()),
                 });
             }
             last_match = key_cap.end();
@@ -465,7 +462,7 @@ mod tests {
     #[test_case("test/{testToken1}}"; "curly brace end")]
     fn test_topic_pattern_new_pattern_invalid(pattern: &str) {
         let err = TopicPattern::new(pattern, None, None, &create_topic_tokens()).unwrap_err();
-        assert!(matches!(err.kind(), TopicPatternErrorKind::InvalidPattern(p) if p == pattern));
+        assert!(matches!(err.kind(), TopicPatternErrorKind::Pattern(p) if p == pattern));
     }
 
     #[test_case("validNamespace"; "single level")]
@@ -491,9 +488,7 @@ mod tests {
 
         let err = TopicPattern::new(pattern, None, Some(topic_namespace), &create_topic_tokens())
             .unwrap_err();
-        assert!(
-            matches!(err.kind(), TopicPatternErrorKind::InvalidNamespace(n) if n == topic_namespace)
-        );
+        assert!(matches!(err.kind(), TopicPatternErrorKind::Namespace(n) if n == topic_namespace));
     }
 
     #[test_case("test/{{testToken1}"; "open brace")]
@@ -503,7 +498,7 @@ mod tests {
     #[test_case("test/{test\u{0000}Token}"; "non-ASCII")]
     fn test_topic_pattern_new_pattern_invalid_token(pattern: &str) {
         let err = TopicPattern::new(pattern, None, None, &HashMap::new()).unwrap_err();
-        assert!(matches!(err.kind(), TopicPatternErrorKind::InvalidPattern(p) if p == pattern));
+        assert!(matches!(err.kind(), TopicPatternErrorKind::Pattern(p) if p == pattern));
     }
 
     #[test_case("invalid replacement"; "replacement contains space")]
@@ -528,7 +523,7 @@ mod tests {
         )
         .unwrap_err();
         assert!(
-            matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == "testToken" && r == replacement)
+            matches!(err.kind(), TopicPatternErrorKind::TokenReplacement(t, r) if t == "testToken" && r == replacement)
         );
     }
 
@@ -556,9 +551,7 @@ mod tests {
     fn test_topic_pattern_new_pattern_invalid_share_name(share_name: &str) {
         let err = TopicPattern::new("test", Some(share_name.to_string()), None, &HashMap::new())
             .unwrap_err();
-        assert!(
-            matches!(err.kind(), TopicPatternErrorKind::InvalidShareName(s) if s == share_name)
-        );
+        assert!(matches!(err.kind(), TopicPatternErrorKind::ShareName(s) if s == share_name));
     }
 
     #[test]
@@ -621,7 +614,7 @@ mod tests {
 
         let err = pattern.as_publish_topic(tokens).unwrap_err();
         assert!(
-            matches!(err.kind(), TopicPatternErrorKind::InvalidTokenReplacement(t, r) if t == expected_token && r == expected_replacement)
+            matches!(err.kind(), TopicPatternErrorKind::TokenReplacement(t, r) if t == expected_token && r == expected_replacement)
         );
     }
 

@@ -8,7 +8,7 @@
 
 pub mod application;
 pub mod common;
-pub mod rpc;
+pub mod rpc_command;
 pub mod telemetry;
 
 /// Struct containing the major and minor version of the protocol.
@@ -69,10 +69,7 @@ pub(crate) fn parse_supported_protocol_major_versions(
             if let Ok(v) = s.parse::<u16>() {
                 Some(v)
             } else {
-                log::warn!(
-                    "Invalid major version in received supported major versions: '{}'",
-                    s
-                );
+                log::warn!("Invalid major version in received supported major versions: '{s}'",);
                 None
             }
         })
@@ -94,8 +91,8 @@ struct ReadmeDoctests;
 #[cfg(test)]
 mod tests {
     use crate::{
-        parse_supported_protocol_major_versions, supported_protocol_major_versions_to_string,
-        ProtocolVersion,
+        ProtocolVersion, parse_supported_protocol_major_versions,
+        supported_protocol_major_versions_to_string,
     };
     use test_case::test_case;
 

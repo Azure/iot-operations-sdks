@@ -1,4 +1,4 @@
-name: CD Docs
+name: CD-Docs
 
 on:
   workflow_dispatch:
@@ -37,6 +37,11 @@ jobs:
           echo "rust_tag=$rust_tag" >> $GITHUB_OUTPUT
           echo "go_tag=$go_tag" >> $GITHUB_OUTPUT
           echo "dotnet_tag=$dotnet_tag" >> $GITHUB_OUTPUT
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
 
       - name: Checkout Main
         uses: actions/checkout@v4

@@ -7,7 +7,7 @@ use core::fmt::Debug;
 
 use azure_iot_operations_protocol::{
     common::{aio_protocol_error::AIOProtocolError, hybrid_logical_clock::HybridLogicalClock},
-    rpc::command_invoker::CommandResponse,
+    rpc_command,
 };
 use thiserror::Error;
 
@@ -25,18 +25,19 @@ const FENCING_TOKEN_USER_PROPERTY: &str = "__ft";
 /// Represents an error that occurred in the Azure IoT Operations State Store implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
-pub struct StateStoreError(#[from] StateStoreErrorKind);
+pub struct Error(#[from] ErrorKind);
 
-impl StateStoreError {
-    /// Returns the [`StateStoreErrorKind`] of the error as a reference.
+impl Error {
+    /// Returns the [`ErrorKind`] of the error as a reference.
     #[must_use]
-    pub fn kind(&self) -> &StateStoreErrorKind {
+    pub fn kind(&self) -> &ErrorKind {
         &self.0
     }
 
-    /// Returns the [`StateStoreErrorKind`] of the error.
+    /// Returns the [`ErrorKind`] of the error.
     #[must_use]
-    pub(crate) fn consuming_kind(self) -> StateStoreErrorKind {
+    #[allow(dead_code)]
+    pub(crate) fn consuming_kind(self) -> ErrorKind {
         self.0
     }
 }
@@ -44,7 +45,7 @@ impl StateStoreError {
 /// Represents the kinds of errors that occur in the Azure IoT Operations State Store implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
-pub enum StateStoreErrorKind {
+pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
@@ -72,16 +73,22 @@ pub enum StateStoreErrorKind {
 #[derive(Error, Debug)]
 pub enum ServiceError {
     /// the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    #[error(
+        "the request timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    )]
     TimestampSkew,
     /// A fencing token is required for this request. This happens if a key has been marked with a fencing token, but the client doesn't specify it
     #[error("a fencing token is required for this request")]
     MissingFencingToken,
     /// the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized.
-    #[error("the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized")]
+    #[error(
+        "the request fencing token timestamp is too far in the future; ensure that the client and broker system clocks are synchronized"
+    )]
     FencingTokenSkew,
     /// The request fencing token is a lower version than the fencing token protecting the resource.
-    #[error("the request fencing token is a lower version than the fencing token protecting the resource")]
+    #[error(
+        "the request fencing token is a lower version than the fencing token protecting the resource"
+    )]
     FencingTokenLowerVersion,
     /// The state store has a quota of how many keys it can store, which is based on the memory profile of the MQ broker that's specified.
     #[error("the quota has been exceeded")]
@@ -145,28 +152,24 @@ where
     pub response: T,
 }
 
-/// Convenience function to convert a `CommandResponse` into a `state_store::Response`
+/// Convenience function to convert a [`rpc_command::invoker::Response`] into a [`Response`]
 /// Takes in a closure that converts the payload into the desired type.
 fn convert_response<T, F>(
-    resp: CommandResponse<resp3::Response>,
+    resp: rpc_command::invoker::Response<resp3::Response>,
     f: F,
-) -> Result<Response<T>, StateStoreError>
+) -> Result<Response<T>, Error>
 where
     F: FnOnce(resp3::Response) -> Result<T, ()>,
     T: Debug,
 {
     match resp.payload {
-        resp3::Response::Error(e) => {
-            Err(StateStoreError(StateStoreErrorKind::ServiceError(e.into())))
-        }
+        resp3::Response::Error(e) => Err(Error(ErrorKind::ServiceError(e.into()))),
         payload => match f(payload.clone()) {
             Ok(response) => Ok(Response {
                 response,
                 version: resp.timestamp,
             }),
-            Err(()) => Err(StateStoreError(StateStoreErrorKind::UnexpectedPayload(
-                format!("{payload:?}"),
-            ))),
+            Err(()) => Err(Error(ErrorKind::UnexpectedPayload(format!("{payload:?}")))),
         },
     }
 }

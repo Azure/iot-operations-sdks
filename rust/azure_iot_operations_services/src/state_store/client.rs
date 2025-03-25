@@ -12,24 +12,20 @@ use azure_iot_operations_mqtt::{
     session::SessionConnectionMonitor,
 };
 use azure_iot_operations_protocol::{
-    application::ApplicationContext,
-    common::hybrid_logical_clock::HybridLogicalClock,
-    rpc::command_invoker::{CommandInvoker, CommandInvokerOptionsBuilder, CommandRequestBuilder},
-    telemetry::telemetry_receiver::{TelemetryReceiver, TelemetryReceiverOptionsBuilder},
+    application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
+    telemetry,
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
-        mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
         Mutex, Notify,
+        mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel},
     },
     task,
 };
 
-use crate::state_store::{
-    self, SetOptions, StateStoreError, StateStoreErrorKind, FENCING_TOKEN_USER_PROPERTY,
-};
+use crate::state_store::{self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, SetOptions};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -83,7 +79,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    command_invoker: CommandInvoker<state_store::resp3::Request, state_store::resp3::Response, C>,
+    invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
     observed_keys:
         ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
     shutdown_notifier: Arc<Notify>,
@@ -103,7 +99,7 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) is possible if
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) is possible if
     ///     there are any errors creating the underlying command invoker or telemetry receiver, but it should not happen
     ///
     /// # Panics
@@ -115,9 +111,9 @@ where
         client: C,
         connection_monitor: SessionConnectionMonitor,
         options: ClientOptions,
-    ) -> Result<Self, StateStoreError> {
+    ) -> Result<Self, Error> {
         // create invoker for commands
-        let command_invoker_options = CommandInvokerOptionsBuilder::default()
+        let invoker_options = rpc_command::invoker::OptionsBuilder::default()
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .response_topic_prefix(Some(RESPONSE_TOPIC_PREFIX.into()))
             .response_topic_suffix(Some(RESPONSE_TOPIC_SUFFIX.into()))
@@ -126,22 +122,18 @@ where
             .build()
             .expect("Unreachable because all parameters that could cause errors are statically provided");
 
-        let command_invoker: CommandInvoker<
+        let invoker: rpc_command::Invoker<
             state_store::resp3::Request,
             state_store::resp3::Response,
             C,
-        > = CommandInvoker::new(
-            application_context.clone(),
-            client.clone(),
-            command_invoker_options,
-        )
-        .map_err(StateStoreErrorKind::from)?;
+        > = rpc_command::Invoker::new(application_context.clone(), client.clone(), invoker_options)
+            .map_err(ErrorKind::from)?;
 
         // Create the uppercase hex encoded version of the client ID that is used in the key notification topic
         let encoded_client_id = HEXUPPER.encode(client.client_id().as_bytes());
 
         // create telemetry receiver for notifications
-        let telemetry_receiver_options = TelemetryReceiverOptionsBuilder::default()
+        let receiver_options = telemetry::receiver::OptionsBuilder::default()
             .topic_pattern(NOTIFICATION_TOPIC_PATTERN)
             .topic_token_map(HashMap::from([(
                 "encodedClientId".to_string(),
@@ -159,9 +151,9 @@ where
 
         // Start the receive key notification loop
         task::spawn({
-            let notification_receiver: TelemetryReceiver<state_store::resp3::Operation, C> =
-                TelemetryReceiver::new(application_context, client, telemetry_receiver_options)
-                    .map_err(StateStoreErrorKind::from)?;
+            let notification_receiver: telemetry::Receiver<state_store::resp3::Operation, C> =
+                telemetry::Receiver::new(application_context, client, receiver_options)
+                    .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let observed_keys_clone = observed_keys.clone();
             async move {
@@ -176,7 +168,7 @@ where
         });
 
         Ok(Self {
-            command_invoker,
+            invoker,
             observed_keys,
             shutdown_notifier,
         })
@@ -188,17 +180,14 @@ where
     /// Note: If this method is called, the [`state_store::Client`] should not be used again.
     /// If the method returns an error, it may be called again to attempt the unsubscribe again.
     ///
-    /// Returns Ok(()) on success, otherwise returns [`StateStoreError`].
+    /// Returns Ok(()) on success, otherwise returns [`struct@Error`].
     /// # Errors
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&self) -> Result<(), StateStoreError> {
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
+    pub async fn shutdown(&self) -> Result<(), Error> {
         // Notify the receiver loop to shutdown the telemetry receiver
         self.shutdown_notifier.notify_one();
 
-        self.command_invoker
-            .shutdown()
-            .await
-            .map_err(StateStoreErrorKind::from)?;
+        self.invoker.shutdown().await.map_err(ErrorKind::from)?;
 
         log::info!("Shutdown");
         Ok(())
@@ -212,15 +201,15 @@ where
     ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Set` request
     ///
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn set(
         &self,
         key: Vec<u8>,
@@ -228,18 +217,18 @@ where
         timeout: Duration,
         fencing_token: Option<HybridLogicalClock>,
         options: SetOptions,
-    ) -> Result<state_store::Response<bool>, StateStoreError> {
+    ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let mut request_builder = CommandRequestBuilder::default();
+        let mut request_builder = rpc_command::invoker::RequestBuilder::default();
         request_builder
             .payload(state_store::resp3::Request::Set {
                 key,
                 value,
                 options: options.clone(),
             })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout);
         if let Some(ft) = fencing_token {
             request_builder.custom_user_data(vec![(
@@ -249,12 +238,12 @@ where
         }
         let request = request_builder
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::NotApplied => Ok(false),
                 state_store::resp3::Response::Ok => Ok(true),
@@ -271,34 +260,34 @@ where
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Get` request
     ///
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn get(
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<Option<Vec<u8>>>, StateStoreError> {
+    ) -> Result<state_store::Response<Option<Vec<u8>>>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
-        let request = CommandRequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::Value(value) => Ok(Some(value)),
                 state_store::resp3::Response::NotFound => Ok(None),
@@ -315,23 +304,23 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Delete` request
     ///
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn del(
         &self,
         key: Vec<u8>,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<i64>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
         self.del_internal(
             state_store::resp3::Request::Del { key },
@@ -349,24 +338,24 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if the State Store returns an Error response
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
-    /// [`StateStoreError`] of kind [`UnexpectedPayload`](StateStoreErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn vdel(
         &self,
         key: Vec<u8>,
         value: Vec<u8>,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<i64>, StateStoreError> {
+    ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(StateStoreError(StateStoreErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::KeyLengthZero));
         }
         self.del_internal(
             state_store::resp3::Request::VDel { key, value },
@@ -381,11 +370,11 @@ where
         request: state_store::resp3::Request,
         fencing_token: Option<HybridLogicalClock>,
         timeout: Duration,
-    ) -> Result<state_store::Response<i64>, StateStoreError> {
-        let mut request_builder = CommandRequestBuilder::default();
+    ) -> Result<state_store::Response<i64>, Error> {
+        let mut request_builder = rpc_command::invoker::RequestBuilder::default();
         request_builder
             .payload(request)
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout);
         if let Some(ft) = fencing_token {
             request_builder.custom_user_data(vec![(
@@ -395,12 +384,12 @@ where
         }
         let request = request_builder
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::NotFound => Ok(0),
                 state_store::resp3::Response::NotApplied => Ok(-1),
@@ -415,23 +404,23 @@ where
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<()>, StateStoreError> {
+    ) -> Result<state_store::Response<()>, Error> {
         // Send invoke request for observe
-        let request = CommandRequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: false },
             })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
 
         state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::Ok => Ok(()),
                 _ => Err(()),
@@ -458,25 +447,25 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
     /// - the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Observe` request
     ///
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn observe(
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<KeyObservation>, StateStoreError> {
+    ) -> Result<state_store::Response<KeyObservation>, Error> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
 
         // add to observed keys before sending command to prevent missing any notifications.
@@ -493,7 +482,7 @@ where
                 }
                 Some(_) => {
                     log::info!("key already is being observed");
-                    return Err(StateStoreError(StateStoreErrorKind::DuplicateObserve));
+                    return Err(Error(ErrorKind::DuplicateObserve));
                 }
                 None => {
                     // There is no KeyObservation for this key, so we can create it
@@ -532,41 +521,41 @@ where
     ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
-    /// [`StateStoreError`] of kind [`KeyLengthZero`](StateStoreErrorKind::KeyLengthZero) if
+    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
     /// - the `key` is empty
     ///
-    /// [`StateStoreError`] of kind [`InvalidArgument`](StateStoreErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
-    /// [`StateStoreError`] of kind [`ServiceError`](StateStoreErrorKind::ServiceError) if
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Unobserve` request
     ///
-    /// [`StateStoreError`] of kind [`AIOProtocolError`](StateStoreErrorKind::AIOProtocolError) if
-    /// - there are any underlying errors from [`CommandInvoker::invoke`]
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if
+    /// - there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn unobserve(
         &self,
         key: Vec<u8>,
         timeout: Duration,
-    ) -> Result<state_store::Response<bool>, StateStoreError> {
+    ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(StateStoreErrorKind::KeyLengthZero));
+            return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
         }
         // Send invoke request for unobserve
-        let request = CommandRequestBuilder::default()
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::KeyNotify {
                 key: key.clone(),
                 options: state_store::resp3::KeyNotifyOptions { stop: true },
             })
-            .map_err(|e| StateStoreErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
             .timeout(timeout)
             .build()
-            .map_err(|e| StateStoreErrorKind::InvalidArgument(e.to_string()))?;
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         match state_store::convert_response(
-            self.command_invoker
+            self.invoker
                 .invoke(request)
                 .await
-                .map_err(StateStoreErrorKind::from)?,
+                .map_err(ErrorKind::from)?,
             |payload| match payload {
                 state_store::resp3::Response::Ok => Ok(true),
                 state_store::resp3::Response::NotFound => Ok(false),
@@ -600,7 +589,7 @@ where
 
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut telemetry_receiver: TelemetryReceiver<state_store::resp3::Operation, C>,
+        mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
         observed_keys: ArcMutexHashmap<
             String,
             UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
@@ -613,7 +602,7 @@ where
                   // on shutdown/drop, we will be notified so that we can stop receiving any more messages
                   // The loop will continue to receive any more publishes that are already in the queue
                   () = shutdown_notifier.notified() => {
-                    match telemetry_receiver.shutdown().await {
+                    match receiver.shutdown().await {
                         Ok(()) => {
                             log::info!("Telemetry Receiver shutdown");
                         }
@@ -633,7 +622,7 @@ where
                     // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
                     observed_keys_mutex_guard.drain();
                   },
-                  msg = telemetry_receiver.recv() => {
+                  msg = receiver.recv() => {
                     if let Some(m) = msg {
                         match m {
                             Ok((notification, ack_token)) => {
@@ -655,7 +644,7 @@ where
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
 
                                 // if key is in the hashmap of observed keys
-                                if let Some(sender) = observed_keys_mutex_guard.get_mut(key_name) {
+                                match observed_keys_mutex_guard.get_mut(key_name) { Some(sender) => {
 
                                         if sender.is_closed() {
                                             log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
@@ -666,9 +655,9 @@ where
                                                 log::error!("Error delivering key notification {key_notification:?}: {e}");
                                             }
                                         }
-                                } else {
+                                } _ => {
                                     log::info!("Key is not being observed. Received Notification: {key_notification:?}");
-                                }
+                                }}
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
@@ -708,11 +697,11 @@ mod tests {
     use std::time::Duration;
 
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
-    use crate::state_store::{SetOptions, StateStoreError, StateStoreErrorKind};
+    use crate::state_store::{Error, ErrorKind, SetOptions};
 
     // TODO: This should return a mock ManagedClient instead.
     // Until that's possible, need to return a Session so that the Session doesn't go out of
@@ -754,7 +743,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -773,7 +762,7 @@ mod tests {
         let response = state_store_client.get(vec![], Duration::from_secs(1)).await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -794,7 +783,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -815,7 +804,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -836,7 +825,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -857,7 +846,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::KeyLengthZero)
+            Error(ErrorKind::KeyLengthZero)
         ));
     }
 
@@ -884,7 +873,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -905,7 +894,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -926,7 +915,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -952,7 +941,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -973,7 +962,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -994,7 +983,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            StateStoreError(StateStoreErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 }

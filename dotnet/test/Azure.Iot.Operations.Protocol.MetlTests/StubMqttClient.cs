@@ -86,14 +86,14 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public MqttClientOptions Options { get; private set; }
 
-        internal async Task<int> GetPublicationCount()
+        internal async Task<int> GetPublicationCountAsync()
         {
-            return await _publicationCount.Read().ConfigureAwait(false);
+            return await _publicationCount.ReadAsync().ConfigureAwait(false);
         }
 
-        internal async Task<int> GetAcknowledgementCount()
+        internal async Task<int> GetAcknowledgementCountAsync()
         {
-            return await _acknowledgementCount.Read().ConfigureAwait(false);
+            return await _acknowledgementCount.ReadAsync().ConfigureAwait(false);
         }
 
         public string ClientId => Options.ClientId;
@@ -124,7 +124,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
         {
-            int sequenceIndex = await _publicationCount.Increment().ConfigureAwait(false) - 1;
+            int sequenceIndex = await _publicationCount.IncrementAsync().ConfigureAwait(false) - 1;
 
             _publishedMessageSeq.TryAdd(sequenceIndex, applicationMessage);
 
@@ -223,7 +223,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         internal async Task<ushort> ReceiveMessageAsync(MqttApplicationMessage appMsg, ushort? specificPacketId = null)
         {
-            ushort packetId = specificPacketId != null ? (ushort)specificPacketId : (ushort)await _packetIdSequencer.Increment().ConfigureAwait(false);
+            ushort packetId = specificPacketId != null ? (ushort)specificPacketId : (ushort)await _packetIdSequencer.IncrementAsync().ConfigureAwait(false);
 
             MqttApplicationMessageReceivedEventArgs msgReceivedArgs = new(
                 Options.ClientId,
@@ -231,7 +231,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 new MqttPublishPacket { PacketIdentifier = packetId },
                 async (args, _) =>
                 {
-                    await _acknowledgementCount.Increment().ConfigureAwait(!false);
+                    await _acknowledgementCount.IncrementAsync().ConfigureAwait(!false);
                     _ackedPacketIds.Enqueue(args.PacketIdentifier);
                 });
 

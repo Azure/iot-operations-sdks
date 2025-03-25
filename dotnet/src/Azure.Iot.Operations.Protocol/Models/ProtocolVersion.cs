@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Protocol.Models
     /// A utility class for parsing + stringifying protocol versions and protocol
     /// version lists
     /// </summary>
-    internal class ProtocolVersion
+    internal sealed class ProtocolVersion
     {
         internal int MajorVersion { get; }
 

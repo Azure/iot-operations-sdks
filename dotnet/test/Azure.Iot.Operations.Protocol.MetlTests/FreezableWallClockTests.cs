@@ -10,10 +10,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         // Insanely, there seems to be no system API to retrieve this value, so instead we'll assume it based on documentation
         private static readonly TimeSpan AssumedClockResolution = TimeSpan.FromMilliseconds(16);
 
+#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
         public class ClockBehavior
         {
             [Fact]
-            public async Task NeverFrozenClockTracksRealTime()
+            public async Task NeverFrozenClockTracksRealTimeAsync()
             {
                 FreezableWallClock freezableWallClock = new();
 
@@ -33,7 +34,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task FrozenClockDoesNotAdvance()
+            public async Task FrozenClockDoesNotAdvanceAsync()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
                 FreezableWallClock freezableWallClock = new();
@@ -51,7 +52,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task FrozenThenUnfrozenClockMaintainsFixedOffset()
+            public async Task FrozenThenUnfrozenClockMaintainsFixedOffsetAsync()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
                 FreezableWallClock freezableWallClock = new();
@@ -81,7 +82,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public class Exceptions
         {
             [Fact]
-            public async Task UnfreezeUnfrozenClockThrowsException()
+            public async Task UnfreezeUnfrozenClockThrowsExceptionAsync()
             {
                 FreezableWallClock freezableWallClock = new();
 
@@ -89,7 +90,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task UnfreezeNonIssuedTicketThrowsException()
+            public async Task UnfreezeNonIssuedTicketThrowsExceptionAsync()
             {
                 FreezableWallClock freezableWallClock = new();
 
@@ -99,7 +100,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task DoubleUnfreezeThrowsException()
+            public async Task DoubleUnfreezeThrowsExceptionAsync()
             {
                 FreezableWallClock freezableWallClock = new();
 
@@ -113,7 +114,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public class Matching
         {
             [Fact]
-            public async Task MatchedSingularFreezeUnfreezeRestoresAdvancement()
+            public async Task MatchedSingularFreezeUnfreezeRestoresAdvancementAsync()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
                 FreezableWallClock freezableWallClock = new();
@@ -134,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task MatchedPluralFreezeUnfreezeRestoresAdvancement()
+            public async Task MatchedPluralFreezeUnfreezeRestoresAdvancementAsync()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
                 FreezableWallClock freezableWallClock = new();
@@ -157,7 +158,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task UnmatchedPluralFreezeSingularUnfreezeMaintainsFreeze()
+            public async Task UnmatchedPluralFreezeSingularUnfreezeMaintainsFreezeAsync()
             {
                 TimeSpan delayDuration = TimeSpan.FromSeconds(2);
                 FreezableWallClock freezableWallClock = new();
@@ -184,7 +185,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task WaitWhenClockUnfrozen(bool relativeWait)
+            public async Task WaitWhenClockUnfrozenAsync(bool relativeWait)
             {
                 TimeSpan waitDuration = TimeSpan.FromSeconds(2);
                 FreezableWallClock freezableWallClock = new();
@@ -199,7 +200,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task CreateCtsWhenClockUnfrozen(bool relativeWait)
+            public async Task CreateCtsWhenClockUnfrozenAsync(bool relativeWait)
             {
                 TimeSpan checkDuration1 = TimeSpan.FromSeconds(5);
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(10);
@@ -221,7 +222,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task WaitWithCtsWhenClockUnfrozen(bool relativeWait)
+            public async Task WaitWithCtsWhenClockUnfrozenAsync(bool relativeWait)
             {
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(1);
                 TimeSpan waitDuration = TimeSpan.FromSeconds(5);
@@ -246,7 +247,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task WaitDuringFreeze(bool relativeWait)
+            public async Task WaitDuringFreezeAsync(bool relativeWait)
             {
                 TimeSpan waitDuration = TimeSpan.FromSeconds(3);
                 TimeSpan freezeDuration = TimeSpan.FromSeconds(2);
@@ -270,7 +271,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task CreateCtsDuringFreeze(bool relativeWait)
+            public async Task CreateCtsDuringFreezeAsync(bool relativeWait)
             {
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(10);
                 TimeSpan checkDuration = TimeSpan.FromSeconds(15);
@@ -295,7 +296,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task CreateCtsAndWaitDuringFreeze(bool relativeWait)
+            public async Task CreateCtsAndWaitDuringFreezeAsync(bool relativeWait)
             {
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(1);
                 TimeSpan waitDuration = TimeSpan.FromSeconds(5);
@@ -332,7 +333,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task WaitBeforeFreeze(bool relativeWait)
+            public async Task WaitBeforeFreezeAsync(bool relativeWait)
             {
                 TimeSpan waitDuration = TimeSpan.FromSeconds(3);
                 TimeSpan freezeStart = TimeSpan.FromSeconds(1);
@@ -358,7 +359,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task CreateCtsBeforeFreeze(bool relativeWait)
+            public async Task CreateCtsBeforeFreezeAsync(bool relativeWait)
             {
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(10);
                 TimeSpan checkDuration = TimeSpan.FromSeconds(15);
@@ -387,7 +388,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task CreateCtsAndWaitBeforeFreeze(bool relativeWait)
+            public async Task CreateCtsAndWaitBeforeFreezeAsync(bool relativeWait)
             {
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(3);
                 TimeSpan waitDuration = TimeSpan.FromSeconds(10);
@@ -427,7 +428,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             [Theory(Skip = "flaky")]
             [InlineData(false)]
             [InlineData(true)]
-            public async Task CreateCtsBeforeAndWaitDuringFreeze(bool relativeWait)
+            public async Task CreateCtsBeforeAndWaitDuringFreezeAsync(bool relativeWait)
             {
                 TimeSpan cancelDuration = TimeSpan.FromSeconds(3);
                 TimeSpan waitDuration = TimeSpan.FromSeconds(10);
@@ -465,7 +466,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public class WaitAsync
         {
             [Fact]
-            public async Task WaitAsyncCompletesNormally()
+            public async Task WaitAsyncCompletesNormallyAsync()
             {
                 FreezableWallClock freezableWallClock = new();
                 TaskCompletionSource<int> tcs = new();
@@ -485,7 +486,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task WaitAsyncTimesOut()
+            public async Task WaitAsyncTimesOutAsync()
             {
                 FreezableWallClock freezableWallClock = new();
                 TaskCompletionSource<int> tcs = new();
@@ -495,7 +496,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
 
             [Fact]
-            public async Task WaitAsyncCanceled()
+            public async Task WaitAsyncCanceledAsync()
             {
                 FreezableWallClock freezableWallClock = new();
                 TaskCompletionSource<int> tcs = new();
@@ -504,10 +505,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Task waitTask = freezableWallClock.WaitAsync(tcs.Task, TimeSpan.FromMinutes(1), cts.Token);
 
                 await Task.Delay(TimeSpan.FromSeconds(1));
-                cts.Cancel();
+                await cts.CancelAsync();
 
                 await Assert.ThrowsAsync<OperationCanceledException>(async () => { await waitTask; });
             }
+#pragma warning restore VSTHRD003 // Avoid awaiting foreign Tasks
         }
     }
 }

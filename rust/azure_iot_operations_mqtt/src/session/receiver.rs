@@ -11,7 +11,7 @@ use std::string::FromUtf8Error;
 use std::sync::{Arc, Mutex};
 
 use thiserror::Error;
-use tokio::sync::mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender};
+use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
 
 use crate::control_packet::{Publish, QoS};
 use crate::error::AckError;
@@ -90,12 +90,15 @@ impl PublishReceiverManager {
         self.prune_filtered_txs();
 
         let (tx, rx) = unbounded_channel();
-        // If the topic filter is already in use, add to the associated vector
-        if let Some(v) = self.filtered_txs.get_mut(topic_filter) {
-            v.push(tx);
-        // Otherwise, create a new vector and add
-        } else {
-            self.filtered_txs.insert(topic_filter.clone(), vec![tx]);
+        match self.filtered_txs.get_mut(topic_filter) {
+            // If the topic filter is already in use, add to the associated vector
+            Some(v) => {
+                v.push(tx);
+                // Otherwise, create a new vector and add
+            }
+            _ => {
+                self.filtered_txs.insert(topic_filter.clone(), vec![tx]);
+            }
         }
 
         rx
@@ -237,10 +240,10 @@ where
         // Dispatch the publish to all relevant receivers
         let mut num_dispatches = 0;
         // First, dispatch to all filtered receivers that match the topic name
-        num_dispatches += self.dispatch_filtered(&topic_name, publish, &plenary_ack);
+        num_dispatches += self.dispatch_filtered(&topic_name, publish, plenary_ack.as_ref());
         // Then, if no filters matched, dispatch to all unfiltered receivers (if present)
         if num_dispatches == 0 {
-            num_dispatches += self.dispatch_unfiltered(publish, &plenary_ack);
+            num_dispatches += self.dispatch_unfiltered(publish, plenary_ack.as_ref());
         }
 
         log::debug!(
@@ -261,7 +264,7 @@ where
         &mut self,
         topic_name: &TopicName,
         publish: &Publish,
-        plenary_ack: &Option<PlenaryAck>,
+        plenary_ack: Option<&PlenaryAck>,
     ) -> usize {
         let mut num_dispatches = 0;
         let mut closed = vec![]; // (topic filter, position in vector)
@@ -304,7 +307,7 @@ where
     fn dispatch_unfiltered(
         &mut self,
         publish: &Publish,
-        plenary_ack: &Option<PlenaryAck>,
+        plenary_ack: Option<&PlenaryAck>,
     ) -> usize {
         let mut num_dispatches = 0;
         let mut closed = vec![];
@@ -338,10 +341,8 @@ fn extract_publish_topic_name(publish: &Publish) -> Result<TopicName, InvalidPub
     )?)?)
 }
 
-fn create_ack_token(plenary_ack: &Option<PlenaryAck>) -> Option<AckToken> {
-    plenary_ack
-        .as_ref()
-        .map(|plenary_ack| AckToken(plenary_ack.create_member()))
+fn create_ack_token(plenary_ack: Option<&PlenaryAck>) -> Option<AckToken> {
+    plenary_ack.map(|plenary_ack| AckToken(plenary_ack.create_member()))
 }
 
 #[cfg(test)]
@@ -1028,14 +1029,16 @@ mod tests {
                 .len(),
             2
         ); // Type 1
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter1)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 1
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter1)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 1
         assert_eq!(
             manager
                 .lock()
@@ -1046,19 +1049,23 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter4)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter4)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 2
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
         assert_eq!(
             manager
                 .lock()
@@ -1069,14 +1076,16 @@ mod tests {
                 .len(),
             1
         ); // Type 4
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter7)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 4
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter7)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 4
 
         // Drop the remaining receivers
         drop(filter_rx1); // Type 1
@@ -1106,11 +1115,13 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
         assert_eq!(
             manager
                 .lock()
@@ -1142,14 +1153,16 @@ mod tests {
                 .len(),
             1
         ); // Type 4
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter8)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 4
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter8)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 4
 
         drop(filter_rx8);
     }
@@ -1320,14 +1333,16 @@ mod tests {
                 .len(),
             2
         ); // Type 1
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter3)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 1
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter3)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 1
         assert_eq!(
             manager
                 .lock()
@@ -1338,19 +1353,23 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter5)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter5)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 2
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
 
         // Drop one of each type of receiver remaining
         drop(filter_rx2); // Type 1
@@ -1378,11 +1397,13 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .contains_key(&topic_filter6)); // Type 3
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .contains_key(&topic_filter6)
+        ); // Type 3
 
         // Dispatch a publish that only matches one of the filters for dropped receivers.
         let topic_name = TopicName::from_str("sport/tennis/player2").unwrap();
@@ -1406,14 +1427,16 @@ mod tests {
                 .len(),
             1
         ); // Type 1
-        assert!(manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter2)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 1
+        assert!(
+            manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter2)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 1
         assert_eq!(
             manager
                 .lock()
@@ -1424,14 +1447,16 @@ mod tests {
                 .len(),
             1
         ); // Type 2
-        assert!(!manager
-            .lock()
-            .unwrap()
-            .filtered_txs
-            .get(&topic_filter4)
-            .unwrap()
-            .iter()
-            .all(|tx| !tx.is_closed())); // Type 2
+        assert!(
+            !manager
+                .lock()
+                .unwrap()
+                .filtered_txs
+                .get(&topic_filter4)
+                .unwrap()
+                .iter()
+                .all(|tx| !tx.is_closed())
+        ); // Type 2
 
         // Drop the remaining receivers
         drop(filter_rx1);

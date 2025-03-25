@@ -124,7 +124,7 @@ impl Drop for PlenaryAckMember {
                     match plenary_op_f.await {
                         Ok(_) => {}
                         Err(e) => {
-                            log::error!("Plenary member ack on drop reported failure: {:?}", e);
+                            log::error!("Plenary member ack on drop reported failure: {e:?}");
                         }
                     }
                 }
@@ -205,7 +205,7 @@ impl PlenaryAck {
                     match plenary_op_f.await {
                         Ok(_) => {}
                         Err(e) => {
-                            log::error!("0 member plenary ack reported failure: {:?}", e);
+                            log::error!("0 member plenary ack reported failure: {e:?}");
                         }
                     }
                 }

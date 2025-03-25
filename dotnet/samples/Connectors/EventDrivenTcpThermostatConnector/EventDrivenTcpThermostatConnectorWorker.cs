@@ -14,10 +14,10 @@ namespace EventDrivenTcpThermostatConnector
         private readonly TelemetryConnectorWorker _connector;
         private CancellationTokenSource? _tcpConnectionCancellationToken;
 
-        public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAssetMonitor assetMonitor)
+        public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAssetMonitor assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
         {
             _logger = logger;
-            _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor);
+            _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor, leaderElectionConfigurationProvider);
             _connector.OnAssetAvailable += OnAssetAvailableAsync;
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }

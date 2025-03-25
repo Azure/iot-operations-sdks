@@ -14,10 +14,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::rpc::command_executor::{
-    CommandExecutor, CommandExecutorOptionsBuilder, CommandExecutorOptionsBuilderError,
-    CommandResponseBuilder,
-};
+use azure_iot_operations_protocol::rpc_command;
 use bytes::Bytes;
 use serde_json;
 use tokio::time;
@@ -195,7 +192,7 @@ where
     }
 
     async fn executor_loop(
-        mut executor: CommandExecutor<TestPayload, TestPayload, C>,
+        mut executor: rpc_command::Executor<TestPayload, TestPayload, C>,
         test_case_executor: TestCaseExecutor<ExecutorDefaults>,
         countdown_events: CountdownEventMap,
         execution_count: Arc<Mutex<i32>>,
@@ -227,19 +224,20 @@ where
                     continue;
                 }
 
-                let response_value = if let Some(request_value) = request.payload.payload.as_ref() {
-                    if let Some(response_sequence) =
-                        test_case_executor.request_responses_map.get(request_value)
-                    {
-                        let sequencer = sequencers.get_mut(request_value).unwrap();
-                        let index = *sequencer % response_sequence.len();
-                        *sequencer += 1;
-                        Some(response_sequence[index].clone())
-                    } else {
-                        None
+                let response_value = match request.payload.payload.as_ref() {
+                    Some(request_value) => {
+                        if let Some(response_sequence) =
+                            test_case_executor.request_responses_map.get(request_value)
+                        {
+                            let sequencer = sequencers.get_mut(request_value).unwrap();
+                            let index = *sequencer % response_sequence.len();
+                            *sequencer += 1;
+                            Some(response_sequence[index].clone())
+                        } else {
+                            None
+                        }
                     }
-                } else {
-                    None
+                    _ => None,
                 };
 
                 let response_payload = TestPayload {
@@ -270,7 +268,7 @@ where
                     }
                 }
 
-                let response = CommandResponseBuilder::default()
+                let response = rpc_command::executor::ResponseBuilder::default()
                     .payload(response_payload)
                     .unwrap()
                     .custom_user_data(metadata)
@@ -287,8 +285,8 @@ where
         tce: &TestCaseExecutor<ExecutorDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<CommandExecutor<TestPayload, TestPayload, C>> {
-        let mut executor_options_builder = CommandExecutorOptionsBuilder::default();
+    ) -> Option<rpc_command::Executor<TestPayload, TestPayload, C>> {
+        let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
 
         if let Some(request_topic) = tce.request_topic.as_ref() {
             executor_options_builder.request_topic_pattern(request_topic);
@@ -324,7 +322,7 @@ where
 
         let executor_options = options_result.unwrap();
 
-        match CommandExecutor::new(
+        match rpc_command::Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -349,7 +347,8 @@ where
                         _ => {
                             panic!(
                                 "Expected {} error when calling recv() on CommandExecutor but got timeout instead",
-                                catch.error_kind);
+                                catch.error_kind
+                            );
                         }
                     };
                     None
@@ -629,102 +628,125 @@ where
         }
 
         if expected_message.content_type.is_some() {
-            if let Some(properties) = published_message.properties.as_ref() {
-                assert_eq!(expected_message.content_type, properties.content_type);
-            } else {
-                panic!("expected content type but found no properties in published message");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(expected_message.content_type, properties.content_type);
+                }
+                _ => {
+                    panic!("expected content type but found no properties in published message");
+                }
             }
         }
 
         if expected_message.format_indicator.is_some() {
-            if let Some(properties) = published_message.properties.as_ref() {
-                assert_eq!(
-                    expected_message.format_indicator,
-                    properties.payload_format_indicator
-                );
-            } else {
-                panic!("expected format indicator but found no properties in published message");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(
+                        expected_message.format_indicator,
+                        properties.payload_format_indicator
+                    );
+                }
+                _ => {
+                    panic!(
+                        "expected format indicator but found no properties in published message"
+                    );
+                }
             }
         }
 
         if !expected_message.metadata.is_empty() {
-            if let Some(properties) = published_message.properties.as_ref() {
-                for (key, value) in &expected_message.metadata {
-                    let found = properties.user_properties.iter().find(|&k| &k.0 == key);
-                    if let Some(value) = value {
-                        assert!(found.is_some(), "metadata key {key} not found");
-                        assert_eq!(
-                            value,
-                            &found.unwrap().1,
-                            "metadata key {key} expected {value}"
-                        );
-                    } else {
-                        assert_eq!(None, found, "metadata key {key} not expected");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    for (key, value) in &expected_message.metadata {
+                        let found = properties.user_properties.iter().find(|&k| &k.0 == key);
+                        if let Some(value) = value {
+                            assert!(found.is_some(), "metadata key {key} not found");
+                            assert_eq!(
+                                value,
+                                &found.unwrap().1,
+                                "metadata key {key} expected {value}"
+                            );
+                        } else {
+                            assert_eq!(None, found, "metadata key {key} not expected");
+                        }
                     }
                 }
-            } else {
-                panic!("expected metadata but found no properties in published message");
+                _ => {
+                    panic!("expected metadata but found no properties in published message");
+                }
             }
         }
 
         if let Some(command_status) = expected_message.command_status {
-            if let Some(properties) = published_message.properties.as_ref() {
-                let found = properties
-                    .user_properties
-                    .iter()
-                    .find(|&k| &k.0 == "__stat");
-                if let Some(command_status) = command_status {
-                    assert_eq!(
-                        command_status.to_string(),
-                        found.unwrap().1,
-                        "status property expected {command_status}"
-                    );
-                } else {
-                    assert_eq!(None, found, "status property not expected");
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    let found = properties
+                        .user_properties
+                        .iter()
+                        .find(|&k| &k.0 == "__stat");
+                    if let Some(command_status) = command_status {
+                        assert_eq!(
+                            command_status.to_string(),
+                            found.unwrap().1,
+                            "status property expected {command_status}"
+                        );
+                    } else {
+                        assert_eq!(None, found, "status property not expected");
+                    }
                 }
-            } else {
-                panic!("expected status property but found no properties in published message");
+                _ => {
+                    panic!("expected status property but found no properties in published message");
+                }
             }
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            if let Some(properties) = published_message.properties.as_ref() {
-                let found = properties
-                    .user_properties
-                    .iter()
-                    .find(|&k| &k.0 == "__apErr");
-                if is_application_error {
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    let found = properties
+                        .user_properties
+                        .iter()
+                        .find(|&k| &k.0 == "__apErr");
+                    if is_application_error {
+                        assert!(
+                            found.unwrap().1.to_lowercase() == "true",
+                            "is application error"
+                        );
+                    } else {
+                        assert!(
+                            found.is_none() || found.unwrap().1.to_lowercase() == "false",
+                            "is application error"
+                        );
+                    }
+                }
+                _ => {
                     assert!(
-                        found.unwrap().1.to_lowercase() == "true",
-                        "is application error"
-                    );
-                } else {
-                    assert!(
-                        found.is_none() || found.unwrap().1.to_lowercase() == "false",
-                        "is application error"
+                        !is_application_error,
+                        "expected is application error property but found no properties in published message"
                     );
                 }
-            } else if is_application_error {
-                panic!("expected is application error property but found no properties in published message");
             }
         }
 
         if expected_message.expiry.is_some() {
-            if let Some(properties) = published_message.properties.as_ref() {
-                assert_eq!(expected_message.expiry, properties.message_expiry_interval);
-            } else {
-                panic!(
-                    "expected message expiry interval but found no properties in published message"
-                );
+            match published_message.properties.as_ref() {
+                Some(properties) => {
+                    assert_eq!(expected_message.expiry, properties.message_expiry_interval);
+                }
+                _ => {
+                    panic!(
+                        "expected message expiry interval but found no properties in published message"
+                    );
+                }
             }
         }
     }
 
     fn from_executor_options_builder_error(
-        builder_error: CommandExecutorOptionsBuilderError,
+        builder_error: rpc_command::executor::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            CommandExecutorOptionsBuilderError::UninitializedField(field_name) => {
+            rpc_command::executor::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,

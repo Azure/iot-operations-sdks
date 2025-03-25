@@ -1,0 +1,88 @@
+# Create Authentication
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerAuthentication
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: serviceAccountToken
+      serviceAccountTokenSettings:
+        audiences: 
+          - aio-internal
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerAuthentication
+metadata:
+  name: default-x509
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: X509
+      x509Settings:
+        trustedClientCaCert: client-ca-trust-bundle
+
+# Create Listeners
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerListener
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  brokerRef: default
+  serviceName: aio-broker
+  serviceType: clusterIp
+  ports:
+    - port: 18883
+      authenticationRef: default
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerListener
+metadata:
+  name: default-external
+  namespace: azure-iot-operations
+spec:
+  brokerRef: default
+  serviceName: aio-broker-external
+  serviceType: loadBalancer
+  ports:
+    - port: 1883
+    - port: 8883
+      authenticationRef: default-x509
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
+          san:
+            dns:
+              - aio-broker
+              - localhost
+            ip:
+              - 127.0.0.1
+    - port: 8884
+      authenticationRef: default
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
+          san:
+            dns:
+              - aio-broker
+              - localhost
+            ip:
+              - 127.0.0.1

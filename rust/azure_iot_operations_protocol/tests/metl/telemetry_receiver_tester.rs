@@ -13,9 +13,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::telemetry::telemetry_receiver::{
-    self, TelemetryReceiver, TelemetryReceiverOptionsBuilder, TelemetryReceiverOptionsBuilderError,
-};
+use azure_iot_operations_protocol::telemetry;
 use bytes::Bytes;
 use chrono::SecondsFormat;
 use serde_json;
@@ -189,7 +187,7 @@ where
     }
 
     async fn receiver_loop(
-        mut receiver: TelemetryReceiver<TestPayload, C>,
+        mut receiver: telemetry::Receiver<TestPayload, C>,
         telemetry_count: Arc<Mutex<i32>>,
         telemetry_tx: mpsc::UnboundedSender<ReceivedTelemetry>,
     ) {
@@ -199,7 +197,7 @@ where
                     *telemetry_count.lock().unwrap() += 1;
 
                     let cloud_event =
-                        match telemetry_receiver::CloudEvent::from_telemetry(&telemetry) {
+                        match telemetry::receiver::CloudEvent::from_telemetry(&telemetry) {
                             Ok(cloud_event) => Some(TestCaseCloudEvent {
                                 source: Some(cloud_event.source),
                                 event_type: Some(cloud_event.event_type),
@@ -248,8 +246,8 @@ where
         tcr: &TestCaseReceiver<ReceiverDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<TelemetryReceiver<TestPayload, C>> {
-        let mut receiver_options_builder = TelemetryReceiverOptionsBuilder::default();
+    ) -> Option<telemetry::Receiver<TestPayload, C>> {
+        let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
 
         if let Some(telemetry_topic) = tcr.telemetry_topic.as_ref() {
             receiver_options_builder.topic_pattern(telemetry_topic);
@@ -279,7 +277,7 @@ where
 
         let receiver_options = options_result.unwrap();
 
-        match TelemetryReceiver::new(
+        match telemetry::Receiver::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             receiver_options,
@@ -304,7 +302,8 @@ where
                         _ => {
                             panic!(
                                 "Expected {} error when calling recv() on TelemetryReceiver but got timeout instead",
-                                catch.error_kind);
+                                catch.error_kind
+                            );
                         }
                     };
                     None
@@ -595,11 +594,9 @@ where
                                         .expect("missing cloud event data schema")
                                 );
                             } else {
-                                assert!(received_cloud_event
-                                    .data_schema
-                                    .as_ref()
-                                    .unwrap()
-                                    .is_none());
+                                assert!(
+                                    received_cloud_event.data_schema.as_ref().unwrap().is_none()
+                                );
                             }
                         }
                     } else {
@@ -627,10 +624,10 @@ where
     }
 
     fn from_receiver_options_builder_error(
-        builder_error: TelemetryReceiverOptionsBuilderError,
+        builder_error: telemetry::receiver::OptionsBuilderError,
     ) -> AIOProtocolError {
         let property_name = match builder_error {
-            TelemetryReceiverOptionsBuilderError::UninitializedField(field_name) => {
+            telemetry::receiver::OptionsBuilderError::UninitializedField(field_name) => {
                 Some(field_name.to_string())
             }
             _ => None,
