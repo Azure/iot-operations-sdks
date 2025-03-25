@@ -48,31 +48,25 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt};
+                this.putCommandExecutor = new PutCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PutInt };
+                this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.putCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.getCommandExecutor = new GetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
+                this.putCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public PutCommandExecutor PutCommandExecutor { get => this.putCommandExecutor; }
-            public GetCommandExecutor GetCommandExecutor { get => this.getCommandExecutor; }
 
+            public GetCommandExecutor GetCommandExecutor { get => this.getCommandExecutor; }
 
             public abstract Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -114,11 +108,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     this.putCommandExecutor.StopAsync(cancellationToken),
                     this.getCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<PutResponsePayload>> PutInt(ExtendedRequest<PutRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<PutResponsePayload> extended = await this.PutAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<PutResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<GetResponsePayload>> GetInt(ExtendedRequest<GetRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetResponsePayload> extended = await this.GetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -179,8 +175,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             }
 
             public PutCommandInvoker PutCommandInvoker { get => this.putCommandInvoker; }
-            public GetCommandInvoker GetCommandInvoker { get => this.getCommandInvoker; }
 
+            public GetCommandInvoker GetCommandInvoker { get => this.getCommandInvoker; }
 
             /// <summary>
             /// Invoke a command.

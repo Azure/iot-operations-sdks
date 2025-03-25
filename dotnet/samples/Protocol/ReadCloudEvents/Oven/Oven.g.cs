@@ -48,6 +48,7 @@ namespace ReadCloudEvents.Oven
                 }
 
                 this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
@@ -55,10 +56,10 @@ namespace ReadCloudEvents.Oven
                         this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
             }
 
             public TelemetrySender TelemetrySender { get => this.telemetrySender; }
-
 
             /// <summary>
             /// Send telemetry.
@@ -127,7 +128,6 @@ namespace ReadCloudEvents.Oven
             }
 
             public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
-
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 

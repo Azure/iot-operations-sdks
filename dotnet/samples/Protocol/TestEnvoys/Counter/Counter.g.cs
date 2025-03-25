@@ -51,51 +51,34 @@ namespace TestEnvoys.Counter
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.readCounterCommandExecutor = new ReadCounterCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCounterInt};
+                this.readCounterCommandExecutor = new ReadCounterCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCounterInt };
+                this.incrementCommandExecutor = new IncrementCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IncrementInt };
+                this.resetCommandExecutor = new ResetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ResetInt };
+                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.readCounterCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.incrementCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.resetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
                 this.readCounterCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.incrementCommandExecutor = new IncrementCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IncrementInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.incrementCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
                 this.incrementCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.resetCommandExecutor = new ResetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ResetInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.resetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
                 this.resetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
             }
 
             public ReadCounterCommandExecutor ReadCounterCommandExecutor { get => this.readCounterCommandExecutor; }
-            public IncrementCommandExecutor IncrementCommandExecutor { get => this.incrementCommandExecutor; }
-            public ResetCommandExecutor ResetCommandExecutor { get => this.resetCommandExecutor; }
-            public TelemetrySender TelemetrySender { get => this.telemetrySender; }
 
+            public IncrementCommandExecutor IncrementCommandExecutor { get => this.incrementCommandExecutor; }
+
+            public ResetCommandExecutor ResetCommandExecutor { get => this.resetCommandExecutor; }
+
+            public TelemetrySender TelemetrySender { get => this.telemetrySender; }
 
             public abstract Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -165,16 +148,19 @@ namespace TestEnvoys.Counter
                     this.incrementCommandExecutor.StopAsync(cancellationToken),
                     this.resetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<ReadCounterResponsePayload> extended = await this.ReadCounterAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<ReadCounterResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<IncrementResponsePayload>> IncrementInt(ExtendedRequest<IncrementRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<IncrementResponsePayload> extended = await this.IncrementAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<IncrementResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<EmptyJson>> ResetInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.ResetAsync(req.RequestMetadata!, cancellationToken);
@@ -257,10 +243,12 @@ namespace TestEnvoys.Counter
             }
 
             public ReadCounterCommandInvoker ReadCounterCommandInvoker { get => this.readCounterCommandInvoker; }
-            public IncrementCommandInvoker IncrementCommandInvoker { get => this.incrementCommandInvoker; }
-            public ResetCommandInvoker ResetCommandInvoker { get => this.resetCommandInvoker; }
-            public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
 
+            public IncrementCommandInvoker IncrementCommandInvoker { get => this.incrementCommandInvoker; }
+
+            public ResetCommandInvoker ResetCommandInvoker { get => this.resetCommandInvoker; }
+
+            public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 

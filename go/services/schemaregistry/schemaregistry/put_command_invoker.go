@@ -24,7 +24,7 @@ func NewPutCommandInvoker(
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"commandName":     "put",
+			"commandName": "put",
 		},
 	)
 
