@@ -7,7 +7,6 @@ on:
   # Triggers the workflow on PR events
   pull_request:
     paths:
-      - '.devcontainer/**'
       - '.github/**'
       - 'rust/**'
       - 'eng/test/**'
