@@ -41,6 +41,7 @@ jobs:
       with:
         wait-for-broker: 'true'
         install-dotnet: 'true'
+        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
     - name: dotnet info
       run: dotnet --info
