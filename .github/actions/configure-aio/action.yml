@@ -37,10 +37,11 @@ runs:
       uses: actions/checkout@v4
       with:
         repository: azure/iot-operations-sdks-action
+        path: action_root
         token: ${{ inputs.action-token }}
 
     - name: Install AIO 
-      run: ./install.sh
+      run: ./action_root/install.sh
       shell: bash
 
     - name: Configure AIO
