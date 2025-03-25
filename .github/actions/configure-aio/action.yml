@@ -36,7 +36,9 @@ runs:
         repository: azure/iot-operations-sdks-action
 
     - name: Install AIO
-      uses: azure/iot-operations-sdks-action@main
+      run: ./install.sh
+      shell: bash
+    #   uses: azure/iot-operations-sdks-action@main
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
