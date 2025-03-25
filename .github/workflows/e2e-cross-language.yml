@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
 
       #=======================================================================
-      # Install prerequesities
+      # Install prerequisites
       #=======================================================================
       - name: Install AIO
         uses: ./.github/actions/configure-aio
@@ -44,6 +44,7 @@ jobs:
           install-go: 'true'
           install-dotnet: 'true'
           install-rust: 'true'
+          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
       #=======================================================================
       # Build codegen and verify it matches repository

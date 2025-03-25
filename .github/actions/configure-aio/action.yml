@@ -22,6 +22,9 @@ inputs:
     required: false
     default: 'false'
 
+  action-token:
+    description: 'A GitHub PAT'
+    required: true
 
 runs:
   using: composite
@@ -30,8 +33,16 @@ runs:
       run: tools/deployment/initialize-cluster.sh
       shell: bash
 
-    - name: Install AIO
-      uses: azure/iot-operations-sdks-action@main
+    - name: Checkout deploy action
+      uses: actions/checkout@v4
+      with:
+        repository: azure/iot-operations-sdks-action
+        path: action_root
+        token: ${{ inputs.action-token }}
+
+    - name: Install AIO 
+      run: ./action_root/install.sh
+      shell: bash
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
