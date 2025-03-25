@@ -19,13 +19,13 @@ use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{
     sync::{
-        mpsc::{unbounded_channel, UnboundedReceiver, UnboundedSender},
         Mutex, Notify,
+        mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel},
     },
     task,
 };
 
-use crate::state_store::{self, Error, ErrorKind, SetOptions, FENCING_TOKEN_USER_PROPERTY};
+use crate::state_store::{self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, SetOptions};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -644,7 +644,7 @@ where
                                 let mut observed_keys_mutex_guard = observed_keys.lock().await;
 
                                 // if key is in the hashmap of observed keys
-                                if let Some(sender) = observed_keys_mutex_guard.get_mut(key_name) {
+                                match observed_keys_mutex_guard.get_mut(key_name) { Some(sender) => {
 
                                         if sender.is_closed() {
                                             log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
@@ -655,9 +655,9 @@ where
                                                 log::error!("Error delivering key notification {key_notification:?}: {e}");
                                             }
                                         }
-                                } else {
+                                } _ => {
                                     log::info!("Key is not being observed. Received Notification: {key_notification:?}");
-                                }
+                                }}
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
@@ -697,8 +697,8 @@ mod tests {
     use std::time::Duration;
 
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::state_store::{Error, ErrorKind, SetOptions};

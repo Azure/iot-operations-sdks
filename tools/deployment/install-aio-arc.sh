@@ -2,7 +2,10 @@
 
 set -o errexit # fail if any command fails
 
-az login
+# login if needed
+if ! az account show; then
+    az login
+fi
 
 # check if the required environment variables are set
 if [ -z $LOCATION ]; then echo "LOCATION is not set"; exit 1; fi

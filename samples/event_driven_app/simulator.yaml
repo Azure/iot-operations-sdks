@@ -4,24 +4,24 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: mqtt-simulator
+  name: event-driven-app-simulator
   namespace: azure-iot-operations
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mqtt-simulator
+  name: event-driven-app-simulator
   namespace: azure-iot-operations
 spec:
   selector:
     matchLabels:
-      app: mqtt-simulator
+      app: event-driven-app-simulator
   template:
     metadata:
       labels:
-        app: mqtt-simulator
+        app: event-driven-app-simulator
     spec:
-      serviceAccountName: mqtt-simulator
+      serviceAccountName: event-driven-app-simulator
       volumes:
         - name: mqtt-client-token
           projected:
@@ -34,7 +34,7 @@ spec:
           configMap:
             name: azure-iot-operations-aio-ca-trust-bundle
       containers:
-        - name: mqtt-simulator
+        - name: event-driven-app-simulator
           image: alpine
           volumeMounts:
             - name: mqtt-client-token
@@ -62,7 +62,7 @@ spec:
                     \"vibration\": $(awk -v min=0.001 -v max=0.005 'BEGIN{srand(); print min+rand()*(max-min)}')
                 }"
 
-                mosquitto_pub -V mqttv5 -i mqtt-simulator -q 1 -i mqtt-simulator -L mqtts://aio-broker:18883/sensor/data -m "$DATA" --cafile /var/run/certs/aio-ca/ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat /var/run/secrets/tokens/mqtt-client-token)
+                mosquitto_pub -V mqttv5 -q 1 -i event-driven-app-simulator -L mqtts://aio-broker:18883/sensor/data -m "$DATA" --cafile /var/run/certs/aio-ca/ca.crt -D CONNECT authentication-method K8S-SAT -D CONNECT authentication-data $(cat /var/run/secrets/tokens/mqtt-client-token)
                 if [ $? -eq 0 ]; then
                   MSG_COUNT=$((MSG_COUNT+1))
                 else

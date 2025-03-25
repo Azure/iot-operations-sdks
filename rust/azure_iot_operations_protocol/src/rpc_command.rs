@@ -5,8 +5,8 @@
 
 use std::str::FromStr;
 
-use crate::common::aio_protocol_error::AIOProtocolError;
 use crate::ProtocolVersion;
+use crate::common::aio_protocol_error::AIOProtocolError;
 
 /// This module contains the command invoker implementation.
 pub mod invoker;

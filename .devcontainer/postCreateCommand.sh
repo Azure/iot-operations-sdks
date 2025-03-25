@@ -28,4 +28,7 @@ if [ -z "$LOCATION" ]; then
     echo "export LOCATION=westus3" >> ~/.bashrc
 fi
 
+# Set the workspace as a safe directory
+git config --global --add safe.directory /workspaces
+
 echo "Ending postCreateCommand"

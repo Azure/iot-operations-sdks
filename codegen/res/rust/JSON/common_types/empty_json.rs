@@ -20,7 +20,7 @@ impl PayloadSerialize for EmptyJson {
 
     fn deserialize(
         _payload: &[u8],
-        _content_type: &Option<String>,
+        _content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         Ok(Self {})

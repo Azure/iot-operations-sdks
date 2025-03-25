@@ -28,7 +28,7 @@ module_name_repetitions = "allow"
 bytes = "1.5.0"
 derive_builder = "0.20"
 log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
-thiserror = "1.0.63"
+thiserror = "2.0.12"
 tokio = { version = "1.41", features = ["rt", "time", "sync"] }
 tokio-util = "0.7.11"
 # dev dependencies
