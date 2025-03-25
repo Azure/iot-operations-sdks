@@ -3,10 +3,11 @@
 
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-public interface IAdrBaseServiceClient : IAsyncDisposable
+public interface IAdrServiceClient : IAsyncDisposable
 {
     Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(
         TimeSpan? commandTimeout = null,
@@ -55,6 +56,15 @@ public interface IAdrBaseServiceClient : IAsyncDisposable
         string productCode,
         string serialNumber,
         string softwareRevision,
+        TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CreateDiscoveredAssetEndpointProfileResponseSchema?> CreateDiscoveredAssetEndpointProfileAsync(
+        string additionalConfiguration,
+        string daepName,
+        string endpointProfileType,
+        List<SupportedAuthenticationMethodsSchemaElementSchema> supportedAuthenticationMethods,
+        string targetAddress,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
