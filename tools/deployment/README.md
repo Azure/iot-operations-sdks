@@ -1,12 +1,12 @@
 # Initializing a Kubernetes cluster and installing Azure IoT Operations
 
-These scripts support the general [Setups](/doc/setup.md) documentation.
+These scripts support the repository [setup](/doc/setup.md) documentation.
 
 ## Supported environments
 
 The scripts have been tested in the following environments:
 
-1. [CodeSpaces](https://github.com/features/codespaces) - Launch this repository directly in codespaces
+1. [Codespaces](https://github.com/features/codespaces) - Launch this repository directly in Codespaces
 1. [VSCode Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) - Create the environment in docker running on your local box using VSCode
 
 1. WSL - Deploy on k3d installed in WSL
