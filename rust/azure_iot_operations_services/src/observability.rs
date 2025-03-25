@@ -5,3 +5,5 @@
 
 mod client;
 mod observability_gen;
+
+const CLIENT_ID_TOKEN: &str = "connectorClientId";
