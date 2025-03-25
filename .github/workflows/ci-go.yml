@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - '.devcontainer/**'
+      - '.github/**'
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
       - 'codegen/src/**'
@@ -48,6 +48,7 @@ jobs:
         wait-for-broker: 'true'
         install-dotnet: 'true'
         install-go: 'true'
+        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
     # This file is created by configure-aio
     - name: Load test service account token into environment

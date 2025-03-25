@@ -12,17 +12,11 @@
         "ghcr.io/devcontainers/features/azure-cli:1": { "extensions": "connectedk8s,k8s-extension,azure-iot-ops" },
         "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": { "minikube": "none" },
         "ghcr.io/devcontainers/features/dotnet:2": { "version": "9.0" },
-        "ghcr.io/devcontainers/features/rust:1": {},
         "ghcr.io/devcontainers/features/go:1": {},
         "ghcr.io/rio/features/k3d:1" : {},
         "ghcr.io/rio/features/k9s:1" : {}
     },
     "customizations": {
-        "vscode": {
-            "extensions": [
-                "vsciot-vscode.vscode-dtdl"
-            ]
-        },
         "settings": {
             "scm.repositories.visible": true,
             "scm.alwaysShowRepositories": true,
