@@ -17,13 +17,13 @@ impl Client {
     // sweeper_timer sets the timer to collect all telemetry and send it    
     pub fn new(sweeper_timer: &Duration) -> Client    
 
-    pub fn create_counter(name: string, initial_value: Value, metric_scope: MetricScope, labels: Map<String, String>) -> Counter
+    pub fn create_counter(name: string, initial_value: double, unit: String, metric_scope: MetricScope, labels: Map<String, String>) -> Counter
 
     // Metric Types: 
 
-    pub fn create_gauge(name: string, initial_value: Value, metric_scope: MetricScope, labels: Map<String, String>) -> Gauge
+    pub fn create_gauge(name: string, initial_value: double, unit: String, metric_scope: MetricScope, labels: Map<String, String>) -> Gauge
 
-    pub fn create_histogram(name: string, initial_value: Value, metric_scope: MetricScope, labels: Map<String, String>) -> Histogram
+    pub fn create_histogram(name: string, initial_value: double, unit: String, metric_scope: MetricScope, labels: Map<String, String>) -> Histogram
 
     // Private function called every sweeper_timer duration to drain counter and metric queues and send them
     fn send_telemetry()
@@ -53,4 +53,20 @@ impl Histogram {
       // Queues Metric
     }
 }  
+```
+
+## Sample usage:
+
+``` Rust
+let observability_client = Client::new(Duration(10 seconds));
+
+// Counter telemetry at the customer scope
+let counter_telemetry_handle = observability_client.create_counter("foo_counter", 0.0, "double", MetricScope::customer, Map::new());
+
+// Gauge metric telemetry at the internal scope
+let gauge_telemetry_handle = observability_client.create_gauge("foo_gauge", 10.0, "double", MetricScope::internal, Map::new());
+
+// Send both pieces of telemetry
+counter_telemetry_handle.increment(1.0, "double");
+gauge_telemetry_handle.record(15.0, "double");
 ```
