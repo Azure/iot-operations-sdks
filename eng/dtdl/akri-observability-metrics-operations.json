@@ -13,6 +13,57 @@
     "telemetryTopic": "akri/connector/resources/telemetry/{ex:connectorClientId}/metrics",
     "schemas": [
       {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:Metric;1",
+        "fields": [
+          {
+            "@type": "Field",
+            "name": "name",
+            "schema": "string"
+          },
+          {
+            "@type": "Field",
+            "name": "value",
+            "schema": "double"
+          },
+          {
+            "@type": "Field",
+            "name": "unit",
+            "schema": "string"
+          },
+          {
+            "@type": "Field",
+            "name": "timestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": "Field",
+            "name": "metricType",
+            "schema": "dtmi:com:microsoft:akri:MetricType;1"
+          },
+          {
+            "@type": "Field",
+            "name": "metricScope",
+            "schema": "dtmi:com:microsoft:akri:MetricScope;1"
+          },
+          {
+            "@type": "Field",
+            "name": "tags",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "attributeKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "attributeValue",
+                "schema": "string"
+              }
+            }
+          }
+        ]
+      },
+      {
         "@type": "Enum",
         "@id": "dtmi:com:microsoft:akri:MetricType;1",
         "valueSchema": "string",
@@ -24,6 +75,10 @@
           {
             "name": "Histogram",
             "enumValue": "Histogram"
+          },
+          {
+            "name": "Counter",
+            "enumValue": "Counter"
           }
         ]
       },
@@ -50,105 +105,10 @@
     "contents": [
       {
         "@type": "Telemetry",
-        "name": "Metric",
+        "name": "Metrics",
         "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": "Field",
-              "name": "name",
-              "schema": "string"
-            },
-            {
-              "@type": "Field",
-              "name": "value",
-              "schema": "double"
-            },
-            {
-              "@type": "Field",
-              "name": "unit",
-              "schema": "string"
-            },
-            {
-              "@type": "Field",
-              "name": "timestamp",
-              "schema": "dateTime"
-            },
-            {
-              "@type": "Field",
-              "name": "metricType",
-              "schema": "dtmi:com:microsoft:akri:MetricType;1"
-            },
-            {
-              "@type": "Field",
-              "name": "metricScope",
-              "schema": "dtmi:com:microsoft:akri:MetricScope;1"
-            },
-            {
-              "@type": "Field",
-              "name": "tags",
-              "schema": {
-                "@type": "Map",
-                "mapKey": {
-                  "name": "attributeKey",
-                  "schema": "string"
-                },
-                "mapValue": {
-                  "name": "attributeValue",
-                  "schema": "string"
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "@type": "Telemetry",
-        "name": "Counter",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": "Field",
-              "name": "name",
-              "schema": "string"
-            },
-            {
-              "@type": "Field",
-              "name": "value",
-              "schema": "double"
-            },
-            {
-              "@type": "Field",
-              "name": "unit",
-              "schema": "string"
-            },
-            {
-              "@type": "Field",
-              "name": "timestamp",
-              "schema": "dateTime"
-            },
-            {
-              "@type": "Field",
-              "name": "metricScope",
-              "schema": "dtmi:com:microsoft:akri:MetricScope;1"
-            },
-            {
-              "@type": "Field",
-              "name": "tags",
-              "schema": {
-                "@type": "Map",
-                "mapKey": {
-                  "name": "attributeKey",
-                  "schema": "string"
-                },
-                "mapValue": {
-                  "name": "attributeValue",
-                  "schema": "string"
-                }
-              }
-            }
-          ]
+          "@type": "Array",
+          "elementSchema": "dtmi:com:microsoft:akri:Metric;1"
         }
       }
     ]

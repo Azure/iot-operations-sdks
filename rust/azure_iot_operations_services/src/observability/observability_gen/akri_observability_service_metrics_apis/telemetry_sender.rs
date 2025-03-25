@@ -5,15 +5,15 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::super::common_types::common_options::TelemetryOptions;
+use super::telemetry_collection::TelemetryCollection;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-use super::telemetry_collection::TelemetryCollection;
+use super::super::common_types::common_options::TelemetryOptions;
 
 pub type TelemetryMessage = telemetry::sender::Message<TelemetryCollection>;
 pub type TelemetryMessageBuilderError = telemetry::sender::MessageBuilderError;
@@ -64,7 +64,10 @@ impl TelemetryMessageBuilder {
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(&mut self, payload: TelemetryCollection) -> Result<&mut Self, AIOProtocolError> {
+    pub fn payload(
+        &mut self,
+        payload: TelemetryCollection,
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
@@ -81,7 +84,9 @@ impl TelemetryMessageBuilder {
 }
 
 /// Telemetry Sender for `TelemetryCollection`
-pub struct TelemetrySender<C>(telemetry::Sender<TelemetryCollection, C>)
+pub struct TelemetrySender<C>(
+    telemetry::Sender<TelemetryCollection, C>,
+)
 where
     C: ManagedClient + Send + Sync + 'static;
 
@@ -93,11 +98,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        options: &TelemetryOptions,
-    ) -> Self {
+    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());
@@ -112,6 +113,7 @@ where
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
         topic_token_map.insert("senderId".to_string(), client.client_id().to_string());
+
 
         let sender_options = sender_options_builder
             .topic_pattern(TELEMETRY_TOPIC_PATTERN)

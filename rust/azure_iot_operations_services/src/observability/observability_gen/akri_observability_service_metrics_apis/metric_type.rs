@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MetricType {
+    #[serde(rename = "Counter")]
+    Counter,
     #[serde(rename = "Gauge")]
     Gauge,
     #[serde(rename = "Histogram")]

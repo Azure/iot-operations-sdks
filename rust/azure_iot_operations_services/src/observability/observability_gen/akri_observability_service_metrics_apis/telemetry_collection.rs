@@ -10,20 +10,13 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::counter_schema::CounterSchema;
-use super::metric_schema::MetricSchema;
+use super::metric::Metric;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct TelemetryCollection {
-    /// The 'Counter' Telemetry.
-    #[serde(rename = "Counter")]
+    /// The 'Metrics' Telemetry.
+    #[serde(rename = "Metrics")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub counter: Option<CounterSchema>,
-
-    /// The 'Metric' Telemetry.
-    #[serde(rename = "Metric")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub metric: Option<MetricSchema>,
+    pub metrics: Option<Vec<Metric>>,
 }
