@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - '.devcontainer/**'
+      - '.github/**
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
       - 'eng/test/faultablemqttbroker/**'

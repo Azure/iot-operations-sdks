@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - '.devcontainer/**'
+      - '.github/**
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
       - 'codegen/src/**'
