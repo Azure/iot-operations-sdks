@@ -9,9 +9,9 @@
 The following is a list of tutorials and samples that are available across all languages. Each language may have additional samples which can also be found within each language directory.
 
 > [!TIP]
-> Refer to the [getting started](/README.md#getting-started) documentation for setting up your development environment **prior** to running the samples and tutorials.
+> Refer to the [setup documentation](/doc/setup.md) for setting up your development environment **prior** to running the samples and tutorials.
 
-A :yellow_circle: mean the tutorial or sample is planned in the near future.
+A :yellow_circle: mean the tutorial or sample is planned.
 
 ## Tutorials
 
@@ -19,7 +19,7 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 
 | Tutorial | Description | Go | .NET | Rust |
 |-|-|:-:|:-:|:-:|
-| Event Driven Application | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. | :yellow_circle: | [.NET](/dotnet/tutorials/EventDrivenApp) | :yellow_circle: |
+| Event Driven Application | Read from a topic and perform a sliding window calculation, utilizing the State Store to cache historical data. The result is written to a second topic. | :yellow_circle: | [.NET](/samples/event_driven_app) | [Rust](/samples/event_driven_app) |
 
 ## Samples
 
@@ -51,15 +51,17 @@ Refer to each language directory below for additional samples.
 
 **.NET SDK:**
 
-* [.NET samples](/dotnet/samples)
-* [.NET tutorials](/dotnet/tutorials)
+* [Tutorials](/dotnet/samples/applications)
+* [Samples](/dotnet/samples)
 
 **Go SDK:**
 
-* [Go samples](/go/samples)
+<!-- * [Tutorials](/go/samples/application) -->
+* [Samples](/go/samples)
 
 **Rust SDK:**
 
-* [Rust Protocol samples](/rust/azure_iot_operations_protocol/examples/)
-* [Rust MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
-* [Rust Services samples](/rust/azure_iot_operations_services/examples/)
+* [Tutorials](/rust/sample_applications)
+* [Protocol samples](/rust/azure_iot_operations_protocol/examples/)
+* [MQTT samples](/rust/azure_iot_operations_mqtt/examples/)
+* [Services samples](/rust/azure_iot_operations_services/examples/)
