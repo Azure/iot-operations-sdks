@@ -7,7 +7,7 @@
         "storage": "32gb"
     },
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
         "ghcr.io/devcontainers/features/github-cli:1": {},
         "ghcr.io/devcontainers/features/azure-cli:1": { "extensions": "connectedk8s,k8s-extension,azure-iot-ops" },
         "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": { "minikube": "none" },
@@ -20,10 +20,7 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "vsciot-vscode.vscode-dtdl",
-                "ms-azuretools.vscode-bicep",
-                "ms-azuretools.vscode-docker",
-                "ms-kubernetes-tools.vscode-kubernetes-tools"
+                "vsciot-vscode.vscode-dtdl"
             ]
         },
         "settings": {

@@ -51,7 +51,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install AIO
-      uses: ./.github/actions/deploy-aio
+      uses: ./.github/actions/configure-aio
       with:
         wait-for-broker: 'true'
         install-rust: 'true'

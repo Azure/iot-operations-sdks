@@ -15,7 +15,7 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 1. Install the [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
-1. Run the [Event Driven Application](tutorials/EventDrivenApp) tutorial.
+1. Run the [Event Driven Application](samples/applications/EventDrivenApp) tutorial.
 
 ## Developing your application
 
@@ -30,9 +30,9 @@ To get started with a .NET SDK tutorial, follow these steps:
 1. Install the NuGet packages into your project:
 
     ```bash
-    dotnet add package Azure.IoT.Operations.Mqtt --prerelease
-    dotnet add package Azure.IoT.Operations.Protocol --prerelease
-    dotnet add package Azure.IoT.Operations.Services --prerelease
+    dotnet add package Azure.IoT.Operations.Mqtt
+    dotnet add package Azure.IoT.Operations.Protocol
+    dotnet add package Azure.IoT.Operations.Services
     ```
 
 1. Add your own logic by reviewing the [package documentation](#packages) for details on using the various SDK components and debugging your application.
