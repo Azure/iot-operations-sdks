@@ -1,0 +1,157 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:jsonTest:AkriObservabilityServiceMetricsApis;1",
+    "description": "Defines MQTT-based contract for telemetry in component in AIO",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "akri/telemetry/metrics",
+    "schemas": [
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:MetricType;1",
+        "valueSchema": "string",
+        "description": "Metric types that support record calls",
+        "enumValues": [
+          {
+            "name": "Gauge",
+            "enumValue": "Gauge"
+          },
+          {
+            "name": "Histogram",
+            "enumValue": "Histogram"
+          }
+        ]
+      },
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:MetricScope;1",
+        "valueSchema": "string",
+        "description": "metricScope defines who can access the metrics: internal for company users, customer for customers only, and regular for both",
+        "enumValues": [
+          {
+            "name": "internal",
+            "enumValue": "internal"
+          },
+          {
+            "name": "regular",
+            "enumValue": "regular"
+          },
+          {
+            "name": "customer",
+            "enumValue": "customer"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "Metric",
+        "description":"Telemetry that records a metric ",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": "Field",
+              "name": "name",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "value",
+              "schema": "double"
+            },
+            {
+              "@type": "Field",
+              "name": "unit",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "timestamp",
+              "schema": "dateTime"
+            },
+            {
+              "@type": "Field",
+              "name": "metricType",
+              "schema": "dtmi:com:microsoft:akri:MetricType;1"
+            },
+            {
+              "@type": "Field",
+              "name": "metricScope",
+              "schema": "dtmi:com:microsoft:akri:MetricScope;1"
+            },
+            {
+              "@type": "Field",
+              "name": "labels",
+              "schema": {
+                "@type": "Map",
+                "mapKey": {
+                    "name": "attributeKey",
+                    "schema": "string"
+                  },
+                "mapValue": {
+                  "name": "attributeValue",
+                  "schema": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "Counter",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": "Field",
+              "name": "name",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "value",
+              "schema": "double"
+            },
+            {
+              "@type": "Field",
+              "name": "unit",
+              "schema": "string"
+            },
+            {
+              "@type": "Field",
+              "name": "timestamp",
+              "schema": "dateTime"
+            },
+            {
+              "@type": "Field",
+              "name": "metricScope",
+              "schema": "dtmi:com:microsoft:akri:MetricScope;1"
+            },
+            {
+              "@type": "Field",
+              "name": "labels",
+              "schema": {
+                "@type": "Map",
+                "mapKey": {
+                    "name": "attributeKey",
+                    "schema": "string"
+                  },
+                "mapValue": {
+                  "name": "attributeValue",
+                  "schema": "string"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
