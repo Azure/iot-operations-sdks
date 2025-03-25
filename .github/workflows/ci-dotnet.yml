@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - '.github/**
+      - '.github/**'
       - 'dotnet/**'
       - 'eng/test/test-cases/Protocol/**'
       - 'eng/test/faultablemqttbroker/**'
