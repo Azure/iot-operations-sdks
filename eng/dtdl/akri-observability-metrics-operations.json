@@ -2,53 +2,69 @@
   {
     "@context": [
       "dtmi:dtdl:context;4",
-      "dtmi:dtdl:extension:mqtt;2"
+      "dtmi:dtdl:extension:mqtt;2",
+      "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:jsonTest:AkriObservabilityServiceMetricsApis;1",
+    "description": "Defines MQTT-based contract for telemetry in Akri component in AIO",
     "@type": [
       "Interface",
       "Mqtt"
     ],
     "payloadFormat": "Json/ecma/404",
-    "telemetryTopic": "akri/connector/resources/telemetry/{ex:connectorClientId}/metrics",
+    "telemetryTopic": "akri/telemetry/metrics",
     "schemas": [
       {
         "@type": "Object",
         "@id": "dtmi:com:microsoft:akri:Metric;1",
+        "description": "Metric data",
         "fields": [
           {
-            "@type": "Field",
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "name",
+            "description": "Name of the metric",
             "schema": "string"
           },
           {
-            "@type": "Field",
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "value",
+            "description": "Value of the metric",
             "schema": "double"
           },
           {
-            "@type": "Field",
-            "name": "unit",
-            "schema": "string"
-          },
-          {
-            "@type": "Field",
-            "name": "timestamp",
-            "schema": "dateTime"
-          },
-          {
-            "@type": "Field",
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "metricType",
+            "description": "Metric type: Counter, Gauge, Histogram",
             "schema": "dtmi:com:microsoft:akri:MetricType;1"
           },
           {
-            "@type": "Field",
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "metricScope",
+            "description": "metricScope defines who can access the metric: internal for aio users, customer for customers only, and regular for both",
             "schema": "dtmi:com:microsoft:akri:MetricScope;1"
           },
           {
             "@type": "Field",
-            "name": "tags",
+            "name": "timestamp",
+            "description": "timestamp of when the metric was recorded",
+            "schema": "dateTime"
+          },
+          {
+            "@type": "Field",
+            "name": "labels",
+            "description": "Custom labels to associate with the metric",
             "schema": {
               "@type": "Map",
               "mapKey": {
@@ -60,6 +76,12 @@
                 "schema": "string"
               }
             }
+          },
+          {
+            "@type": "Field",
+            "name": "unit",
+            "description": "Unit of the metric",
+            "schema": "string"
           }
         ]
       },
@@ -67,6 +89,7 @@
         "@type": "Enum",
         "@id": "dtmi:com:microsoft:akri:MetricType;1",
         "valueSchema": "string",
+        "description": "Metric type: Counter, Gauge, Histogram",
         "enumValues": [
           {
             "name": "Gauge",
@@ -86,6 +109,7 @@
         "@type": "Enum",
         "@id": "dtmi:com:microsoft:akri:MetricScope;1",
         "valueSchema": "string",
+        "description": "Defines who can access the metric: internal for aio users, customer for customers only, and regular for both",
         "enumValues": [
           {
             "name": "internal",
@@ -106,6 +130,7 @@
       {
         "@type": "Telemetry",
         "name": "Metrics",
+        "description": "List of metrics",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:com:microsoft:akri:Metric;1"

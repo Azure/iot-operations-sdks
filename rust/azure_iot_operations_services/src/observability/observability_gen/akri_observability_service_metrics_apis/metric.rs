@@ -9,46 +9,39 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::metric_scope::MetricScope;
 use super::metric_type::MetricType;
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
+/// Metric data
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Metric {
-    /// The 'metricScope' Field.
+    /// Custom labels to associate with the metric
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub labels: Option<HashMap<String, String>>,
+
+    /// metricScope defines who can access the metric: internal for aio users, customer for customers only, and regular for both
     #[serde(rename = "metricScope")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub metric_scope: Option<MetricScope>,
+    pub metric_scope: MetricScope,
 
-    /// The 'metricType' Field.
+    /// Metric type: Counter, Gauge, Histogram
     #[serde(rename = "metricType")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub metric_type: Option<MetricType>,
+    pub metric_type: MetricType,
 
-    /// The 'name' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub name: Option<String>,
+    /// Name of the metric
+    pub name: String,
 
-    /// The 'tags' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub tags: Option<HashMap<String, String>>,
-
-    /// The 'timestamp' Field.
+    /// timestamp of when the metric was recorded
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub timestamp: Option<DateTime<Utc>>,
 
-    /// The 'unit' Field.
+    /// Unit of the metric
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub unit: Option<String>,
 
-    /// The 'value' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub value: Option<f64>,
+    /// Value of the metric
+    pub value: f64,
 }

@@ -9,12 +9,12 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::metric::Metric;
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct TelemetryCollection {
-    /// The 'Metrics' Telemetry.
+    /// List of metrics
     #[serde(rename = "Metrics")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

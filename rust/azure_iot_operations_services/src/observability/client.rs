@@ -10,7 +10,7 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
-use crate::observability::observability_gen::akri_observability_service_metrics_apis::service::TelemetrySender;
+// use crate::observability::observability_gen::akri_observability_service_metrics_apis::service::TelemetrySender;
 
 use super::{
     CLIENT_ID_TOKEN, observability_gen::common_types::common_options::TelemetryOptionsBuilder,

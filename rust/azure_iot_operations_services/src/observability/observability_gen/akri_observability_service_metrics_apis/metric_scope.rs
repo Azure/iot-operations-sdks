@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
+/// Defines who can access the metric: internal for aio users, customer for customers only, and regular for both
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MetricScope {
     #[serde(rename = "customer")]

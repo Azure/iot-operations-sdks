@@ -15,6 +15,6 @@ bigdecimal = "0.4.5"
 time = { version = "0.3", features = ["serde", "formatting", "parsing"] }
 uuid = { version = "1.8.0", features = ["serde", "v4"] }
 derive_builder = "0.20"
-azure_iot_operations_mqtt = { path = "../../../azure_iot_operations_mqtt" }
-azure_iot_operations_protocol = { path = "../../../azure_iot_operations_protocol" }
+azure_iot_operations_mqtt = { path = "../../../../azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { path = "../../../../azure_iot_operations_protocol" }
 ```

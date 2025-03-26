@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
+/// Metric type: Counter, Gauge, Histogram
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum MetricType {
     #[serde(rename = "Counter")]

@@ -12,7 +12,7 @@ pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolEr
 pub use super::common_types::common_options::{CommandOptions, TelemetryOptions};
 
 pub const MODEL_ID: &str = "dtmi:jsonTest:AkriObservabilityServiceMetricsApis;1";
-pub const TELEMETRY_TOPIC_PATTERN: &str = "akri/connector/resources/telemetry/{ex:connectorClientId}/metrics";
+pub const TELEMETRY_TOPIC_PATTERN: &str = "akri/telemetry/metrics";
 
 pub mod service {
     pub use super::metric::*;
