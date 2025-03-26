@@ -786,7 +786,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private class ResponsePromise(string responseTopic)
+        private sealed class ResponsePromise(string responseTopic)
         {
             public string ResponseTopic { get; } = responseTopic;
 

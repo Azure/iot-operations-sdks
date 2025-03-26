@@ -111,21 +111,21 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         [Theory]
         [MemberData(nameof(GetAllTelemetrySenderCases))]
-        public Task TestTelemetrySenderWithSessionClient(string testCaseName)
+        public Task TestTelemetrySenderWithSessionClientAsync(string testCaseName)
         {
-            return TestTelemetrySenderProtocol(testCaseName, includeSessionClient: true);
+            return TestTelemetrySenderProtocolAsync(testCaseName, includeSessionClient: true);
         }
 
         [Theory]
         [MemberData(nameof(GetRestrictedTelemetrySenderCases))]
-        public Task TestTelemetrySenderStandalone(string testCaseName)
+        public Task TestTelemetrySenderStandaloneAsync(string testCaseName)
         {
-            return TestTelemetrySenderProtocol(testCaseName, includeSessionClient: false);
+            return TestTelemetrySenderProtocolAsync(testCaseName, includeSessionClient: false);
         }
 
-        private async Task TestTelemetrySenderProtocol(string testCaseName, bool includeSessionClient)
+        private async Task TestTelemetrySenderProtocolAsync(string testCaseName, bool includeSessionClient)
         {
-            int testCaseIndex = await TestCaseIndex.Increment().ConfigureAwait(false);
+            int testCaseIndex = await TestCaseIndex.IncrementAsync().ConfigureAwait(false);
 
             TestCase testCase;
             using (StreamReader streamReader = File.OpenText($"{senderCasesPath}/{testCaseName}.yaml"))
@@ -163,7 +163,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             foreach (TestCaseSender testCaseSender in testCase.Prologue?.Senders ?? new List<TestCaseSender>())
             {
                 bool isLast = ReferenceEquals(testCaseSender, testCase.Prologue?.Senders.Last());
-                TestTelemetrySender? telemetrySender = await GetTelemetrySender(compositeMqttClient, testCaseSender, isLast ? testCase.Prologue?.Catch : null);
+                TestTelemetrySender? telemetrySender = await GetTelemetrySenderAsync(compositeMqttClient, testCaseSender, isLast ? testCase.Prologue?.Catch : null);
                 if (telemetrySender == null)
                 {
                     return;
@@ -179,7 +179,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 switch (action)
                 {
                     case TestCaseActionSendTelemetry actionSendTelemetry:
-                        SendTelemetryAsync(actionSendTelemetry, telemetrySenders, sendTasks);
+                        SendTelemetry(actionSendTelemetry, telemetrySenders, sendTasks);
                         break;
                     case TestCaseActionAwaitSend actionAwaitSend:
                         await AwaitSendAsync(actionAwaitSend, sendTasks).ConfigureAwait(false);
@@ -214,7 +214,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (testCase.Epilogue.PublicationCount != null)
                 {
-                    int publicationCount = await stubMqttClient.GetPublicationCount().ConfigureAwait(false);
+                    int publicationCount = await stubMqttClient.GetPublicationCountAsync().ConfigureAwait(false);
                     Assert.Equal(testCase.Epilogue.PublicationCount, publicationCount);
                 }
 
@@ -227,13 +227,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (testCase.Epilogue.AcknowledgementCount != null)
                 {
-                    int acknowledgementCount = await stubMqttClient.GetAcknowledgementCount().ConfigureAwait(false);
+                    int acknowledgementCount = await stubMqttClient.GetAcknowledgementCountAsync().ConfigureAwait(false);
                     Assert.Equal(testCase.Epilogue.AcknowledgementCount, acknowledgementCount);
                 }
             }
         }
 
-        private async Task<TestTelemetrySender?> GetTelemetrySender(IMqttPubSubClient mqttClient, TestCaseSender testCaseSender, TestCaseCatch? testCaseCatch)
+        private async Task<TestTelemetrySender?> GetTelemetrySenderAsync(IMqttPubSubClient mqttClient, TestCaseSender testCaseSender, TestCaseCatch? testCaseCatch)
         {
             try
             {
@@ -286,7 +286,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private void SendTelemetryAsync(TestCaseActionSendTelemetry actionSendTelemetry, Dictionary<string, TestTelemetrySender> telemetrySenders, AsyncQueue<Task> sendTasks)
+        private void SendTelemetry(TestCaseActionSendTelemetry actionSendTelemetry, Dictionary<string, TestTelemetrySender> telemetrySenders, AsyncQueue<Task> sendTasks)
         {
             OutgoingTelemetryMetadata metadata = new OutgoingTelemetryMetadata();
 

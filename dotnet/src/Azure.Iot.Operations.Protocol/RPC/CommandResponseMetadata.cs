@@ -4,9 +4,6 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Azure.Iot.Operations.Services.UnitTests")]
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
