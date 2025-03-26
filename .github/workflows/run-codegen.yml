@@ -40,6 +40,7 @@ jobs:
 
       - name: Verify Generated Code Matches Repo
         run: |
+          git add -A  
           if git diff --exit-code --ignore-cr-at-eol
           then
               echo "Running codegen changed no files. No changes will be committed to this branch."
@@ -52,7 +53,6 @@ jobs:
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       
-          git add -A
           git commit -m 'Ran Codegen'
           git push
             
