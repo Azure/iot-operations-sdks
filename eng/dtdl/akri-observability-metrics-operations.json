@@ -1,0 +1,116 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;2"
+    ],
+    "@id": "dtmi:jsonTest:AkriObservabilityServiceMetricsApis;1",
+    "@type": [
+      "Interface",
+      "Mqtt"
+    ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "akri/connector/resources/telemetry/{ex:connectorClientId}/metrics",
+    "schemas": [
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:Metric;1",
+        "fields": [
+          {
+            "@type": "Field",
+            "name": "name",
+            "schema": "string"
+          },
+          {
+            "@type": "Field",
+            "name": "value",
+            "schema": "double"
+          },
+          {
+            "@type": "Field",
+            "name": "unit",
+            "schema": "string"
+          },
+          {
+            "@type": "Field",
+            "name": "timestamp",
+            "schema": "dateTime"
+          },
+          {
+            "@type": "Field",
+            "name": "metricType",
+            "schema": "dtmi:com:microsoft:akri:MetricType;1"
+          },
+          {
+            "@type": "Field",
+            "name": "metricScope",
+            "schema": "dtmi:com:microsoft:akri:MetricScope;1"
+          },
+          {
+            "@type": "Field",
+            "name": "tags",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "attributeKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "attributeValue",
+                "schema": "string"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:MetricType;1",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "Gauge",
+            "enumValue": "Gauge"
+          },
+          {
+            "name": "Histogram",
+            "enumValue": "Histogram"
+          },
+          {
+            "name": "Counter",
+            "enumValue": "Counter"
+          }
+        ]
+      },
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:MetricScope;1",
+        "valueSchema": "string",
+        "enumValues": [
+          {
+            "name": "internal",
+            "enumValue": "internal"
+          },
+          {
+            "name": "regular",
+            "enumValue": "regular"
+          },
+          {
+            "name": "customer",
+            "enumValue": "customer"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "Metrics",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "dtmi:com:microsoft:akri:Metric;1"
+        }
+      }
+    ]
+  }
+]
