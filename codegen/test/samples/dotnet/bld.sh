@@ -1,4 +1,4 @@
-set -e
+#!/bin/sh
 
 dotnet build ./CommandVariantsSample
 dotnet build ./CommandComplexSchemasSample

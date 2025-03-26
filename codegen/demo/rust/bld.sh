@@ -1,4 +1,4 @@
-set -e
+#!/bin/sh
 
 cd protocol_compiler_demo/avro_comm
 cargo build

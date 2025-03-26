@@ -1,4 +1,4 @@
-set -e
+#!/bin/sh
 
 cd telemclient
 go build ./...

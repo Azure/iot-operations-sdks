@@ -1,4 +1,4 @@
-set -e
+#!/bin/sh
 
 gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler
 
