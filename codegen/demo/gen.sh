@@ -1,6 +1,6 @@
 #!/bin/sh
 
-gen=../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler 
+gen=../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler 
 
 [[ -d ./dotnet/ProtocolCompiler.Demo/JsonComm ]] && rm -r ./dotnet/ProtocolCompiler.Demo/JsonComm
 $gen --modelFile ./dtdl/JsonModel.json --outDir ./dotnet/ProtocolCompiler.Demo/JsonComm --lang csharp --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol
