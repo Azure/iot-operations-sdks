@@ -57,26 +57,6 @@ pub enum ErrorKind {
     ServiceError(ServiceError),
 }
 
-// impl From<AIOProtocolError> for ErrorKind {
-//     fn from(error: AIOProtocolError) -> Self {
-//         match error.kind {
-//             AIOProtocolErrorKind::UnknownError => ErrorKind::ServiceError(ServiceError {
-//                 message: error.message.unwrap_or_else(|| "Unknown error".to_string()),
-//                 property_name: error.header_name,
-//                 property_value: error.header_value,
-//             }),
-//             AIOProtocolErrorKind::ExecutionException => ErrorKind::ServiceError(ServiceError {
-//                 message: error
-//                     .message
-//                     .unwrap_or_else(|| "Execution Exception".to_string()),
-//                 property_name: None,
-//                 property_value: None,
-//             }),
-//             _ => ErrorKind::AIOProtocolError(error),
-//         }
-//     }
-// }
-
 /// An error returned by the Azure Device Registry Service.
 /// // TODO Ask service team about what tsrcuture of service errors ? And redefine the struct based on that.
 #[derive(Debug)]
@@ -115,26 +95,43 @@ impl From<UpdateAssetStatusReq> for UpdateAssetStatusRequestPayload {
 /// Represents a request to update the status of an asset, including associated schemas and errors.
 pub struct AssetStatusReq {
     /// A collection of schema references for datasets associated with the asset.
-    pub datasets_schema: Vec<StatusSchemaReference>,
+    pub datasets_schema: Option<Vec<SchemaReferenceReq>>,
     /// A collection of schema references for events associated with the asset.
-    pub events_schema: Vec<StatusSchemaReference>,
+    pub events_schema: Option<Vec<SchemaReferenceReq>>,
     /// A collection of errors associated with the asset status request.
-    pub errors: Vec<AkriError>,
+    pub errors: Option<Vec<AkriError>>, // TODO Should this be optional?
     /// The version of the asset status request.
-    pub version: i32,
+    pub version: Option<i32>,
+}
+
+#[derive(Clone, Debug)]
+/// Represents a reference to the dataset or event schema.
+pub struct SchemaReferenceReq {
+    /// The name of the dataset or the event.
+    pub name: String,
+    /// The 'messageSchemaReference' Field.
+    pub message_schema_reference: Option<MessageSchemaReferenceReq>,
 }
 
 #[derive(Clone, Debug)]
 /// Represents a reference to a schema, including its name, version, and namespace.
-pub struct StatusSchemaReference {
-    /// The name of the dataset or event.
-    pub name: String,
+pub struct MessageSchemaReferenceReq {
     /// The name of the message schema.
     pub message_schema_name: String,
     /// The version of the message schema.
     pub message_schema_version: String,
     /// The namespace of the message schema.
     pub message_schema_namespace: String,
+}
+
+impl From<MessageSchemaReferenceReq> for MessageSchemaReference {
+    fn from(value: MessageSchemaReferenceReq) -> Self {
+        MessageSchemaReference {
+            schema_name: value.message_schema_name,
+            schema_namespace: value.message_schema_namespace,
+            schema_version: value.message_schema_version,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -150,30 +147,29 @@ impl From<AssetStatusReq> for AssetStatus {
     fn from(source: AssetStatusReq) -> Self {
         let datasets_schema = source
             .datasets_schema
+            .unwrap_or_default()
             .into_iter()
             .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
                 name: schema_ref.name,
-                message_schema_reference: Some(MessageSchemaReference {
-                    schema_name: schema_ref.message_schema_name,
-                    schema_namespace: schema_ref.message_schema_namespace,
-                    schema_version: schema_ref.message_schema_version,
-                }),
+                message_schema_reference: schema_ref
+                    .message_schema_reference
+                    .map(MessageSchemaReferenceReq::into),
             })
             .collect();
         let events_schema = source
             .events_schema
+            .unwrap_or_default()
             .into_iter()
             .map(|schema_ref| EventsSchemaSchemaElementSchema {
                 name: schema_ref.name,
-                message_schema_reference: Some(MessageSchemaReference {
-                    schema_name: schema_ref.message_schema_name,
-                    schema_namespace: schema_ref.message_schema_namespace,
-                    schema_version: schema_ref.message_schema_version,
-                }),
+                message_schema_reference: schema_ref
+                    .message_schema_reference
+                    .map(MessageSchemaReferenceReq::into),
             })
             .collect();
         let errors = source
             .errors
+            .unwrap_or_default()
             .into_iter()
             .map(|error| Error {
                 code: Some(error.code),
@@ -185,7 +181,7 @@ impl From<AssetStatusReq> for AssetStatus {
             datasets_schema: Some(datasets_schema),
             events_schema: Some(events_schema),
             errors: Some(errors),
-            version: Some(source.version),
+            version: Some(source.version.unwrap_or_default()),
         }
     }
 }
@@ -271,7 +267,7 @@ impl From<CreateDetectedAssetReq> for CreateDetectedAssetRequestPayload {
         }
     }
 }
-/// Represents a evemt schema for a detected asset.
+/// Represents a event schema for a detected asset.
 pub struct DetectedAssetEventSchemaReq {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,

@@ -95,7 +95,7 @@ where
                 client.clone(),
                 &options,
             )),
-            client_id: client.client_id().to_string(), // TODO: Is this temporary?
+            client_id: client.client_id().to_string(),
         }
     }
 
