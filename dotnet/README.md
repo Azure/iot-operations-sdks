@@ -21,12 +21,6 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 1. Create a new .NET application. Use one of the [existing samples](samples) as a starting point if desired.
 
-1. Add our [NuGet package feed](https://dev.azure.com/azure-iot-sdks/iot-operations/_artifacts/feed/preview):
-
-    ```bash
-    dotnet nuget add source https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json -n AzureIoTOperations
-    ```
-
 1. Install the NuGet packages into your project:
 
     ```bash
