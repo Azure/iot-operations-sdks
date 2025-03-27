@@ -414,7 +414,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetProject(projectName, genFormat, sdkPath);
+                    if (generateProject)
+                    {
+                        yield return new DotNetProject(projectName, genFormat, sdkPath);
+                    }
                     break;
                 case "go":
                     break;
