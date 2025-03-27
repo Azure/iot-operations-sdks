@@ -22,6 +22,8 @@
 #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
+#[cfg(feature = "adr")]
+pub mod adr;
 #[cfg(feature = "leased_lock")]
 pub mod leased_lock;
 #[cfg(feature = "schema_registry")]

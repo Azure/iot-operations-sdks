@@ -1,7 +1,8 @@
 {
     "@context": [
         "dtmi:dtdl:context;4",
-        "dtmi:dtdl:extension:mqtt;2"
+        "dtmi:dtdl:extension:mqtt;2",
+        "dtmi:dtdl:extension:requirement;1"
     ],
     "@id": "dtmi:com:microsoft:akri:AepTypeService;1",
     "@type": [
@@ -26,7 +27,10 @@
                     "@type": "Object",
                     "fields": [
                         {
-                            "@type": "Field",
+                            "@type": [
+                                "Field",
+                                "Required"
+                            ],
                             "@id": "dtmi:com:microsoft:akri:DiscoveredAssetEndpointProfileResponseStatus;1",
                             "name": "status",
                             "description": "status of discovered asset endpoint profile creation",
@@ -66,13 +70,19 @@
                     "schema": "string"
                 },
                 {
-                    "@type": "Field",
+                    "@type": [
+                        "Field",
+                        "Required"
+                    ],
                     "name": "targetAddress",
                     "description": "local valid URI specifying the network address/dns name of southbound service.",
                     "schema": "string"
                 },
                 {
-                    "@type": "Field",
+                    "@type": [
+                        "Field",
+                        "Required"
+                    ],
                     "name": "endpointProfileType",
                     "description": "Defines the configuration for the connector type that is being used with the endpoint profile.",
                     "schema": "string"
