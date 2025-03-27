@@ -138,16 +138,7 @@ where
 
         match get_result {
             Ok(response) => Ok(response.payload.asset),
-            Err(e) => {
-                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
-                    if let Some(nested_error) = &e.nested_error {
-                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
-                            return Err(AdrError(ErrorKind::SerializationError(json_error.to_string()))); // TODO What should we return if it is not an option ?
-                        }
-                    }
-                }
-                Err(AdrError(ErrorKind::from(e)))
-            }
+            Err(e) => Err(AdrError(ErrorKind::from(ErrorKind::AIOProtocolError(e)))),
         }
     }
 
@@ -191,18 +182,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.updated_asset),
-            Err(e) => {
-                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
-                    if let Some(nested_error) = &e.nested_error {
-                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
-                            if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
-                                return Err(AdrError(ErrorKind::SerializationError(json_error.to_string()))); // TODO What should we return if it is not an option ?
-                            }
-                        }
-                    }
-                }
-                Err(AdrError(ErrorKind::from(e)))
-            }
+            Err(e) => Err(AdrError(ErrorKind::from(ErrorKind::AIOProtocolError(e)))),
         }
     }
 

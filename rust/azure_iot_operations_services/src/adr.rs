@@ -57,25 +57,25 @@ pub enum ErrorKind {
     ServiceError(ServiceError),
 }
 
-impl From<AIOProtocolError> for ErrorKind {
-    fn from(error: AIOProtocolError) -> Self {
-        match error.kind {
-            AIOProtocolErrorKind::UnknownError => ErrorKind::ServiceError(ServiceError {
-                message: error.message.unwrap_or_else(|| "Unknown error".to_string()),
-                property_name: error.header_name,
-                property_value: error.header_value,
-            }),
-            AIOProtocolErrorKind::ExecutionException => ErrorKind::ServiceError(ServiceError {
-                message: error
-                    .message
-                    .unwrap_or_else(|| "Execution Exception".to_string()),
-                property_name: None,
-                property_value: None,
-            }),
-            _ => ErrorKind::AIOProtocolError(error),
-        }
-    }
-}
+// impl From<AIOProtocolError> for ErrorKind {
+//     fn from(error: AIOProtocolError) -> Self {
+//         match error.kind {
+//             AIOProtocolErrorKind::UnknownError => ErrorKind::ServiceError(ServiceError {
+//                 message: error.message.unwrap_or_else(|| "Unknown error".to_string()),
+//                 property_name: error.header_name,
+//                 property_value: error.header_value,
+//             }),
+//             AIOProtocolErrorKind::ExecutionException => ErrorKind::ServiceError(ServiceError {
+//                 message: error
+//                     .message
+//                     .unwrap_or_else(|| "Execution Exception".to_string()),
+//                 property_name: None,
+//                 property_value: None,
+//             }),
+//             _ => ErrorKind::AIOProtocolError(error),
+//         }
+//     }
+// }
 
 /// An error returned by the ADR Service.
 #[derive(Debug)]
