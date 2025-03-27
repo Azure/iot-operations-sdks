@@ -9,28 +9,28 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::data::Data;
+use super::gauge::Gauge;
+use super::histogram::Histogram;
+use super::sum::Sum;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct Metric {
-    /// The 'data' Field.
+pub struct Data {
+    /// The 'Gauge' Field.
+    #[serde(rename = "Gauge")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub data: Option<Data>,
+    pub gauge: Option<Gauge>,
 
-    /// The 'description' Field.
+    /// The 'Histogram' Field.
+    #[serde(rename = "Histogram")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub description: Option<String>,
+    pub histogram: Option<Histogram>,
 
-    /// The 'name' Field.
+    /// The 'Sum' Field.
+    #[serde(rename = "Sum")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub name: Option<String>,
-
-    /// The 'unit' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub unit: Option<String>,
+    pub sum: Option<Sum>,
 }

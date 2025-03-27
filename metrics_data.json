@@ -1,0 +1,130 @@
+{
+  "MetricsData": {
+    "resource_metrics": [
+      {
+        "resource": {
+          // Resource fields from opentelemetry.proto.resource.v1.Resource
+        },
+        "scope_metrics": [
+          {
+            "scope": {
+              // InstrumentationScope fields from opentelemetry.proto.common.v1.InstrumentationScope
+            },
+            "metrics": [
+              {
+                "name": "string",
+                "description": "string",
+                "unit": "string",
+                "data": {
+                  "gauge": {
+                    "data_points": [
+                      {
+                        "attributes": [
+                          // KeyValue fields from opentelemetry.proto.common.v1.KeyValue
+                        ],
+                        "start_time_unix_nano": "integer",
+                        "time_unix_nano": "integer",
+                        "value": {
+                          "as_double": "number",
+                          "as_int": "integer"
+                        },
+                        "exemplars": [
+                          {
+                            "filtered_attributes": [
+                              // KeyValue fields
+                            ],
+                            "time_unix_nano": "integer",
+                            "value": {
+                              "as_double": "number",
+                              "as_int": "integer"
+                            },
+                            "span_id": "string",
+                            "trace_id": "string"
+                          }
+                        ],
+                        "flags": "integer"
+                      }
+                    ]
+                  },
+                  "sum": {
+                    "data_points": [
+                      // Similar to Gauge data points
+                    ],
+                    "aggregation_temporality": "enum",
+                    "is_monotonic": "boolean"
+                  },
+                  "histogram": {
+                    "data_points": [
+                      {
+                        "attributes": [
+                          // KeyValue fields
+                        ],
+                        "start_time_unix_nano": "integer",
+                        "time_unix_nano": "integer",
+                        "count": "integer",
+                        "sum": "number",
+                        "bucket_counts": [
+                          "integer"
+                        ],
+                        "explicit_bounds": [
+                          "number"
+                        ],
+                        "exemplars": [
+                          // Exemplar fields
+                        ],
+                        "flags": "integer",
+                        "min": "number",
+                        "max": "number"
+                      }
+                    ],
+                    "aggregation_temporality": "enum"
+                  },
+                  "exponential_histogram": {
+                    "data_points": [
+                      // Similar to Histogram data points
+                    ],
+                    "aggregation_temporality": "enum"
+                  },
+                  "summary": {
+                    "data_points": [
+                      {
+                        "attributes": [
+                          // KeyValue fields
+                        ],
+                        "start_time_unix_nano": "integer",
+                        "time_unix_nano": "integer",
+                        "count": "integer",
+                        "sum": "number",
+                        "quantile_values": [
+                          {
+                            "quantile": "number",
+                            "value": "number"
+                          }
+                        ],
+                        "flags": "integer"
+                      }
+                    ]
+                  }
+                },
+                "metadata": [
+                  // KeyValue fields
+                ]
+              }
+            ],
+            "schema_url": "string"
+          }
+        ],
+        "schema_url": "string"
+      }
+    ]
+  },
+  "AggregationTemporality": {
+    "AGGREGATION_TEMPORALITY_UNSPECIFIED": 0,
+    "AGGREGATION_TEMPORALITY_DELTA": 1,
+    "AGGREGATION_TEMPORALITY_CUMULATIVE": 2
+  },
+  "DataPointFlags": {
+    "DATA_POINT_FLAGS_DO_NOT_USE": 0,
+    "DATA_POINT_FLAGS_NO_RECORDED_VALUE_MASK": 1
+  }
+}

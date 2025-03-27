@@ -142,3 +142,5 @@ histogram_metric.record(300.0); // t = 6
 
 - How should `observability.metric.exportIntervalSeconds` be retrieved from `values.yaml`?
 - What happens if we fail to send the sweep telemetry?
+- Should counter be renamed to UpDownCounter? Counter only takes increments.
+- Record operations also have an attribute argument, do we want to add that?

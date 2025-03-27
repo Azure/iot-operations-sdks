@@ -15,113 +15,215 @@
     "telemetryTopic": "akri/telemetry/metrics",
     "schemas": [
       {
-        "@type": "Object",
         "@id": "dtmi:com:microsoft:akri:Metric;1",
-        "description": "Metric data",
+        "@type": "Object",
         "fields": [
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
             "name": "name",
-            "description": "Name of the metric",
             "schema": "string"
           },
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
-            "name": "value",
-            "description": "Value of the metric",
-            "schema": "double"
+            "name": "description",
+            "schema": "string"
           },
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
-            "name": "metricType",
-            "description": "Metric type: Counter, Gauge, Histogram",
-            "schema": "dtmi:com:microsoft:akri:MetricType;1"
+            "name": "unit",
+            "schema": "string"
           },
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
-            "name": "metricScope",
-            "description": "metricScope defines who can access the metric: internal for aio users, customer for customers only, and regular for both",
-            "schema": "dtmi:com:microsoft:akri:MetricScope;1"
-          },
+            "name": "data",
+            "schema": "dtmi:com:microsoft:akri:Data;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:com:microsoft:akri:Data;1",
+        "@type": "Object",
+        "fields": [
           {
             "@type": "Field",
-            "name": "timestamp",
-            "description": "timestamp of when the metric was recorded",
-            "schema": "dateTime"
+            "name": "Gauge",
+            "schema": "dtmi:com:microsoft:akri:Gauge;1"
           },
           {
+            "name": "Sum",
+            "schema": "dtmi:com:microsoft:akri:Sum;1"
+          },
+          {
+            "name": "Histogram",
+            "schema": "dtmi:com:microsoft:akri:Histogram;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:com:microsoft:akri:Gauge;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "data_points",
             "@type": "Field",
-            "name": "labels",
-            "description": "Custom labels to associate with the metric",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:com:microsoft:akri:NumberDataPoint;1"
+            }
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:com:microsoft:akri:Sum;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": "Field",
+            "name": "data_points",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:com:microsoft:akri:NumberDataPoint;1"
+            }
+          },
+          {
+            "name": "aggregation_temporality",
+            "schema": "dtmi:com:microsoft:akri:AggregationTemporality;1"
+          },
+          {
+            "name": "is_monotonic",
+            "schema": "boolean"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:com:microsoft:akri:Histogram;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": "Field",
+            "name": "data_points",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:com:microsoft:akri:HistogramDataPoint;1"
+            }
+          },
+          {
+            "name": "aggregation_temporality",
+            "schema": "dtmi:com:microsoft:akri:AggregationTemporality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:com:microsoft:akri:NumberDataPoint;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": "Field",
+            "name": "attributes",
             "schema": {
               "@type": "Map",
               "mapKey": {
-                "name": "attributeKey",
+                "name": "key",
                 "schema": "string"
               },
               "mapValue": {
-                "name": "attributeValue",
+                "name": "value",
                 "schema": "string"
               }
             }
           },
           {
+            "name": "start_time_unix_nano",
+            "schema": "integer"
+          },
+          {
+            "name": "time_unix_nano",
+            "schema": "integer"
+          },
+          {
+            "name": "value",
+            "schema": "double"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:com:microsoft:akri:HistogramDataPoint;1",
+        "@type": "Object",
+        "fields": [
+          {
             "@type": "Field",
-            "name": "unit",
-            "description": "Unit of the metric",
-            "schema": "string"
+            "name": "attributes",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "key",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "value",
+                "schema": "string"
+              }
+            }
+          },
+          {
+            "name": "start_time_unix_nano",
+            "schema": "integer"
+          },
+          {
+            "name": "time_unix_nano",
+            "schema": "integer"
+          },
+          {
+            "name": "count",
+            "schema": "integer"
+          },
+          {
+            "name": "sum",
+            "schema": "double"
+          },
+          {
+            "@type": "Field",
+            "name": "bucket_counts",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "integer"
+            }
+          },
+          {
+            "@type": "Field",
+            "name": "explicit_bounds",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "double"
+            }
+          },
+          {
+            "name": "flags",
+            "schema": "integer"
+          },
+          {
+            "name": "min",
+            "schema": "double"
+          },
+          {
+            "name": "max",
+            "schema": "double"
           }
         ]
       },
       {
+        "@id": "dtmi:com:microsoft:akri:AggregationTemporality;1",
         "@type": "Enum",
-        "@id": "dtmi:com:microsoft:akri:MetricType;1",
-        "valueSchema": "string",
-        "description": "Metric type: Counter, Gauge, Histogram",
+        "valueSchema": "integer",
         "enumValues": [
           {
-            "name": "Gauge",
-            "enumValue": "Gauge"
+            "name": "unspecified",
+            "enumValue": 0
           },
           {
-            "name": "Histogram",
-            "enumValue": "Histogram"
+            "name": "delta",
+            "enumValue": 1,
+            "description": "Delta aggregation"
           },
           {
-            "name": "Counter",
-            "enumValue": "Counter"
-          }
-        ]
-      },
-      {
-        "@type": "Enum",
-        "@id": "dtmi:com:microsoft:akri:MetricScope;1",
-        "valueSchema": "string",
-        "description": "Defines who can access the metric: internal for aio users, customer for customers only, and regular for both",
-        "enumValues": [
-          {
-            "name": "internal",
-            "enumValue": "internal"
-          },
-          {
-            "name": "regular",
-            "enumValue": "regular"
-          },
-          {
-            "name": "customer",
-            "enumValue": "customer"
+            "name": "cumulative",
+            "enumValue": 2
           }
         ]
       }
@@ -129,7 +231,7 @@
     "contents": [
       {
         "@type": "Telemetry",
-        "name": "Metrics",
+        "name": "MetricsData",
         "description": "List of metrics",
         "schema": {
           "@type": "Array",

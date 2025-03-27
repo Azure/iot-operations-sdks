@@ -9,14 +9,13 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::metric::Metric;
+use super::number_data_point::NumberDataPoint;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct TelemetryCollection {
-    /// List of metrics
-    #[serde(rename = "MetricsData")]
+pub struct Gauge {
+    /// The 'data_points' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub metrics_data: Option<Vec<Metric>>,
+    pub data_points: Option<Vec<NumberDataPoint>>,
 }

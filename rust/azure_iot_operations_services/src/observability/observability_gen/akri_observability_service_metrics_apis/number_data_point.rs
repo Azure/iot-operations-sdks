@@ -9,28 +9,27 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::data::Data;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct Metric {
-    /// The 'data' Field.
+pub struct NumberDataPoint {
+    /// The 'attributes' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub data: Option<Data>,
+    pub attributes: Option<HashMap<String, String>>,
 
-    /// The 'description' Field.
+    /// The 'start_time_unix_nano' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub description: Option<String>,
+    pub start_time_unix_nano: Option<i32>,
 
-    /// The 'name' Field.
+    /// The 'time_unix_nano' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub name: Option<String>,
+    pub time_unix_nano: Option<i32>,
 
-    /// The 'unit' Field.
+    /// The 'value' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub unit: Option<String>,
+    pub value: Option<f64>,
 }

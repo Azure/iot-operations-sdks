@@ -9,28 +9,24 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::data::Data;
+use super::aggregation_temporality::AggregationTemporality;
+use super::number_data_point::NumberDataPoint;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct Metric {
-    /// The 'data' Field.
+pub struct Sum {
+    /// The 'aggregation_temporality' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub data: Option<Data>,
+    pub aggregation_temporality: Option<AggregationTemporality>,
 
-    /// The 'description' Field.
+    /// The 'data_points' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub description: Option<String>,
+    pub data_points: Option<Vec<NumberDataPoint>>,
 
-    /// The 'name' Field.
+    /// The 'is_monotonic' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub name: Option<String>,
-
-    /// The 'unit' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub unit: Option<String>,
+    pub is_monotonic: Option<bool>,
 }
