@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Client for Schema Registry operations.
+//! Client for Azure Device Registry operations.
 //!
-//! To use this client, the `schema_registry` feature must be enabled.
+//! To use this client, the `azure_device_registry` feature must be enabled.
 
-use crate::adr::adr_name_gen::adr_base_service::client::{
+use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
     CreateDetectedAssetCommandInvoker, DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
     GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload,
     NotifyOnAssetEndpointProfileUpdateCommandInvoker,
     UpdateAssetEndpointProfileStatusCommandInvoker, UpdateAssetStatusCommandInvoker,
 };
-use crate::adr::adr_name_gen::common_types::common_options::CommandOptionsBuilder;
-use crate::adr::{AdrError, Asset, CreateDetectedAssetReq, ErrorKind, UpdateAssetStatusReq};
+use crate::azure_device_registry::adr_name_gen::common_types::common_options::CommandOptionsBuilder;
+use crate::azure_device_registry::{
+    Asset, AzureDeviceRegistryError, CreateDetectedAssetReq, ErrorKind, UpdateAssetStatusReq,
+};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 use std::sync::Arc;
 use std::time::Duration;
 
-/// Schema registry client implementation.
+/// Azure Device Registry client implementation.
 #[derive(Clone)]
 pub struct Client<C>
 where
@@ -44,7 +46,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    /// Create a new Schema Registry Client.
+    /// Create a new Azure Device Registry Client.
     ///
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
@@ -97,7 +99,7 @@ where
         }
     }
 
-    /// Retrieves an asset from a ADR service.
+    /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
     /// * `asset_name` - The name of the asset.
@@ -121,28 +123,29 @@ where
         &self,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<Asset, AdrError> {
+    ) -> Result<Asset, AzureDeviceRegistryError> {
         let get_request_payload = GetAssetRequestPayload {
             asset_name: asset_name,
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: This was for Schema Registry. But do we need this ?
             .payload(get_request_payload)
-            .map_err(|e| AdrError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AdrError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let get_result = self.get_asset_command_invoker.invoke(command_request).await;
 
         match get_result {
             Ok(response) => Ok(response.payload.asset),
-            Err(e) => Err(AdrError(ErrorKind::from(ErrorKind::AIOProtocolError(e)))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
         }
     }
 
-    /// Updates an asset in a ADR service.
+    /// Updates an asset in the Azure Device Registry service.
     ///
     /// # Arguments
     /// * [`UpdateAssetStatusRequest`] - The request containing all the information about an aseet for the update.
@@ -166,14 +169,13 @@ where
         &self,
         source: UpdateAssetStatusReq,
         timeout: Duration,
-    ) -> Result<Asset, AdrError> {
+    ) -> Result<Asset, AzureDeviceRegistryError> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: ASK what to do with this ? Probaly not needed Temporary until the schema registry service updates their executor
             .payload(source.into())
-            .map_err(|e| AdrError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AdrError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .update_asset_status_command_invoker
@@ -182,11 +184,13 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.updated_asset),
-            Err(e) => Err(AdrError(ErrorKind::from(ErrorKind::AIOProtocolError(e)))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
         }
     }
 
-    /// Creates an asset inside the ADR service.
+    /// Creates an asset inside the Azure Device Registry service.
     ///
     /// # Arguments
     /// * [`CreateDetectedAssetReq`] - All relevant details needed for an aset cretaion
@@ -210,14 +214,13 @@ where
         &self,
         source: CreateDetectedAssetReq,
         timeout: Duration,
-    ) -> Result<DetectedAssetResponseStatusSchema, AdrError> {
+    ) -> Result<DetectedAssetResponseStatusSchema, AzureDeviceRegistryError> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: This was for Schema Registry. But do we need this ?
             .payload(source.into())
-            .map_err(|e| AdrError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AdrError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .create_detected_asset_command_invoker
@@ -226,16 +229,9 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.create_detected_asset_response.status),
-            Err(e) => {
-                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
-                    if let Some(nested_error) = &e.nested_error {
-                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
-                            return Err(AdrError(ErrorKind::SerializationError(json_error.to_string()))); // TODO What should we return if it is not an option ?
-                        }
-                    }
-                }
-                Err(AdrError(ErrorKind::from(e)))
-            }
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
         }
     }
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
@@ -247,19 +243,19 @@ where
     /// # Errors
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&self) -> Result<(), AdrError> {
+    pub async fn shutdown(&self) -> Result<(), AzureDeviceRegistryError> {
         self.create_detected_asset_command_invoker
             .shutdown()
             .await
-            .map_err(ErrorKind::from)?;
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
         self.get_asset_command_invoker
             .shutdown()
             .await
-            .map_err(ErrorKind::from)?;
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
         self.update_asset_status_command_invoker
             .shutdown()
             .await
-            .map_err(ErrorKind::from)?;
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
         Ok(())
     }
 }

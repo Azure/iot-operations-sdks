@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Types for ADR operations.
+//! Types for Azure Device Registry operations.
 use adr_name_gen::adr_base_service::client::{
     Asset, AssetStatus, CreateDetectedAssetRequestPayload, DatasetsSchemaSchemaElementSchema,
     DetectedAsset, DetectedAssetDataPointSchemaElementSchema,
@@ -14,24 +14,24 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 };
 use core::fmt::Debug;
 use thiserror::Error;
-// TODO Why has error been defined ?
-// TODO Ask Abhipsa what type or errors ?
-//pub use schemaregistry_gen::schema_registry::client::{Format, Schema, SchemaType};
 
-/// Schema Registry generated code
-// mod schemaregistry_gen;
+/// Azure Device Registry generated code
 mod adr_name_gen;
-/// Schema Registry Client implementation wrapper
+/// Azure Device Registry Client implementation wrapper
 mod client;
 
 pub use client::Client;
 
-/// Represents an error that occurred in the Azure IoT Operations Schema Registry Client implementation.
+// // OPEN QUESTIONS
+// TODO Except connector this client is used somewhere else ?
+// TODO Do we need to validate any required fields ? If so most probbaly need a builder
+
+/// Represents an error that occurred in the Azure Device Registry Client implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
-pub struct AdrError(#[from] ErrorKind);
+pub struct AzureDeviceRegistryError(#[from] ErrorKind);
 
-impl AdrError {
+impl AzureDeviceRegistryError {
     /// Returns the [`ErrorKind`] of the error.
     #[must_use]
     pub fn kind(&self) -> &ErrorKind {
@@ -39,7 +39,7 @@ impl AdrError {
     }
 }
 
-/// Represents the kinds of errors that occur in the Azure IoT Operations Schema Registry implementation.
+/// Represents the kinds of errors that occur in the Azure Device Registry implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
@@ -52,7 +52,7 @@ pub enum ErrorKind {
     /// An argument provided for a request was invalid.
     #[error("{0}")]
     InvalidArgument(String),
-    /// An error was returned by the Schema Registry Service.
+    /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(ServiceError),
 }
@@ -77,7 +77,8 @@ pub enum ErrorKind {
 //     }
 // }
 
-/// An error returned by the ADR Service.
+/// An error returned by the Azure Device Registry Service.
+/// // TODO Ask service team about what tsrcuture of service errors ? And redefine the struct based on that.
 #[derive(Debug)]
 pub struct ServiceError {
     /// The error message.
@@ -390,7 +391,3 @@ impl From<TopicReq> for Topic {
         }
     }
 }
-
-// TODO Except connector this client is used somewhere else ?
-// TODO Do we need to validate any required fields ? If so most probbaly need a builder
-// TODO everything is code gen is optional - how do we know which is actually required?
