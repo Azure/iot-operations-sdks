@@ -79,8 +79,15 @@ jobs:
         if-no-files-found: "error"
         retention-days: 10
 
-    - name: Verify Tools
+    - name: Verify Statestore CLI
       working-directory: tools/statestore-cli
+      run:
+        source ../../rust/ci/build-deps.sh
+        cargo clippy --all-features
+        cargo fmt --verbose --all
+
+    - name: Verify Stub Service
+      working-directory: tools/stub_service
       run:
         source ../../rust/ci/build-deps.sh
         cargo clippy --all-features
