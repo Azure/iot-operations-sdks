@@ -3,11 +3,12 @@
 
 //! Types for Azure Device Registry operations.
 use adr_name_gen::adr_base_service::client::{
-    Asset, AssetStatus, CreateDetectedAssetRequestPayload, DatasetsSchemaSchemaElementSchema,
-    DetectedAsset, DetectedAssetDataPointSchemaElementSchema,
+    Asset, AssetEndpointProfileStatus, AssetStatus, CreateDetectedAssetRequestPayload,
+    DatasetsSchemaSchemaElementSchema, DetectedAsset, DetectedAssetDataPointSchemaElementSchema,
     DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema, Error,
     EventsSchemaSchemaElementSchema, MessageSchemaReference, Topic,
-    UpdateAssetStatusRequestPayload, UpdateAssetStatusRequestSchema,
+    UpdateAssetEndpointProfileStatusRequestPayload, UpdateAssetStatusRequestPayload,
+    UpdateAssetStatusRequestSchema,
 };
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -69,6 +70,30 @@ pub struct ServiceError {
     pub property_value: Option<String>,
 }
 
+#[derive(Clone, Debug, Default)]
+/// Represents a request to update the status of an asset endpoint profile in the ADR Service.
+pub struct UpdateAssetEndpointProfileStatusReq {
+    /// A collection of errors associated with the asset endpiint profile status request.
+    pub errors: Option<Vec<AkriError>>,
+}
+
+impl From<UpdateAssetEndpointProfileStatusReq> for UpdateAssetEndpointProfileStatusRequestPayload {
+    fn from(source: UpdateAssetEndpointProfileStatusReq) -> Self {
+        let errors = source
+            .errors
+            .unwrap_or_default()
+            .into_iter()
+            .map(AkriError::into)
+            .collect();
+
+        UpdateAssetEndpointProfileStatusRequestPayload {
+            asset_endpoint_profile_status_update: AssetEndpointProfileStatus {
+                errors: Some(errors),
+            },
+        }
+    }
+}
+
 /// Request to update the status of an asset in the ADR Service.
 #[derive(Clone, Debug, Default)]
 pub struct UpdateAssetStatusReq {
@@ -99,9 +124,49 @@ pub struct AssetStatusReq {
     /// A collection of schema references for events associated with the asset.
     pub events_schema: Option<Vec<SchemaReferenceReq>>,
     /// A collection of errors associated with the asset status request.
-    pub errors: Option<Vec<AkriError>>, // TODO Should this be optional?
+    pub errors: Option<Vec<AkriError>>,
     /// The version of the asset status request.
     pub version: Option<i32>,
+}
+
+impl From<AssetStatusReq> for AssetStatus {
+    fn from(source: AssetStatusReq) -> Self {
+        let datasets_schema = source
+            .datasets_schema
+            .unwrap_or_default()
+            .into_iter()
+            .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
+                name: schema_ref.name,
+                message_schema_reference: schema_ref
+                    .message_schema_reference
+                    .map(MessageSchemaReferenceReq::into),
+            })
+            .collect();
+        let events_schema = source
+            .events_schema
+            .unwrap_or_default()
+            .into_iter()
+            .map(|schema_ref| EventsSchemaSchemaElementSchema {
+                name: schema_ref.name,
+                message_schema_reference: schema_ref
+                    .message_schema_reference
+                    .map(MessageSchemaReferenceReq::into),
+            })
+            .collect();
+        let errors = source
+            .errors
+            .unwrap_or_default()
+            .into_iter()
+            .map(AkriError::into)
+            .collect();
+
+        AssetStatus {
+            datasets_schema: Some(datasets_schema),
+            events_schema: Some(events_schema),
+            errors: Some(errors),
+            version: Some(source.version.unwrap_or_default()),
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -143,45 +208,11 @@ pub struct AkriError {
     pub message: String,
 }
 
-impl From<AssetStatusReq> for AssetStatus {
-    fn from(source: AssetStatusReq) -> Self {
-        let datasets_schema = source
-            .datasets_schema
-            .unwrap_or_default()
-            .into_iter()
-            .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
-                name: schema_ref.name,
-                message_schema_reference: schema_ref
-                    .message_schema_reference
-                    .map(MessageSchemaReferenceReq::into),
-            })
-            .collect();
-        let events_schema = source
-            .events_schema
-            .unwrap_or_default()
-            .into_iter()
-            .map(|schema_ref| EventsSchemaSchemaElementSchema {
-                name: schema_ref.name,
-                message_schema_reference: schema_ref
-                    .message_schema_reference
-                    .map(MessageSchemaReferenceReq::into),
-            })
-            .collect();
-        let errors = source
-            .errors
-            .unwrap_or_default()
-            .into_iter()
-            .map(|error| Error {
-                code: Some(error.code),
-                message: Some(error.message),
-            })
-            .collect();
-
-        AssetStatus {
-            datasets_schema: Some(datasets_schema),
-            events_schema: Some(events_schema),
-            errors: Some(errors),
-            version: Some(source.version.unwrap_or_default()),
+impl From<AkriError> for Error {
+    fn from(value: AkriError) -> Self {
+        Error {
+            code: Some(value.code),
+            message: Some(value.message),
         }
     }
 }

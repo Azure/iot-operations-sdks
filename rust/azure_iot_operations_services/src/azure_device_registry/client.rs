@@ -6,14 +6,16 @@
 //! To use this client, the `azure_device_registry` feature must be enabled.
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
-    CreateDetectedAssetCommandInvoker, DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
+    Asset, AssetEndpointProfile, CreateDetectedAssetCommandInvoker,
+    DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
     GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload,
     NotifyOnAssetEndpointProfileUpdateCommandInvoker,
     UpdateAssetEndpointProfileStatusCommandInvoker, UpdateAssetStatusCommandInvoker,
 };
 use crate::azure_device_registry::adr_name_gen::common_types::common_options::CommandOptionsBuilder;
 use crate::azure_device_registry::{
-    Asset, AzureDeviceRegistryError, CreateDetectedAssetReq, ErrorKind, UpdateAssetStatusReq,
+    AzureDeviceRegistryError, CreateDetectedAssetReq, ErrorKind,
+    UpdateAssetEndpointProfileStatusReq, UpdateAssetStatusReq,
 };
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
@@ -30,14 +32,14 @@ where
 {
     // get_command_invoker: Arc<GetCommandInvoker<C>>,
     // put_command_invoker: Arc<PutCommandInvoker<C>>,
-    create_detected_asset_command_invoker: Arc<CreateDetectedAssetCommandInvoker<C>>,
     get_asset_endpoint_profile_command_invoker: Arc<GetAssetEndpointProfileCommandInvoker<C>>,
-    get_asset_command_invoker: Arc<GetAssetCommandInvoker<C>>,
     update_asset_endpoint_profile_status_command_invoker:
         Arc<UpdateAssetEndpointProfileStatusCommandInvoker<C>>,
-    update_asset_status_command_invoker: Arc<UpdateAssetStatusCommandInvoker<C>>,
     notify_on_asset_endpoint_profile_update_command_invoker:
         Arc<NotifyOnAssetEndpointProfileUpdateCommandInvoker<C>>,
+    get_asset_command_invoker: Arc<GetAssetCommandInvoker<C>>,
+    update_asset_status_command_invoker: Arc<UpdateAssetStatusCommandInvoker<C>>,
+    create_detected_asset_command_invoker: Arc<CreateDetectedAssetCommandInvoker<C>>,
     client_id: String,
 }
 
@@ -57,27 +59,8 @@ where
             .expect("Statically generated options should not fail.");
 
         Self {
-            create_detected_asset_command_invoker: Arc::new(
-                CreateDetectedAssetCommandInvoker::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &options,
-                ),
-            ),
             get_asset_endpoint_profile_command_invoker: Arc::new(
                 GetAssetEndpointProfileCommandInvoker::new(
-                    application_context.clone(),
-                    client.clone(),
-                    &options,
-                ),
-            ),
-            get_asset_command_invoker: Arc::new(GetAssetCommandInvoker::new(
-                application_context.clone(),
-                client.clone(),
-                &options,
-            )),
-            notify_on_asset_endpoint_profile_update_command_invoker: Arc::new(
-                NotifyOnAssetEndpointProfileUpdateCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &options,
@@ -90,12 +73,114 @@ where
                     &options,
                 ),
             ),
+            notify_on_asset_endpoint_profile_update_command_invoker: Arc::new(
+                NotifyOnAssetEndpointProfileUpdateCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            get_asset_command_invoker: Arc::new(GetAssetCommandInvoker::new(
+                application_context.clone(),
+                client.clone(),
+                &options,
+            )),
+            create_detected_asset_command_invoker: Arc::new(
+                CreateDetectedAssetCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
             update_asset_status_command_invoker: Arc::new(UpdateAssetStatusCommandInvoker::new(
                 application_context,
                 client.clone(),
                 &options,
             )),
             client_id: client.client_id().to_string(),
+        }
+    }
+
+    /// Retrieves an asset endpoint profile from a Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns a [`AssetEndpointProfile`] if the the endpoint was found.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn get_asset_endpoint_profile(
+        &self,
+        timeout: Duration,
+    ) -> Result<AssetEndpointProfile, AzureDeviceRegistryError> {
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .timeout(timeout)
+            .build()
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .get_asset_endpoint_profile_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => Ok(response.payload.asset_endpoint_profile),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
+        }
+    }
+
+    /// Updates an asset endprofile in the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * [`UpdateAssetEndpointProfileStatusReq`] - The request containing all the information about an aseet for the update.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the updated [`AssetEndpointProfile`] once updated.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn update_asset_endprofile_status(
+        &self,
+        source: UpdateAssetEndpointProfileStatusReq,
+        timeout: Duration,
+    ) -> Result<AssetEndpointProfile, AzureDeviceRegistryError> {
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(source.into())
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .update_asset_endpoint_profile_status_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => Ok(response.payload.updated_asset_endpoint_profile),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
         }
     }
 
@@ -135,55 +220,10 @@ where
             .build()
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let get_result = self.get_asset_command_invoker.invoke(command_request).await;
-
-        match get_result {
-            Ok(response) => Ok(response.payload.asset),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
-        }
-    }
-
-    /// Updates an asset in the Azure Device Registry service.
-    ///
-    /// # Arguments
-    /// * [`UpdateAssetStatusRequest`] - The request containing all the information about an aseet for the update.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
-    ///
-    /// Returns the updated [`Asset`] once updated.
-    ///
-    /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
-    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
-    ///
-    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
-    /// if there is an error serializing the request.
-    ///
-    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
-    /// if there is an error returned by the ADR Service.
-    ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn update_asset_status(
-        &self,
-        source: UpdateAssetStatusReq,
-        timeout: Duration,
-    ) -> Result<Asset, AzureDeviceRegistryError> {
-        let command_request = rpc_command::invoker::RequestBuilder::default()
-            .payload(source.into())
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
-            .timeout(timeout)
-            .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
-
-        let result = self
-            .update_asset_status_command_invoker
-            .invoke(command_request)
-            .await;
+        let result = self.get_asset_command_invoker.invoke(command_request).await;
 
         match result {
-            Ok(response) => Ok(response.payload.updated_asset),
+            Ok(response) => Ok(response.payload.asset),
             Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
                 ErrorKind::AIOProtocolError(e),
             ))),
@@ -234,6 +274,52 @@ where
             ))),
         }
     }
+
+    /// Updates an asset in the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * [`UpdateAssetStatusReq`] - The request containing all the information about an aseet for the update.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the updated [`Asset`] once updated.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn update_asset_status(
+        &self,
+        source: UpdateAssetStatusReq,
+        timeout: Duration,
+    ) -> Result<Asset, AzureDeviceRegistryError> {
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(source.into())
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .update_asset_status_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => Ok(response.payload.updated_asset),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
+        }
+    }
+
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
     ///
     /// Note: If this method is called, the [`Client`] should not be used again.
@@ -249,6 +335,10 @@ where
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
         self.get_asset_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+        self.get_asset_endpoint_profile_command_invoker
             .shutdown()
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
