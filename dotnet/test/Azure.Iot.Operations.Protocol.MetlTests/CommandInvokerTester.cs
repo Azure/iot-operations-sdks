@@ -125,21 +125,21 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         [Theory]
         [MemberData(nameof(GetAllCommandInvokerCases))]
-        public Task TestCommandInvokerWithSessionClient(string testCaseName)
+        public Task TestCommandInvokerWithSessionClientAsync(string testCaseName)
         {
-            return TestCommandInvokerProtocol(testCaseName, includeSessionClient: true);
+            return TestCommandInvokerProtocolAsync(testCaseName, includeSessionClient: true);
         }
 
         [Theory]
         [MemberData(nameof(GetRestrictedCommandInvokerCases))]
-        public Task TestCommandInvokerStandalone(string testCaseName)
+        public Task TestCommandInvokerStandaloneAsync(string testCaseName)
         {
-            return TestCommandInvokerProtocol(testCaseName, includeSessionClient: false);
+            return TestCommandInvokerProtocolAsync(testCaseName, includeSessionClient: false);
         }
 
-        private async Task TestCommandInvokerProtocol(string testCaseName, bool includeSessionClient)
+        private async Task TestCommandInvokerProtocolAsync(string testCaseName, bool includeSessionClient)
         {
-            int testCaseIndex = await TestCaseIndex.Increment().ConfigureAwait(false);
+            int testCaseIndex = await TestCaseIndex.IncrementAsync().ConfigureAwait(false);
 
             TestCase testCase;
             using (StreamReader streamReader = File.OpenText($"{invokerCasesPath}/{testCaseName}.yaml"))
@@ -177,7 +177,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             foreach (TestCaseInvoker testCaseInvoker in testCase.Prologue?.Invokers ?? new List<TestCaseInvoker>())
             {
                 bool isLast = ReferenceEquals(testCaseInvoker, testCase.Prologue?.Invokers.Last());
-                TestCommandInvoker? commandInvoker = await GetCommandInvoker(compositeMqttClient, testCaseInvoker, isLast ? testCase.Prologue?.Catch : null);
+                TestCommandInvoker? commandInvoker = await GetCommandInvokerAsync(compositeMqttClient, testCaseInvoker, isLast ? testCase.Prologue?.Catch : null);
                 if (commandInvoker == null)
                 {
                     return;
@@ -196,7 +196,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 switch (action)
                 {
                     case TestCaseActionInvokeCommand actionInvokeCommand:
-                        InvokeCommandAsync(actionInvokeCommand, commandInvokers, invocationTasks);
+                        InvokeCommand(actionInvokeCommand, commandInvokers, invocationTasks);
                         break;
                     case TestCaseActionAwaitInvocation actionAwaitInvocation:
                         await AwaitInvocationAsync(actionAwaitInvocation, invocationTasks).ConfigureAwait(false);
@@ -235,7 +235,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (testCase.Epilogue.PublicationCount != null)
                 {
-                    int publicationCount = await stubMqttClient.GetPublicationCount().ConfigureAwait(false);
+                    int publicationCount = await stubMqttClient.GetPublicationCountAsync().ConfigureAwait(false);
                     Assert.Equal(testCase.Epilogue.PublicationCount, publicationCount);
                 }
 
@@ -246,13 +246,13 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (testCase.Epilogue.AcknowledgementCount != null)
                 {
-                    int acknowledgementCount = await stubMqttClient.GetAcknowledgementCount().ConfigureAwait(false);
+                    int acknowledgementCount = await stubMqttClient.GetAcknowledgementCountAsync().ConfigureAwait(false);
                     Assert.Equal(testCase.Epilogue.AcknowledgementCount, acknowledgementCount);
                 }
             }
         }
 
-        private async Task<TestCommandInvoker?> GetCommandInvoker(IMqttPubSubClient mqttClient, TestCaseInvoker testCaseInvoker, TestCaseCatch? testCaseCatch)
+        private async Task<TestCommandInvoker?> GetCommandInvokerAsync(IMqttPubSubClient mqttClient, TestCaseInvoker testCaseInvoker, TestCaseCatch? testCaseCatch)
         {
             try
             {
@@ -308,7 +308,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        private void InvokeCommandAsync(TestCaseActionInvokeCommand actionInvokeCommand, Dictionary<string, TestCommandInvoker> commandInvokers, ConcurrentDictionary<int, Task<ExtendedResponse<string>>> invocationTasks)
+        private void InvokeCommand(TestCaseActionInvokeCommand actionInvokeCommand, Dictionary<string, TestCommandInvoker> commandInvokers, ConcurrentDictionary<int, Task<ExtendedResponse<string>>> invocationTasks)
         {
             CommandRequestMetadata? metadata = null;
             if (actionInvokeCommand.Metadata != null)

@@ -24,7 +24,7 @@ func NewGetCommandInvoker(
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"commandName":     "get",
+			"commandName": "get",
 		},
 	)
 

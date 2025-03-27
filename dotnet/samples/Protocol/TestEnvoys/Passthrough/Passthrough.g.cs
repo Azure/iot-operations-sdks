@@ -47,7 +47,8 @@ namespace TestEnvoys.Passthrough
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt};
+                this.passCommandExecutor = new PassCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = PassInt };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
@@ -60,7 +61,6 @@ namespace TestEnvoys.Passthrough
             }
 
             public PassCommandExecutor PassCommandExecutor { get => this.passCommandExecutor; }
-
 
             public abstract Task<ExtendedResponse<byte[]>> PassAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -98,6 +98,7 @@ namespace TestEnvoys.Passthrough
                 await Task.WhenAll(
                     this.passCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<byte[]>> PassInt(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<byte[]> extended = await this.PassAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -147,7 +148,6 @@ namespace TestEnvoys.Passthrough
             }
 
             public PassCommandInvoker PassCommandInvoker { get => this.passCommandInvoker; }
-
 
             /// <summary>
             /// Invoke a command.

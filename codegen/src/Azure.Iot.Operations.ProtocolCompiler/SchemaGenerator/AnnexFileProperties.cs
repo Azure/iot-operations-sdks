@@ -40,9 +40,37 @@
 
         public const string CmdResponseNamespace = "responseSchemaNamespace";
 
+        public const string NormalResultName = "normalResultName";
+
+        public const string NormalResultSchema = "normalResultSchema";
+
+        public const string NormalResultNamespace = "normalResultNamespace";
+
+        public const string ErrorResultName = "errorResultName";
+
+        public const string ErrorResultSchema = "errorResultSchema";
+
+        public const string ErrorResultNamespace = "errorResultNamespace";
+
+        public const string RequestIsNullable = "requestNullable";
+
+        public const string ResponseIsNullable = "responseNullable";
+
         public const string CmdIsIdempotent = "idempotent";
 
         public const string Cacheability = "cacheability";
+
+        public const string ErrorList = "errors";
+
+        public const string ErrorSchema = "schemaClass";
+
+        public const string ErrorNamespace = "namespace";
+
+        public const string ErrorDescription = "description";
+
+        public const string ErrorMessageField = "message";
+
+        public const string ErrorMessageIsNullable = "nullable";
 
         public const string TelemSeparate = "separateTelemetries";
     }

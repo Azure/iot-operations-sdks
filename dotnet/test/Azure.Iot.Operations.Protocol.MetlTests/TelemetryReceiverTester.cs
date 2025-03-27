@@ -123,21 +123,21 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         [Theory]
         [MemberData(nameof(GetRestrictedTelemetryReceiverCases))]
-        public Task TestTelemetryReceiverWithSessionClient(string testCaseName)
+        public Task TestTelemetryReceiverWithSessionClientAsync(string testCaseName)
         {
-            return TestTelemetryReceiverProtocol(testCaseName, includeSessionClient: true);
+            return TestTelemetryReceiverProtocolAsync(testCaseName, includeSessionClient: true);
         }
 
         [Theory]
         [MemberData(nameof(GetRestrictedTelemetryReceiverCases))]
-        public Task TestTelemetryReceiverStandalone(string testCaseName)
+        public Task TestTelemetryReceiverStandaloneAsync(string testCaseName)
         {
-            return TestTelemetryReceiverProtocol(testCaseName, includeSessionClient: false);
+            return TestTelemetryReceiverProtocolAsync(testCaseName, includeSessionClient: false);
         }
 
-        private async Task TestTelemetryReceiverProtocol(string testCaseName, bool includeSessionClient)
+        private async Task TestTelemetryReceiverProtocolAsync(string testCaseName, bool includeSessionClient)
         {
-            int testCaseIndex = await TestCaseIndex.Increment().ConfigureAwait(false);
+            int testCaseIndex = await TestCaseIndex.IncrementAsync().ConfigureAwait(false);
 
             TestCase testCase;
             using (StreamReader streamReader = File.OpenText($"{receiverCasesPath}/{testCaseName}.yaml"))
@@ -235,19 +235,19 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 if (testCase.Epilogue.AcknowledgementCount != null)
                 {
-                    int acknowledgementCount = await stubMqttClient.GetAcknowledgementCount().ConfigureAwait(false);
+                    int acknowledgementCount = await stubMqttClient.GetAcknowledgementCountAsync().ConfigureAwait(false);
                     Assert.Equal(testCase.Epilogue.AcknowledgementCount, acknowledgementCount);
                 }
 
                 if (testCase.Epilogue.TelemetryCount != null)
                 {
-                    int telemetryCount = await telemetryReceivers.First().GetTelemetryCount().ConfigureAwait(false);
+                    int telemetryCount = await telemetryReceivers.First().GetTelemetryCountAsync().ConfigureAwait(false);
                     Assert.Equal(testCase.Epilogue.TelemetryCount, telemetryCount);
                 }
 
                 foreach (KeyValuePair<int, int> kvp in testCase.Epilogue.TelemetryCounts)
                 {
-                    int telemetryCount = await telemetryReceivers[kvp.Key].GetTelemetryCount().ConfigureAwait(false);
+                    int telemetryCount = await telemetryReceivers[kvp.Key].GetTelemetryCountAsync().ConfigureAwait(false);
                     Assert.Equal(kvp.Value, telemetryCount);
                 }
 
@@ -319,7 +319,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
                 telemetryReceiver.OnTelemetryReceived = async (sourceId, telemetry, metadata) =>
                 {
-                    await telemetryReceiver.Track().ConfigureAwait(false);
+                    await telemetryReceiver.TrackAsync().ConfigureAwait(false);
                     ProcessTelemetry(sourceId, telemetry, metadata, testCaseReceiver, receivedTelemetries);
                 };
 

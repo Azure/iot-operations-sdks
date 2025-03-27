@@ -99,7 +99,7 @@ async fn receive_telemetry(
                     .expect("receiver end should not be dropped");
             }
             Err(e) => {
-                log::error!("Failed to receive telemetry: {:?}", e);
+                log::error!("Failed to receive telemetry: {e:?}");
             }
         }
         log::info!("Received sensor data");

@@ -106,12 +106,12 @@ async fn schema_registry_put(
         .await
     {
         Ok(schema) => {
-            log::info!("Put request succeeded: {:?}", schema);
+            log::info!("Put request succeeded: {schema:?}");
             // Send the schema ID to the other task
             schema_id_tx.send(schema.name.unwrap()).unwrap();
         }
         Err(e) => {
-            log::error!("Put request failed: {:?}", e);
+            log::error!("Put request failed: {e}");
         }
     }
 }
@@ -131,10 +131,10 @@ async fn schema_registry_get(
                 .await
             {
                 Ok(schema) => {
-                    log::info!("Got schema: {:?}", schema);
+                    log::info!("Got schema: {schema:?}");
                 }
                 Err(e) => {
-                    log::error!("Failed to get schema: {:?}", e);
+                    log::error!("Failed to get schema: {e}");
                 }
             }
         }

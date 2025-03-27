@@ -49,42 +49,30 @@ namespace TestEnvoys.Math
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt};
+                this.isPrimeCommandExecutor = new IsPrimeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = IsPrimeInt };
+                this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt };
+                this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.fibCommandExecutor = new FibCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = FibInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.fibCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.getRandomCommandExecutor = new GetRandomCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRandomInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getRandomCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
+                this.isPrimeCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.fibCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getRandomCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public IsPrimeCommandExecutor IsPrimeCommandExecutor { get => this.isPrimeCommandExecutor; }
-            public FibCommandExecutor FibCommandExecutor { get => this.fibCommandExecutor; }
-            public GetRandomCommandExecutor GetRandomCommandExecutor { get => this.getRandomCommandExecutor; }
 
+            public FibCommandExecutor FibCommandExecutor { get => this.fibCommandExecutor; }
+
+            public GetRandomCommandExecutor GetRandomCommandExecutor { get => this.getRandomCommandExecutor; }
 
             public abstract Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeAsync(IsPrimeRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -130,16 +118,19 @@ namespace TestEnvoys.Math
                     this.fibCommandExecutor.StopAsync(cancellationToken),
                     this.getRandomCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeInt(ExtendedRequest<IsPrimeRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<IsPrimeResponsePayload> extended = await this.IsPrimeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<IsPrimeResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<FibResponsePayload>> FibInt(ExtendedRequest<FibRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<FibResponsePayload> extended = await this.FibAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<FibResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomInt(ExtendedRequest<Google.Protobuf.WellKnownTypes.Empty> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetRandomResponsePayload> extended = await this.GetRandomAsync(req.RequestMetadata!, cancellationToken);
@@ -211,9 +202,10 @@ namespace TestEnvoys.Math
             }
 
             public IsPrimeCommandInvoker IsPrimeCommandInvoker { get => this.isPrimeCommandInvoker; }
-            public FibCommandInvoker FibCommandInvoker { get => this.fibCommandInvoker; }
-            public GetRandomCommandInvoker GetRandomCommandInvoker { get => this.getRandomCommandInvoker; }
 
+            public FibCommandInvoker FibCommandInvoker { get => this.fibCommandInvoker; }
+
+            public GetRandomCommandInvoker GetRandomCommandInvoker { get => this.getRandomCommandInvoker; }
 
             /// <summary>
             /// Invoke a command.

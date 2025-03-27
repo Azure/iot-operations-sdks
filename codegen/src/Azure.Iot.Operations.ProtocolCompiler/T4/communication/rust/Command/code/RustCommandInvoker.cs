@@ -10,9 +10,31 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly ITypeName? respSchema;
         private readonly CodeName? reqNamespace;
         private readonly CodeName? respNamespace;
+        private readonly CodeName? normalResultName;
+        private readonly CodeName? normalResultSchema;
+        private readonly CodeName? normalResultNamespace;
+        private readonly CodeName? errorResultName;
+        private readonly CodeName? errorResultSchema;
+        private readonly CodeName? errorResultNamespace;
+        private readonly bool isRespNullable;
         private readonly bool doesCommandTargetExecutor;
 
-        public RustCommandInvoker(CodeName commandName, CodeName genNamespace, EmptyTypeName serializerEmptyType, ITypeName? reqSchema, ITypeName? respSchema, CodeName? reqNamespace, CodeName? respNamespace, bool doesCommandTargetExecutor)
+        public RustCommandInvoker(
+            CodeName commandName,
+            CodeName genNamespace,
+            EmptyTypeName serializerEmptyType,
+            ITypeName? reqSchema,
+            ITypeName? respSchema,
+            CodeName? reqNamespace,
+            CodeName? respNamespace,
+            CodeName? normalResultName,
+            CodeName? normalResultSchema,
+            CodeName? normalResultNamespace,
+            CodeName? errorResultName,
+            CodeName? errorResultSchema,
+            CodeName? errorResultNamespace,
+            bool isRespNullable,
+            bool doesCommandTargetExecutor)
         {
             this.commandName = commandName;
             this.genNamespace = genNamespace;
@@ -21,6 +43,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.respSchema = respSchema;
             this.reqNamespace = reqNamespace;
             this.respNamespace = respNamespace;
+            this.normalResultName = normalResultName;
+            this.normalResultSchema = normalResultSchema;
+            this.normalResultNamespace = normalResultNamespace;
+            this.errorResultName = errorResultName;
+            this.errorResultSchema = errorResultSchema;
+            this.errorResultNamespace = errorResultNamespace;
+            this.isRespNullable = isRespNullable;
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
         }
 

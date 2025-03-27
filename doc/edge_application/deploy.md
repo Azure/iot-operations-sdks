@@ -25,21 +25,18 @@ Some languages have built in container support, however all binaries can be cont
 
 This definition uses the [Official .NET SDK image](https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md) to build the application, and then copies the resulting package into the [.NET runtime image](https://hub.docker.com/_/alpine).
 
-
 ```dockerfile
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /app
-
 # Build application
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /build
 COPY . .
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -o dist
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/runtime:9.0
 WORKDIR /app
-COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
+COPY --from=build /build/dist .
+ENTRYPOINT ["./MyApplication"]
 ```
 
 ## Rust Dockerfile
@@ -47,18 +44,18 @@ ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
 This definition uses the [Official Rust image](https://hub.docker.com/_/rust) to build the release application, and then copies the resulting binary (called "rust-application" in the example below) into the [Alpine image](https://hub.docker.com/_/alpine).
 
 ```dockerfile
-FROM rust:1 AS build
-WORKDIR /work
-
 # Build application
+FROM rust:1 AS build
+WORKDIR /build
 COPY . .
 RUN cargo build
 
 # Build runtime image
-FROM alpine:3
+FROM debian:bookworm-slim
 WORKDIR /
+RUN apt update; apt install -y libssl3
 COPY --from=build work/rust-application .
-ENTRYPOINT ["/rust-application"]
+ENTRYPOINT ["./rust-application"]
 ```
 
 ## Go Dockerfile
@@ -66,18 +63,17 @@ ENTRYPOINT ["/rust-application"]
 This definition uses the [Official Golang image](https://hub.docker.com/_/golang) to build the application, and then copies the resulting binary (called "go-application" in the example below) into the [Alpine image](https://hub.docker.com/_/alpine).
 
 ```dockerfile
-FROM golang:1 AS build
-WORKDIR /work
-
 # Build application
+FROM golang:1 AS build
+WORKDIR /build
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o .
 
 # Build runtime image
-FROM alpine:3
+FROM debian:bookworm-slim
 WORKDIR /
-COPY --from=build work/go-application .
-ENTRYPOINT ["/go-application"]
+COPY --from=build /build/go-application .
+ENTRYPOINT ["./go-application"]
 ```
 
 ## Build the container image

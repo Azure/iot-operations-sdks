@@ -3,18 +3,28 @@
 package <#=this.genNamespace.GetFolderName(TargetLanguage.Go)#>
 
 import (
+<# if (this.errorResultName != null) { #>
+	"context"
+
+<# } #>
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 )
 
 type <#=this.commandName.GetTypeName(TargetLanguage.Go, "command", "executor")#> struct {
 	*protocol.CommandExecutor[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>]
 }
+<# if (this.errorResultName != null) { #>
+
+type <#=this.commandName.GetTypeName(TargetLanguage.Go, "handler", "wrapper", local: true)#> struct {
+	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.normalResultSchema.GetTypeName(TargetLanguage.Go)#>]
+}
+<# } #>
 
 func <#=this.commandName.GetMethodName(TargetLanguage.Go, "command", "executor", prefix: "new")#>(
 	app *protocol.Application,
 	client protocol.MqttClient,
 	requestTopic string,
-	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.respSchema)#>],
+	handler protocol.CommandHandler[<#=this.AsSchema(this.reqSchema)#>, <#=this.AsSchema(this.normalResultSchema ?? this.respSchema)#>],
 	opt ...protocol.CommandExecutorOption,
 ) (*<#=this.commandName.GetTypeName(TargetLanguage.Go, "command", "executor")#>, error) {
 	var err error
@@ -29,18 +39,62 @@ func <#=this.commandName.GetMethodName(TargetLanguage.Go, "command", "executor",
 		protocol.WithIdempotent(<#=this.isIdempotent ? "true" : "false"#>),
 	)
 
+<# if (this.errorResultName != null) { #>
+	wrappedHandler := <#=this.commandName.GetTypeName(TargetLanguage.Go, "handler", "wrapper", local: true)#>{handler}
+
+<# } #>
 	executor.CommandExecutor, err = protocol.NewCommandExecutor(
 		app,
 		client,
 		protocol.<#=GetSerializer(this.reqSchema)#>{},
 		protocol.<#=GetSerializer(this.respSchema)#>{},
 		requestTopic,
+<# if (this.errorResultName != null) { #>
+		wrappedHandler.handlerInt,
+<# } else { #>
 		handler,
+<# } #>
 		&opts,
 	)
 
 	return executor, err
 }
+<# if (this.errorResultName != null) { #>
+
+func (wrappedHandler <#=this.commandName.GetTypeName(TargetLanguage.Go, "handler", "wrapper", local: true)#>) handlerInt(
+	ctx context.Context,
+	req *protocol.CommandRequest[<#=this.AsSchema(this.reqSchema)#>],
+) (*protocol.CommandResponse[<#=this.AsSchema(this.respSchema)#>], error) {
+	response, err := wrappedHandler.handler(ctx, req)
+	if err != nil {
+		errVal, ok := err.(*<#=this.errorResultSchema.GetTypeName(TargetLanguage.Go)#>)
+		if !ok {
+			return nil, err
+		}
+
+		return protocol.Respond(<#=this.AsSchema(this.respSchema)#>{
+			<#=this.normalResultName.GetFieldName(TargetLanguage.Go)#>: nil,
+			<#=this.errorResultName.GetFieldName(TargetLanguage.Go)#>: errVal,
+		})
+	}
+
+	mappedResponse := protocol.CommandResponse[<#=this.AsSchema(this.respSchema)#>]{
+		protocol.Message[<#=this.AsSchema(this.respSchema)#>]{
+			Payload: <#=this.AsSchema(this.respSchema)#>{
+				<#=this.normalResultName.GetFieldName(TargetLanguage.Go)#>: <#=this.isRespNullable ? "" : "&"#>response.Payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Go)#>,
+				<#=this.errorResultName.GetFieldName(TargetLanguage.Go)#>: nil,
+			},
+			ClientID:        response.ClientID,
+			CorrelationData: response.CorrelationData,
+			Timestamp:       response.Timestamp,
+			TopicTokens:     response.TopicTokens,
+			Metadata:        response.Metadata,
+		},
+	}
+
+	return &mappedResponse, nil
+}
+<# } #>
 <#+
     private string AsSchema(ITypeName schema) => schema == null ? "any" : schema.GetTypeName(TargetLanguage.Go);
 

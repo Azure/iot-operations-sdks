@@ -989,9 +989,7 @@ fn validate_and_parse_response<TResp: PayloadSerialize>(
                 // UserProperty::CommandInvokerId
                 // Don't return error, although these properties shouldn't be present on a response
                 log::warn!(
-                    "Response should not contain MQTT user property '{}'. Value is '{}'",
-                    key,
-                    value
+                    "Response should not contain MQTT user property '{key}'. Value is '{value}'",
                 );
                 response_custom_user_data.push((key, value));
             }

@@ -1,4 +1,4 @@
-set -e
+#!/bin/sh
 
 cd CommandVariantsSample/command_variants_gen
 cargo build

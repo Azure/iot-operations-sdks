@@ -1,0 +1,118 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3",
+    "dtmi:dtdl:extension:requirement;1"
+  ],
+  "@id": "dtmi:codegen:communicationTest:counterCollection;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "commandTopic": "test/CounterCollection/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "increment",
+      "request": {
+        "name": "counterName",
+        "schema": "string"
+      },
+      "response": {
+        "name": "incrementResponse",
+        "schema": {
+          "@type": [ "Object", "Result" ],
+          "fields": [
+            {
+              "@type": [ "Field", "NormalResult" ],
+              "name": "counterValue",
+              "schema": "integer"
+            },
+            {
+              "@type": [ "Field", "ErrorResult" ],
+              "name": "incrementError",
+              "schema": "dtmi:com:example:CounterCollection:sharedSchemas:CounterError;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "getLocation",
+      "request": {
+        "name": "counterName",
+        "schema": "string"
+      },
+      "response": {
+        "name": "location",
+        "description": "does this get used??",
+        "schema": {
+          "@type": [ "Object", "Result" ],
+          "fields": [
+            {
+              "@type": [ "Field", "NormalResult" ],
+              "name": "counterLocation",
+              "description": "Location of counter, null if not deployed",
+              "schema": "dtmi:com:example:CounterCollection:CounterLocation;1"
+            },
+            {
+              "@type": [ "Field", "ErrorResult" ],
+              "name": "locationError",
+              "schema": "dtmi:com:example:CounterCollection:sharedSchemas:CounterError;1"
+            }
+          ]
+        },
+        "nullable": true
+      }
+    }
+  ],
+  "schemas": [
+    {
+      "@id": "dtmi:com:example:CounterCollection:CounterLocation;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "latitude",
+          "schema": "double"
+        },
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "longitude",
+          "schema": "double"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:example:CounterCollection:sharedSchemas:CounterError;1",
+      "@type": [ "Object", "Error" ],
+      "description": "The requested counter operation could not be completed.",
+      "fields": [
+        {
+          "@type": [ "Field", "ErrorMessage" ],
+          "name": "explanation",
+          "schema": "string"
+        },
+        {
+          "name": "condition",
+          "schema": {
+            "@type": "Enum",
+            "valueSchema": "integer",
+            "enumValues": [
+              {
+                "name": "counterNotFound",
+                "enumValue": 1
+              },
+              {
+                "name": "counterOverflow",
+                "enumValue": 2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -80,10 +80,10 @@ async fn increment_invoke_loop(
         log::info!("Sending 'increment' command request...");
         match invoker.invoke(payload).await {
             Ok(response) => {
-                log::info!("Response: {:?}", response);
+                log::info!("Response: {response:?}");
             }
             Err(e) => {
-                log::error!("Error invoking 'increment' command: {:?}", e);
+                log::error!("Error invoking 'increment' command: {e}");
             }
         }
         tokio::time::sleep(Duration::from_secs(5)).await;

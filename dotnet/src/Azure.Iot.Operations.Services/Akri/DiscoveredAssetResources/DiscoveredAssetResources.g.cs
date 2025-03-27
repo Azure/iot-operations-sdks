@@ -49,31 +49,25 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt};
+                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt };
+                this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.createDiscoveredAssetCommandExecutor = new CreateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
+                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.createDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }
-            public CreateDiscoveredAssetCommandExecutor CreateDiscoveredAssetCommandExecutor { get => this.createDiscoveredAssetCommandExecutor; }
 
+            public CreateDiscoveredAssetCommandExecutor CreateDiscoveredAssetCommandExecutor { get => this.createDiscoveredAssetCommandExecutor; }
 
             public abstract Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -115,11 +109,13 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
                     this.createDiscoveredAssetEndpointProfileCommandExecutor.StopAsync(cancellationToken),
                     this.createDiscoveredAssetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileInt(ExtendedRequest<CreateDiscoveredAssetEndpointProfileRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> extended = await this.CreateDiscoveredAssetEndpointProfileAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<CreateDiscoveredAssetResponsePayload>> CreateDiscoveredAssetInt(ExtendedRequest<CreateDiscoveredAssetRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateDiscoveredAssetResponsePayload> extended = await this.CreateDiscoveredAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -180,8 +176,8 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandInvoker CreateDiscoveredAssetEndpointProfileCommandInvoker { get => this.createDiscoveredAssetEndpointProfileCommandInvoker; }
-            public CreateDiscoveredAssetCommandInvoker CreateDiscoveredAssetCommandInvoker { get => this.createDiscoveredAssetCommandInvoker; }
 
+            public CreateDiscoveredAssetCommandInvoker CreateDiscoveredAssetCommandInvoker { get => this.createDiscoveredAssetCommandInvoker; }
 
             /// <summary>
             /// Invoke a command.

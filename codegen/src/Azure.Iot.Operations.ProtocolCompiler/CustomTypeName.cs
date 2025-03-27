@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static CustomTypeName Instance = new();
 
-        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
         {
             (null, null, null, TargetLanguage.Independent) => Designator,
             (null, null, null, TargetLanguage.CSharp) => "CustomPayload",

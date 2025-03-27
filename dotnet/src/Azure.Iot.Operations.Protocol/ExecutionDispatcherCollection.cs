@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Azure.Iot.Operations.Protocol
 {
-    internal class ExecutionDispatcherCollection : IDisposable
+    internal sealed class ExecutionDispatcherCollection : IDisposable
     {
         private readonly SemaphoreSlim _mapSemaphore;
         private readonly Dictionary<string, Dispatcher> _clientIdCommandDispatcherMap;
@@ -53,7 +53,7 @@ namespace Azure.Iot.Operations.Protocol
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {

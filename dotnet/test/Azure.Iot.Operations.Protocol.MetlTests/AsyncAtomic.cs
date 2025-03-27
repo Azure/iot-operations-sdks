@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             _value = initialValue;
         }
 
-        public async Task<int> Increment()
+        public async Task<int> IncrementAsync()
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
             }
         }
 
-        public async Task<int> Read()
+        public async Task<int> ReadAsync()
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 

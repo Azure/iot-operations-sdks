@@ -40,3 +40,4 @@ jobs:
           config_file: .github/.linkspector.yml
           fail_level: warning
           filter_mode: nofilter
+          show_stats: true
