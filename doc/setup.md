@@ -4,20 +4,12 @@ The following instructions will setup up a development environment for building 
 
 **Contents:**
 
-- [Setup](#setup)
-  - [Setup the environment](#setup-the-environment)
-    - [Option 1 - Codespaces](#option-1---codespaces)
-    - [Option 2 - Linux](#option-2---linux)
-    - [Option 3 - Linux devcontainer on Windows](#option-3---linux-devcontainer-on-windows)
-    - [Option 4 - Windows Subsystem for Linux](#option-4---windows-subsystem-for-linux)
-  - [Install Azure IoT Operations](#install-azure-iot-operations)
-  - [Shell configuration](#shell-configuration)
-  - [Testing the installation](#testing-the-installation)
-  - [Configuration summary](#configuration-summary)
-    - [MQTT broker configuration](#mqtt-broker-configuration)
-    - [MQTT broker access](#mqtt-broker-access)
-    - [Development artifacts](#development-artifacts)
-  - [Next Steps](#next-steps)
+* [Setup the environment](#setup-the-environment)
+* [Install Azure IoT Operations](#install-azure-iot-operations)
+* [Shell configuration](#shell-configuration)
+* [Testing the installation](#testing-the-installation)
+* [Configuration summary](#configuration-summary)
+* [Next Steps](#next-steps)
 
 ## Setup the environment
 
