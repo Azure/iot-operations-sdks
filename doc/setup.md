@@ -56,7 +56,7 @@ Follow the steps in **one of the sections** below to get your development enviro
 ### Option 3 - Linux devcontainer on Windows
 
 > [!WARNING]
-> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required feature as outlined in the steps below.
+> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) as outlined in the steps below.
 
 1. Install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) (contains kernel v6.6)
 
@@ -90,7 +90,7 @@ Follow the steps in **one of the sections** below to get your development enviro
 ### Option 4 - Windows Subsystem for Linux
 
 > [!WARNING]
-> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required feature as outlined in the steps below.
+> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) as outlined in the steps below.
 
 1. Install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) (contains kernel v6.6)
 
