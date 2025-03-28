@@ -7,7 +7,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
+internal class AssetServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
     : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap)
 {
     internal event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry;

@@ -2,266 +2,195 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+using AepTypes = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
 public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : IAdrServiceClient
 {
-    private readonly IMqttPubSubClient _mqttClient = mqttClient;
-    private readonly ApplicationContext _applicationContext = applicationContext;
-
-    private readonly AdrBaseServiceClientStub _adrClient = new(applicationContext, mqttClient);
-    private readonly AepTypeServiceClientStub _aepTypeClient = new(applicationContext, mqttClient);
-
+    private readonly AssetServiceClientStub _assetServiceClient = new(applicationContext, mqttClient);
+    private readonly AssetEndpointProfileServiceClientStub _assetEndpointProfileServiceClient = new(applicationContext, mqttClient);
     private bool _disposed;
     private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
+    private int _telemetrySubscriptionCount = 0;
 
     public async ValueTask DisposeAsync()
     {
-        if (_disposed)
-        {
-            return;
-        }
-
-        await _adrClient.DisposeAsync()
-            .ConfigureAwait(false);
-        await _aepTypeClient.DisposeAsync()
-            .ConfigureAwait(false);
-
+        if (_disposed) return;
+        await _assetServiceClient.DisposeAsync().ConfigureAwait(false);
+        await _assetEndpointProfileServiceClient.DisposeAsync().ConfigureAwait(false);
         GC.SuppressFinalize(this);
         _disposed = true;
     }
 
-    public async Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName, Func<string, AssetEndpointProfile?, Task> onAssetEndpointProfileUpdateEventReceived, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _adrClient.GetAssetEndpointProfileAsync(
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).AssetEndpointProfile;
+        await _assetServiceClient.StartAsync(cancellationToken);
+        Interlocked.Increment(ref _telemetrySubscriptionCount);
+
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        var notificationRequest = new NotifyOnAssetEndpointProfileUpdateRequestPayload
+        {
+            NotificationRequest = NotificationMessageType.On
+        };
+
+        _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry += onAssetEndpointProfileUpdateEventReceived;
+
+        return (await _assetServiceClient.NotifyOnAssetEndpointProfileUpdateAsync(notificationRequest, null, additionalTopicTokenMap,
+            _defaultTimeout, cancellationToken)).NotificationResponse;
     }
 
-    public async Task<Asset?> GetAssetAsync(
-        string assetName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _adrClient.GetAssetAsync(
-            new GetAssetRequestPayload
-            {
-                AssetName = assetName
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).Asset;
+        if (Interlocked.Decrement(ref _telemetrySubscriptionCount) == 0)
+        {
+            await _assetServiceClient.StopAsync(cancellationToken);
+        }
+
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        var notificationRequest = new NotifyOnAssetEndpointProfileUpdateRequestPayload
+        {
+            NotificationRequest = NotificationMessageType.Off
+        };
+
+        _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry -= null;
+
+        return (await _assetServiceClient.NotifyOnAssetEndpointProfileUpdateAsync(notificationRequest, null, additionalTopicTokenMap,
+            _defaultTimeout, cancellationToken)).NotificationResponse;
     }
 
-    public async Task<AssetEndpointProfile?> UpdateAssetEndpointProfileStatusAsync(
-        List<Error> errors,
-        TimeSpan? commandTimeout = null,
+    public async Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _adrClient.UpdateAssetEndpointProfileStatusAsync(
-            new UpdateAssetEndpointProfileStatusRequestPayload
-            {
-                AssetEndpointProfileStatusUpdate = new AssetEndpointProfileStatus
-                {
-                    Errors = errors
-                }
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).UpdatedAssetEndpointProfile;
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        return (await _assetServiceClient.GetAssetEndpointProfileAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken))
+            .AssetEndpointProfile;
     }
 
-    public async Task<Asset?> UpdateAssetStatusAsync(
-        string assetName,
-        AssetStatus assetStatus,
-        TimeSpan? commandTimeout = null,
+    public async Task<AssetEndpointProfile?> UpdateAssetEndpointProfileStatusAsync(string aepName,
+        UpdateAssetEndpointProfileStatusRequestPayload requestPayload, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        return (await _assetServiceClient.UpdateAssetEndpointProfileStatusAsync(requestPayload, null, additionalTopicTokenMap,
+            commandTimeout ?? _defaultTimeout, cancellationToken)).UpdatedAssetEndpointProfile;
+    }
+
+    public async Task<NotificationResponse> ObserveAssetUpdatesAsync(string aepName, string assetName, Func<string, Asset?, Task> onAssetUpdateEventReceived, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        await _assetServiceClient.StartAsync(cancellationToken);
+        Interlocked.Increment(ref _telemetrySubscriptionCount);
+
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        var notificationRequest = new NotifyOnAssetUpdateRequestPayload
+        {
+            NotificationRequest = new NotifyOnAssetUpdateRequestSchema()
+            {
+                AssetName = assetName,
+                NotificationMessageType = NotificationMessageType.On
+            }
+        };
+
+        _assetServiceClient.OnReceiveAssetUpdateEventTelemetry += onAssetUpdateEventReceived;
+
+        return (await _assetServiceClient.NotifyOnAssetUpdateAsync(notificationRequest, null, additionalTopicTokenMap, _defaultTimeout, cancellationToken))
+            .NotificationResponse;
+    }
+
+    public async Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        if (Interlocked.Decrement(ref _telemetrySubscriptionCount) == 0)
+        {
+            await _assetServiceClient.StopAsync(cancellationToken);
+        }
+
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        var notificationRequest = new NotifyOnAssetUpdateRequestPayload
+        {
+            NotificationRequest = new NotifyOnAssetUpdateRequestSchema()
+            {
+                AssetName = assetName,
+                NotificationMessageType = NotificationMessageType.Off
+            }
+        };
+
+        _assetServiceClient.OnReceiveAssetUpdateEventTelemetry -= null;
+
+        return (await _assetServiceClient.NotifyOnAssetUpdateAsync(notificationRequest, null, additionalTopicTokenMap, _defaultTimeout, cancellationToken))
+            .NotificationResponse;
+    }
+
+    public async Task<Asset?> GetAssetAsync(string aepName, GetAssetRequestPayload requestPayload, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _adrClient.UpdateAssetStatusAsync(
-            new UpdateAssetStatusRequestPayload
-            {
-                AssetStatusUpdate = new()
-                {
-                    AssetName = assetName,
-                    AssetStatus = assetStatus
-                }
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        return (await _assetServiceClient.GetAssetAsync(requestPayload, null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken))
+            .Asset;
+    }
+
+    public async Task<Asset?> UpdateAssetStatusAsync(string aepName, UpdateAssetStatusRequestPayload requestPayload, TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        return (await _assetServiceClient.UpdateAssetStatusAsync(requestPayload, null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
             cancellationToken)).UpdatedAsset;
     }
 
-    public async Task<NotificationResponse?> NotifyOnAssetEndpointProfileUpdateAsync(
-        NotificationMessageType notificationRequest,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<CreateDetectedAssetResponseSchema?> CreateDetectedAssetAsync(string aepName, CreateDetectedAssetRequestPayload requestPayload,
+        TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _adrClient.NotifyOnAssetEndpointProfileUpdateAsync(
-            new NotifyOnAssetEndpointProfileUpdateRequestPayload
-            {
-                NotificationRequest = notificationRequest
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).NotificationResponse;
-    }
-
-    public async Task<NotificationResponse?> NotifyOnAssetUpdateAsync(
-        string assetName,
-        NotificationMessageType notificationMessageType,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        return (await _adrClient.NotifyOnAssetUpdateAsync(
-            new NotifyOnAssetUpdateRequestPayload
-            {
-                NotificationRequest = new()
-                {
-                    AssetName = assetName,
-                    NotificationMessageType = notificationMessageType
-                }
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).NotificationResponse;
-    }
-
-    public async Task<CreateDetectedAssetResponseSchema?> CreateDetectedAssetAsync(
-        string assetEndpointProfileRef,
-        string assetName,
-        List<DetectedAssetDatasetSchemaElementSchema> datasets,
-        string defaultDatasetsConfiguration,
-        string defaultEventsConfiguration,
-        Topic? defaultTopic,
-        string documentationUri,
-        List<DetectedAssetEventSchemaElementSchema> events,
-        string hardwareRevision,
-        string manufacturer,
-        string manufacturerUri,
-        string model,
-        string productCode,
-        string serialNumber,
-        string softwareRevision,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        return (await _adrClient.CreateDetectedAssetAsync(
-            new CreateDetectedAssetRequestPayload
-            {
-                DetectedAsset = new()
-                {
-                    AssetEndpointProfileRef = assetEndpointProfileRef,
-                    AssetName = assetName,
-                    Datasets = datasets,
-                    DefaultDatasetsConfiguration = defaultDatasetsConfiguration,
-                    DefaultEventsConfiguration = defaultEventsConfiguration,
-                    DefaultTopic = defaultTopic,
-                    DocumentationUri = documentationUri,
-                    Events = events,
-                    HardwareRevision = hardwareRevision,
-                    Manufacturer = manufacturer,
-                    ManufacturerUri = manufacturerUri,
-                    Model = model,
-                    ProductCode = productCode,
-                    SerialNumber = serialNumber,
-                    SoftwareRevision = softwareRevision
-                }
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        return (await _assetServiceClient.CreateDetectedAssetAsync(requestPayload, null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
             cancellationToken)).CreateDetectedAssetResponse;
     }
 
-    public event Func<string, AssetEndpointProfileUpdateEventTelemetry, IncomingTelemetryMetadata, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry
-    {
-        add => _adrClient.OnReceiveAssetEndpointProfileUpdateTelemetry += value;
-        remove => _adrClient.OnReceiveAssetEndpointProfileUpdateTelemetry -= value;
-    }
-
-    public event Func<string, AssetUpdateEventTelemetry, IncomingTelemetryMetadata, Task>? OnReceiveAssetUpdateEventTelemetry
-    {
-        add => _adrClient.OnReceiveAssetUpdateEventTelemetry += value;
-        remove => _adrClient.OnReceiveAssetUpdateEventTelemetry -= value;
-    }
-
-    public async Task StartAsync(CancellationToken cancellationToken = default)
+    public async Task<AepTypes.CreateDiscoveredAssetEndpointProfileResponseSchema?> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
+        AepTypes.CreateDiscoveredAssetEndpointProfileRequestPayload requestPayload, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        await _adrClient.StartAsync(cancellationToken);
+        var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
+        return (await _assetEndpointProfileServiceClient.CreateDiscoveredAssetEndpointProfileAsync(requestPayload, null, additionalTopicTokenMap,
+            commandTimeout ?? _defaultTimeout, cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken = default)
+    public event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        await _adrClient.StopAsync(cancellationToken);
+        add => _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry += value;
+        remove => _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry -= value;
     }
 
-    public async Task<CreateDiscoveredAssetEndpointProfileResponseSchema?> CreateDiscoveredAssetEndpointProfileAsync(
-        string additionalConfiguration,
-        string daepName,
-        string endpointProfileType,
-        List<SupportedAuthenticationMethodsSchemaElementSchema> supportedAuthenticationMethods,
-        string targetAddress,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        return (await _aepTypeClient.CreateDiscoveredAssetEndpointProfileAsync(
-            new CreateDiscoveredAssetEndpointProfileRequestPayload()
-            {
-                DiscoveredAssetEndpointProfile = new()
-                {
-                    AdditionalConfiguration = additionalConfiguration,
-                    DaepName = daepName,
-                    EndpointProfileType = endpointProfileType,
-                    SupportedAuthenticationMethods = supportedAuthenticationMethods,
-                    TargetAddress = targetAddress
-                }
-            },
-            null,
-            null,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
+        add => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
+        remove => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry -= value;
     }
 }
