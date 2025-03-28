@@ -7,14 +7,24 @@
     <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
-    <VersionPrefix>0.10.0</VersionPrefix>
+    <VersionPrefix>0.10.1</VersionPrefix>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
-    <ProjectReference Include="..\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
+    <!--
+    Note that we must deliberately reference the nuget.org packages that are strongly signed because any 
+    project taking a dependency on this connector package will only have access to the strongly signed 0.10.0 bits.
+    
+    Taking a local reference would make this package expect an unsigned version of the MQTT/protocol/services package at
+    build time, and we don't plan on publishing that.
+    
+    Once the connector package is published to nuget.org like the MQTT/protocol/services pacakges, we can make this a local reference again.
+    -->
+    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.10.0" />
+    <PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.10.0" />
+    <PackageReference Include="Azure.Iot.Operations.Services" Version="0.10.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
