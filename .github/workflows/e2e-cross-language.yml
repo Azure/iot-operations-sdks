@@ -12,6 +12,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 env:
   AIO_BROKER_HOSTNAME: localhost
   AIO_BROKER_TCP_PORT: 1883
