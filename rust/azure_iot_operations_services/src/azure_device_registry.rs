@@ -3,16 +3,14 @@
 
 //! Types for Azure Device Registry operations.
 use adr_name_gen::adr_base_service::client::{
-    Asset, AssetEndpointProfileStatus, AssetStatus, CreateDetectedAssetRequestPayload,
+    AssetEndpointProfileStatus, AssetStatus, CreateDetectedAssetRequestPayload,
     DatasetsSchemaSchemaElementSchema, DetectedAsset, DetectedAssetDataPointSchemaElementSchema,
     DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema, Error,
     EventsSchemaSchemaElementSchema, MessageSchemaReference, Topic,
     UpdateAssetEndpointProfileStatusRequestPayload, UpdateAssetStatusRequestPayload,
     UpdateAssetStatusRequestSchema,
 };
-use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError, AIOProtocolErrorKind,
-};
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use core::fmt::Debug;
 use thiserror::Error;
 

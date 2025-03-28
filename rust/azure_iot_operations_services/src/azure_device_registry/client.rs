@@ -8,9 +8,11 @@
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
     Asset, AssetEndpointProfile, CreateDetectedAssetCommandInvoker,
     DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
-    GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload,
-    NotifyOnAssetEndpointProfileUpdateCommandInvoker,
-    UpdateAssetEndpointProfileStatusCommandInvoker, UpdateAssetStatusCommandInvoker,
+    GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload, NotificationMessageType,
+    NotificationResponse, NotifyOnAssetEndpointProfileUpdateCommandInvoker,
+    NotifyOnAssetEndpointProfileUpdateRequestPayload, NotifyOnAssetUpdateRequestPayload,
+    NotifyOnAssetUpdateRequestSchema, UpdateAssetEndpointProfileStatusCommandInvoker,
+    UpdateAssetStatusCommandInvoker,
 };
 use crate::azure_device_registry::adr_name_gen::common_types::common_options::CommandOptionsBuilder;
 use crate::azure_device_registry::{
@@ -23,6 +25,8 @@ use azure_iot_operations_protocol::rpc_command;
 use std::sync::Arc;
 use std::time::Duration;
 
+use super::adr_name_gen::adr_base_service::client::NotifyOnAssetUpdateCommandInvoker;
+
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
 pub struct Client<C>
@@ -30,8 +34,6 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    // get_command_invoker: Arc<GetCommandInvoker<C>>,
-    // put_command_invoker: Arc<PutCommandInvoker<C>>,
     get_asset_endpoint_profile_command_invoker: Arc<GetAssetEndpointProfileCommandInvoker<C>>,
     update_asset_endpoint_profile_status_command_invoker:
         Arc<UpdateAssetEndpointProfileStatusCommandInvoker<C>>,
@@ -39,6 +41,7 @@ where
         Arc<NotifyOnAssetEndpointProfileUpdateCommandInvoker<C>>,
     get_asset_command_invoker: Arc<GetAssetCommandInvoker<C>>,
     update_asset_status_command_invoker: Arc<UpdateAssetStatusCommandInvoker<C>>,
+    notify_on_asset_update_command_invoker: Arc<NotifyOnAssetUpdateCommandInvoker<C>>,
     create_detected_asset_command_invoker: Arc<CreateDetectedAssetCommandInvoker<C>>,
     client_id: String,
 }
@@ -85,6 +88,11 @@ where
                 client.clone(),
                 &options,
             )),
+            update_asset_status_command_invoker: Arc::new(UpdateAssetStatusCommandInvoker::new(
+                application_context.clone(),
+                client.clone(),
+                &options,
+            )),
             create_detected_asset_command_invoker: Arc::new(
                 CreateDetectedAssetCommandInvoker::new(
                     application_context.clone(),
@@ -92,11 +100,13 @@ where
                     &options,
                 ),
             ),
-            update_asset_status_command_invoker: Arc::new(UpdateAssetStatusCommandInvoker::new(
-                application_context,
-                client.clone(),
-                &options,
-            )),
+            notify_on_asset_update_command_invoker: Arc::new(
+                NotifyOnAssetUpdateCommandInvoker::new(
+                    application_context,
+                    client.clone(),
+                    &options,
+                ),
+            ),
             client_id: client.client_id().to_string(),
         }
     }
@@ -184,6 +194,59 @@ where
         }
     }
 
+    /// Notifies the Azure Device Registry service that client is listening for asset updates.
+    ///
+    /// # Arguments
+    /// * `notification_type` - The type of notification to send, true for "On" and false for "Off".
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`NotificationResponse`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn notify_asset_endpoint_profile_update(
+        &self,
+        notification_type: bool,
+        timeout: Duration,
+    ) -> Result<NotificationResponse, AzureDeviceRegistryError> {
+        let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
+            notification_request: if notification_type {
+                NotificationMessageType::On
+            } else {
+                NotificationMessageType::Off
+            },
+        };
+
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(payload)
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .notify_on_asset_endpoint_profile_update_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => Ok(response.payload.notification_response),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
+        }
+    }
+
     /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
@@ -224,51 +287,6 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.asset),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
-        }
-    }
-
-    /// Creates an asset inside the Azure Device Registry service.
-    ///
-    /// # Arguments
-    /// * [`CreateDetectedAssetReq`] - All relevant details needed for an aset cretaion
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
-    ///
-    /// Returns a [`DetectedAssetResponseStatusSchema`] depending on the status of the asset creation.
-    ///
-    /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
-    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
-    ///
-    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
-    /// if there is an error serializing the request.
-    ///
-    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
-    /// if there is an error returned by the ADR Service.
-    ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn create_detected_asset(
-        &self,
-        source: CreateDetectedAssetReq,
-        timeout: Duration,
-    ) -> Result<DetectedAssetResponseStatusSchema, AzureDeviceRegistryError> {
-        let command_request = rpc_command::invoker::RequestBuilder::default()
-            .payload(source.into())
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
-            .timeout(timeout)
-            .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
-
-        let result = self
-            .create_detected_asset_command_invoker
-            .invoke(command_request)
-            .await;
-
-        match result {
-            Ok(response) => Ok(response.payload.create_detected_asset_response.status),
             Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
                 ErrorKind::AIOProtocolError(e),
             ))),
@@ -320,6 +338,109 @@ where
         }
     }
 
+    /// Creates an asset inside the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * [`CreateDetectedAssetReq`] - All relevant details needed for an aset cretaion
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns a [`DetectedAssetResponseStatusSchema`] depending on the status of the asset creation.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn create_detected_asset(
+        &self,
+        source: CreateDetectedAssetReq,
+        timeout: Duration,
+    ) -> Result<DetectedAssetResponseStatusSchema, AzureDeviceRegistryError> {
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(source.into())
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .create_detected_asset_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => Ok(response.payload.create_detected_asset_response.status),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
+        }
+    }
+
+    /// Notifies the Azure Device Registry service that client is listening for asset updates.
+    ///
+    /// # Arguments
+    /// * `asset_name` - The name of the asset.
+    /// * `notification_type` - The type of notification to send, true for "On" and false for "Off".
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the updated [`NotificationResponse`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn notify_asset_update(
+        &self,
+        asset_name: String,
+        notification_type: bool,
+        timeout: Duration,
+    ) -> Result<NotificationResponse, AzureDeviceRegistryError> {
+        let notification_paylaod = NotifyOnAssetUpdateRequestPayload {
+            notification_request: NotifyOnAssetUpdateRequestSchema {
+                asset_name,
+                notification_message_type: if notification_type {
+                    NotificationMessageType::On
+                } else {
+                    NotificationMessageType::Off
+                },
+            },
+        };
+
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(notification_paylaod)
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .notify_on_asset_update_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => Ok(response.payload.notification_response),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
+                ErrorKind::AIOProtocolError(e),
+            ))),
+        }
+    }
+
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
     ///
     /// Note: If this method is called, the [`Client`] should not be used again.
@@ -330,7 +451,15 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AzureDeviceRegistryError> {
-        self.create_detected_asset_command_invoker
+        self.get_asset_endpoint_profile_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+        self.update_asset_endpoint_profile_status_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+        self.notify_on_asset_endpoint_profile_update_command_invoker
             .shutdown()
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
@@ -338,11 +467,15 @@ where
             .shutdown()
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
-        self.get_asset_endpoint_profile_command_invoker
+        self.update_asset_status_command_invoker
             .shutdown()
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
-        self.update_asset_status_command_invoker
+        self.create_detected_asset_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+        self.notify_on_asset_update_command_invoker
             .shutdown()
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
