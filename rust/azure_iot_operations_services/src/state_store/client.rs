@@ -444,6 +444,9 @@ where
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
+    /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve) if
+    /// - the key is already being observed by this client
+    ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Observe` request
@@ -616,10 +619,10 @@ where
                                         log::debug!("Key Notification dispatched: {key_notification:?}");
                                     }
                                     Err(DispatchError::SendError(_)) => {
-                                        log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
                                     }
                                     Err(DispatchError::NotFound(_)) => {
-                                        log::info!("Key is not being observed. Received Notification: {key_notification:?}",);
+                                        log::warn!("Key is not being observed. Received Notification: {key_notification:?}",);
                                     }
                                 }
                             }

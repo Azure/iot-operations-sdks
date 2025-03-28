@@ -53,11 +53,10 @@ pub mod dispatcher {
 
         /// Registers a new receiver with the given ID, returning the new receiver.
         ///
-        /// If the ID is already registered, but the associated receiver is closed, the ID will
-        /// be reassigned.
+        /// Returns an error if a receiver with the same ID is already registered
         pub fn register_receiver(&self, receiver_id: String) -> Result<Receiver<T>, RegisterError> {
             let mut tx_map = self.tx_map.lock().unwrap();
-            if tx_map.get(&receiver_id).is_some_and(|tx| !tx.is_closed()) {
+            if tx_map.get(&receiver_id).is_some() {
                 return Err(RegisterError::AlreadyRegistered(receiver_id));
             }
             let (tx, rx) = unbounded_channel();
