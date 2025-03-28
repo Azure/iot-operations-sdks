@@ -4,5 +4,6 @@
 #![allow(unused_imports)]
 #![allow(dead_code)]
 #![allow(clippy::result_large_err)]
+#![allow(clippy::struct_field_names)]
 pub mod adr_base_service;
 pub mod common_types;

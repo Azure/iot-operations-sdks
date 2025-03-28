@@ -15,7 +15,8 @@ pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolEr
 pub use super::common_types::common_options::{CommandOptions, TelemetryOptions};
 
 pub const MODEL_ID: &str = "dtmi:com:microsoft:akri:AepTypeService;1";
-pub const REQUEST_TOPIC_PATTERN: &str = "akri/connector/resources/{ex:connectorClientId}/{ex:aepType}/{commandName}";
+pub const REQUEST_TOPIC_PATTERN: &str =
+    "akri/connector/resources/{ex:connectorClientId}/{ex:aepType}/{commandName}";
 
 pub mod client {
     pub use super::create_discovered_asset_endpoint_profile_command_invoker::*;

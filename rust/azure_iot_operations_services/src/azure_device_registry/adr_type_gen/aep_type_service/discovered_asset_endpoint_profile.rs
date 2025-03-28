@@ -9,8 +9,8 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::supported_authentication_methods_schema_element_schema::SupportedAuthenticationMethodsSchemaElementSchema;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::supported_authentication_methods_schema_element_schema::SupportedAuthenticationMethodsSchemaElementSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAssetEndpointProfile {
@@ -34,7 +34,8 @@ pub struct DiscoveredAssetEndpointProfile {
     #[serde(rename = "supportedAuthenticationMethods")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub supported_authentication_methods: Option<Vec<SupportedAuthenticationMethodsSchemaElementSchema>>,
+    pub supported_authentication_methods:
+        Option<Vec<SupportedAuthenticationMethodsSchemaElementSchema>>,
 
     /// local valid URI specifying the network address/dns name of southbound service.
     #[serde(rename = "targetAddress")]
