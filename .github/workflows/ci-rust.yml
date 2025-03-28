@@ -48,6 +48,12 @@ jobs:
     timeout-minutes: 30
 
     steps:
+    - name: output
+      run: |
+        echo head_ref: ${{github.head_ref}}
+        echo ref: ${{github.ref}}
+        echo workflow: ${{github.workflow}}
+
     - uses: actions/checkout@v4
 
     - name: Install AIO
