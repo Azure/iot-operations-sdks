@@ -48,7 +48,6 @@ where
     create_detected_asset_command_invoker: Arc<CreateDetectedAssetCommandInvoker<C>>,
     create_asset_endpoint_profile_command_invoker:
         Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
-    client_id: String,
 }
 
 impl<C> Client<C>
@@ -121,7 +120,6 @@ where
                         .expect("Statically generated options should not fail."),
                 ),
             ),
-            client_id: client.client_id().to_string(),
         }
     }
 
@@ -157,9 +155,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.asset_endpoint_profile),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -202,9 +198,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.updated_asset_endpoint_profile),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -255,9 +249,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.notification_response),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -286,9 +278,7 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<Asset, AzureDeviceRegistryError> {
-        let get_request_payload = GetAssetRequestPayload {
-            asset_name: asset_name,
-        };
+        let get_request_payload = GetAssetRequestPayload { asset_name };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(get_request_payload)
@@ -301,9 +291,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.asset),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -346,9 +334,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.updated_asset),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -391,9 +377,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.create_detected_asset_response.status),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -449,9 +433,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.notification_response),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -497,9 +479,7 @@ where
                 .payload
                 .create_discovered_asset_endpoint_profile_response
                 .status),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::from(
-                ErrorKind::AIOProtocolError(e),
-            ))),
+            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
         }
     }
 
