@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.Akri
         /// <inheritdoc/>
         public override DecimalString Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return new DecimalString(reader.GetString()!);
+            return new DecimalString(reader.GetString() !);
         }
 
         /// <inheritdoc/>
