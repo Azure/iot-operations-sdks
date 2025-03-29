@@ -14,7 +14,11 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
 
     public class Utf8JsonSerializer : IPayloadSerializer
     {
-        protected static readonly JsonSerializerOptions jsonSerializerOptions = new()
+        public const string ContentType = "application/json";
+
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
+
+        protected static readonly JsonSerializerOptions JsonSerializerOptions = new ()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
@@ -25,12 +29,8 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
                 new UuidJsonConverter(),
                 new BytesJsonConverter(),
                 new DecimalJsonConverter(),
-            }
+            },
         };
-
-        public const string ContentType = "application/json";
-
-        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData;
 
         public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
@@ -56,11 +56,11 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return (new EmptyJson() as T)!;
+                    return (new EmptyJson() as T) !;
                 }
 
-                Utf8JsonReader reader = new(payload);
-                return JsonSerializer.Deserialize<T>(ref reader, jsonSerializerOptions)!;
+                Utf8JsonReader reader = new (payload);
+                return JsonSerializer.Deserialize<T>(ref reader, JsonSerializerOptions) !;
             }
             catch (Exception)
             {
@@ -75,10 +75,10 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry
             {
                 if (typeof(T) == typeof(EmptyJson))
                 {
-                    return new(ReadOnlySequence<byte>.Empty, null, 0);
+                    return new (ReadOnlySequence<byte>.Empty, null, 0);
                 }
 
-                return new(new(JsonSerializer.SerializeToUtf8Bytes(payload, jsonSerializerOptions)), ContentType, PayloadFormatIndicator);
+                return new (new (JsonSerializer.SerializeToUtf8Bytes(payload, JsonSerializerOptions)), ContentType, PayloadFormatIndicator);
             }
             catch (Exception)
             {

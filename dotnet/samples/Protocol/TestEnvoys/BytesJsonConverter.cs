@@ -17,7 +17,7 @@ namespace TestEnvoys
         /// <inheritdoc/>
         public override byte[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return Convert.FromBase64String(reader.GetString()!);
+            return Convert.FromBase64String(reader.GetString() !);
         }
 
         /// <inheritdoc/>

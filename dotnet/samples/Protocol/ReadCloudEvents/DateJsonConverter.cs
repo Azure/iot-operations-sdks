@@ -18,7 +18,7 @@ namespace ReadCloudEvents
         /// <inheritdoc/>
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return DateOnly.Parse(reader.GetString()!, CultureInfo.InvariantCulture);
+            return DateOnly.Parse(reader.GetString() !, CultureInfo.InvariantCulture);
         }
 
         /// <inheritdoc/>

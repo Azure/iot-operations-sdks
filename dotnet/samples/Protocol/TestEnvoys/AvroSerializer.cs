@@ -18,6 +18,10 @@ namespace TestEnvoys
         where T1 : class, ISpecificRecord, new()
         where T2 : class, ISpecificRecord, new()
     {
+        public const string ContentType = "application/avro";
+
+        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
+
         private readonly SpecificDatumReader<T1> datumReader1;
         private readonly SpecificDatumWriter<T1> datumWriter1;
 
@@ -34,10 +38,6 @@ namespace TestEnvoys
             datumReader2 = new SpecificDatumReader<T2>(schema2, schema2);
             datumWriter2 = new SpecificDatumWriter<T2>(schema2);
         }
-
-        public const string ContentType = "application/avro";
-
-        public const MqttPayloadFormatIndicator PayloadFormatIndicator = MqttPayloadFormatIndicator.Unspecified;
 
         public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
@@ -63,7 +63,7 @@ namespace TestEnvoys
                         throw AkriMqttException.GetPayloadInvalidException();
                     }
 
-                    return (new EmptyAvro() as T)!;
+                    return (new EmptyAvro() as T) !;
                 }
 
                 using (var stream = new MemoryStream(payload.ToArray()))
@@ -72,15 +72,15 @@ namespace TestEnvoys
 
                     if (typeof(T) == typeof(T1))
                     {
-                        T1 obj1 = new();
+                        T1 obj1 = new ();
                         datumReader1.Read(obj1, avroDecoder);
-                        return (obj1 as T)!;
+                        return (obj1 as T) !;
                     }
                     else if (typeof(T) == typeof(T2))
                     {
-                        T2 obj2 = new();
+                        T2 obj2 = new ();
                         datumReader2.Read(obj2, avroDecoder);
-                        return (obj2 as T)!;
+                        return (obj2 as T) !;
                     }
                     else
                     {
@@ -101,7 +101,7 @@ namespace TestEnvoys
             {
                 if (typeof(T) == typeof(EmptyAvro))
                 {
-                    return new(ReadOnlySequence<byte>.Empty, null, 0);
+                    return new (ReadOnlySequence<byte>.Empty, null, 0);
                 }
 
                 using (var stream = new MemoryStream())
@@ -118,7 +118,7 @@ namespace TestEnvoys
                     }
                     else
                     {
-                        return new(ReadOnlySequence<byte>.Empty, null, 0);
+                        return new (ReadOnlySequence<byte>.Empty, null, 0);
                     }
 
                     stream.Flush();
@@ -127,7 +127,7 @@ namespace TestEnvoys
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Read(buffer, 0, (int)stream.Length);
 
-                    return new(new(buffer), ContentType, PayloadFormatIndicator);
+                    return new (new (buffer), ContentType, PayloadFormatIndicator);
                 }
             }
             catch (Exception)
