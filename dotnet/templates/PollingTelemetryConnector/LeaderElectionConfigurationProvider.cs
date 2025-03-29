@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Connector;
 
-namespace PollingTelemetryConnector
+namespace PollingTelemetryConnectorTemplate
 {
     public class LeaderElectionConfigurationProvider : IConnectorLeaderElectionConfigurationProvider
     {

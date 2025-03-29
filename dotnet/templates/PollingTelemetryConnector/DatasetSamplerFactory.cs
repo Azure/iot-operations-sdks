@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Assets;
 
-namespace PollingTelemetryConnector
+namespace PollingTelemetryConnectorTemplate
 {
     public class DatasetSamplerFactory : IDatasetSamplerFactory
     {

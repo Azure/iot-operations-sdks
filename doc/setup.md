@@ -9,6 +9,7 @@ The following instructions will setup up a development environment for building 
 * [Shell configuration](#shell-configuration)
 * [Testing the installation](#testing-the-installation)
 * [Configuration summary](#configuration-summary)
+* [Next Steps](#next-steps)
 
 ## Setup the environment
 
@@ -47,11 +48,21 @@ Follow the steps in **one of the sections** below to get your development enviro
 ### Option 3 - Linux devcontainer on Windows
 
 > [!WARNING]
-> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required feature as outlined in the steps below.
+> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) as outlined in the steps below.
 
 1. Install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) (contains kernel v6.6)
 
-1. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/features/wsl/)  with WSL 2 backend
+1. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/features/wsl/) with WSL 2 backend, and confirm it's running the **v6.6 kernel**:
+
+    ```bash
+    wsl -d docker-desktop -e uname -a
+    ```
+
+    output:
+
+    ```output
+    Linux docker-desktop 6.6.36.3-microsoft-standard-WSL2 ...
+    ```
 
 1. Install [VS Code](https://code.visualstudio.com/) and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
@@ -59,7 +70,7 @@ Follow the steps in **one of the sections** below to get your development enviro
 
     `F1 > Dev Containers: Clone Repository in Container Volume...`
 
-1. When prompted, enter the *Azure IoT Operations SDKs* URL:
+1. When prompted, enter the *Azure IoT Operations SDKs* URL and select the `main` branch:
 
     ```bash
     https://github.com/azure/iot-operations-sdks
@@ -71,11 +82,21 @@ Follow the steps in **one of the sections** below to get your development enviro
 ### Option 4 - Windows Subsystem for Linux
 
 > [!WARNING]
-> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) which contain the required feature as outlined in the steps below.
+> The latest WSL release **doesn't support Azure IoT Operations**. You will need to install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) as outlined in the steps below.
 
 1. Install [WSL v2.3.14](https://github.com/microsoft/WSL/releases/tag/2.3.14) (contains kernel v6.6)
 
-1. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/features/wsl/) with WSL 2 backend
+1. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/features/wsl/) with WSL 2 backend, and confirm it's running the **v6.6 kernel**:
+
+    ```bash
+    wsl -d docker-desktop -e uname -a
+    ```
+
+    output:
+
+    ```output
+    Linux docker-desktop 6.6.36.3-microsoft-standard-WSL2 ...
+    ```
 
 1. Clone the *Azure IoT Operations SDKs* repository:
 

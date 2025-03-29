@@ -19,7 +19,7 @@ To refresh the dependencies, execute the following:
 1. Authenticate using the PAT you created:
 
     ```bash
-    dotnet nuget update source preview -u {USERNAME} -p {PAT_TOKEN} --store-password-in-clear-text
+    dotnet nuget update source AzureIoTOperations -u $USERNAME -p $PAT_TOKEN --store-password-in-clear-text
     ```
 
 1. Restore the SDK project to pull dependencies from upstream:
