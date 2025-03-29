@@ -17,14 +17,9 @@ use azure_iot_operations_protocol::{
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
-use tokio::{
-    sync::{
-        Mutex, Notify,
-        mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel},
-    },
-    task,
-};
+use tokio::{sync::Notify, task};
 
+use crate::common::dispatcher::{DispatchError, Dispatcher, Receiver};
 use crate::state_store::{self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, SetOptions};
 
 const REQUEST_TOPIC_PATTERN: &str =
@@ -35,16 +30,13 @@ const COMMAND_NAME: &str = "invoke";
 // where the encodedClientId is an upper-case hex encoded representation of the MQTT ClientId of the client that initiated the KEYNOTIFY request and encodedKeyName is a hex encoded representation of the key that changed
 const NOTIFICATION_TOPIC_PATTERN: &str = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{encodedClientId}/command/notify/{encodedKeyName}";
 
-/// Type defined to repress clippy warning about very complex type
-type ArcMutexHashmap<K, V> = Arc<Mutex<HashMap<K, V>>>;
-
 /// A struct to manage receiving notifications for a key
 #[derive(Debug)]
 pub struct KeyObservation {
     /// The name of the key (for convenience)
     pub key: Vec<u8>,
     /// The internal channel for receiving notifications for this key
-    receiver: UnboundedReceiver<(state_store::KeyNotification, Option<AckToken>)>,
+    receiver: Receiver<(state_store::KeyNotification, Option<AckToken>)>,
 }
 impl KeyObservation {
     /// Receives a [`state_store::KeyNotification`] or [`None`] if there will be no more notifications.
@@ -80,8 +72,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
-    observed_keys:
-        ArcMutexHashmap<String, UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>>,
+    notification_dispatcher: Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>)>>,
     shutdown_notifier: Arc<Notify>,
 }
 
@@ -147,7 +138,7 @@ where
         let shutdown_notifier = Arc::new(Notify::new());
 
         // Create a hashmap of keys being observed and channels to send their notifications to
-        let observed_keys = Arc::new(Mutex::new(HashMap::new()));
+        let notification_dispatcher = Arc::new(Dispatcher::new());
 
         // Start the receive key notification loop
         task::spawn({
@@ -155,12 +146,12 @@ where
                 telemetry::Receiver::new(application_context, client, receiver_options)
                     .map_err(ErrorKind::from)?;
             let shutdown_notifier_clone = shutdown_notifier.clone();
-            let observed_keys_clone = observed_keys.clone();
+            let notification_dispatcher_clone = notification_dispatcher.clone();
             async move {
                 Self::receive_key_notification_loop(
                     shutdown_notifier_clone,
                     notification_receiver,
-                    observed_keys_clone,
+                    notification_dispatcher_clone,
                     connection_monitor,
                 )
                 .await;
@@ -169,7 +160,7 @@ where
 
         Ok(Self {
             invoker,
-            observed_keys,
+            notification_dispatcher,
             shutdown_notifier,
         })
     }
@@ -453,6 +444,9 @@ where
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
+    /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve) if
+    /// - the key is already being observed by this client
+    ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if
     /// - the State Store returns an Error response
     /// - the State Store returns a response that isn't valid for an `Observe` request
@@ -471,27 +465,11 @@ where
         // add to observed keys before sending command to prevent missing any notifications.
         // If the observe request fails, this entry will be removed before the function returns
         let encoded_key_name = HEXUPPER.encode(&key);
-        let (tx, rx) = unbounded_channel();
 
-        {
-            let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
-
-            match observed_keys_mutex_guard.get_mut(&encoded_key_name) {
-                Some(sender) if sender.is_closed() => {
-                    // KeyObservation has been dropped, so we can give out a new receiver
-                }
-                Some(_) => {
-                    log::info!("key already is being observed");
-                    return Err(Error(ErrorKind::DuplicateObserve));
-                }
-                None => {
-                    // There is no KeyObservation for this key, so we can create it
-                }
-            }
-            log::info!("inserting key into observed list {encoded_key_name:?}");
-            observed_keys_mutex_guard.insert(encoded_key_name.clone(), tx);
-            // release the observed_keys_mutex_guard
-        }
+        let rx = self
+            .notification_dispatcher
+            .register_receiver(encoded_key_name.clone())
+            .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
 
         // Capture any errors from the command invoke so we can remove the key from the observed_keys hashmap
         match self.invoke_observe(key.clone(), timeout).await {
@@ -500,11 +478,10 @@ where
                 version: r.version,
             }),
             Err(e) => {
-                // if the observe request wasn't successful, remove it from our internal map of observed keys
-                let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
-                if observed_keys_mutex_guard
-                    .remove(&encoded_key_name)
-                    .is_some()
+                // if the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .notification_dispatcher
+                    .unregister_receiver(&encoded_key_name)
                 {
                     log::debug!("key removed from observed list: {encoded_key_name:?}");
                 } else {
@@ -566,14 +543,13 @@ where
                 // remove key from observed_keys hashmap
                 let encoded_key_name = HEXUPPER.encode(&key);
 
-                let mut observed_keys_mutex_guard = self.observed_keys.lock().await;
-                if observed_keys_mutex_guard
-                    .remove(&encoded_key_name)
-                    .is_some()
+                if self
+                    .notification_dispatcher
+                    .unregister_receiver(&encoded_key_name)
                 {
-                    log::debug!("key removed from observed list: {key:?}");
+                    log::debug!("key removed from observed list: {encoded_key_name:?}");
                 } else {
-                    log::debug!("key not in observed list: {key:?}");
+                    log::debug!("key not in observed list: {encoded_key_name:?}");
                 }
                 Ok(r)
             }
@@ -590,10 +566,7 @@ where
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
         mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
-        observed_keys: ArcMutexHashmap<
-            String,
-            UnboundedSender<(state_store::KeyNotification, Option<AckToken>)>,
-        >,
+        notification_dispatcher: Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>)>>,
         connection_monitor: SessionConnectionMonitor,
     ) {
         let mut shutdown_attempt_count = 0;
@@ -618,9 +591,8 @@ where
                   },
                   () = Self::notify_on_disconnection(&connection_monitor) => {
                     log::warn!("Session disconnected. Dropping key observations as they won't receive any more notifications and must be recreated");
-                    let mut observed_keys_mutex_guard = observed_keys.lock().await;
-                    // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
-                    observed_keys_mutex_guard.drain();
+                    // This closes all associated notification channels
+                    notification_dispatcher.unregister_all();
                   },
                   msg = receiver.recv() => {
                     if let Some(m) = msg {
@@ -641,23 +613,18 @@ where
                                     version: notification_timestamp,
                                 };
 
-                                let mut observed_keys_mutex_guard = observed_keys.lock().await;
-
-                                // if key is in the hashmap of observed keys
-                                match observed_keys_mutex_guard.get_mut(key_name) { Some(sender) => {
-
-                                        if sender.is_closed() {
-                                            log::info!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
-                                        }
-                                        else {
-                                            // Otherwise, send the notification to the receiver
-                                            if let Err(e) = sender.send((key_notification.clone(), ack_token)) {
-                                                log::error!("Error delivering key notification {key_notification:?}: {e}");
-                                            }
-                                        }
-                                } _ => {
-                                    log::info!("Key is not being observed. Received Notification: {key_notification:?}");
-                                }}
+                                // Try to send the notification to the associated receiver
+                                match notification_dispatcher.dispatch(key_name, (key_notification.clone(), ack_token)) {
+                                    Ok(()) => {
+                                        log::debug!("Key Notification dispatched: {key_notification:?}");
+                                    }
+                                    Err(DispatchError::SendError(_)) => {
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
+                                    }
+                                    Err(DispatchError::NotFound(_)) => {
+                                        log::warn!("Key is not being observed. Received Notification: {key_notification:?}",);
+                                    }
+                                }
                             }
                             Err(e) => {
                                 // This should only happen on errors subscribing, but it's likely not recoverable
@@ -670,9 +637,8 @@ where
                         }
                     } else {
                         log::info!("Telemetry Receiver closed, no more Key Notifications will be received");
-                        let mut observed_keys_mutex_guard = observed_keys.lock().await;
-                        // drop all senders, which sends None to all of the receivers, indicating that they won't receive any more key notifications
-                        observed_keys_mutex_guard.drain();
+                        // Unregister all receivers, closing the associated channels
+                        notification_dispatcher.unregister_all();
                         break;
                     }
                 }
