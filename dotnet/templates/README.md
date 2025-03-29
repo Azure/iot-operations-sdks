@@ -13,7 +13,7 @@ dotnet new install .
 
 ## How To Create A New Project With An Installed Project Template
 
-You can use this locally installed project template whenpa creating a new project in Visual Studio:
+You can use this locally installed project template when creating a new project in Visual Studio:
 
 `File -> New Project -> Select the installed project template`
 
