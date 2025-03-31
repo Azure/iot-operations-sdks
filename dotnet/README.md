@@ -33,7 +33,7 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 ## Developing your Akri connector
 
-The Akri Connector package is located in our ADO package feed:
+The Akri Connector package (this service is currently in private preview) is located in our ADO package feed:
 
 1. Add our [package feed](https://dev.azure.com/azure-iot-sdks/iot-operations/_artifacts/feed/preview):
 
