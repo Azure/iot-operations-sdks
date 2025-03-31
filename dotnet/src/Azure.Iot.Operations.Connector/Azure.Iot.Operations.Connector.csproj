@@ -12,7 +12,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='RELEASE'">
+  <ItemGroup Condition="'$(Configuration)'!='DEBUG'">
     <!--
     Note that we must deliberately reference the nuget.org packages that are strongly signed because any 
     project taking a dependency on this connector package will only have access to the strongly signed 0.10.0 bits.
