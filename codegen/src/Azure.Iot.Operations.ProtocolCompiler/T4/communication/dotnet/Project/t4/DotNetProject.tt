@@ -5,6 +5,7 @@
     <TargetFramework><#=this.targetFramework#></TargetFramework>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <Nullable>enable</Nullable>
+    <NoWarn>SA0001,SA1101,SA1633</NoWarn>
   </PropertyGroup>
 <# if (this.packageVersions.Any()) { #>
 

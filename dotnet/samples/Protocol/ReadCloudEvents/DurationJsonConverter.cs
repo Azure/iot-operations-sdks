@@ -18,7 +18,7 @@ namespace ReadCloudEvents
         /// <inheritdoc/>
         public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return XmlConvert.ToTimeSpan(reader.GetString()!);
+            return XmlConvert.ToTimeSpan(reader.GetString() !);
         }
 
         /// <inheritdoc/>

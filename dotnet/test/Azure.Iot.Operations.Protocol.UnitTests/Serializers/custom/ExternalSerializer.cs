@@ -12,18 +12,18 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.custom
 
     public class ExternalSerializer : IPayloadSerializer
     {
-        public static readonly CustomPayload EmptyValue = new(ReadOnlySequence<byte>.Empty);
+        public static readonly CustomPayload EmptyValue = new (ReadOnlySequence<byte>.Empty);
 
         public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
             where T : class
         {
             if (payload.IsEmpty)
             {
-                return (Array.Empty<byte>() as T)!;
+                return (Array.Empty<byte>() as T) !;
             }
             else if (typeof(T) == typeof(CustomPayload))
             {
-                return (new CustomPayload(payload, contentType, payloadFormatIndicator) as T)!;
+                return (new CustomPayload(payload, contentType, payloadFormatIndicator) as T) !;
             }
             else
             {
