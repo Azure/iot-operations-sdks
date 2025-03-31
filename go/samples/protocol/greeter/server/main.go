@@ -51,6 +51,15 @@ func (Handlers) SayHello(
 		slog.String("client", req.ClientID),
 	)
 
+	if req.Payload.Name == "" {
+		return protocol.Respond(
+			envoy.HelloResponse{},
+			protocol.WithApplicationError("name error", &envoy.HelloError{
+				Message: "name is empty",
+			}),
+		)
+	}
+
 	return protocol.Respond(envoy.HelloResponse{
 		Message: fmt.Sprintf("Hello %s", req.Payload.Name),
 	})
@@ -70,6 +79,15 @@ func (Handlers) SayHelloWithDelay(
 		slog.String("id", req.CorrelationData),
 		slog.String("client", req.ClientID),
 	)
+
+	if req.Payload.Name == "" {
+		return protocol.Respond(
+			envoy.HelloResponse{},
+			protocol.WithApplicationError("name error", &envoy.HelloError{
+				Message: "name is empty",
+			}),
+		)
+	}
 
 	delay := time.Duration(req.Payload.Delay)
 	time.Sleep(delay)

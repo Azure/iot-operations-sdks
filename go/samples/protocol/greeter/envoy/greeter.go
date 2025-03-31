@@ -25,6 +25,11 @@ type (
 		Message string
 	}
 
+	HelloError struct {
+		Message string
+		Name    string
+	}
+
 	GreeterHandlers interface {
 		SayHello(
 			context.Context,

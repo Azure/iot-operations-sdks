@@ -8,7 +8,13 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 
 - [Constants](<#constants>)
 - [Variables](<#variables>)
+- [func GetApplicationError\[T any\]\(meta map\[string\]string\) \(code string, data T, err error\)](<#GetApplicationError>)
 - [func Must\[T any\]\(t T, e error\) T](<#Must>)
+- [func WithApplicationError\[T any\]\(code string, data T\) interface \{
+    InvokeOption
+    RespondOption
+    SendOption
+\}](<#WithApplicationError>)
 - [func WithLogger\(logger \*slog.Logger\) interface \{
     Option
     ApplicationOption
@@ -115,6 +121,15 @@ import "github.com/Azure/iot-operations-sdks/go/protocol"
 
 ## Constants
 
+<a name="ApplicationErrorCode"></a>
+
+```go
+const (
+    ApplicationErrorCode = "ApplicationErrorCode"
+    ApplicationErrorData = "ApplicationErrorData"
+)
+```
+
 <a name="DefaultCloudEventSpecVersion"></a>
 
 ```go
@@ -138,6 +153,15 @@ const DefaultTimeout = 10 * time.Second
 var ErrUnsupportedContentType = stderr.New("unsupported content type")
 ```
 
+<a name="GetApplicationError"></a>
+## func [GetApplicationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app_error.go#L33-L35>)
+
+```go
+func GetApplicationError[T any](meta map[string]string) (code string, data T, err error)
+```
+
+GetApplicationError extracts an application error \(if any\) from the metadata using a standardized format.
+
 <a name="Must"></a>
 ## func [Must](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/util.go#L7>)
 
@@ -146,6 +170,19 @@ func Must[T any](t T, e error) T
 ```
 
 Must ensures an object is created, or panics on error. Used to create global instances, e.g. of an Application state.
+
+<a name="WithApplicationError"></a>
+## func [WithApplicationError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/app_error.go#L15-L19>)
+
+```go
+func WithApplicationError[T any](code string, data T) interface {
+    InvokeOption
+    RespondOption
+    SendOption
+}
+```
+
+WithApplicationError sends an application error in the metadata using a standardized format.
 
 <a name="WithLogger"></a>
 ## func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/common_options.go#L191-L198>)

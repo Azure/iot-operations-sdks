@@ -83,7 +83,16 @@ func call(
 			protocol.WithTimeout(protocol.DefaultTimeout+duration),
 		))
 	}
-	slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
+
+	code, data, err := protocol.GetApplicationError[envoy.HelloError](
+		res.Metadata,
+	)
+	check(err)
+	if code != "" {
+		slog.Error(data.Message, slog.String("code", code))
+	} else {
+		slog.Info(res.Payload.Message, slog.String("id", res.CorrelationData))
+	}
 }
 
 func check(e error) {
