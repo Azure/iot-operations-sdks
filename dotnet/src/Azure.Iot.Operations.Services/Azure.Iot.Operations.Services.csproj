@@ -28,11 +28,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Services.UnitTests" />
-    <InternalsVisibleTo Include="Azure.Iot.Operations.Connector.UnitTests" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="..\..\..\eng\dtdl\aep-name-based-operations.json">
       <Link>AssetAndDeviceRegistry\aep-name-based-operations.json</Link>
     </Content>
