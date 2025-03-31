@@ -227,7 +227,7 @@ namespace Azure.Iot.Operations.Protocol.Connection
                     UseTls = useTls,
                     SatAuthFile = satMountPath,
                     TrustChain = chain,
-                    TcpPort = port
+                    TcpPort = port 
                 };
             }
             catch (ArgumentException ex)
