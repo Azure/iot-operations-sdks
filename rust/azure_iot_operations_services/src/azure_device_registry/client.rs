@@ -253,6 +253,14 @@ where
         }
     }
 
+    // pub async observe_asset_endpoint_profile_update(
+    //     &self,
+    //     aep_name
+    //     timeout: Duration,
+    // ) -> Result<String, AzureDeviceRegistryError> {
+    //     // pass
+    //     // TODO
+    // }
     /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
