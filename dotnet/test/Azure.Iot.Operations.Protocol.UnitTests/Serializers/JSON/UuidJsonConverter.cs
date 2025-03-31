@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON
         /// <inheritdoc/>
         public override Guid Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return Guid.ParseExact(reader.GetString()!, "D");
+            return Guid.ParseExact(reader.GetString() !, "D");
         }
 
         /// <inheritdoc/>

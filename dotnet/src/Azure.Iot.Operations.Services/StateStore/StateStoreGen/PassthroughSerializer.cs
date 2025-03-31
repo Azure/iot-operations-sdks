@@ -21,11 +21,11 @@ namespace Azure.Iot.Operations.Services.StateStore
         {
             if (payload.IsEmpty)
             {
-                return (Array.Empty<byte>() as T)!;
+                return (Array.Empty<byte>() as T) !;
             }
             else if (typeof(T) == typeof(byte[]))
             {
-                return (payload.ToArray() as T)!;
+                return (payload.ToArray() as T) !;
             }
             else
             {
@@ -38,11 +38,11 @@ namespace Azure.Iot.Operations.Services.StateStore
         {
             if (payload is byte[] payload1)
             {
-                return new(new(payload1), ContentType, PayloadFormatIndicator);
+                return new (new (payload1), ContentType, PayloadFormatIndicator);
             }
             else
             {
-                return new(ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
+                return new (ReadOnlySequence<byte>.Empty, ContentType, PayloadFormatIndicator);
             }
         }
     }
