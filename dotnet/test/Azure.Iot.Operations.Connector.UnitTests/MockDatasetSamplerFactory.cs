@@ -10,6 +10,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         private readonly bool _isFaulty;
         public MockDatasetSamplerFactory(bool isFaulty = false)
         {
+            asdfsadfasdfasfdsadfsa
             _isFaulty = isFaulty;
         }
 
