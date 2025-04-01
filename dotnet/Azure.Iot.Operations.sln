@@ -86,7 +86,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateChangeSample", "samples\Services\StateStoreObserveKey\StateChangeSample.csproj", "{4992415C-ABB2-2284-D6CD-8FE01910092F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnectorTemplate", "templates\PollingTelemetryConnector\PollingTelemetryConnectorTemplate.csproj", "{698D0245-18C6-37E9-08F6-E8EADCBA0880}"
-EndProject
+EndProject 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
