@@ -12,7 +12,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'!='DEBUG'">
     <!--
     Note that we must deliberately reference the nuget.org packages that are strongly signed because any 
     project taking a dependency on this connector package will only have access to the strongly signed 0.10.0 bits.
@@ -25,9 +25,18 @@
     <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="0.10.0" />
     <PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.10.0" />
     <PackageReference Include="Azure.Iot.Operations.Services" Version="0.10.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)'=='DEBUG'">
+    <ProjectReference Include="..\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.Services\Azure.Iot.Operations.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+  </ItemGroup>
+  
   <!-- Add strong name signing properties for release pipeline compatibility -->
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
