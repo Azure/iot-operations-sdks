@@ -72,11 +72,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             return AsGiven.GetHashCode();
         }
 
-        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => language switch
+        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => language switch
         {
             TargetLanguage.Independent => AsPascal(suffix1, suffix2, suffix3),
             TargetLanguage.CSharp => AsPascal(suffix1, suffix2, suffix3),
-            TargetLanguage.Go => AsPascal(suffix1, suffix2, suffix3),
+            TargetLanguage.Go => local ? AsCamel(suffix1, suffix2, suffix3) : AsPascal(suffix1, suffix2, suffix3),
             TargetLanguage.Rust => AsPascal(suffix1, suffix2, suffix3),
             _ => AsPascal(suffix1, suffix2, suffix3),
         };

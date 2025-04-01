@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EmptyAvroTypeName : EmptyTypeName
         {
-            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
             {
                 (null, null, null, TargetLanguage.CSharp) => "EmptyAvro",
                 (null, null, null, TargetLanguage.Rust) => "EmptyAvro",
@@ -34,7 +34,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EmptyCborTypeName : EmptyTypeName
         {
-            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
             {
                 (null, null, null, TargetLanguage.CSharp) => "EmptyCbor",
                 _ => throw new InvalidOperationException(suffix1 != null ? $"{typeof(EmptyCborTypeName)} cannot take a suffix" : $"There is no {language} representation for {typeof(EmptyCborTypeName)}"),
@@ -54,7 +54,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EmptyJsonTypeName : EmptyTypeName
         {
-            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
             {
                 (null, null, null, TargetLanguage.CSharp) => "EmptyJson",
                 (null, null, null, TargetLanguage.Rust) => "EmptyJson",
@@ -77,7 +77,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EmptyProtoTypeName : EmptyTypeName
         {
-            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
             {
                 (null, null, null, TargetLanguage.CSharp) => "Google.Protobuf.WellKnownTypes.Empty",
                 _ => throw new InvalidOperationException(suffix1 != null ? $"{typeof(EmptyProtoTypeName)} cannot take a suffix" : $"There is no {language} representation for {typeof(EmptyProtoTypeName)}"),
@@ -97,7 +97,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EmptyRawTypeName : EmptyTypeName
         {
-            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
             {
                 (null, null, null, TargetLanguage.CSharp) => "byte[]",
                 (null, null, null, TargetLanguage.Go) => "[]byte",
@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public class EmptyCustomTypeName : EmptyTypeName
         {
-            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => (suffix1, suffix2, suffix3, language) switch
+            public override string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => (suffix1, suffix2, suffix3, language) switch
             {
                 (null, null, null, TargetLanguage.CSharp) => "CustomPayload",
                 (null, null, null, TargetLanguage.Go) => "protocol.Data",
@@ -139,7 +139,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             };
         }
 
-        public abstract string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null);
+        public abstract string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false);
 
         public abstract string GetFileName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null);
 

@@ -1,0 +1,14 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "cmd_client"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+azure_iot_operations_mqtt = { path = "../../../../../rust/azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { path = "../../../../../rust/azure_iot_operations_protocol" }
+counters = { path = "../counters" }
+tokio = { version = "1.36", features = ["full"] }

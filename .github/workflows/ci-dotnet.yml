@@ -13,13 +13,13 @@ on:
       - 'codegen/**'
   push:
     branches:
-    - main  
+    - main
   schedule:
   - cron: '0 11 * * *'  # Nightly at 4am PST
 
 # only allow one run / branch at a time
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 permissions:

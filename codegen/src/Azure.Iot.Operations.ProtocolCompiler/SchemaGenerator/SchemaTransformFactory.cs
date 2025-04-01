@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, Dtmi objectId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix)
+        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, Dtmi objectId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix, bool isResult)
         {
             switch (payloadFormat)
             {
@@ -89,6 +89,10 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 case PayloadFormat.Custom:
                     yield break;
                 case PayloadFormat.Avro:
+                    if (isResult)
+                    {
+                        yield return new ResultAvroSchema(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, sharedPrefix);
+                    }
                     yield break;
                 case PayloadFormat.Cbor:
                     yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: true);

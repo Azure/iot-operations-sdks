@@ -49,29 +49,24 @@ namespace TestEnvoys.CustomTopicTokens
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt};
+                this.readCustomTopicTokenCommandExecutor = new ReadCustomTopicTokenCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = ReadCustomTopicTokenInt };
+                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
                 this.readCustomTopicTokenCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
             }
 
             public ReadCustomTopicTokenCommandExecutor ReadCustomTopicTokenCommandExecutor { get => this.readCustomTopicTokenCommandExecutor; }
-            public TelemetrySender TelemetrySender { get => this.telemetrySender; }
 
+            public TelemetrySender TelemetrySender { get => this.telemetrySender; }
 
             public abstract Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -133,6 +128,7 @@ namespace TestEnvoys.CustomTopicTokens
                 await Task.WhenAll(
                     this.readCustomTopicTokenCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<ReadCustomTopicTokenResponsePayload> extended = await this.ReadCustomTopicTokenAsync(req.RequestMetadata!, cancellationToken);
@@ -193,8 +189,8 @@ namespace TestEnvoys.CustomTopicTokens
             }
 
             public ReadCustomTopicTokenCommandInvoker ReadCustomTopicTokenCommandInvoker { get => this.readCustomTopicTokenCommandInvoker; }
-            public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
 
+            public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
 
             public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
 

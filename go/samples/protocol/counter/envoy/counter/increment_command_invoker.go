@@ -24,7 +24,7 @@ func NewIncrementCommandInvoker(
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"commandName":     "increment",
+			"commandName": "increment",
 		},
 	)
 

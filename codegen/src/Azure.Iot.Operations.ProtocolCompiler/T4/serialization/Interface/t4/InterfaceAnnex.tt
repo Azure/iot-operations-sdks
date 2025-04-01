@@ -22,34 +22,71 @@
   "<#=InterfaceAnnex.CmdServiceGroupId#>": "<#=this.cmdServiceGroupId#>",
 <# } #>
   "<#=InterfaceAnnex.TelemetryList#>": [
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (var telemSchemaInfo in this.telemSchemaInfos) { #>
     {
-<# if (telemNameSchema.Item1 != null) { #>
-      "<#=InterfaceAnnex.TelemName#>": "<#=telemNameSchema.Item1#>",
+<# if (telemSchemaInfo.Name != null) { #>
+      "<#=InterfaceAnnex.TelemName#>": "<#=telemSchemaInfo.Name#>",
 <# } #>
-      "<#=InterfaceAnnex.TelemSchema#>": "<#=telemNameSchema.Item2.GetTypeName(TargetLanguage.Independent)#>"
-    }<#=this.IsLastTelem(telemNameSchema) ? "" : ","#>
+      "<#=InterfaceAnnex.TelemSchema#>": "<#=telemSchemaInfo.Schema.GetTypeName(TargetLanguage.Independent)#>"
+    }<#=this.IsLastTelem(telemSchemaInfo) ? "" : ","#>
 <# } #>
   ],
   "<#=InterfaceAnnex.CommandList#>": [
-<# foreach (var cmdNameReqRespIdemStale in this.cmdNameReqRespIdemStales) { #>
+<# foreach (var cmdSchemaInfo in this.cmdSchemaInfos) { #>
     {
-      "<#=InterfaceAnnex.CommandName#>": "<#=cmdNameReqRespIdemStale.Item1#>",
-<# if (cmdNameReqRespIdemStale.Item2 != null) { #>
-      "<#=InterfaceAnnex.CmdRequestSchema#>": "<#=cmdNameReqRespIdemStale.Item2.GetTypeName(TargetLanguage.Independent)#>",
-<# string reqNamespace = this.GetNamespace(cmdNameReqRespIdemStale.Item2); if (reqNamespace != null) { #>
+      "<#=InterfaceAnnex.CommandName#>": "<#=cmdSchemaInfo.Name#>",
+<# if (cmdSchemaInfo.RequestSchema != null) { #>
+      "<#=InterfaceAnnex.CmdRequestSchema#>": "<#=cmdSchemaInfo.RequestSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# string reqNamespace = this.GetNamespace(cmdSchemaInfo.RequestSchema); if (reqNamespace != null) { #>
       "<#=InterfaceAnnex.CmdRequestNamespace#>": "<#=reqNamespace#>",
 <# } #>
+      "<#=InterfaceAnnex.RequestIsNullable#>": <#=cmdSchemaInfo.RequestNullable ? "true" : "false"#>,
 <# } #>
-<# if (cmdNameReqRespIdemStale.Item3 != null) { #>
-      "<#=InterfaceAnnex.CmdResponseSchema#>": "<#=cmdNameReqRespIdemStale.Item3.GetTypeName(TargetLanguage.Independent)#>",
-<# string respNamespace = this.GetNamespace(cmdNameReqRespIdemStale.Item3); if (respNamespace != null) { #>
+<# if (cmdSchemaInfo.ResponseSchema != null) { #>
+      "<#=InterfaceAnnex.CmdResponseSchema#>": "<#=cmdSchemaInfo.ResponseSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# string respNamespace = this.GetNamespace(cmdSchemaInfo.ResponseSchema); if (respNamespace != null) { #>
       "<#=InterfaceAnnex.CmdResponseNamespace#>": "<#=respNamespace#>",
 <# } #>
+      "<#=InterfaceAnnex.ResponseIsNullable#>": <#=cmdSchemaInfo.ResponseNullable ? "true" : "false"#>,
+<# if (cmdSchemaInfo.NormalResultName != null) { #>
+      "<#=InterfaceAnnex.NormalResultName#>": "<#=cmdSchemaInfo.NormalResultName.GetFieldName(TargetLanguage.Independent)#>",
 <# } #>
-      "<#=InterfaceAnnex.CmdIsIdempotent#>": <#=cmdNameReqRespIdemStale.Item4 ? "true" : "false"#>,
-      "<#=InterfaceAnnex.CmdCacheability#>": <#=this.QuoteOrNull(cmdNameReqRespIdemStale.Item5)#>
-    }<#=this.IsLastCmd(cmdNameReqRespIdemStale) ? "" : ","#>
+<# if (cmdSchemaInfo.NormalResultSchema != null) { #>
+      "<#=InterfaceAnnex.NormalResultSchema#>": "<#=cmdSchemaInfo.NormalResultSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# string normResNamespace = this.GetNamespace(cmdSchemaInfo.NormalResultSchema); if (normResNamespace != null) { #>
+      "<#=InterfaceAnnex.NormalResultNamespace#>": "<#=normResNamespace#>",
+<# } #>
+<# if (cmdSchemaInfo.ErrorResultName != null) { #>
+      "<#=InterfaceAnnex.ErrorResultName#>": "<#=cmdSchemaInfo.ErrorResultName.GetFieldName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (cmdSchemaInfo.ErrorResultSchema != null) { #>
+      "<#=InterfaceAnnex.ErrorResultSchema#>": "<#=cmdSchemaInfo.ErrorResultSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# string errResNamespace = this.GetNamespace(cmdSchemaInfo.ErrorResultSchema); if (errResNamespace != null) { #>
+      "<#=InterfaceAnnex.ErrorResultNamespace#>": "<#=errResNamespace#>",
+<# } #>
+<# } #>
+      "<#=InterfaceAnnex.CmdIsIdempotent#>": <#=cmdSchemaInfo.Idempotent ? "true" : "false"#>,
+      "<#=InterfaceAnnex.CmdCacheability#>": <#=this.QuoteOrNull(cmdSchemaInfo.Ttl)#>
+    }<#=this.IsLastCmd(cmdSchemaInfo) ? "" : ","#>
+<# } #>
+  ],
+  "<#=InterfaceAnnex.ErrorList#>": [
+<# foreach (var errSchemaInfo in this.errSchemaInfos) { #>
+    {
+<# string errNamespace = this.GetNamespace(errSchemaInfo.Schema); if (errNamespace != null) { #>
+      "<#=InterfaceAnnex.ErrorNamespace#>": "<#=errNamespace#>",
+<# } #>
+<# if (errSchemaInfo.Description != null) { #>
+      "<#=InterfaceAnnex.ErrorDescription#>": "<#=errSchemaInfo.Description#>",
+<# } #>
+<# if (errSchemaInfo.MessageField != null) { #>
+      "<#=InterfaceAnnex.ErrorMessageField#>": "<#=errSchemaInfo.MessageField.GetTypeName(TargetLanguage.Independent)#>",
+      "<#=InterfaceAnnex.ErrorMessageIsNullable#>": <#=errSchemaInfo.IsNullable ? "true" : "false"#>,
+<# } #>
+      "<#=InterfaceAnnex.ErrorSchema#>": "<#=errSchemaInfo.Schema.GetTypeName(TargetLanguage.Independent)#>"
+    }<#=this.IsLastErr(errSchemaInfo) ? "" : ","#>
 <# } #>
   ]
 }
@@ -58,7 +95,9 @@
 
     private string GetNamespace(ITypeName typeName) => typeName is CodeName schema && schema.AsDtmi != null ? CommonSchemaSupport.GetNamespace(schema.AsDtmi, this.sharedPrefix)?.GetTypeName(TargetLanguage.Independent) : null;
 
-    private bool IsLastTelem((string, ITypeName) telemNameSchema) => telemNameSchema.Item1 == this.telemNameSchemas.Last().Item1;
+    private bool IsLastTelem(TelemetrySchemaInfo telemSchemaInfo) => telemSchemaInfo.Name == this.telemSchemaInfos.Last().Name;
 
-    private bool IsLastCmd((string, ITypeName, ITypeName, bool, string) cmdNameReqRespIdemStale) => cmdNameReqRespIdemStale.Item1 == this.cmdNameReqRespIdemStales.Last().Item1;
+    private bool IsLastCmd(CommandSchemaInfo cmdSchemaInfo) => cmdSchemaInfo.Name == this.cmdSchemaInfos.Last().Name;
+
+    private bool IsLastErr(ErrorSchemaInfo errSchemaInfo) => errSchemaInfo.Schema == this.errSchemaInfos.Last().Schema;
 #>

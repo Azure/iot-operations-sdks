@@ -8,7 +8,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     using System;
     using System.Collections.Generic;
     using System.Linq;
-<# if (this.cmdNameReqResps.Any() || this.telemNameSchemas.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any() || this.telemEnvoyInfos.Any()) { #>
     using System.Threading;
 <# } #>
     using System.Threading.Tasks;
@@ -38,11 +38,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            private readonly <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>;
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+            private readonly <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>;
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-            private readonly <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>;
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+            private readonly <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>;
 <# } #>
 
             /// <summary>
@@ -67,47 +67,48 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(applicationContext, mqttClient) { OnCommandReceived = <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>};
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(applicationContext, mqttClient) { OnCommandReceived = <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int")#> };
+<# } #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(applicationContext, mqttClient);
+<# } #>
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                        this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# } #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                        this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# } #>
                     }
                 }
 
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("executorId", clientId);
-<# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("executorId", clientId);
 <# } #>
             }
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            public <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> { get => this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>; }
+            public <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> { get => this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>; }
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-            public <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> { get => this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>; }
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+
+            public <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> { get => this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>; }
 <# } #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-
-            public <#=this.defaultImpl ? "virtual" : "abstract"#> <#=this.ExtRespType(cmdNameReqResp, asTask: !this.syncApi)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, this.syncApi ? null : "async")#>(<#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)<#=this.defaultImpl ? "" : ";"#>
+            public <#=this.defaultImpl ? "virtual" : "abstract"#> <#=this.ExtRespType(cmdEnvoyInfo)#> <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ReqParam(cmdEnvoyInfo)#>CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)<#=this.defaultImpl ? "" : ";"#>
 <# if (this.defaultImpl) { #>
             {
-                return <#=this.EmptyResp(cmdNameReqResp, asTask: !this.syncApi)#>;
+                return <#=this.EmptyResp(cmdEnvoyInfo)#>;
             }
 <# } #>
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
             /// <summary>
             /// Send telemetry.
@@ -121,7 +122,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <param name="qos">The quality of service to send the telemetry with.</param>
             /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
-            public async Task <#=this.TelemMethodName(telemNameSchema, "send", "async")#>(<#=SchemaType(telemNameSchema.Item2)#> telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            public async Task <#=this.TelemMethodName(telemEnvoyInfo, "send", "async")#>(<#=SchemaType(telemEnvoyInfo.Schema)#> telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
 
@@ -130,10 +131,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
                 }
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 <# } #>
-<# if (this.cmdNameReqResps.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any()) { #>
 
             /// <summary>
             /// Begin accepting command invocations for all command executors.
@@ -161,49 +162,62 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
 
                 await Task.WhenAll(
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                    this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                    this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StopAsync(cancellationToken)<#=this.IsLast(cmdNameReqResp) ? ").ConfigureAwait(false);" : ","#>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                    this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StopAsync(cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            private<#=this.syncApi ? "" : " async"#> Task<ExtendedResponse<<#=this.SchemaType(cmdNameReqResp.Item3)#>>> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "int")#>(ExtendedRequest<<#=this.SchemaType(cmdNameReqResp.Item2)#>> req, CancellationToken cancellationToken)
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+
+            private async Task<ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>> <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int")#>(ExtendedRequest<<#=this.SchemaType(cmdEnvoyInfo.RequestSchema)#>> req, CancellationToken cancellationToken)
             {
-<# if (this.syncApi) { #>
-                <#=this.IntLValue(cmdNameReqResp)#>this.<#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp)#>(<#=this.ReqArgs(cmdNameReqResp, "req")#>, cancellationToken);
-                return Task.FromResult(new ExtendedResponse<<#=this.SchemaType(cmdNameReqResp.Item3)#>> { <#=this.IntRValue(cmdNameReqResp)#>});
+<# if (cmdEnvoyInfo.ErrorResultName != null) { #>
+                try
+                {
+                    <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
+
+                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>
+                    {
+                        Response = new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (<#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
+                {
+                    return ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>.CreateFromResponse(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> = intEx.<#=cmdEnvoyInfo.ErrorResultSchema.GetFieldName(TargetLanguage.CSharp)#> });
+                }
 <# } else { #>
-                <#=this.IntLValue(cmdNameReqResp)#>await this.<#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdNameReqResp, "req")#>, cancellationToken);
-                return new ExtendedResponse<<#=this.SchemaType(cmdNameReqResp.Item3)#>> { <#=this.IntRValue(cmdNameReqResp)#>};
+                <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
+                return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> { <#=this.IntRValue(cmdEnvoyInfo)#>};
 <# } #>
             }
 <# } #>
 
             public async ValueTask DisposeAsync()
             {
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                await this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync().ConfigureAwait(false);
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync().ConfigureAwait(false);
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync().ConfigureAwait(false);
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                await this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
         }
@@ -215,15 +229,15 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# if (this.telemServiceGroupId != null) { #>
         [ServiceGroupId("<#=this.telemServiceGroupId#>")]
 <# } #>
-        public abstract partial class Client<#=this.cmdNameReqResps.Any() ? " : IAsyncDisposable" : ""#>
+        public abstract partial class Client<#=this.cmdEnvoyInfos.Any() ? " : IAsyncDisposable" : ""#>
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            private readonly <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>;
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+            private readonly <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>;
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-            private readonly <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>;
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+            private readonly <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>;
 <# } #>
 
             /// <summary>
@@ -241,45 +255,45 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(applicationContext, mqttClient);
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemNameSchema, "receive")#> };
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemEnvoyInfo, "receive")#> };
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 <# } #>
             }
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-            public <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdNameReqResp.Item1.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> { get => this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>; }
+            public <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> { get => this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>; }
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-            public <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemNameSchema.Item1.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> { get => this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>; }
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+
+            public <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> { get => this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>; }
 <# } #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-
-            public <#=this.defaultImpl ? "virtual" : "abstract"#> Task <#=this.TelemMethodName(telemNameSchema, "receive")#>(string senderId, <#=SchemaType(telemNameSchema.Item2)#> telemetry, IncomingTelemetryMetadata metadata)<#=this.defaultImpl ? "" : ";"#>
+            public <#=this.defaultImpl ? "virtual" : "abstract"#> Task <#=this.TelemMethodName(telemEnvoyInfo, "receive")#>(string senderId, <#=SchemaType(telemEnvoyInfo.Schema)#> telemetry, IncomingTelemetryMetadata metadata)<#=this.defaultImpl ? "" : ";"#>
 <# if (this.defaultImpl) { #>
             {
                 return Task.CompletedTask;
             }
 <# } #>
 <# } #>
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
             /// <summary>
             /// Invoke a command.
@@ -292,7 +306,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public <#=this.CallAsyncType(cmdNameReqResp)#> <#=cmdNameReqResp.Item1.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ExecParam()#><#=this.ReqParam(cmdNameReqResp)#>CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public <#=this.CallAsyncType(cmdEnvoyInfo)#> <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ExecParam()#><#=this.ReqParam(cmdEnvoyInfo)#>CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -314,10 +328,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 prefixedAdditionalTopicTokenMap["executorId"] = executorId;
 <# } #>
 
-                return new <#=this.CallAsyncType(cmdNameReqResp)#>(this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(<#=cmdNameReqResp.Item2 != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new <#=this.CallAsyncType(cmdEnvoyInfo)#>(this.<#=this.IntMethod(cmdEnvoyInfo)#>(<#=cmdEnvoyInfo.RequestSchema != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 <# } #>
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemEnvoyInfos.Any()) { #>
 
             /// <summary>
             /// Begin accepting telemetry for all telemetry receivers.
@@ -338,12 +352,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                    this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StartAsync(cancellationToken)<#=this.IsLast(telemNameSchema) ? ").ConfigureAwait(false);" : ","#>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                    this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StartAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
-<# if (this.telemNameSchemas.Any()) { #>
+<# if (this.telemEnvoyInfos.Any()) { #>
 
             /// <summary>
             /// Stop accepting telemetry for all telemetry receivers.
@@ -352,29 +366,61 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                    this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemNameSchema) ? ").ConfigureAwait(false);" : ","#>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                    this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
+<# } #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+<# if (cmdEnvoyInfo.ErrorResultName != null) { #>
+
+            private async Task<ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>> <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int")#>(<#=this.SchemaType(cmdEnvoyInfo.RequestSchema)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> extended = await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> != null)
+                {
+                    throw new <#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#>(extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#>);
+                }
+<# if (!cmdEnvoyInfo.ResponseNullable) { #>
+                else if (extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+<# } #>
+                else
+                {
+                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>
+                    {
+                        Response = new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#><#=cmdEnvoyInfo.ResponseNullable ? "" : ".Value()"#> },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+<# } #>
 <# } #>
 
             public async ValueTask DisposeAsync()
             {
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                await this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync().ConfigureAwait(false);
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync().ConfigureAwait(false);
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync().ConfigureAwait(false);
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync().ConfigureAwait(false);
 <# } #>
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-<# foreach (var cmdNameReqResp in this.cmdNameReqResps) { #>
-                await this.<#=cmdNameReqResp.Item1.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
-<# foreach (var telemNameSchema in this.telemNameSchemas) { #>
-                await this.<#=telemNameSchema.Item1.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
         }
@@ -382,31 +428,33 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     }
 }
 <#+
-    private string IntLValue((CodeName, ITypeName, ITypeName) cmdNameReqResp) => (cmdNameReqResp.Item3 != null ? $"ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
+    private string IntLValue(CommandEnvoyInfo cmdEnvoyInfo) => (cmdEnvoyInfo.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
 
-    private string IntRValue((CodeName, ITypeName, ITypeName) cmdNameReqResp) => (cmdNameReqResp.Item3 != null ? "Response = extended.Response, ResponseMetadata = extended.ResponseMetadata " : "ResponseMetadata = responseMetadata ");
+    private string IntRValue(CommandEnvoyInfo cmdEnvoyInfo) => (cmdEnvoyInfo.ResponseSchema != null ? "Response = extended.Response, ResponseMetadata = extended.ResponseMetadata " : "ResponseMetadata = responseMetadata ");
 
-    private string ExtRespType((CodeName, ITypeName, ITypeName) cmdNameReqResp, bool asTask) => this.CondWrap(cmdNameReqResp.Item3 != null ? $"ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}>" : "CommandResponseMetadata?", asTask);
+    private string ExtRespType(CommandEnvoyInfo cmdEnvoyInfo) => this.CondWrap(cmdEnvoyInfo.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}>" : "CommandResponseMetadata?");
 
-    private string EmptyResp((CodeName, ITypeName, ITypeName) cmdNameReqResp, bool asTask) => this.CondFrom(cmdNameReqResp.Item3 != null ? $"new ExtendedResponse<{this.SchemaType(cmdNameReqResp.Item3)}> {{ Response = new {this.SchemaType(cmdNameReqResp.Item3)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()", asTask);
+    private string EmptyResp(CommandEnvoyInfo cmdEnvoyInfo) => this.CondFrom(cmdEnvoyInfo.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}> {{ Response = new {this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
 
-    private string CondWrap(string type, bool asTask) => asTask ? $"Task<{type}>" : type;
+    private string CondWrap(string type) => $"Task<{type}>";
 
-    private string CondFrom(string res, bool asTask) => asTask ? $"Task.FromResult({res})" : res;
+    private string CondFrom(string res) => $"Task.FromResult({res})";
 
-    private string ReqParam((CodeName, ITypeName, ITypeName) cmdNameReqResp) => cmdNameReqResp.Item2 != null ? $"{this.SchemaType(cmdNameReqResp.Item2)} request, " : "";
+    private string ReqParam(CommandEnvoyInfo cmdEnvoyInfo) => cmdEnvoyInfo.RequestSchema != null ? $"{this.SchemaType(cmdEnvoyInfo.RequestSchema)} request, " : "";
 
-    private string ReqArgs((CodeName, ITypeName, ITypeName) cmdNameReqResp, string reqVar) => cmdNameReqResp.Item2 != null ? $"{reqVar}.Request!, {reqVar}.RequestMetadata!" : $"{reqVar}.RequestMetadata!";
+    private string ReqArgs(CommandEnvoyInfo cmdEnvoyInfo, string reqVar) => cmdEnvoyInfo.RequestSchema != null ? $"{reqVar}.Request!, {reqVar}.RequestMetadata!" : $"{reqVar}.RequestMetadata!";
 
-    private string CallAsyncType((CodeName, ITypeName, ITypeName) cmdNameReqResp) => $"RpcCallAsync<{this.SchemaType(cmdNameReqResp.Item3)}>";
+    private string CallAsyncType(CommandEnvoyInfo cmdEnvoyInfo) => $"RpcCallAsync<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}>";
+
+    private string IntMethod(CommandEnvoyInfo cmdEnvoyInfo) => cmdEnvoyInfo.ErrorResultName != null ? cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int") : $"{cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")}.InvokeCommandAsync";
 
     private string SchemaType(ITypeName schema) => schema?.GetTypeName(TargetLanguage.CSharp) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp);
 
     private string ExecParam() => this.doesCommandTargetExecutor ? "string executorId, " : "";
 
-    private bool IsLast((CodeName, ITypeName, ITypeName) cmdNameReqResp) => cmdNameReqResp.Item1.AsGiven == this.cmdNameReqResps.Last().Item1.AsGiven;
+    private bool IsLast(CommandEnvoyInfo cmdEnvoyInfo) => cmdEnvoyInfo.Name.AsGiven == this.cmdEnvoyInfos.Last().Name.AsGiven;
 
-    private bool IsLast((CodeName, ITypeName) telemNameSchema) => telemNameSchema.Item1.AsGiven == this.telemNameSchemas.Last().Item1.AsGiven;
+    private bool IsLast(TelemetryEnvoyInfo telemEnvoyInfo) => telemEnvoyInfo.Name.AsGiven == this.telemEnvoyInfos.Last().Name.AsGiven;
 
-    private string TelemMethodName((CodeName, ITypeName) telemNameSchema, string prefix, string suffix = null) => (telemNameSchema.Item2 is RawTypeName ? telemNameSchema.Item1 : new CodeName()).GetMethodName(TargetLanguage.CSharp, "telemetry", suffix, prefix: prefix);
+    private string TelemMethodName(TelemetryEnvoyInfo telemEnvoyInfo, string prefix, string suffix = null) => (telemEnvoyInfo.Schema is RawTypeName ? telemEnvoyInfo.Name : new CodeName()).GetMethodName(TargetLanguage.CSharp, "telemetry", suffix, prefix: prefix);
 #>

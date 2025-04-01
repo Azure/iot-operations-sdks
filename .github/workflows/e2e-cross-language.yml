@@ -9,8 +9,13 @@ on:
 
 # Cancel old runs
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 env:
   AIO_BROKER_HOSTNAME: localhost
@@ -52,7 +57,7 @@ jobs:
       - name: Build codegen
         run: |
           dotnet build -c Debug codegen/codegen.sln
-          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net8.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
 
       - name: CodeGen Rust Counter samples
         run: |
@@ -136,3 +141,4 @@ jobs:
         continue-on-error: true
         env:
           AIO_MQTT_CLIENT_ID: rust-client
+

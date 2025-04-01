@@ -13,12 +13,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? telemetryTopic;
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
-        private readonly List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps;
-        private readonly List<(CodeName, ITypeName)> telemNameSchemas;
+        private readonly List<CommandEnvoyInfo> cmdEnvoyInfos;
+        private readonly List<TelemetryEnvoyInfo> telemEnvoyInfos;
         private readonly bool doesCommandTargetExecutor;
         private readonly bool doesCommandTargetService;
         private readonly bool doesTelemetryTargetService;
-        private readonly bool syncApi;
         private readonly bool generateClient;
         private readonly bool generateServer;
         private readonly bool defaultImpl;
@@ -34,12 +33,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
-            List<(CodeName, ITypeName?, ITypeName?)> cmdNameReqResps,
-            List<(CodeName, ITypeName)> telemNameSchemas,
+            List<CommandEnvoyInfo> cmdEnvoyInfos,
+            List<TelemetryEnvoyInfo> telemEnvoyInfos,
             bool doesCommandTargetExecutor,
             bool doesCommandTargetService,
             bool doesTelemetryTargetService,
-            bool syncApi,
             bool generateClient,
             bool generateServer,
             bool defaultImpl)
@@ -54,12 +52,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.telemetryTopic = telemetryTopic;
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;
-            this.cmdNameReqResps = cmdNameReqResps;
-            this.telemNameSchemas = telemNameSchemas;
+            this.cmdEnvoyInfos = cmdEnvoyInfos;
+            this.telemEnvoyInfos = telemEnvoyInfos;
             this.doesCommandTargetExecutor = doesCommandTargetExecutor;
             this.doesCommandTargetService = doesCommandTargetService;
             this.doesTelemetryTargetService = doesTelemetryTargetService;
-            this.syncApi = syncApi;
             this.generateClient = generateClient;
             this.generateServer = generateServer;
             this.defaultImpl = defaultImpl;
