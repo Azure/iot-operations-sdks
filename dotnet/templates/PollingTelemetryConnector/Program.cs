@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
-using PollingTelemetryConnector;
+using PollingTelemetryConnectorTemplate;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

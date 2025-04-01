@@ -49,7 +49,7 @@
                 bool passesValidation = true;
                 try
                 {
-                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, false, true, true, false, string.Empty, null, true).ToList();
+                    EnvoyTransformFactory.GetTransforms("csharp", "TestProject", annexDoc, null, null, true, true, false, string.Empty, null, true).ToList();
                 }
                 catch
                 {

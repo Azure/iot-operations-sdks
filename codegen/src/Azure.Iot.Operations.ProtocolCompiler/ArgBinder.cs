@@ -17,7 +17,6 @@
         private readonly Option<string?> genNamespace;
 #if DEBUG
         private readonly Option<string?> sharedPrefix;
-        private readonly Option<bool> sync;
         private readonly Option<string?> sdkPath;
 #endif
         private readonly Option<string> lang;
@@ -37,7 +36,6 @@
         /// <param name="genNamespace">Namespace for generated code.</param>
 #if DEBUG
         /// <param name="sharedPrefix">DTMI prefix of shared schemas.</param>
-        /// <param name="sync">Generate synchronous API.</param>
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
 #endif
         /// <param name="lang">Programming language for generated code.</param>
@@ -52,7 +50,6 @@
             Option<string?> genNamespace,
 #if DEBUG
             Option<string?> sharedPrefix,
-            Option<bool> sync,
             Option<string?> sdkPath,
 #endif
             Option<string> lang,
@@ -69,7 +66,6 @@
             this.genNamespace = genNamespace;
 #if DEBUG
             this.sharedPrefix = sharedPrefix;
-            this.sync = sync;
             this.sdkPath = sdkPath;
 #endif
             this.lang = lang;
@@ -91,11 +87,9 @@
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
 #if DEBUG
                 SharedPrefix = bindingContext.ParseResult.GetValueForOption(this.sharedPrefix),
-                Sync = bindingContext.ParseResult.GetValueForOption(this.sync),
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),
 #else
                 SharedPrefix = null,
-                Sync = false,
                 SdkPath = null,
 #endif
                 Lang = bindingContext.ParseResult.GetValueForOption(this.lang)!,

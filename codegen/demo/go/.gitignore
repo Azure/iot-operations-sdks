@@ -2,4 +2,6 @@ akri/
 jsonmodel/
 rawmodel/
 custommodel/
+countercollection/
+go.sum
 *.exe

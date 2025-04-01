@@ -24,7 +24,7 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<VersionPrefix>0.10.0</VersionPrefix>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PackAsTool>True</PackAsTool>
@@ -33,11 +33,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DTDLParser" Version="1.1.3" />
+		<PackageReference Include="DTDLParser" Version="1.2.4-preview-gabdbed4a7e" />
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-		<PackageReference Include="NuGet.Versioning" Version="6.9.1" />
-		<PackageReference Include="System.CodeDom" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+		<PackageReference Include="NuGet.Versioning" Version="6.13.2" />
+		<PackageReference Include="System.CodeDom" Version="9.0.3" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
 	</ItemGroup>
 
@@ -66,6 +66,11 @@
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>DotNetCommandExecutor.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\dotnet\Error\t4\DotNetError.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>DotNetError.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\dotnet\Project\t4\DotNetProject.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
@@ -101,6 +106,11 @@
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>GoCommandInvoker.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\go\Error\t4\GoError.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>GoError.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\go\Service\t4\GoService.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
@@ -186,6 +196,11 @@
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>RustCommandInvoker.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\rust\Error\t4\RustError.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustError.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\rust\Project\t4\RustCargoToml.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -377,6 +392,11 @@
 			<LastGenOutput>ObjectProto3.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
+		<None Update="T4\serialization\Object\t4\ResultAvroSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>ResultAvroSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
 		<None Update="T4\serialization\Telemetry\t4\TelemetryAvroSchema.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>TelemetryAvroSchema.cs</LastGenOutput>
@@ -429,6 +449,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>DotNetCommandExecutor.tt</DependentUpon>
 		</Compile>
+		<Compile Update="T4\communication\dotnet\Error\t4\DotNetError.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>DotNetError.tt</DependentUpon>
+		</Compile>
 		<Compile Update="T4\communication\dotnet\Project\t4\DotNetProject.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -463,6 +488,11 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>GoCommandInvoker.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\go\Error\t4\GoError.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>GoError.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\go\Service\t4\GoService.cs">
 			<DesignTime>True</DesignTime>
@@ -548,6 +578,11 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>RustCommandInvoker.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\rust\Error\t4\RustError.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustError.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\rust\Project\t4\RustCargoToml.cs">
 		  <DesignTime>True</DesignTime>
@@ -738,6 +773,11 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>ObjectProto3.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\serialization\Object\t4\ResultAvroSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ResultAvroSchema.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\serialization\Telemetry\t4\TelemetryAvroSchema.cs">
 			<DesignTime>True</DesignTime>

@@ -21,6 +21,16 @@
 
         public static readonly string IndexedAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed";
 
+        public static readonly string ErrorAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Error";
+
+        public static readonly string ErrorMessageAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorMessage";
+
+        public static readonly string ResultAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Result";
+
+        public static readonly string NormalResultAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:NormalResult";
+
+        public static readonly string ErrorResultAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorResult";
+
         public static readonly string TelemTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:telemetryTopic";
 
         public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";

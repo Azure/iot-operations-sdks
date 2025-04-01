@@ -1,9 +1,5 @@
 # ADR 19: Modeling User Errors
 
-## Status
-
-PROPOSED
-
 ## Context
 
 [ADR 15][1] removed from the SDKs any mechanism for conveying user-level errors.

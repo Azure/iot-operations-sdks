@@ -3,17 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{E7D7E57F-8163-463D-90CC-3A1184AF5E90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemClient", "TelemClient\TelemClient.csproj", "{E7D7E57F-8163-463D-90CC-3A1184AF5E90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvroComm", "AvroComm\AvroComm.csproj", "{EF8BD230-A301-4557-9658-6147009E08FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonComm", "JsonComm\JsonComm.csproj", "{E880BED4-02A2-49F1-B98B-5D58809DBBF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{60D1BE75-4491-4062-AFC1-3864A671B4F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemServer", "TelemServer\TelemServer.csproj", "{60D1BE75-4491-4062-AFC1-3864A671B4F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawComm", "RawComm\RawComm.csproj", "{D0FCA560-C50B-4C93-9EAD-C73226DBCD33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomComm", "CustomComm\CustomComm.csproj", "{4A12FD8A-E4B7-4882-994C-F013BCC756C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Counters", "Counters\Counters.csproj", "{1DC1F2BF-7B75-5E2C-A8A8-16C70BAF9E7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdClient", "CmdClient\CmdClient.csproj", "{8DD5CC4B-77A3-8C25-602D-A3F502568549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdServer", "CmdServer\CmdServer.csproj", "{9F01EF85-1AD0-B3B6-A4C2-1D91FC4157A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +51,23 @@ Global
 		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A12FD8A-E4B7-4882-994C-F013BCC756C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DC1F2BF-7B75-5E2C-A8A8-16C70BAF9E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DC1F2BF-7B75-5E2C-A8A8-16C70BAF9E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DC1F2BF-7B75-5E2C-A8A8-16C70BAF9E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DC1F2BF-7B75-5E2C-A8A8-16C70BAF9E7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD5CC4B-77A3-8C25-602D-A3F502568549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD5CC4B-77A3-8C25-602D-A3F502568549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD5CC4B-77A3-8C25-602D-A3F502568549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD5CC4B-77A3-8C25-602D-A3F502568549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F01EF85-1AD0-B3B6-A4C2-1D91FC4157A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F01EF85-1AD0-B3B6-A4C2-1D91FC4157A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F01EF85-1AD0-B3B6-A4C2-1D91FC4157A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F01EF85-1AD0-B3B6-A4C2-1D91FC4157A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2D4205A9-A25D-45FB-A5F1-5E62A9642C8C}
 	EndGlobalSection
 EndGlobal

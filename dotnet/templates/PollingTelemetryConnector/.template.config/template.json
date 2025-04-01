@@ -5,7 +5,7 @@
     "identity": "AzureIotOperations.PollingTelemetryConnector",
     "name": "Azure IoT Operations Polling Telemetry Connector",
     "shortName": "aiopollingtelemetryconnector",
-    "sourceName":"AioPollingTelemetryConnector",
+    "sourceName":"PollingTelemetryConnectorTemplate",
     "tags": {
       "language": "C#",
       "type": "project"

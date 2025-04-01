@@ -53,69 +53,42 @@ namespace TestEnvoys.Memmon
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StartTelemetryInt};
+                this.startTelemetryCommandExecutor = new StartTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StartTelemetryInt };
+                this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt };
+                this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt };
+                this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient);
+                this.managedMemoryTelemetrySender = new ManagedMemoryTelemetrySender(applicationContext, mqttClient);
+                this.memoryStatsTelemetrySender = new MemoryStatsTelemetrySender(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.workingSetTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.managedMemoryTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.memoryStatsTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
                 this.startTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.stopTelemetryCommandExecutor = new StopTelemetryCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = StopTelemetryInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
                 this.stopTelemetryCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.getRuntimeStatsCommandExecutor = new GetRuntimeStatsCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetRuntimeStatsInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
                 this.getRuntimeStatsCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.workingSetTelemetrySender = new WorkingSetTelemetrySender(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.workingSetTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.managedMemoryTelemetrySender = new ManagedMemoryTelemetrySender(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.managedMemoryTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.memoryStatsTelemetrySender = new MemoryStatsTelemetrySender(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.memoryStatsTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
             }
 
             public StartTelemetryCommandExecutor StartTelemetryCommandExecutor { get => this.startTelemetryCommandExecutor; }
-            public StopTelemetryCommandExecutor StopTelemetryCommandExecutor { get => this.stopTelemetryCommandExecutor; }
-            public GetRuntimeStatsCommandExecutor GetRuntimeStatsCommandExecutor { get => this.getRuntimeStatsCommandExecutor; }
-            public WorkingSetTelemetrySender WorkingSetTelemetrySender { get => this.workingSetTelemetrySender; }
-            public ManagedMemoryTelemetrySender ManagedMemoryTelemetrySender { get => this.managedMemoryTelemetrySender; }
-            public MemoryStatsTelemetrySender MemoryStatsTelemetrySender { get => this.memoryStatsTelemetrySender; }
 
+            public StopTelemetryCommandExecutor StopTelemetryCommandExecutor { get => this.stopTelemetryCommandExecutor; }
+
+            public GetRuntimeStatsCommandExecutor GetRuntimeStatsCommandExecutor { get => this.getRuntimeStatsCommandExecutor; }
+
+            public WorkingSetTelemetrySender WorkingSetTelemetrySender { get => this.workingSetTelemetrySender; }
+
+            public ManagedMemoryTelemetrySender ManagedMemoryTelemetrySender { get => this.managedMemoryTelemetrySender; }
+
+            public MemoryStatsTelemetrySender MemoryStatsTelemetrySender { get => this.memoryStatsTelemetrySender; }
 
             public abstract Task<CommandResponseMetadata?> StartTelemetryAsync(StartTelemetryRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -233,16 +206,19 @@ namespace TestEnvoys.Memmon
                     this.stopTelemetryCommandExecutor.StopAsync(cancellationToken),
                     this.getRuntimeStatsCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<EmptyAvro>> StartTelemetryInt(ExtendedRequest<StartTelemetryRequestPayload> req, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.StartTelemetryAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<EmptyAvro> { ResponseMetadata = responseMetadata };
             }
+
             private async Task<ExtendedResponse<EmptyAvro>> StopTelemetryInt(ExtendedRequest<EmptyAvro> req, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.StopTelemetryAsync(req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<EmptyAvro> { ResponseMetadata = responseMetadata };
             }
+
             private async Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsInt(ExtendedRequest<GetRuntimeStatsRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetRuntimeStatsResponsePayload> extended = await this.GetRuntimeStatsAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -347,12 +323,16 @@ namespace TestEnvoys.Memmon
             }
 
             public StartTelemetryCommandInvoker StartTelemetryCommandInvoker { get => this.startTelemetryCommandInvoker; }
-            public StopTelemetryCommandInvoker StopTelemetryCommandInvoker { get => this.stopTelemetryCommandInvoker; }
-            public GetRuntimeStatsCommandInvoker GetRuntimeStatsCommandInvoker { get => this.getRuntimeStatsCommandInvoker; }
-            public WorkingSetTelemetryReceiver WorkingSetTelemetryReceiver { get => this.workingSetTelemetryReceiver; }
-            public ManagedMemoryTelemetryReceiver ManagedMemoryTelemetryReceiver { get => this.managedMemoryTelemetryReceiver; }
-            public MemoryStatsTelemetryReceiver MemoryStatsTelemetryReceiver { get => this.memoryStatsTelemetryReceiver; }
 
+            public StopTelemetryCommandInvoker StopTelemetryCommandInvoker { get => this.stopTelemetryCommandInvoker; }
+
+            public GetRuntimeStatsCommandInvoker GetRuntimeStatsCommandInvoker { get => this.getRuntimeStatsCommandInvoker; }
+
+            public WorkingSetTelemetryReceiver WorkingSetTelemetryReceiver { get => this.workingSetTelemetryReceiver; }
+
+            public ManagedMemoryTelemetryReceiver ManagedMemoryTelemetryReceiver { get => this.managedMemoryTelemetryReceiver; }
+
+            public MemoryStatsTelemetryReceiver MemoryStatsTelemetryReceiver { get => this.memoryStatsTelemetryReceiver; }
 
             public abstract Task ReceiveTelemetry(string senderId, WorkingSetTelemetry telemetry, IncomingTelemetryMetadata metadata);
 

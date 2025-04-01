@@ -24,7 +24,7 @@ func NewReadCounterCommandInvoker(
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"commandName":     "readCounter",
+			"commandName": "readCounter",
 		},
 	)
 

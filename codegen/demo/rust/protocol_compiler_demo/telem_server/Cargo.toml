@@ -1,0 +1,18 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "telem_server"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+avro_comm = { path = "../avro_comm" }
+azure_iot_operations_mqtt = { path = "../../../../../rust/azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { path = "../../../../../rust/azure_iot_operations_protocol" }
+custom_comm = { path = "../custom_comm" }
+iso8601-duration = { version = "0.2", features = ["serde", "chrono"] }
+json_comm = { path = "../json_comm" }
+raw_comm = { path = "../raw_comm" }
+tokio = { version = "1.36", features = ["full"] }

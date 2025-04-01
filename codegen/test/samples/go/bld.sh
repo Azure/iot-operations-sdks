@@ -1,2 +1,2 @@
-set -e
+#!/bin/sh
 go build ./...

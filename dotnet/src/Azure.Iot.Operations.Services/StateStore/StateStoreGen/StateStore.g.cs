@@ -47,7 +47,8 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.invokeCommandExecutor = new InvokeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = InvokeInt};
+                this.invokeCommandExecutor = new InvokeCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = InvokeInt };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
@@ -60,7 +61,6 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             }
 
             public InvokeCommandExecutor InvokeCommandExecutor { get => this.invokeCommandExecutor; }
-
 
             public abstract Task<ExtendedResponse<byte[]>> InvokeAsync(byte[] request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -98,6 +98,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 await Task.WhenAll(
                     this.invokeCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<byte[]>> InvokeInt(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<byte[]> extended = await this.InvokeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -147,7 +148,6 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             }
 
             public InvokeCommandInvoker InvokeCommandInvoker { get => this.invokeCommandInvoker; }
-
 
             /// <summary>
             /// Invoke a command.

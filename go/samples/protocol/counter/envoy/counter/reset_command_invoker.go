@@ -24,7 +24,7 @@ func NewResetCommandInvoker(
 	opts.Apply(
 		opt,
 		protocol.WithTopicTokens{
-			"commandName":     "reset",
+			"commandName": "reset",
 		},
 	)
 

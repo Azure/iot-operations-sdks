@@ -17,9 +17,9 @@ namespace TestEnvoys.Memmon
     {
       ""name"": ""diagnosticsMode"",
       ""type"": {
-""name"": ""GetRuntimeStatsRequestSchema"",
-""type"": ""enum"",
-""symbols"": [ ""minimal"", ""complete"", ""full"" ]
+        ""name"": ""GetRuntimeStatsRequestSchema"",
+        ""type"": ""enum"",
+        ""symbols"": [ ""minimal"", ""complete"", ""full"" ]
       }
     }
   ]

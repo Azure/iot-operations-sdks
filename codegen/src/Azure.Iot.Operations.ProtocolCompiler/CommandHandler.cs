@@ -175,7 +175,7 @@
                         Console.WriteLine("No annex file present in working directory, so no envoy files generated");
                         break;
                     case 1:
-                        EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFiles.First(), options.OutDir, workingDir, genRoot, genNamespace!, sharedPrefix, options.SdkPath, options.Sync, !options.ServerOnly, !options.ClientOnly, options.DefaultImpl, !options.NoProj);
+                        EnvoyGenerator.GenerateEnvoys(options.Lang, projectName, annexFiles.First(), options.OutDir, workingDir, genRoot, genNamespace!, sharedPrefix, options.SdkPath, !options.ServerOnly, !options.ClientOnly, options.DefaultImpl, !options.NoProj);
                         break;
                     default:
                         Console.WriteLine("Multiple annex files in working directory. To generate envoy files, remove all but one annex file:");
