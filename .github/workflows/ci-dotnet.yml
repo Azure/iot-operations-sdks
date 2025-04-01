@@ -3,6 +3,7 @@ name: CI-Dotnet
 on:
   workflow_dispatch:
   pull_request:
+  pull_request_target:
     paths:
       - '.github/**'
       - 'dotnet/**'
@@ -35,6 +36,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref }}
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
