@@ -14,22 +14,38 @@ use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
     NotifyOnAssetUpdateRequestSchema, UpdateAssetEndpointProfileStatusCommandInvoker,
     UpdateAssetStatusCommandInvoker,
 };
-use crate::azure_device_registry::adr_name_gen::common_types::common_options::CommandOptionsBuilder;
+use crate::azure_device_registry::adr_name_gen::common_types::common_options::{
+    CommandOptionsBuilder, TelemetryOptionsBuilder,
+};
 use crate::azure_device_registry::adr_type_gen::aep_type_service::client::DiscoveredAssetEndpointProfileResponseStatusSchema;
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
     AzureDeviceRegistryError, CreateDetectedAssetReq, CreateDiscoveredAssetEndpointProfileReq,
     ErrorKind, UpdateAssetEndpointProfileStatusReq, UpdateAssetStatusReq,
 };
+
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 use std::sync::Arc;
 use std::time::Duration;
 
-use super::adr_name_gen::adr_base_service::client::NotifyOnAssetUpdateCommandInvoker;
+use super::adr_name_gen::adr_base_service::client::{
+    AssetEndpointProfileUpdateEventTelemetry, AssetEndpointProfileUpdateEventTelemetryReceiver,
+    AssetUpdateEventTelemetry, AssetUpdateEventTelemetryReceiver,
+    NotifyOnAssetUpdateCommandInvoker,
+};
 use super::adr_type_gen::aep_type_service::client::CreateDiscoveredAssetEndpointProfileCommandInvoker;
 
+use std::collections::HashMap;
+
+use azure_iot_operations_mqtt::interface::AckToken;
+use tokio::{sync::Notify, task};
+
+use crate::common::dispatcher::{DispatchError, Dispatcher};
+
+// const AEP_NOTIFICATION_TOPIC_PATTERN: &str =
+//     "akri/connector/resources/telemetry/{connectorClientId}/{aepName}/{telemetryName}";
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
 pub struct Client<C>
@@ -50,6 +66,27 @@ where
         Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
 }
 
+// The receiver only becomes on when the observe is called ? So the receive notificaion loop is not switched on when the client is created ?
+// let it be on when cleint is on. ADR has very little receive loop - only 2
+// There are 2 receivers one for AEP and one for  ASSET ? each receiver has its own loop which we switch on when the observe is called ?
+// The topic map takes the parameters for branckets ? What is telemetry name for each one of them ?
+// How wo we switch auto ack on ? - take client options.
+// We need connection monitor to check if the session is connected ?
+// DO we notifiy on disconneciton ? Proabbly should. - NO
+// Once we switch on the loop we notify service that we are listening for notifications. ?State store deos nto do that.
+// Observe api will call servcie notify and then return receiver
+// When is the notificationd dispacther needed ?
+
+// multiple aep - multiple inbound endpoints of same type , say blutooth
+// but later on we can have multiple aeps of different type ? (blutooth and usb)
+// 2 assets having the same name , one gets updated and the other one is also ? do the names have to be unique ?
+// does this mean 2 diff aeps can have assets of same name ? // asset name is unique for aep
+// how does topic look for asset vs aep ? There is only 1 topic in DTDL. - its only aep, asset is in payload
+// get aep does not have aep name ? where is it ? // part of the topic
+// how to do multiple aep as well as widlcard on a telemetry receiver ?
+// how to do telemetry receiver for asset ?
+// all vector to become empty so option is not needed ?
+
 impl<C> Client<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -58,13 +95,62 @@ where
     /// Create a new Azure Device Registry Client.
     ///
     /// # Panics
-    /// Panics if the options for the underlying command invokers cannot be built. Not possible since
+    /// Panics if the options for the underlying command invokers and telemetry receivers cannot be built. Not possible since
     /// the options are statically generated.
-    pub fn new(application_context: ApplicationContext, client: &C) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: &C,
+        notification_auto_ack: bool,
+    ) -> Self {
         let options = CommandOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
 
+        let aep_telemetry_options = TelemetryOptionsBuilder::default()
+            .topic_token_map(HashMap::from([(
+                "ex:connectorClientId".to_string(),
+                client.client_id().to_string(),
+            )]))
+            .auto_ack(notification_auto_ack)
+            .build()
+            .expect("DTDL schema generated invalid arguments");
+
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
+
+        // Create a hashmap of aeps being observed and channels to send their notifications to
+        let aep_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
+        let asset_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
+
+        // Start the receive key notification loop
+        task::spawn({
+            let asset_endpoint_profile_update_event_telemetry_receiver =
+                AssetEndpointProfileUpdateEventTelemetryReceiver::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &aep_telemetry_options,
+                );
+            let asset_update_event_telemetry_receiver = AssetUpdateEventTelemetryReceiver::new(
+                application_context.clone(),
+                client.clone(),
+                &aep_telemetry_options,
+            );
+            let shutdown_notifier_clone = shutdown_notifier.clone();
+            let aep_update_event_telemetry_dispatcher_clone =
+                aep_update_event_telemetry_dispatcher.clone();
+            let asset_update_event_telemetry_dispatcher_clone =
+                asset_update_event_telemetry_dispatcher.clone();
+            async move {
+                Self::receive_update_event_telemetry_loop(
+                    shutdown_notifier_clone,
+                    asset_endpoint_profile_update_event_telemetry_receiver,
+                    asset_update_event_telemetry_receiver,
+                    aep_update_event_telemetry_dispatcher_clone,
+                    asset_update_event_telemetry_dispatcher_clone,
+                )
+                .await;
+            }
+        });
         Self {
             get_asset_endpoint_profile_command_invoker: Arc::new(
                 GetAssetEndpointProfileCommandInvoker::new(
@@ -530,5 +616,129 @@ where
             .await
             .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
         Ok(())
+    }
+
+    async fn receive_update_event_telemetry_loop(
+        shutdown_notifier: Arc<Notify>,
+        mut asset_endpoint_profile_update_event_telemetry_receiver: AssetEndpointProfileUpdateEventTelemetryReceiver<C>,
+        mut asset_update_event_telemetry_receiver: AssetUpdateEventTelemetryReceiver<C>,
+        aep_update_event_telemetry_dispatcher: Arc<
+            Dispatcher<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>,
+        >,
+        asset_update_event_telemetry_dispatcher: Arc<
+            Dispatcher<(AssetUpdateEventTelemetry, Option<AckToken>)>,
+        >,
+    ) {
+        let mut shutdown_attempt_count = 0;
+        loop {
+            tokio::select! {
+                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
+                  // The loop will continue to receive any more publishes that are already in the queue
+                  () = shutdown_notifier.notified() => {
+                    match asset_endpoint_profile_update_event_telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("AssetEndpointProfileUpdateEventTelemetryReceiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down AssetEndpointProfileUpdateEventTelemetryReceiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if shutdown_attempt_count < 3 {
+                                shutdown_attempt_count += 1;
+                                shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
+                    match asset_update_event_telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("AssetUpdateEventTelemetryReceiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down AssetUpdateEventTelemetryReceiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if shutdown_attempt_count < 3 {
+                                shutdown_attempt_count += 1;
+                                shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
+                  },
+                  aep_msg = asset_endpoint_profile_update_event_telemetry_receiver.recv() => {
+                    if let Some(m) = aep_msg {
+                        match m {
+                            Ok((aep_update_event_telemetry, ack_token)) => {
+                                let Some(aep_name) = aep_update_event_telemetry.topic_tokens.get("ex:aepName") else {
+                                    log::error!("AssetEndpointProfileUpdateEventTelemetry missing ex:aepName topic token.");
+                                    continue;
+                                };
+                                // Try to send the notification to the associated receiver
+                                let aep_update_event_telemetry_payload_clone = aep_update_event_telemetry.payload.clone();
+                                match aep_update_event_telemetry_dispatcher.dispatch(aep_name, (aep_update_event_telemetry.payload, ack_token)) {
+                                    Ok(()) => {
+                                        log::debug!("AssetEndpointProfileUpdateEventTelemetry dispatched for aep name: {aep_name:?}");
+                                    }
+                                    Err(DispatchError::SendError(_)) => {
+                                        log::warn!("AssetEndpointProfileUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {aep_update_event_telemetry_payload_clone:?}",);
+                                    }
+                                    Err(DispatchError::NotFound(_)) => {
+                                        log::warn!("AssetEndpointProfile is not being observed. Received AssetEndpointProfileUpdateEventTelemetry: {aep_update_event_telemetry_payload_clone:?}",);
+                                    }
+                                }
+                            }
+                            Err(e) => {
+                                // This should only happen on errors subscribing, but it's likely not recoverable
+                                log::error!("Error receiving AssetEndpointProfileUpdateEventTelemetry: {e}. Shutting down AssetEndpointProfileUpdateEventTelemetryReceiver.");
+                                // try to shutdown telemetry receiver, but not indefinitely
+                                if shutdown_attempt_count < 3 {
+                                    shutdown_notifier.notify_one();
+                                }
+                            }
+                        }
+                    } else {
+                        log::info!("AssetEndpointProfileUpdateEventTelemetryReceiver closed, no more AssetEndpointProfileUpdateEventTelemetry will be received");
+                        // Unregister all receivers, closing the associated channels
+                        aep_update_event_telemetry_dispatcher.unregister_all();
+                        break;
+                    }
+                },
+                asset_msg = asset_update_event_telemetry_receiver.recv() => {
+                    if let Some(m) = asset_msg {
+                        match m {
+                            Ok((asset_update_event_telemetry, ack_token)) => {
+                                let asset_name = &asset_update_event_telemetry.payload.asset_update_event.asset_name;
+                                if asset_name.is_empty() {
+                                    log::error!("AssetUpdateEventTelemetry missing asset_name.");
+                                    continue;
+                                }
+                                let asset_update_event_telemetry_payload_clone = asset_update_event_telemetry.payload.clone();
+                                match asset_update_event_telemetry_dispatcher.dispatch(asset_name, (asset_update_event_telemetry_payload_clone, ack_token)) {
+                                    Ok(()) => {
+                                        log::debug!("AssetUpdateEventTelemetry dispatched for aep name: {asset_name:?}");
+                                    }
+                                    Err(DispatchError::SendError(_)) => {
+                                        log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {asset_update_event_telemetry:?}",);
+                                    }
+                                    Err(DispatchError::NotFound(_)) => {
+                                        log::warn!("Asset is not being observed. Received AssetUpdateEventTelemetry: {asset_update_event_telemetry:?}",);
+                                    }
+                                }
+                            }
+                            Err(e) => {
+                                // This should only happen on errors subscribing, but it's likely not recoverable
+                                log::error!("Error receiving AssetUpdateEventTelemetry: {e}. Shutting down AssetUpdateEventTelemetryReceiver.");
+                                // try to shutdown telemetry receiver, but not indefinitely
+                                if shutdown_attempt_count < 3 {
+                                    shutdown_notifier.notify_one();
+                                }
+                            }
+                        }
+                    } else {
+                        log::info!("AssetUpdateEventTelemetryReceiver closed, no more AssetUpdateEventTelemetry will be received");
+                        // Unregister all receivers, closing the associated channels
+                        asset_update_event_telemetry_dispatcher.unregister_all();
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
