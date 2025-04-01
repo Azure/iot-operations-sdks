@@ -128,19 +128,19 @@ jobs:
       #=======================================================================
       - name: Run .NET client
         run: dotnet run -c Release --project dotnet/samples/CounterClient
-        continue-on-error: true
+        if: always()
         env:
           AIO_MQTT_CLIENT_ID: dotnet-client
 
       - name: Run Go client
         run: go/client
-        continue-on-error: true
+        if: always()
         env:
           AIO_MQTT_CLIENT_ID: go-client
 
       - name: Run Rust client
         run: rust/target/release/counter_client
-        continue-on-error: true
+        if: always()
         env:
           AIO_MQTT_CLIENT_ID: rust-client
 
