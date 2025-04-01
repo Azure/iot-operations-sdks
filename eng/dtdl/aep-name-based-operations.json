@@ -1,942 +1,953 @@
 {
-    "@context": [
-        "dtmi:dtdl:context;4",
-        "dtmi:dtdl:extension:mqtt;2"
-    ],
-    "@id": "dtmi:com:microsoft:akri:AdrBaseService;1",
-    "@type": [
-        "Interface",
-        "Mqtt"
-    ],
-    "commandTopic": "akri/connector/resources/{ex:connectorClientId}/{ex:aepName}/{commandName}",
-    "telemetryTopic": "akri/connector/resources/telemetry/{ex:connectorClientId}/{ex:aepName}/{telemetryName}",
-    "payloadFormat": "Json/ecma/404",
-    "contents": [
-        {
-            "@type": "Command",
-            "name": "getAssetEndpointProfile",
-            "response": {
-                "name": "assetEndpointProfile",
-                "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
-            }
-        },
-        {
-            "@type": "Command",
-            "name": "getAsset",
-            "request": {
-                "name": "assetName",
-                "schema": "string"
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;2",
+    "dtmi:dtdl:extension:requirement;1"
+  ],
+  "@id": "dtmi:com:microsoft:akri:AdrBaseService;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "commandTopic": "akri/connector/resources/{ex:connectorClientId}/{ex:aepName}/{commandName}",
+  "telemetryTopic": "akri/connector/resources/telemetry/{ex:connectorClientId}/{ex:aepName}/{telemetryName}",
+  "payloadFormat": "Json/ecma/404",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "getAssetEndpointProfile",
+      "response": {
+        "name": "assetEndpointProfile",
+        "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "getAsset",
+      "request": {
+        "name": "assetName",
+        "schema": "string"
+      },
+      "response": {
+        "name": "asset",
+        "schema": "dtmi:com:microsoft:akri:Asset;1"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "updateAssetEndpointProfileStatus",
+      "request": {
+        "name": "assetEndpointProfileStatusUpdate",
+        "schema": "dtmi:com:microsoft:akri:AssetEndpointProfileStatus;1"
+      },
+      "response": {
+        "name": "updatedAssetEndpointProfile",
+        "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "updateAssetStatus",
+      "request": {
+        "name": "assetStatusUpdate",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": ["Field", "Required"],
+              "name": "assetName",
+              "schema": "string"
             },
-            "response": {
-                "name": "asset",
-                "schema": "dtmi:com:microsoft:akri:Asset;1"
+            {
+              "@type": ["Field", "Required"],
+              "name": "assetStatus",
+              "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
             }
-        },
-        {
-            "@type": "Command",
-            "name": "updateAssetEndpointProfileStatus",
-            "request": {
-                "name": "assetEndpointProfileStatusUpdate",
-                "schema": "dtmi:com:microsoft:akri:AssetEndpointProfileStatus;1"
-            },
-            "response": {
-                "name": "updatedAssetEndpointProfile",
-                "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
-            }
-        },
-        {
-            "@type": "Command",
-            "name": "updateAssetStatus",
-            "request": {
-                "name": "assetStatusUpdate",
-                "schema": {
-                    "@type": "Object",
-                    "fields": [
-                        {
-                            "@type": "Field",
-                            "name": "assetName",
-                            "schema": "string"
-                        },
-                        {
-                            "@type": "Field",
-                            "name": "assetStatus",
-                            "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
-                        }
-                    ]
-                }
-            },
-            "response": {
-                "name": "updatedAsset",
-                "schema": "dtmi:com:microsoft:akri:Asset;1"
-            }
-        },
-        {
-            "@type": "Telemetry",
-            "name": "assetEndpointProfileUpdateEvent",
-            "schema": {
-                "@type": "Object",
-                "fields": [
-                    {
-                        "@type": "Field",
-                        "name": "assetEndpointProfile",
-                        "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
-                    }
-                ]
-            }
-        },
-        {
-            "@type": "Telemetry",
-            "name": "assetUpdateEvent",
-            "schema": {
-                "@type": "Object",
-                "fields": [
-                    {
-                        "@type": "Field",
-                        "name": "assetName",
-                        "schema": "string"
-                    },
-                    {
-                        "@type": "Field",
-                        "name": "asset",
-                        "schema": "dtmi:com:microsoft:akri:Asset;1"
-                    }
-                ]
-            }
-        },
-        {
-            "@type": "Command",
-            "name": "notifyOnAssetEndpointProfileUpdate",
-            "request": {
-                "name": "notificationRequest",
-                "schema": "dtmi:com:microsoft:akri:NotificationMessageType;1"
-            },
-            "response": {
-                "name": "notificationResponse",
-                "schema": "dtmi:com:microsoft:akri:NotificationResponse;1"
-            }
-        },
-        {
-            "@type": "Command",
-            "name": "notifyOnAssetUpdate",
-            "request": {
-                "name": "notificationRequest",
-                "schema": {
-                    "@type": "Object",
-                    "fields": [
-                        {
-                            "@type": "Field",
-                            "name": "assetName",
-                            "schema": "string"
-                        },
-                        {
-                            "@type": "Field",
-                            "name": "notificationMessageType",
-                            "schema": "dtmi:com:microsoft:akri:NotificationMessageType;1"
-                        }
-                    ]
-                }
-            },
-            "response": {
-                "name": "notificationResponse",
-                "schema": "dtmi:com:microsoft:akri:NotificationResponse;1"
-            }
-        },
-        {
-            "@type": "Command",
-            "name": "createDetectedAsset",
-            "request": {
-                "name": "detectedAsset",
-                "schema": "dtmi:com:microsoft:akri:DetectedAsset;1"
-            },
-            "response": {
-                "name": "createDetectedAssetResponse",
-                "schema": {
-                    "@type": "Object",
-                    "fields": [
-                        {
-                            "@type": "Field",
-                            "@id": "dtmi:com:microsoft:akri:DetectedAssetResponseStatus;1",
-                            "name": "status",
-                            "description": "status of detected asset creation",
-                            "schema": {
-                                "@type": "Enum",
-                                "valueSchema": "string",
-                                "enumValues": [
-                                    {
-                                        "name": "Created",
-                                        "enumValue": "created"
-                                    },
-                                    {
-                                        "name": "Duplicate",
-                                        "enumValue": "duplicate"
-                                    },
-                                    {
-                                        "name": "Failed",
-                                        "enumValue": "failed"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
+          ]
         }
-    ],
-    "schemas": [
+      },
+      "response": {
+        "name": "updatedAsset",
+        "schema": "dtmi:com:microsoft:akri:Asset;1"
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "assetEndpointProfileUpdateEvent",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "assetEndpointProfile",
+            "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "assetUpdateEvent",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "assetName",
+            "schema": "string"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "asset",
+            "schema": "dtmi:com:microsoft:akri:Asset;1"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "notifyOnAssetEndpointProfileUpdate",
+      "request": {
+        "name": "notificationRequest",
+        "schema": "dtmi:com:microsoft:akri:NotificationMessageType;1"
+      },
+      "response": {
+        "name": "notificationResponse",
+        "schema": "dtmi:com:microsoft:akri:NotificationResponse;1"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "notifyOnAssetUpdate",
+      "request": {
+        "name": "notificationRequest",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": ["Field", "Required"],
+              "name": "assetName",
+              "schema": "string"
+            },
+            {
+              "@type": ["Field", "Required"],
+              "name": "notificationMessageType",
+              "schema": "dtmi:com:microsoft:akri:NotificationMessageType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "name": "notificationResponse",
+        "schema": "dtmi:com:microsoft:akri:NotificationResponse;1"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "createDetectedAsset",
+      "request": {
+        "name": "detectedAsset",
+        "schema": "dtmi:com:microsoft:akri:DetectedAsset;1"
+      },
+      "response": {
+        "name": "createDetectedAssetResponse",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": ["Field", "Required"],
+              "@id": "dtmi:com:microsoft:akri:DetectedAssetResponseStatus;1",
+              "name": "status",
+              "description": "status of detected asset creation",
+              "schema": {
+                "@type": "Enum",
+                "valueSchema": "string",
+                "enumValues": [
+                  {
+                    "name": "Created",
+                    "enumValue": "created"
+                  },
+                  {
+                    "name": "Duplicate",
+                    "enumValue": "duplicate"
+                  },
+                  {
+                    "name": "Failed",
+                    "enumValue": "failed"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "schemas": [
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetEndpointProfile;1",
+      "@type": "Object",
+      "fields": [
         {
-            "@id": "dtmi:com:microsoft:akri:AssetEndpointProfile;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "name",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "@id": "dtmi:com:microsoft:akri:AssetEndpointProfileSpecification;1",
-                    "name": "specification",
-                    "schema": {
-                        "@type": "Object",
-                        "fields": [
-                            {
-                                "@type": "Field",
-                                "name": "additionalConfiguration",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "authentication",
-                                "schema": {
-                                    "@type": "Object",
-                                    "fields": [
-                                        {
-                                            "@type": "Field",
-                                            "name": "method",
-                                            "schema": {
-                                                "@type": "Enum",
-                                                "valueSchema": "string",
-                                                "enumValues": [
-                                                    {
-                                                        "name": "Anonymous",
-                                                        "enumValue": "Anonymous"
-                                                    },
-                                                    {
-                                                        "name": "Certificate",
-                                                        "enumValue": "Certificate"
-                                                    },
-                                                    {
-                                                        "name": "UsernamePassword",
-                                                        "enumValue": "UsernamePassword"
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        {
-                                            "@type": "Field",
-                                            "name": "usernamePasswordCredentials",
-                                            "schema": {
-                                                "@type": "Object",
-                                                "fields": [
-                                                    {
-                                                        "@type": "Field",
-                                                        "name": "usernameSecretName",
-                                                        "schema": "string"
-                                                    },
-                                                    {
-                                                        "@type": "Field",
-                                                        "name": "passwordSecretName",
-                                                        "schema": "string"
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        {
-                                            "@type": "Field",
-                                            "name": "x509Credentials",
-                                            "schema": {
-                                                "@type": "Object",
-                                                "fields": [
-                                                    {
-                                                        "@type": "Field",
-                                                        "name": "certificateSecretName",
-                                                        "schema": "string"
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "discoveredAssetEndpointProfileRef",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "endpointProfileType",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "targetAddress",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "uuid",
-                                "schema": "string"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "@type": "Field",
-                    "name": "status",
-                    "schema": "dtmi:com:microsoft:akri:AssetEndpointProfileStatus;1"
-                }
-            ]
+          "@type": ["Field", "Required"],
+          "name": "name",
+          "schema": "string"
         },
         {
-            "@id": "dtmi:com:microsoft:akri:Asset;1",
+          "@type": ["Field", "Required"],
+          "@id": "dtmi:com:microsoft:akri:AssetEndpointProfileSpecification;1",
+          "name": "specification",
+          "schema": {
             "@type": "Object",
             "fields": [
-                {
-                    "@type": "Field",
-                    "name": "name",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "@id": "dtmi:com:microsoft:akri:AssetSpecification;1",
-                    "name": "specification",
-                    "schema": {
-                        "@type": "Object",
-                        "fields": [
-                            {
-                                "@type": "Field",
-                                "name": "assetEndpointProfileRef",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "attributes",
-                                "schema": {
-                                    "@type": "Map",
-                                    "mapKey": {
-                                        "name": "attributeKey",
-                                        "schema": "string"
-                                    },
-                                    "mapValue": {
-                                        "name": "attributeValue",
-                                        "schema": "string"
-                                    }
-                                }
-                            },
-                            {
-                                "@type": "Field",
-                                "@id": "dtmi:com:microsoft:akri:AssetDataset;1",
-                                "name": "datasets",
-                                "schema": {
-                                    "@type": "Array",
-                                    "elementSchema": {
-                                        "@type": "Object",
-                                        "fields": [
-                                            {
-                                                "@type": "Field",
-                                                "@id": "dtmi:com:microsoft:akri:AssetDataPoint;1",
-                                                "name": "dataPoints",
-                                                "schema": {
-                                                    "@type": "Array",
-                                                    "elementSchema": {
-                                                        "@type": "Object",
-                                                        "fields": [
-                                                            {
-                                                                "@type": "Field",
-                                                                "name": "dataPointConfiguration",
-                                                                "schema": "string"
-                                                            },
-                                                            {
-                                                                "@type": "Field",
-                                                                "name": "dataSource",
-                                                                "schema": "string"
-                                                            },
-                                                            {
-                                                                "@type": "Field",
-                                                                "name": "name",
-                                                                "schema": "string"
-                                                            },
-                                                            {
-                                                                "@type": "Field",
-                                                                "@id": "dtmi:com:microsoft:akri:AssetDataPointObservabilityMode;1",
-                                                                "name": "observabilityMode",
-                                                                "schema": {
-                                                                    "@type": "Enum",
-                                                                    "valueSchema": "string",
-                                                                    "enumValues": [
-                                                                        {
-                                                                            "name": "None",
-                                                                            "enumValue": "None"
-                                                                        },
-                                                                        {
-                                                                            "name": "Counter",
-                                                                            "enumValue": "Counter"
-                                                                        },
-                                                                        {
-                                                                            "name": "Gauge",
-                                                                            "enumValue": "Gauge"
-                                                                        },
-                                                                        {
-                                                                            "name": "Histogram",
-                                                                            "enumValue": "Histogram"
-                                                                        },
-                                                                        {
-                                                                            "name": "Log",
-                                                                            "enumValue": "Log"
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "name": "datasetConfiguration",
-                                                "schema": "string"
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "name": "name",
-                                                "schema": "string"
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "name": "topic",
-                                                "schema": "dtmi:com:microsoft:akri:Topic;1"
-                                            }
-                                        ]
-                                    }
-                                }
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "defaultDatasetsConfiguration",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "defaultEventsConfiguration",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "defaultTopic",
-                                "schema": "dtmi:com:microsoft:akri:Topic;1"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "description",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "discoveredAssetRefs",
-                                "schema": {
-                                    "@type": "Array",
-                                    "elementSchema": "string"
-                                }
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "displayName",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "documentationUri",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "enabled",
-                                "schema": "boolean"
-                            },
-                            {
-                                "@type": "Field",
-                                "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
-                                "name": "events",
-                                "schema": {
-                                    "@type": "Array",
-                                    "elementSchema": {
-                                        "@type": "Object",
-                                        "fields": [
-                                            {
-                                                "@type": "Field",
-                                                "name": "eventConfiguration",
-                                                "schema": "string"
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "name": "eventNotifier",
-                                                "schema": "string"
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "name": "name",
-                                                "schema": "string"
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "@id": "dtmi:com:microsoft:akri:AssetEventObservabilityMode;1",
-                                                "name": "observabilityMode",
-                                                "schema": {
-                                                    "@type": "Enum",
-                                                    "valueSchema": "string",
-                                                    "enumValues": [
-                                                        {
-                                                            "name": "None",
-                                                            "enumValue": "None"
-                                                        },
-                                                        {
-                                                            "name": "Log",
-                                                            "enumValue": "Log"
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "@type": "Field",
-                                                "name": "topic",
-                                                "schema": "dtmi:com:microsoft:akri:Topic;1"
-                                            }
-                                        ]
-                                    }
-                                }
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "externalAssetId",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "hardwareRevision",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "manufacturer",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "manufacturerUri",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "model",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "productCode",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "serialNumber",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "softwareRevision",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "uuid",
-                                "schema": "string"
-                            },
-                            {
-                                "@type": "Field",
-                                "name": "version",
-                                "schema": "string"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "@type": "Field",
-                    "name": "status",
-                    "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:Topic;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "path",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "retain",
-                    "schema": {
+              {
+                "@type": "Field",
+                "name": "additionalConfiguration",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "authentication",
+                "schema": {
+                  "@type": "Object",
+                  "fields": [
+                    {
+                      "@type": ["Field", "Required"],
+                      "name": "method",
+                      "schema": {
                         "@type": "Enum",
                         "valueSchema": "string",
                         "enumValues": [
+                          {
+                            "name": "Anonymous",
+                            "enumValue": "Anonymous"
+                          },
+                          {
+                            "name": "Certificate",
+                            "enumValue": "Certificate"
+                          },
+                          {
+                            "name": "UsernamePassword",
+                            "enumValue": "UsernamePassword"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "@type": "Field",
+                      "name": "usernamePasswordCredentials",
+                      "schema": {
+                        "@type": "Object",
+                        "fields": [
+                          {
+                            "@type": ["Field", "Required"],
+                            "name": "usernameSecretName",
+                            "schema": "string"
+                          },
+                          {
+                            "@type": ["Field", "Required"],
+                            "name": "passwordSecretName",
+                            "schema": "string"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "@type": "Field",
+                      "name": "x509Credentials",
+                      "schema": {
+                        "@type": "Object",
+                        "fields": [
+                          {
+                            "@type": ["Field", "Required"],
+                            "name": "certificateSecretName",
+                            "schema": "string"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "@type": "Field",
+                "name": "discoveredAssetEndpointProfileRef",
+                "schema": "string"
+              },
+              {
+                "@type": ["Field", "Required"],
+                "name": "endpointProfileType",
+                "schema": "string"
+              },
+              {
+                "@type": ["Field", "Required"],
+                "name": "targetAddress",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "uuid",
+                "schema": "string"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "status",
+          "schema": "dtmi:com:microsoft:akri:AssetEndpointProfileStatus;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:Asset;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": ["Field", "Required"],
+          "name": "name",
+          "schema": "string"
+        },
+        {
+          "@type": ["Field", "Required"],
+          "@id": "dtmi:com:microsoft:akri:AssetSpecification;1",
+          "name": "specification",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": ["Field", "Required"],
+                "name": "assetEndpointProfileRef",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "attributes",
+                "schema": {
+                  "@type": "Map",
+                  "mapKey": {
+                    "name": "attributeKey",
+                    "schema": "string"
+                  },
+                  "mapValue": {
+                    "name": "attributeValue",
+                    "schema": "string"
+                  }
+                }
+              },
+              {
+                "@type": "Field",
+                "@id": "dtmi:com:microsoft:akri:AssetDataset;1",
+                "name": "datasets",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": {
+                    "@type": "Object",
+                    "fields": [
+                      {
+                        "@type": "Field",
+                        "@id": "dtmi:com:microsoft:akri:AssetDataPoint;1",
+                        "name": "dataPoints",
+                        "schema": {
+                          "@type": "Array",
+                          "elementSchema": {
+                            "@type": "Object",
+                            "fields": [
+                              {
+                                "@type": "Field",
+                                "name": "dataPointConfiguration",
+                                "schema": "string"
+                              },
+                              {
+                                "@type": ["Field", "Required"],
+                                "name": "dataSource",
+                                "schema": "string"
+                              },
+                              {
+                                "@type": ["Field", "Required"],
+                                "name": "name",
+                                "schema": "string"
+                              },
+                              {
+                                "@type": "Field",
+                                "@id": "dtmi:com:microsoft:akri:AssetDataPointObservabilityMode;1",
+                                "name": "observabilityMode",
+                                "schema": {
+                                  "@type": "Enum",
+                                  "valueSchema": "string",
+                                  "enumValues": [
+                                    {
+                                      "name": "None",
+                                      "enumValue": "None"
+                                    },
+                                    {
+                                      "name": "Counter",
+                                      "enumValue": "Counter"
+                                    },
+                                    {
+                                      "name": "Gauge",
+                                      "enumValue": "Gauge"
+                                    },
+                                    {
+                                      "name": "Histogram",
+                                      "enumValue": "Histogram"
+                                    },
+                                    {
+                                      "name": "Log",
+                                      "enumValue": "Log"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "@type": "Field",
+                        "name": "datasetConfiguration",
+                        "schema": "string"
+                      },
+                      {
+                        "@type": ["Field", "Required"],
+                        "name": "name",
+                        "schema": "string"
+                      },
+                      {
+                        "@type": "Field",
+                        "name": "topic",
+                        "schema": "dtmi:com:microsoft:akri:Topic;1"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "@type": "Field",
+                "name": "defaultDatasetsConfiguration",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "defaultEventsConfiguration",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "defaultTopic",
+                "schema": "dtmi:com:microsoft:akri:Topic;1"
+              },
+              {
+                "@type": "Field",
+                "name": "description",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "discoveredAssetRefs",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
+              {
+                "@type": "Field",
+                "name": "displayName",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "documentationUri",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "enabled",
+                "schema": "boolean"
+              },
+              {
+                "@type": "Field",
+                "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
+                "name": "events",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": {
+                    "@type": "Object",
+                    "fields": [
+                      {
+                        "@type": "Field",
+                        "name": "eventConfiguration",
+                        "schema": "string"
+                      },
+                      {
+                        "@type": ["Field", "Required"],
+                        "name": "eventNotifier",
+                        "schema": "string"
+                      },
+                      {
+                        "@type": ["Field", "Required"],
+                        "name": "name",
+                        "schema": "string"
+                      },
+                      {
+                        "@type": "Field",
+                        "@id": "dtmi:com:microsoft:akri:AssetEventObservabilityMode;1",
+                        "name": "observabilityMode",
+                        "schema": {
+                          "@type": "Enum",
+                          "valueSchema": "string",
+                          "enumValues": [
                             {
-                                "name": "Keep",
-                                "enumValue": "Keep"
+                              "name": "None",
+                              "enumValue": "None"
                             },
                             {
-                                "name": "Never",
-                                "enumValue": "Never"
+                              "name": "Log",
+                              "enumValue": "Log"
                             }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:MessageSchemaReference;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "schemaName",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "schemaNamespace",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "schemaVersion",
-                    "schema": "string"
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:Error;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "code",
-                    "schema": "integer"
-                },
-                {
-                    "@type": "Field",
-                    "name": "message",
-                    "schema": "string"
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:AssetEndpointProfileStatus;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "errors",
-                    "schema": {
-                        "@type": "Array",
-                        "elementSchema": "dtmi:com:microsoft:akri:Error;1"
-                    }
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:AssetStatus;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "datasetsSchema",
-                    "schema": {
-                        "@type": "Array",
-                        "elementSchema": {
-                            "@type": "Object",
-                            "fields": [
-                                {
-                                    "@type": "Field",
-                                    "name": "name",
-                                    "schema": "string"
-                                },
-                                {
-                                    "@type": "Field",
-                                    "name": "messageSchemaReference",
-                                    "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
-                                }
-                            ]
+                          ]
                         }
-                    }
-                },
-                {
-                    "@type": "Field",
-                    "name": "eventsSchema",
-                    "schema": {
-                        "@type": "Array",
-                        "elementSchema": {
-                            "@type": "Object",
-                            "fields": [
-                                {
-                                    "@type": "Field",
-                                    "name": "name",
-                                    "schema": "string"
-                                },
-                                {
-                                    "@type": "Field",
-                                    "name": "messageSchemaReference",
-                                    "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "@type": "Field",
-                    "name": "errors",
-                    "schema": {
-                        "@type": "Array",
-                        "elementSchema": "dtmi:com:microsoft:akri:Error;1"
-                    }
-                },
-                {
-                    "@type": "Field",
-                    "name": "version",
-                    "schema": "integer"
+                      },
+                      {
+                        "@type": "Field",
+                        "name": "topic",
+                        "schema": "dtmi:com:microsoft:akri:Topic;1"
+                      }
+                    ]
+                  }
                 }
+              },
+              {
+                "@type": "Field",
+                "name": "externalAssetId",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "hardwareRevision",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "manufacturer",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "manufacturerUri",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "model",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "productCode",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "serialNumber",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "softwareRevision",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "uuid",
+                "schema": "string"
+              },
+              {
+                "@type": "Field",
+                "name": "version",
+                "schema": "string"
+              }
             ]
+          }
         },
         {
-            "@id": "dtmi:com:microsoft:akri:NotificationMessageType;1",
-            "@type": "Enum",
-            "valueSchema": "string",
-            "enumValues": [
-                {
-                    "name": "On",
-                    "enumValue": "On"
-                },
-                {
-                    "name": "Off",
-                    "enumValue": "Off"
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:EventType;1",
-            "@type": "Enum",
-            "valueSchema": "string",
-            "enumValues": [
-                {
-                    "name": "Create",
-                    "enumValue": "Create"
-                },
-                {
-                    "name": "Update",
-                    "enumValue": "Update"
-                },
-                {
-                    "name": "Delete",
-                    "enumValue": "Delete"
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:DetectedAsset;1",
-            "@type": "Object",
-            "fields": [
-                {
-                    "@type": "Field",
-                    "name": "assetName",
-                    "description": "Name of the asset if available.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "assetEndpointProfileRef",
-                    "description": "A reference to the asset endpoint profile.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "manufacturer",
-                    "description": "Asset manufacturer name.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "manufacturerUri",
-                    "description": "URI to the manufacturer of the asset.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "model",
-                    "description": "Asset model name.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "productCode",
-                    "description": "Asset product code.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "hardwareRevision",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "softwareRevision",
-                    "description": "Revision number of the software.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "documentationUri",
-                    "description": "URI to the documentation of the asset.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "serialNumber",
-                    "description": "Asset serial number.",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "defaultDatasetsConfiguration",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "defaultEventsConfiguration",
-                    "schema": "string"
-                },
-                {
-                    "@type": "Field",
-                    "name": "defaultTopic",
-                    "schema": "dtmi:com:microsoft:akri:Topic;1"
-                },
-                {
-                    "@type": "Field",
-                    "@id": "dtmi:com:microsoft:akri:DetectedAssetDataset;1",
-                    "name": "datasets",
-                    "description": "Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.",
-                    "schema": {
-                        "@type": "Array",
-                        "elementSchema": {
-                            "@type": "Object",
-                            "fields": [
-                                {
-                                    "name": "name",
-                                    "schema": "string"
-                                },
-                                {
-                                    "name": "dataSetConfiguration",
-                                    "schema": "string"
-                                },
-                                {
-                                    "@type": "Field",
-                                    "name": "topic",
-                                    "schema": "dtmi:com:microsoft:akri:Topic;1"
-                                },
-                                {
-                                    "@id": "dtmi:com:microsoft:akri:DetectedAssetDataPoint;1",
-                                    "name": "dataPoints",
-                                    "schema": {
-                                        "@type": "Array",
-                                        "elementSchema": {
-                                            "@type": "Object",
-                                            "fields": [
-                                                {
-                                                    "name": "name",
-                                                    "schema": "string"
-                                                },
-                                                {
-                                                    "name": "dataSource",
-                                                    "schema": "string"
-                                                },
-                                                {
-                                                    "name": "dataPointConfiguration",
-                                                    "schema": "string"
-                                                },
-                                                {
-                                                    "name": "lastUpdatedOn",
-                                                    "schema": "string"
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "@type": "Field",
-                    "@id": "dtmi:com:microsoft:akri:DetectedAssetEvent;1",
-                    "name": "events",
-                    "description": "Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.",
-                    "schema": {
-                        "@type": "Array",
-                        "elementSchema": {
-                            "@type": "Object",
-                            "fields": [
-                                {
-                                    "name": "name",
-                                    "schema": "string"
-                                },
-                                {
-                                    "name": "eventNotifier",
-                                    "schema": "string"
-                                },
-                                {
-                                    "name": "eventConfiguration",
-                                    "schema": "string"
-                                },
-                                {
-                                    "@type": "Field",
-                                    "name": "topic",
-                                    "schema": "dtmi:com:microsoft:akri:Topic;1"
-                                },
-                                {
-                                    "name": "lastUpdatedOn",
-                                    "schema": "string"
-                                }
-                            ]
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "@id": "dtmi:com:microsoft:akri:NotificationResponse;1",
-            "@type": "Enum",
-            "valueSchema": "string",
-            "enumValues": [
-                {
-                    "name": "Accepted",
-                    "enumValue": "Accepted"
-                },
-                {
-                    "name": "Failed",
-                    "enumValue": "Failed"
-                }
-            ]
+          "@type": "Field",
+          "name": "status",
+          "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
         }
-    ]
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:Topic;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": ["Field", "Required"],
+          "name": "path",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "retain",
+          "schema": {
+            "@type": "Enum",
+            "valueSchema": "string",
+            "enumValues": [
+              {
+                "name": "Keep",
+                "enumValue": "Keep"
+              },
+              {
+                "name": "Never",
+                "enumValue": "Never"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:MessageSchemaReference;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": ["Field", "Required"],
+          "name": "schemaName",
+          "schema": "string"
+        },
+        {
+          "@type": ["Field", "Required"],
+          "name": "schemaNamespace",
+          "schema": "string"
+        },
+        {
+          "@type": ["Field", "Required"],
+          "name": "schemaVersion",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:Error;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "code",
+          "schema": "integer"
+        },
+        {
+          "@type": "Field",
+          "name": "message",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetEndpointProfileStatus;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "errors",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:Error;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AssetStatus;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "datasetsSchema",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": ["Field", "Required"],
+                  "name": "name",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "messageSchemaReference",
+                  "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "eventsSchema",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": ["Field", "Required"],
+                  "name": "name",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "messageSchemaReference",
+                  "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "errors",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:Error;1"
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "version",
+          "schema": "integer"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:NotificationMessageType;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "On",
+          "enumValue": "On"
+        },
+        {
+          "name": "Off",
+          "enumValue": "Off"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:EventType;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "Create",
+          "enumValue": "Create"
+        },
+        {
+          "name": "Update",
+          "enumValue": "Update"
+        },
+        {
+          "name": "Delete",
+          "enumValue": "Delete"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:DetectedAsset;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "assetName",
+          "description": "Name of the asset if available.",
+          "schema": "string"
+        },
+        {
+          "@type": ["Field", "Required"],
+          "name": "assetEndpointProfileRef",
+          "description": "A reference to the asset endpoint profile.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "manufacturer",
+          "description": "Asset manufacturer name.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "manufacturerUri",
+          "description": "URI to the manufacturer of the asset.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "model",
+          "description": "Asset model name.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "productCode",
+          "description": "Asset product code.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "hardwareRevision",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "softwareRevision",
+          "description": "Revision number of the software.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "documentationUri",
+          "description": "URI to the documentation of the asset.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "serialNumber",
+          "description": "Asset serial number.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "defaultDatasetsConfiguration",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "defaultEventsConfiguration",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "defaultTopic",
+          "schema": "dtmi:com:microsoft:akri:Topic;1"
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DetectedAssetDataset;1",
+          "name": "datasets",
+          "description": "Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": ["Field", "Required"],
+                  "name": "name",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "dataSetConfiguration",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "topic",
+                  "schema": "dtmi:com:microsoft:akri:Topic;1"
+                },
+                {
+                  "@id": "dtmi:com:microsoft:akri:DetectedAssetDataPoint;1",
+                  "name": "dataPoints",
+                  "schema": {
+                    "@type": "Array",
+                    "elementSchema": {
+                      "@type": "Object",
+                      "fields": [
+                        {
+                          "@type": "Field",
+                          "name": "name",
+                          "schema": "string"
+                        },
+                        {
+                          "@type": ["Field", "Required"],
+                          "name": "dataSource",
+                          "schema": "string"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "dataPointConfiguration",
+                          "schema": "string"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "lastUpdatedOn",
+                          "schema": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DetectedAssetEvent;1",
+          "name": "events",
+          "description": "Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": ["Field", "Required"],
+                  "name": "name",
+                  "schema": "string"
+                },
+                {
+                  "@type": ["Field", "Required"],
+                  "name": "eventNotifier",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "eventConfiguration",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Field",
+                  "name": "topic",
+                  "schema": "dtmi:com:microsoft:akri:Topic;1"
+                },
+                {
+                  "@type": "Field",
+                  "name": "lastUpdatedOn",
+                  "schema": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:NotificationResponse;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "Accepted",
+          "enumValue": "Accepted"
+        },
+        {
+          "name": "Failed",
+          "enumValue": "Failed"
+        }
+      ]
+    }
+  ]
 }
