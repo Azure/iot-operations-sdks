@@ -1,7 +1,7 @@
 name: CI-Cross language
 on:
   workflow_dispatch:
-  pull_request_target:
+  pull_request:
   push:
     branches: [main]
   schedule:
@@ -38,6 +38,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: $GITHUB_CONTEXT.ref
 
       #=======================================================================
       # Install prerequisites
@@ -141,3 +143,4 @@ jobs:
         continue-on-error: true
         env:
           AIO_MQTT_CLIENT_ID: rust-client
+
