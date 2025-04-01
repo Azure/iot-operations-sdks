@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -36,11 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Protoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionClientSample", "samples\Mqtt\SessionClient\SessionClientSample.csproj", "{32F177CB-A073-4451-A38A-FEA198A179D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaRegistrySample", "samples\Services\SchemaRegistryClient\SchemaRegistryClientSample.csproj", "{4E96146B-B926-4104-90D0-C49F7E0430A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaRegistryClientSample", "samples\Services\SchemaRegistryClient\SchemaRegistryClientSample.csproj", "{4E96146B-B926-4104-90D0-C49F7E0430A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudEvents", "samples\Protocol\CloudEvents\CloudEventsSample.csproj", "{7C55A7E7-3D29-4C5C-81C6-EB6EC842C207}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudEventsSample", "samples\Protocol\CloudEvents\CloudEventsSample.csproj", "{7C55A7E7-3D29-4C5C-81C6-EB6EC842C207}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadCloudEvents", "samples\Protocol\ReadCloudEvents\ReadCloudEventsSample.csproj", "{104A36E0-5F69-40D3-BFD9-5E09D4A0B220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadCloudEventsSample", "samples\Protocol\ReadCloudEvents\ReadCloudEventsSample.csproj", "{104A36E0-5F69-40D3-BFD9-5E09D4A0B220}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RPC", "RPC", "{0F2D6563-6660-4FE7-A936-E15CBFBE3BC0}"
 EndProject
@@ -76,8 +77,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenTelemetryConnector", "templates\EventDrivenTelemetryConnector\EventDrivenTelemetryConnector.csproj", "{A05529AD-2D62-405A-9C2D-A122F837ECBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnector", "templates\PollingTelemetryConnector\PollingTelemetryConnector.csproj", "{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingRestThermostatConnector", "samples\Connectors\PollingRestThermostatConnector\PollingRestThermostatConnector.csproj", "{6D8CEBB2-C805-4B45-AAFB-418B1E558146}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTcpServiceApp", "samples\Connectors\SampleTcpServiceApp\SampleTcpServiceApp.csproj", "{566859E0-8783-92AF-29D8-F8C23A802B45}"
@@ -86,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDrivenTcpThermostatCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateChangeSample", "samples\Services\StateStoreObserveKey\StateChangeSample.csproj", "{4992415C-ABB2-2284-D6CD-8FE01910092F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnectorTemplate", "templates\PollingTelemetryConnector\PollingTelemetryConnectorTemplate.csproj", "{698D0245-18C6-37E9-08F6-E8EADCBA0880}"
+EndProject 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,10 +149,6 @@ Global
 		{32F177CB-A073-4451-A38A-FEA198A179D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32F177CB-A073-4451-A38A-FEA198A179D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32F177CB-A073-4451-A38A-FEA198A179D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{270ABF63-E164-407F-8CD6-0A2AA9B0E38A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{270ABF63-E164-407F-8CD6-0A2AA9B0E38A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{270ABF63-E164-407F-8CD6-0A2AA9B0E38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{270ABF63-E164-407F-8CD6-0A2AA9B0E38A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E96146B-B926-4104-90D0-C49F7E0430A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E96146B-B926-4104-90D0-C49F7E0430A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E96146B-B926-4104-90D0-C49F7E0430A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -204,10 +201,6 @@ Global
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -224,6 +217,10 @@ Global
 		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4992415C-ABB2-2284-D6CD-8FE01910092F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -243,7 +240,6 @@ Global
 		{69BE921B-451E-408E-BC36-D3199716BDB5} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{A37BB163-AB37-4F06-9DD1-835E44433A45} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
 		{32F177CB-A073-4451-A38A-FEA198A179D0} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
-		{270ABF63-E164-407F-8CD6-0A2AA9B0E38A} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{4E96146B-B926-4104-90D0-C49F7E0430A0} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{7C55A7E7-3D29-4C5C-81C6-EB6EC842C207} = {500A5CAA-3B79-46F0-8E9C-6C1D6436F72A}
 		{104A36E0-5F69-40D3-BFD9-5E09D4A0B220} = {500A5CAA-3B79-46F0-8E9C-6C1D6436F72A}
@@ -262,11 +258,11 @@ Global
 		{C75E1DD5-0E63-43CB-A16E-6829231059C1} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{78562762-96CB-4527-8EE2-43A1CE119A21} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{A05529AD-2D62-405A-9C2D-A122F837ECBD} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
-		{1E405525-2F1C-4BB3-B6D2-F493743BE1B8} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 		{6D8CEBB2-C805-4B45-AAFB-418B1E558146} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{566859E0-8783-92AF-29D8-F8C23A802B45} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{E97EAFE6-F4D8-4B9A-B53C-8A479A9BBFB5} = {78562762-96CB-4527-8EE2-43A1CE119A21}
 		{4992415C-ABB2-2284-D6CD-8FE01910092F} = {4DDB0B28-1830-4B6F-8A10-FB37874D4D57}
+		{698D0245-18C6-37E9-08F6-E8EADCBA0880} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}
