@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: $GITHUB_REF
+        ref: ${{ github.ref }}
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
