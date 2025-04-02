@@ -20,8 +20,8 @@ use crate::azure_device_registry::adr_name_gen::common_types::common_options::{
 use crate::azure_device_registry::adr_type_gen::aep_type_service::client::DiscoveredAssetEndpointProfileResponseStatusSchema;
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
-    AzureDeviceRegistryError, CreateDetectedAssetReq, CreateDiscoveredAssetEndpointProfileReq,
-    ErrorKind, UpdateAssetEndpointProfileStatusReq, UpdateAssetStatusReq,
+    CreateDetectedAssetReq, CreateDiscoveredAssetEndpointProfileReq, Error, ErrorKind,
+    UpdateAssetEndpointProfileStatusReq, UpdateAssetStatusReq,
 };
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
@@ -65,27 +65,6 @@ where
     create_asset_endpoint_profile_command_invoker:
         Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
 }
-
-// The receiver only becomes on when the observe is called ? So the receive notificaion loop is not switched on when the client is created ?
-// let it be on when cleint is on. ADR has very little receive loop - only 2
-// There are 2 receivers one for AEP and one for  ASSET ? each receiver has its own loop which we switch on when the observe is called ?
-// The topic map takes the parameters for branckets ? What is telemetry name for each one of them ?
-// How wo we switch auto ack on ? - take client options.
-// We need connection monitor to check if the session is connected ?
-// DO we notifiy on disconneciton ? Proabbly should. - NO
-// Once we switch on the loop we notify service that we are listening for notifications. ?State store deos nto do that.
-// Observe api will call servcie notify and then return receiver
-// When is the notificationd dispacther needed ?
-
-// multiple aep - multiple inbound endpoints of same type , say blutooth
-// but later on we can have multiple aeps of different type ? (blutooth and usb)
-// 2 assets having the same name , one gets updated and the other one is also ? do the names have to be unique ?
-// does this mean 2 diff aeps can have assets of same name ? // asset name is unique for aep
-// how does topic look for asset vs aep ? There is only 1 topic in DTDL. - its only aep, asset is in payload
-// get aep does not have aep name ? where is it ? // part of the topic
-// how to do multiple aep as well as widlcard on a telemetry receiver ?
-// how to do telemetry receiver for asset ?
-// all vector to become empty so option is not needed ?
 
 impl<C> Client<C>
 where
@@ -228,11 +207,11 @@ where
     pub async fn get_asset_endpoint_profile(
         &self,
         timeout: Duration,
-    ) -> Result<AssetEndpointProfile, AzureDeviceRegistryError> {
+    ) -> Result<AssetEndpointProfile, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .get_asset_endpoint_profile_command_invoker
@@ -241,7 +220,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.asset_endpoint_profile),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -269,13 +248,13 @@ where
         &self,
         source: UpdateAssetEndpointProfileStatusReq,
         timeout: Duration,
-    ) -> Result<AssetEndpointProfile, AzureDeviceRegistryError> {
+    ) -> Result<AssetEndpointProfile, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(source.into())
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .update_asset_endpoint_profile_status_command_invoker
@@ -284,7 +263,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.updated_asset_endpoint_profile),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -312,7 +291,7 @@ where
         &self,
         notification_type: bool,
         timeout: Duration,
-    ) -> Result<NotificationResponse, AzureDeviceRegistryError> {
+    ) -> Result<NotificationResponse, Error> {
         let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
             notification_request: if notification_type {
                 NotificationMessageType::On
@@ -323,10 +302,10 @@ where
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(payload)
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .notify_on_asset_endpoint_profile_update_command_invoker
@@ -335,7 +314,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.notification_response),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -367,25 +346,21 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn get_asset(
-        &self,
-        asset_name: String,
-        timeout: Duration,
-    ) -> Result<Asset, AzureDeviceRegistryError> {
+    pub async fn get_asset(&self, asset_name: String, timeout: Duration) -> Result<Asset, Error> {
         let get_request_payload = GetAssetRequestPayload { asset_name };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(get_request_payload)
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self.get_asset_command_invoker.invoke(command_request).await;
 
         match result {
             Ok(response) => Ok(response.payload.asset),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -413,13 +388,13 @@ where
         &self,
         source: UpdateAssetStatusReq,
         timeout: Duration,
-    ) -> Result<Asset, AzureDeviceRegistryError> {
+    ) -> Result<Asset, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(source.into())
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .update_asset_status_command_invoker
@@ -428,7 +403,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.updated_asset),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -456,13 +431,13 @@ where
         &self,
         source: CreateDetectedAssetReq,
         timeout: Duration,
-    ) -> Result<DetectedAssetResponseStatusSchema, AzureDeviceRegistryError> {
+    ) -> Result<DetectedAssetResponseStatusSchema, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(source.into())
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .create_detected_asset_command_invoker
@@ -471,7 +446,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.create_detected_asset_response.status),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -501,7 +476,7 @@ where
         asset_name: String,
         notification_type: bool,
         timeout: Duration,
-    ) -> Result<NotificationResponse, AzureDeviceRegistryError> {
+    ) -> Result<NotificationResponse, Error> {
         let notification_paylaod = NotifyOnAssetUpdateRequestPayload {
             notification_request: NotifyOnAssetUpdateRequestSchema {
                 asset_name,
@@ -515,10 +490,10 @@ where
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(notification_paylaod)
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .notify_on_asset_update_command_invoker
@@ -527,7 +502,7 @@ where
 
         match result {
             Ok(response) => Ok(response.payload.notification_response),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -555,13 +530,13 @@ where
         &self,
         source: CreateDiscoveredAssetEndpointProfileReq,
         timeout: Duration,
-    ) -> Result<DiscoveredAssetEndpointProfileResponseStatusSchema, AzureDeviceRegistryError> {
+    ) -> Result<DiscoveredAssetEndpointProfileResponseStatusSchema, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .payload(source.into())
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::SerializationError(e.to_string())))?
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let result = self
             .create_asset_endpoint_profile_command_invoker
@@ -573,7 +548,7 @@ where
                 .payload
                 .create_discovered_asset_endpoint_profile_response
                 .status),
-            Err(e) => Err(AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e))),
+            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
 
@@ -586,35 +561,35 @@ where
     /// # Errors
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    pub async fn shutdown(&self) -> Result<(), AzureDeviceRegistryError> {
+    pub async fn shutdown(&self) -> Result<(), Error> {
         self.get_asset_endpoint_profile_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         self.update_asset_endpoint_profile_status_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         self.notify_on_asset_endpoint_profile_update_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         self.get_asset_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         self.update_asset_status_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         self.create_detected_asset_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         self.notify_on_asset_update_command_invoker
             .shutdown()
             .await
-            .map_err(|e| AzureDeviceRegistryError(ErrorKind::AIOProtocolError(e)))?;
+            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
         Ok(())
     }
 

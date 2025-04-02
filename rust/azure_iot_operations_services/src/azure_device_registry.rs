@@ -5,10 +5,10 @@
 use adr_name_gen::adr_base_service::client::{
     AssetEndpointProfileStatus, AssetStatus, CreateDetectedAssetRequestPayload,
     DatasetsSchemaSchemaElementSchema, DetectedAsset, DetectedAssetDataPointSchemaElementSchema,
-    DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema, Error,
-    EventsSchemaSchemaElementSchema, MessageSchemaReference, Topic,
-    UpdateAssetEndpointProfileStatusRequestPayload, UpdateAssetStatusRequestPayload,
-    UpdateAssetStatusRequestSchema,
+    DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
+    Error as AzureDeviceRegistryServiceError, EventsSchemaSchemaElementSchema,
+    MessageSchemaReference, Topic, UpdateAssetEndpointProfileStatusRequestPayload,
+    UpdateAssetStatusRequestPayload, UpdateAssetStatusRequestSchema,
 };
 use adr_type_gen::aep_type_service::client::{
     CreateDiscoveredAssetEndpointProfileRequestPayload, DiscoveredAssetEndpointProfile,
@@ -26,16 +26,12 @@ mod client;
 
 pub use client::Client;
 
-// // OPEN QUESTIONS
-// TODO Except connector this client is used somewhere else ?
-// TODO Do we need to validate any required fields ? If so most probbaly need a builder
-
 /// Represents an error that occurred in the Azure Device Registry Client implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
-pub struct AzureDeviceRegistryError(#[from] ErrorKind);
+pub struct Error(#[from] ErrorKind);
 
-impl AzureDeviceRegistryError {
+impl Error {
     /// Returns the [`ErrorKind`] of the error.
     #[must_use]
     pub fn kind(&self) -> &ErrorKind {
@@ -211,9 +207,9 @@ pub struct AkriError {
     pub message: String,
 }
 
-impl From<AkriError> for Error {
+impl From<AkriError> for AzureDeviceRegistryServiceError {
     fn from(value: AkriError) -> Self {
-        Error {
+        AzureDeviceRegistryServiceError {
             code: Some(value.code),
             message: Some(value.message),
         }
