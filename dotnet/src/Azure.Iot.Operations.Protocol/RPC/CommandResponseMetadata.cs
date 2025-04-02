@@ -9,6 +9,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
 {
     public class CommandResponseMetadata
     {
+        // These two user properties are used to communicate application level errors in an RPC response message. Code is mandatory, but data is optional.
+        public const string ApplicationErrorCodeUserDataKey = "AppErrCode";
+        public const string ApplicationErrorPayloadUserDataKey = "AppErrPayload";
+
         /// <summary>
         /// The correlation data used to connect a command response to a command request.
         /// This property has no meaning to a user-code execution function on the CommandExecutor; the CorrelationData is set to null on construction.
@@ -65,11 +69,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             UserData = [];
         }
 
-        //// Constructor for testing
-        //internal CommandResponseMetadata(HybridLogicalClock timestamp)
-        //{
-        //    Timestamp = timestamp;
-        //}
         internal CommandResponseMetadata(MqttApplicationMessage message)
         {
             CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
@@ -109,6 +108,40 @@ namespace Azure.Iot.Operations.Protocol.RPC
             foreach (KeyValuePair<string, string> kvp in UserData)
             {
                 message.AddUserProperty(kvp.Key, kvp.Value);
+            }
+        }
+
+        public bool TryGetApplicationError(out ApplicationError? error)
+        {
+            if (UserData == null || !UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? errorCode))
+            {
+                error = null;
+                return false;
+            }
+
+            error = new(errorCode);
+
+            if (UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString))
+            {
+                error.Data = errorPayloadString;
+            }
+
+            return true;
+        }
+
+        public bool IsApplicationError()
+        {
+            return UserData != null && UserData.ContainsKey(ApplicationErrorCodeUserDataKey);
+        }
+
+        public void SetApplicationError(string applicationErrorCode, string? errorData)
+        {
+            UserData ??= new();
+            UserData[ApplicationErrorCodeUserDataKey] = applicationErrorCode;
+
+            if (errorData != null)
+            {
+                UserData[ApplicationErrorPayloadUserDataKey] = errorData;
             }
         }
     }

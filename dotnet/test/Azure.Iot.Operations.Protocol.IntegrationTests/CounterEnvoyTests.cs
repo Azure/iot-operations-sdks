@@ -121,4 +121,29 @@ public class CounterEnvoyTests
         Assert.Equal("Correlation Data", userProps.Where(p => p.Name == "__propName").First().Value);
     }
 
+    [Fact]
+    public async Task CanReceiveApplicationErrorResponseInHeaders()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
+
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = -1
+        };
+
+        var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        Assert.Equal(0, resp.Response.CounterResponse);
+        Assert.NotNull(resp.ResponseMetadata);
+        Assert.True(resp.ResponseMetadata.TryGetApplicationError(out ApplicationError? error));
+        Assert.NotNull(error);
+        Assert.Equal(CounterService.ArgumentError, error.Code);
+    }
 }

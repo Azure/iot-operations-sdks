@@ -348,6 +348,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     CommandResponseMetadata responseMetadata;
                     try
                     {
+                        //TODO pass in the serializer for the user here!
                         response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
                         responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
                     }

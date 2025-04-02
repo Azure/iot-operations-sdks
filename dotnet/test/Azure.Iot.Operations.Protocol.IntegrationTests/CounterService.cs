@@ -10,6 +10,8 @@ public class CounterService : Counter.Service
 {
     private int _counter = 0;
 
+    public const string ArgumentError = "ArgumentError";
+
     public CounterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {
         ReadCounterCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
@@ -19,6 +21,11 @@ public class CounterService : Counter.Service
 
     public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
+        if (request.IncrementValue < 0)
+        {
+            return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>(new IncrementResponsePayload { CounterResponse = _counter }, ArgumentError, "Negative value provided"));
+        }
+
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Interlocked.Increment(ref _counter);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");

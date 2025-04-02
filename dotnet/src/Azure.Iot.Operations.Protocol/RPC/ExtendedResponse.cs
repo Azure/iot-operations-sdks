@@ -20,5 +20,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
             };
         }
 #pragma warning restore CA1000 // Do not declare static members on generic types
+
+        public ExtendedResponse(TResp response, string errorCode, string? errorData)
+        {
+            Response = response;
+            ResponseMetadata = new();
+            ResponseMetadata.SetApplicationError(errorCode, errorData);
+        }
+
+        public IPayloadSerializer? MetadataPayloadSerializer { get; internal set; }
     }
 }
