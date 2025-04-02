@@ -72,4 +72,4 @@ If you create a PR from a branch of the main repository, no change is needed as 
    * **Secret** - The contents of the secret from the previous section
 1. Click **Add secret**
 
-You can now run an iot-operations sdks workflow successfully from you repository fork.
+You can now run an iot-operations sdks workflow successfully from your repository fork.
