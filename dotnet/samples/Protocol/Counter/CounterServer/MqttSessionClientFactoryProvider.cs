@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Models;
 using System.Diagnostics;
 
 namespace CounterServer;
@@ -21,7 +23,10 @@ internal static class MqttSessionClientFactoryProvider
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
         }
-
-        return new MqttSessionClient(sessionClientOptions);
+        MqttConnectionSettings mcs = MqttConnectionSettings.FromEnvVars();
+        MqttSessionClient mqttClient = new MqttSessionClient(sessionClientOptions);
+        MqttClientConnectResult connAck = mqttClient.ConnectAsync(mcs).Result;
+        
+        return mqttClient;
     };
 }

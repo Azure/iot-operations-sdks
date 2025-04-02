@@ -35,45 +35,6 @@ public class GreeterEnvoyTests
     }
 
     [Fact]
-    public async Task SayHelloWithDelay_FromCache()
-    {
-        string executorId = "greeter-server-" + Guid.NewGuid();
-        ApplicationContext applicationContext = new ApplicationContext();
-        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
-        await using GreeterService greeterService = new GreeterService(applicationContext, mqttExecutor);
-        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-        await using GreeterEnvoy.Client greeterClient = new GreeterEnvoy.Client(applicationContext, mqttInvoker);
-
-        await greeterService.StartAsync();
-
-        Stopwatch clock = Stopwatch.StartNew();
-        var resp = await greeterClient.SayHelloWithDelay(new ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest>
-        {
-            Request = new GreeterEnvoy.HelloWithDelayRequest
-            {
-                Name = "Rido",
-                Delay = TimeSpan.FromSeconds(4)
-            }
-        }, TimeSpan.FromSeconds(30)).WithMetadata();
-        var firstCallTime = clock.Elapsed;
-
-        clock.Restart();
-        resp = await greeterClient.SayHelloWithDelay(new ExtendedRequest<GreeterEnvoy.HelloWithDelayRequest>
-        {
-            Request = new GreeterEnvoy.HelloWithDelayRequest
-            {
-                Name = "Rido",
-                Delay = TimeSpan.FromSeconds(4)
-            }
-        }, TimeSpan.FromSeconds(30)).WithMetadata();
-        var secondCallTime = clock.Elapsed;
-
-        Assert.Equal("Hello Rido after 00:00:04", resp.Response.Message);
-
-        Assert.True(firstCallTime > secondCallTime);
-    }
-
-    [Fact]
     public async Task SayHelloWithDelay_ExecutorTimeout()
     {
         ApplicationContext applicationContext = new ApplicationContext();

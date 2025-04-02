@@ -105,7 +105,7 @@ jobs:
       #=======================================================================
       - name: Run .NET server
         if: matrix.server == 'dotnet-server'
-        run: dotnet run -c Release --project dotnet/samples/CounterServer &
+        run: dotnet run -c Release --project dotnet/samples/Protocol/Counter/CounterServer &
         env:
           AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
@@ -125,20 +125,20 @@ jobs:
       # Run all the clients
       #=======================================================================
       - name: Run .NET client
-        run: dotnet run -c Release --project dotnet/samples/CounterClient
-        continue-on-error: true
+        run: dotnet run -c Release --project dotnet/samples/Protocol/Counter/CounterClient
+        if: always()
         env:
           AIO_MQTT_CLIENT_ID: dotnet-client
 
       - name: Run Go client
         run: go/client
-        continue-on-error: true
+        if: always()
         env:
           AIO_MQTT_CLIENT_ID: go-client
 
       - name: Run Rust client
         run: rust/target/release/counter_client
-        continue-on-error: true
+        if: always()
         env:
           AIO_MQTT_CLIENT_ID: rust-client
 
