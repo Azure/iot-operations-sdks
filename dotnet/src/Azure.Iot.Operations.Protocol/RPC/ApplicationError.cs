@@ -12,14 +12,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
     /// <summary>
     /// A command response that indicates some error occurred within the application layer that handled the command invocation.
     /// </summary>
-    public class ApplicationError
+    public class ApplicationError<T>
     {
         public string Code { get; set; } // user defined code. Should be set when user returns from command executor handler with error
 
-        public string? Data { get; set; }
+        public T? Payload { get; set; }
 
         /// <summary>
-        /// If any exception was encountered when the command invoker deserialized the data field.
+        /// If any exception was encountered when the command invoker deserialized the payload field.
         /// </summary>
         public Exception? DataSerializationException { get; internal set; }
 

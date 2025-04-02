@@ -4,7 +4,7 @@
 
 We have received feedback from users that they would like to have RPC responses communicate application level failures in the headers of the response rather than the payload of the response. 
 
-This feedback is, in part, because some applications want to route RPC responses without deserializing the entire payload. It is also partly because [some applications cannot extend or change the payload model to acommodate error handling.](https://github.com/Azure/iot-operations-sdks/issues/488#issuecomment-2707496996).
+This feedback is, in part, because some applications want to route RPC responses without reading/deserializing the entire payload. It is also partly because [some applications cannot extend or change the payload model to acommodate error handling.](https://github.com/Azure/iot-operations-sdks/issues/488#issuecomment-2707496996).
 
 ## Decision
 
@@ -16,7 +16,13 @@ On the command invoker side, we will add APIs for checking if a response was an 
 
 Similar to how our SDKs handle serializing the actual MQTT message payload, our SDKs will require the user provide the serializer for serializing/deserializing the AppErrPayload object.
 
+Other than these two new user properties, the over-the-wire behavior of our protocol won't change as a result of this decision.
+
 In order to provide a strongly-typed experience, we will also add codegen support for modeling both the possible error codes (enum-like list of possible values?) and the type of the error payload in DTDL. This modeling will be detailed in a separate ADR, though.
+
+## Code Example
+
+
 
 ### Enforcement
 
@@ -37,4 +43,4 @@ For instance, we would make the counter service return an application error if t
 
 - Do we remove support for modeling application errors in the MQTT message payload as described in (ADR 19)[./0019-codegen-user-errs.md]? No one has onboarded to this model yet
 
-- Can the "__appErr" user property flag be removed from our protocol? It would be superfluous to the new "AppErrCode" and "AppErrPayload" user properties.
+- Do we need distinct serializers for MQTT message payload serialization and this new MQTT user property "payload" serialization? Is it possible that, for example, errors would be modeled as JSON objects but normal payloads are modeled as protobuf objects? 

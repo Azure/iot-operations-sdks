@@ -111,7 +111,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public bool TryGetApplicationError(out ApplicationError? error)
+        public bool TryGetApplicationError<T>(IHeaderPayloadSerializer serializer, out ApplicationError<T>? error) where T: class
         {
             if (UserData == null || !UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? errorCode))
             {
@@ -123,7 +123,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString))
             {
-                error.Data = errorPayloadString;
+                error.Payload = serializer.FromString<T>(errorPayloadString);
             }
 
             return true;
@@ -134,14 +134,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return UserData != null && UserData.ContainsKey(ApplicationErrorCodeUserDataKey);
         }
 
-        public void SetApplicationError(string applicationErrorCode, string? errorData)
+        public void SetApplicationError<T>(string applicationErrorCode, T errorData, IHeaderPayloadSerializer serializer) where T : class
         {
             UserData ??= new();
             UserData[ApplicationErrorCodeUserDataKey] = applicationErrorCode;
 
             if (errorData != null)
             {
-                UserData[ApplicationErrorPayloadUserDataKey] = errorData;
+                try
+                {
+                    UserData[ApplicationErrorPayloadUserDataKey] = serializer.ToString<T>(errorData);
+                }
+                catch (Exception)
+                {
+                    //TODO log or throw?
+                }
             }
         }
     }
