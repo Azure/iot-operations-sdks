@@ -18,11 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
         continue-on-error: true
@@ -40,7 +35,6 @@ jobs:
       
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
-        continue-on-error: true
         with:
           config_file: .github/.linkspector.yml
           fail_level: warning
