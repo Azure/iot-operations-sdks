@@ -20,8 +20,8 @@ use crate::azure_device_registry::adr_name_gen::common_types::common_options::{
 use crate::azure_device_registry::adr_type_gen::aep_type_service::client::DiscoveredAssetEndpointProfileResponseStatusSchema;
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
-    CreateDetectedAssetReq, CreateDiscoveredAssetEndpointProfileReq, Error, ErrorKind,
-    UpdateAssetEndpointProfileStatusReq, UpdateAssetStatusReq,
+    AssetEndpointProfileStatus, CreateDetectedAssetReq, CreateDiscoveredAssetEndpointProfileReq,
+    Error, ErrorKind, UpdateAssetStatusRequest,
 };
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
@@ -246,7 +246,7 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn update_asset_endprofile_status(
         &self,
-        source: UpdateAssetEndpointProfileStatusReq,
+        source: AssetEndpointProfileStatus,
         timeout: Duration,
     ) -> Result<AssetEndpointProfile, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
@@ -386,7 +386,7 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn update_asset_status(
         &self,
-        source: UpdateAssetStatusReq,
+        source: UpdateAssetStatusRequest,
         timeout: Duration,
     ) -> Result<Asset, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
@@ -679,21 +679,16 @@ where
                     if let Some(m) = asset_msg {
                         match m {
                             Ok((asset_update_event_telemetry, ack_token)) => {
-                                let asset_name = &asset_update_event_telemetry.payload.asset_update_event.asset_name;
-                                if asset_name.is_empty() {
-                                    log::error!("AssetUpdateEventTelemetry missing asset_name.");
-                                    continue;
-                                }
-                                let asset_update_event_telemetry_payload_clone = asset_update_event_telemetry.payload.clone();
-                                match asset_update_event_telemetry_dispatcher.dispatch(asset_name, (asset_update_event_telemetry_payload_clone, ack_token)) {
+                                let asset_name = asset_update_event_telemetry.payload.asset_update_event.asset_name.clone();
+                                match asset_update_event_telemetry_dispatcher.dispatch(&asset_name, (asset_update_event_telemetry.payload, ack_token)) {
                                     Ok(()) => {
                                         log::debug!("AssetUpdateEventTelemetry dispatched for aep name: {asset_name:?}");
                                     }
-                                    Err(DispatchError::SendError(_)) => {
-                                        log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {asset_update_event_telemetry:?}",);
+                                    Err(DispatchError::SendError(e)) => {
+                                        log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {e:?}",);
                                     }
-                                    Err(DispatchError::NotFound(_)) => {
-                                        log::warn!("Asset is not being observed. Received AssetUpdateEventTelemetry: {asset_update_event_telemetry:?}",);
+                                    Err(DispatchError::NotFound(e)) => {
+                                        log::warn!("Asset is not being observed. Received AssetUpdateEventTelemetry: {e:?}",);
                                     }
                                 }
                             }
