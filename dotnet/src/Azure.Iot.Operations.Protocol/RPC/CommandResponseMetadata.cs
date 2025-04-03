@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -111,20 +112,30 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer serializer, out ApplicationError<TError>? error) where TError : class
+        public bool TryGetApplicationError(out string? errorCode)
         {
-            if (UserData == null || !UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? errorCode))
+            if (UserData == null || !UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? code) || code == null)
             {
-                error = null;
+                errorCode = null;
                 return false;
             }
 
-            error = new(errorCode);
+            errorCode = code;
+            return true;
+        }
 
-            if (UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString))
+        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer? serializer, out string? errorCode, out TError? errorPayload) where TError : class
+        {
+            if (!TryGetApplicationError(out errorCode))
             {
-                error.ErrorData = serializer.FromString<TError>(errorPayloadString);
+                errorPayload = null;
+                return false;
             }
+
+            //TODO do we report if a payload was found, but no serializer was provided?
+            errorPayload = UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null && serializer != null
+                ? serializer.FromString<TError>(errorPayloadString)
+                : null;
 
             return true;
         }

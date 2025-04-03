@@ -2,30 +2,16 @@
 // Licensed under the MIT License.
 
 using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public class ExtendedResponse<TResp>
+    public struct ExtendedResponse<TResp>
         where TResp : class
     {
-        public TResp? Response { get; set; }
+        public TResp Response { get; set; }
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 
-        /*
-        public string? ErrorCode
-        {
-            get { return ResponseMetadata?.UserData?[CommandResponseMetadata.ApplicationErrorCodeUserDataKey]; }
-            set
-            {
-                ArgumentNullException.ThrowIfNullOrWhiteSpace(value, nameof(ErrorCode));
-                ResponseMetadata ??= new();
-                ResponseMetadata.UserData ??= new();
-                ResponseMetadata.UserData[CommandResponseMetadata.ApplicationErrorCodeUserDataKey] = value;
-            }
-        }
-        */
 #pragma warning disable CA1000 // Do not declare static members on generic types
         public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
         {
