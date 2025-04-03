@@ -530,7 +530,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn notify_asset_update(
+    pub async fn observe_asset_update(
         &self,
         asset_name: String,
         notification_type: bool,
