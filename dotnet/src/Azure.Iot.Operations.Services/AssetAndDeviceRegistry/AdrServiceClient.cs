@@ -1,4 +1,5 @@
-﻿// Copyright (c) Microsoft Corporation.
+﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
@@ -81,28 +82,26 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             _defaultTimeout, cancellationToken)).NotificationResponse;
     }
 
-    public async Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
+    public async Task<AssetEndpointProfileResponse> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
-        return (await _assetServiceClient.GetAssetEndpointProfileAsync(null,
-                additionalTopicTokenMap,
-                commandTimeout ?? _defaultTimeout,
-                cancellationToken)).AssetEndpointProfile;
+        var result = await _assetServiceClient.GetAssetEndpointProfileAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken);
+        return new AssetEndpointProfileResponse(result.AssetEndpointProfile);
     }
 
-    public async Task<AssetEndpointProfile?> UpdateAssetEndpointProfileStatusAsync(string aepName,
-        UpdateAssetEndpointProfileStatusRequestPayload requestPayload, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+    public async Task<AssetEndpointProfileResponse> UpdateAssetEndpointProfileStatusAsync(string aepName,
+        UpdateAssetEndpointProfileStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
-        return (await _assetServiceClient.UpdateAssetEndpointProfileStatusAsync(requestPayload, null, additionalTopicTokenMap,
-            commandTimeout ?? _defaultTimeout, cancellationToken)).UpdatedAssetEndpointProfile;
+        var result = await _assetServiceClient.UpdateAssetEndpointProfileStatusAsync(request.ToContract(), null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken);
+        return new AssetEndpointProfileResponse(result.UpdatedAssetEndpointProfile);
     }
 
     public async Task<NotificationResponse> ObserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken)
@@ -175,62 +174,48 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
     }
 
-    public async Task<Asset?> GetAssetAsync(string aepName, GetAssetRequestPayload requestPayload, TimeSpan? commandTimeout = null,
+    public async Task<AssetResponse> GetAssetAsync(string aepName, GetAssetRequest request, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
-        return (await _assetServiceClient.GetAssetAsync(requestPayload,
-                null,
-                additionalTopicTokenMap,
-                commandTimeout ?? _defaultTimeout,
-                cancellationToken)).Asset;
+        var result = await _assetServiceClient.GetAssetAsync(request.ToContract(), null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken);
+        return new AssetResponse(result.Asset);
     }
 
-    public async Task<Asset?> UpdateAssetStatusAsync(string aepName, UpdateAssetStatusRequestPayload requestPayload, TimeSpan? commandTimeout = null,
+    public async Task<AssetResponse> UpdateAssetStatusAsync(string aepName, UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
-        return (await _assetServiceClient.UpdateAssetStatusAsync(requestPayload,
-            null,
-            additionalTopicTokenMap,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).UpdatedAsset;
+        var result = await _assetServiceClient.UpdateAssetStatusAsync(request.ToContract(), null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken);
+        return new AssetResponse(result.UpdatedAsset);
     }
 
-    public async Task<CreateDetectedAssetResponseSchema?> CreateDetectedAssetAsync(string aepName, CreateDetectedAssetRequestPayload requestPayload,
+    public async Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string aepName, CreateDetectedAssetRequest request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
-        return (await _assetServiceClient.CreateDetectedAssetAsync(requestPayload,
-            null,
-            additionalTopicTokenMap,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).CreateDetectedAssetResponse;
+        var result = await _assetServiceClient.CreateDetectedAssetAsync(request.ToContract(), null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken);
+        return new CreateDetectedAssetResponse(result.CreateDetectedAssetResponse);
     }
 
-    public async Task<AepTypes.CreateDiscoveredAssetEndpointProfileResponseSchema?> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
-        AepTypes.CreateDiscoveredAssetEndpointProfileRequestPayload requestPayload,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
+        CreateDiscoveredAssetEndpointProfileRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { "aepName", aepName } };
-        return (await _assetEndpointProfileServiceClient.CreateDiscoveredAssetEndpointProfileAsync(requestPayload,
-            null,
-            additionalTopicTokenMap,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken)).CreateDiscoveredAssetEndpointProfileResponse;
+        var result = await _assetEndpointProfileServiceClient.CreateDiscoveredAssetEndpointProfileAsync(request.ToContract(), null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout, cancellationToken);
+        return new CreateDiscoveredAssetEndpointProfileResponse(result.CreateDiscoveredAssetEndpointProfileResponse);
     }
 
     public event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry

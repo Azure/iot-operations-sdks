@@ -1,8 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
@@ -12,10 +10,10 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken);
 
-    Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
+    Task<AssetEndpointProfileResponse> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
 
-    Task<AssetEndpointProfile?> UpdateAssetEndpointProfileStatusAsync(string aepName,
-        UpdateAssetEndpointProfileStatusRequestPayload requestPayload,
+    Task<AssetEndpointProfileResponse> UpdateAssetEndpointProfileStatusAsync(string aepName,
+        UpdateAssetEndpointProfileStatusRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -23,23 +21,23 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken);
 
-    Task<Asset?> GetAssetAsync(string aepName,
-        GetAssetRequestPayload requestPayload,
+    Task<AssetResponse> GetAssetAsync(string aepName,
+        GetAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
-    Task<Asset?> UpdateAssetStatusAsync(string aepName,
-        UpdateAssetStatusRequestPayload requestPayload,
+    Task<AssetResponse> UpdateAssetStatusAsync(string aepName,
+        UpdateAssetStatusRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
-    Task<CreateDetectedAssetResponseSchema?> CreateDetectedAssetAsync(string aepName,
-        CreateDetectedAssetRequestPayload requestPayload,
+    Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string aepName,
+        CreateDetectedAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
-    Task<CreateDiscoveredAssetEndpointProfileResponseSchema?> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
-        CreateDiscoveredAssetEndpointProfileRequestPayload requestPayload,
+    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
+        CreateDiscoveredAssetEndpointProfileRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
