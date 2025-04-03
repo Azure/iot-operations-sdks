@@ -21,8 +21,11 @@ public class CounterService : Counter.Service
         if (request.IncrementValue < 0)
         {
             var response =
-                ExtendedResponse<IncrementResponsePayload>.CreateExtendedResponseWithApplicationError(
-                    new IncrementResponsePayload { CounterResponse = _counter },
+                new ExtendedResponse<IncrementResponsePayload>()
+                {
+                    Response = new IncrementResponsePayload { CounterResponse = _counter },
+                }
+                .WithApplicationError(
                     "negativeValue",
                     new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue },
                     new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));

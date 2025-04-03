@@ -12,38 +12,24 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 
-#pragma warning disable CA1000 // Do not declare static members on generic types
-        public static ExtendedResponse<TResp> CreateExtendedResponseWithApplicationError(TResp response, string errorCode)
+        public ExtendedResponse<TResp> WithApplicationError(string errorCode)
         {
-            ExtendedResponse<TResp> extendedResponse = new()
-            {
-                Response = response,
-                ResponseMetadata = new()
-            };
-
+            ResponseMetadata ??= new();
             object? payload = null;
-            extendedResponse.ResponseMetadata.SetApplicationError(errorCode, payload, null);
-
-            return extendedResponse;
+            ResponseMetadata.SetApplicationError(errorCode, payload, null);
+            return this;
         }
 
-        public static ExtendedResponse<TResp> CreateExtendedResponseWithApplicationError<TError>(TResp response, string errorCode, TError errorPayload, IErrorHeaderPayloadSerializer serializer) where TError : class
+        public ExtendedResponse<TResp> WithApplicationError<TError>(string errorCode, TError errorPayload, IErrorHeaderPayloadSerializer serializer) where TError : class
         {
             if (errorPayload != null && serializer == null)
             {
                 throw new ArgumentNullException(nameof(serializer), "Must provide a serializer if error payload is non-null");
             }
 
-            ExtendedResponse<TResp> extendedResponse = new()
-            {
-                Response = response,
-                ResponseMetadata = new()
-            };
-
-            extendedResponse.ResponseMetadata.SetApplicationError(errorCode, errorPayload, serializer);
-
-            return extendedResponse;
+            ResponseMetadata ??= new();
+            ResponseMetadata.SetApplicationError(errorCode, errorPayload, serializer);
+            return this;
         }
-#pragma warning restore CA1000 // Do not declare static members on generic types
     }
 }
