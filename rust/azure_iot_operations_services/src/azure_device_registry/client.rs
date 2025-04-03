@@ -284,7 +284,6 @@ where
     ///
     /// # Arguments
     /// * `aep_name` - The name of the asset endpoint profile.
-    /// * `notification_type` - The type of notification to send, true for "On" and false for "Off".
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the [`AssetEndpointProfileObservation`] if observation was done succesfully or [`Error`].
@@ -301,10 +300,12 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
+    /// if notification response failed.
     pub async fn observe_asset_endpoint_profile_update(
         &self,
         aep_name: String,
-        notification_type: bool,
         timeout: Duration,
     ) -> Result<AssetEndpointProfileObservation, Error> {
         let rx = self
@@ -313,11 +314,7 @@ where
             .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
 
         let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
-            notification_request: if notification_type {
-                NotificationMessageType::On
-            } else {
-                NotificationMessageType::Off
-            },
+            notification_request: NotificationMessageType::On,
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
@@ -331,7 +328,7 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result: Result<rpc_command::invoker::Response<super::adr_name_gen::adr_base_service::client::NotifyOnAssetEndpointProfileUpdateResponsePayload>, azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError> = self
+        let result = self
             .notify_on_asset_endpoint_profile_update_command_invoker
             .invoke(command_request)
             .await;
@@ -345,7 +342,7 @@ where
                     })
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
-                    Err(Error(ErrorKind::InvalidArgument(
+                    Err(Error(ErrorKind::ObservationError(
                         ("Notification Response Failed").to_string(),
                     )))
                 }
@@ -365,14 +362,79 @@ where
         }
     }
 
-    // pub async observe_asset_endpoint_profile_update(
-    //     &self,
-    //     aep_name
-    //     timeout: Duration,
-    // ) -> Result<String, AzureDeviceRegistryError> {
-    //     // pass
-    //     // TODO
-    // }
+    /// Notifies the Azure Device Registry service that client is no longer listening for asset endpoint profile updates.
+    ///
+    /// # Arguments
+    /// * `aep_name` - The name of the asset endpoint profile.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`AssetEndpointProfileObservation`] if observation was done succesfully or [`Error`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    ///     
+    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
+    /// if notification response failed.
+    pub async fn unobserve_asset_endpoint_profile_update(
+        &self,
+        aep_name: String,
+        timeout: Duration,
+    ) -> Result<bool, Error> {
+        let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
+            notification_request: NotificationMessageType::Off,
+        };
+
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([(
+                "ex:aepName".to_string(),
+                aep_name.clone(),
+            )]))
+            .payload(payload)
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .notify_on_asset_endpoint_profile_update_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => {
+                if let NotificationResponse::Accepted = response.payload.notification_response {
+                    Ok(true)
+                } else {
+                    // TODO Check error kind - another kind needs to be incldued ?
+                    Err(Error(ErrorKind::ObservationError(
+                        ("Notification Response Failed").to_string(),
+                    )))
+                }
+            }
+            Err(e) => {
+                // If the unobserve request wasn't successful, remove it from our dispatcher
+                if self
+                    .aep_update_event_telemetry_dispatcher
+                    .unregister_receiver(&aep_name)
+                {
+                    log::debug!("Aep removed from observed list: {aep_name:?}");
+                } else {
+                    log::debug!("Aep not in observed list: {aep_name:?}");
+                }
+                Err(Error(ErrorKind::AIOProtocolError(e)))
+            }
+        }
+    }
     /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
@@ -533,7 +595,6 @@ where
     pub async fn observe_asset_update(
         &self,
         asset_name: String,
-        notification_type: bool,
         timeout: Duration,
     ) -> Result<AssetObservation, Error> {
         let rx = self
@@ -544,11 +605,7 @@ where
         let notification_payload = NotifyOnAssetUpdateRequestPayload {
             notification_request: NotifyOnAssetUpdateRequestSchema {
                 asset_name: asset_name.clone(),
-                notification_message_type: if notification_type {
-                    NotificationMessageType::On
-                } else {
-                    NotificationMessageType::Off
-                },
+                notification_message_type: NotificationMessageType::On,
             },
         };
 
@@ -593,6 +650,77 @@ where
         }
     }
 
+    /// Notifies the Azure Device Registry service that client is no longer listening for asset updates.
+    ///
+    /// # Arguments
+    /// * `asset_name` - The name of the asset endpoint profile.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`AssetEndpointProfileObservation`] if observation was done succesfully or [`Error`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    ///     
+    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
+    /// if notification response failed.
+    pub async fn unobserve_asset_update(
+        &self,
+        asset_name: String,
+        timeout: Duration,
+    ) -> Result<bool, Error> {
+        let notification_payload = NotifyOnAssetUpdateRequestPayload {
+            notification_request: NotifyOnAssetUpdateRequestSchema {
+                asset_name: asset_name.clone(),
+                notification_message_type: NotificationMessageType::On,
+            },
+        };
+
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(notification_payload)
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()
+            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+
+        let result = self
+            .notify_on_asset_update_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => {
+                if let NotificationResponse::Accepted = response.payload.notification_response {
+                    Ok(true)
+                } else {
+                    Err(Error(ErrorKind::ObservationError(
+                        ("Notification Response Failed").to_string(),
+                    )))
+                }
+            }
+            Err(e) => {
+                // If the unobserve request wasn't successful, remove it from our dispatcher
+                if self
+                    .aep_update_event_telemetry_dispatcher
+                    .unregister_receiver(&asset_name)
+                {
+                    log::debug!("Asset removed from observed list: {asset_name:?}");
+                } else {
+                    log::debug!("Asset not in observed list: {asset_name:?}");
+                }
+                Err(Error(ErrorKind::AIOProtocolError(e)))
+            }
+        }
+    }
     /// Creates an asset endpoint profile inside the Azure Device Registry service.
     ///
     /// # Arguments

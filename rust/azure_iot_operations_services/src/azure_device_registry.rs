@@ -62,6 +62,9 @@ pub enum ErrorKind {
     /// A aep or an asset may only have one observation at a time.
     #[error("Aep or asset may only be observed once at a time")]
     DuplicateObserve,
+    /// A aep or an asset had an error during observation.
+    #[error("{0}")]
+    ObservationError(String),
 }
 
 /// An error returned by the Azure Device Registry Service.
