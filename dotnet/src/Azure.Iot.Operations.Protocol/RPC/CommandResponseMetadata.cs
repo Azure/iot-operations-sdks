@@ -9,10 +9,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 {
     public class CommandResponseMetadata
     {
-        // These two user properties are used to communicate application level errors in an RPC response message. Code is mandatory, but data is optional.
-        public const string ApplicationErrorCodeUserDataKey = "AppErrCode";
-        public const string ApplicationErrorPayloadUserDataKey = "AppErrPayload";
-
         /// <summary>
         /// The correlation data used to connect a command response to a command request.
         /// This property has no meaning to a user-code execution function on the CommandExecutor; the CorrelationData is set to null on construction.
@@ -108,62 +104,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             foreach (KeyValuePair<string, string> kvp in UserData)
             {
                 message.AddUserProperty(kvp.Key, kvp.Value);
-            }
-        }
-
-        public bool TryGetApplicationError(out string? errorCode)
-        {
-            if (UserData == null || !UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? code) || code == null)
-            {
-                errorCode = null;
-                return false;
-            }
-
-            errorCode = code;
-            return true;
-        }
-
-        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer? serializer, out string? errorCode, out TError? errorPayload) where TError : class
-        {
-            if (!TryGetApplicationError(out errorCode))
-            {
-                errorPayload = null;
-                return false;
-            }
-
-            //TODO do we report if a payload was found, but no serializer was provided?
-            errorPayload = UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null && serializer != null
-                ? serializer.FromString<TError>(errorPayloadString)
-                : null;
-
-            return true;
-        }
-
-        public bool IsApplicationError()
-        {
-            return UserData != null && UserData.ContainsKey(ApplicationErrorCodeUserDataKey);
-        }
-
-        public void SetApplicationError<TError>(string applicationErrorCode, TError? errorData, IErrorHeaderPayloadSerializer? serializer) where TError : class
-        {
-            UserData ??= new();
-            UserData[ApplicationErrorCodeUserDataKey] = applicationErrorCode;
-
-            if (errorData != null && serializer == null)
-            {
-                throw new ArgumentNullException(nameof(serializer), "Must provide a serializer if non-null errorData is provided");
-            }
-
-            if (errorData != null && serializer != null)
-            {
-                try
-                {
-                    UserData[ApplicationErrorPayloadUserDataKey] = serializer.ToString<TError>(errorData);
-                }
-                catch (Exception)
-                {
-                    //TODO log or throw?
-                }
             }
         }
     }

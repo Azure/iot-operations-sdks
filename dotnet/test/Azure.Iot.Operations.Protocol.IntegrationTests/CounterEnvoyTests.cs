@@ -143,7 +143,7 @@ public class CounterEnvoyTests
         var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
         Assert.NotNull(resp.ResponseMetadata);
-        Assert.True(resp.ResponseMetadata.TryGetApplicationError(new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()), out string? errorCode, out CounterServiceApplicationError? errorPayload));
+        Assert.True(resp.TryGetApplicationError(new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()), out string? errorCode, out CounterServiceApplicationError? errorPayload));
         Assert.NotNull(errorCode);
         Assert.Equal(CounterService.NegativeValueArgumentErrorCode, errorCode);
         Assert.NotNull(errorPayload);
