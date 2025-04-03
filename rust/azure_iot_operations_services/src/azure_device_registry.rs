@@ -3,15 +3,15 @@
 
 //! Types for Azure Device Registry operations.
 use adr_name_gen::adr_base_service::client::{
-    AssetEndpointProfileStatus, AssetStatus, CreateDetectedAssetRequestPayload,
-    DatasetsSchemaSchemaElementSchema, DetectedAsset, DetectedAssetDataPointSchemaElementSchema,
-    DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
-    Error as AzureDeviceRegistryServiceError, EventsSchemaSchemaElementSchema,
-    MessageSchemaReference, Topic, UpdateAssetEndpointProfileStatusRequestPayload,
-    UpdateAssetStatusRequestPayload, UpdateAssetStatusRequestSchema,
+    AssetEndpointProfileStatus as GenAssetEndpointProfileStatus, AssetStatus as GenAssetStatus,
+    DatasetsSchemaSchemaElementSchema, DetectedAsset as GenDetectedAsset,
+    DetectedAssetDataPointSchemaElementSchema, DetectedAssetDatasetSchemaElementSchema,
+    DetectedAssetEventSchemaElementSchema, Error as GenError, EventsSchemaSchemaElementSchema,
+    MessageSchemaReference as GenMessageSchemaReference, Topic as GenTopic,
+    UpdateAssetEndpointProfileStatusRequestPayload,
 };
 use adr_type_gen::aep_type_service::client::{
-    CreateDiscoveredAssetEndpointProfileRequestPayload, DiscoveredAssetEndpointProfile,
+    DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
     SupportedAuthenticationMethodsSchemaElementSchema,
 };
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
@@ -55,6 +55,9 @@ pub enum ErrorKind {
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(ServiceError),
+    /// A aep or an asset may only have one observation at a time.
+    #[error("Aep or asset may only be observed once at a time")]
+    DuplicateObserve,
 }
 
 /// An error returned by the Azure Device Registry Service.
@@ -71,13 +74,13 @@ pub struct ServiceError {
 
 #[derive(Clone, Debug, Default)]
 /// Represents a request to update the status of an asset endpoint profile in the ADR Service.
-pub struct UpdateAssetEndpointProfileStatusReq {
+pub struct AssetEndpointProfileStatus {
     /// A collection of errors associated with the asset endpiint profile status request.
     pub errors: Option<Vec<AkriError>>,
 }
 
-impl From<UpdateAssetEndpointProfileStatusReq> for UpdateAssetEndpointProfileStatusRequestPayload {
-    fn from(source: UpdateAssetEndpointProfileStatusReq) -> Self {
+impl From<AssetEndpointProfileStatus> for UpdateAssetEndpointProfileStatusRequestPayload {
+    fn from(source: AssetEndpointProfileStatus) -> Self {
         let errors = source
             .errors
             .unwrap_or_default()
@@ -86,50 +89,28 @@ impl From<UpdateAssetEndpointProfileStatusReq> for UpdateAssetEndpointProfileSta
             .collect();
 
         UpdateAssetEndpointProfileStatusRequestPayload {
-            asset_endpoint_profile_status_update: AssetEndpointProfileStatus {
+            asset_endpoint_profile_status_update: GenAssetEndpointProfileStatus {
                 errors: Some(errors),
             },
         }
     }
 }
 
-/// Request to update the status of an asset in the ADR Service.
-#[derive(Clone, Debug, Default)]
-pub struct UpdateAssetStatusReq {
-    /// The name of the asset whose status is being updated.
-    pub name: String,
-    /// The status of the asset to be updated.
-    pub status: AssetStatusReq,
-}
-
-impl From<UpdateAssetStatusReq> for UpdateAssetStatusRequestPayload {
-    fn from(source: UpdateAssetStatusReq) -> Self {
-        let asset_status_update = UpdateAssetStatusRequestSchema {
-            asset_name: source.name,
-            asset_status: source.status.into(),
-        };
-
-        UpdateAssetStatusRequestPayload {
-            asset_status_update,
-        }
-    }
-}
-
 #[derive(Clone, Debug, Default)]
 /// Represents a request to update the status of an asset, including associated schemas and errors.
-pub struct AssetStatusReq {
+pub struct AssetStatus {
     /// A collection of schema references for datasets associated with the asset.
-    pub datasets_schema: Option<Vec<SchemaReferenceReq>>,
+    pub datasets_schema: Option<Vec<SchemaReference>>,
     /// A collection of schema references for events associated with the asset.
-    pub events_schema: Option<Vec<SchemaReferenceReq>>,
+    pub events_schema: Option<Vec<SchemaReference>>,
     /// A collection of errors associated with the asset status request.
     pub errors: Option<Vec<AkriError>>,
     /// The version of the asset status request.
     pub version: Option<i32>,
 }
 
-impl From<AssetStatusReq> for AssetStatus {
-    fn from(source: AssetStatusReq) -> Self {
+impl From<AssetStatus> for GenAssetStatus {
+    fn from(source: AssetStatus) -> Self {
         let datasets_schema = source
             .datasets_schema
             .unwrap_or_default()
@@ -138,7 +119,7 @@ impl From<AssetStatusReq> for AssetStatus {
                 name: schema_ref.name,
                 message_schema_reference: schema_ref
                     .message_schema_reference
-                    .map(MessageSchemaReferenceReq::into),
+                    .map(MessageSchemaReference::into),
             })
             .collect();
         let events_schema = source
@@ -149,7 +130,7 @@ impl From<AssetStatusReq> for AssetStatus {
                 name: schema_ref.name,
                 message_schema_reference: schema_ref
                     .message_schema_reference
-                    .map(MessageSchemaReferenceReq::into),
+                    .map(MessageSchemaReference::into),
             })
             .collect();
         let errors = source
@@ -159,7 +140,7 @@ impl From<AssetStatusReq> for AssetStatus {
             .map(AkriError::into)
             .collect();
 
-        AssetStatus {
+        GenAssetStatus {
             datasets_schema: Some(datasets_schema),
             events_schema: Some(events_schema),
             errors: Some(errors),
@@ -170,16 +151,16 @@ impl From<AssetStatusReq> for AssetStatus {
 
 #[derive(Clone, Debug)]
 /// Represents a reference to the dataset or event schema.
-pub struct SchemaReferenceReq {
+pub struct SchemaReference {
     /// The name of the dataset or the event.
     pub name: String,
     /// The 'messageSchemaReference' Field.
-    pub message_schema_reference: Option<MessageSchemaReferenceReq>,
+    pub message_schema_reference: Option<MessageSchemaReference>,
 }
 
 #[derive(Clone, Debug)]
 /// Represents a reference to a schema, including its name, version, and namespace.
-pub struct MessageSchemaReferenceReq {
+pub struct MessageSchemaReference {
     /// The name of the message schema.
     pub message_schema_name: String,
     /// The version of the message schema.
@@ -188,9 +169,9 @@ pub struct MessageSchemaReferenceReq {
     pub message_schema_namespace: String,
 }
 
-impl From<MessageSchemaReferenceReq> for MessageSchemaReference {
-    fn from(value: MessageSchemaReferenceReq) -> Self {
-        MessageSchemaReference {
+impl From<MessageSchemaReference> for GenMessageSchemaReference {
+    fn from(value: MessageSchemaReference) -> Self {
+        GenMessageSchemaReference {
             schema_name: value.message_schema_name,
             schema_namespace: value.message_schema_namespace,
             schema_version: value.message_schema_version,
@@ -202,22 +183,22 @@ impl From<MessageSchemaReferenceReq> for MessageSchemaReference {
 /// Represents an error in the ADR service, including a code and a message.
 pub struct AkriError {
     /// The error code.
-    pub code: i32,
+    pub code: Option<i32>,
     /// The error message.
-    pub message: String,
+    pub message: Option<String>,
 }
 
-impl From<AkriError> for AzureDeviceRegistryServiceError {
+impl From<AkriError> for GenError {
     fn from(value: AkriError) -> Self {
-        AzureDeviceRegistryServiceError {
-            code: Some(value.code),
-            message: Some(value.message),
+        GenError {
+            code: value.code,
+            message: value.message,
         }
     }
 }
 
 /// Represents a request to create a detected asset in the ADR service.
-pub struct CreateDetectedAssetReq {
+pub struct DetectedAsset {
     /// A reference to the asset endpoint profile.
     pub asset_endpoint_profile_ref: String,
 
@@ -225,7 +206,7 @@ pub struct CreateDetectedAssetReq {
     pub asset_name: Option<String>,
 
     /// Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.
-    pub datasets: Option<Vec<DetectedAssetDataSetSchemaReq>>,
+    pub datasets: Option<Vec<DetectedAssetDataSetSchema>>,
 
     /// The 'defaultDatasetsConfiguration' Field.
     pub default_datasets_configuration: Option<String>,
@@ -234,13 +215,13 @@ pub struct CreateDetectedAssetReq {
     pub default_events_configuration: Option<String>,
 
     /// The 'defaultTopic' Field.
-    pub default_topic: Option<TopicReq>,
+    pub default_topic: Option<Topic>,
 
     /// URI to the documentation of the asset.
     pub documentation_uri: Option<String>,
 
     /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
-    pub events: Option<Vec<DetectedAssetEventSchemaReq>>,
+    pub events: Option<Vec<DetectedAssetEventSchema>>,
 
     /// The 'hardwareRevision' Field.
     pub hardware_revision: Option<String>,
@@ -263,42 +244,40 @@ pub struct CreateDetectedAssetReq {
     /// Revision number of the software.
     pub software_revision: Option<String>,
 }
-
-impl From<CreateDetectedAssetReq> for CreateDetectedAssetRequestPayload {
-    fn from(source: CreateDetectedAssetReq) -> Self {
-        CreateDetectedAssetRequestPayload {
-            detected_asset: DetectedAsset {
-                asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
-                asset_name: source.asset_name,
-                datasets: source.datasets.map(|datasets| {
-                    datasets
-                        .into_iter()
-                        .map(DetectedAssetDataSetSchemaReq::into)
-                        .collect()
-                }),
-                default_datasets_configuration: source.default_datasets_configuration,
-                default_events_configuration: source.default_events_configuration,
-                default_topic: source.default_topic.map(TopicReq::into),
-                documentation_uri: source.documentation_uri,
-                events: source.events.map(|events| {
-                    events
-                        .into_iter()
-                        .map(DetectedAssetEventSchemaReq::into)
-                        .collect()
-                }),
-                hardware_revision: source.hardware_revision,
-                manufacturer: source.manufacturer,
-                manufacturer_uri: source.manufacturer_uri,
-                model: source.model,
-                product_code: source.product_code,
-                serial_number: source.serial_number,
-                software_revision: source.software_revision,
-            },
+impl From<DetectedAsset> for GenDetectedAsset {
+    fn from(source: DetectedAsset) -> Self {
+        GenDetectedAsset {
+            asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
+            asset_name: source.asset_name,
+            datasets: source.datasets.map(|datasets| {
+                datasets
+                    .into_iter()
+                    .map(DetectedAssetDataSetSchema::into)
+                    .collect()
+            }),
+            default_datasets_configuration: source.default_datasets_configuration,
+            default_events_configuration: source.default_events_configuration,
+            default_topic: source.default_topic.map(Topic::into),
+            documentation_uri: source.documentation_uri,
+            events: source.events.map(|events| {
+                events
+                    .into_iter()
+                    .map(DetectedAssetEventSchema::into)
+                    .collect()
+            }),
+            hardware_revision: source.hardware_revision,
+            manufacturer: source.manufacturer,
+            manufacturer_uri: source.manufacturer_uri,
+            model: source.model,
+            product_code: source.product_code,
+            serial_number: source.serial_number,
+            software_revision: source.software_revision,
         }
     }
 }
+
 /// Represents a event schema for a detected asset.
-pub struct DetectedAssetEventSchemaReq {
+pub struct DetectedAssetEventSchema {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,
 
@@ -312,25 +291,25 @@ pub struct DetectedAssetEventSchemaReq {
     pub name: String,
 
     /// The 'topic' Field.
-    pub topic: Option<TopicReq>,
+    pub topic: Option<Topic>,
 }
 
-impl From<DetectedAssetEventSchemaReq> for DetectedAssetEventSchemaElementSchema {
-    fn from(value: DetectedAssetEventSchemaReq) -> Self {
+impl From<DetectedAssetEventSchema> for DetectedAssetEventSchemaElementSchema {
+    fn from(value: DetectedAssetEventSchema) -> Self {
         DetectedAssetEventSchemaElementSchema {
             event_configuration: value.event_configuration,
             event_notifier: value.event_notifier,
             last_updated_on: value.last_updated_on,
             name: value.name,
-            topic: value.topic.map(TopicReq::into),
+            topic: value.topic.map(Topic::into),
         }
     }
 }
 
 /// Represents a data set schema for a detected asset.
-pub struct DetectedAssetDataSetSchemaReq {
+pub struct DetectedAssetDataSetSchema {
     /// The 'dataPoints' Field.
-    pub data_points: Option<Vec<DetectedAssetDataPointSchemaReq>>,
+    pub data_points: Option<Vec<DetectedAssetDataPointSchema>>,
 
     /// The 'dataSetConfiguration' Field.
     pub data_set_configuration: Option<String>,
@@ -339,27 +318,27 @@ pub struct DetectedAssetDataSetSchemaReq {
     pub name: String,
 
     /// The 'topic' Field.
-    pub topic: Option<TopicReq>,
+    pub topic: Option<Topic>,
 }
 
-impl From<DetectedAssetDataSetSchemaReq> for DetectedAssetDatasetSchemaElementSchema {
-    fn from(source: DetectedAssetDataSetSchemaReq) -> Self {
+impl From<DetectedAssetDataSetSchema> for DetectedAssetDatasetSchemaElementSchema {
+    fn from(source: DetectedAssetDataSetSchema) -> Self {
         DetectedAssetDatasetSchemaElementSchema {
             data_points: source.data_points.map(|points| {
                 points
                     .into_iter()
-                    .map(DetectedAssetDataPointSchemaReq::into)
+                    .map(DetectedAssetDataPointSchema::into)
                     .collect()
             }),
             data_set_configuration: source.data_set_configuration,
             name: source.name,
-            topic: source.topic.map(TopicReq::into),
+            topic: source.topic.map(Topic::into),
         }
     }
 }
 
 /// Represents a data point schema for a detected asset.
-pub struct DetectedAssetDataPointSchemaReq {
+pub struct DetectedAssetDataPointSchema {
     /// The 'dataPointConfiguration' Field.
     pub data_point_configuration: Option<String>,
 
@@ -373,8 +352,8 @@ pub struct DetectedAssetDataPointSchemaReq {
     pub name: Option<String>,
 }
 
-impl From<DetectedAssetDataPointSchemaReq> for DetectedAssetDataPointSchemaElementSchema {
-    fn from(source: DetectedAssetDataPointSchemaReq) -> Self {
+impl From<DetectedAssetDataPointSchema> for DetectedAssetDataPointSchemaElementSchema {
+    fn from(source: DetectedAssetDataPointSchema) -> Self {
         DetectedAssetDataPointSchemaElementSchema {
             data_point_configuration: source.data_point_configuration,
             data_source: source.data_source,
@@ -384,7 +363,7 @@ impl From<DetectedAssetDataPointSchemaReq> for DetectedAssetDataPointSchemaEleme
     }
 }
 /// Represents a topic
-pub struct TopicReq {
+pub struct Topic {
     /// The 'path' Field.
     pub path: String,
 
@@ -401,9 +380,9 @@ pub enum RetainPolicy {
     Never,
 }
 
-impl From<TopicReq> for Topic {
-    fn from(source: TopicReq) -> Self {
-        Topic {
+impl From<Topic> for GenTopic {
+    fn from(source: Topic) -> Self {
+        GenTopic {
             path: source.path,
             retain: match source.retain {
                 Some(RetainPolicy::Keep) => {
@@ -419,7 +398,7 @@ impl From<TopicReq> for Topic {
 }
 
 /// Represents a request to create a discovered asset endpoint profile in the Azure Device Registry service.
-pub struct CreateDiscoveredAssetEndpointProfileReq {
+pub struct DiscoveredAssetEndpointProfile {
     /// A unique identifier for a discovered asset.
     pub additional_configuration: Option<String>,
 
@@ -446,10 +425,8 @@ pub enum AuthenticationMethodsSchema {
     UsernamePassword,
 }
 
-impl From<CreateDiscoveredAssetEndpointProfileReq>
-    for CreateDiscoveredAssetEndpointProfileRequestPayload
-{
-    fn from(source: CreateDiscoveredAssetEndpointProfileReq) -> Self {
+impl From<DiscoveredAssetEndpointProfile> for GenDiscoveredAssetEndpointProfile {
+    fn from(source: DiscoveredAssetEndpointProfile) -> Self {
         let supported_authentication_methods = source
             .supported_authentication_methods
             .unwrap_or_default()
@@ -466,15 +443,12 @@ impl From<CreateDiscoveredAssetEndpointProfileReq>
                 }
             })
             .collect();
-
-        CreateDiscoveredAssetEndpointProfileRequestPayload {
-            discovered_asset_endpoint_profile: DiscoveredAssetEndpointProfile {
-                additional_configuration: source.additional_configuration,
-                daep_name: source.daep_name,
-                endpoint_profile_type: source.endpoint_profile_type,
-                supported_authentication_methods: Some(supported_authentication_methods),
-                target_address: source.target_address,
-            },
+        GenDiscoveredAssetEndpointProfile {
+            additional_configuration: source.additional_configuration,
+            daep_name: source.daep_name,
+            endpoint_profile_type: source.endpoint_profile_type,
+            supported_authentication_methods: Some(supported_authentication_methods),
+            target_address: source.target_address,
         }
     }
 }
