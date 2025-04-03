@@ -63,6 +63,8 @@ where
         Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
     aep_update_event_telemetry_dispatcher:
         Arc<Dispatcher<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>>,
+    asset_update_event_telemetry_dispatcher:
+        Arc<Dispatcher<(AssetUpdateEventTelemetry, Option<AckToken>)>>,
 }
 
 impl<C> Client<C>
@@ -193,6 +195,7 @@ where
                 ),
             ),
             aep_update_event_telemetry_dispatcher,
+            asset_update_event_telemetry_dispatcher,
         }
     }
 
@@ -302,7 +305,7 @@ where
         &self,
         aep_name: String,
         notification_type: bool,
-        timeout: Duration, // TODO rx retrun as well
+        timeout: Duration,
     ) -> Result<
         UnboundedReceiver<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>,
         Error,
@@ -337,49 +340,6 @@ where
             .invoke(command_request)
             .await;
 
-        // match result {
-        //     Ok(_) => rx,
-        //     Ok(response) => {
-        //         if response.payload.notification_response.is_accepted() {
-        //             rx
-        //         } else {
-        //             None
-        //         }
-        //     }
-        //     Err(e) => {
-        //         // if the observe request wasn't successful, remove it from our dispatcher
-        //         if self
-        //             .aep_update_event_telemetry_dispatcher
-        //             .unregister_receiver(&aep_name)
-        //         {
-        //             log::debug!("Aep removed from observed list: {aep_name:?}");
-        //         } else {
-        //             log::debug!("Aep not in observed list: {aep_name:?}");
-        //         }
-        //         Err(Error(ErrorKind::AIOProtocolError(e)))
-        //     }
-        // }
-        // match result {
-        //     Ok(response) => {
-        //         if let NotificationResponse::Accepted = response.payload.notification_response {
-        //             rx
-        //         } else {
-        //             None
-        //         }
-        //     }
-        //     Err(e) => {
-        //         // if the observe request wasn't successful, remove it from our dispatcher
-        //         if self
-        //             .aep_update_event_telemetry_dispatcher
-        //             .unregister_receiver(&aep_name)
-        //         {
-        //             log::debug!("Aep removed from observed list: {aep_name:?}");
-        //         } else {
-        //             log::debug!("Aep not in observed list: {aep_name:?}");
-        //         }
-        //         Err(Error(ErrorKind::AIOProtocolError(e)))
-        //     }
-        // }
         match result {
             Ok(response) => {
                 if let NotificationResponse::Accepted = response.payload.notification_response {
@@ -576,10 +536,17 @@ where
         asset_name: String,
         notification_type: bool,
         timeout: Duration,
-    ) -> Result<NotificationResponse, Error> {
+    ) -> Result<UnboundedReceiver<(AssetUpdateEventTelemetry, Option<AckToken>)>, Error>
+//Result<NotificationResponse, Error>
+    {
+        let rx = self
+            .asset_update_event_telemetry_dispatcher
+            .register_receiver(asset_name.clone())
+            .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
+
         let notification_payload = NotifyOnAssetUpdateRequestPayload {
             notification_request: NotifyOnAssetUpdateRequestSchema {
-                asset_name,
+                asset_name: asset_name.clone(),
                 notification_message_type: if notification_type {
                     NotificationMessageType::On
                 } else {
@@ -601,8 +568,28 @@ where
             .await;
 
         match result {
-            Ok(response) => Ok(response.payload.notification_response),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
+            Ok(response) => {
+                if let NotificationResponse::Accepted = response.payload.notification_response {
+                    Ok(rx)
+                } else {
+                    // TODO Check error kind - another kind needs to be incldued ?
+                    Err(Error(ErrorKind::InvalidArgument(
+                        ("Notification Response Failed").to_string(),
+                    )))
+                }
+            }
+            Err(e) => {
+                // If the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .asset_update_event_telemetry_dispatcher
+                    .unregister_receiver(&asset_name)
+                {
+                    log::debug!("Asset removed from observed list: {asset_name:?}");
+                } else {
+                    log::debug!("Asset not in observed list: {asset_name:?}");
+                }
+                Err(Error(ErrorKind::AIOProtocolError(e)))
+            }
         }
     }
 

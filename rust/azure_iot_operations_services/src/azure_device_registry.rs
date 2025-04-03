@@ -6,9 +6,10 @@ use crate::common::dispatcher::Receiver;
 use adr_name_gen::adr_base_service::client::{
     AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
     AssetEndpointProfileUpdateEventTelemetry, AssetStatus as GenAssetStatus,
-    DatasetsSchemaSchemaElementSchema, DetectedAsset as GenDetectedAsset,
-    DetectedAssetDataPointSchemaElementSchema, DetectedAssetDatasetSchemaElementSchema,
-    DetectedAssetEventSchemaElementSchema, Error as GenError, EventsSchemaSchemaElementSchema,
+    AssetUpdateEventTelemetry, DatasetsSchemaSchemaElementSchema,
+    DetectedAsset as GenDetectedAsset, DetectedAssetDataPointSchemaElementSchema,
+    DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
+    Error as GenError, EventsSchemaSchemaElementSchema,
     MessageSchemaReference as GenMessageSchemaReference, Topic as GenTopic,
     UpdateAssetEndpointProfileStatusRequestPayload,
 };
@@ -476,6 +477,32 @@ impl AssetEndpointProfileObservation {
     pub async fn recv_notification(
         &mut self,
     ) -> Option<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)> {
+        self.receiver.recv().await
+    }
+    // on drop, don't remove from hashmap so we can differentiate between a aep
+    // that was observed where the receiver was dropped and a aep that was never observed
+}
+
+/// A struct to manage receiving notifications for a key
+#[derive(Debug)]
+pub struct AssetObservation {
+    /// The name of the asset (for convenience)
+    pub name: String,
+    /// The internal channel for receiving update telemetry for this asset
+    receiver: Receiver<(AssetUpdateEventTelemetry, Option<AckToken>)>,
+}
+
+impl AssetObservation {
+    /// Receives a [`AssetUpdateEventTelemetry`] or [`None`] if there will be no more notifications.
+    ///
+    /// If there are notifications:
+    /// - Returns Some([`AssetUpdateEventTelemetry`], [`Option<AckToken>`]) on success
+    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetEndpointProfileUpdateEventTelemetry`], _) to ignore the [`AckToken`].
+    ///
+    /// A received telemetry can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    pub async fn recv_notification(
+        &mut self,
+    ) -> Option<(AssetUpdateEventTelemetry, Option<AckToken>)> {
         self.receiver.recv().await
     }
     // on drop, don't remove from hashmap so we can differentiate between a aep
