@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly IMqttPubSubClient _mqttClient;
         private readonly string _commandName;
 
-        public IPayloadSerializer Serializer { get; }
+        private readonly IPayloadSerializer _serializer;
 
         private readonly ApplicationContext _applicationContext;
         private readonly ICommandResponseCache _commandResponseCache;
@@ -86,7 +86,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             _applicationContext = applicationContext;
             _mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
             _commandName = commandName;
-            Serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
+            _serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
 
             _isRunning = false;
             _hasSubscribed = false;
@@ -180,7 +180,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         ContentType = args.ApplicationMessage.ContentType,
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
                     };
-                    request = Serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
+                    request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
                     // Update application HLC against received timestamp
                     if (requestMetadata.Timestamp != null)
                     {
@@ -226,7 +226,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         ExtendedResponse<TResp> extended = await Task.Run(() => OnCommandReceived(extendedRequest, commandCts.Token)).WaitAsync(ExecutionTimeout).ConfigureAwait(false);
 
-                        var serializedPayloadContext = Serializer.ToBytes(extended.Response);
+                        var serializedPayloadContext = _serializer.ToBytes(extended.Response);
 
                         MqttApplicationMessage? responseMessage = await GenerateResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, !serializedPayloadContext.SerializedPayload.IsEmpty ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await _commandResponseCache.StoreAsync(

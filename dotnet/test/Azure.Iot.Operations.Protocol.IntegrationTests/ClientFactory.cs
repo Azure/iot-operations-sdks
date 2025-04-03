@@ -73,7 +73,6 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
 
             MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
-            mcs.TcpPort = 1884;
             if (string.IsNullOrEmpty(clientId))
             {
                 mcs.ClientId += Guid.NewGuid();

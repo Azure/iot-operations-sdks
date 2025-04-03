@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
