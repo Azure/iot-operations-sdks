@@ -280,7 +280,7 @@ where
         }
     }
 
-    /// Notifies the Azure Device Registry service that client is listening for asset updates.
+    /// Notifies the Azure Device Registry service that client is listening for asset endpoint profile updates.
     ///
     /// # Arguments
     /// * `aep_name` - The name of the asset endpoint profile.
@@ -301,7 +301,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn notify_asset_endpoint_profile_update(
+    pub async fn observe_asset_endpoint_profile_update(
         &self,
         aep_name: String,
         notification_type: bool,

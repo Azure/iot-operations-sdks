@@ -26,7 +26,7 @@ pub async fn update_asset_endprofile_status(
 ) -> Result<AssetEndpointProfile, Error>
 ```
 
-/// Notifies the Azure Device Registry service that client is listening for asset updates.
+/// Notifies the Azure Device Registry service that client is listening for asset endpoint profile updates.
 ```rust
 pub async fn observe_asset_endpoint_profile_update(
     &self,
