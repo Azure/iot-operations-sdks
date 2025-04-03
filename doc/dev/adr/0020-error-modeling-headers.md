@@ -4,7 +4,7 @@
 
 We have received feedback from users that they would like to have RPC responses communicate application level failures in the headers of the response rather than the payload of the response. 
 
-This feedback is, in part, because some applications want to route RPC responses without reading/deserializing the entire payload. It is also partly because [some applications cannot extend or change the payload model to acommodate error handling.](https://github.com/Azure/iot-operations-sdks/issues/488#issuecomment-2707496996).
+This feedback is, in part, because some applications want to route RPC responses without reading/deserializing the entire payload. It is also partly because [some applications cannot extend or change the payload model to accommodate error handling.](https://github.com/Azure/iot-operations-sdks/issues/488#issuecomment-2707496996).
 
 ## Decision
 
@@ -24,7 +24,62 @@ By convention, the value of the AppErrPayload object should be a UTF-8 encoded J
 
 ## Code Example
 
+### Command executor side
 
+```csharp
+public ExtendedResponse<IncrementResponsePayload> Increment(IncrementRequestPayload request)
+{
+    if (request.IncrementValue < 0)
+    {
+        var response = new ExtendedResponse<IncrementResponsePayload>()
+        {
+            Response = new IncrementResponsePayload { CounterResponse = _counter },
+        };
+
+        // Specify error code, but no error payload  
+        response.WithApplicationError("negativeValue");
+
+        // Or you can specify error code and error payload
+        response.WithApplicationError(
+            "negativeValue",
+            new CustomErrorPayload() { ArgumentValue = request.IncrementValue },
+            new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));
+
+        return response;
+    }
+
+    // happy path omitted
+}
+```
+
+### Command invoker side
+
+```csharp
+public void main()
+{
+    await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+    await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+    IncrementRequestPayload payload = new IncrementRequestPayload
+    {
+        IncrementValue = -1
+    };
+
+    var response = await counterClient.Increment(executorId, payload).WithMetadata();
+    
+    // Check the RPC response for an application error
+    if (response.TryGetApplicationError(SomeJsonSerializer, out string? errorCode, out CustomErrorPayload? errorPayload))
+    {
+        // use the error code and strongly typed custom error payload type as wanted.
+    }
+
+    // Alternatively just fetch the error code if you don't want to deserialize the payload yet.
+    if (response.TryGetApplicationError(out string? errorCode))
+    {
+        // ...
+    }
+}
+```
 
 ### Enforcement
 
