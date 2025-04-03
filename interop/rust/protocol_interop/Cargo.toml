@@ -1,0 +1,13 @@
+[package]
+name = "protocol_interop"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name="protocol_interop"
+crate-type=["cdylib"]
+
+[dependencies]
+azure_iot_operations_protocol = { path = "../../../rust/azure_iot_operations_protocol"  }
+azure_iot_operations_mqtt = { path = "../../../rust/azure_iot_operations_mqtt"  }
+tokio = { version = "1.41", features = ["rt", "rt-multi-thread", "time", "sync"] }

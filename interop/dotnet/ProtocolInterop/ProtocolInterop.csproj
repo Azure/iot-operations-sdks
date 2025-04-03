@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <Target Name="Rust Build " BeforeTargets="Compile">
+    <Exec Command="echo 'Configuration: $(Configuration)'"/>
+    <Exec Condition="'$(Configuration)' == 'Release'" Command="cargo b --release" WorkingDirectory="../../rust/protocol_interop"/>
+    <Exec Condition="'$(Configuration)' != 'Release'" Command="cargo b" WorkingDirectory="../../rust/protocol_interop"/>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.48.1-preview.0.38"/>
+    <Content Include="../../rust/protocol_interop/target/$(Configuration)/protocol_interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
