@@ -13,7 +13,6 @@ use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
-use tokio::sync::mpsc::UnboundedReceiver;
 use tokio::{sync::Notify, task};
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
@@ -38,8 +37,8 @@ use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
 };
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
-    AssetEndpointProfileStatus, AssetStatus, DetectedAsset, DiscoveredAssetEndpointProfile, Error,
-    ErrorKind,
+    AssetEndpointProfileObservation, AssetEndpointProfileStatus, AssetObservation, AssetStatus,
+    DetectedAsset, DiscoveredAssetEndpointProfile, Error, ErrorKind,
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
@@ -284,10 +283,11 @@ where
     /// Notifies the Azure Device Registry service that client is listening for asset updates.
     ///
     /// # Arguments
+    /// * `aep_name` - The name of the asset endpoint profile.
     /// * `notification_type` - The type of notification to send, true for "On" and false for "Off".
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`NotificationResponse`].
+    /// Returns the [`AssetEndpointProfileObservation`] if observation was done succesfully or [`Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
@@ -306,11 +306,7 @@ where
         aep_name: String,
         notification_type: bool,
         timeout: Duration,
-    ) -> Result<
-        UnboundedReceiver<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>,
-        Error,
-    > //Result<AssetEndpointProfileObservation, Error>
-    {
+    ) -> Result<AssetEndpointProfileObservation, Error> {
         let rx = self
             .aep_update_event_telemetry_dispatcher
             .register_receiver(aep_name.clone())
@@ -343,7 +339,10 @@ where
         match result {
             Ok(response) => {
                 if let NotificationResponse::Accepted = response.payload.notification_response {
-                    Ok(rx)
+                    Ok(AssetEndpointProfileObservation {
+                        name: aep_name.clone(),
+                        receiver: rx,
+                    })
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
                     Err(Error(ErrorKind::InvalidArgument(
@@ -536,9 +535,7 @@ where
         asset_name: String,
         notification_type: bool,
         timeout: Duration,
-    ) -> Result<UnboundedReceiver<(AssetUpdateEventTelemetry, Option<AckToken>)>, Error>
-//Result<NotificationResponse, Error>
-    {
+    ) -> Result<AssetObservation, Error> {
         let rx = self
             .asset_update_event_telemetry_dispatcher
             .register_receiver(asset_name.clone())
@@ -570,7 +567,10 @@ where
         match result {
             Ok(response) => {
                 if let NotificationResponse::Accepted = response.payload.notification_response {
-                    Ok(rx)
+                    Ok(AssetObservation {
+                        name: asset_name.clone(),
+                        receiver: rx,
+                    })
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
                     Err(Error(ErrorKind::InvalidArgument(
