@@ -13,6 +13,7 @@ use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
+use tokio::sync::mpsc::UnboundedReceiver;
 use tokio::{sync::Notify, task};
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
@@ -60,8 +61,8 @@ where
     create_detected_asset_command_invoker: Arc<CreateDetectedAssetCommandInvoker<C>>,
     create_asset_endpoint_profile_command_invoker:
         Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
-    // aep_update_event_telemetry_dispatcher:
-    //     Arc<Dispatcher<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>>,
+    aep_update_event_telemetry_dispatcher:
+        Arc<Dispatcher<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>>,
 }
 
 impl<C> Client<C>
@@ -191,6 +192,7 @@ where
                         .expect("Statically generated options should not fail."),
                 ),
             ),
+            aep_update_event_telemetry_dispatcher,
         }
     }
 
@@ -298,10 +300,19 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn notify_asset_endpoint_profile_update(
         &self,
-        //aep_name: String,
+        aep_name: String,
         notification_type: bool,
-        timeout: Duration,
-    ) -> Result<NotificationResponse, Error> {
+        timeout: Duration, // TODO rx retrun as well
+    ) -> Result<
+        UnboundedReceiver<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>,
+        Error,
+    > //Result<AssetEndpointProfileObservation, Error>
+    {
+        let rx = self
+            .aep_update_event_telemetry_dispatcher
+            .register_receiver(aep_name.clone())
+            .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
+
         let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
             notification_request: if notification_type {
                 NotificationMessageType::On
@@ -311,20 +322,87 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([(
+                "ex:aepName".to_string(),
+                aep_name.clone(),
+            )]))
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self
+        let result: Result<rpc_command::invoker::Response<super::adr_name_gen::adr_base_service::client::NotifyOnAssetEndpointProfileUpdateResponsePayload>, azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError> = self
             .notify_on_asset_endpoint_profile_update_command_invoker
             .invoke(command_request)
             .await;
 
+        // match result {
+        //     Ok(_) => rx,
+        //     Ok(response) => {
+        //         if response.payload.notification_response.is_accepted() {
+        //             rx
+        //         } else {
+        //             None
+        //         }
+        //     }
+        //     Err(e) => {
+        //         // if the observe request wasn't successful, remove it from our dispatcher
+        //         if self
+        //             .aep_update_event_telemetry_dispatcher
+        //             .unregister_receiver(&aep_name)
+        //         {
+        //             log::debug!("Aep removed from observed list: {aep_name:?}");
+        //         } else {
+        //             log::debug!("Aep not in observed list: {aep_name:?}");
+        //         }
+        //         Err(Error(ErrorKind::AIOProtocolError(e)))
+        //     }
+        // }
+        // match result {
+        //     Ok(response) => {
+        //         if let NotificationResponse::Accepted = response.payload.notification_response {
+        //             rx
+        //         } else {
+        //             None
+        //         }
+        //     }
+        //     Err(e) => {
+        //         // if the observe request wasn't successful, remove it from our dispatcher
+        //         if self
+        //             .aep_update_event_telemetry_dispatcher
+        //             .unregister_receiver(&aep_name)
+        //         {
+        //             log::debug!("Aep removed from observed list: {aep_name:?}");
+        //         } else {
+        //             log::debug!("Aep not in observed list: {aep_name:?}");
+        //         }
+        //         Err(Error(ErrorKind::AIOProtocolError(e)))
+        //     }
+        // }
         match result {
-            Ok(response) => Ok(response.payload.notification_response),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
+            Ok(response) => {
+                if let NotificationResponse::Accepted = response.payload.notification_response {
+                    Ok(rx)
+                } else {
+                    // TODO Check error kind - another kind needs to be incldued ?
+                    Err(Error(ErrorKind::InvalidArgument(
+                        ("Notification Response Failed").to_string(),
+                    )))
+                }
+            }
+            Err(e) => {
+                // If the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .aep_update_event_telemetry_dispatcher
+                    .unregister_receiver(&aep_name)
+                {
+                    log::debug!("Aep removed from observed list: {aep_name:?}");
+                } else {
+                    log::debug!("Aep not in observed list: {aep_name:?}");
+                }
+                Err(Error(ErrorKind::AIOProtocolError(e)))
+            }
         }
     }
 
