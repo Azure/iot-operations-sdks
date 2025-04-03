@@ -10,7 +10,7 @@ public class CounterService : Counter.Service
 {
     private int _counter = 0;
 
-    public const string ArgumentError = "ArgumentError";
+    public const string NegativeValueArgumentErrorCode = "NegativeValue";
 
     public CounterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {
@@ -23,7 +23,14 @@ public class CounterService : Counter.Service
     {
         if (request.IncrementValue < 0)
         {
-            return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>(new IncrementResponsePayload { CounterResponse = _counter }, ArgumentError, "Negative value provided"));
+            var response =
+                ExtendedResponse<IncrementResponsePayload>.CreateExtendedResponseWithApplicationError(
+                    new IncrementResponsePayload { CounterResponse = _counter },
+                    NegativeValueArgumentErrorCode,
+                    new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue },
+                    new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));
+
+            return Task.FromResult(response);
         }
 
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");

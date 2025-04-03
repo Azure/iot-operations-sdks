@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys;
 
-namespace SampleServer
+namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {
     public class ErrorPayloadJsonSerializer : IErrorHeaderPayloadSerializer
     {
