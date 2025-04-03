@@ -1,15 +1,31 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public struct ExtendedResponse<TResp>
+    public class ExtendedResponse<TResp>
         where TResp : class
     {
-        public TResp Response { get; set; }
+        public TResp? Response { get; set; }
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 
+        /*
+        public string? ErrorCode
+        {
+            get { return ResponseMetadata?.UserData?[CommandResponseMetadata.ApplicationErrorCodeUserDataKey]; }
+            set
+            {
+                ArgumentNullException.ThrowIfNullOrWhiteSpace(value, nameof(ErrorCode));
+                ResponseMetadata ??= new();
+                ResponseMetadata.UserData ??= new();
+                ResponseMetadata.UserData[CommandResponseMetadata.ApplicationErrorCodeUserDataKey] = value;
+            }
+        }
+        */
 #pragma warning disable CA1000 // Do not declare static members on generic types
         public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
         {
@@ -19,15 +35,38 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 ResponseMetadata = null,
             };
         }
-#pragma warning restore CA1000 // Do not declare static members on generic types
 
-        public ExtendedResponse(TResp response, string errorCode, string? errorData)
+        public static ExtendedResponse<TResp> CreateExtendedResponseWithApplicationError(TResp response, string errorCode)
         {
-            Response = response;
-            ResponseMetadata = new();
-            ResponseMetadata.SetApplicationError(errorCode, errorData);
+            ExtendedResponse<TResp> extendedResponse = new()
+            {
+                Response = response,
+                ResponseMetadata = new()
+            };
+
+            object? payload = null;
+            extendedResponse.ResponseMetadata.SetApplicationError(errorCode, payload, null);
+
+            return extendedResponse;
         }
 
-        public IPayloadSerializer? MetadataPayloadSerializer { get; internal set; }
+        public static ExtendedResponse<TResp> CreateExtendedResponseWithApplicationError<TError>(TResp response, string errorCode, TError errorPayload, IErrorHeaderPayloadSerializer serializer) where TError : class
+        {
+            if (errorPayload != null && serializer == null)
+            {
+                throw new ArgumentNullException(nameof(serializer), "Must provide a serializer if error payload is non-null");
+            }
+
+            ExtendedResponse<TResp> extendedResponse = new()
+            {
+                Response = response,
+                ResponseMetadata = new()
+            };
+
+            extendedResponse.ResponseMetadata.SetApplicationError(errorCode, errorPayload, serializer);
+
+            return extendedResponse;
+        }
+#pragma warning restore CA1000 // Do not declare static members on generic types
     }
 }

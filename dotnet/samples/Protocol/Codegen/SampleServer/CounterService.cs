@@ -17,6 +17,19 @@ public class CounterService : Counter.Service
     public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
+
+        if (request.IncrementValue < 0)
+        {
+            var response =
+                ExtendedResponse<IncrementResponsePayload>.CreateExtendedResponseWithApplicationError(
+                    new IncrementResponsePayload { CounterResponse = _counter },
+                    "negativeValue",
+                    new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue },
+                    new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));
+
+            return Task.FromResult(response);
+        }
+
         Interlocked.Add(ref _counter, request.IncrementValue);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>

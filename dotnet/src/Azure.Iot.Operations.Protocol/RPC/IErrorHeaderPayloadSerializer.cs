@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public interface IHeaderPayloadSerializer
+    public interface IErrorHeaderPayloadSerializer
     {
         /// <summary>
         /// Serialize the provided object.

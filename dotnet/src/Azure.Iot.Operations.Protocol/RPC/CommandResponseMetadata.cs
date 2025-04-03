@@ -111,7 +111,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public bool TryGetApplicationError<T>(IHeaderPayloadSerializer serializer, out ApplicationError<T>? error) where T: class
+        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer serializer, out ApplicationError<TError>? error) where TError : class
         {
             if (UserData == null || !UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? errorCode))
             {
@@ -123,7 +123,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString))
             {
-                error.Payload = serializer.FromString<T>(errorPayloadString);
+                error.ErrorData = serializer.FromString<TError>(errorPayloadString);
             }
 
             return true;
@@ -134,16 +134,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return UserData != null && UserData.ContainsKey(ApplicationErrorCodeUserDataKey);
         }
 
-        public void SetApplicationError<T>(string applicationErrorCode, T errorData, IHeaderPayloadSerializer serializer) where T : class
+        public void SetApplicationError<TError>(string applicationErrorCode, TError? errorData, IErrorHeaderPayloadSerializer? serializer) where TError : class
         {
             UserData ??= new();
             UserData[ApplicationErrorCodeUserDataKey] = applicationErrorCode;
 
-            if (errorData != null)
+            if (errorData != null && serializer == null)
+            {
+                throw new ArgumentNullException(nameof(serializer), "Must provide a serializer if non-null errorData is provided");
+            }
+
+            if (errorData != null && serializer != null)
             {
                 try
                 {
-                    UserData[ApplicationErrorPayloadUserDataKey] = serializer.ToString<T>(errorData);
+                    UserData[ApplicationErrorPayloadUserDataKey] = serializer.ToString<TError>(errorData);
                 }
                 catch (Exception)
                 {
