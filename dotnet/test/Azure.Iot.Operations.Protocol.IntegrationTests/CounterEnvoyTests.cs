@@ -140,7 +140,7 @@ public class CounterEnvoyTests
             IncrementValue = expectedNegativeValue
         };
 
-        var resp = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        var resp = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
         Assert.NotNull(resp.ResponseMetadata);
         Assert.True(resp.TryGetApplicationError(new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()), out string? errorCode, out CounterServiceApplicationError? errorPayload));
