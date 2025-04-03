@@ -303,6 +303,9 @@ where
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if notification response failed.
+    /// s
+    /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
+    /// if duplicate aeps are being observed.
     pub async fn observe_asset_endpoint_profile_update(
         &self,
         aep_name: String,
@@ -389,7 +392,7 @@ where
         &self,
         aep_name: String,
         timeout: Duration,
-    ) -> Result<bool, Error> {
+    ) -> Result<(), Error> {
         let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
             notification_request: NotificationMessageType::Off,
         };
@@ -413,7 +416,7 @@ where
         match result {
             Ok(response) => {
                 if let NotificationResponse::Accepted = response.payload.notification_response {
-                    Ok(true)
+                    Ok(())
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
                     Err(Error(ErrorKind::ObservationError(
@@ -438,6 +441,7 @@ where
     /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
+    /// * `aep_name` - The name of the asset endpoint profile.
     /// * `asset_name` - The name of the asset.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -455,10 +459,19 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn get_asset(&self, asset_name: String, timeout: Duration) -> Result<Asset, Error> {
+    pub async fn get_asset(
+        &self,
+        aep_name: String,
+        asset_name: String,
+        timeout: Duration,
+    ) -> Result<Asset, Error> {
         let get_request_payload = GetAssetRequestPayload { asset_name };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([(
+                "ex:aepName".to_string(),
+                aep_name.clone(),
+            )]))
             .payload(get_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -574,6 +587,7 @@ where
     /// Notifies the Azure Device Registry service that client is listening for asset updates.
     ///
     /// # Arguments
+    /// * `aep_name` - The name of the asset endpoint profile.
     /// * `asset_name` - The name of the asset.
     /// * `notification_type` - The type of notification to send, true for "On" and false for "Off".
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
@@ -592,14 +606,24 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
+    /// if notification response failed.
+    ///
+    /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
+    /// if duplicate assets are being observed.
     pub async fn observe_asset_update(
         &self,
+        aep_name: String,
         asset_name: String,
         timeout: Duration,
     ) -> Result<AssetObservation, Error> {
+        // TODO Right now using aep_name + asset_name as the key for the dispatcher, consider using tuple
+        let receiver_id = aep_name.clone() + "~" + &asset_name;
+
         let rx = self
             .asset_update_event_telemetry_dispatcher
-            .register_receiver(asset_name.clone())
+            .register_receiver(receiver_id.clone())
             .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
 
         let notification_payload = NotifyOnAssetUpdateRequestPayload {
@@ -610,6 +634,7 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([("ex:aepName".to_string(), aep_name)]))
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -625,12 +650,12 @@ where
             Ok(response) => {
                 if let NotificationResponse::Accepted = response.payload.notification_response {
                     Ok(AssetObservation {
-                        name: asset_name.clone(),
+                        name: asset_name,
                         receiver: rx,
                     })
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
-                    Err(Error(ErrorKind::InvalidArgument(
+                    Err(Error(ErrorKind::ObservationError(
                         ("Notification Response Failed").to_string(),
                     )))
                 }
@@ -639,11 +664,13 @@ where
                 // If the observe request wasn't successful, remove it from our dispatcher
                 if self
                     .asset_update_event_telemetry_dispatcher
-                    .unregister_receiver(&asset_name)
+                    .unregister_receiver(&receiver_id)
                 {
-                    log::debug!("Asset removed from observed list: {asset_name:?}");
+                    log::debug!(
+                        "AEP and Asset combination removed from observed list: {receiver_id:?}"
+                    );
                 } else {
-                    log::debug!("Asset not in observed list: {asset_name:?}");
+                    log::debug!("AEP and Asset combination not in observed list: {receiver_id:?}");
                 }
                 Err(Error(ErrorKind::AIOProtocolError(e)))
             }
@@ -653,6 +680,7 @@ where
     /// Notifies the Azure Device Registry service that client is no longer listening for asset updates.
     ///
     /// # Arguments
+    /// * `aep_name` - The name of the asset endpoint profile.
     /// * `asset_name` - The name of the asset endpoint profile.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -675,9 +703,13 @@ where
     /// if notification response failed.
     pub async fn unobserve_asset_update(
         &self,
+        aep_name: String,
         asset_name: String,
         timeout: Duration,
-    ) -> Result<bool, Error> {
+    ) -> Result<(), Error> {
+        // TODO Right now using aep_name + asset_name as the key for the dispatcher, consider using tuple
+        let receiver_id = aep_name.clone() + "~" + &asset_name;
+
         let notification_payload = NotifyOnAssetUpdateRequestPayload {
             notification_request: NotifyOnAssetUpdateRequestSchema {
                 asset_name: asset_name.clone(),
@@ -686,6 +718,7 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([("ex:aepName".to_string(), aep_name)]))
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -700,7 +733,7 @@ where
         match result {
             Ok(response) => {
                 if let NotificationResponse::Accepted = response.payload.notification_response {
-                    Ok(true)
+                    Ok(())
                 } else {
                     Err(Error(ErrorKind::ObservationError(
                         ("Notification Response Failed").to_string(),
@@ -711,11 +744,11 @@ where
                 // If the unobserve request wasn't successful, remove it from our dispatcher
                 if self
                     .aep_update_event_telemetry_dispatcher
-                    .unregister_receiver(&asset_name)
+                    .unregister_receiver(&receiver_id)
                 {
-                    log::debug!("Asset removed from observed list: {asset_name:?}");
+                    log::debug!("Asset removed from observed list: {receiver_id:?}");
                 } else {
-                    log::debug!("Asset not in observed list: {asset_name:?}");
+                    log::debug!("Asset not in observed list: {receiver_id:?}");
                 }
                 Err(Error(ErrorKind::AIOProtocolError(e)))
             }
@@ -897,10 +930,16 @@ where
                     if let Some(m) = asset_msg {
                         match m {
                             Ok((asset_update_event_telemetry, ack_token)) => {
-                                let asset_name = asset_update_event_telemetry.payload.asset_update_event.asset_name.clone();
-                                match asset_update_event_telemetry_dispatcher.dispatch(&asset_name, (asset_update_event_telemetry.payload, ack_token)) {
+                                let Some(aep_name) = asset_update_event_telemetry.topic_tokens.get("ex:aepName") else {
+                                    log::error!("AssetEndpointProfileUpdateEventTelemetry missing ex:aepName topic token.");
+                                    continue;
+                                };
+                                // TODO Consider making the receiver id a tuple in the dispatcher
+                                let dispatch_receiver_id = aep_name.to_string() + "~" + &asset_update_event_telemetry.payload.asset_update_event.asset_name;
+
+                                match asset_update_event_telemetry_dispatcher.dispatch(&dispatch_receiver_id, (asset_update_event_telemetry.payload, ack_token)) {
                                     Ok(()) => {
-                                        log::debug!("AssetUpdateEventTelemetry dispatched for aep name: {asset_name:?}");
+                                        log::debug!("AssetUpdateEventTelemetry dispatched for aep and asset: {dispatch_receiver_id:?}");
                                     }
                                     Err(DispatchError::SendError(e)) => {
                                         log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {e:?}",);
