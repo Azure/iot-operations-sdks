@@ -3,9 +3,9 @@
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
-using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Protocol;
+using TestEnvoys.Counter;
 
 namespace CounterServer;
 
