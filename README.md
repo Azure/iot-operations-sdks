@@ -80,10 +80,10 @@ The following tables outline the current components, along with the associated l
 
 | Feature | Description | .NET | Go | Rust |
 |-|-|-|-|-|
-| **Session** client | Creates the underlying MQTT client, authenticates against MQTT Broker and maintains the connection. | :green_circle: | :green_circle: | :green_circle: |
+| **Session** client | Initialize the MQTT client and connect to MQTT broker. Handles all authentication and reconnection. | :green_circle: | :green_circle: | :green_circle: |
 | **Command** client | Command (invoker/executor) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
 | **Telemetry** client | Telemetry (sender/receiver) client build on top of MQTT5 | :green_circle: | :green_circle: | :green_circle: |
-| **Schema registry** client | Interact with the schema registry to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
+| **Schema registry** client | Interact with the [schema registry](https://learn.microsoft.com/azure/iot-operations/connect-to-cloud/concept-schema-registry) to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :green_circle: |
 | **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
@@ -91,7 +91,9 @@ The following tables outline the current components, along with the associated l
 
 ## Need support?
 
-Refer to [SUPPORT.md](./SUPPORT.md) for guidance on reporting bugs and getting assistance.
+Refer to [SUPPORT.md](SUPPORT.md) for guidance on reporting bugs, requesting features and getting assistance.
+
+For security related issues, please follow the guidance outlined in [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
