@@ -252,7 +252,7 @@ func (c *Client[K, V]) logKV(
 	if c.log.Enabled(ctx, slog.LevelDebug) {
 		all := []slog.Attr{
 			slog.String("key", string(key)),
-			slog.String("value", string(value)),
+			slog.String("value", string(value)), // Should we avoid logging values? Customers may put secrets in here
 		}
 		if len(attrs) > 0 {
 			all = append(all, attrs...)
