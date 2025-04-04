@@ -385,5 +385,12 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             _disposed = true;
         }
+
+        private void LogWithoutLineBreaks(string message)
+        {
+            // Escape the \r\n characters so they don't actually print new lines in the logger
+            Trace.TraceInformation(message.Replace("\r\n", "\\r\\n"));
+        }
+
     }
 }
