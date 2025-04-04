@@ -8,9 +8,10 @@ use adr_name_gen::adr_base_service::client::{
     AssetDatasetSchemaElementSchema, AssetEndpointProfile as GenAssetEndpointProfile,
     AssetEndpointProfileSpecificationSchema as GenAssetEndpointProfileSpecificationSchema,
     AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
-    AssetEndpointProfileUpdateEventTelemetry, AssetEventObservabilityModeSchema,
-    AssetEventSchemaElementSchema, AssetSpecificationSchema as GenAssetSpecificationSchema,
-    AssetStatus as GenAssetStatus, AssetUpdateEventTelemetry,
+    AssetEndpointProfileUpdateEventTelemetry as GenAssetEndpointProfileUpdateEventTelemetry,
+    AssetEventObservabilityModeSchema, AssetEventSchemaElementSchema,
+    AssetSpecificationSchema as GenAssetSpecificationSchema, AssetStatus as GenAssetStatus,
+    AssetUpdateEventTelemetry as GenAssetUpdateEventTelemetry,
     AuthenticationSchema as GenAuthenticationSchema, DatasetsSchemaSchemaElementSchema,
     DetectedAsset as GenDetectedAsset, DetectedAssetDataPointSchemaElementSchema,
     DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
@@ -509,6 +510,26 @@ impl AssetEndpointProfileObservation {
     // that was observed where the receiver was dropped and a aep that was never observed
 }
 
+/// Represents telemetry data for an update event of an asset endpoint profile.
+pub struct AssetEndpointProfileUpdateEventTelemetry {
+    /// The 'assetEndpointProfile' Field.
+    pub asset_endpoint_profile: AssetEndpointProfile,
+}
+
+impl From<GenAssetEndpointProfileUpdateEventTelemetry>
+    for AssetEndpointProfileUpdateEventTelemetry
+{
+    fn from(source: GenAssetEndpointProfileUpdateEventTelemetry) -> Self {
+        AssetEndpointProfileUpdateEventTelemetry {
+            asset_endpoint_profile: AssetEndpointProfile::from(
+                source
+                    .asset_endpoint_profile_update_event
+                    .asset_endpoint_profile,
+            ),
+        }
+    }
+}
+
 /// A struct to manage receiving notifications for a key
 #[derive(Debug)]
 pub struct AssetObservation {
@@ -533,6 +554,24 @@ impl AssetObservation {
     }
     // on drop, don't remove from hashmap so we can differentiate between a aep
     // that was observed where the receiver was dropped and a aep that was never observed
+}
+
+/// Represents telemetry data for an asset update event.
+pub struct AssetUpdateEventTelemetry {
+    /// The 'asset' Field.
+    pub asset: Asset,
+
+    /// The 'assetName' Field.
+    pub asset_name: String,
+}
+
+impl From<GenAssetUpdateEventTelemetry> for AssetUpdateEventTelemetry {
+    fn from(source: GenAssetUpdateEventTelemetry) -> Self {
+        AssetUpdateEventTelemetry {
+            asset: Asset::from(source.asset_update_event.asset),
+            asset_name: source.asset_update_event.asset_name,
+        }
+    }
 }
 
 // =================================== RESPONSE CLASSES ===================================

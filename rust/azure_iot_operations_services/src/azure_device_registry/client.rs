@@ -17,8 +17,7 @@ use tokio::{sync::Notify, task};
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
     AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
-    AssetEndpointProfileUpdateEventTelemetry, AssetEndpointProfileUpdateEventTelemetryReceiver,
-    AssetUpdateEventTelemetry, AssetUpdateEventTelemetryReceiver,
+    AssetEndpointProfileUpdateEventTelemetryReceiver, AssetUpdateEventTelemetryReceiver,
     CreateDetectedAssetCommandInvoker, CreateDetectedAssetRequestPayload,
     DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
     GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload, NotificationMessageType,
@@ -40,8 +39,9 @@ use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
     AkriError, Asset, AssetEndpointProfile, AssetEndpointProfileObservation,
-    AssetEndpointProfileStatus, AssetObservation, AssetStatus, DetectedAsset,
-    DiscoveredAssetEndpointProfile, Error, ErrorKind,
+    AssetEndpointProfileStatus, AssetEndpointProfileUpdateEventTelemetry, AssetObservation,
+    AssetStatus, AssetUpdateEventTelemetry, DetectedAsset, DiscoveredAssetEndpointProfile, Error,
+    ErrorKind,
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
@@ -914,7 +914,7 @@ where
                                 };
                                 // Try to send the notification to the associated receiver
                                 let aep_update_event_telemetry_payload_clone = aep_update_event_telemetry.payload.clone();
-                                match aep_update_event_telemetry_dispatcher.dispatch(aep_name, (aep_update_event_telemetry.payload, ack_token)) {
+                                match aep_update_event_telemetry_dispatcher.dispatch(aep_name, (aep_update_event_telemetry.payload.into(), ack_token)) {
                                     Ok(()) => {
                                         log::debug!("AssetEndpointProfileUpdateEventTelemetry dispatched for aep name: {aep_name:?}");
                                     }
@@ -953,7 +953,7 @@ where
                                 // TODO Consider making the receiver id a tuple in the dispatcher
                                 let dispatch_receiver_id = aep_name.to_string() + "~" + &asset_update_event_telemetry.payload.asset_update_event.asset_name;
 
-                                match asset_update_event_telemetry_dispatcher.dispatch(&dispatch_receiver_id, (asset_update_event_telemetry.payload, ack_token)) {
+                                match asset_update_event_telemetry_dispatcher.dispatch(&dispatch_receiver_id, (asset_update_event_telemetry.payload.into(), ack_token)) {
                                     Ok(()) => {
                                         log::debug!("AssetUpdateEventTelemetry dispatched for aep and asset: {dispatch_receiver_id:?}");
                                     }
