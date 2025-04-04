@@ -83,13 +83,13 @@ public void main()
 
 ### Enforcement
 
-Note that, while this decision creates a standardized way of communicating application errors, our SDK will **not** enforce that users communicate application errors with this standard. Users will still be able to model application errors in response payloads or in custom user properties if they prefer. There is no way to force users to communicate errors with this standard pattern.
+Note that, while this decision creates a standardized way of communicating application errors, our SDK will **not** enforce that users communicate application errors with this standard. Users will still be able to model application errors in response payloads or in custom user properties if they prefer. There is no way to force users to communicate errors with this pattern.
 
 ## Samples
 
-We want to establish this pattern as the standard for communicating RPC application errors. To do so, we must either update or add a sample per-language that demonstrates handling at least one application error.
+We want to demonstrate this pattern in at least one sample per-language.
 
-For instance, we would make the counter service return an application error if the invocation specifies a negative value to increment by. This change won't include any DTDL level changes yet.
+For the sake of demonstrating this in all languages similarly, we will make the counter service return an application error if the invocation specifies a negative value to increment by. This change won't include any DTDL level changes yet.
 
 ## Open Questions
 
