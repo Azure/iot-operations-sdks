@@ -16,16 +16,18 @@ use azure_iot_operations_protocol::rpc_command;
 use tokio::{sync::Notify, task};
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
-    Asset, AssetEndpointProfile, AssetEndpointProfileUpdateEventTelemetry,
-    AssetEndpointProfileUpdateEventTelemetryReceiver, AssetUpdateEventTelemetry,
-    AssetUpdateEventTelemetryReceiver, CreateDetectedAssetCommandInvoker,
-    CreateDetectedAssetRequestPayload, DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
+    AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
+    AssetEndpointProfileUpdateEventTelemetry, AssetEndpointProfileUpdateEventTelemetryReceiver,
+    AssetUpdateEventTelemetry, AssetUpdateEventTelemetryReceiver,
+    CreateDetectedAssetCommandInvoker, CreateDetectedAssetRequestPayload,
+    DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
     GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload, NotificationMessageType,
     NotificationResponse, NotifyOnAssetEndpointProfileUpdateCommandInvoker,
     NotifyOnAssetEndpointProfileUpdateRequestPayload, NotifyOnAssetUpdateCommandInvoker,
     NotifyOnAssetUpdateRequestPayload, NotifyOnAssetUpdateRequestSchema,
-    UpdateAssetEndpointProfileStatusCommandInvoker, UpdateAssetStatusCommandInvoker,
-    UpdateAssetStatusRequestPayload, UpdateAssetStatusRequestSchema,
+    UpdateAssetEndpointProfileStatusCommandInvoker, UpdateAssetEndpointProfileStatusRequestPayload,
+    UpdateAssetStatusCommandInvoker, UpdateAssetStatusRequestPayload,
+    UpdateAssetStatusRequestSchema,
 };
 use crate::azure_device_registry::adr_name_gen::common_types::common_options::{
     CommandOptionsBuilder, TelemetryOptionsBuilder,
@@ -37,8 +39,9 @@ use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
 };
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
-    AssetEndpointProfileObservation, AssetEndpointProfileStatus, AssetObservation, AssetStatus,
-    DetectedAsset, DiscoveredAssetEndpointProfile, Error, ErrorKind,
+    AkriError, Asset, AssetEndpointProfile, AssetEndpointProfileObservation,
+    AssetEndpointProfileStatus, AssetObservation, AssetStatus, DetectedAsset,
+    DiscoveredAssetEndpointProfile, Error, ErrorKind,
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
@@ -232,7 +235,7 @@ where
             .await;
 
         match result {
-            Ok(response) => Ok(response.payload.asset_endpoint_profile),
+            Ok(response) => Ok(response.payload.asset_endpoint_profile.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
@@ -262,8 +265,21 @@ where
         source: AssetEndpointProfileStatus,
         timeout: Duration,
     ) -> Result<AssetEndpointProfile, Error> {
+        let payload = UpdateAssetEndpointProfileStatusRequestPayload {
+            asset_endpoint_profile_status_update: GenAssetEndpointProfileStatus {
+                errors: Some(
+                    source
+                        .errors
+                        .unwrap_or_default()
+                        .into_iter()
+                        .map(AkriError::into)
+                        .collect(),
+                ),
+            },
+        };
+
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .payload(source.into())
+            .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
@@ -275,7 +291,7 @@ where
             .await;
 
         match result {
-            Ok(response) => Ok(response.payload.updated_asset_endpoint_profile),
+            Ok(response) => Ok(response.payload.updated_asset_endpoint_profile.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
@@ -481,7 +497,7 @@ where
         let result = self.get_asset_command_invoker.invoke(command_request).await;
 
         match result {
-            Ok(response) => Ok(response.payload.asset),
+            Ok(response) => Ok(response.payload.asset.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
@@ -533,7 +549,7 @@ where
             .await;
 
         match result {
-            Ok(response) => Ok(response.payload.updated_asset),
+            Ok(response) => Ok(response.payload.updated_asset.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
