@@ -1,5 +1,3 @@
-I'll create a complete markdown document that combines both the code and the descriptions for the entire Azure Device Registry Client API in a single file.
-
 # Azure Device Registry Client API Documentation
 
 ## Introduction
