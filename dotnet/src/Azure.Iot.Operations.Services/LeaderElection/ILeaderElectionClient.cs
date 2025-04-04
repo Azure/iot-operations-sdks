@@ -131,7 +131,6 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// <summary>
         /// Start receiving notifications when the leader changes.
         /// </summary>
-        /// <param name="options">The optional parameters for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// Users who want to watch lock holder change events must first set one or more handlers on
@@ -139,7 +138,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// To stop watching lock holder change events, call <see cref="UnobserveLeadershipChangesAsync(CancellationToken)"/>
         /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
         /// </remarks>
-        Task ObserveLeadershipChangesAsync(ObserveLeadershipChangesRequestOptions? options = null, CancellationToken cancellationToken = default);
+        Task ObserveLeadershipChangesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Stop receiving notifications when the leader changes.

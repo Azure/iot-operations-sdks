@@ -472,7 +472,6 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
         public async Task ObserveLockAsyncSuccess()
         {
             // arrange
-            bool getNewValue = true;
             Mock<StateStoreClient> mockStateStoreClient = GetMockStateStoreClient();
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
@@ -480,26 +479,17 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             mockStateStoreClient.Setup(
                 mock => mock.ObserveAsync(
                     It.Is<StateStoreKey>(value => value.GetString().Equals("someLockName", StringComparison.Ordinal)),
-                    It.Is<StateStoreObserveRequestOptions>(
-                        options => options.GetNewValue == getNewValue),
                     It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.CompletedTask);
 
-            ObserveLockRequestOptions requestOptions = new ObserveLockRequestOptions()
-            {
-                GetNewValue = getNewValue,
-            };
-
             // act
-            await leasedLockClient.ObserveLockAsync(requestOptions, tokenSource.Token);
+            await leasedLockClient.ObserveLockAsync(tokenSource.Token);
 
             // assert
             mockStateStoreClient.Verify(
                 mock => mock.ObserveAsync(
                     It.Is<StateStoreKey>(value => value.GetString().Equals("someLockName", StringComparison.Ordinal)),
-                    It.Is<StateStoreObserveRequestOptions>(
-                        options => options.GetNewValue == getNewValue),
                     It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                         Times.Once());

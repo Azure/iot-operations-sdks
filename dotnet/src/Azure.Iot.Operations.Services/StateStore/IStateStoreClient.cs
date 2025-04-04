@@ -51,13 +51,12 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// via <see cref="KeyChangeMessageReceivedAsync"/>.
         /// </summary>
         /// <param name="key">The key to receive notifications about.</param>
-        /// <param name="options">The optional parameters for this request.</param>
         /// <param name="requestTimeout">The optional timeout for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// This method does not support using wildcard characters to subscribe to multiple keys at once.
         /// </remarks>
-        Task ObserveAsync(StateStoreKey key, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
+        Task ObserveAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Stop receiving events each time the provided key is updated, created, or deleted.

@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// A HybridLogicalClock timestamp associated with the request or response.
         /// </summary>
-        internal const string Timestamp = ReservedPrefix + "ts";
+        public const string Timestamp = ReservedPrefix + "ts";
 
         /// <summary>
         /// User Property indicating an HTTP status code.
