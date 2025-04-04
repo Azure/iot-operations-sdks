@@ -235,18 +235,12 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         }
 
         /// <inheritdoc/>
-        public virtual async Task ObserveLeadershipChangesAsync(ObserveLeadershipChangesRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task ObserveLeadershipChangesAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            options ??= new ObserveLeadershipChangesRequestOptions();
-            await _leasedLockClient.ObserveLockAsync(
-                new ObserveLockRequestOptions()
-                {
-                    GetNewValue = options.GetNewLeader,
-                },
-                cancellationToken).ConfigureAwait(false);
+            await _leasedLockClient.ObserveLockAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
