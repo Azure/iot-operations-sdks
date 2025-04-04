@@ -8,6 +8,7 @@ using TestEnvoys.Counter;
 using TestEnvoys.Math;
 using TestEnvoys.Greeter;
 using TestEnvoys.CustomTopicTokens;
+using SampleServer;
 
 namespace SampleClient;
 
@@ -124,7 +125,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         {
 
             CommandRequestMetadata reqMd = new();
-
+            ;
             logger.LogInformation("Calling ReadCounter with {c}", reqMd.CorrelationId);
             ExtendedResponse<ReadCounterResponsePayload> respCounter = await counterClient.ReadCounterAsync(executorId, reqMd).WithMetadata();
             logger.LogInformation("called read {c} with id {id}", respCounter.Response!.CounterResponse, respCounter.ResponseMetadata!.CorrelationId);
@@ -154,6 +155,21 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             ExtendedResponse<ReadCounterResponsePayload> respCounter4 = await counterClient.ReadCounterAsync(executorId).WithMetadata();
             logger.LogInformation("counter {c} with id {id}", respCounter4.Response!.CounterResponse, respCounter4.ResponseMetadata!.CorrelationId);
 
+            // This increment request will deliberately trigger an application level error in the counter service for demonstration purposes
+            IncrementRequestPayload invalidPayload = new IncrementRequestPayload
+            {
+                IncrementValue = -1
+            };
+
+            ExtendedResponse<IncrementResponsePayload> responseWithApplicationError = await counterClient.IncrementAsync(executorId, invalidPayload).WithMetadata();
+            var errorPayloadSerializer = new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer());
+
+            // Upon receiving a response, you should check for any application level errors like this. Only the above Increment request should trigger an application error in this sample, though.
+            if (responseWithApplicationError.TryGetApplicationError(errorPayloadSerializer, out string? errorCode, out CounterServiceApplicationError? errorPayload))
+            {
+                string errorPayloadString = errorPayload != null ? errorPayloadSerializer.ToString(errorPayload) : "";
+                logger.LogInformation("counter {c} with id {id} responded to an invalid request with application level error code {code} and payload {payload}", responseWithApplicationError!.Response.CounterResponse, responseWithApplicationError.ResponseMetadata!.CorrelationId, errorCode, errorPayloadString);
+            }
         }
         catch (Exception ex)
         {

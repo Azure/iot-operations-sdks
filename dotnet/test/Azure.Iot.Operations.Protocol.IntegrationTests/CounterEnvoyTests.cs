@@ -121,4 +121,32 @@ public class CounterEnvoyTests
         Assert.Equal("Correlation Data", userProps.Where(p => p.Name == "__propName").First().Value);
     }
 
+    [Fact]
+    public async Task CanReceiveApplicationErrorResponseInHeaders()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
+
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        int expectedNegativeValue = -1;
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = expectedNegativeValue
+        };
+
+        var resp = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        Assert.Equal(0, resp.Response.CounterResponse);
+        Assert.NotNull(resp.ResponseMetadata);
+        Assert.True(resp.TryGetApplicationError(new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()), out string? errorCode, out CounterServiceApplicationError? errorPayload));
+        Assert.NotNull(errorCode);
+        Assert.Equal(CounterService.NegativeValueArgumentErrorCode, errorCode);
+        Assert.NotNull(errorPayload);
+        Assert.Equal(expectedNegativeValue, errorPayload.InvalidRequestArgumentValue);
+    }
 }
