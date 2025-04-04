@@ -19,7 +19,7 @@ internal class TokenRefreshTimer : IDisposable
         _tokenFilePath = tokenFilePath;
         int secondsToRefresh = GetTokenExpiry(File.ReadAllBytes(tokenFilePath));
         _refreshTimer = new Timer(RefreshToken, mqttClient, secondsToRefresh * 1000, Timeout.Infinite);
-        Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
+        Trace.TraceInformation("Refresh token Timer set to {0} seconds.", secondsToRefresh);
     }
 
     private static int GetTokenExpiry(byte[] token)
@@ -40,7 +40,7 @@ internal class TokenRefreshTimer : IDisposable
 
     private void RefreshToken(object? state)
     {
-        Trace.TraceInformation("Refresh token Timer");
+        Trace.TraceInformation("Refreshing the authentication token");
         IMqttClient? mqttClient = state! as IMqttClient;
         if (mqttClient is not null && mqttClient.IsConnected)
         {
@@ -59,11 +59,11 @@ internal class TokenRefreshTimer : IDisposable
             {
                 int secondsToRefresh = GetTokenExpiry(token);
                 _refreshTimer.Change(secondsToRefresh * 1000, Timeout.Infinite);
-                Trace.TraceInformation($"Refresh token Timer set to {secondsToRefresh} s.");
+                Trace.TraceInformation("Refresh token Timer set to {0} seconds.", secondsToRefresh);
             }
             catch (ArgumentException e)
             {
-                Trace.TraceError("Failed to get next token renewal due time.", e);
+                Trace.TraceError("Failed to get next token renewal due time {0}", e);
             }
         }
     }
