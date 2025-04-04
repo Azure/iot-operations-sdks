@@ -91,7 +91,9 @@ The following tables outline the current components, along with the associated l
 
 ## Need support?
 
-Refer to [SUPPORT.md](./SUPPORT.md) for guidance on reporting bugs, requesting features and getting assistance.
+Refer to [SUPPORT.md](SUPPORT.md) for guidance on reporting bugs, requesting features and getting assistance.
+
+For security related issues, please follow the guidance outlined in [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
