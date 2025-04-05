@@ -873,10 +873,10 @@ where
         }
 
         // If there are any errors, return them as a ShutdownError
-        if !errors.is_empty() {
-            Err(ErrorKind::ShutdownError(errors).into())
-        } else {
+        if errors.is_empty() {
             Ok(())
+        } else {
+            Err(ErrorKind::ShutdownError(errors).into())
         }
     }
 
