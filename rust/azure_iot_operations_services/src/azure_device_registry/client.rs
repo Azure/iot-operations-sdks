@@ -829,35 +829,55 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), Error> {
-        self.get_asset_endpoint_profile_command_invoker
+        let mut errors = Vec::new();
+
+        // Attempt to shut down each invoker and collect any AIOProtocolError
+        if let Err(e) = self
+            .get_asset_endpoint_profile_command_invoker
             .shutdown()
             .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        self.update_asset_endpoint_profile_status_command_invoker
+        {
+            errors.push(e);
+        }
+
+        if let Err(e) = self
+            .update_asset_endpoint_profile_status_command_invoker
             .shutdown()
             .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        self.notify_on_asset_endpoint_profile_update_command_invoker
+        {
+            errors.push(e);
+        }
+
+        if let Err(e) = self
+            .notify_on_asset_endpoint_profile_update_command_invoker
             .shutdown()
             .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        self.get_asset_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        self.update_asset_status_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        self.create_detected_asset_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        self.notify_on_asset_update_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| Error(ErrorKind::AIOProtocolError(e)))?;
-        Ok(())
+        {
+            errors.push(e);
+        }
+
+        if let Err(e) = self.get_asset_command_invoker.shutdown().await {
+            errors.push(e);
+        }
+
+        if let Err(e) = self.update_asset_status_command_invoker.shutdown().await {
+            errors.push(e);
+        }
+
+        if let Err(e) = self.create_detected_asset_command_invoker.shutdown().await {
+            errors.push(e);
+        }
+
+        if let Err(e) = self.notify_on_asset_update_command_invoker.shutdown().await {
+            errors.push(e);
+        }
+
+        // If there are any errors, return them as a ShutdownError
+        if !errors.is_empty() {
+            Err(ErrorKind::ShutdownError(errors).into())
+        } else {
+            Ok(())
+        }
     }
 
     async fn receive_update_event_telemetry_loop(

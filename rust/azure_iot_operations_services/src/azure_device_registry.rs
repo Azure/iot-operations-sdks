@@ -73,6 +73,9 @@ pub enum ErrorKind {
     /// A aep or an asset had an error during observation.
     #[error("{0}")]
     ObservationError(String),
+    /// An error occurred while shutting down the Azure Device Registry Client.
+    #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
+    ShutdownError(Vec<AIOProtocolError>),
 }
 
 /// An error returned by the Azure Device Registry Service.
