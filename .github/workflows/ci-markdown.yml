@@ -13,7 +13,7 @@ permissions:
 
 env:
   # Check all files if scheduled, otherwise only check changes lines
-  FILTER_MODE: ${{ github.event_name == 'schedule' && 'nofilter' || 'added') }}
+  FILTER_MODE: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
 
 jobs:
   spellcheck:
