@@ -12,7 +12,8 @@ permissions:
   checks: write
 
 env:
-  FILTER_MODE: ${{ if(github.event_name == 'schedule', 'nofilter', 'added') }}
+  # Check all files if scheduled, otherwise only check changes lines
+  FILTER_MODE: ${{ github.event_name == 'schedule' && 'nofilter' || 'added') }}
 
 jobs:
   spellcheck:
