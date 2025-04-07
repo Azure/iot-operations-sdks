@@ -15,13 +15,14 @@ use adr_name_gen::adr_base_service::client::{
     AuthenticationSchema as GenAuthenticationSchema, DatasetsSchemaSchemaElementSchema,
     DetectedAsset as GenDetectedAsset, DetectedAssetDataPointSchemaElementSchema,
     DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
-    Error as GenError, EventsSchemaSchemaElementSchema,
+    DetectedAssetResponseStatusSchema, Error as GenError, EventsSchemaSchemaElementSchema,
     MessageSchemaReference as GenMessageSchemaReference, MethodSchema, RetainSchema,
     Topic as GenTopic, UsernamePasswordCredentialsSchema as GenUsernamePasswordCredentialsSchema,
     X509credentialsSchema as GenX509credentialsSchema,
 };
 use adr_type_gen::aep_type_service::client::{
     DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
+    DiscoveredAssetEndpointProfileResponseStatusSchema,
     SupportedAuthenticationMethodsSchemaElementSchema,
 };
 use azure_iot_operations_mqtt::interface::AckToken;
@@ -259,10 +260,11 @@ pub struct DetectedAsset {
     pub asset_name: Option<String>,
 
     /// Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.
-    pub datasets: Option<Vec<DetectedAssetDataSetSchema>>,
+    /// TODO : naming change to detected dataset
+    pub datasets: Option<Vec<DetectedAssetDataSet>>,
 
     /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
-    pub events: Option<Vec<DetectedAssetEventSchema>>,
+    pub events: Option<Vec<DetectedAssetEvent>>,
 
     /// The 'assetEndpointProfileRef' Field.
     pub asset_endpoint_profile_ref: String,
@@ -308,19 +310,16 @@ impl From<DetectedAsset> for GenDetectedAsset {
             datasets: source.datasets.map(|datasets| {
                 datasets
                     .into_iter()
-                    .map(DetectedAssetDataSetSchema::into)
+                    .map(DetectedAssetDataSet::into)
                     .collect()
             }),
             default_datasets_configuration: source.default_datasets_configuration,
             default_events_configuration: source.default_events_configuration,
             default_topic: source.default_topic.map(Topic::into),
             documentation_uri: source.documentation_uri,
-            events: source.events.map(|events| {
-                events
-                    .into_iter()
-                    .map(DetectedAssetEventSchema::into)
-                    .collect()
-            }),
+            events: source
+                .events
+                .map(|events| events.into_iter().map(DetectedAssetEvent::into).collect()),
             hardware_revision: source.hardware_revision,
             manufacturer: source.manufacturer,
             manufacturer_uri: source.manufacturer_uri,
@@ -333,7 +332,7 @@ impl From<DetectedAsset> for GenDetectedAsset {
 }
 
 /// Represents a event schema for a detected asset.
-pub struct DetectedAssetEventSchema {
+pub struct DetectedAssetEvent {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,
 
@@ -349,8 +348,8 @@ pub struct DetectedAssetEventSchema {
     pub last_updated_on: Option<String>,
 }
 
-impl From<DetectedAssetEventSchema> for DetectedAssetEventSchemaElementSchema {
-    fn from(value: DetectedAssetEventSchema) -> Self {
+impl From<DetectedAssetEvent> for DetectedAssetEventSchemaElementSchema {
+    fn from(value: DetectedAssetEvent) -> Self {
         DetectedAssetEventSchemaElementSchema {
             event_configuration: value.event_configuration,
             event_notifier: value.event_notifier,
@@ -362,9 +361,9 @@ impl From<DetectedAssetEventSchema> for DetectedAssetEventSchemaElementSchema {
 }
 
 /// Represents a data set schema for a detected asset.
-pub struct DetectedAssetDataSetSchema {
+pub struct DetectedAssetDataSet {
     /// The 'dataPoints' Field.
-    pub data_points: Option<Vec<DetectedAssetDataPointSchema>>,
+    pub data_points: Option<Vec<DetectedAssetDataPoint>>,
 
     /// The 'dataSetConfiguration' Field.
     pub data_set_configuration: Option<String>,
@@ -376,13 +375,13 @@ pub struct DetectedAssetDataSetSchema {
     pub topic: Option<Topic>,
 }
 
-impl From<DetectedAssetDataSetSchema> for DetectedAssetDatasetSchemaElementSchema {
-    fn from(source: DetectedAssetDataSetSchema) -> Self {
+impl From<DetectedAssetDataSet> for DetectedAssetDatasetSchemaElementSchema {
+    fn from(source: DetectedAssetDataSet) -> Self {
         DetectedAssetDatasetSchemaElementSchema {
             data_points: source.data_points.map(|points| {
                 points
                     .into_iter()
-                    .map(DetectedAssetDataPointSchema::into)
+                    .map(DetectedAssetDataPoint::into)
                     .collect()
             }),
             data_set_configuration: source.data_set_configuration,
@@ -393,7 +392,7 @@ impl From<DetectedAssetDataSetSchema> for DetectedAssetDatasetSchemaElementSchem
 }
 
 /// Represents a data point schema for a detected asset.
-pub struct DetectedAssetDataPointSchema {
+pub struct DetectedAssetDataPoint {
     /// The 'dataPointConfiguration' Field.
     pub data_point_configuration: Option<String>,
 
@@ -407,8 +406,8 @@ pub struct DetectedAssetDataPointSchema {
     pub last_updated_on: Option<String>,
 }
 
-impl From<DetectedAssetDataPointSchema> for DetectedAssetDataPointSchemaElementSchema {
-    fn from(source: DetectedAssetDataPointSchema) -> Self {
+impl From<DetectedAssetDataPoint> for DetectedAssetDataPointSchemaElementSchema {
+    fn from(source: DetectedAssetDataPoint) -> Self {
         DetectedAssetDataPointSchemaElementSchema {
             data_point_configuration: source.data_point_configuration,
             data_source: source.data_source,
@@ -645,7 +644,7 @@ pub struct AssetEndpointProfileSpecificationSchema {
     pub additional_configuration: Option<String>,
 
     /// The 'authentication' Field.
-    pub authentication: Option<AuthenticationSchema>,
+    pub authentication: Option<Authentication>,
 
     /// The 'discoveredAssetEndpointProfileRef' Field.
     pub discovered_asset_endpoint_profile_ref: Option<String>,
@@ -663,7 +662,7 @@ impl From<GenAssetEndpointProfileSpecificationSchema> for AssetEndpointProfileSp
     fn from(source: GenAssetEndpointProfileSpecificationSchema) -> Self {
         AssetEndpointProfileSpecificationSchema {
             additional_configuration: source.additional_configuration,
-            authentication: source.authentication.map(AuthenticationSchema::from),
+            authentication: source.authentication.map(Authentication::from),
             discovered_asset_endpoint_profile_ref: source.discovered_asset_endpoint_profile_ref,
             endpoint_profile_type: source.endpoint_profile_type,
             target_address: source.target_address,
@@ -673,7 +672,8 @@ impl From<GenAssetEndpointProfileSpecificationSchema> for AssetEndpointProfileSp
 }
 
 /// Represents the client authentication schema, including method and credentials.
-pub struct AuthenticationSchema {
+/// // TODO Check enum with values
+pub struct Authentication {
     /// The 'method' Field.
     pub method: AuthenticationMethodsSchema,
 
@@ -684,9 +684,9 @@ pub struct AuthenticationSchema {
     pub x509credentials: Option<X509credentialsSchema>,
 }
 
-impl From<GenAuthenticationSchema> for AuthenticationSchema {
+impl From<GenAuthenticationSchema> for Authentication {
     fn from(source: GenAuthenticationSchema) -> Self {
-        AuthenticationSchema {
+        Authentication {
             method: match source.method {
                 MethodSchema::Anonymous => AuthenticationMethodsSchema::Anonymous,
                 MethodSchema::Certificate => AuthenticationMethodsSchema::Certificate,
@@ -736,7 +736,7 @@ pub struct Asset {
     pub name: String,
 
     /// The 'specification' Field.
-    pub specification: AssetSpecificationSchema,
+    pub specification: AssetSpecification,
 
     /// The status of the asset, including associated schemas and errors.
     pub status: Option<AssetStatus>,
@@ -746,14 +746,14 @@ impl From<GenAsset> for Asset {
     fn from(source: GenAsset) -> Self {
         Asset {
             name: source.name,
-            specification: AssetSpecificationSchema::from(source.specification),
+            specification: AssetSpecification::from(source.specification),
             status: source.status.map(AssetStatus::from),
         }
     }
 }
 
 /// Represents the specification schema for a client asset, including attributes, datasets, and other metadata.
-pub struct AssetSpecificationSchema {
+pub struct AssetSpecification {
     /// The 'assetEndpointProfileRef' Field.
     pub asset_endpoint_profile_ref: String,
 
@@ -794,7 +794,7 @@ pub struct AssetSpecificationSchema {
     pub attributes: Option<HashMap<String, String>>,
 
     /// The 'datasets' Field.
-    pub datasets: Option<Vec<AssetDatasetSchema>>,
+    pub datasets: Option<Vec<AssetDataset>>,
 
     /// The 'description' Field.
     pub description: Option<String>,
@@ -809,7 +809,7 @@ pub struct AssetSpecificationSchema {
     pub enabled: Option<bool>,
 
     /// The 'events' Field.
-    pub events: Option<Vec<AssetEventSchema>>,
+    pub events: Option<Vec<AssetEvent>>,
 
     /// The 'externalAssetId' Field.
     pub external_asset_id: Option<String>,
@@ -821,9 +821,9 @@ pub struct AssetSpecificationSchema {
     pub version: Option<String>,
 }
 
-impl From<GenAssetSpecificationSchema> for AssetSpecificationSchema {
+impl From<GenAssetSpecificationSchema> for AssetSpecification {
     fn from(source: GenAssetSpecificationSchema) -> Self {
-        AssetSpecificationSchema {
+        AssetSpecification {
             asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
             default_datasets_configuration: source.default_datasets_configuration,
             default_events_configuration: source.default_events_configuration,
@@ -839,14 +839,14 @@ impl From<GenAssetSpecificationSchema> for AssetSpecificationSchema {
             attributes: source.attributes,
             datasets: source
                 .datasets
-                .map(|datasets| datasets.into_iter().map(AssetDatasetSchema::from).collect()),
+                .map(|datasets| datasets.into_iter().map(AssetDataset::from).collect()),
             description: source.description,
             discovered_asset_refs: source.discovered_asset_refs,
             display_name: source.display_name,
             enabled: source.enabled,
             events: source
                 .events
-                .map(|events| events.into_iter().map(AssetEventSchema::from).collect()),
+                .map(|events| events.into_iter().map(AssetEvent::from).collect()),
             external_asset_id: source.external_asset_id,
             uuid: source.uuid,
             version: source.version,
@@ -855,9 +855,9 @@ impl From<GenAssetSpecificationSchema> for AssetSpecificationSchema {
 }
 
 /// The 'datasets' Field.
-pub struct AssetDatasetSchema {
+pub struct AssetDataset {
     /// The 'dataPoints' Field.
-    pub data_points: Option<Vec<AssetDataPointSchema>>,
+    pub data_points: Option<Vec<AssetDataPoint>>,
 
     /// The 'datasetConfiguration' Field.
     pub dataset_configuration: Option<String>,
@@ -869,12 +869,12 @@ pub struct AssetDatasetSchema {
     pub topic: Option<Topic>,
 }
 
-impl From<AssetDatasetSchemaElementSchema> for AssetDatasetSchema {
+impl From<AssetDatasetSchemaElementSchema> for AssetDataset {
     fn from(source: AssetDatasetSchemaElementSchema) -> Self {
-        AssetDatasetSchema {
+        AssetDataset {
             data_points: source
                 .data_points
-                .map(|points| points.into_iter().map(AssetDataPointSchema::from).collect()),
+                .map(|points| points.into_iter().map(AssetDataPoint::from).collect()),
             dataset_configuration: source.dataset_configuration,
             name: source.name,
             topic: source.topic.map(Topic::from),
@@ -883,7 +883,7 @@ impl From<AssetDatasetSchemaElementSchema> for AssetDatasetSchema {
 }
 
 /// Represents the schema for an asset data point, including its configuration and observability mode.
-pub struct AssetDataPointSchema {
+pub struct AssetDataPoint {
     /// The 'dataPointConfiguration' Field.
     pub data_point_configuration: Option<String>,
 
@@ -897,9 +897,9 @@ pub struct AssetDataPointSchema {
     pub observability_mode: Option<DataPointObservabilityMode>,
 }
 
-impl From<AssetDataPointSchemaElementSchema> for AssetDataPointSchema {
+impl From<AssetDataPointSchemaElementSchema> for AssetDataPoint {
     fn from(source: AssetDataPointSchemaElementSchema) -> Self {
-        AssetDataPointSchema {
+        AssetDataPoint {
             data_point_configuration: source.data_point_configuration,
             data_source: source.data_source,
             name: Some(source.name),
@@ -910,7 +910,7 @@ impl From<AssetDataPointSchemaElementSchema> for AssetDataPointSchema {
     }
 }
 /// Represents the schema for an asset event, including its configuration and observability mode.
-pub struct AssetEventSchema {
+pub struct AssetEvent {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,
 
@@ -927,9 +927,9 @@ pub struct AssetEventSchema {
     pub observability_mode: Option<EventObservabilityMode>,
 }
 
-impl From<AssetEventSchemaElementSchema> for AssetEventSchema {
+impl From<AssetEventSchemaElementSchema> for AssetEvent {
     fn from(source: AssetEventSchemaElementSchema) -> Self {
-        AssetEventSchema {
+        AssetEvent {
             event_configuration: source.event_configuration,
             event_notifier: source.event_notifier,
             name: source.name,
@@ -1002,6 +1002,54 @@ impl From<GenMessageSchemaReference> for MessageSchemaReference {
             message_schema_name: value.schema_name,
             message_schema_version: value.schema_version,
             message_schema_namespace: value.schema_namespace,
+        }
+    }
+}
+
+/// Represents the response status for a detected asset.
+pub enum DetectedAssetResponseStatus {
+    /// Represents the created status.
+    Created,
+    /// Represents the duplicate status.
+    Duplicate,
+    /// Represents the failed status.
+    Failed,
+}
+
+impl From<DetectedAssetResponseStatusSchema> for DetectedAssetResponseStatus {
+    fn from(source: DetectedAssetResponseStatusSchema) -> Self {
+        match source {
+            DetectedAssetResponseStatusSchema::Created => DetectedAssetResponseStatus::Created,
+            DetectedAssetResponseStatusSchema::Duplicate => DetectedAssetResponseStatus::Duplicate,
+            DetectedAssetResponseStatusSchema::Failed => DetectedAssetResponseStatus::Failed,
+        }
+    }
+}
+
+/// Represents the response status for a discovered asset endpoint profile.
+pub enum DiscoveredAssetEndpointProfileResponseStatus {
+    /// Represents the created status.
+    Created,
+    /// Represents the duplicate status.
+    Duplicate,
+    /// Represents the failed status.
+    Failed,
+}
+
+impl From<DiscoveredAssetEndpointProfileResponseStatusSchema>
+    for DiscoveredAssetEndpointProfileResponseStatus
+{
+    fn from(source: DiscoveredAssetEndpointProfileResponseStatusSchema) -> Self {
+        match source {
+            DiscoveredAssetEndpointProfileResponseStatusSchema::Created => {
+                DiscoveredAssetEndpointProfileResponseStatus::Created
+            }
+            DiscoveredAssetEndpointProfileResponseStatusSchema::Duplicate => {
+                DiscoveredAssetEndpointProfileResponseStatus::Duplicate
+            }
+            DiscoveredAssetEndpointProfileResponseStatusSchema::Failed => {
+                DiscoveredAssetEndpointProfileResponseStatus::Failed
+            }
         }
     }
 }

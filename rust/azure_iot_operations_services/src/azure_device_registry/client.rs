@@ -18,8 +18,7 @@ use tokio::{sync::Notify, task};
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
     AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
     AssetEndpointProfileUpdateEventTelemetryReceiver, AssetUpdateEventTelemetryReceiver,
-    CreateDetectedAssetCommandInvoker, CreateDetectedAssetRequestPayload,
-    DetectedAssetResponseStatusSchema, GetAssetCommandInvoker,
+    CreateDetectedAssetCommandInvoker, CreateDetectedAssetRequestPayload, GetAssetCommandInvoker,
     GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload, NotificationMessageType,
     NotificationResponse, NotifyOnAssetEndpointProfileUpdateCommandInvoker,
     NotifyOnAssetEndpointProfileUpdateRequestPayload, NotifyOnAssetUpdateCommandInvoker,
@@ -34,7 +33,6 @@ use crate::azure_device_registry::adr_name_gen::common_types::common_options::{
 use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
     CreateDiscoveredAssetEndpointProfileCommandInvoker,
     CreateDiscoveredAssetEndpointProfileRequestPayload,
-    DiscoveredAssetEndpointProfileResponseStatusSchema,
 };
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
@@ -44,6 +42,9 @@ use crate::azure_device_registry::{
     ErrorKind,
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
+
+use super::DetectedAssetResponseStatus;
+use super::DiscoveredAssetEndpointProfileResponseStatus;
 
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
@@ -578,7 +579,7 @@ where
         &self,
         asset: DetectedAsset,
         timeout: Duration,
-    ) -> Result<DetectedAssetResponseStatusSchema, Error> {
+    ) -> Result<DetectedAssetResponseStatus, Error> {
         let payload = CreateDetectedAssetRequestPayload {
             detected_asset: asset.into(),
         };
@@ -595,7 +596,11 @@ where
             .await;
 
         match result {
-            Ok(response) => Ok(response.payload.create_detected_asset_response.status),
+            Ok(response) => Ok(response
+                .payload
+                .create_detected_asset_response
+                .status
+                .into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
@@ -794,7 +799,7 @@ where
         &self,
         daep: DiscoveredAssetEndpointProfile,
         timeout: Duration,
-    ) -> Result<DiscoveredAssetEndpointProfileResponseStatusSchema, Error> {
+    ) -> Result<DiscoveredAssetEndpointProfileResponseStatus, Error> {
         let paylaod = CreateDiscoveredAssetEndpointProfileRequestPayload {
             discovered_asset_endpoint_profile: daep.into(),
         };
@@ -814,7 +819,8 @@ where
             Ok(response) => Ok(response
                 .payload
                 .create_discovered_asset_endpoint_profile_response
-                .status),
+                .status
+                .into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
     }
