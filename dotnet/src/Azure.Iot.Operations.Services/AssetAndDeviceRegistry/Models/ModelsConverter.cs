@@ -8,16 +8,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public static class ModelsConverter
 {
-    public static AssetStatus ToModel(this AdrBaseService.AssetStatus source){
+    public static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
+    {
         return new AssetStatus
         {
             Errors = source.Errors?.Select(x => x.ToModel()).ToList(),
             DatasetsSchema = source.DatasetsSchema?.Select(x => x.ToModel()).ToList(),
-            EventsSchema = source.EventsSchema?.Select(x => x.ToModel()).ToList(),
+            EventsSchema = source.EventsSchema?.Select(x => x.ToModel()).ToList()
         };
     }
 
-    public static DatasetsSchemaSchemaElement ToModel(this AdrBaseService.DatasetsSchemaSchemaElementSchema source)
+    public static DatasetsSchemaSchemaElement ToModel(this DatasetsSchemaSchemaElementSchema source)
     {
         return new DatasetsSchemaSchemaElement
         {
@@ -26,7 +27,7 @@ public static class ModelsConverter
         };
     }
 
-    public static EventsSchemaSchemaElement ToModel(this AdrBaseService.EventsSchemaSchemaElementSchema source)
+    public static EventsSchemaSchemaElement ToModel(this EventsSchemaSchemaElementSchema source)
     {
         return new EventsSchemaSchemaElement
         {
@@ -54,12 +55,13 @@ public static class ModelsConverter
             SchemaVersion = source.SchemaVersion
         };
     }
-    public static AssetSpecification ToModel(this AdrBaseService.AssetSpecificationSchema source)
+
+    public static AssetSpecification ToModel(this AssetSpecificationSchema source)
     {
         return new AssetSpecification
         {
             Datasets = source.Datasets?.Select(x => x.ToModel()).ToList(),
-            Attributes = source.Attributes?? new Dictionary<string, string>(),
+            Attributes = source.Attributes ?? new Dictionary<string, string>(),
             Description = source.Description,
             Enabled = source.Enabled,
             Events = source.Events?.Select(x => x.ToModel()).ToList(),
@@ -83,7 +85,7 @@ public static class ModelsConverter
         };
     }
 
-    public static AssetDatasetSchemaElement ToModel(this AdrBaseService.AssetDatasetSchemaElementSchema source)
+    public static AssetDatasetSchemaElement ToModel(this AssetDatasetSchemaElementSchema source)
     {
         return new AssetDatasetSchemaElement
         {
@@ -94,7 +96,7 @@ public static class ModelsConverter
         };
     }
 
-    public static AssetEventSchemaElement ToModel(this AdrBaseService.AssetEventSchemaElementSchema source)
+    public static AssetEventSchemaElement ToModel(this AssetEventSchemaElementSchema source)
     {
         return new AssetEventSchemaElement
         {
@@ -106,7 +108,7 @@ public static class ModelsConverter
         };
     }
 
-    public static AssetEventObservabilityMode ToModel(this AdrBaseService.AssetEventObservabilityModeSchema source)
+    public static AssetEventObservabilityMode ToModel(this AssetEventObservabilityModeSchema source)
     {
         return (AssetEventObservabilityMode)(int)source;
     }
@@ -120,51 +122,28 @@ public static class ModelsConverter
         };
     }
 
-    public static Retain ToModel(this AdrBaseService.RetainSchema source)
+    public static Retain ToModel(this RetainSchema source)
     {
         return (Retain)(int)source;
     }
 
-    public static DetectedAssetDatasetSchemaElement ToModel(this AdrBaseService.DetectedAssetDatasetSchemaElementSchema source)
-    {
-        return new DetectedAssetDatasetSchemaElement
-        {
-            Name = source.Name,
-            Topic = source.Topic?.ToModel(),
-            DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
-            DataSetConfiguration = source.DataSetConfiguration
-        };
-    }
-
-    public static DetectedAssetEventSchemaElement ToModel(this AdrBaseService.DetectedAssetEventSchemaElementSchema source)
-    {
-        return new DetectedAssetEventSchemaElement
-        {
-            Name = source.Name,
-            Topic = source.Topic?.ToModel(),
-            EventConfiguration = source.EventConfiguration,
-            EventNotifier = source.EventNotifier,
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
-    public static AssetDataPointSchemaElement ToModel(this AdrBaseService.AssetDataPointSchemaElementSchema source)
+    public static AssetDataPointSchemaElement ToModel(this AssetDataPointSchemaElementSchema source)
     {
         return new AssetDataPointSchemaElement
         {
             DataPointConfiguration = source.DataPointConfiguration,
             DataSource = source.DataSource,
             Name = source.Name,
-            ObservabilityMode = source.ObservabilityMode?.ToModel(),
+            ObservabilityMode = source.ObservabilityMode?.ToModel()
         };
     }
 
-    public static AssetDataPointObservabilityMode ToModel(this AdrBaseService.AssetDataPointObservabilityModeSchema source)
+    public static AssetDataPointObservabilityMode ToModel(this AssetDataPointObservabilityModeSchema source)
     {
         return (AssetDataPointObservabilityMode)(int)source;
     }
 
-    public static DetectedAssetDataPointSchemaElement ToModel(this AdrBaseService.DetectedAssetDataPointSchemaElementSchema source)
+    public static DetectedAssetDataPointSchemaElement ToModel(this DetectedAssetDataPointSchemaElementSchema source)
     {
         return new DetectedAssetDataPointSchemaElement
         {
@@ -186,11 +165,11 @@ public static class ModelsConverter
         {
             Name = source.Name,
             Specification = source.Specification?.ToModel(),
-            Status = source.Status?.ToModel(),
+            Status = source.Status?.ToModel()
         };
     }
 
-    public static AssetEndpointProfileSpecification ToModel(this AdrBaseService.AssetEndpointProfileSpecificationSchema source)
+    public static AssetEndpointProfileSpecification ToModel(this AssetEndpointProfileSpecificationSchema source)
     {
         return new AssetEndpointProfileSpecification
         {
@@ -199,26 +178,26 @@ public static class ModelsConverter
             AdditionalConfiguration = source.AdditionalConfiguration,
             TargetAddress = source.TargetAddress,
             EndpointProfileType = source.EndpointProfileType,
-            DiscoveredAssetEndpointProfileRef = source.DiscoveredAssetEndpointProfileRef,
+            DiscoveredAssetEndpointProfileRef = source.DiscoveredAssetEndpointProfileRef
         };
     }
 
-    public static Authentication ToModel(this AdrBaseService.AuthenticationSchema source)
+    public static Authentication ToModel(this AuthenticationSchema source)
     {
         return new Authentication
         {
             Method = source.Method?.ToModel(),
             X509Credentials = source.X509credentials?.ToModel(),
-            UsernamePasswordCredentials = source.UsernamePasswordCredentials?.ToModel(),
+            UsernamePasswordCredentials = source.UsernamePasswordCredentials?.ToModel()
         };
     }
 
-    public static Method ToModel(this AdrBaseService.MethodSchema source)
+    public static Method ToModel(this MethodSchema source)
     {
         return (Method)(int)source;
     }
 
-    public static X509Credentials ToModel(this AdrBaseService.X509credentialsSchema source)
+    public static X509Credentials ToModel(this X509credentialsSchema source)
     {
         return new X509Credentials
         {
@@ -226,7 +205,7 @@ public static class ModelsConverter
         };
     }
 
-    public static UsernamePasswordCredentials ToModel(this AdrBaseService.UsernamePasswordCredentialsSchema source)
+    public static UsernamePasswordCredentials ToModel(this UsernamePasswordCredentialsSchema source)
     {
         return new UsernamePasswordCredentials
         {
@@ -248,7 +227,7 @@ public static class ModelsConverter
         return new Error
         {
             Code = source.Code,
-            Message = source.Message,
+            Message = source.Message
         };
     }
 

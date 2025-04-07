@@ -12,7 +12,7 @@ public static class ProtocolConverter
     {
         return new GetAssetRequestPayload
         {
-            AssetName = source.AssetName,
+            AssetName = source.AssetName
         };
     }
 
@@ -23,8 +23,8 @@ public static class ProtocolConverter
             AssetStatusUpdate = new UpdateAssetStatusRequestSchema
             {
                 AssetName = source.AssetName,
-                AssetStatus = source.AssetStatus?.ToProtocol(),
-            },
+                AssetStatus = source.AssetStatus?.ToProtocol()
+            }
         };
     }
 
@@ -48,18 +48,18 @@ public static class ProtocolConverter
         };
     }
 
-    public static AdrBaseService.DatasetsSchemaSchemaElementSchema ToProtocol(this DatasetsSchemaSchemaElement source)
+    public static DatasetsSchemaSchemaElementSchema ToProtocol(this DatasetsSchemaSchemaElement source)
     {
-        return new AdrBaseService.DatasetsSchemaSchemaElementSchema
+        return new DatasetsSchemaSchemaElementSchema
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
         };
     }
 
-    public static AdrBaseService.EventsSchemaSchemaElementSchema ToProtocol(this EventsSchemaSchemaElement source)
+    public static EventsSchemaSchemaElementSchema ToProtocol(this EventsSchemaSchemaElement source)
     {
-        return new AdrBaseService.EventsSchemaSchemaElementSchema
+        return new EventsSchemaSchemaElementSchema
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
@@ -101,20 +101,9 @@ public static class ProtocolConverter
         };
     }
 
-    public static AdrBaseService.AssetDatasetSchemaElementSchema ToProtocol(this AssetDatasetSchemaElement source)
+    public static DetectedAssetDatasetSchemaElementSchema ToProtocol(this DetectedAssetDatasetSchemaElement source)
     {
-        return new AdrBaseService.AssetDatasetSchemaElementSchema
-        {
-            Name = source.Name,
-            DatasetConfiguration = source.DatasetConfiguration,
-            DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
-            Topic = source.Topic?.ToProtocol()
-        };
-    }
-
-    public static AdrBaseService.DetectedAssetDatasetSchemaElementSchema ToProtocol(this DetectedAssetDatasetSchemaElement source)
-    {
-        return new AdrBaseService.DetectedAssetDatasetSchemaElementSchema
+        return new DetectedAssetDatasetSchemaElementSchema
         {
             Name = source.Name,
             DataSetConfiguration = source.DataSetConfiguration,
@@ -123,9 +112,9 @@ public static class ProtocolConverter
         };
     }
 
-    public static AdrBaseService.DetectedAssetEventSchemaElementSchema ToProtocol(this DetectedAssetEventSchemaElement source)
+    public static DetectedAssetEventSchemaElementSchema ToProtocol(this DetectedAssetEventSchemaElement source)
     {
-        return new AdrBaseService.DetectedAssetEventSchemaElementSchema
+        return new DetectedAssetEventSchemaElementSchema
         {
             Name = source.Name,
             EventConfiguration = source.EventConfiguration,
@@ -138,29 +127,29 @@ public static class ProtocolConverter
         return new AdrBaseService.Topic
         {
             Path = source.Path,
-            Retain = source.Retain?.ToProtocol(),
+            Retain = source.Retain?.ToProtocol()
         };
     }
 
-    public static AdrBaseService.RetainSchema ToProtocol(this Retain source)
+    public static RetainSchema ToProtocol(this Retain source)
     {
-        return (AdrBaseService.RetainSchema)(int)source;
+        return (RetainSchema)(int)source;
     }
 
-    public static AdrBaseService.AssetDataPointSchemaElementSchema ToProtocol(this AssetDataPointSchemaElement source)
+    public static AssetDataPointSchemaElementSchema ToProtocol(this AssetDataPointSchemaElement source)
     {
-        return new AdrBaseService.AssetDataPointSchemaElementSchema
+        return new AssetDataPointSchemaElementSchema
         {
             Name = source.Name,
             DataPointConfiguration = source.DataPointConfiguration,
             DataSource = source.DataSource,
-            ObservabilityMode = source.ObservabilityMode?.ToProtocol(),
+            ObservabilityMode = source.ObservabilityMode?.ToProtocol()
         };
     }
 
-    public static AdrBaseService.DetectedAssetDataPointSchemaElementSchema ToProtocol(this DetectedAssetDataPointSchemaElement source)
+    public static DetectedAssetDataPointSchemaElementSchema ToProtocol(this DetectedAssetDataPointSchemaElement source)
     {
-        return new AdrBaseService.DetectedAssetDataPointSchemaElementSchema
+        return new DetectedAssetDataPointSchemaElementSchema
         {
             Name = source.Name,
             DataPointConfiguration = source.DataPointConfiguration,
@@ -169,9 +158,9 @@ public static class ProtocolConverter
         };
     }
 
-    public static AdrBaseService.AssetDataPointObservabilityModeSchema ToProtocol(this AssetDataPointObservabilityMode source)
+    public static AssetDataPointObservabilityModeSchema ToProtocol(this AssetDataPointObservabilityMode source)
     {
-        return (AdrBaseService.AssetDataPointObservabilityModeSchema)(int)source;
+        return (AssetDataPointObservabilityModeSchema)(int)source;
     }
 
     public static CreateDiscoveredAssetEndpointProfileRequestPayload ToProtocol(this CreateDiscoveredAssetEndpointProfileRequest source)
@@ -189,9 +178,9 @@ public static class ProtocolConverter
         };
     }
 
-    public static AepTypeService.SupportedAuthenticationMethodsSchemaElementSchema ToProtocol(this SupportedAuthenticationMethodsSchemaElement source)
+    public static SupportedAuthenticationMethodsSchemaElementSchema ToProtocol(this SupportedAuthenticationMethodsSchemaElement source)
     {
-        return (AepTypeService.SupportedAuthenticationMethodsSchemaElementSchema)(int)source;
+        return (SupportedAuthenticationMethodsSchemaElementSchema)(int)source;
     }
 
     public static UpdateAssetEndpointProfileStatusRequestPayload ToProtocol(this UpdateAssetEndpointProfileStatusRequest source)
@@ -200,8 +189,8 @@ public static class ProtocolConverter
         {
             AssetEndpointProfileStatusUpdate = new AdrBaseService.AssetEndpointProfileStatus
             {
-                Errors = source.Errors?.Select(x => x.ToProtocol()).ToList(),
-            },
+                Errors = source.Errors?.Select(x => x.ToProtocol()).ToList()
+            }
         };
     }
 }
