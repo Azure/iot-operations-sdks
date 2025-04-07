@@ -2343,7 +2343,10 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             using MockMqttClient mockMqttClient = new MockMqttClient();
             await using MqttSessionClient sessionClient = new(mockMqttClient);
 
-            var options = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883));
+            var options = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100
+            };
 
             await sessionClient.ConnectAsync(options);
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await sessionClient.ConnectAsync(options));
