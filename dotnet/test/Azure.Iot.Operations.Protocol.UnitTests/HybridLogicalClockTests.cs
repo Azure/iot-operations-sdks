@@ -124,5 +124,54 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(11, hlc1.Counter);
             Assert.Equal(nodeId, hlc1.NodeId);
         }
+
+        [Fact]
+        public void EncodeFromStringSuccess()
+        {
+            int expectedCounter = 12;
+            string expectedNodeId = Guid.NewGuid().ToString();
+            HybridLogicalClock hlc = new(DateTime.MaxValue, expectedCounter, expectedNodeId);
+
+            string actualEncodedHlc = hlc.EncodeToString();
+
+            Assert.Equal($"253402300799998.97:000{expectedCounter}:{expectedNodeId}", actualEncodedHlc);
+        }
+
+        [Fact]
+        public void DecodeFromStringSuccess()
+        {
+            int expectedCounter = 12;
+            string expectedNodeId = Guid.NewGuid().ToString();
+
+            string encodedHlc = $"253402300799998.97:000{expectedCounter}:{expectedNodeId}";
+
+            HybridLogicalClock hlc = HybridLogicalClock.DecodeFromString("", encodedHlc);
+
+            Assert.Equal(DateTime.MaxValue.Date, hlc.Timestamp.Date); // Can't compare down to millisecond level due to rounding. Just check date level
+            Assert.Equal(expectedCounter, hlc.Counter);
+            Assert.Equal(expectedNodeId, hlc.NodeId);
+        }
+
+        [Fact]
+        public void DecodeFromStringThrowsIfMalformedString()
+        {
+            int expectedCounter = 12;
+            string expectedNodeId = Guid.NewGuid().ToString();
+
+            // missing node Id
+            Assert.Throws<AkriMqttException>(() => HybridLogicalClock.DecodeFromString("", $"253402300799998.97:000{expectedCounter}"));
+
+            // zero length node Id
+            Assert.Throws<AkriMqttException>(() => HybridLogicalClock.DecodeFromString("", $"253402300799998.97:000{expectedCounter}:"));
+
+            // missing counter
+            Assert.Throws<AkriMqttException>(() => HybridLogicalClock.DecodeFromString("", $"253402300799998.97:{expectedNodeId}"));
+
+            // missing timestamp
+            Assert.Throws<AkriMqttException>(() => HybridLogicalClock.DecodeFromString("", $"{expectedCounter}:{expectedNodeId}"));
+
+            // non-int counter
+            Assert.Throws<AkriMqttException>(() => HybridLogicalClock.DecodeFromString("", $"253402300799998.97:{"someNonInteger"}:{expectedNodeId}"));
+        }
     }
 }
