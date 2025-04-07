@@ -3,7 +3,9 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record X509credentialsSchema
+public enum DetectedAssetResponseStatus
 {
-    public string? CertificateSecretName { get; set; } = default;
+    Created = 0,
+    Duplicate = 1,
+    Failed = 2
 }

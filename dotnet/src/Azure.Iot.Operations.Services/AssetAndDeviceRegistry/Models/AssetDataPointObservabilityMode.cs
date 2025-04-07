@@ -3,9 +3,11 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum SupportedAuthenticationMethodsSchemaElementSchema
+public enum AssetDataPointObservabilityMode
 {
-    Anonymous = 0,
-    Certificate = 1,
-    UsernamePassword = 2
+    Counter = 0,
+    Gauge = 1,
+    Histogram = 2,
+    Log = 3,
+    None = 4
 }

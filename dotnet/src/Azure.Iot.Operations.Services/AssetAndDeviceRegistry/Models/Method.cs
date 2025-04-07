@@ -3,8 +3,9 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum AssetEventObservabilityModeSchema
+public enum Method
 {
-    Log = 0,
-    None = 1
+    Anonymous = 0,
+    Certificate = 1,
+    UsernamePassword = 2
 }

@@ -11,10 +11,10 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken);
 
-    Task<AssetEndpointProfileResponse> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
+    Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
-    Task<AssetEndpointProfileResponse> UpdateAssetEndpointProfileStatusAsync(string aepName,
+    Task<AssetEndpointProfile> UpdateAssetEndpointProfileStatusAsync(string aepName,
         UpdateAssetEndpointProfileStatusRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
@@ -23,12 +23,12 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken);
 
-    Task<AssetResponse> GetAssetAsync(string aepName,
+    Task<Asset> GetAssetAsync(string aepName,
         GetAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
-    Task<AssetResponse> UpdateAssetStatusAsync(string aepName,
+    Task<Asset> UpdateAssetStatusAsync(string aepName,
         UpdateAssetStatusRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);

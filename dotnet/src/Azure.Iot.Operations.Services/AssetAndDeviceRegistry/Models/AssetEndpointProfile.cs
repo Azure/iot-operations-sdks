@@ -7,7 +7,7 @@ public record AssetEndpointProfile
 {
     public string? Name { get; set; } = default;
 
-    public AssetEndpointProfileSpecificationSchema? Specification { get; set; } = default;
+    public AssetEndpointProfileSpecification? Specification { get; set; } = default;
 
     public AssetEndpointProfileStatus? Status { get; set; } = default;
 }

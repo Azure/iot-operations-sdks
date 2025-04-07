@@ -3,11 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum AssetDataPointObservabilityModeSchema
+public record X509Credentials
 {
-    Counter = 0,
-    Gauge = 1,
-    Histogram = 2,
-    Log = 3,
-    None = 4
+    public string? CertificateSecretName { get; set; } = default;
 }

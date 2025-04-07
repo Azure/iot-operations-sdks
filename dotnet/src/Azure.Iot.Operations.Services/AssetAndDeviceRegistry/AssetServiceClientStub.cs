@@ -17,7 +17,7 @@ internal class AssetServiceClientStub(ApplicationContext applicationContext, IMq
     public override async Task ReceiveTelemetry(string senderId, AssetEndpointProfileUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
         var aepName = telemetry.AssetEndpointProfileUpdateEvent.AssetEndpointProfile?.Name ?? string.Empty;
-        Models.AssetEndpointProfile? assetEndpointProfile = telemetry.AssetEndpointProfileUpdateEvent.AssetEndpointProfile.ToModel();
+        Models.AssetEndpointProfile? assetEndpointProfile = telemetry.AssetEndpointProfileUpdateEvent.AssetEndpointProfile?.ToModel();
 
         if (OnReceiveAssetEndpointProfileUpdateTelemetry != null)
         {

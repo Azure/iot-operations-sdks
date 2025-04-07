@@ -9,7 +9,7 @@ public record CreateDetectedAssetRequest
 
     public string? AssetName { get; set; } = default;
 
-    public List<DetectedAssetDatasetSchemaElementSchema>? Datasets { get; set; } = default;
+    public List<DetectedAssetDatasetSchemaElement>? Datasets { get; set; } = default;
 
     public string? DefaultDatasetsConfiguration { get; set; } = default;
 
@@ -19,7 +19,7 @@ public record CreateDetectedAssetRequest
 
     public string? DocumentationUri { get; set; } = default;
 
-    public List<DetectedAssetEventSchemaElementSchema>? Events { get; set; } = default;
+    public List<DetectedAssetEventSchemaElement>? Events { get; set; } = default;
 
     public string? HardwareRevision { get; set; } = default;
 

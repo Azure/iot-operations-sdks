@@ -7,7 +7,7 @@ public record Asset
 {
     public string? Name { get; set; } = default;
 
-    public AssetSpecificationSchema? Specification { get; set; } = default;
+    public AssetSpecification? Specification { get; set; } = default;
 
     public AssetStatus? Status { get; set; } = default;
 }

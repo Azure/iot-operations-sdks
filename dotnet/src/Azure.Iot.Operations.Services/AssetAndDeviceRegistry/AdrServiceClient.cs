@@ -81,7 +81,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             _defaultTimeout, cancellationToken)).NotificationResponse.ToModel();
     }
 
-    public async Task<AssetEndpointProfileResponse> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
+    public async Task<Models.AssetEndpointProfile> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -92,8 +92,8 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.AssetEndpointProfile.ToModel();
     }
 
-    public async Task<AssetEndpointProfileResponse> UpdateAssetEndpointProfileStatusAsync(string aepName,
-        UpdateAssetEndpointProfileStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.AssetEndpointProfile> UpdateAssetEndpointProfileStatusAsync(string aepName,
+        Models.UpdateAssetEndpointProfileStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -173,7 +173,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
     }
 
-    public async Task<AssetResponse> GetAssetAsync(string aepName, GetAssetRequest request, TimeSpan? commandTimeout = null,
+    public async Task<Models.Asset> GetAssetAsync(string aepName, Models.GetAssetRequest request, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -184,7 +184,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.Asset.ToModel();
     }
 
-    public async Task<AssetResponse> UpdateAssetStatusAsync(string aepName, UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null,
+    public async Task<Models.Asset> UpdateAssetStatusAsync(string aepName, Models.UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -195,7 +195,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.UpdatedAsset.ToModel();
     }
 
-    public async Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string aepName, CreateDetectedAssetRequest request,
+    public async Task<Models.CreateDetectedAssetResponse> CreateDetectedAssetAsync(string aepName, Models.CreateDetectedAssetRequest request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -206,8 +206,8 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.CreateDetectedAssetResponse.ToModel();
     }
 
-    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
-        CreateDiscoveredAssetEndpointProfileRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
+        Models.CreateDiscoveredAssetEndpointProfileRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);

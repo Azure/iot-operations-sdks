@@ -7,5 +7,5 @@ public record Topic
 {
     public string? Path { get; set; } = default;
 
-    public RetainSchema? Retain { get; set; } = default;
+    public Retain? Retain { get; set; } = default;
 }

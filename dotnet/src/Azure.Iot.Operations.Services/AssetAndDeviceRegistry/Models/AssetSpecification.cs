@@ -3,13 +3,13 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetSpecificationSchema
+public record AssetSpecification
 {
     public string? AssetEndpointProfileRef { get; set; } = default;
 
     public Dictionary<string, string>? Attributes { get; set; } = default;
 
-    public List<AssetDatasetSchemaElementSchema>? Datasets { get; set; } = default;
+    public List<AssetDatasetSchemaElement>? Datasets { get; set; } = default;
 
     public string? DefaultDatasetsConfiguration { get; set; } = default;
 
@@ -27,7 +27,7 @@ public record AssetSpecificationSchema
 
     public bool? Enabled { get; set; } = default;
 
-    public List<AssetEventSchemaElementSchema>? Events { get; set; } = default;
+    public List<AssetEventSchemaElement>? Events { get; set; } = default;
 
     public string? ExternalAssetId { get; set; } = default;
 

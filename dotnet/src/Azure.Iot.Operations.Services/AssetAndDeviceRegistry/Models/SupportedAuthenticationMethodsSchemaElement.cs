@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum MethodSchema
+public enum SupportedAuthenticationMethodsSchemaElement
 {
     Anonymous = 0,
     Certificate = 1,

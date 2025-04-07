@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetEventSchemaElementSchema
+public record AssetEventSchemaElement
 {
     public string? EventConfiguration { get; set; } = default;
 
@@ -11,7 +11,7 @@ public record AssetEventSchemaElementSchema
 
     public string? Name { get; set; } = default;
 
-    public AssetEventObservabilityModeSchema? ObservabilityMode { get; set; } = default;
+    public AssetEventObservabilityMode? ObservabilityMode { get; set; } = default;
 
     public Topic? Topic { get; set; } = default;
 }

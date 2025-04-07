@@ -3,9 +3,8 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum DetectedAssetResponseStatusSchema
+public enum Retain
 {
-    Created = 0,
-    Duplicate = 1,
-    Failed = 2
+    Keep = 0,
+    Never = 1
 }

@@ -3,8 +3,8 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public enum RetainSchema
+public enum AssetEventObservabilityMode
 {
-    Keep = 0,
-    Never = 1
+    Log = 0,
+    None = 1
 }

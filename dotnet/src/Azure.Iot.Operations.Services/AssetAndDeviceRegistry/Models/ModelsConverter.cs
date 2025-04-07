@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public static class ModelsConverter
 {
-    public static Models.AssetStatus ToModel(this AdrBaseService.AssetStatus source){
-        return new Models.AssetStatus
+    public static AssetStatus ToModel(this AdrBaseService.AssetStatus source){
+        return new AssetStatus
         {
             Errors = source.Errors?.Select(x => x.ToModel()).ToList(),
             DatasetsSchema = source.DatasetsSchema?.Select(x => x.ToModel()).ToList(),
@@ -17,27 +17,27 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.DatasetsSchemaSchemaElementSchema ToModel(this AdrBaseService.DatasetsSchemaSchemaElementSchema source)
+    public static DatasetsSchemaSchemaElement ToModel(this AdrBaseService.DatasetsSchemaSchemaElementSchema source)
     {
-        return new Models.DatasetsSchemaSchemaElementSchema
+        return new DatasetsSchemaSchemaElement
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToModel()
         };
     }
 
-    public static Models.EventsSchemaSchemaElementSchema ToModel(this AdrBaseService.EventsSchemaSchemaElementSchema source)
+    public static EventsSchemaSchemaElement ToModel(this AdrBaseService.EventsSchemaSchemaElementSchema source)
     {
-        return new Models.EventsSchemaSchemaElementSchema
+        return new EventsSchemaSchemaElement
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToModel()
         };
     }
 
-    public static Models.AssetResponse ToModel(this AdrBaseService.Asset source)
+    public static Asset ToModel(this AdrBaseService.Asset source)
     {
-        return new Models.AssetResponse
+        return new Asset
         {
             Name = source.Name,
             Specification = source.Specification?.ToModel(),
@@ -45,18 +45,18 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.MessageSchemaReference ToModel(this AdrBaseService.MessageSchemaReference source)
+    public static MessageSchemaReference ToModel(this AdrBaseService.MessageSchemaReference source)
     {
-        return new Models.MessageSchemaReference
+        return new MessageSchemaReference
         {
             SchemaName = source.SchemaName,
             SchemaNamespace = source.SchemaNamespace,
             SchemaVersion = source.SchemaVersion
         };
     }
-    public static Models.AssetSpecificationSchema ToModel(this AdrBaseService.AssetSpecificationSchema source)
+    public static AssetSpecification ToModel(this AdrBaseService.AssetSpecificationSchema source)
     {
-        return new Models.AssetSpecificationSchema
+        return new AssetSpecification
         {
             Datasets = source.Datasets?.Select(x => x.ToModel()).ToList(),
             Attributes = source.Attributes?? new Dictionary<string, string>(),
@@ -83,9 +83,9 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AssetDatasetSchemaElementSchema ToModel(this AdrBaseService.AssetDatasetSchemaElementSchema source)
+    public static AssetDatasetSchemaElement ToModel(this AdrBaseService.AssetDatasetSchemaElementSchema source)
     {
-        return new Models.AssetDatasetSchemaElementSchema
+        return new AssetDatasetSchemaElement
         {
             Name = source.Name,
             Topic = source.Topic?.ToModel(),
@@ -94,9 +94,9 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AssetEventSchemaElementSchema ToModel(this AdrBaseService.AssetEventSchemaElementSchema source)
+    public static AssetEventSchemaElement ToModel(this AdrBaseService.AssetEventSchemaElementSchema source)
     {
-        return new Models.AssetEventSchemaElementSchema
+        return new AssetEventSchemaElement
         {
             Name = source.Name,
             Topic = source.Topic?.ToModel(),
@@ -106,28 +106,28 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AssetEventObservabilityModeSchema ToModel(this AdrBaseService.AssetEventObservabilityModeSchema source)
+    public static AssetEventObservabilityMode ToModel(this AdrBaseService.AssetEventObservabilityModeSchema source)
     {
-        return (Models.AssetEventObservabilityModeSchema)(int)source;
+        return (AssetEventObservabilityMode)(int)source;
     }
 
-    public static Models.Topic ToModel(this AdrBaseService.Topic source)
+    public static Topic ToModel(this AdrBaseService.Topic source)
     {
-        return new Models.Topic
+        return new Topic
         {
             Path = source.Path,
             Retain = source.Retain?.ToModel()
         };
     }
 
-    public static Models.RetainSchema ToModel(this AdrBaseService.RetainSchema source)
+    public static Retain ToModel(this AdrBaseService.RetainSchema source)
     {
-        return (Models.RetainSchema)(int)source;
+        return (Retain)(int)source;
     }
 
-    public static Models.DetectedAssetDatasetSchemaElementSchema ToModel(this AdrBaseService.DetectedAssetDatasetSchemaElementSchema source)
+    public static DetectedAssetDatasetSchemaElement ToModel(this AdrBaseService.DetectedAssetDatasetSchemaElementSchema source)
     {
-        return new Models.DetectedAssetDatasetSchemaElementSchema
+        return new DetectedAssetDatasetSchemaElement
         {
             Name = source.Name,
             Topic = source.Topic?.ToModel(),
@@ -136,9 +136,9 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.DetectedAssetEventSchemaElementSchema ToModel(this AdrBaseService.DetectedAssetEventSchemaElementSchema source)
+    public static DetectedAssetEventSchemaElement ToModel(this AdrBaseService.DetectedAssetEventSchemaElementSchema source)
     {
-        return new Models.DetectedAssetEventSchemaElementSchema
+        return new DetectedAssetEventSchemaElement
         {
             Name = source.Name,
             Topic = source.Topic?.ToModel(),
@@ -148,9 +148,9 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AssetDataPointSchemaElementSchema ToModel(this AdrBaseService.AssetDataPointSchemaElementSchema source)
+    public static AssetDataPointSchemaElement ToModel(this AdrBaseService.AssetDataPointSchemaElementSchema source)
     {
-        return new Models.AssetDataPointSchemaElementSchema
+        return new AssetDataPointSchemaElement
         {
             DataPointConfiguration = source.DataPointConfiguration,
             DataSource = source.DataSource,
@@ -159,14 +159,14 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AssetDataPointObservabilityModeSchema ToModel(this AdrBaseService.AssetDataPointObservabilityModeSchema source)
+    public static AssetDataPointObservabilityMode ToModel(this AdrBaseService.AssetDataPointObservabilityModeSchema source)
     {
-        return (Models.AssetDataPointObservabilityModeSchema)(int)source;
+        return (AssetDataPointObservabilityMode)(int)source;
     }
 
-    public static Models.DetectedAssetDataPointSchemaElementSchema ToModel(this AdrBaseService.DetectedAssetDataPointSchemaElementSchema source)
+    public static DetectedAssetDataPointSchemaElement ToModel(this AdrBaseService.DetectedAssetDataPointSchemaElementSchema source)
     {
-        return new Models.DetectedAssetDataPointSchemaElementSchema
+        return new DetectedAssetDataPointSchemaElement
         {
             DataPointConfiguration = source.DataPointConfiguration,
             DataSource = source.DataSource,
@@ -175,14 +175,14 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.NotificationResponse ToModel(this AdrBaseService.NotificationResponse source)
+    public static NotificationResponse ToModel(this AdrBaseService.NotificationResponse source)
     {
-        return (Models.NotificationResponse)(int)source;
+        return (NotificationResponse)(int)source;
     }
 
-    public static Models.AssetEndpointProfileResponse ToModel(this AdrBaseService.AssetEndpointProfile source)
+    public static AssetEndpointProfile ToModel(this AdrBaseService.AssetEndpointProfile source)
     {
-        return new AssetEndpointProfileResponse
+        return new AssetEndpointProfile
         {
             Name = source.Name,
             Specification = source.Specification?.ToModel(),
@@ -190,9 +190,9 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AssetEndpointProfileSpecificationSchema ToModel(this AdrBaseService.AssetEndpointProfileSpecificationSchema source)
+    public static AssetEndpointProfileSpecification ToModel(this AdrBaseService.AssetEndpointProfileSpecificationSchema source)
     {
-        return new Models.AssetEndpointProfileSpecificationSchema
+        return new AssetEndpointProfileSpecification
         {
             Uuid = source.Uuid,
             Authentication = source.Authentication?.ToModel(),
@@ -203,72 +203,72 @@ public static class ModelsConverter
         };
     }
 
-    public static Models.AuthenticationSchema ToModel(this AdrBaseService.AuthenticationSchema source)
+    public static Authentication ToModel(this AdrBaseService.AuthenticationSchema source)
     {
-        return new Models.AuthenticationSchema
+        return new Authentication
         {
             Method = source.Method?.ToModel(),
-            X509credentials = source.X509credentials?.ToModel(),
+            X509Credentials = source.X509credentials?.ToModel(),
             UsernamePasswordCredentials = source.UsernamePasswordCredentials?.ToModel(),
         };
     }
 
-    public static Models.MethodSchema ToModel(this AdrBaseService.MethodSchema source)
+    public static Method ToModel(this AdrBaseService.MethodSchema source)
     {
-        return (Models.MethodSchema)(int)source;
+        return (Method)(int)source;
     }
 
-    public static Models.X509credentialsSchema ToModel(this AdrBaseService.X509credentialsSchema source)
+    public static X509Credentials ToModel(this AdrBaseService.X509credentialsSchema source)
     {
-        return new Models.X509credentialsSchema
+        return new X509Credentials
         {
             CertificateSecretName = source.CertificateSecretName
         };
     }
 
-    public static Models.UsernamePasswordCredentialsSchema ToModel(this AdrBaseService.UsernamePasswordCredentialsSchema source)
+    public static UsernamePasswordCredentials ToModel(this AdrBaseService.UsernamePasswordCredentialsSchema source)
     {
-        return new Models.UsernamePasswordCredentialsSchema
+        return new UsernamePasswordCredentials
         {
             PasswordSecretName = source.PasswordSecretName,
             UsernameSecretName = source.UsernameSecretName
         };
     }
 
-    public static Models.AssetEndpointProfileStatus ToModel(this AdrBaseService.AssetEndpointProfileStatus source)
+    public static AssetEndpointProfileStatus ToModel(this AdrBaseService.AssetEndpointProfileStatus source)
     {
-        return new Models.AssetEndpointProfileStatus
+        return new AssetEndpointProfileStatus
         {
             Errors = source.Errors?.Select(x => x.ToModel()).ToList()
         };
     }
 
-    public static Models.Error ToModel(this AdrBaseService.Error source)
+    public static Error ToModel(this AdrBaseService.Error source)
     {
-        return new Models.Error
+        return new Error
         {
             Code = source.Code,
             Message = source.Message,
         };
     }
 
-    public static Models.CreateDetectedAssetResponse ToModel(this AdrBaseService.CreateDetectedAssetResponseSchema source)
+    public static CreateDetectedAssetResponse ToModel(this CreateDetectedAssetResponseSchema source)
     {
         if (source.Status != null)
-            return new Models.CreateDetectedAssetResponse
+            return new CreateDetectedAssetResponse
             {
-                Status = (Models.DetectedAssetResponseStatusSchema)(int)source.Status
+                Status = (DetectedAssetResponseStatus)(int)source.Status
             };
-        return new Models.CreateDetectedAssetResponse();
+        return new CreateDetectedAssetResponse();
     }
 
-    public static Models.CreateDiscoveredAssetEndpointProfileResponse ToModel(this AepTypeService.CreateDiscoveredAssetEndpointProfileResponseSchema source)
+    public static CreateDiscoveredAssetEndpointProfileResponse ToModel(this CreateDiscoveredAssetEndpointProfileResponseSchema source)
     {
         if (source.Status != null)
-            return new Models.CreateDiscoveredAssetEndpointProfileResponse
+            return new CreateDiscoveredAssetEndpointProfileResponse
             {
-                Status = (Models.DiscoveredAssetEndpointProfileResponseStatusSchema)(int)source.Status
+                Status = (DiscoveredAssetEndpointProfileResponseStatus)(int)source.Status
             };
-        return new Models.CreateDiscoveredAssetEndpointProfileResponse();
+        return new CreateDiscoveredAssetEndpointProfileResponse();
     }
 }

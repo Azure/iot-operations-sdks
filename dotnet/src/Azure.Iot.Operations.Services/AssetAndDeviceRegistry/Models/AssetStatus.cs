@@ -5,11 +5,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetStatus
 {
-    public List<DatasetsSchemaSchemaElementSchema>? DatasetsSchema { get; set; }
+    public List<DatasetsSchemaSchemaElement>? DatasetsSchema { get; set; }
 
     public List<Error>? Errors { get; set; }
 
-    public List<EventsSchemaSchemaElementSchema>? EventsSchema { get; set; }
+    public List<EventsSchemaSchemaElement>? EventsSchema { get; set; }
 
     public int? Version { get; set; }
 }
