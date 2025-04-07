@@ -8,5 +8,4 @@ public record DatasetsSchemaSchemaElementSchema
     public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
 
     public string? Name { get; set; } = default;
-
 }

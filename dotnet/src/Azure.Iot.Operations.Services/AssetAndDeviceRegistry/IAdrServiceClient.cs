@@ -1,5 +1,6 @@
-﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
@@ -10,7 +11,8 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken);
 
-    Task<AssetEndpointProfileResponse> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
+    Task<AssetEndpointProfileResponse> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
 
     Task<AssetEndpointProfileResponse> UpdateAssetEndpointProfileStatusAsync(string aepName,
         UpdateAssetEndpointProfileStatusRequest request,

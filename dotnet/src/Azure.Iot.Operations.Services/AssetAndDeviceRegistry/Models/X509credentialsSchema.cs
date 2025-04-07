@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record CreateDiscoveredAssetEndpointProfileResponse
+public record X509credentialsSchema
 {
-    public DiscoveredAssetEndpointProfileResponseStatusSchema? Status { get; set; } = default;
+    public string? CertificateSecretName { get; set; } = default;
 }

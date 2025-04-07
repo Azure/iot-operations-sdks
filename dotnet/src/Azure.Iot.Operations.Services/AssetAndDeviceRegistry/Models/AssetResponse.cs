@@ -1,8 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetResponse(Asset? Asset);
+public record AssetResponse
+{
+    public string? Name { get; set; } = default;
+
+    public AssetSpecificationSchema? Specification { get; set; } = default;
+
+    public AssetStatus? Status { get; set; } = default;
+}

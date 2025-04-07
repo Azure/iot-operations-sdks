@@ -3,7 +3,9 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record CreateDiscoveredAssetEndpointProfileResponse
+public enum DiscoveredAssetEndpointProfileResponseStatusSchema
 {
-    public DiscoveredAssetEndpointProfileResponseStatusSchema? Status { get; set; } = default;
+    Created = 0,
+    Duplicate = 1,
+    Failed = 2
 }

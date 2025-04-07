@@ -3,7 +3,9 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record CreateDiscoveredAssetEndpointProfileResponse
+public enum MethodSchema
 {
-    public DiscoveredAssetEndpointProfileResponseStatusSchema? Status { get; set; } = default;
+    Anonymous = 0,
+    Certificate = 1,
+    UsernamePassword = 2
 }

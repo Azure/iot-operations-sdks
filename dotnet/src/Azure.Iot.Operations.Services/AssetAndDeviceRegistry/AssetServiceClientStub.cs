@@ -4,19 +4,20 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
 internal class AssetServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
     : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap)
 {
-    internal event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry;
-    internal event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry;
+    internal event Func<string, Models.AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry;
+    internal event Func<string, Models.Asset?, Task>? OnReceiveAssetUpdateEventTelemetry;
 
     public override async Task ReceiveTelemetry(string senderId, AssetEndpointProfileUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
         var aepName = telemetry.AssetEndpointProfileUpdateEvent.AssetEndpointProfile?.Name ?? string.Empty;
-        AssetEndpointProfile? assetEndpointProfile = telemetry.AssetEndpointProfileUpdateEvent.AssetEndpointProfile;
+        Models.AssetEndpointProfile? assetEndpointProfile = telemetry.AssetEndpointProfileUpdateEvent.AssetEndpointProfile.ToModel();
 
         if (OnReceiveAssetEndpointProfileUpdateTelemetry != null)
         {
@@ -27,7 +28,7 @@ internal class AssetServiceClientStub(ApplicationContext applicationContext, IMq
     public override async Task ReceiveTelemetry(string senderId, AssetUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
         string assetName = telemetry.AssetUpdateEvent.AssetName!;
-        Asset? asset = telemetry.AssetUpdateEvent.Asset;
+        Models.Asset? asset = telemetry.AssetUpdateEvent.Asset?.ToModel();
 
         if (OnReceiveAssetUpdateEventTelemetry != null)
         {

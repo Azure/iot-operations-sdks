@@ -7,5 +7,5 @@ public enum SupportedAuthenticationMethodsSchemaElementSchema
 {
     Anonymous = 0,
     Certificate = 1,
-    UsernamePassword = 2,
+    UsernamePassword = 2
 }

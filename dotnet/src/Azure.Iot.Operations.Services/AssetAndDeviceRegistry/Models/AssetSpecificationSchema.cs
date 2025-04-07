@@ -3,13 +3,13 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record CreateDetectedAssetRequest
+public record AssetSpecificationSchema
 {
     public string? AssetEndpointProfileRef { get; set; } = default;
 
-    public string? AssetName { get; set; } = default;
+    public Dictionary<string, string>? Attributes { get; set; } = default;
 
-    public List<DetectedAssetDatasetSchemaElementSchema>? Datasets { get; set; } = default;
+    public List<AssetDatasetSchemaElementSchema>? Datasets { get; set; } = default;
 
     public string? DefaultDatasetsConfiguration { get; set; } = default;
 
@@ -17,9 +17,19 @@ public record CreateDetectedAssetRequest
 
     public Topic? DefaultTopic { get; set; } = default;
 
+    public string? Description { get; set; } = default;
+
+    public List<string>? DiscoveredAssetRefs { get; set; } = default;
+
+    public string? DisplayName { get; set; } = default;
+
     public string? DocumentationUri { get; set; } = default;
 
-    public List<DetectedAssetEventSchemaElementSchema>? Events { get; set; } = default;
+    public bool? Enabled { get; set; } = default;
+
+    public List<AssetEventSchemaElementSchema>? Events { get; set; } = default;
+
+    public string? ExternalAssetId { get; set; } = default;
 
     public string? HardwareRevision { get; set; } = default;
 
@@ -34,4 +44,8 @@ public record CreateDetectedAssetRequest
     public string? SerialNumber { get; set; } = default;
 
     public string? SoftwareRevision { get; set; } = default;
+
+    public string? Uuid { get; set; } = default;
+
+    public string? Version { get; set; } = default;
 }

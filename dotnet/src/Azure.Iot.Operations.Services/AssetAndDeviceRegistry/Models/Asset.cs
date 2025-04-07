@@ -3,11 +3,11 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetEndpointProfile
+public record Asset
 {
     public string? Name { get; set; } = default;
 
-    public AssetEndpointProfileSpecificationSchema? Specification { get; set; } = default;
+    public AssetSpecificationSchema? Specification { get; set; } = default;
 
-    public AssetEndpointProfileStatus? Status { get; set; } = default;
+    public AssetStatus? Status { get; set; } = default;
 }
