@@ -35,7 +35,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             mockStateStoreGeneratedClient
@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             TimeSpan expectedRequestTimeout = TimeSpan.FromSeconds(1);
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
             ExtendedResponse<byte[]> expectedServiceResponse = new()
             {
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             TimeSpan expectedRequestTimeout = TimeSpan.FromSeconds(1);
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             ExtendedResponse<byte[]> expectedServiceResponse = new()
@@ -183,7 +183,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             using var cts = new CancellationTokenSource();
             cts.Cancel();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -206,7 +206,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             using var cts = new CancellationTokenSource();
             cts.Cancel();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -228,7 +228,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             using var cts = new CancellationTokenSource();
             cts.Cancel();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -248,7 +248,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             string clientId = "someClientId";
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -269,7 +269,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             string clientId = "someClientId";
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -292,7 +292,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             string clientId = "someClientId";
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -319,7 +319,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             ExtendedResponse<byte[]> expectedServiceResponse = new()
@@ -363,7 +363,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             ExtendedResponse<byte[]> expectedServiceResponse = new()
@@ -408,7 +408,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             ExtendedResponse<byte[]> expectedServiceResponse = new()
@@ -557,7 +557,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
             ExtendedResponse<byte[]> expectedServiceResponse = new()
             {
@@ -624,7 +624,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
             ExtendedResponse<byte[]> expectedServiceResponse = new()
             {
@@ -672,7 +672,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             using var cts = new CancellationTokenSource();
             cts.Cancel();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -692,7 +692,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             string clientId = "someClientId";
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -747,7 +747,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             mockMqttClient
@@ -806,7 +806,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             using var cts = new CancellationTokenSource();
             cts.Cancel();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -826,7 +826,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             CancellationToken cancellationToken = new CancellationToken();
             string clientId = "someClientId";
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
@@ -880,7 +880,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             string clientId = "someClientId";
             CancellationToken cancellationToken = new CancellationToken();
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             mockMqttClient
@@ -935,7 +935,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             ApplicationContext applicationContext = new ApplicationContext();
             string clientId = "someClientId";
 
-            var mockStateStoreGeneratedClient = new Mock<StateStoreClientStub>();
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
             mockStateStoreGeneratedClient
