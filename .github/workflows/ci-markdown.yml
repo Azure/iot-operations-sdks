@@ -11,10 +11,6 @@ permissions:
   actions: read
   checks: write
 
-env:
-  # Check all files if scheduled, otherwise only check changes lines
-  FILTER_MODE: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
-
 jobs:
   spellcheck:
     name: CI-spelling
@@ -43,5 +39,5 @@ jobs:
         with:
           config_file: .github/.linkspector.yml
           fail_level: warning
-          filter_mode: ${{ FILTER_MODE }}
+          filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
           show_stats: true
