@@ -109,9 +109,9 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
                                         Trace.TraceWarning("Failed to access file with path {0} due to error {1}", filePath, e);
                                     }
                                 }
-
-                                await Task.Delay(_pollingInterval);
                             }
+
+                            await Task.Delay(_pollingInterval);
                         }
                     }
                     catch (ObjectDisposedException)
