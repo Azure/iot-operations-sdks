@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Azure.Iot.Operations.Protocol;
+﻿using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
@@ -21,6 +18,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     private bool _observingAssetEndpointProfileUpdates;
     private bool _observingAssetUpdates;
 
+    /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
         if (_disposed) return;
@@ -30,6 +28,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         _disposed = true;
     }
 
+    /// <inheritdoc/>
     public async Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -57,6 +56,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.NotificationResponse.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -84,6 +84,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.NotificationResponse.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -97,6 +98,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.AssetEndpointProfile.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<AssetEndpointProfile> UpdateAssetEndpointProfileStatusAsync(string aepName,
         UpdateAssetEndpointProfileStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
@@ -110,6 +112,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.UpdatedAssetEndpointProfile.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<NotificationResponse> ObserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -144,6 +147,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.NotificationResponse.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -178,6 +182,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.NotificationResponse.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<Asset> GetAssetAsync(string aepName, GetAssetRequest request, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -191,6 +196,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.Asset.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<Asset> UpdateAssetStatusAsync(string aepName, UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -204,6 +210,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.UpdatedAsset.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string aepName, CreateDetectedAssetRequest request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
@@ -217,6 +224,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.CreateDetectedAssetResponse.ToModel();
     }
 
+    /// <inheritdoc/>
     public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
         CreateDiscoveredAssetEndpointProfileRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
@@ -230,12 +238,14 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         return result.CreateDiscoveredAssetEndpointProfileResponse.ToModel();
     }
 
+    /// <inheritdoc/>
     public event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry
     {
         add => _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry += value;
         remove => _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry -= value;
     }
 
+    /// <inheritdoc/>
     public event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry
     {
         add => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
