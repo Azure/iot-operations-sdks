@@ -264,13 +264,46 @@ pub struct DetectedAsset {
     /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
     pub events: Option<Vec<DetectedAssetEventSchema>>,
 
-    /// TODO Common schema for the asset, including its configuration and source.
-    pub asset_schema: AssetSpecificationSchemaCommon,
+    /// The 'assetEndpointProfileRef' Field.
+    pub asset_endpoint_profile_ref: String,
+
+    /// The 'defaultDatasetsConfiguration' Field.
+    pub default_datasets_configuration: Option<String>,
+
+    /// The 'defaultEventsConfiguration' Field.
+    pub default_events_configuration: Option<String>,
+
+    /// The 'defaultTopic' Field.
+    pub default_topic: Option<Topic>,
+
+    /// The 'documentationUri' Field.
+    pub documentation_uri: Option<String>,
+
+    /// The 'hardwareRevision' Field.
+    pub hardware_revision: Option<String>,
+
+    /// The 'manufacturer' Field.
+    pub manufacturer: Option<String>,
+
+    /// The 'manufacturerUri' Field.
+    pub manufacturer_uri: Option<String>,
+
+    /// The 'model' Field.
+    pub model: Option<String>,
+
+    /// The 'productCode' Field.
+    pub product_code: Option<String>,
+
+    /// The 'serialNumber' Field.
+    pub serial_number: Option<String>,
+
+    /// The 'softwareRevision' Field.
+    pub software_revision: Option<String>,
 }
 impl From<DetectedAsset> for GenDetectedAsset {
     fn from(source: DetectedAsset) -> Self {
         GenDetectedAsset {
-            asset_endpoint_profile_ref: source.asset_schema.asset_endpoint_profile_ref,
+            asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
             asset_name: source.asset_name,
             datasets: source.datasets.map(|datasets| {
                 datasets
@@ -278,37 +311,29 @@ impl From<DetectedAsset> for GenDetectedAsset {
                     .map(DetectedAssetDataSetSchema::into)
                     .collect()
             }),
-            default_datasets_configuration: source.asset_schema.default_datasets_configuration,
-            default_events_configuration: source.asset_schema.default_events_configuration,
-            default_topic: source.asset_schema.default_topic.map(Topic::into),
-            documentation_uri: source.asset_schema.documentation_uri,
+            default_datasets_configuration: source.default_datasets_configuration,
+            default_events_configuration: source.default_events_configuration,
+            default_topic: source.default_topic.map(Topic::into),
+            documentation_uri: source.documentation_uri,
             events: source.events.map(|events| {
                 events
                     .into_iter()
                     .map(DetectedAssetEventSchema::into)
                     .collect()
             }),
-            hardware_revision: source.asset_schema.hardware_revision,
-            manufacturer: source.asset_schema.manufacturer,
-            manufacturer_uri: source.asset_schema.manufacturer_uri,
-            model: source.asset_schema.model,
-            product_code: source.asset_schema.product_code,
-            serial_number: source.asset_schema.serial_number,
-            software_revision: source.asset_schema.software_revision,
+            hardware_revision: source.hardware_revision,
+            manufacturer: source.manufacturer,
+            manufacturer_uri: source.manufacturer_uri,
+            model: source.model,
+            product_code: source.product_code,
+            serial_number: source.serial_number,
+            software_revision: source.software_revision,
         }
     }
 }
 
 /// Represents a event schema for a detected asset.
 pub struct DetectedAssetEventSchema {
-    /// TODO Common schema for the event, including its configuration and source.
-    pub event_schema: EventSchemaCommon,
-    /// The 'lastUpdatedOn' Field.
-    pub last_updated_on: Option<String>,
-}
-
-/// TODO Represents the common fields of the event schema.
-pub struct EventSchemaCommon {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,
 
@@ -320,16 +345,18 @@ pub struct EventSchemaCommon {
 
     /// The 'topic' Field.
     pub topic: Option<Topic>,
+    /// The 'lastUpdatedOn' Field.
+    pub last_updated_on: Option<String>,
 }
 
 impl From<DetectedAssetEventSchema> for DetectedAssetEventSchemaElementSchema {
     fn from(value: DetectedAssetEventSchema) -> Self {
         DetectedAssetEventSchemaElementSchema {
-            event_configuration: value.event_schema.event_configuration,
-            event_notifier: value.event_schema.event_notifier,
-            name: value.event_schema.name,
+            event_configuration: value.event_configuration,
+            event_notifier: value.event_notifier,
+            name: value.name,
             last_updated_on: value.last_updated_on,
-            topic: value.event_schema.topic.map(Topic::into),
+            topic: value.topic.map(Topic::into),
         }
     }
 }
@@ -367,15 +394,6 @@ impl From<DetectedAssetDataSetSchema> for DetectedAssetDatasetSchemaElementSchem
 
 /// Represents a data point schema for a detected asset.
 pub struct DetectedAssetDataPointSchema {
-    /// TODO Common schema for the data point, including its configuration and source.
-    pub data_point_schema: DataPointSchemaCommon,
-
-    /// The 'lastUpdatedOn' Field.
-    pub last_updated_on: Option<String>,
-}
-
-/// TODO Represents the common fields of the data point schema.
-pub struct DataPointSchemaCommon {
     /// The 'dataPointConfiguration' Field.
     pub data_point_configuration: Option<String>,
 
@@ -384,14 +402,17 @@ pub struct DataPointSchemaCommon {
 
     /// The 'name' Field.
     pub name: Option<String>,
+
+    /// The 'lastUpdatedOn' Field.
+    pub last_updated_on: Option<String>,
 }
 
 impl From<DetectedAssetDataPointSchema> for DetectedAssetDataPointSchemaElementSchema {
     fn from(source: DetectedAssetDataPointSchema) -> Self {
         DetectedAssetDataPointSchemaElementSchema {
-            data_point_configuration: source.data_point_schema.data_point_configuration,
-            data_source: source.data_point_schema.data_source,
-            name: source.data_point_schema.name,
+            data_point_configuration: source.data_point_configuration,
+            data_source: source.data_source,
+            name: source.name,
             last_updated_on: source.last_updated_on,
         }
     }
@@ -733,41 +754,6 @@ impl From<GenAsset> for Asset {
 
 /// Represents the specification schema for a client asset, including attributes, datasets, and other metadata.
 pub struct AssetSpecificationSchema {
-    /// TODO Should we take out common fields and put them in a common struct?
-    pub asset_specification_schema_common: AssetSpecificationSchemaCommon,
-    /// The 'attributes' Field.
-    pub attributes: Option<HashMap<String, String>>,
-
-    /// The 'datasets' Field.
-    pub datasets: Option<Vec<AssetDatasetSchema>>,
-
-    /// The 'description' Field.
-    pub description: Option<String>,
-
-    /// The 'discoveredAssetRefs' Field.
-    pub discovered_asset_refs: Option<Vec<String>>,
-
-    /// The 'displayName' Field.
-    pub display_name: Option<String>,
-
-    /// The 'enabled' Field.
-    pub enabled: Option<bool>,
-
-    /// The 'events' Field.
-    pub events: Option<Vec<AssetEventSchema>>,
-
-    /// The 'externalAssetId' Field.
-    pub external_asset_id: Option<String>,
-
-    /// The 'uuid' Field.
-    pub uuid: Option<String>,
-
-    /// The 'version' Field.
-    pub version: Option<String>,
-}
-
-/// Represents the common fields of the asset specification schema.
-pub struct AssetSpecificationSchemaCommon {
     /// The 'assetEndpointProfileRef' Field.
     pub asset_endpoint_profile_ref: String,
 
@@ -803,25 +789,53 @@ pub struct AssetSpecificationSchemaCommon {
 
     /// The 'softwareRevision' Field.
     pub software_revision: Option<String>,
+
+    /// The 'attributes' Field.
+    pub attributes: Option<HashMap<String, String>>,
+
+    /// The 'datasets' Field.
+    pub datasets: Option<Vec<AssetDatasetSchema>>,
+
+    /// The 'description' Field.
+    pub description: Option<String>,
+
+    /// The 'discoveredAssetRefs' Field.
+    pub discovered_asset_refs: Option<Vec<String>>,
+
+    /// The 'displayName' Field.
+    pub display_name: Option<String>,
+
+    /// The 'enabled' Field.
+    pub enabled: Option<bool>,
+
+    /// The 'events' Field.
+    pub events: Option<Vec<AssetEventSchema>>,
+
+    /// The 'externalAssetId' Field.
+    pub external_asset_id: Option<String>,
+
+    /// The 'uuid' Field.
+    pub uuid: Option<String>,
+
+    /// The 'version' Field.
+    pub version: Option<String>,
 }
 
 impl From<GenAssetSpecificationSchema> for AssetSpecificationSchema {
     fn from(source: GenAssetSpecificationSchema) -> Self {
         AssetSpecificationSchema {
-            asset_specification_schema_common: AssetSpecificationSchemaCommon {
-                asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
-                default_datasets_configuration: source.default_datasets_configuration,
-                default_events_configuration: source.default_events_configuration,
-                default_topic: source.default_topic.map(Topic::from),
-                documentation_uri: source.documentation_uri,
-                hardware_revision: source.hardware_revision,
-                manufacturer: source.manufacturer,
-                manufacturer_uri: source.manufacturer_uri,
-                model: source.model,
-                product_code: source.product_code,
-                serial_number: source.serial_number,
-                software_revision: source.software_revision,
-            },
+            asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
+            default_datasets_configuration: source.default_datasets_configuration,
+            default_events_configuration: source.default_events_configuration,
+            default_topic: source.default_topic.map(Topic::from),
+            documentation_uri: source.documentation_uri,
+            hardware_revision: source.hardware_revision,
+            manufacturer: source.manufacturer,
+            manufacturer_uri: source.manufacturer_uri,
+            model: source.model,
+            product_code: source.product_code,
+            serial_number: source.serial_number,
+            software_revision: source.software_revision,
             attributes: source.attributes,
             datasets: source
                 .datasets
@@ -870,8 +884,15 @@ impl From<AssetDatasetSchemaElementSchema> for AssetDatasetSchema {
 
 /// Represents the schema for an asset data point, including its configuration and observability mode.
 pub struct AssetDataPointSchema {
-    /// The 'dataPointSchema' Field.
-    pub data_point_schema: DataPointSchemaCommon,
+    /// The 'dataPointConfiguration' Field.
+    pub data_point_configuration: Option<String>,
+
+    /// The 'dataSource' Field.
+    pub data_source: String,
+
+    /// The 'name' Field.
+    pub name: Option<String>,
+
     /// The 'observabilityMode' Field.
     pub observability_mode: Option<DataPointObservabilityMode>,
 }
@@ -879,11 +900,9 @@ pub struct AssetDataPointSchema {
 impl From<AssetDataPointSchemaElementSchema> for AssetDataPointSchema {
     fn from(source: AssetDataPointSchemaElementSchema) -> Self {
         AssetDataPointSchema {
-            data_point_schema: DataPointSchemaCommon {
-                data_point_configuration: source.data_point_configuration,
-                data_source: source.data_source,
-                name: Some(source.name),
-            },
+            data_point_configuration: source.data_point_configuration,
+            data_source: source.data_source,
+            name: Some(source.name),
             observability_mode: source
                 .observability_mode
                 .map(DataPointObservabilityMode::from),
@@ -892,8 +911,17 @@ impl From<AssetDataPointSchemaElementSchema> for AssetDataPointSchema {
 }
 /// Represents the schema for an asset event, including its configuration and observability mode.
 pub struct AssetEventSchema {
-    /// The 'eventSchema' Field.
-    pub event_schema: EventSchemaCommon,
+    /// The 'eventConfiguration' Field.
+    pub event_configuration: Option<String>,
+
+    /// The 'eventNotifier' Field.
+    pub event_notifier: String,
+
+    /// The 'name' Field.
+    pub name: String,
+
+    /// The 'topic' Field.
+    pub topic: Option<Topic>,
 
     /// The 'observabilityMode' Field.
     pub observability_mode: Option<EventObservabilityMode>,
@@ -902,12 +930,10 @@ pub struct AssetEventSchema {
 impl From<AssetEventSchemaElementSchema> for AssetEventSchema {
     fn from(source: AssetEventSchemaElementSchema) -> Self {
         AssetEventSchema {
-            event_schema: EventSchemaCommon {
-                event_configuration: source.event_configuration,
-                event_notifier: source.event_notifier,
-                name: source.name,
-                topic: source.topic.map(Topic::from),
-            },
+            event_configuration: source.event_configuration,
+            event_notifier: source.event_notifier,
+            name: source.name,
+            topic: source.topic.map(Topic::from),
             observability_mode: source.observability_mode.map(EventObservabilityMode::from),
         }
     }
