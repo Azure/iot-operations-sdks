@@ -40,3 +40,4 @@ jobs:
           fail_level: warning
           filter_mode: nofilter
           show_stats: true
+          modifiedFilesOnly: ${{ github.event_name != 'schedule' }}
