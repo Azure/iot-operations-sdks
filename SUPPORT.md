@@ -10,9 +10,9 @@ The public preview is focused on the [.NET SDK](/dotnet), [Go SDK](/go), [Rust S
 
 This project uses [GitHub Issues](https://github.com/Azure/iot-operations-sdks/issues/new/choose) to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates.
 
-While response times are not guaranteed, GitHub Issues and discussions are reviewed daily, and we aim to respond within two business days.
+We review GitHub Issues and discussions regularly and will typically respond within a few days.
 
-Help can be found in the following links:
+Help can be found via the following links:
 
 * Read through the [SDK documentation](/doc)
 * Check for an answer in the [troubleshooting](/doc/troubleshooting.md)
