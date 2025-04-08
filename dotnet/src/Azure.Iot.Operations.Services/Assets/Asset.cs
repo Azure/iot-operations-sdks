@@ -356,7 +356,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                         else
                         {
-                            Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
+                            Trace.TraceWarning($"Unexpected status dataset with null or empty name found.");
                         }
                     }
                 }

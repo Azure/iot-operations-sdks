@@ -37,7 +37,7 @@ func (c *Client[K, V]) Get(
 	var opts GetOptions
 	opts.Apply(opt)
 
-	c.logK(ctx, "GET", key)
+	c.logOp(ctx, "GET", key)
 	req := resp.OpK("GET", key)
 	return invoke(ctx, c.invoker, resp.Blob[V], &opts, req)
 }
