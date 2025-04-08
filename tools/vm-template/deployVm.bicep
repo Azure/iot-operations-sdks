@@ -1,8 +1,8 @@
 @description('A Unique name used for the Virtual Machine domain and also for generating resource names.')
-param name string = 'ryanvm'
+param name string = ''
 
 @description('Username for the Virtual Machine.')
-param adminUsername string = 'ryan'
+param adminUsername string = ''
 
 @description('Type of authentication to use on the Virtual Machine. SSH key is recommended.')
 @allowed([

@@ -5,20 +5,20 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "11009796848201811214"
+      "templateHash": "3580121551071281028"
     }
   },
   "parameters": {
     "name": {
       "type": "string",
-      "defaultValue": "ryanvm",
+      "defaultValue": "",
       "metadata": {
         "description": "A Unique name used for the Virtual Machine domain and also for generating resource names."
       }
     },
     "adminUsername": {
       "type": "string",
-      "defaultValue": "ryan",
+      "defaultValue": "",
       "metadata": {
         "description": "Username for the Virtual Machine."
       }
