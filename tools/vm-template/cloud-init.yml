@@ -35,7 +35,7 @@ runcmd:
     git clone https://github.com/azure/iot-operations-sdks
     ./iot-operations-sdks/tools/deployment/initialize-cluster.sh
     az login --identity
-    az connectedk8s connect --name $RESOURCE_NAME --location $LOCATION --resource-group $RESOURCE_GROUP --kube-config ./kube/config
+    az connectedk8s connect --name $RESOURCE_NAME --location $LOCATION --resource-group $RESOURCE_GROUP --kube-config .kube/config
   - |
     install -D -o $MYUSER -g $MYUSER -m 600 $MYWORK/.kube/config $MYHOME/.kube/config
     chown -R $MYUSER:$MYUSER $MYWORK

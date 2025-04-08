@@ -183,6 +183,7 @@ resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: resourceGroup()
+  // ISSUE: I dont think the vm.id is unique?
   name: guid(resourceGroup().id, vm.id, contributorRoleDefinition.id)
   properties: {
     roleDefinitionId: contributorRoleDefinition.id
