@@ -1,0 +1,266 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.34.44.8038",
+      "templateHash": "5975065206680808404"
+    }
+  },
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "ryanvm",
+      "metadata": {
+        "description": "A Unique name used for the Virtual Machine domain and also for generating resource names."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "ryan",
+      "metadata": {
+        "description": "Username for the Virtual Machine."
+      }
+    },
+    "authenticationType": {
+      "type": "string",
+      "defaultValue": "sshPublicKey",
+      "allowedValues": [
+        "sshPublicKey",
+        "password"
+      ],
+      "metadata": {
+        "description": "Type of authentication to use on the Virtual Machine. SSH key is recommended."
+      }
+    },
+    "adminPasswordOrKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "SSH key or password for the Virtual Machine. SSH key is recommended."
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_E2a_v4",
+      "metadata": {
+        "description": "The size of the VM, at least 16GB RAM is required"
+      }
+    }
+  },
+  "variables": {
+    "$fxv#0": "#cloud-config\n\npackage_update: true\npackage_upgrade: true\napt:\n  preserve_sources_list: true\n  sources:\n    msft.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/ubuntu/24.04/prod noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    azurecli.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/repos/azure-cli noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    kubernetes.list:\n      source: 'deb [signed-by=$KEY_FILE] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /'\n      keyid: DE15B14486CD377B9E876E1A234654DA9A296436\n\npackages:\n  - azure-cli\n  - kubectl\n  - git\n  - moby-cli\n  - moby-engine\n\n# write_files:\n#   - path: /setup.sh\n#     permissions: 0755\n#     content: |\n#       #!/bin/bash\n#       set -o errexit\n\n#       cd /workspaces\n#       git clone https://github.com/azure/iot-operations-sdks\n#       ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n\nruncmd:\n  - MYUSER=`id -un 1000`\n  - MYHOME=`eval echo ~$MYUSER`\n  - MYWORK=/workspaces\n  - LOCATION={{{location}}}\n  - RESOURCE_GROUP={{{resource_group}}}\n  - RESOURCE_NAME={{{resource_name}}}\n  - |\n    echo location=$LOCATION\n    echo group=$RESOURCE_GROUP\n    echo name=$RESOURCE_NAME\n  - |\n    mkdir $MYWORK\n    cd $MYWORK\n    git clone https://github.com/azure/iot-operations-sdks\n  - |\n    ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n    install -D -o $MYUSER -g $MYUSER -m 600 $MYWORK/.kube/config $MYHOME/.kube/config\n    az login --identity\n    az connectedk8s connect --name $RESOURCE_NAME --location $LOCATION --resource-group $RESOURCE_GROUP\n  - |\n    chown -R $MYUSER:$MYUSER $MYWORK\n",
+    "ubuntuOSVersion": {
+      "publisher": "Canonical",
+      "offer": "ubuntu-24_04-lts",
+      "sku": "server",
+      "version": "latest"
+    },
+    "location": "[resourceGroup().location]",
+    "dnsLabelPrefix": "[toLower(format('{0}-{1}', parameters('name'), uniqueString(resourceGroup().id)))]",
+    "publicIPAddressName": "[format('{0}-ip', parameters('name'))]",
+    "networkInterfaceName": "[format('{0}-nic', parameters('name'))]",
+    "networkSecurityGroupName": "[format('{0}-nsg', parameters('name'))]",
+    "virtualNetworkName": "[format('{0}-vnet', parameters('name'))]",
+    "osDiskType": "Standard_LRS",
+    "subnetName": "[format('{0}-subnet', uniqueString(variables('dnsLabelPrefix')))]",
+    "subnetAddressPrefix": "10.1.0.0/24",
+    "addressPrefix": "10.1.0.0/16",
+    "linuxConfiguration": {
+      "disablePasswordAuthentication": true,
+      "ssh": {
+        "publicKeys": [
+          {
+            "path": "[format('/home/{0}/.ssh/authorized_keys', parameters('adminUsername'))]",
+            "keyData": "[parameters('adminPasswordOrKey')]"
+          }
+        ]
+      }
+    },
+    "replacements": [
+      {
+        "key": "{{{location}}}",
+        "value": "[variables('location')]"
+      },
+      {
+        "key": "{{{resource_group}}}",
+        "value": "[resourceGroup().name]"
+      },
+      {
+        "key": "{{{resource_name}}}",
+        "value": "[parameters('name')]"
+      }
+    ],
+    "cloudInit": "[reduce(variables('replacements'), variables('$fxv#0'), lambda('cur', 'next', replace(string(lambdaVariables('cur')), lambdaVariables('next').key, lambdaVariables('next').value)))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('networkInterfaceName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[reference(resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName')), '2023-09-01').subnets[0].id]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+              }
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('networkSecurityGroupName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SSH",
+            "properties": {
+              "priority": 1000,
+              "protocol": "Tcp",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "22"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnetName')]",
+            "properties": {
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+              },
+              "addressPrefix": "[variables('subnetAddressPrefix')]",
+              "privateEndpointNetworkPolicies": "Enabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Basic"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "publicIPAddressVersion": "IPv4",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('name')]"
+        },
+        "idleTimeoutInMinutes": 4
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2023-09-01",
+      "name": "[parameters('name')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "[variables('osDiskType')]"
+            }
+          },
+          "imageReference": "[variables('ubuntuOSVersion')]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "[parameters('name')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPasswordOrKey')]",
+          "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), null(), variables('linuxConfiguration'))]",
+          "customData": "[base64(variables('cloudInit'))]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.DevTestLab/schedules",
+      "apiVersion": "2018-09-15",
+      "name": "[format('shutdown-computevm-{0}', parameters('name'))]",
+      "location": "[variables('location')]",
+      "properties": {
+        "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('name'))]",
+        "status": "Enabled",
+        "taskType": "ComputeVmShutdownTask",
+        "timeZoneId": "Pacific Standard Time",
+        "dailyRecurrence": {
+          "time": "0100"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('name'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "adminUsername": {
+      "type": "string",
+      "value": "[parameters('adminUsername')]"
+    },
+    "hostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')), '2023-09-01').dnsSettings.fqdn]"
+    },
+    "sshCommand": {
+      "type": "string",
+      "value": "[format('ssh {0}@{1}', parameters('adminUsername'), reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')), '2023-09-01').dnsSettings.fqdn)]"
+    }
+  }
+}
