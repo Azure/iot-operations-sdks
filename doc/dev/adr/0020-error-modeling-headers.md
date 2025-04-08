@@ -14,7 +14,7 @@ In addition, users must be able to include arbitrary user properties in their co
 
 On the command invoker side, we will add APIs for checking if a response was an application error and returning the error code and error data fields parsed from the MQTT message "AppErrCode" and "AppErrPayload" user properties.
 
-Similar to how our SDKs handle serializing the actual MQTT message payload, our SDKs will require the user provide the serializer for serializing/deserializing the AppErrPayload object. Our codegen output should also provide a passthrough serializer that takes/returns a string as-is as well if the user wants to model it as a "raw" string.
+Similar to how our SDKs handle serializing the actual MQTT message payload, our SDKs will require the user provide the serializer for serializing/deserializing the AppErrPayload object. The only difference in this new serializer is that it converts between object and string rather than object and byte array. This difference is because MQTT user properties must be strings, not byte arrays. Our codegen output should also provide a passthrough serializer that takes/returns a string as-is as well if the user wants to model it as a "raw" string.
 
 Other than these two new user properties, the over-the-wire behavior of our protocol won't change as a result of this decision.
 
@@ -91,13 +91,12 @@ We want to demonstrate this pattern in at least one sample per-language.
 
 For the sake of demonstrating this in all languages similarly, we will make the counter service return an application error if the invocation specifies a negative value to increment by. This change won't include any DTDL level changes yet.
 
+## Extra considerations
+
+- This ADR does not change the decision made in (ADR 19)[./0019-codegen-user-errs.md] which allows users to model errors in payloads.
+
 ## Open Questions
 
-- MQTT user properties are strings, not bytes, so is there an issue with using UTF8 encoding to convert a serialized payload to a string? Does this work for the serializers we already support (protobuf, avro, raw, etc.)
-  - Maybe this suggests the serialization interface we use here converts object <-> string rather than object <-> bytes
-
 - MQTT user property value size limit considerations? Users may provide very large payload objects and MQTT as a protocol may not be built for that?
-
-- Do we remove support for modeling application errors in the MQTT message payload as described in (ADR 19)[./0019-codegen-user-errs.md]? No one has onboarded to this model yet
 
 - Do we need distinct serializers for MQTT message payload serialization and this new MQTT user property "payload" serialization? Is it possible that, for example, errors would be modeled as JSON objects but normal payloads are modeled as protobuf objects? 
