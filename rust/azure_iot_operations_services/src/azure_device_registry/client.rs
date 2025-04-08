@@ -233,8 +233,7 @@ where
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .topic_tokens(HashMap::from([("aepName".to_string(), aep_name)]))
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let response = self
             .get_asset_endpoint_profile_command_invoker
@@ -281,8 +280,7 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let response = self
             .update_asset_endpoint_profile_status_command_invoker
@@ -412,8 +410,7 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let result = self
             .notify_on_asset_endpoint_profile_update_command_invoker
@@ -479,8 +476,7 @@ where
             .payload(get_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let response = self
             .get_asset_command_invoker
@@ -529,8 +525,7 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let response = self
             .update_asset_status_command_invoker
@@ -573,8 +568,7 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let response = self
             .create_detected_asset_command_invoker
@@ -643,8 +637,7 @@ where
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let result = self
             .notify_on_asset_update_command_invoker
@@ -727,8 +720,7 @@ where
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let result = self
             .notify_on_asset_update_command_invoker
@@ -791,8 +783,7 @@ where
             .payload(paylaod)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .build()?;
 
         let response = self
             .create_asset_endpoint_profile_command_invoker

@@ -92,6 +92,12 @@ pub struct ServiceError {
     pub property_value: Option<String>,
 }
 
+impl From<azure_iot_operations_protocol::rpc_command::invoker::RequestBuilderError> for Error {
+    fn from(e: azure_iot_operations_protocol::rpc_command::invoker::RequestBuilderError) -> Self {
+        Error(ErrorKind::InvalidArgument(e.to_string()))
+    }
+}
+
 #[derive(Clone, Debug, Default)]
 /// Represents a request to update the status of an asset endpoint profile in the ADR Service.
 pub struct AssetEndpointProfileStatus {
