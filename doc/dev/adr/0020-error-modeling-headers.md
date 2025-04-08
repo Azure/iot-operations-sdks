@@ -57,15 +57,15 @@ public ExtendedResponse<IncrementResponsePayload> Increment(IncrementRequestPayl
 ```csharp
 public void main()
 {
-    await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
-    await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+    MqttSessionClient mqttClient = ...;();
+    CounterClient counterClient = new CounterClient(mqttClient);
 
     IncrementRequestPayload payload = new IncrementRequestPayload
     {
         IncrementValue = -1
     };
 
-    var response = await counterClient.Increment(executorId, payload).WithMetadata();
+    var response = counterClient.Increment(executorId, payload).WithMetadata();
     
     // Check the RPC response for an application error
     if (response.TryGetApplicationError(SomeJsonSerializer, out string? errorCode, out CustomErrorPayload? errorPayload))
