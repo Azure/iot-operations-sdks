@@ -14,7 +14,7 @@ In addition, users must be able to include arbitrary user properties in their co
 
 On the command invoker side, we will add APIs for checking if a response was an application error and returning the error code and error data fields parsed from the MQTT message "AppErrCode" and "AppErrPayload" user properties.
 
-Similar to how our SDKs handle serializing the actual MQTT message payload, our SDKs will require the user provide the serializer for serializing/deserializing the AppErrPayload object.
+Similar to how our SDKs handle serializing the actual MQTT message payload, our SDKs will require the user provide the serializer for serializing/deserializing the AppErrPayload object. Our codegen output should also provide a passthrough serializer that takes/returns a string as-is as well if the user wants to model it as a "raw" string.
 
 Other than these two new user properties, the over-the-wire behavior of our protocol won't change as a result of this decision.
 
