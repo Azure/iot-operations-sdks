@@ -356,7 +356,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     if (base.IsConnected)
                     {
-                        Trace.TraceInformation("Disconnect reported by MQTTnet client, but it was already handled");
+                        Trace.TraceInformation("Disconnect reported by underlying MQTT client, but it was already handled");
                         return;
                     }
 

@@ -85,4 +85,25 @@ public class MathEnvoyTests
         Assert.True(resp.Response.GetRandomResponse > -1);
         Assert.True(resp.Response.GetRandomResponse < 51);
     }
+
+    [Fact]
+    public async Task InvokeRpcWithCustomCommandResponseTopicPattern()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "math-server-" + Guid.NewGuid();
+        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
+        await using MathService mathService = new(applicationContext, mqttExecutor);
+        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using MathClient mathClient = new(applicationContext, mqttInvoker);
+
+        await mathService.StartAsync();
+
+        mathClient.IsPrimeCommandInvoker.ResponseTopicPattern = "myCustomResponseTopic/" + Guid.NewGuid().ToString();
+
+        await mathService.StartAsync();
+
+        var result = await mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new IsPrimeRequestSchema() { Number = 45677 } });
+
+        Assert.True(result.IsPrimeResponse.IsPrime);
+    }
 }

@@ -40,7 +40,7 @@ func (c *Client[K, V]) VDel(
 	var opts VDelOptions
 	opts.Apply(opt)
 
-	c.logKV(ctx, "VDEL", key, val)
+	c.logOp(ctx, "VDEL", key)
 	req := resp.OpKV("VDEL", key, val)
 	return invoke(ctx, c.invoker, resp.Number, &opts, req)
 }

@@ -77,7 +77,7 @@ namespace Azure.Iot.Operations.Connector
 
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = MqttConnectionSettings.FromFileMount();
-            _logger.LogInformation($"Connecting to MQTT broker with {mqttConnectionSettings}");
+            _logger.LogInformation("Connecting to MQTT broker with hostname {hostname} and port {port}", mqttConnectionSettings.HostName, mqttConnectionSettings.TcpPort);
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
@@ -353,7 +353,7 @@ namespace Azure.Iot.Operations.Connector
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker.");
 
             Topic topic = assetEvent.Topic ?? asset.DefaultTopic ?? throw new AssetConfigurationException($"Event with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this event.");
             var mqttMessage = new MqttApplicationMessage(topic.Path)
