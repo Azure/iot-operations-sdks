@@ -2,8 +2,15 @@
 // Licensed under the MIT License.
 
 //! Types for Azure Device Registry operations.
+//! use core::fmt::Debug;
+use std::collections::HashMap;
+use thiserror::Error;
+
 use crate::common::dispatcher::Receiver;
-use adr_name_gen::adr_base_service::client::{
+use azure_iot_operations_mqtt::interface::AckToken;
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+
+use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
     Asset as GenAsset, AssetDataPointObservabilityModeSchema, AssetDataPointSchemaElementSchema,
     AssetDatasetSchemaElementSchema, AssetEndpointProfile as GenAssetEndpointProfile,
     AssetEndpointProfileSpecificationSchema as GenAssetEndpointProfileSpecificationSchema,
@@ -20,17 +27,11 @@ use adr_name_gen::adr_base_service::client::{
     Topic as GenTopic, UsernamePasswordCredentialsSchema as GenUsernamePasswordCredentialsSchema,
     X509credentialsSchema as GenX509credentialsSchema,
 };
-use adr_type_gen::aep_type_service::client::{
+use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
     DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
     DiscoveredAssetEndpointProfileResponseStatusSchema,
     SupportedAuthenticationMethodsSchemaElementSchema,
 };
-use azure_iot_operations_mqtt::interface::AckToken;
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
-use core::fmt::Debug;
-use std::collections::HashMap;
-use thiserror::Error;
-
 /// Azure Device Registry generated code
 mod adr_name_gen;
 mod adr_type_gen;
@@ -58,7 +59,7 @@ impl Error {
 pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
-    AIOProtocolError(AIOProtocolError),
+    AIOProtocolError(#[from] AIOProtocolError),
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
@@ -128,80 +129,92 @@ pub struct AssetStatus {
 
 impl From<AssetStatus> for GenAssetStatus {
     fn from(source: AssetStatus) -> Self {
-        let datasets_schema = source
-            .datasets_schema
-            .unwrap_or_default()
-            .into_iter()
-            .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
-                name: schema_ref.name,
-                message_schema_reference: schema_ref
-                    .message_schema_reference
-                    .map(MessageSchemaReference::into),
-            })
-            .collect();
-        let events_schema = source
-            .events_schema
-            .unwrap_or_default()
-            .into_iter()
-            .map(|schema_ref| EventsSchemaSchemaElementSchema {
-                name: schema_ref.name,
-                message_schema_reference: schema_ref
-                    .message_schema_reference
-                    .map(MessageSchemaReference::into),
-            })
-            .collect();
-        let errors = source
-            .errors
-            .unwrap_or_default()
-            .into_iter()
-            .map(AkriError::into)
-            .collect();
-
+        let datasets_schema = if let Some(datasets_schema) = source.datasets_schema {
+            Some(
+                datasets_schema
+                    .into_iter()
+                    .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
+                        name: schema_ref.name,
+                        message_schema_reference: schema_ref
+                            .message_schema_reference
+                            .map(MessageSchemaReference::into),
+                    })
+                    .collect(),
+            )
+        } else {
+            None
+        };
+        let events_schema = if let Some(events_schema) = source.events_schema {
+            Some(
+                events_schema
+                    .into_iter()
+                    .map(|schema_ref| EventsSchemaSchemaElementSchema {
+                        name: schema_ref.name,
+                        message_schema_reference: schema_ref
+                            .message_schema_reference
+                            .map(MessageSchemaReference::into),
+                    })
+                    .collect(),
+            )
+        } else {
+            None
+        };
+        let errors = if let Some(errors) = source.errors {
+            Some(errors.into_iter().map(AkriError::into).collect())
+        } else {
+            None
+        };
         GenAssetStatus {
-            datasets_schema: Some(datasets_schema),
-            events_schema: Some(events_schema),
-            errors: Some(errors),
-            version: Some(source.version.unwrap_or_default()),
+            datasets_schema: datasets_schema,
+            events_schema: events_schema,
+            errors: errors,
+            version: source.version,
         }
     }
 }
 
 impl From<GenAssetStatus> for AssetStatus {
     fn from(source: GenAssetStatus) -> Self {
-        let datasets_schema = source
-            .datasets_schema
-            .unwrap_or_default()
-            .into_iter()
-            .map(|schema_ref| SchemaReference {
-                name: schema_ref.name,
-                message_schema_reference: schema_ref
-                    .message_schema_reference
-                    .map(MessageSchemaReference::from),
-            })
-            .collect();
-        let events_schema = source
-            .events_schema
-            .unwrap_or_default()
-            .into_iter()
-            .map(|schema_ref| SchemaReference {
-                name: schema_ref.name,
-                message_schema_reference: schema_ref
-                    .message_schema_reference
-                    .map(MessageSchemaReference::from),
-            })
-            .collect();
-        let errors = source
-            .errors
-            .unwrap_or_default()
-            .into_iter()
-            .map(AkriError::from)
-            .collect();
-
+        let datasets_schema = if let Some(datasets_schema) = source.datasets_schema {
+            Some(
+                datasets_schema
+                    .into_iter()
+                    .map(|schema_ref| SchemaReference {
+                        name: schema_ref.name,
+                        message_schema_reference: schema_ref
+                            .message_schema_reference
+                            .map(MessageSchemaReference::from),
+                    })
+                    .collect(),
+            )
+        } else {
+            None
+        };
+        let events_schema = if let Some(events_schema) = source.events_schema {
+            Some(
+                events_schema
+                    .into_iter()
+                    .map(|schema_ref| SchemaReference {
+                        name: schema_ref.name,
+                        message_schema_reference: schema_ref
+                            .message_schema_reference
+                            .map(MessageSchemaReference::from),
+                    })
+                    .collect(),
+            )
+        } else {
+            None
+        };
+        let errors = if let Some(errors) = source.errors {
+            Some(errors.into_iter().map(AkriError::from).collect())
+        } else {
+            None
+        };
         AssetStatus {
-            datasets_schema: Some(datasets_schema),
-            events_schema: Some(events_schema),
-            errors: Some(errors),
-            version: Some(source.version.unwrap_or_default()),
+            datasets_schema: datasets_schema,
+            events_schema: events_schema,
+            errors: errors,
+            version: source.version,
         }
     }
 }
@@ -463,14 +476,14 @@ pub struct DiscoveredAssetEndpointProfile {
     pub endpoint_profile_type: String,
 
     /// list of supported authentication methods
-    pub supported_authentication_methods: Option<Vec<AuthenticationMethodsSchema>>,
+    pub supported_authentication_methods: Option<Vec<AuthenticationMethods>>,
 
     /// local valid URI specifying the network address/dns name of southbound service.
     pub target_address: String,
 }
 
 /// Represents the supported authentication methods for a discovered asset endpoint profile.
-pub enum AuthenticationMethodsSchema {
+pub enum AuthenticationMethods {
     /// Represents an anonymous authentication method.
     Anonymous,
     /// Represents certificate authentication method.
@@ -486,13 +499,13 @@ impl From<DiscoveredAssetEndpointProfile> for GenDiscoveredAssetEndpointProfile 
             .unwrap_or_default()
             .into_iter()
             .map(|method| match method {
-                AuthenticationMethodsSchema::Anonymous => {
+                AuthenticationMethods::Anonymous => {
                     SupportedAuthenticationMethodsSchemaElementSchema::Anonymous
                 }
-                AuthenticationMethodsSchema::Certificate => {
+                AuthenticationMethods::Certificate => {
                     SupportedAuthenticationMethodsSchemaElementSchema::Certificate
                 }
-                AuthenticationMethodsSchema::UsernamePassword => {
+                AuthenticationMethods::UsernamePassword => {
                     SupportedAuthenticationMethodsSchemaElementSchema::UsernamePassword
                 }
             })
@@ -513,7 +526,7 @@ pub struct AssetEndpointProfileObservation {
     /// The name of the asset endpoint profile (for convenience)
     pub name: String,
     /// The internal channel for receiving update telemetry for this aep
-    receiver: Receiver<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>,
+    receiver: Receiver<(AssetEndpointProfile, Option<AckToken>)>,
 }
 
 impl AssetEndpointProfileObservation {
@@ -524,32 +537,20 @@ impl AssetEndpointProfileObservation {
     ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetEndpointProfileUpdateEventTelemetry`], _) to ignore the [`AckToken`].
     ///
     /// A received telemetry can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
-    pub async fn recv_notification(
-        &mut self,
-    ) -> Option<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)> {
+    pub async fn recv_notification(&mut self) -> Option<(AssetEndpointProfile, Option<AckToken>)> {
         self.receiver.recv().await
     }
     // on drop, don't remove from hashmap so we can differentiate between a aep
     // that was observed where the receiver was dropped and a aep that was never observed
 }
 
-/// Represents telemetry data for an update event of an asset endpoint profile.
-pub struct AssetEndpointProfileUpdateEventTelemetry {
-    /// The 'assetEndpointProfile' Field.
-    pub asset_endpoint_profile: AssetEndpointProfile,
-}
-
-impl From<GenAssetEndpointProfileUpdateEventTelemetry>
-    for AssetEndpointProfileUpdateEventTelemetry
-{
+impl From<GenAssetEndpointProfileUpdateEventTelemetry> for AssetEndpointProfile {
     fn from(source: GenAssetEndpointProfileUpdateEventTelemetry) -> Self {
-        AssetEndpointProfileUpdateEventTelemetry {
-            asset_endpoint_profile: AssetEndpointProfile::from(
-                source
-                    .asset_endpoint_profile_update_event
-                    .asset_endpoint_profile,
-            ),
-        }
+        AssetEndpointProfile::from(
+            source
+                .asset_endpoint_profile_update_event
+                .asset_endpoint_profile,
+        )
     }
 }
 
@@ -559,7 +560,7 @@ pub struct AssetObservation {
     /// The name of the asset (for convenience)
     pub name: String,
     /// The internal channel for receiving update telemetry for this asset
-    receiver: Receiver<(AssetUpdateEventTelemetry, Option<AckToken>)>,
+    receiver: Receiver<(Asset, Option<AckToken>)>,
 }
 
 impl AssetObservation {
@@ -570,9 +571,7 @@ impl AssetObservation {
     ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetEndpointProfileUpdateEventTelemetry`], _) to ignore the [`AckToken`].
     ///
     /// A received telemetry can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
-    pub async fn recv_notification(
-        &mut self,
-    ) -> Option<(AssetUpdateEventTelemetry, Option<AckToken>)> {
+    pub async fn recv_notification(&mut self) -> Option<(Asset, Option<AckToken>)> {
         self.receiver.recv().await
     }
     // on drop, don't remove from hashmap so we can differentiate between a aep
@@ -580,20 +579,17 @@ impl AssetObservation {
 }
 
 /// Represents telemetry data for an asset update event.
-pub struct AssetUpdateEventTelemetry {
-    /// The 'asset' Field.
-    pub asset: Asset,
+// pub struct AssetUpdateEventTelemetry {
+//     /// The 'asset' Field.
+//     pub asset: Asset,
 
-    /// The 'assetName' Field.
-    pub asset_name: String,
-}
+//     /// The 'assetName' Field.
+//     pub asset_name: String,
+// }
 
-impl From<GenAssetUpdateEventTelemetry> for AssetUpdateEventTelemetry {
+impl From<GenAssetUpdateEventTelemetry> for Asset {
     fn from(source: GenAssetUpdateEventTelemetry) -> Self {
-        AssetUpdateEventTelemetry {
-            asset: Asset::from(source.asset_update_event.asset),
-            asset_name: source.asset_update_event.asset_name,
-        }
+        Asset::from(source.asset_update_event.asset)
     }
 }
 
@@ -673,34 +669,54 @@ impl From<GenAssetEndpointProfileSpecificationSchema> for AssetEndpointProfileSp
 
 /// Represents the client authentication schema, including method and credentials.
 /// // TODO Check enum with values
-pub struct Authentication {
-    /// The 'method' Field.
-    pub method: AuthenticationMethodsSchema,
-
-    /// The 'usernamePasswordCredentials' Field.
-    pub username_password_credentials: Option<UsernamePasswordCredentialsSchema>,
-
-    /// The 'x509Credentials' Field.
-    pub x509credentials: Option<X509credentialsSchema>,
+pub enum Authentication {
+    /// Represents an anonymous authentication method.
+    Anonymous,
+    /// Represents certificate authentication method.
+    Certificate(X509credentials),
+    /// Represents an username pwd authentication method.
+    UsernamePassword(UsernamePasswordCredentials),
 }
+
+// impl From<GenAuthenticationSchema> for Authentication {
+//     fn from(source: GenAuthenticationSchema) -> Self {
+//         let auth = match source.method {
+//             MethodSchema::Anonymous => Authentication::Anonymous,
+//             MethodSchema::Certificate => {
+//                 Authentication::Certificate(X509credentials::from(source.x509credentials.unwrap()))
+//             }
+//             MethodSchema::UsernamePassword => Authentication::UsernamePassword(
+//                 UsernamePasswordCredentials::from(source.username_password_credentials.unwrap()),
+//             ),
+//         };
+//         return auth;
+//     }
+// }
 
 impl From<GenAuthenticationSchema> for Authentication {
     fn from(source: GenAuthenticationSchema) -> Self {
-        Authentication {
-            method: match source.method {
-                MethodSchema::Anonymous => AuthenticationMethodsSchema::Anonymous,
-                MethodSchema::Certificate => AuthenticationMethodsSchema::Certificate,
-                MethodSchema::UsernamePassword => AuthenticationMethodsSchema::UsernamePassword,
-            },
-            username_password_credentials: source
-                .username_password_credentials
-                .map(UsernamePasswordCredentialsSchema::from),
-            x509credentials: source.x509credentials.map(X509credentialsSchema::from),
+        match source.method {
+            MethodSchema::Anonymous => Authentication::Anonymous,
+            MethodSchema::Certificate => {
+                if let Some(credentials) = source.x509credentials {
+                    Authentication::Certificate(X509credentials::from(credentials))
+                } else {
+                    panic!("Certificate method specified but x509credentials missing");
+                }
+            }
+            MethodSchema::UsernamePassword => {
+                if let Some(credentials) = source.username_password_credentials {
+                    Authentication::UsernamePassword(UsernamePasswordCredentials::from(credentials))
+                } else {
+                    panic!("UsernamePassword method specified but credentials missing");
+                }
+            }
         }
     }
 }
+
 /// Represents the credentials schema for username and password authentication.
-pub struct UsernamePasswordCredentialsSchema {
+pub struct UsernamePasswordCredentials {
     /// The 'passwordSecretName' Field.
     pub password_secret_name: String,
 
@@ -708,23 +724,23 @@ pub struct UsernamePasswordCredentialsSchema {
     pub username_secret_name: String,
 }
 
-impl From<GenUsernamePasswordCredentialsSchema> for UsernamePasswordCredentialsSchema {
+impl From<GenUsernamePasswordCredentialsSchema> for UsernamePasswordCredentials {
     fn from(source: GenUsernamePasswordCredentialsSchema) -> Self {
-        UsernamePasswordCredentialsSchema {
+        UsernamePasswordCredentials {
             password_secret_name: source.password_secret_name,
             username_secret_name: source.username_secret_name,
         }
     }
 }
 /// Represents the X.509 credentials schema for client authentication.
-pub struct X509credentialsSchema {
+pub struct X509credentials {
     /// The 'certificateSecretName' Field.
     pub certificate_secret_name: String,
 }
 
-impl From<GenX509credentialsSchema> for X509credentialsSchema {
+impl From<GenX509credentialsSchema> for X509credentials {
     fn from(source: GenX509credentialsSchema) -> Self {
-        X509credentialsSchema {
+        X509credentials {
             certificate_secret_name: source.certificate_secret_name,
         }
     }

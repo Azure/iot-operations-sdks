@@ -16,7 +16,6 @@ use azure_iot_operations_protocol::rpc_command;
 use tokio::{sync::Notify, task};
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
-    AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
     AssetEndpointProfileUpdateEventTelemetryReceiver, AssetUpdateEventTelemetryReceiver,
     CreateDetectedAssetCommandInvoker, CreateDetectedAssetRequestPayload, GetAssetCommandInvoker,
     GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload, NotificationMessageType,
@@ -36,10 +35,8 @@ use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
 };
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
-    AkriError, Asset, AssetEndpointProfile, AssetEndpointProfileObservation,
-    AssetEndpointProfileStatus, AssetEndpointProfileUpdateEventTelemetry, AssetObservation,
-    AssetStatus, AssetUpdateEventTelemetry, DetectedAsset, DiscoveredAssetEndpointProfile, Error,
-    ErrorKind,
+    Asset, AssetEndpointProfile, AssetEndpointProfileObservation, AssetEndpointProfileStatus,
+    AssetObservation, AssetStatus, DetectedAsset, DiscoveredAssetEndpointProfile, Error, ErrorKind,
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
@@ -65,9 +62,8 @@ where
     create_asset_endpoint_profile_command_invoker:
         Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
     aep_update_event_telemetry_dispatcher:
-        Arc<Dispatcher<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>>,
-    asset_update_event_telemetry_dispatcher:
-        Arc<Dispatcher<(AssetUpdateEventTelemetry, Option<AckToken>)>>,
+        Arc<Dispatcher<(AssetEndpointProfile, Option<AckToken>)>>,
+    asset_update_event_telemetry_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
 }
 
 impl<C> Client<C>
@@ -87,7 +83,7 @@ where
     ) -> Self {
         let aep_name_command_options = CommandOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
-                "ex:connectorClientId".to_string(),
+                "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
             .build()
@@ -95,7 +91,7 @@ where
 
         let aep_telemetry_options = TelemetryOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
-                "ex:connectorClientId".to_string(),
+                "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
             .auto_ack(notification_auto_ack)
@@ -105,11 +101,11 @@ where
         // Create the shutdown notifier for the receiver loop
         let shutdown_notifier = Arc::new(Notify::new());
 
-        // Create a hashmap of aeps being observed and channels to send their notifications to
+        // Dispatchers for AEPs and Assets
         let aep_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
         let asset_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
 
-        // Start the receive key notification loop
+        // Start the update aep and assets notification loop
         task::spawn({
             let asset_endpoint_profile_update_event_telemetry_receiver =
                 AssetEndpointProfileUpdateEventTelemetryReceiver::new(
@@ -190,7 +186,7 @@ where
                     client.clone(),
                     &AepCommandOptionsBuilder::default()
                         .topic_token_map(HashMap::from([(
-                            "ex:connectorClientId".to_string(),
+                            "connectorClientId".to_string(),
                             client.client_id().to_string(),
                         )]))
                         .build()
@@ -225,17 +221,16 @@ where
         timeout: Duration,
     ) -> Result<AssetEndpointProfile, Error> {
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .topic_tokens(HashMap::from([("ex:aepName".to_string(), aep_name)]))
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name)]))
             .timeout(timeout)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self
+        match self
             .get_asset_endpoint_profile_command_invoker
             .invoke(command_request)
-            .await;
-
-        match result {
+            .await
+        {
             Ok(response) => Ok(response.payload.asset_endpoint_profile.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
@@ -244,7 +239,8 @@ where
     /// Updates an asset endpoint profile's status in the Azure Device Registry service.
     ///
     /// # Arguments
-    /// * [`UpdateAssetEndpointProfileStatusReq`] - The request containing all the information about an aseet for the update.
+    /// * `aep_name` - The name of the asset endpoint profile.
+    /// * [`AssetEndpointProfileStatus`] - The request containing all the information about an aseet for the update.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`AssetEndpointProfile`] once updated.
@@ -261,37 +257,29 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn update_asset_endprofile_status(
+    pub async fn update_asset_endpoint_profile_status(
         &self,
-        source: AssetEndpointProfileStatus,
+        aep_name: String,
+        status: AssetEndpointProfileStatus,
         timeout: Duration,
     ) -> Result<AssetEndpointProfile, Error> {
         let payload = UpdateAssetEndpointProfileStatusRequestPayload {
-            asset_endpoint_profile_status_update: GenAssetEndpointProfileStatus {
-                errors: Some(
-                    source
-                        .errors
-                        .unwrap_or_default()
-                        .into_iter()
-                        .map(AkriError::into)
-                        .collect(),
-                ),
-            },
+            asset_endpoint_profile_status_update: status.into(),
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name)]))
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self
+        match self
             .update_asset_endpoint_profile_status_command_invoker
             .invoke(command_request)
-            .await;
-
-        match result {
+            .await
+        {
             Ok(response) => Ok(response.payload.updated_asset_endpoint_profile.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
@@ -303,7 +291,7 @@ where
     /// * `aep_name` - The name of the asset endpoint profile.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`AssetEndpointProfileObservation`] if observation was done succesfully or [`Error`].
+    /// Returns the [`AssetEndpointProfileObservation`] if observation was done successfully or [`Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
@@ -320,7 +308,7 @@ where
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if notification response failed.
-    /// s
+    ///
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
     /// if duplicate aeps are being observed.
     pub async fn observe_asset_endpoint_profile_update(
@@ -338,10 +326,7 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .topic_tokens(HashMap::from([(
-                "ex:aepName".to_string(),
-                aep_name.clone(),
-            )]))
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name.clone())]))
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -361,7 +346,7 @@ where
                         receiver: rx,
                     })
                 } else {
-                    // TODO Check error kind - another kind needs to be incldued ?
+                    // TODO Check error kind - another kind needs to be included ?
                     Err(Error(ErrorKind::ObservationError(
                         ("Notification Response Failed").to_string(),
                     )))
@@ -415,10 +400,7 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .topic_tokens(HashMap::from([(
-                "ex:aepName".to_string(),
-                aep_name.clone(),
-            )]))
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name.clone())]))
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -485,19 +467,14 @@ where
         let get_request_payload = GetAssetRequestPayload { asset_name };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .topic_tokens(HashMap::from([(
-                "ex:aepName".to_string(),
-                aep_name.clone(),
-            )]))
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name.clone())]))
             .payload(get_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self.get_asset_command_invoker.invoke(command_request).await;
-
-        match result {
+        match self.get_asset_command_invoker.invoke(command_request).await {
             Ok(response) => Ok(response.payload.asset.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
@@ -507,7 +484,7 @@ where
     ///
     /// # Arguments
     /// # `name` - The name of the asset.
-    /// * [`AssetStatusReq`] - The status of an asset for the update.
+    /// * [`AssetStatus`] - The status of an asset for the update.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`Asset`] once updated.
@@ -544,12 +521,11 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self
+        match self
             .update_asset_status_command_invoker
             .invoke(command_request)
-            .await;
-
-        match result {
+            .await
+        {
             Ok(response) => Ok(response.payload.updated_asset.into()),
             Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
         }
@@ -590,12 +566,11 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self
+        match self
             .create_detected_asset_command_invoker
             .invoke(command_request)
-            .await;
-
-        match result {
+            .await
+        {
             Ok(response) => Ok(response
                 .payload
                 .create_detected_asset_response
@@ -655,7 +630,7 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .topic_tokens(HashMap::from([("ex:aepName".to_string(), aep_name)]))
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name)]))
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -739,7 +714,7 @@ where
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .topic_tokens(HashMap::from([("ex:aepName".to_string(), aep_name)]))
+            .topic_tokens(HashMap::from([("aepName".to_string(), aep_name)]))
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -810,12 +785,11 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let result = self
+        match self
             .create_asset_endpoint_profile_command_invoker
             .invoke(command_request)
-            .await;
-
-        match result {
+            .await
+        {
             Ok(response) => Ok(response
                 .payload
                 .create_discovered_asset_endpoint_profile_response
@@ -891,11 +865,9 @@ where
         mut asset_endpoint_profile_update_event_telemetry_receiver: AssetEndpointProfileUpdateEventTelemetryReceiver<C>,
         mut asset_update_event_telemetry_receiver: AssetUpdateEventTelemetryReceiver<C>,
         aep_update_event_telemetry_dispatcher: Arc<
-            Dispatcher<(AssetEndpointProfileUpdateEventTelemetry, Option<AckToken>)>,
+            Dispatcher<(AssetEndpointProfile, Option<AckToken>)>,
         >,
-        asset_update_event_telemetry_dispatcher: Arc<
-            Dispatcher<(AssetUpdateEventTelemetry, Option<AckToken>)>,
-        >,
+        asset_update_event_telemetry_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
     ) {
         let mut shutdown_attempt_count = 0;
         loop {
@@ -939,16 +911,15 @@ where
                                     continue;
                                 };
                                 // Try to send the notification to the associated receiver
-                                let aep_update_event_telemetry_payload_clone = aep_update_event_telemetry.payload.clone();
                                 match aep_update_event_telemetry_dispatcher.dispatch(aep_name, (aep_update_event_telemetry.payload.into(), ack_token)) {
                                     Ok(()) => {
                                         log::debug!("AssetEndpointProfileUpdateEventTelemetry dispatched for aep name: {aep_name:?}");
                                     }
-                                    Err(DispatchError::SendError(_)) => {
-                                        log::warn!("AssetEndpointProfileUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {aep_update_event_telemetry_payload_clone:?}",);
+                                    Err(DispatchError::SendError(payload)) => {
+                                        log::warn!("AssetEndpointProfileUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {payload:?}",);
                                     }
-                                    Err(DispatchError::NotFound(_)) => {
-                                        log::warn!("AssetEndpointProfile is not being observed. Received AssetEndpointProfileUpdateEventTelemetry: {aep_update_event_telemetry_payload_clone:?}",);
+                                    Err(DispatchError::NotFound(payload)) => {
+                                        log::warn!("AssetEndpointProfile is not being observed. Received AssetEndpointProfileUpdateEventTelemetry: {payload:?}",);
                                     }
                                 }
                             }
@@ -977,17 +948,17 @@ where
                                     continue;
                                 };
                                 // TODO Consider making the receiver id a tuple in the dispatcher
-                                let dispatch_receiver_id = aep_name.to_string() + "~" + &asset_update_event_telemetry.payload.asset_update_event.asset_name;
+                                let dispatch_receiver_id = format!("{}~{}", aep_name, asset_update_event_telemetry.payload.asset_update_event.asset_name);
 
                                 match asset_update_event_telemetry_dispatcher.dispatch(&dispatch_receiver_id, (asset_update_event_telemetry.payload.into(), ack_token)) {
                                     Ok(()) => {
                                         log::debug!("AssetUpdateEventTelemetry dispatched for aep and asset: {dispatch_receiver_id:?}");
                                     }
-                                    Err(DispatchError::SendError(e)) => {
-                                        log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {e:?}",);
+                                    Err(DispatchError::SendError(payload)) => {
+                                        log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {payload:?}",);
                                     }
-                                    Err(DispatchError::NotFound(e)) => {
-                                        log::warn!("Asset is not being observed. Received AssetUpdateEventTelemetry: {e:?}",);
+                                    Err(DispatchError::NotFound(payload)) => {
+                                        log::warn!("Asset is not being observed. Received AssetUpdateEventTelemetry: {payload:?}",);
                                     }
                                 }
                             }
