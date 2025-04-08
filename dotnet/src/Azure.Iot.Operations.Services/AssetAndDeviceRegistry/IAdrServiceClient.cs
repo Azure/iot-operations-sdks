@@ -13,7 +13,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="aepName">The name of the Asset Endpoint Profile to observe.</param>
     /// <param name="cancellationToken">Token to cancel the operation.</param>
     /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken);
+    Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops observing updates for a specified Asset Endpoint Profile (AEP).
