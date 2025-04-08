@@ -109,7 +109,7 @@ impl SessionState {
                 DesireExit::No => log::info!("Connection lost."),
                 DesireExit::User => log::info!("Disconnected due to user-initiated Session exit"),
                 DesireExit::SessionLogic => {
-                    log::info!("Disconnected due to Session-initiated Session exit");
+                    log::info!("Disconnected due to session-initiated Session exit");
                 }
             }
             self.state_change.notify_waiters();

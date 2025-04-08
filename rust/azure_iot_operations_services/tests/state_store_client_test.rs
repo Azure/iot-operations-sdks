@@ -49,7 +49,7 @@ use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions}
 //    26. where key exists
 //    27. where key does not exist (success looks the same as if the key exists)
 //    28. where key is already being observed (error returned)
-//    29. where key is already being observed, but the KeyObservation has been dropped (successful)
+//    29. where key is already being observed and the KeyObservation has been dropped (error returned)
 //    30. where key was observed, unobserved, and then observed again (successful)
 // UNOBSERVE
 //    31. where key is being observed
@@ -810,14 +810,14 @@ async fn state_store_observe_unobserve_network_tests() {
                 .expect_err("Expected error");
             log::info!("[{log_identifier}] double_observe_key7 response: {double_observe_key7:?}");
 
-            // drop KeyObservation
+            // drop KeyObservation (does not unobserve)
             drop(observe_key7.response);
 
-            // Tests 29 (where key is already being observed, but the KeyObservation has been dropped (successful))
+            // Tests 29 (where key is already being observed and the KeyObservation has been dropped (error returned))
             let observe_key7_after_drop = state_store_client
                 .observe(key7.to_vec(), TIMEOUT)
                 .await
-                .unwrap();
+                .expect_err("Expected error");
             log::info!(
                 "[{log_identifier}] observe_key7_after_drop response: {observe_key7_after_drop:?}"
             );
