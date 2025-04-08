@@ -5,6 +5,7 @@
 //!
 //! To use this client, the `azure_device_registry` feature must be enabled.
 
+use derive_builder::Builder;
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
@@ -43,6 +44,15 @@ use crate::common::dispatcher::{DispatchError, Dispatcher};
 use super::DetectedAssetResponseStatus;
 use super::DiscoveredAssetEndpointProfileResponseStatus;
 
+/// Options for the Azure Device Registry client.
+#[derive(Builder, Clone)]
+#[builder(setter(into))]
+pub struct ClientOptions {
+    /// If true, key notifications are auto-acknowledged
+    #[builder(default = "true")]
+    key_notification_auto_ack: bool,
+}
+
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
 pub struct Client<C>
@@ -79,7 +89,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: &C,
-        notification_auto_ack: bool,
+        options: ClientOptions,
     ) -> Self {
         let aep_name_command_options = CommandOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
@@ -94,7 +104,7 @@ where
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
-            .auto_ack(notification_auto_ack)
+            .auto_ack(options.key_notification_auto_ack)
             .build()
             .expect("DTDL schema generated invalid arguments");
 
@@ -226,21 +236,20 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        match self
+        let response = self
             .get_asset_endpoint_profile_command_invoker
             .invoke(command_request)
             .await
-        {
-            Ok(response) => Ok(response.payload.asset_endpoint_profile.into()),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
-        }
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.asset_endpoint_profile.into())
     }
 
     /// Updates an asset endpoint profile's status in the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `aep_name` - The name of the asset endpoint profile.
-    /// * [`AssetEndpointProfileStatus`] - The request containing all the information about an aseet for the update.
+    /// * [`AssetEndpointProfileStatus`] - The request containing all the information about an asset for the update.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`AssetEndpointProfile`] once updated.
@@ -275,14 +284,13 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        match self
+        let response = self
             .update_asset_endpoint_profile_status_command_invoker
             .invoke(command_request)
             .await
-        {
-            Ok(response) => Ok(response.payload.updated_asset_endpoint_profile.into()),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
-        }
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.updated_asset_endpoint_profile.into())
     }
 
     /// Notifies the Azure Device Registry service that client is listening for asset endpoint profile updates.
@@ -474,10 +482,13 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        match self.get_asset_command_invoker.invoke(command_request).await {
-            Ok(response) => Ok(response.payload.asset.into()),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
-        }
+        let response = self
+            .get_asset_command_invoker
+            .invoke(command_request)
+            .await
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.asset.into())
     }
 
     /// Updates an asset in the Azure Device Registry service.
@@ -521,14 +532,13 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        match self
+        let response = self
             .update_asset_status_command_invoker
             .invoke(command_request)
             .await
-        {
-            Ok(response) => Ok(response.payload.updated_asset.into()),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
-        }
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.updated_asset.into())
     }
 
     /// Creates an asset inside the Azure Device Registry service.
@@ -566,18 +576,17 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        match self
+        let response = self
             .create_detected_asset_command_invoker
             .invoke(command_request)
             .await
-        {
-            Ok(response) => Ok(response
-                .payload
-                .create_detected_asset_response
-                .status
-                .into()),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
-        }
+            .map_err(ErrorKind::from)?;
+
+        Ok(response
+            .payload
+            .create_detected_asset_response
+            .status
+            .into())
     }
 
     /// Notifies the Azure Device Registry service that client is listening for asset updates.
@@ -785,18 +794,17 @@ where
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        match self
+        let response = self
             .create_asset_endpoint_profile_command_invoker
             .invoke(command_request)
             .await
-        {
-            Ok(response) => Ok(response
-                .payload
-                .create_discovered_asset_endpoint_profile_response
-                .status
-                .into()),
-            Err(e) => Err(Error(ErrorKind::AIOProtocolError(e))),
-        }
+            .map_err(ErrorKind::from)?;
+
+        Ok(response
+            .payload
+            .create_discovered_asset_endpoint_profile_response
+            .status
+            .into())
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
