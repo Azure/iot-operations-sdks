@@ -7,7 +7,7 @@ public record CreateDiscoveredAssetEndpointProfileRequest
 {
     public string? AdditionalConfiguration { get; set; } = default;
 
-    public string? DaepName { get; set; } = default;
+    public string? Name { get; set; } = default;
 
     public string? EndpointProfileType { get; set; } = default;
 

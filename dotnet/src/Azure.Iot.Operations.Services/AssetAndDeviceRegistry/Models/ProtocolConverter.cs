@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public static class ProtocolConverter
+internal static class ProtocolConverter
 {
     public static GetAssetRequestPayload ToProtocol(this GetAssetRequest source)
     {
@@ -57,7 +57,7 @@ public static class ProtocolConverter
         };
     }
 
-    public static EventsSchemaSchemaElementSchema ToProtocol(this EventsSchemaSchemaElement source)
+    public static EventsSchemaSchemaElementSchema ToProtocol(this EventsSchemaElement source)
     {
         return new EventsSchemaSchemaElementSchema
         {
@@ -172,7 +172,7 @@ public static class ProtocolConverter
                 AdditionalConfiguration = source.AdditionalConfiguration,
                 EndpointProfileType = source.EndpointProfileType,
                 TargetAddress = source.TargetAddress,
-                DaepName = source.DaepName,
+                DaepName = source.Name,
                 SupportedAuthenticationMethods = source.SupportedAuthenticationMethods?.Select(x => x.ToProtocol()).ToList()
             }
         };

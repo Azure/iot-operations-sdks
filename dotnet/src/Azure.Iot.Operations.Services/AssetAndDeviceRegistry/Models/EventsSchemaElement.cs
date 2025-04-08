@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record EventsSchemaSchemaElement
+public record EventsSchemaElement
 {
     public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
 

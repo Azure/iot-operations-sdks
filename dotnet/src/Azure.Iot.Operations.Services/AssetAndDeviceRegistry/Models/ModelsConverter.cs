@@ -6,7 +6,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public static class ModelsConverter
+internal static class ModelsConverter
 {
     public static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
     {
@@ -27,9 +27,9 @@ public static class ModelsConverter
         };
     }
 
-    public static EventsSchemaSchemaElement ToModel(this EventsSchemaSchemaElementSchema source)
+    public static EventsSchemaElement ToModel(this EventsSchemaSchemaElementSchema source)
     {
-        return new EventsSchemaSchemaElement
+        return new EventsSchemaElement
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToModel()

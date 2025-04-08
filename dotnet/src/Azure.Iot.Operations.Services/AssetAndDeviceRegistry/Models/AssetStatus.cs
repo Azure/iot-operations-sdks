@@ -9,7 +9,7 @@ public record AssetStatus
 
     public List<Error>? Errors { get; set; }
 
-    public List<EventsSchemaSchemaElement>? EventsSchema { get; set; }
+    public List<EventsSchemaElement>? EventsSchema { get; set; }
 
     public int? Version { get; set; }
 }

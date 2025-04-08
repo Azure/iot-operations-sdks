@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -451,5 +448,70 @@ public class ModelsConverterTests
 
         Assert.NotNull(result);
         Assert.Equal(DiscoveredAssetEndpointProfileResponseStatus.Created, result.Status);
+    }
+
+    [Fact]
+    public void ToModel_AssetEndpointProfileStatus_ConvertsCorrectly()
+    {
+        var source = new AdrBaseService.AssetEndpointProfileStatus
+        {
+            Errors = new List<AdrBaseService.Error>
+            {
+                new() { Code = 2, Message = "Error message" }
+            }
+        };
+
+        var result = source.ToModel();
+
+        Assert.NotNull(result);
+        Assert.Single(result.Errors!);
+        Assert.Equal(2, result.Errors?[0].Code);
+        Assert.Equal("Error message", result.Errors?[0].Message);
+    }
+
+    [Fact]
+    public void ToModel_Error_ConvertsCorrectly()
+    {
+        var source = new AdrBaseService.Error
+        {
+            Code = 404,
+            Message = "Not Found"
+        };
+
+        var result = source.ToModel();
+
+        Assert.NotNull(result);
+        Assert.Equal(404, result.Code);
+        Assert.Equal("Not Found", result.Message);
+    }
+
+    [Fact]
+    public void ToModel_MethodSchema_ConvertsCorrectly()
+    {
+        var source = AdrBaseService.MethodSchema.Certificate;
+
+        var result = source.ToModel();
+
+        Assert.Equal(Method.Certificate, result);
+
+        source = AdrBaseService.MethodSchema.UsernamePassword;
+
+        result = source.ToModel();
+
+        Assert.Equal(Method.UsernamePassword, result);
+    }
+
+    [Fact]
+    public void ToModel_X509CredentialsSchema_ConvertsCorrectly()
+    {
+        var source = new AdrBaseService.X509credentialsSchema
+        {
+            CertificateSecretName = "TestCertSecret"
+        };
+
+        var result = source.ToModel();
+
+        Assert.NotNull(result);
+        Assert.Equal("TestCertSecret", result.CertificateSecretName);
     }
 }
