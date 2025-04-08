@@ -643,12 +643,6 @@ namespace Azure.Iot.Operations.Mqtt.Session
                     {
                         _ = ExecuteSingleUnsubscribeAsync(queuedUnsubscribeRequest, cts.Token);
                     }
-                    else
-                    {
-                        // This should never happen since the queue should only contain pubs, subs, and unsubs
-                        Trace.TraceError("Unrecognized queued item. Discarding it.");
-                        await _outgoingRequestList.RemoveAsync(queuedRequest, connectionLostCancellationToken);
-                    }
                 }
             }
             catch (OperationCanceledException)
