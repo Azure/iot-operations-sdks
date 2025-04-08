@@ -42,7 +42,7 @@ func (c *Client[K, V]) KeyNotify(
 	c.keynotifyMu.Lock()
 	defer c.keynotifyMu.Unlock()
 
-	c.logK(ctx, "KEYNOTIFY", key)
+	c.logOp(ctx, "KEYNOTIFY", key)
 	req := resp.OpK("KEYNOTIFY", key)
 	if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
 		return err
@@ -74,7 +74,7 @@ func (c *Client[K, V]) KeyNotifyStop(
 	defer c.keynotifyMu.Unlock()
 
 	if c.keynotify[k] == 1 {
-		c.logK(ctx, "KEYNOTIFY", key, slog.Bool("stop", true))
+		c.logOp(ctx, "KEYNOTIFY", key, slog.Bool("stop", true))
 		req := resp.OpK("KEYNOTIFY", key, "STOP")
 		if _, err := invoke(ctx, c.invoker, parseOK, &opts, req); err != nil {
 			return err
