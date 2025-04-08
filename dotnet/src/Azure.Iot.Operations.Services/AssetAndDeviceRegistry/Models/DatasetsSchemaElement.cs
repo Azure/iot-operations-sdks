@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DatasetsSchemaSchemaElement
+public record DatasetsSchemaElement
 {
     public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
 

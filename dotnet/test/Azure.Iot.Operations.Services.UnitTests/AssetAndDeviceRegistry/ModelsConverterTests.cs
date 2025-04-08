@@ -87,14 +87,67 @@ public class ModelsConverterTests
                 Manufacturer = "Test Manufacturer",
                 Model = "Test Model",
                 Uuid = "12345",
-                Version = "1.0"
+                Version = "1.0",
+                DocumentationUri = "http://example.com",
+                HardwareRevision = "1.0",
+                ManufacturerUri = "http://example.com",
+                ProductCode = "Test ProductCode",
+                DefaultDatasetsConfiguration = "Test DefaultDatasetsConfiguration",
+                DefaultEventsConfiguration = "Test DefaultEventsConfiguration",
+                DefaultTopic = new AdrBaseService.Topic
+                {
+                    Path = "TestPath",
+                    Retain = AdrBaseService.RetainSchema.Keep
+                },
+                SerialNumber = "Test SerialNumber",
+                SoftwareRevision = "Test SoftwareRevision",
+                AssetEndpointProfileRef = "Test AssetEndpointProfileRef",
+                DisplayName = "Test DisplayName",
+                ExternalAssetId = "Test ExternalAssetId",
+                DiscoveredAssetRefs = new List<string> { "Test DiscoveredAssetRef1", "Test DiscoveredAssetRef2" },
+                Events =
+                [
+                    new()
+                    {
+                        Name = "TestEvent",
+                        Topic = new AdrBaseService.Topic
+                        {
+                            Path = "TestPath",
+                            Retain = AdrBaseService.RetainSchema.Keep
+                        },
+                        EventConfiguration = "TestConfig",
+                        ObservabilityMode = AdrBaseService.AssetEventObservabilityModeSchema.Log,
+                        EventNotifier = "TestNotifier",
+                    }
+                ],
+                Datasets =
+                [
+                    new()
+                    {
+                        Name = "TestName",
+                        DataPoints = new List<AdrBaseService.AssetDataPointSchemaElementSchema>
+                        {
+                            new()
+                            {
+                                DataPointConfiguration = "TestConfig",
+                                DataSource = "TestSource",
+                                Name = "TestName",
+                                ObservabilityMode = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter
+                            }
+                        },
+                        Topic = new AdrBaseService.Topic
+                        {
+                            Path = "TestPath",
+                            Retain = AdrBaseService.RetainSchema.Keep
+                        },
+                        DatasetConfiguration = "TestDatasetConfiguration"
+                    }
+                ],
+                Attributes = new Dictionary<string, string>{ {"TestKey", "TestValue" } },
             },
             Status = new AdrBaseService.AssetStatus
             {
-                Errors = new List<AdrBaseService.Error>
-                {
-                    new() { Code = 1, Message = "Message1" }
-                }
+                Errors = [new() { Code = 1, Message = "Message1" }]
             }
         };
         var result = source.ToModel();
@@ -346,7 +399,12 @@ public class ModelsConverterTests
             {
                 Uuid = "TestUuid",
                 TargetAddress = "TestAddress",
-                EndpointProfileType = "TestType"
+                EndpointProfileType = "TestType",
+                AdditionalConfiguration = "TestConfig",
+                Authentication = new AdrBaseService.AuthenticationSchema
+                {
+                    Method = AdrBaseService.MethodSchema.Certificate
+                }
             },
             Status = new AdrBaseService.AssetEndpointProfileStatus()
             {

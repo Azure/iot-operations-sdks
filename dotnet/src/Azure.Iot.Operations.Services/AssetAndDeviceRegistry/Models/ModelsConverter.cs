@@ -18,9 +18,9 @@ internal static class ModelsConverter
         };
     }
 
-    public static DatasetsSchemaSchemaElement ToModel(this DatasetsSchemaSchemaElementSchema source)
+    public static DatasetsSchemaElement ToModel(this DatasetsSchemaSchemaElementSchema source)
     {
-        return new DatasetsSchemaSchemaElement
+        return new DatasetsSchemaElement
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToModel()

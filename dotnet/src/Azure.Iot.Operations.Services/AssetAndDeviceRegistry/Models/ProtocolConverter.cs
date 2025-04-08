@@ -48,7 +48,7 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DatasetsSchemaSchemaElementSchema ToProtocol(this DatasetsSchemaSchemaElement source)
+    public static DatasetsSchemaSchemaElementSchema ToProtocol(this DatasetsSchemaElement source)
     {
         return new DatasetsSchemaSchemaElementSchema
         {
@@ -134,17 +134,6 @@ internal static class ProtocolConverter
     public static RetainSchema ToProtocol(this Retain source)
     {
         return (RetainSchema)(int)source;
-    }
-
-    public static AssetDataPointSchemaElementSchema ToProtocol(this AssetDataPointSchemaElement source)
-    {
-        return new AssetDataPointSchemaElementSchema
-        {
-            Name = source.Name,
-            DataPointConfiguration = source.DataPointConfiguration,
-            DataSource = source.DataSource,
-            ObservabilityMode = source.ObservabilityMode?.ToProtocol()
-        };
     }
 
     public static DetectedAssetDataPointSchemaElementSchema ToProtocol(this DetectedAssetDataPointSchemaElement source)
