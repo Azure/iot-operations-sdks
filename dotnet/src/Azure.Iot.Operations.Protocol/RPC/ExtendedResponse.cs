@@ -48,8 +48,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return true;
         }
 
-        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer? serializer, out string? errorCode, out TError? errorPayload) where TError : class
+        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer serializer, out string? errorCode, out TError? errorPayload) where TError : class
         {
+            ArgumentNullException.ThrowIfNull(serializer, nameof(serializer));
+
             if (!TryGetApplicationError(out errorCode))
             {
                 errorPayload = null;
@@ -58,8 +60,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             errorPayload = null;
 
-            //TODO do we report if a payload was found, but no serializer was provided?
-            if (ResponseMetadata != null && ResponseMetadata.UserData != null && ResponseMetadata.UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null && serializer != null)
+            if (ResponseMetadata != null && ResponseMetadata.UserData != null && ResponseMetadata.UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null)
             {
                 errorPayload = serializer.FromString<TError>(errorPayloadString);
             }
@@ -89,9 +90,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     ResponseMetadata.UserData[ApplicationErrorPayloadUserDataKey] = serializer.ToString<TError>(errorData);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //TODO log or throw?
+                    throw new AkriMqttException("Failed to serialize the application error", e)
+                    {
+                        IsRemote = true,
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                    };
                 }
             }
         }

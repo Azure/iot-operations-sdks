@@ -125,7 +125,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
         {
 
             CommandRequestMetadata reqMd = new();
-            ;
+            
             logger.LogInformation("Calling ReadCounter with {c}", reqMd.CorrelationId);
             ExtendedResponse<ReadCounterResponsePayload> respCounter = await counterClient.ReadCounterAsync(executorId, reqMd).WithMetadata();
             logger.LogInformation("called read {c} with id {id}", respCounter.Response!.CounterResponse, respCounter.ResponseMetadata!.CorrelationId);
