@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "5975065206680808404"
+      "templateHash": "16688154833837982018"
     }
   },
   "parameters": {
@@ -49,7 +49,7 @@
     }
   },
   "variables": {
-    "$fxv#0": "#cloud-config\n\npackage_update: true\npackage_upgrade: true\napt:\n  preserve_sources_list: true\n  sources:\n    msft.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/ubuntu/24.04/prod noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    azurecli.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/repos/azure-cli noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    kubernetes.list:\n      source: 'deb [signed-by=$KEY_FILE] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /'\n      keyid: DE15B14486CD377B9E876E1A234654DA9A296436\n\npackages:\n  - azure-cli\n  - kubectl\n  - git\n  - moby-cli\n  - moby-engine\n\n# write_files:\n#   - path: /setup.sh\n#     permissions: 0755\n#     content: |\n#       #!/bin/bash\n#       set -o errexit\n\n#       cd /workspaces\n#       git clone https://github.com/azure/iot-operations-sdks\n#       ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n\nruncmd:\n  - MYUSER=`id -un 1000`\n  - MYHOME=`eval echo ~$MYUSER`\n  - MYWORK=/workspaces\n  - LOCATION={{{location}}}\n  - RESOURCE_GROUP={{{resource_group}}}\n  - RESOURCE_NAME={{{resource_name}}}\n  - |\n    echo location=$LOCATION\n    echo group=$RESOURCE_GROUP\n    echo name=$RESOURCE_NAME\n  - |\n    mkdir $MYWORK\n    cd $MYWORK\n    git clone https://github.com/azure/iot-operations-sdks\n  - |\n    ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n    install -D -o $MYUSER -g $MYUSER -m 600 $MYWORK/.kube/config $MYHOME/.kube/config\n    az login --identity\n    az connectedk8s connect --name $RESOURCE_NAME --location $LOCATION --resource-group $RESOURCE_GROUP\n  - |\n    chown -R $MYUSER:$MYUSER $MYWORK\n",
+    "$fxv#0": "#cloud-config\n\npackage_update: true\npackage_upgrade: true\napt:\n  preserve_sources_list: true\n  sources:\n    msft.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/ubuntu/24.04/prod noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    azurecli.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/repos/azure-cli noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    kubernetes.list:\n      source: 'deb [signed-by=$KEY_FILE] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /'\n      keyid: DE15B14486CD377B9E876E1A234654DA9A296436\n\npackages:\n  - azure-cli\n  - kubectl\n  - git\n  - moby-cli\n  - moby-engine\n\nruncmd:\n  - MYUSER=`id -un 1000`\n  - MYHOME=`eval echo ~$MYUSER`\n  - MYWORK=/workspaces\n  - LOCATION={{{location}}}\n  - RESOURCE_GROUP={{{resource_group}}}\n  - RESOURCE_NAME={{{resource_name}}}\n  - |\n    mkdir $MYWORK\n    cd $MYWORK\n    git clone https://github.com/azure/iot-operations-sdks\n    ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n    az login --identity\n    az connectedk8s connect --name $RESOURCE_NAME --location $LOCATION --resource-group $RESOURCE_GROUP --kube-config ./kube/config\n  - |\n    install -D -o $MYUSER -g $MYUSER -m 600 $MYWORK/.kube/config $MYHOME/.kube/config\n    chown -R $MYUSER:$MYUSER $MYWORK\n",
     "ubuntuOSVersion": {
       "publisher": "Canonical",
       "offer": "ubuntu-24_04-lts",
@@ -77,7 +77,7 @@
         ]
       }
     },
-    "replacements": [
+    "cloudInitReplacements": [
       {
         "key": "{{{location}}}",
         "value": "[variables('location')]"
@@ -91,7 +91,7 @@
         "value": "[parameters('name')]"
       }
     ],
-    "cloudInit": "[reduce(variables('replacements'), variables('$fxv#0'), lambda('cur', 'next', replace(string(lambdaVariables('cur')), lambdaVariables('next').key, lambdaVariables('next').value)))]"
+    "cloudInit": "[reduce(variables('cloudInitReplacements'), variables('$fxv#0'), lambda('cur', 'next', replace(string(lambdaVariables('cur')), lambdaVariables('next').key, lambdaVariables('next').value)))]"
   },
   "resources": [
     {
@@ -198,6 +198,9 @@
       "apiVersion": "2023-09-01",
       "name": "[parameters('name')]",
       "location": "[variables('location')]",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -228,6 +231,19 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[guid(resourceGroup().id, resourceId('Microsoft.Compute/virtualMachines', parameters('name')), subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c'))]",
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+        "principalId": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('name')), '2023-09-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('name'))]"
       ]
     },
     {

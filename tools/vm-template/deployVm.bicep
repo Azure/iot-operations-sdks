@@ -142,6 +142,9 @@ resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
 resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
   name: name
   location: location
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     hardwareProfile: {
       vmSize: vmSize
@@ -172,6 +175,23 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
   }
 }
 
+// Give the VM Contributor access to the group has it can create the Arc resource
+resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  scope: subscription()
+  name: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+}
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: resourceGroup()
+  name: guid(resourceGroup().id, vm.id, contributorRoleDefinition.id)
+  properties: {
+    roleDefinitionId: contributorRoleDefinition.id
+    principalId: vm.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Shutdown the VM at 1am to save costs
 resource vmShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
   name: 'shutdown-computevm-${vm.name}'
   location: location
