@@ -20,7 +20,7 @@ Other than these two new user properties, the over-the-wire behavior of our prot
 
 In order to provide a strongly-typed experience, we will also add codegen support for modeling both the error codes and the error payload object in DTDL. This modeling will be detailed in a separate ADR, though.
 
-By convention, the value of the AppErrPayload object should be a UTF-8 encoded JSON string since MQTT user property values must be UTF-8 encoded strings.
+By convention, the value of the AppErrPayload object should be a JSON object serialized to bytes that is then UTF-8 encoded as a string since MQTT user property values must be UTF-8 encoded strings.
 
 ## Code Example
 
