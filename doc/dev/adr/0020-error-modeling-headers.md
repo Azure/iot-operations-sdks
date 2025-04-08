@@ -4,7 +4,7 @@
 
 We have received feedback from users that they would like to have RPC responses communicate application level failures in the headers of the response rather than the payload of the response. 
 
-This feedback is, in part, because some applications want to route RPC responses without reading/deserializing the entire payload. It is also partly because [some applications cannot extend or change the payload model to accommodate error handling.](https://github.com/Azure/iot-operations-sdks/issues/488#issuecomment-2707496996).
+This feedback is, in part, because some applications must route RPC responses without reading/deserializing the entire payload. It is also partly because [some applications cannot extend or change the payload model to accommodate error handling.](https://github.com/Azure/iot-operations-sdks/issues/488#issuecomment-2707496996).
 
 ## Decision
 
