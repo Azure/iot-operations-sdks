@@ -13,6 +13,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\TestEnvoys\TestEnvoys.csproj" />
+	  <ProjectReference Include="..\SampleServer\SampleServer.csproj" />
 	</ItemGroup>
 
 </Project>

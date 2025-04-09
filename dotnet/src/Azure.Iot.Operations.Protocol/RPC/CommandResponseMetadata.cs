@@ -65,11 +65,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             UserData = [];
         }
 
-        //// Constructor for testing
-        //internal CommandResponseMetadata(HybridLogicalClock timestamp)
-        //{
-        //    Timestamp = timestamp;
-        //}
         internal CommandResponseMetadata(MqttApplicationMessage message)
         {
             CorrelationId = message.CorrelationData != null && GuidExtensions.TryParseBytes(message.CorrelationData, out Guid? correlationId)
