@@ -42,6 +42,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
+            errorCode = code;
+
             if (ResponseMetadata != null && ResponseMetadata.UserData != null && ResponseMetadata.UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null)
             {
                 errorPayload = errorPayloadString != null ? JsonNode.Parse(errorPayloadString) : null;
