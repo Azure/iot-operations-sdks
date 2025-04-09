@@ -33,6 +33,7 @@ use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
     DiscoveredAssetEndpointProfileResponseStatusSchema,
     SupportedAuthenticationMethodsSchemaElementSchema,
 };
+
 /// Azure Device Registry generated code
 mod adr_name_gen;
 mod adr_type_gen;
