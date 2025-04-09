@@ -129,7 +129,7 @@ pub struct AssetStatus {
     pub events_schema: Option<Vec<SchemaReference>>,
     /// A collection of errors associated with the asset status.
     pub errors: Option<Vec<AkriError>>,
-    /// The version of the asset status request.
+    /// The version of the asset status.
     pub version: Option<i32>,
 }
 
