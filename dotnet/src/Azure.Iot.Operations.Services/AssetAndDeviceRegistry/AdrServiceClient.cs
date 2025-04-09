@@ -25,7 +25,11 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
-        if (_disposed) return;
+        if (_disposed)
+        {
+            return;
+        }
+
         await _assetServiceClient.DisposeAsync().ConfigureAwait(false);
         await _assetEndpointProfileServiceClient.DisposeAsync().ConfigureAwait(false);
         GC.SuppressFinalize(this);
@@ -61,7 +65,9 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         if (_observedAeps.TryRemove(aepName, out _) && _observedAeps.IsEmpty)
+        {
             await _assetServiceClient.AssetEndpointProfileUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
+        }
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, aepName } };
         var notificationRequest = new NotifyOnAssetEndpointProfileUpdateRequestPayload
@@ -134,7 +140,9 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         if (_observedAssets.TryRemove($"{aepName}_{assetName}", out _) && _observedAssets.IsEmpty)
+        {
             await _assetServiceClient.AssetUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
+        }
 
         var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, aepName } };
         var notificationRequest = new NotifyOnAssetUpdateRequestPayload
