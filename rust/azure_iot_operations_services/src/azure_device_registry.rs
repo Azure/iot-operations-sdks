@@ -55,7 +55,7 @@ impl Error {
     }
 }
 
-/// Represents the kinds of errors that occur in the Azure Device Registry implementation.
+/// Represents the kinds of errors that occur in the Azure Device Registry Client implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
