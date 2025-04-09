@@ -99,7 +99,7 @@ impl From<azure_iot_operations_protocol::rpc_command::invoker::RequestBuilderErr
 }
 
 #[derive(Clone, Debug, Default)]
-/// Represents a request to update the status of an asset endpoint profile in the ADR Service.
+/// Represents the status of an asset endpoint profile in the ADR Service.
 pub struct AssetEndpointProfileStatus {
     /// A collection of errors associated with the asset endpoint profile status.
     pub errors: Option<Vec<AkriError>>,
