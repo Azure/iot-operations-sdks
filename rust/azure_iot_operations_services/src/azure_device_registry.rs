@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 //! Types for Azure Device Registry operations.
+
 use core::fmt::Debug;
 use std::collections::HashMap;
 use thiserror::Error;
