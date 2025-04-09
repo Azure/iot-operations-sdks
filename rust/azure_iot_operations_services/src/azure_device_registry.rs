@@ -11,7 +11,7 @@ use crate::common::dispatcher::Receiver;
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
+use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_name_gen;
     Asset as GenAsset, AssetDataPointObservabilityModeSchema, AssetDataPointSchemaElementSchema,
     AssetDatasetSchemaElementSchema, AssetEndpointProfile as GenAssetEndpointProfile,
     AssetEndpointProfileSpecificationSchema as GenAssetEndpointProfileSpecificationSchema,
