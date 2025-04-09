@@ -462,10 +462,10 @@ pub struct DiscoveredAssetEndpointProfile {
     /// Defines the configuration for the connector type that is being used with the endpoint profile.
     pub endpoint_profile_type: String,
 
-    /// list of supported authentication methods
+    /// List of supported authentication methods
     pub supported_authentication_methods: Option<Vec<AuthenticationMethods>>,
 
-    /// local valid URI specifying the network address/dns name of southbound service.
+    /// Local valid URI specifying the network address/dns name of southbound service.
     pub target_address: String,
 }
 
