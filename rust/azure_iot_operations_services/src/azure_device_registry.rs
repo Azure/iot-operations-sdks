@@ -28,7 +28,7 @@ use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_
     Topic as GenTopic, UsernamePasswordCredentialsSchema as GenUsernamePasswordCredentialsSchema,
     X509credentialsSchema as GenX509credentialsSchema,
 };
-use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
+use crate::azure_device_registry::adr_type_gen::aep_type_service::client as adr_type_gen;
     DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
     DiscoveredAssetEndpointProfileResponseStatusSchema,
     SupportedAuthenticationMethodsSchemaElementSchema,
