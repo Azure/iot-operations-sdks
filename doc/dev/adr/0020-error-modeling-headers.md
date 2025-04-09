@@ -8,19 +8,15 @@ This feedback is, in part, because some applications must route RPC responses wi
 
 ## Decision
 
-Our SDKs will add APIs on the command executor side that mark an RPC response as an "application error" by attaching two new MQTT user properties ("AppErrCode" and "AppErrPayload") whose values are a user-defined string and a user-defined payload object (serialized to bytes and then encoded as a UTF8 string) respectively. When a user wants to indicate that an RPC call failed with an application error they must provide the "AppErrCode" value, but "AppErrPayload" is optional.
+Our SDKs will add APIs on the command executor side that mark an RPC response as an "application error" by attaching two new MQTT user properties ("AppErrCode" and "AppErrPayload") whose values are a user-defined string and a user-defined JSON object/value/array respectively. When a user wants to indicate that an RPC call failed with an application error they must provide the "AppErrCode" value, but "AppErrPayload" is optional.
 
 In addition, users must be able to include arbitrary user properties in their command response to support this error reporting in case our standard fields are insufficient. This feature is likely in place already for all languages.
 
 On the command invoker side, we will add APIs for checking if a response was an application error and returning the error code and error data fields parsed from the MQTT message "AppErrCode" and "AppErrPayload" user properties.
 
-Similar to how our SDKs handle serializing the actual MQTT message payload, our SDKs will require the user provide the serializer for serializing/deserializing the AppErrPayload object. The only difference in this new serializer is that it converts between object and string rather than object and byte array. This difference is because MQTT user properties must be strings, not byte arrays. Our codegen output should also provide a passthrough serializer that takes/returns a string as-is as well if the user wants to model it as a "raw" string.
-
 Other than these two new user properties, the over-the-wire behavior of our protocol won't change as a result of this decision.
 
-In order to provide a strongly-typed experience, we will also add codegen support for modeling both the error codes and the error payload object in DTDL. This modeling will be detailed in a separate ADR, though.
-
-By convention, the value of the AppErrPayload object should be a JSON object serialized to bytes that is then UTF-8 encoded as a string since MQTT user property values must be UTF-8 encoded strings.
+In order to provide a strongly-typed experience, we will also add codegen support for modeling the error codes in DTDL. This modeling will be detailed in a separate ADR, though. We will not provide modeling of the application error payload types in DTDL, though.
 
 ## Code Example
 
@@ -39,11 +35,12 @@ public ExtendedResponse<IncrementResponsePayload> Increment(IncrementRequestPayl
         // Specify error code, but no error payload  
         response.WithApplicationError("negativeValue");
 
-        // Or you can specify error code and error payload
-        response.WithApplicationError(
-            "negativeValue",
-            new CustomErrorPayload() { ArgumentValue = request.IncrementValue },
-            new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));
+        // Or you can specify error code and error payload. The error payload can be any JSON primitive or a JSON object or a JSON array
+        JsonNode? jsonPayload = JsonArray.Parse("[\"1\",\"2\"]");
+        jsonPayload = JsonObject.Parse("{\"key\":\"value\"}");
+        jsonPayload = JsonValue.Create(false);
+        jsonPayload = JsonValue.Create(10);
+        response.WithApplicationError("negativeValue", jsonPayload);
 
         return response;
     }
@@ -68,7 +65,7 @@ public void main()
     var response = counterClient.Increment(executorId, payload).WithMetadata();
     
     // Check the RPC response for an application error
-    if (response.TryGetApplicationError(SomeJsonSerializer, out string? errorCode, out CustomErrorPayload? errorPayload))
+    if (response.TryGetApplicationError(out string? errorCode, out JsonNode? errorPayload))
     {
         // use the error code and strongly typed custom error payload type as wanted.
     }
@@ -98,5 +95,3 @@ For the sake of demonstrating this in all languages similarly, we will make the 
 ## Open Questions
 
 - MQTT user property value size limit considerations? Users may provide very large payload objects and MQTT as a protocol may not be built for that?
-
-- Do we need distinct serializers for MQTT message payload serialization and this new MQTT user property "payload" serialization? Is it possible that, for example, errors would be modeled as JSON objects but normal payloads are modeled as protobuf objects? 
