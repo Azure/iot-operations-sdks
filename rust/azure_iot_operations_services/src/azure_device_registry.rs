@@ -121,7 +121,7 @@ impl From<AssetEndpointProfileStatus> for GenAssetEndpointProfileStatus {
 }
 
 #[derive(Clone, Debug, Default)]
-/// Represents a request to update the status of an asset, including associated schemas and errors.
+/// Represents the status of an asset, including associated schemas and errors.
 pub struct AssetStatus {
     /// A collection of schema references for datasets associated with the asset.
     pub datasets_schema: Option<Vec<SchemaReference>>,
