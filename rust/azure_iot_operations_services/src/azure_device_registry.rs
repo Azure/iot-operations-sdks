@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 //! Types for Azure Device Registry operations.
-//! use core::fmt::Debug;
+use core::fmt::Debug;
 use std::collections::HashMap;
 use thiserror::Error;
 
@@ -135,45 +135,35 @@ pub struct AssetStatus {
 
 impl From<AssetStatus> for GenAssetStatus {
     fn from(source: AssetStatus) -> Self {
-        let datasets_schema = if let Some(datasets_schema) = source.datasets_schema {
-            Some(
-                datasets_schema
-                    .into_iter()
-                    .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
-                        name: schema_ref.name,
-                        message_schema_reference: schema_ref
-                            .message_schema_reference
-                            .map(MessageSchemaReference::into),
-                    })
-                    .collect(),
-            )
-        } else {
-            None
-        };
-        let events_schema = if let Some(events_schema) = source.events_schema {
-            Some(
-                events_schema
-                    .into_iter()
-                    .map(|schema_ref| EventsSchemaSchemaElementSchema {
-                        name: schema_ref.name,
-                        message_schema_reference: schema_ref
-                            .message_schema_reference
-                            .map(MessageSchemaReference::into),
-                    })
-                    .collect(),
-            )
-        } else {
-            None
-        };
-        let errors = if let Some(errors) = source.errors {
-            Some(errors.into_iter().map(AkriError::into).collect())
-        } else {
-            None
-        };
+        let datasets_schema = source.datasets_schema.map(|datasets_schema| {
+            datasets_schema
+                .into_iter()
+                .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
+                    name: schema_ref.name,
+                    message_schema_reference: schema_ref
+                        .message_schema_reference
+                        .map(MessageSchemaReference::into),
+                })
+                .collect()
+        });
+        let events_schema = source.events_schema.map(|events_schema| {
+            events_schema
+                .into_iter()
+                .map(|schema_ref| EventsSchemaSchemaElementSchema {
+                    name: schema_ref.name,
+                    message_schema_reference: schema_ref
+                        .message_schema_reference
+                        .map(MessageSchemaReference::into),
+                })
+                .collect()
+        });
+        let errors = source
+            .errors
+            .map(|errors| errors.into_iter().map(AkriError::into).collect());
         GenAssetStatus {
-            datasets_schema: datasets_schema,
-            events_schema: events_schema,
-            errors: errors,
+            datasets_schema,
+            events_schema,
+            errors,
             version: source.version,
         }
     }
@@ -181,45 +171,35 @@ impl From<AssetStatus> for GenAssetStatus {
 
 impl From<GenAssetStatus> for AssetStatus {
     fn from(source: GenAssetStatus) -> Self {
-        let datasets_schema = if let Some(datasets_schema) = source.datasets_schema {
-            Some(
-                datasets_schema
-                    .into_iter()
-                    .map(|schema_ref| SchemaReference {
-                        name: schema_ref.name,
-                        message_schema_reference: schema_ref
-                            .message_schema_reference
-                            .map(MessageSchemaReference::from),
-                    })
-                    .collect(),
-            )
-        } else {
-            None
-        };
-        let events_schema = if let Some(events_schema) = source.events_schema {
-            Some(
-                events_schema
-                    .into_iter()
-                    .map(|schema_ref| SchemaReference {
-                        name: schema_ref.name,
-                        message_schema_reference: schema_ref
-                            .message_schema_reference
-                            .map(MessageSchemaReference::from),
-                    })
-                    .collect(),
-            )
-        } else {
-            None
-        };
-        let errors = if let Some(errors) = source.errors {
-            Some(errors.into_iter().map(AkriError::from).collect())
-        } else {
-            None
-        };
+        let datasets_schema = source.datasets_schema.map(|datasets_schema| {
+            datasets_schema
+                .into_iter()
+                .map(|schema_ref| SchemaReference {
+                    name: schema_ref.name,
+                    message_schema_reference: schema_ref
+                        .message_schema_reference
+                        .map(MessageSchemaReference::from),
+                })
+                .collect()
+        });
+        let events_schema = source.events_schema.map(|events_schema| {
+            events_schema
+                .into_iter()
+                .map(|schema_ref| SchemaReference {
+                    name: schema_ref.name,
+                    message_schema_reference: schema_ref
+                        .message_schema_reference
+                        .map(MessageSchemaReference::from),
+                })
+                .collect()
+        });
+        let errors = source
+            .errors
+            .map(|errors| errors.into_iter().map(AkriError::from).collect());
         AssetStatus {
-            datasets_schema: datasets_schema,
-            events_schema: events_schema,
-            errors: errors,
+            datasets_schema,
+            events_schema,
+            errors,
             version: source.version,
         }
     }
@@ -279,7 +259,6 @@ pub struct DetectedAsset {
     pub asset_name: Option<String>,
 
     /// Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.
-    /// TODO : naming change to detected dataset
     pub datasets: Option<Vec<DetectedAssetDataSet>>,
 
     /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
@@ -536,10 +515,10 @@ pub struct AssetEndpointProfileObservation {
 }
 
 impl AssetEndpointProfileObservation {
-    /// Receives a [`AssetEndpointProfileUpdateEventTelemetry`] or [`None`] if there will be no more notifications.
+    /// Receives a [`AssetEndpointProfile`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
-    /// - Returns Some([`AssetEndpointProfileUpdateEventTelemetry`], [`Option<AckToken>`]) on success
+    /// - Returns Some([`AssetEndpointProfile`], [`Option<AckToken>`]) on success
     ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetEndpointProfileUpdateEventTelemetry`], _) to ignore the [`AckToken`].
     ///
     /// A received telemetry can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
@@ -570,10 +549,10 @@ pub struct AssetObservation {
 }
 
 impl AssetObservation {
-    /// Receives a [`AssetUpdateEventTelemetry`] or [`None`] if there will be no more notifications.
+    /// Receives a [`Asset`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
-    /// - Returns Some([`AssetUpdateEventTelemetry`], [`Option<AckToken>`]) on success
+    /// - Returns Some([`Asset`], [`Option<AckToken>`]) on success
     ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetEndpointProfileUpdateEventTelemetry`], _) to ignore the [`AckToken`].
     ///
     /// A received telemetry can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
@@ -583,15 +562,6 @@ impl AssetObservation {
     // on drop, don't remove from hashmap so we can differentiate between a aep
     // that was observed where the receiver was dropped and a aep that was never observed
 }
-
-/// Represents telemetry data for an asset update event.
-// pub struct AssetUpdateEventTelemetry {
-//     /// The 'asset' Field.
-//     pub asset: Asset,
-
-//     /// The 'assetName' Field.
-//     pub asset_name: String,
-// }
 
 impl From<GenAssetUpdateEventTelemetry> for Asset {
     fn from(source: GenAssetUpdateEventTelemetry) -> Self {

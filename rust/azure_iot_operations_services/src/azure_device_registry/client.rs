@@ -89,7 +89,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: &C,
-        options: ClientOptions,
+        options: &ClientOptions,
     ) -> Self {
         let aep_name_command_options = CommandOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
