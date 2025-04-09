@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -19,50 +21,30 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public ExtendedResponse<TResp> WithApplicationError(string errorCode)
         {
             ResponseMetadata ??= new();
-            object? payload = null;
-            SetApplicationError(errorCode, payload, null);
+            SetApplicationError(errorCode, null);
             return this;
         }
 
-        public ExtendedResponse<TResp> WithApplicationError<TError>(string errorCode, TError errorPayload, IErrorHeaderPayloadSerializer serializer) where TError : class
+        public ExtendedResponse<TResp> WithApplicationError(string errorCode, JsonNode? errorPayload)
         {
-            if (errorPayload != null && serializer == null)
-            {
-                throw new ArgumentNullException(nameof(serializer), "Must provide a serializer if error payload is non-null");
-            }
-
             ResponseMetadata ??= new();
-            SetApplicationError(errorCode, errorPayload, serializer);
+            SetApplicationError(errorCode, errorPayload);
             return this;
         }
 
-        public bool TryGetApplicationError(out string? errorCode)
+        public bool TryGetApplicationError(out string? errorCode, out JsonNode? errorPayload)
         {
+            errorCode = null;
+            errorPayload = null;
+
             if (ResponseMetadata == null || ResponseMetadata.UserData == null || !ResponseMetadata.UserData.TryGetValue(ApplicationErrorCodeUserDataKey, out string? code) || code == null)
             {
-                errorCode = null;
                 return false;
             }
-
-            errorCode = code;
-            return true;
-        }
-
-        public bool TryGetApplicationError<TError>(IErrorHeaderPayloadSerializer serializer, out string? errorCode, out TError? errorPayload) where TError : class
-        {
-            ArgumentNullException.ThrowIfNull(serializer, nameof(serializer));
-
-            if (!TryGetApplicationError(out errorCode))
-            {
-                errorPayload = null;
-                return false;
-            }
-
-            errorPayload = null;
 
             if (ResponseMetadata != null && ResponseMetadata.UserData != null && ResponseMetadata.UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null)
             {
-                errorPayload = serializer.FromString<TError>(errorPayloadString);
+                errorPayload = errorPayloadString != null ? JsonNode.Parse(errorPayloadString) : null;
             }
 
             return true;
@@ -73,22 +55,17 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return ResponseMetadata?.UserData != null && ResponseMetadata != null && ResponseMetadata.UserData.ContainsKey(ApplicationErrorCodeUserDataKey);
         }
 
-        private void SetApplicationError<TError>(string applicationErrorCode, TError? errorData, IErrorHeaderPayloadSerializer? serializer) where TError : class
+        private void SetApplicationError(string applicationErrorCode, JsonNode? errorPayload)
         {
             ResponseMetadata ??= new();
             ResponseMetadata.UserData ??= new();
             ResponseMetadata.UserData[ApplicationErrorCodeUserDataKey] = applicationErrorCode;
 
-            if (errorData != null && serializer == null)
-            {
-                throw new ArgumentNullException(nameof(serializer), "Must provide a serializer if non-null errorData is provided");
-            }
-
-            if (errorData != null && serializer != null)
+            if (errorPayload != null)
             {
                 try
                 {
-                    ResponseMetadata.UserData[ApplicationErrorPayloadUserDataKey] = serializer.ToString<TError>(errorData);
+                    ResponseMetadata.UserData[ApplicationErrorPayloadUserDataKey] = errorPayload.ToJsonString();
                 }
                 catch (Exception e)
                 {

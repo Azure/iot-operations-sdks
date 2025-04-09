@@ -9,6 +9,8 @@ using TestEnvoys.Math;
 using TestEnvoys.Greeter;
 using TestEnvoys.CustomTopicTokens;
 using SampleServer;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace SampleClient;
 
@@ -162,13 +164,12 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             };
 
             ExtendedResponse<IncrementResponsePayload> responseWithApplicationError = await counterClient.IncrementAsync(executorId, invalidPayload).WithMetadata();
-            var errorPayloadSerializer = new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer());
 
             // Upon receiving a response, you should check for any application level errors like this. Only the above Increment request should trigger an application error in this sample, though.
-            if (responseWithApplicationError.TryGetApplicationError(errorPayloadSerializer, out string? errorCode, out CounterServiceApplicationError? errorPayload))
+            if (responseWithApplicationError.TryGetApplicationError(out string? errorCode, out JsonNode? errorPayloadJson))
             {
-                string errorPayloadString = errorPayload != null ? errorPayloadSerializer.ToString(errorPayload) : "";
-                logger.LogInformation("counter {c} with id {id} responded to an invalid request with application level error code {code} and payload {payload}", responseWithApplicationError!.Response.CounterResponse, responseWithApplicationError.ResponseMetadata!.CorrelationId, errorCode, errorPayloadString);
+                var applicationErrorPayload = JsonSerializer.Deserialize<CounterServiceApplicationError>(errorPayloadJson);
+                logger.LogInformation("counter {c} with id {id} responded to an invalid request with application level error code {code} and payload {payload}", responseWithApplicationError!.Response.CounterResponse, responseWithApplicationError.ResponseMetadata!.CorrelationId, errorCode, errorPayloadJson?.ToJsonString());
             }
         }
         catch (Exception ex)

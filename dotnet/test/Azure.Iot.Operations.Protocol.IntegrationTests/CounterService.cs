@@ -3,6 +3,8 @@
 
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.RPC;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -29,8 +31,7 @@ public class CounterService : Counter.Service
                     Response = new IncrementResponsePayload { CounterResponse = _counter },
                 }.WithApplicationError(
                     NegativeValueArgumentErrorCode,
-                    new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue },
-                    new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));
+                    JsonNode.Parse(JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue })));
 
             return Task.FromResult(response);
         }

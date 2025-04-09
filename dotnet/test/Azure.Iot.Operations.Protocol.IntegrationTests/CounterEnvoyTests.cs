@@ -7,6 +7,8 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -143,10 +145,12 @@ public class CounterEnvoyTests
         var resp = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
         Assert.NotNull(resp.ResponseMetadata);
-        Assert.True(resp.TryGetApplicationError(new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()), out string? errorCode, out CounterServiceApplicationError? errorPayload));
+        Assert.True(resp.TryGetApplicationError(out string? errorCode, out JsonNode? errorPayload));
         Assert.NotNull(errorCode);
         Assert.Equal(CounterService.NegativeValueArgumentErrorCode, errorCode);
         Assert.NotNull(errorPayload);
-        Assert.Equal(expectedNegativeValue, errorPayload.InvalidRequestArgumentValue);
+        CounterServiceApplicationError? deserializedErrorPayload = errorPayload.Deserialize<CounterServiceApplicationError>();
+        Assert.NotNull(deserializedErrorPayload);
+        Assert.Equal(expectedNegativeValue, deserializedErrorPayload.InvalidRequestArgumentValue);
     }
 }

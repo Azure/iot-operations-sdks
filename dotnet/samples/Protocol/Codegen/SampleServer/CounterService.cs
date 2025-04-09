@@ -5,6 +5,8 @@ using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace SampleServer;
 
@@ -27,8 +29,7 @@ public class CounterService : Counter.Service
                 }
                 .WithApplicationError(
                     "negativeValue",
-                    new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue },
-                    new ErrorPayloadJsonSerializer(new TestEnvoys.Utf8JsonSerializer()));
+                    JsonNode.Parse(JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue })));
 
             return Task.FromResult(response);
         }
