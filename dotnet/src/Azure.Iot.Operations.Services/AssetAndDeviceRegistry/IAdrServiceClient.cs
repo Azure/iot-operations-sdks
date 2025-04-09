@@ -11,17 +11,21 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// Starts observing updates for a specified Asset Endpoint Profile (AEP).
     /// </summary>
     /// <param name="aepName">The name of the Asset Endpoint Profile to observe.</param>
+    /// <param name="commandTimeout"></param>
     /// <param name="cancellationToken">Token to cancel the operation.</param>
     /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken = default);
+    Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName,
+        TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops observing updates for a specified Asset Endpoint Profile (AEP).
     /// </summary>
     /// <param name="aepName">The name of the Asset Endpoint Profile to stop observing.</param>
+    /// <param name="commandTimeout"></param>
     /// <param name="cancellationToken">Token to cancel the operation.</param>
     /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, CancellationToken cancellationToken);
+    Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName,
+        TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the details of a specified Asset Endpoint Profile (AEP).
@@ -51,18 +55,20 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// </summary>
     /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
     /// <param name="assetName">The name of the asset to observe.</param>
+    /// <param name="commandTimeout">The optional timeout for the command execution.</param>
     /// <param name="cancellationToken">Token to cancel the operation.</param>
     /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> ObserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken);
+    Task<NotificationResponse> ObserveAssetUpdatesAsync(string aepName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops observing updates for a specified asset within an Asset Endpoint Profile (AEP).
     /// </summary>
     /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
     /// <param name="assetName">The name of the asset to stop observing.</param>
+    /// <param name="commandTimeout">The optional timeout for the command execution.</param>
     /// <param name="cancellationToken">Token to cancel the operation.</param>
     /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, CancellationToken cancellationToken);
+    Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of a specified asset within an Asset Endpoint Profile (AEP).
@@ -118,11 +124,13 @@ public interface IAdrServiceClient : IAsyncDisposable
 
     /// <summary>
     /// Event triggered when telemetry updates for an Asset Endpoint Profile (AEP) are received.
+    /// NOTE: This event starts triggering when <see cref="ObserveAssetEndpointProfileUpdatesAsync"/> called.
     /// </summary>
     event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry;
 
     /// <summary>
     /// Event triggered when telemetry updates for an asset are received.
+    /// NOTE: This event starts triggering when <see cref="ObserveAssetUpdatesAsync"/> called.
     /// </summary>
     event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry;
 }
