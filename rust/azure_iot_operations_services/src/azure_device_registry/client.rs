@@ -773,7 +773,7 @@ where
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn create_discovered_asset_endpoint_profile(
         &self,
-        daep: DiscoveredAssetEndpointProfile,
+        discovered_aep: DiscoveredAssetEndpointProfile,
         timeout: Duration,
     ) -> Result<DiscoveredAssetEndpointProfileResponseStatus, Error> {
         let paylaod = CreateDiscoveredAssetEndpointProfileRequestPayload {
