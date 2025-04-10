@@ -47,7 +47,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt};
+                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
@@ -60,7 +61,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }
-
 
             public abstract Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -98,6 +98,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
                 await Task.WhenAll(
                     this.createDiscoveredAssetEndpointProfileCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
+
             private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileInt(ExtendedRequest<CreateDiscoveredAssetEndpointProfileRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> extended = await this.CreateDiscoveredAssetEndpointProfileAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -147,7 +148,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
             }
 
             public CreateDiscoveredAssetEndpointProfileCommandInvoker CreateDiscoveredAssetEndpointProfileCommandInvoker { get => this.createDiscoveredAssetEndpointProfileCommandInvoker; }
-
 
             /// <summary>
             /// Invoke a command.

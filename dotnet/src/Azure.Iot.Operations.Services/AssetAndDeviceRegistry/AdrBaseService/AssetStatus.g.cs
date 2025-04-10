@@ -13,32 +13,39 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetStatus
     {
         /// <summary>
-        /// The 'datasetsSchema' Field.
+        /// The 'config' Field.
         /// </summary>
-        [JsonPropertyName("datasetsSchema")]
+        [JsonPropertyName("config")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DatasetsSchemaSchemaElementSchema>? DatasetsSchema { get; set; } = default;
+        public AssetStatusConfigSchema? Config { get; set; } = default;
 
         /// <summary>
-        /// The 'errors' Field.
+        /// The 'datasets' Field.
         /// </summary>
-        [JsonPropertyName("errors")]
+        [JsonPropertyName("datasets")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<Error>? Errors { get; set; } = default;
+        public List<AssetStatusDatasetSchemaElementSchema>? Datasets { get; set; } = default;
 
         /// <summary>
-        /// The 'eventsSchema' Field.
+        /// The 'events' Field.
         /// </summary>
-        [JsonPropertyName("eventsSchema")]
+        [JsonPropertyName("events")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<EventsSchemaSchemaElementSchema>? EventsSchema { get; set; } = default;
+        public List<AssetStatusEventSchemaElementSchema>? Events { get; set; } = default;
 
         /// <summary>
-        /// The 'version' Field.
+        /// The 'managementGroups' Field.
         /// </summary>
-        [JsonPropertyName("version")]
+        [JsonPropertyName("managementGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int? Version { get; set; } = default;
+        public List<AssetStatusManagementGroupSchemaElementSchema>? ManagementGroups { get; set; } = default;
+
+        /// <summary>
+        /// The 'streams' Field.
+        /// </summary>
+        [JsonPropertyName("streams")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetStatusStreamSchemaElementSchema>? Streams { get; set; } = default;
 
     }
 }

@@ -16,8 +16,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
         /// status of discovered asset endpoint profile creation
         /// </summary>
         [JsonPropertyName("status")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DiscoveredAssetEndpointProfileResponseStatusSchema? Status { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public DiscoveredAssetEndpointProfileResponseStatusSchema Status { get; set; } = default!;
 
     }
 }

@@ -10,21 +10,46 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class UsernamePasswordCredentialsSchema
+    public partial class UsernamePasswordCredentialsSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'passwordSecretName' Field.
         /// </summary>
         [JsonPropertyName("passwordSecretName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? PasswordSecretName { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string PasswordSecretName { get; set; } = default!;
 
         /// <summary>
         /// The 'usernameSecretName' Field.
         /// </summary>
         [JsonPropertyName("usernameSecretName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? UsernameSecretName { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string UsernameSecretName { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (PasswordSecretName is null)
+            {
+                throw new ArgumentNullException("passwordSecretName field cannot be null");
+            }
+            if (UsernameSecretName is null)
+            {
+                throw new ArgumentNullException("usernameSecretName field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (PasswordSecretName is null)
+            {
+                throw new ArgumentNullException("passwordSecretName field cannot be null");
+            }
+            if (UsernameSecretName is null)
+            {
+                throw new ArgumentNullException("usernameSecretName field cannot be null");
+            }
+        }
     }
 }
