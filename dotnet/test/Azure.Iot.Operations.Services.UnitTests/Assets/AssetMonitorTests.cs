@@ -16,12 +16,12 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
 
             try
             {
-                var assetMonitor = new AssetMonitor();
+                var assetMonitor = new AssetFileMonitor();
                 var assetEndpointProfile = await assetMonitor.GetAssetEndpointProfileAsync();
 
-                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}"), assetEndpointProfile!.TargetAddress);
-                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepAuthenticationMethodRelativeMountPath}"), assetEndpointProfile.AuthenticationMethod);
-                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.EndpointProfileTypeRelativeMountPath}"), assetEndpointProfile.EndpointProfileType);
+                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepTargetAddressRelativeMountPath}"), assetEndpointProfile!.TargetAddress);
+                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepAuthenticationMethodRelativeMountPath}"), assetEndpointProfile.AuthenticationMethod);
+                Assert.Equal(File.ReadAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.EndpointProfileTypeRelativeMountPath}"), assetEndpointProfile.EndpointProfileType);
                 Assert.NotNull(assetEndpointProfile.AdditionalConfiguration);
                 Assert.True(assetEndpointProfile.AdditionalConfiguration.RootElement.TryGetProperty("DataSourceType", out var property));
                 Assert.Equal(JsonValueKind.String, property.ValueKind);
@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 string testAssetName = Guid.NewGuid().ToString();
                 AddOrUpdateAssetToEnvironment(testAssetName, expectedAsset);
 
-                var assetMonitor = new AssetMonitor();
+                var assetMonitor = new AssetFileMonitor();
                 var actualAsset = await assetMonitor.GetAssetAsync(testAssetName);
 
                 Assert.NotNull(actualAsset);
@@ -139,7 +139,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 AddOrUpdateAssetToEnvironment(expectedAssetName1, expectedAsset1);
                 AddOrUpdateAssetToEnvironment(expectedAssetName2, expectedAsset2);
 
-                var assetMonitor = new AssetMonitor();
+                var assetMonitor = new AssetFileMonitor();
                 List<string> actualAssetNames = await assetMonitor.GetAssetNamesAsync();
 
                 Assert.Equal(2, actualAssetNames.Count);
@@ -157,10 +157,10 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         {
             SetupTestEnvironment();
 
-            var assetMonitor = new AssetMonitor();
+            var assetMonitor = new AssetFileMonitor();
             try
             {
-                AssetChangedEventArgs? latestAssetState = null;
+                AssetDeletedEventArgs? latestAssetState = null;
                 assetMonitor.AssetChanged += (sender, args) =>
                 {
                     latestAssetState = args;
@@ -252,7 +252,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         {
             SetupTestEnvironment();
 
-            var assetMonitor = new AssetMonitor();
+            var assetMonitor = new AssetFileMonitor();
             try
             {
                 Asset testAsset = new Asset()
@@ -287,7 +287,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 string testAssetName = Guid.NewGuid().ToString();
                 AddOrUpdateAssetToEnvironment(testAssetName, testAsset);
 
-                AssetChangedEventArgs? latestAssetState = null;
+                AssetDeletedEventArgs? latestAssetState = null;
                 assetMonitor.AssetChanged += (sender, args) =>
                 {
                     latestAssetState = args;
@@ -354,10 +354,10 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         [Fact]
         public async Task ObserveAssetEndpointProfile_NoStartingAssetEndpointProfile()
         {
-            var assetMonitor = new AssetMonitor();
+            var assetMonitor = new AssetFileMonitor();
             try
             {
-                AssetEndpointProfileChangedEventArgs? latestAssetEndpointProfileState = null;
+                AssetEndpointProfileCreatedEventArgs? latestAssetEndpointProfileState = null;
                 assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
                 {
                     latestAssetEndpointProfileState = args;
@@ -437,11 +437,11 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         public async Task ObserveAssetEndpointProfile_WithStartingAssetEndpointProfile()
         {
             SetupTestEnvironment();
-            var assetMonitor = new AssetMonitor();
+            var assetMonitor = new AssetFileMonitor();
             
             try
             {
-                AssetEndpointProfileChangedEventArgs? latestAssetEndpointProfileState = null;
+                AssetEndpointProfileCreatedEventArgs? latestAssetEndpointProfileState = null;
                 assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
                 {
                     latestAssetEndpointProfileState = args;
@@ -527,20 +527,20 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
 
         private void SetupTestEnvironment()
         {
-            Environment.SetEnvironmentVariable(AssetMonitor.AssetEndpointProfileConfigMapMountPathEnvVar, "./AssetMonitorTestFiles/config/aep_config");
-            Environment.SetEnvironmentVariable(AssetMonitor.AepCertMountPathEnvVar, "./AssetMonitorTestFiles/secret/aep_cert");
-            Environment.SetEnvironmentVariable(AssetMonitor.AepUsernameSecretMountPathEnvVar, "./AssetMonitorTestFiles/secret/aep_username");
-            Environment.SetEnvironmentVariable(AssetMonitor.AepPasswordSecretMountPathEnvVar, "./AssetMonitorTestFiles/secret/aep_password");
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AssetEndpointProfileConfigMapMountPathEnvVar, "./AssetMonitorTestFiles/config/aep_config");
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AepCertMountPathEnvVar, "./AssetMonitorTestFiles/secret/aep_cert");
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AepUsernameSecretMountPathEnvVar, "./AssetMonitorTestFiles/secret/aep_username");
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AepPasswordSecretMountPathEnvVar, "./AssetMonitorTestFiles/secret/aep_password");
 
             ResetFileContents();
 
             // These files are required for the test runs to work
-            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}"));
-            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepAuthenticationMethodRelativeMountPath}"));
-            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.EndpointProfileTypeRelativeMountPath}"));
-            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepCertificateFileNameRelativeMountPath}"));
-            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepUsernameFileNameRelativeMountPath}"));
-            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepPasswordFileNameRelativeMountPath}"));
+            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepTargetAddressRelativeMountPath}"));
+            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepAuthenticationMethodRelativeMountPath}"));
+            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.EndpointProfileTypeRelativeMountPath}"));
+            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepCertificateFileNameRelativeMountPath}"));
+            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepUsernameFileNameRelativeMountPath}"));
+            Assert.True(File.Exists($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepPasswordFileNameRelativeMountPath}"));
             Assert.True(File.Exists($"./AssetMonitorTestFiles/secret/aep_username/some-username"));
             Assert.True(File.Exists($"./AssetMonitorTestFiles/secret/aep_password/some-password"));
             Assert.True(File.Exists($"./AssetMonitorTestFiles/secret/aep_cert/some-certificate"));
@@ -550,7 +550,7 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
         {
             string assetJson = JsonSerializer.Serialize(asset);
 
-            Environment.SetEnvironmentVariable(AssetMonitor.AssetConfigMapMountPathEnvVar, "./AssetMonitorTestFiles/config/asset_config");
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AssetConfigMapMountPathEnvVar, "./AssetMonitorTestFiles/config/asset_config");
 
             if (!Directory.Exists("./AssetMonitorTestFiles/config/asset_config"))
             {
@@ -586,13 +586,13 @@ namespace Azure.Iot.Operations.Services.Assets.UnitTests
                 Directory.CreateDirectory("./AssetMonitorTestFiles/secret/aep_cert");
             }
 
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepTargetAddressRelativeMountPath}", "http://my-backend-api-s.default.svc.cluster.local:80");
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepAdditionalConfigurationRelativeMountPath}", "{ \"DataSourceType\": \"Http\" }");
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepAuthenticationMethodRelativeMountPath}", "UsernamePassword");
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.EndpointProfileTypeRelativeMountPath}", "http-sql-dssroot");
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepCertificateFileNameRelativeMountPath}", "some-certificate");
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepUsernameFileNameRelativeMountPath}", "some-username");
-            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetMonitor.AepPasswordFileNameRelativeMountPath}", "some-password");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepTargetAddressRelativeMountPath}", "http://my-backend-api-s.default.svc.cluster.local:80");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepAdditionalConfigurationRelativeMountPath}", "{ \"DataSourceType\": \"Http\" }");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepAuthenticationMethodRelativeMountPath}", "UsernamePassword");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.EndpointProfileTypeRelativeMountPath}", "http-sql-dssroot");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepCertificateFileNameRelativeMountPath}", "some-certificate");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepUsernameFileNameRelativeMountPath}", "some-username");
+            File.WriteAllText($"./AssetMonitorTestFiles/config/aep_config/{AssetFileMonitor.AepPasswordFileNameRelativeMountPath}", "some-password");
             File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_username/some-username", "myusername");
             File.WriteAllText($"./AssetMonitorTestFiles/secret/aep_password/some-password", "mypassword");
             File.WriteAllText(

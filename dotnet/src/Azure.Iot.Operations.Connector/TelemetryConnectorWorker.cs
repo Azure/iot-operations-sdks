@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Connector
         protected readonly ILogger<TelemetryConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
-        private readonly IAssetMonitor _assetMonitor;
+        private readonly IAssetFileMonitor _assetMonitor;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private readonly ConcurrentDictionary<string, Asset> _assets = new();
         private bool _isDisposed = false;
@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Connector
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAssetMonitor assetMonitor,
+            IAssetFileMonitor assetMonitor,
             IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _applicationContext = applicationContext;

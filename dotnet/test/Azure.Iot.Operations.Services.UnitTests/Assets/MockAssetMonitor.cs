@@ -5,10 +5,10 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    public class MockAssetMonitor : IAssetMonitor
+    public class MockAssetMonitor : IAssetFileMonitor
     {
-        public event EventHandler<AssetChangedEventArgs>? AssetChanged;
-        public event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
+        public event EventHandler<AssetDeletedEventArgs>? AssetChanged;
+        public event EventHandler<AssetEndpointProfileCreatedEventArgs>? AssetEndpointProfileChanged;
 
         public Dictionary<string, Asset> _assets = new();
         public AssetEndpointProfile? _assetEndpointProfile;

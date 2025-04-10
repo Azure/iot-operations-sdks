@@ -8,11 +8,11 @@ namespace Azure.Iot.Operations.Connector
     public static class AssetMonitorFactoryProvider
     {
         /// <summary>
-        /// A provider for the default <see cref="AssetMonitor"/> implementation"/>
+        /// A provider for the default <see cref="AssetFileMonitor"/> implementation"/>
         /// </summary>
-        public static Func<IServiceProvider, IAssetMonitor> AssetMonitorFactory = service =>
+        public static Func<IServiceProvider, IAssetFileMonitor> AssetMonitorFactory = service =>
         {
-            return new AssetMonitor();
+            return new AssetFileMonitor();
         };
     }
 }

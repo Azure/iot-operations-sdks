@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
     /// </summary>
     internal class FileChangedEventArgs : EventArgs
     {
-        internal ChangeType ChangeType { get; init; }
+        internal WatcherChangeTypes ChangeType { get; init; }
 
         internal string FilePath { get; init; }
 
@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
             }
         }
 
-        internal FileChangedEventArgs(string filePath, ChangeType changeType)
+        internal FileChangedEventArgs(string filePath, WatcherChangeTypes changeType)
         {
             FilePath = filePath;
             ChangeType = changeType;

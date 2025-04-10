@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Diagnostics;
-using System.Security.Cryptography;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 namespace Azure.Iot.Operations.Services.Assets.FileMonitor
 {
     /// <summary>
@@ -45,24 +41,22 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
                                      | NotifyFilters.Size
             };
 
-            _directoryWatcher.Created += OnCreated;
-            _directoryWatcher.Deleted += OnDeleted;
-            _directoryWatcher.IncludeSubdirectories = true;
+            _directoryWatcher.Created += OnChanged;
+            _directoryWatcher.Changed += OnChanged;
+            _directoryWatcher.Deleted += OnChanged;
+            _directoryWatcher.IncludeSubdirectories = false; //TODO separate watchers for AEP level changes and Asset level changes, right?
             _directoryWatcher.EnableRaisingEvents = true;
         }
 
-        private void OnDeleted(object sender, FileSystemEventArgs e)
+        private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            OnFileChanged?.Invoke(sender, new(e.FullPath, ChangeType.Deleted));
-        }
-
-        private void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            OnFileChanged?.Invoke(sender, new(e.FullPath, ChangeType.Created));
+            OnFileChanged?.Invoke(sender, new(e.FullPath, e.ChangeType));
         }
 
         internal void Stop()
         {
+            _directoryWatcher?.Dispose();
+            _startedObserving = false;
         }
     }
 }
