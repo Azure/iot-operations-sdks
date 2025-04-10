@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         /// </summary>
         [JsonPropertyName("status")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public StatusSchema? Status { get; set; } = default
+        public StatusSchema? Status { get; set; } = default;
 
     }
 }

@@ -17,105 +17,105 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         /// </summary>
         [JsonPropertyName("assetEndpointProfileRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AssetEndpointProfileRef { get; set; } = default
+        public string? AssetEndpointProfileRef { get; set; } = default;
 
         /// <summary>
         /// Name of the asset if available.
         /// </summary>
         [JsonPropertyName("assetName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AssetName { get; set; } = default
+        public string? AssetName { get; set; } = default;
 
         /// <summary>
         /// Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.
         /// </summary>
         [JsonPropertyName("datasets")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DatasetsSchemaElementSchema>? Datasets { get; set; } = default
+        public List<DatasetsSchemaElementSchema>? Datasets { get; set; } = default;
 
         /// <summary>
         /// The 'defaultDatasetsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultDatasetsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultDatasetsConfiguration { get; set; } = default
+        public string? DefaultDatasetsConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'defaultEventsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultEventsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultEventsConfiguration { get; set; } = default
+        public string? DefaultEventsConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'defaultTopic' Field.
         /// </summary>
         [JsonPropertyName("defaultTopic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DefaultTopicSchema? DefaultTopic { get; set; } = default
+        public DefaultTopicSchema? DefaultTopic { get; set; } = default;
 
         /// <summary>
         /// URI to the documentation of the asset.
         /// </summary>
         [JsonPropertyName("documentationUri")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DocumentationUri { get; set; } = default
+        public string? DocumentationUri { get; set; } = default;
 
         /// <summary>
         /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
         /// </summary>
         [JsonPropertyName("events")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<EventsSchemaElementSchema>? Events { get; set; } = default
+        public List<EventsSchemaElementSchema>? Events { get; set; } = default;
 
         /// <summary>
         /// The 'hardwareRevision' Field.
         /// </summary>
         [JsonPropertyName("hardwareRevision")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? HardwareRevision { get; set; } = default
+        public string? HardwareRevision { get; set; } = default;
 
         /// <summary>
         /// Asset manufacturer name.
         /// </summary>
         [JsonPropertyName("manufacturer")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Manufacturer { get; set; } = default
+        public string? Manufacturer { get; set; } = default;
 
         /// <summary>
         /// URI to the manufacturer of the asset.
         /// </summary>
         [JsonPropertyName("manufacturerUri")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ManufacturerUri { get; set; } = default
+        public string? ManufacturerUri { get; set; } = default;
 
         /// <summary>
         /// Asset model name.
         /// </summary>
         [JsonPropertyName("model")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Model { get; set; } = default
+        public string? Model { get; set; } = default;
 
         /// <summary>
         /// Asset product code.
         /// </summary>
         [JsonPropertyName("productCode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ProductCode { get; set; } = default
+        public string? ProductCode { get; set; } = default;
 
         /// <summary>
         /// Asset serial number.
         /// </summary>
         [JsonPropertyName("serialNumber")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? SerialNumber { get; set; } = default
+        public string? SerialNumber { get; set; } = default;
 
         /// <summary>
         /// Revision number of the software.
         /// </summary>
         [JsonPropertyName("softwareRevision")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? SoftwareRevision { get; set; } = default
+        public string? SoftwareRevision { get; set; } = default;
 
     }
 }

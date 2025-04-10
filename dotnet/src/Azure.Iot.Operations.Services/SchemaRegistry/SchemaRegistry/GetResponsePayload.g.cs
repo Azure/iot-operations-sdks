@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// </summary>
         [JsonPropertyName("schema")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Schema? Schema { get; set; } = default
+        public Schema? Schema { get; set; } = default;
 
     }
 }
