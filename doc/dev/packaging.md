@@ -63,6 +63,7 @@ To pull the required dependencies from upstream crates.io into Azure IoT Operati
     cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks
     cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdks
     cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks
+    cargo publish --manifest-path azure_iot_operations_connector/Cargo.toml --registry aio-sdks
     ```
 
 1. **[Optional]** Publish rumqttc:
@@ -106,4 +107,5 @@ The Rust dependencies aren't automatically populated into the feed. To do this, 
     cargo build --manifest-path azure_iot_operations_mqtt/Cargo.toml
     cargo build --manifest-path azure_iot_operations_protocol/Cargo.toml
     cargo build --manifest-path azure_iot_operations_services/Cargo.toml
+    cargo build --manifest-path azure_iot_operations_connector/Cargo.toml
     ```
