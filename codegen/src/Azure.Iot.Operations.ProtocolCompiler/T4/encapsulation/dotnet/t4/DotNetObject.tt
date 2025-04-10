@@ -50,7 +50,7 @@ namespace <#=this.projectName#>.<#=this.objectType.Namespace.GetTypeName(TargetL
 <# if (fieldInfo.Value.Index != null) { #>
         [Dahomey.Cbor.Attributes.CborPropertyAttribute(index: <#=fieldInfo.Value.Index#>)]
 <# } #>
-        public <#=fieldInfo.Value.IsRequired ? "required" : ""#><#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#><#=fieldInfo.Value.IsRequired ? "" : "?"#> <#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> { get; set; } <#=fieldInfo.Value.IsRequired ? "" : "= default;"#>
+        public <#=fieldInfo.Value.IsRequired ? "required " : ""#><#=DotNetSchemaSupport.GetType(fieldInfo.Value.SchemaType)#><#=fieldInfo.Value.IsRequired ? "" : "?"#> <#=fieldInfo.Key.GetFieldName(TargetLanguage.CSharp)#> { get; set; } <#=fieldInfo.Value.IsRequired ? "" : "= default;"#>
 
 <# } #>
 <# if (this.serFormat == SerializationFormat.Avro) { #>
