@@ -54,18 +54,12 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": [
-                "Field",
-                "Required"
-              ],
+              "@type": ["Field", "Required"],
               "name": "assetName",
               "schema": "string"
             },
             {
-              "@type": [
-                "Field",
-                "Required"
-              ],
+              "@type": ["Field", "Required"],
               "name": "assetStatus",
               "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
             }
@@ -84,10 +78,7 @@
         "@type": "Object",
         "fields": [
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
+            "@type": ["Field", "Required"],
             "name": "assetEndpointProfile",
             "schema": "dtmi:com:microsoft:akri:AssetEndpointProfile;1"
           }
@@ -101,18 +92,12 @@
         "@type": "Object",
         "fields": [
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
+            "@type": ["Field", "Required"],
             "name": "assetName",
             "schema": "string"
           },
           {
-            "@type": [
-              "Field",
-              "Required"
-            ],
+            "@type": ["Field", "Required"],
             "name": "asset",
             "schema": "dtmi:com:microsoft:akri:Asset;1"
           }
@@ -140,18 +125,12 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": [
-                "Field",
-                "Required"
-              ],
+              "@type": ["Field", "Required"],
               "name": "assetName",
               "schema": "string"
             },
             {
-              "@type": [
-                "Field",
-                "Required"
-              ],
+              "@type": ["Field", "Required"],
               "name": "notificationMessageType",
               "schema": "dtmi:com:microsoft:akri:NotificationMessageType;1"
             }
@@ -176,10 +155,7 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": [
-                "Field",
-                "Required"
-              ],
+              "@type": ["Field", "Required"],
               "@id": "dtmi:com:microsoft:akri:DetectedAssetResponseStatus;1",
               "name": "status",
               "description": "status of detected asset creation",
@@ -213,18 +189,12 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "name",
           "schema": "string"
         },
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "@id": "dtmi:com:microsoft:akri:AssetEndpointProfileSpecification;1",
           "name": "specification",
           "schema": {
@@ -242,10 +212,7 @@
                   "@type": "Object",
                   "fields": [
                     {
-                      "@type": [
-                        "Field",
-                        "Required"
-                      ],
+                      "@type": ["Field", "Required"],
                       "name": "method",
                       "schema": {
                         "@type": "Enum",
@@ -273,18 +240,12 @@
                         "@type": "Object",
                         "fields": [
                           {
-                            "@type": [
-                              "Field",
-                              "Required"
-                            ],
+                            "@type": ["Field", "Required"],
                             "name": "usernameSecretName",
                             "schema": "string"
                           },
                           {
-                            "@type": [
-                              "Field",
-                              "Required"
-                            ],
+                            "@type": ["Field", "Required"],
                             "name": "passwordSecretName",
                             "schema": "string"
                           }
@@ -298,10 +259,7 @@
                         "@type": "Object",
                         "fields": [
                           {
-                            "@type": [
-                              "Field",
-                              "Required"
-                            ],
+                            "@type": ["Field", "Required"],
                             "name": "certificateSecretName",
                             "schema": "string"
                           }
@@ -317,18 +275,12 @@
                 "schema": "string"
               },
               {
-                "@type": [
-                  "Field",
-                  "Required"
-                ],
+                "@type": ["Field", "Required"],
                 "name": "endpointProfileType",
                 "schema": "string"
               },
               {
-                "@type": [
-                  "Field",
-                  "Required"
-                ],
+                "@type": ["Field", "Required"],
                 "name": "targetAddress",
                 "schema": "string"
               },
@@ -352,28 +304,19 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "name",
           "schema": "string"
         },
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "@id": "dtmi:com:microsoft:akri:AssetSpecification;1",
           "name": "specification",
           "schema": {
             "@type": "Object",
             "fields": [
               {
-                "@type": [
-                  "Field",
-                  "Required"
-                ],
+                "@type": ["Field", "Required"],
                 "name": "assetEndpointProfileRef",
                 "schema": "string"
               },
@@ -416,18 +359,12 @@
                                 "schema": "string"
                               },
                               {
-                                "@type": [
-                                  "Field",
-                                  "Required"
-                                ],
+                                "@type": ["Field", "Required"],
                                 "name": "dataSource",
                                 "schema": "string"
                               },
                               {
-                                "@type": [
-                                  "Field",
-                                  "Required"
-                                ],
+                                "@type": ["Field", "Required"],
                                 "name": "name",
                                 "schema": "string"
                               },
@@ -472,10 +409,7 @@
                         "schema": "string"
                       },
                       {
-                        "@type": [
-                          "Field",
-                          "Required"
-                        ],
+                        "@type": ["Field", "Required"],
                         "name": "name",
                         "schema": "string"
                       },
@@ -546,18 +480,12 @@
                         "schema": "string"
                       },
                       {
-                        "@type": [
-                          "Field",
-                          "Required"
-                        ],
+                        "@type": ["Field", "Required"],
                         "name": "eventNotifier",
                         "schema": "string"
                       },
                       {
-                        "@type": [
-                          "Field",
-                          "Required"
-                        ],
+                        "@type": ["Field", "Required"],
                         "name": "name",
                         "schema": "string"
                       },
@@ -654,10 +582,7 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "path",
           "schema": "string"
         },
@@ -686,26 +611,17 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "schemaName",
           "schema": "string"
         },
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "schemaRegistryNamespace",
           "schema": "string"
         },
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "schemaVersion",
           "schema": "string"
         }
@@ -754,10 +670,7 @@
               "@type": "Object",
               "fields": [
                 {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
+                  "@type": ["Field", "Required"],
                   "name": "name",
                   "schema": "string"
                 },
@@ -779,10 +692,7 @@
               "@type": "Object",
               "fields": [
                 {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
+                  "@type": ["Field", "Required"],
                   "name": "name",
                   "schema": "string"
                 },
@@ -855,10 +765,7 @@
           "schema": "string"
         },
         {
-          "@type": [
-            "Field",
-            "Required"
-          ],
+          "@type": ["Field", "Required"],
           "name": "assetEndpointProfileRef",
           "description": "A reference to the asset endpoint profile.",
           "schema": "string"
@@ -936,10 +843,7 @@
               "@type": "Object",
               "fields": [
                 {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
+                  "@type": ["Field", "Required"],
                   "name": "name",
                   "schema": "string"
                 },
@@ -967,10 +871,7 @@
                           "schema": "string"
                         },
                         {
-                          "@type": [
-                            "Field",
-                            "Required"
-                          ],
+                          "@type": ["Field", "Required"],
                           "name": "dataSource",
                           "schema": "string"
                         },
@@ -1003,18 +904,12 @@
               "@type": "Object",
               "fields": [
                 {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
+                  "@type": ["Field", "Required"],
                   "name": "name",
                   "schema": "string"
                 },
                 {
-                  "@type": [
-                    "Field",
-                    "Required"
-                  ],
+                  "@type": ["Field", "Required"],
                   "name": "eventNotifier",
                   "schema": "string"
                 },
