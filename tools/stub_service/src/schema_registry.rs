@@ -107,6 +107,7 @@ struct Schema {
 }
 
 impl Ord for Schema {
+    // Ordering done by version to ensure output is sorted by version
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.version.cmp(&other.version)
     }

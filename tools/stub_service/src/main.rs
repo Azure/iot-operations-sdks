@@ -1,5 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use env_logger::Builder;
+
 use stub_service::{
     OutputDirectoryManager, create_service_session,
     schema_registry::{self},
@@ -19,11 +23,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let output_directory_manager = OutputDirectoryManager::new();
 
     // Create the application context
-    let application_context = ApplicationContextBuilder::default().build().unwrap();
+    let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create the schema registry service session and stub
-    let sr_service_session =
-        create_service_session(schema_registry::CLIENT_ID.to_string()).unwrap();
+    let sr_service_session = create_service_session(schema_registry::CLIENT_ID.to_string())?;
     let sr_service_stub = schema_registry::Service::new(
         application_context,
         sr_service_session.create_managed_client(),

@@ -6,7 +6,7 @@
 //! also visualize the state of the service. The stub service is not intended for production use.
 //!
 //! To run the stub service, set the `STUB_SERVICE_OUTPUT_DIR` environment variable to the desired
-//! output directory.
+//! output directory or disable the `enable-output` feature.
 //!
 //! An example of running the stub service is as follows:
 //!
@@ -14,6 +14,7 @@
 //! export STUB_SERVICE_OUTPUT_DIR=/path/to/output/dir
 //! cargo run # From the root of the crate
 //! ```
+//!
 
 use std::{
     path::Path,
@@ -72,7 +73,7 @@ impl OutputDirectoryManager {
             STUB_SERVICE_OUTPUT_DIR_NAME,
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)
-                .unwrap()
+                .expect("Current time can't be before UNIX EPOCH")
                 .as_secs()
         ));
 
@@ -135,9 +136,12 @@ impl ServiceOutputManager {
         Self { service_dir }
     }
 
-    /// Writes the state to a file in the service output directory.
+    /// Writes the state to a JSON file in the service output directory.
     #[cfg(feature = "enable-output")]
     pub fn write_state(&self, file_name: &str, state: String) {
+        // Append JSON extension to the file name
+        let file_name = format!("{}.json", file_name);
+
         let file_path = Path::new(&self.service_dir).join(file_name);
 
         // Overwrite the file if it exists
