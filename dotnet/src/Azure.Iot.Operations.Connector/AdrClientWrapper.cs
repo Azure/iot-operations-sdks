@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -11,6 +10,8 @@ namespace Azure.Iot.Operations.Connector
 {
     public class AdrClientWrapper // TODO naming
     {
+        //TODO nullablility of required fields in DTDL model types
+
         private readonly IAdrServiceClient _client;
         private readonly IAssetFileMonitor _monitor;
         private readonly HashSet<string> _observedAssetEndpointProfiles = new();
@@ -63,13 +64,14 @@ namespace Azure.Iot.Operations.Connector
 
         private Task AssetEndpointProfileUpdateReceived(string arg1, AssetEndpointProfile? profile)
         {
-            AssetEndpointProfileChanged?.Invoke(this, new(profile.Name, ChangeType.Updated, profile));
+            AssetEndpointProfileChanged?.Invoke(this, new(profile!.Name!, ChangeType.Updated, profile));
             return Task.CompletedTask;
         }
 
         private Task AssetUpdateReceived(string arg1, Asset? asset)
         {
-            AssetChanged?.Invoke(this, new(e.AssetEndpointProfileName, asset.Name, ChangeType.Updated, asset));
+            //TODO bit of leap on this assumption
+            AssetChanged?.Invoke(this, new(asset!.Specification!.AssetEndpointProfileRef!.Split("/")[1], asset!.Name!, ChangeType.Updated, asset!));
             return Task.CompletedTask;
         }
 

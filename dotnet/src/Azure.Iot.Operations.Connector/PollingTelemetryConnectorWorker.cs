@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
@@ -13,7 +14,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
-        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<TelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAssetFileMonitor assetMonitor, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor, leaderElectionConfigurationProvider)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<TelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, AdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor, leaderElectionConfigurationProvider)
         {
             base.OnAssetAvailable += OnAssetSampleableAsync;
             base.OnAssetUnavailable += OnAssetNotSampleableAsync;
@@ -35,25 +36,26 @@ namespace Azure.Iot.Operations.Connector
 
         public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
-            if (args.Asset.Datasets == null)
+            if (args.Asset.Specification.Datasets == null)
             {
                 return;
             }
 
             _assetsSamplingTimers[args.AssetName] = new Dictionary<string, Timer>();
-            foreach (Dataset dataset in args.Asset.Datasets)
+            foreach (AssetDatasetSchemaElement dataset in args.Asset.Specification.Datasets)
             {
                 IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(AssetEndpointProfile!, args.Asset, dataset);
 
                 TimeSpan samplingInterval;
                 if (dataset.DatasetConfiguration != null
-                    && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
+                    && JsonDocument.Parse(dataset.DatasetConfiguration).RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
                     && datasetSpecificSamplingInterval.TryGetInt32(out int datasetSpecificSamplingIntervalMilliseconds))
                 {
                     samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingIntervalMilliseconds);
                 }
-                else if (args.Asset.DefaultDatasetsConfiguration != null
-                    && args.Asset.DefaultDatasetsConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
+                //TODO make our lib enforce configuration fields as json
+                else if (args.Asset.Specification.DefaultDatasetsConfiguration != null
+                    && JsonDocument.Parse(args.Asset.Specification.DefaultDatasetsConfiguration).RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
                     && defaultDatasetSamplingInterval.TryGetInt32(out int defaultSamplingIntervalMilliseconds))
                 {
                     samplingInterval = TimeSpan.FromMilliseconds(defaultSamplingIntervalMilliseconds);
