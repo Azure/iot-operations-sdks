@@ -5,34 +5,38 @@
 
 use core::fmt::Debug;
 use std::collections::HashMap;
-use thiserror::Error;
 
-use crate::common::dispatcher::Receiver;
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use thiserror::Error;
 
-use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_name_gen;
-    Asset as GenAsset, AssetDataPointObservabilityModeSchema, AssetDataPointSchemaElementSchema,
-    AssetDatasetSchemaElementSchema, AssetEndpointProfile as GenAssetEndpointProfile,
-    AssetEndpointProfileSpecificationSchema as GenAssetEndpointProfileSpecificationSchema,
-    AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
-    AssetEndpointProfileUpdateEventTelemetry as GenAssetEndpointProfileUpdateEventTelemetry,
-    AssetEventObservabilityModeSchema, AssetEventSchemaElementSchema,
-    AssetSpecificationSchema as GenAssetSpecificationSchema, AssetStatus as GenAssetStatus,
-    AssetUpdateEventTelemetry as GenAssetUpdateEventTelemetry,
-    AuthenticationSchema as GenAuthenticationSchema, DatasetsSchemaSchemaElementSchema,
-    DetectedAsset as GenDetectedAsset, DetectedAssetDataPointSchemaElementSchema,
-    DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
-    DetectedAssetResponseStatusSchema, Error as GenError, EventsSchemaSchemaElementSchema,
-    MessageSchemaReference as GenMessageSchemaReference, MethodSchema, RetainSchema,
-    Topic as GenTopic, UsernamePasswordCredentialsSchema as GenUsernamePasswordCredentialsSchema,
-    X509credentialsSchema as GenX509credentialsSchema,
-};
-use crate::azure_device_registry::adr_type_gen::aep_type_service::client as adr_type_gen;
-    DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
-    DiscoveredAssetEndpointProfileResponseStatusSchema,
-    SupportedAuthenticationMethodsSchemaElementSchema,
-};
+use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_base_service_gen;
+
+// use crate::azure_device_registry::adr_name_gen::adr_base_service::client::
+// {
+//     Asset as GenAsset, AssetDataPointObservabilityModeSchema, AssetDataPointSchemaElementSchema,
+//     AssetDatasetSchemaElementSchema, AssetEndpointProfile as GenAssetEndpointProfile,
+//     AssetEndpointProfileSpecificationSchema as GenAssetEndpointProfileSpecificationSchema,
+//     AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
+//     AssetEndpointProfileUpdateEventTelemetry as GenAssetEndpointProfileUpdateEventTelemetry,
+//     AssetEventObservabilityModeSchema, AssetEventSchemaElementSchema,
+//     AssetSpecificationSchema as GenAssetSpecificationSchema, AssetStatus as GenAssetStatus,
+//     AssetUpdateEventTelemetry as GenAssetUpdateEventTelemetry,
+//     AuthenticationSchema as GenAuthenticationSchema, DatasetsSchemaSchemaElementSchema,
+//     DetectedAsset as GenDetectedAsset, DetectedAssetDataPointSchemaElementSchema,
+//     DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
+//     DetectedAssetResponseStatusSchema, Error as GenError, EventsSchemaSchemaElementSchema,
+//     MessageSchemaReference as GenMessageSchemaReference, MethodSchema, RetainSchema,
+//     Topic as GenTopic, UsernamePasswordCredentialsSchema as GenUsernamePasswordCredentialsSchema,
+//     X509credentialsSchema as GenX509credentialsSchema,
+// };
+// use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
+//     DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
+//     DiscoveredAssetEndpointProfileResponseStatusSchema,
+//     SupportedAuthenticationMethodsSchemaElementSchema,
+// };
+use crate::azure_device_registry::adr_type_gen::aep_type_service::client as aep_type_service_gen;
+use crate::common::dispatcher::Receiver;
 
 /// Azure Device Registry generated code
 mod adr_name_gen;
@@ -107,7 +111,7 @@ pub struct AssetEndpointProfileStatus {
     pub errors: Option<Vec<AkriError>>,
 }
 
-impl From<AssetEndpointProfileStatus> for GenAssetEndpointProfileStatus {
+impl From<AssetEndpointProfileStatus> for adr_base_service_gen::AssetEndpointProfileStatus {
     fn from(source: AssetEndpointProfileStatus) -> Self {
         let errors = source
             .errors
@@ -116,7 +120,7 @@ impl From<AssetEndpointProfileStatus> for GenAssetEndpointProfileStatus {
             .map(AkriError::into)
             .collect();
 
-        GenAssetEndpointProfileStatus {
+        adr_base_service_gen::AssetEndpointProfileStatus {
             errors: Some(errors),
         }
     }
@@ -135,34 +139,38 @@ pub struct AssetStatus {
     pub version: Option<i32>,
 }
 
-impl From<AssetStatus> for GenAssetStatus {
+impl From<AssetStatus> for adr_base_service_gen::AssetStatus {
     fn from(source: AssetStatus) -> Self {
         let datasets_schema = source.datasets_schema.map(|datasets_schema| {
             datasets_schema
                 .into_iter()
-                .map(|schema_ref| DatasetsSchemaSchemaElementSchema {
-                    name: schema_ref.name,
-                    message_schema_reference: schema_ref
-                        .message_schema_reference
-                        .map(MessageSchemaReference::into),
-                })
+                .map(
+                    |schema_ref| adr_base_service_gen::DatasetsSchemaSchemaElementSchema {
+                        name: schema_ref.name,
+                        message_schema_reference: schema_ref
+                            .message_schema_reference
+                            .map(MessageSchemaReference::into),
+                    },
+                )
                 .collect()
         });
         let events_schema = source.events_schema.map(|events_schema| {
             events_schema
                 .into_iter()
-                .map(|schema_ref| EventsSchemaSchemaElementSchema {
-                    name: schema_ref.name,
-                    message_schema_reference: schema_ref
-                        .message_schema_reference
-                        .map(MessageSchemaReference::into),
-                })
+                .map(
+                    |schema_ref| adr_base_service_gen::EventsSchemaSchemaElementSchema {
+                        name: schema_ref.name,
+                        message_schema_reference: schema_ref
+                            .message_schema_reference
+                            .map(MessageSchemaReference::into),
+                    },
+                )
                 .collect()
         });
         let errors = source
             .errors
             .map(|errors| errors.into_iter().map(AkriError::into).collect());
-        GenAssetStatus {
+        adr_base_service_gen::AssetStatus {
             datasets_schema,
             events_schema,
             errors,
@@ -171,8 +179,8 @@ impl From<AssetStatus> for GenAssetStatus {
     }
 }
 
-impl From<GenAssetStatus> for AssetStatus {
-    fn from(source: GenAssetStatus) -> Self {
+impl From<adr_base_service_gen::AssetStatus> for AssetStatus {
+    fn from(source: adr_base_service_gen::AssetStatus) -> Self {
         let datasets_schema = source.datasets_schema.map(|datasets_schema| {
             datasets_schema
                 .into_iter()
@@ -227,9 +235,9 @@ pub struct MessageSchemaReference {
     pub message_schema_namespace: String,
 }
 
-impl From<MessageSchemaReference> for GenMessageSchemaReference {
+impl From<MessageSchemaReference> for adr_base_service_gen::MessageSchemaReference {
     fn from(value: MessageSchemaReference) -> Self {
-        GenMessageSchemaReference {
+        adr_base_service_gen::MessageSchemaReference {
             schema_name: value.message_schema_name,
             schema_namespace: value.message_schema_namespace,
             schema_version: value.message_schema_version,
@@ -246,9 +254,9 @@ pub struct AkriError {
     pub message: Option<String>,
 }
 
-impl From<AkriError> for GenError {
+impl From<AkriError> for adr_base_service_gen::Error {
     fn from(value: AkriError) -> Self {
-        GenError {
+        adr_base_service_gen::Error {
             code: value.code,
             message: value.message,
         }
@@ -302,9 +310,9 @@ pub struct DetectedAsset {
     /// The 'softwareRevision' Field.
     pub software_revision: Option<String>,
 }
-impl From<DetectedAsset> for GenDetectedAsset {
+impl From<DetectedAsset> for adr_base_service_gen::DetectedAsset {
     fn from(source: DetectedAsset) -> Self {
-        GenDetectedAsset {
+        adr_base_service_gen::DetectedAsset {
             asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
             asset_name: source.asset_name,
             datasets: source.datasets.map(|datasets| {
@@ -348,9 +356,9 @@ pub struct DetectedAssetEvent {
     pub last_updated_on: Option<String>,
 }
 
-impl From<DetectedAssetEvent> for DetectedAssetEventSchemaElementSchema {
+impl From<DetectedAssetEvent> for adr_base_service_gen::DetectedAssetEventSchemaElementSchema {
     fn from(value: DetectedAssetEvent) -> Self {
-        DetectedAssetEventSchemaElementSchema {
+        adr_base_service_gen::DetectedAssetEventSchemaElementSchema {
             event_configuration: value.event_configuration,
             event_notifier: value.event_notifier,
             name: value.name,
@@ -375,9 +383,9 @@ pub struct DetectedAssetDataSet {
     pub topic: Option<Topic>,
 }
 
-impl From<DetectedAssetDataSet> for DetectedAssetDatasetSchemaElementSchema {
+impl From<DetectedAssetDataSet> for adr_base_service_gen::DetectedAssetDatasetSchemaElementSchema {
     fn from(source: DetectedAssetDataSet) -> Self {
-        DetectedAssetDatasetSchemaElementSchema {
+        adr_base_service_gen::DetectedAssetDatasetSchemaElementSchema {
             data_points: source.data_points.map(|points| {
                 points
                     .into_iter()
@@ -406,9 +414,11 @@ pub struct DetectedAssetDataPoint {
     pub last_updated_on: Option<String>,
 }
 
-impl From<DetectedAssetDataPoint> for DetectedAssetDataPointSchemaElementSchema {
+impl From<DetectedAssetDataPoint>
+    for adr_base_service_gen::DetectedAssetDataPointSchemaElementSchema
+{
     fn from(source: DetectedAssetDataPoint) -> Self {
-        DetectedAssetDataPointSchemaElementSchema {
+        adr_base_service_gen::DetectedAssetDataPointSchemaElementSchema {
             data_point_configuration: source.data_point_configuration,
             data_source: source.data_source,
             name: source.name,
@@ -434,17 +444,13 @@ pub enum RetainPolicy {
     Never,
 }
 
-impl From<Topic> for GenTopic {
+impl From<Topic> for adr_base_service_gen::Topic {
     fn from(source: Topic) -> Self {
-        GenTopic {
+        adr_base_service_gen::Topic {
             path: source.path,
             retain: match source.retain {
-                Some(RetainPolicy::Keep) => {
-                    Some(adr_name_gen::adr_base_service::client::RetainSchema::Keep)
-                }
-                Some(RetainPolicy::Never) => {
-                    Some(adr_name_gen::adr_base_service::client::RetainSchema::Never)
-                }
+                Some(RetainPolicy::Keep) => Some(adr_base_service_gen::RetainSchema::Keep),
+                Some(RetainPolicy::Never) => Some(adr_base_service_gen::RetainSchema::Never),
                 None => None,
             },
         }
@@ -479,7 +485,7 @@ pub enum AuthenticationMethods {
     UsernamePassword,
 }
 
-impl From<DiscoveredAssetEndpointProfile> for GenDiscoveredAssetEndpointProfile {
+impl From<DiscoveredAssetEndpointProfile> for aep_type_service_gen::DiscoveredAssetEndpointProfile {
     fn from(source: DiscoveredAssetEndpointProfile) -> Self {
         let supported_authentication_methods = source
             .supported_authentication_methods
@@ -487,17 +493,17 @@ impl From<DiscoveredAssetEndpointProfile> for GenDiscoveredAssetEndpointProfile 
             .into_iter()
             .map(|method| match method {
                 AuthenticationMethods::Anonymous => {
-                    SupportedAuthenticationMethodsSchemaElementSchema::Anonymous
+                    aep_type_service_gen::SupportedAuthenticationMethodsSchemaElementSchema::Anonymous
                 }
                 AuthenticationMethods::Certificate => {
-                    SupportedAuthenticationMethodsSchemaElementSchema::Certificate
+                    aep_type_service_gen::SupportedAuthenticationMethodsSchemaElementSchema::Certificate
                 }
                 AuthenticationMethods::UsernamePassword => {
-                    SupportedAuthenticationMethodsSchemaElementSchema::UsernamePassword
+                    aep_type_service_gen::SupportedAuthenticationMethodsSchemaElementSchema::UsernamePassword
                 }
             })
             .collect();
-        GenDiscoveredAssetEndpointProfile {
+        aep_type_service_gen::DiscoveredAssetEndpointProfile {
             additional_configuration: source.additional_configuration,
             daep_name: source.daep_name,
             endpoint_profile_type: source.endpoint_profile_type,
@@ -531,8 +537,8 @@ impl AssetEndpointProfileObservation {
     // that was observed where the receiver was dropped and a aep that was never observed
 }
 
-impl From<GenAssetEndpointProfileUpdateEventTelemetry> for AssetEndpointProfile {
-    fn from(source: GenAssetEndpointProfileUpdateEventTelemetry) -> Self {
+impl From<adr_base_service_gen::AssetEndpointProfileUpdateEventTelemetry> for AssetEndpointProfile {
+    fn from(source: adr_base_service_gen::AssetEndpointProfileUpdateEventTelemetry) -> Self {
         AssetEndpointProfile::from(
             source
                 .asset_endpoint_profile_update_event
@@ -565,8 +571,8 @@ impl AssetObservation {
     // that was observed where the receiver was dropped and a aep that was never observed
 }
 
-impl From<GenAssetUpdateEventTelemetry> for Asset {
-    fn from(source: GenAssetUpdateEventTelemetry) -> Self {
+impl From<adr_base_service_gen::AssetUpdateEventTelemetry> for Asset {
+    fn from(source: adr_base_service_gen::AssetUpdateEventTelemetry) -> Self {
         Asset::from(source.asset_update_event.asset)
     }
 }
@@ -584,8 +590,8 @@ pub struct AssetEndpointProfile {
     pub status: Option<AssetEndpointProfileStatus>,
 }
 
-impl From<GenAssetEndpointProfile> for AssetEndpointProfile {
-    fn from(source: GenAssetEndpointProfile) -> Self {
+impl From<adr_base_service_gen::AssetEndpointProfile> for AssetEndpointProfile {
+    fn from(source: adr_base_service_gen::AssetEndpointProfile) -> Self {
         AssetEndpointProfile {
             name: source.name,
             specification: AssetEndpointProfileSpecificationSchema::from(source.specification),
@@ -594,8 +600,8 @@ impl From<GenAssetEndpointProfile> for AssetEndpointProfile {
     }
 }
 
-impl From<GenAssetEndpointProfileStatus> for AssetEndpointProfileStatus {
-    fn from(source: GenAssetEndpointProfileStatus) -> Self {
+impl From<adr_base_service_gen::AssetEndpointProfileStatus> for AssetEndpointProfileStatus {
+    fn from(source: adr_base_service_gen::AssetEndpointProfileStatus) -> Self {
         AssetEndpointProfileStatus {
             errors: source
                 .errors
@@ -604,8 +610,8 @@ impl From<GenAssetEndpointProfileStatus> for AssetEndpointProfileStatus {
     }
 }
 
-impl From<GenError> for AkriError {
-    fn from(source: GenError) -> Self {
+impl From<adr_base_service_gen::Error> for AkriError {
+    fn from(source: adr_base_service_gen::Error) -> Self {
         AkriError {
             code: source.code,
             message: source.message,
@@ -632,8 +638,10 @@ pub struct AssetEndpointProfileSpecificationSchema {
     /// The 'uuid' Field.
     pub uuid: Option<String>,
 }
-impl From<GenAssetEndpointProfileSpecificationSchema> for AssetEndpointProfileSpecificationSchema {
-    fn from(source: GenAssetEndpointProfileSpecificationSchema) -> Self {
+impl From<adr_base_service_gen::AssetEndpointProfileSpecificationSchema>
+    for AssetEndpointProfileSpecificationSchema
+{
+    fn from(source: adr_base_service_gen::AssetEndpointProfileSpecificationSchema) -> Self {
         AssetEndpointProfileSpecificationSchema {
             additional_configuration: source.additional_configuration,
             authentication: source.authentication.map(Authentication::from),
@@ -671,18 +679,18 @@ pub enum Authentication {
 //     }
 // }
 
-impl From<GenAuthenticationSchema> for Authentication {
-    fn from(source: GenAuthenticationSchema) -> Self {
+impl From<adr_base_service_gen::AuthenticationSchema> for Authentication {
+    fn from(source: adr_base_service_gen::AuthenticationSchema) -> Self {
         match source.method {
-            MethodSchema::Anonymous => Authentication::Anonymous,
-            MethodSchema::Certificate => {
+            adr_base_service_gen::MethodSchema::Anonymous => Authentication::Anonymous,
+            adr_base_service_gen::MethodSchema::Certificate => {
                 if let Some(credentials) = source.x509credentials {
                     Authentication::Certificate(X509credentials::from(credentials))
                 } else {
                     panic!("Certificate method specified but x509credentials missing");
                 }
             }
-            MethodSchema::UsernamePassword => {
+            adr_base_service_gen::MethodSchema::UsernamePassword => {
                 if let Some(credentials) = source.username_password_credentials {
                     Authentication::UsernamePassword(UsernamePasswordCredentials::from(credentials))
                 } else {
@@ -702,8 +710,8 @@ pub struct UsernamePasswordCredentials {
     pub username_secret_name: String,
 }
 
-impl From<GenUsernamePasswordCredentialsSchema> for UsernamePasswordCredentials {
-    fn from(source: GenUsernamePasswordCredentialsSchema) -> Self {
+impl From<adr_base_service_gen::UsernamePasswordCredentialsSchema> for UsernamePasswordCredentials {
+    fn from(source: adr_base_service_gen::UsernamePasswordCredentialsSchema) -> Self {
         UsernamePasswordCredentials {
             password_secret_name: source.password_secret_name,
             username_secret_name: source.username_secret_name,
@@ -716,8 +724,8 @@ pub struct X509credentials {
     pub certificate_secret_name: String,
 }
 
-impl From<GenX509credentialsSchema> for X509credentials {
-    fn from(source: GenX509credentialsSchema) -> Self {
+impl From<adr_base_service_gen::X509credentialsSchema> for X509credentials {
+    fn from(source: adr_base_service_gen::X509credentialsSchema) -> Self {
         X509credentials {
             certificate_secret_name: source.certificate_secret_name,
         }
@@ -736,8 +744,8 @@ pub struct Asset {
     pub status: Option<AssetStatus>,
 }
 
-impl From<GenAsset> for Asset {
-    fn from(source: GenAsset) -> Self {
+impl From<adr_base_service_gen::Asset> for Asset {
+    fn from(source: adr_base_service_gen::Asset) -> Self {
         Asset {
             name: source.name,
             specification: AssetSpecification::from(source.specification),
@@ -815,8 +823,8 @@ pub struct AssetSpecification {
     pub version: Option<String>,
 }
 
-impl From<GenAssetSpecificationSchema> for AssetSpecification {
-    fn from(source: GenAssetSpecificationSchema) -> Self {
+impl From<adr_base_service_gen::AssetSpecificationSchema> for AssetSpecification {
+    fn from(source: adr_base_service_gen::AssetSpecificationSchema) -> Self {
         AssetSpecification {
             asset_endpoint_profile_ref: source.asset_endpoint_profile_ref,
             default_datasets_configuration: source.default_datasets_configuration,
@@ -863,8 +871,8 @@ pub struct AssetDataset {
     pub topic: Option<Topic>,
 }
 
-impl From<AssetDatasetSchemaElementSchema> for AssetDataset {
-    fn from(source: AssetDatasetSchemaElementSchema) -> Self {
+impl From<adr_base_service_gen::AssetDatasetSchemaElementSchema> for AssetDataset {
+    fn from(source: adr_base_service_gen::AssetDatasetSchemaElementSchema) -> Self {
         AssetDataset {
             data_points: source
                 .data_points
@@ -891,8 +899,8 @@ pub struct AssetDataPoint {
     pub observability_mode: Option<DataPointObservabilityMode>,
 }
 
-impl From<AssetDataPointSchemaElementSchema> for AssetDataPoint {
-    fn from(source: AssetDataPointSchemaElementSchema) -> Self {
+impl From<adr_base_service_gen::AssetDataPointSchemaElementSchema> for AssetDataPoint {
+    fn from(source: adr_base_service_gen::AssetDataPointSchemaElementSchema) -> Self {
         AssetDataPoint {
             data_point_configuration: source.data_point_configuration,
             data_source: source.data_source,
@@ -921,8 +929,8 @@ pub struct AssetEvent {
     pub observability_mode: Option<EventObservabilityMode>,
 }
 
-impl From<AssetEventSchemaElementSchema> for AssetEvent {
-    fn from(source: AssetEventSchemaElementSchema) -> Self {
+impl From<adr_base_service_gen::AssetEventSchemaElementSchema> for AssetEvent {
+    fn from(source: adr_base_service_gen::AssetEventSchemaElementSchema) -> Self {
         AssetEvent {
             event_configuration: source.event_configuration,
             event_notifier: source.event_notifier,
@@ -954,44 +962,58 @@ pub enum EventObservabilityMode {
     None,
 }
 
-impl From<AssetDataPointObservabilityModeSchema> for DataPointObservabilityMode {
-    fn from(source: AssetDataPointObservabilityModeSchema) -> Self {
+impl From<adr_base_service_gen::AssetDataPointObservabilityModeSchema>
+    for DataPointObservabilityMode
+{
+    fn from(source: adr_base_service_gen::AssetDataPointObservabilityModeSchema) -> Self {
         match source {
-            AssetDataPointObservabilityModeSchema::Counter => DataPointObservabilityMode::Counter,
-            AssetDataPointObservabilityModeSchema::Gauge => DataPointObservabilityMode::Gauge,
-            AssetDataPointObservabilityModeSchema::Histogram => {
+            adr_base_service_gen::AssetDataPointObservabilityModeSchema::Counter => {
+                DataPointObservabilityMode::Counter
+            }
+            adr_base_service_gen::AssetDataPointObservabilityModeSchema::Gauge => {
+                DataPointObservabilityMode::Gauge
+            }
+            adr_base_service_gen::AssetDataPointObservabilityModeSchema::Histogram => {
                 DataPointObservabilityMode::Histogram
             }
-            AssetDataPointObservabilityModeSchema::Log => DataPointObservabilityMode::Log,
-            AssetDataPointObservabilityModeSchema::None => DataPointObservabilityMode::None,
+            adr_base_service_gen::AssetDataPointObservabilityModeSchema::Log => {
+                DataPointObservabilityMode::Log
+            }
+            adr_base_service_gen::AssetDataPointObservabilityModeSchema::None => {
+                DataPointObservabilityMode::None
+            }
         }
     }
 }
 
-impl From<AssetEventObservabilityModeSchema> for EventObservabilityMode {
-    fn from(source: AssetEventObservabilityModeSchema) -> Self {
+impl From<adr_base_service_gen::AssetEventObservabilityModeSchema> for EventObservabilityMode {
+    fn from(source: adr_base_service_gen::AssetEventObservabilityModeSchema) -> Self {
         match source {
-            AssetEventObservabilityModeSchema::Log => EventObservabilityMode::Log,
-            AssetEventObservabilityModeSchema::None => EventObservabilityMode::None,
+            adr_base_service_gen::AssetEventObservabilityModeSchema::Log => {
+                EventObservabilityMode::Log
+            }
+            adr_base_service_gen::AssetEventObservabilityModeSchema::None => {
+                EventObservabilityMode::None
+            }
         }
     }
 }
 
-impl From<GenTopic> for Topic {
-    fn from(source: GenTopic) -> Self {
+impl From<adr_base_service_gen::Topic> for Topic {
+    fn from(source: adr_base_service_gen::Topic) -> Self {
         Topic {
             path: (source.path),
             retain: match source.retain {
-                Some(RetainSchema::Keep) => Some(RetainPolicy::Keep),
-                Some(RetainSchema::Never) => Some(RetainPolicy::Never),
+                Some(adr_base_service_gen::RetainSchema::Keep) => Some(RetainPolicy::Keep),
+                Some(adr_base_service_gen::RetainSchema::Never) => Some(RetainPolicy::Never),
                 None => None,
             },
         }
     }
 }
 
-impl From<GenMessageSchemaReference> for MessageSchemaReference {
-    fn from(value: GenMessageSchemaReference) -> Self {
+impl From<adr_base_service_gen::MessageSchemaReference> for MessageSchemaReference {
+    fn from(value: adr_base_service_gen::MessageSchemaReference) -> Self {
         MessageSchemaReference {
             message_schema_name: value.schema_name,
             message_schema_version: value.schema_version,
@@ -1010,12 +1032,18 @@ pub enum DetectedAssetResponseStatus {
     Failed,
 }
 
-impl From<DetectedAssetResponseStatusSchema> for DetectedAssetResponseStatus {
-    fn from(source: DetectedAssetResponseStatusSchema) -> Self {
+impl From<adr_base_service_gen::DetectedAssetResponseStatusSchema> for DetectedAssetResponseStatus {
+    fn from(source: adr_base_service_gen::DetectedAssetResponseStatusSchema) -> Self {
         match source {
-            DetectedAssetResponseStatusSchema::Created => DetectedAssetResponseStatus::Created,
-            DetectedAssetResponseStatusSchema::Duplicate => DetectedAssetResponseStatus::Duplicate,
-            DetectedAssetResponseStatusSchema::Failed => DetectedAssetResponseStatus::Failed,
+            adr_base_service_gen::DetectedAssetResponseStatusSchema::Created => {
+                DetectedAssetResponseStatus::Created
+            }
+            adr_base_service_gen::DetectedAssetResponseStatusSchema::Duplicate => {
+                DetectedAssetResponseStatus::Duplicate
+            }
+            adr_base_service_gen::DetectedAssetResponseStatusSchema::Failed => {
+                DetectedAssetResponseStatus::Failed
+            }
         }
     }
 }
@@ -1030,18 +1058,20 @@ pub enum DiscoveredAssetEndpointProfileResponseStatus {
     Failed,
 }
 
-impl From<DiscoveredAssetEndpointProfileResponseStatusSchema>
+impl From<aep_type_service_gen::DiscoveredAssetEndpointProfileResponseStatusSchema>
     for DiscoveredAssetEndpointProfileResponseStatus
 {
-    fn from(source: DiscoveredAssetEndpointProfileResponseStatusSchema) -> Self {
+    fn from(
+        source: aep_type_service_gen::DiscoveredAssetEndpointProfileResponseStatusSchema,
+    ) -> Self {
         match source {
-            DiscoveredAssetEndpointProfileResponseStatusSchema::Created => {
+            aep_type_service_gen::DiscoveredAssetEndpointProfileResponseStatusSchema::Created => {
                 DiscoveredAssetEndpointProfileResponseStatus::Created
             }
-            DiscoveredAssetEndpointProfileResponseStatusSchema::Duplicate => {
+            aep_type_service_gen::DiscoveredAssetEndpointProfileResponseStatusSchema::Duplicate => {
                 DiscoveredAssetEndpointProfileResponseStatus::Duplicate
             }
-            DiscoveredAssetEndpointProfileResponseStatusSchema::Failed => {
+            aep_type_service_gen::DiscoveredAssetEndpointProfileResponseStatusSchema::Failed => {
                 DiscoveredAssetEndpointProfileResponseStatus::Failed
             }
         }

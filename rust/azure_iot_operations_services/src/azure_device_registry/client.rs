@@ -16,24 +16,12 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 use tokio::{sync::Notify, task};
 
-use crate::azure_device_registry::adr_name_gen::adr_base_service::client::{
-    AssetEndpointProfileUpdateEventTelemetryReceiver, AssetUpdateEventTelemetryReceiver,
-    CreateDetectedAssetCommandInvoker, CreateDetectedAssetRequestPayload, GetAssetCommandInvoker,
-    GetAssetEndpointProfileCommandInvoker, GetAssetRequestPayload, NotificationMessageType,
-    NotificationResponse, NotifyOnAssetEndpointProfileUpdateCommandInvoker,
-    NotifyOnAssetEndpointProfileUpdateRequestPayload, NotifyOnAssetUpdateCommandInvoker,
-    NotifyOnAssetUpdateRequestPayload, NotifyOnAssetUpdateRequestSchema,
-    UpdateAssetEndpointProfileStatusCommandInvoker, UpdateAssetEndpointProfileStatusRequestPayload,
-    UpdateAssetStatusCommandInvoker, UpdateAssetStatusRequestPayload,
-    UpdateAssetStatusRequestSchema,
-};
+use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_base_service_gen;
 use crate::azure_device_registry::adr_name_gen::common_types::common_options::{
     CommandOptionsBuilder, TelemetryOptionsBuilder,
 };
-use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
-    CreateDiscoveredAssetEndpointProfileCommandInvoker,
-    CreateDiscoveredAssetEndpointProfileRequestPayload,
-};
+use crate::azure_device_registry::adr_type_gen::aep_type_service::client as aep_type_service_gen;
+
 use crate::azure_device_registry::adr_type_gen::common_types::common_options::CommandOptionsBuilder as AepCommandOptionsBuilder;
 use crate::azure_device_registry::{
     Asset, AssetEndpointProfile, AssetEndpointProfileObservation, AssetEndpointProfileStatus,
@@ -60,17 +48,21 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    get_asset_endpoint_profile_command_invoker: Arc<GetAssetEndpointProfileCommandInvoker<C>>,
+    get_asset_endpoint_profile_command_invoker:
+        Arc<adr_base_service_gen::GetAssetEndpointProfileCommandInvoker<C>>,
     update_asset_endpoint_profile_status_command_invoker:
-        Arc<UpdateAssetEndpointProfileStatusCommandInvoker<C>>,
+        Arc<adr_base_service_gen::UpdateAssetEndpointProfileStatusCommandInvoker<C>>,
     notify_on_asset_endpoint_profile_update_command_invoker:
-        Arc<NotifyOnAssetEndpointProfileUpdateCommandInvoker<C>>,
-    get_asset_command_invoker: Arc<GetAssetCommandInvoker<C>>,
-    update_asset_status_command_invoker: Arc<UpdateAssetStatusCommandInvoker<C>>,
-    notify_on_asset_update_command_invoker: Arc<NotifyOnAssetUpdateCommandInvoker<C>>,
-    create_detected_asset_command_invoker: Arc<CreateDetectedAssetCommandInvoker<C>>,
+        Arc<adr_base_service_gen::NotifyOnAssetEndpointProfileUpdateCommandInvoker<C>>,
+    get_asset_command_invoker: Arc<adr_base_service_gen::GetAssetCommandInvoker<C>>,
+    update_asset_status_command_invoker:
+        Arc<adr_base_service_gen::UpdateAssetStatusCommandInvoker<C>>,
+    notify_on_asset_update_command_invoker:
+        Arc<adr_base_service_gen::NotifyOnAssetUpdateCommandInvoker<C>>,
+    create_detected_asset_command_invoker:
+        Arc<adr_base_service_gen::CreateDetectedAssetCommandInvoker<C>>,
     create_asset_endpoint_profile_command_invoker:
-        Arc<CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
+        Arc<aep_type_service_gen::CreateDiscoveredAssetEndpointProfileCommandInvoker<C>>,
     aep_update_event_telemetry_dispatcher:
         Arc<Dispatcher<(AssetEndpointProfile, Option<AckToken>)>>,
     asset_update_event_telemetry_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
@@ -118,16 +110,17 @@ where
         // Start the update aep and assets notification loop
         task::spawn({
             let asset_endpoint_profile_update_event_telemetry_receiver =
-                AssetEndpointProfileUpdateEventTelemetryReceiver::new(
+                adr_base_service_gen::AssetEndpointProfileUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
                     &aep_telemetry_options,
                 );
-            let asset_update_event_telemetry_receiver = AssetUpdateEventTelemetryReceiver::new(
-                application_context.clone(),
-                client.clone(),
-                &aep_telemetry_options,
-            );
+            let asset_update_event_telemetry_receiver =
+                adr_base_service_gen::AssetUpdateEventTelemetryReceiver::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &aep_telemetry_options,
+                );
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let aep_update_event_telemetry_dispatcher_clone =
                 aep_update_event_telemetry_dispatcher.clone();
@@ -146,52 +139,54 @@ where
         });
         Self {
             get_asset_endpoint_profile_command_invoker: Arc::new(
-                GetAssetEndpointProfileCommandInvoker::new(
+                adr_base_service_gen::GetAssetEndpointProfileCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &aep_name_command_options,
                 ),
             ),
             update_asset_endpoint_profile_status_command_invoker: Arc::new(
-                UpdateAssetEndpointProfileStatusCommandInvoker::new(
+                adr_base_service_gen::UpdateAssetEndpointProfileStatusCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &aep_name_command_options,
                 ),
             ),
             notify_on_asset_endpoint_profile_update_command_invoker: Arc::new(
-                NotifyOnAssetEndpointProfileUpdateCommandInvoker::new(
+                adr_base_service_gen::NotifyOnAssetEndpointProfileUpdateCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &aep_name_command_options,
                 ),
             ),
-            get_asset_command_invoker: Arc::new(GetAssetCommandInvoker::new(
+            get_asset_command_invoker: Arc::new(adr_base_service_gen::GetAssetCommandInvoker::new(
                 application_context.clone(),
                 client.clone(),
                 &aep_name_command_options,
             )),
-            update_asset_status_command_invoker: Arc::new(UpdateAssetStatusCommandInvoker::new(
-                application_context.clone(),
-                client.clone(),
-                &aep_name_command_options,
-            )),
+            update_asset_status_command_invoker: Arc::new(
+                adr_base_service_gen::UpdateAssetStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &aep_name_command_options,
+                ),
+            ),
             create_detected_asset_command_invoker: Arc::new(
-                CreateDetectedAssetCommandInvoker::new(
+                adr_base_service_gen::CreateDetectedAssetCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &aep_name_command_options,
                 ),
             ),
             notify_on_asset_update_command_invoker: Arc::new(
-                NotifyOnAssetUpdateCommandInvoker::new(
+                adr_base_service_gen::NotifyOnAssetUpdateCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &aep_name_command_options,
                 ),
             ),
             create_asset_endpoint_profile_command_invoker: Arc::new(
-                CreateDiscoveredAssetEndpointProfileCommandInvoker::new(
+                aep_type_service_gen::CreateDiscoveredAssetEndpointProfileCommandInvoker::new(
                     application_context,
                     client.clone(),
                     &AepCommandOptionsBuilder::default()
@@ -271,7 +266,7 @@ where
         status: AssetEndpointProfileStatus,
         timeout: Duration,
     ) -> Result<AssetEndpointProfile, Error> {
-        let payload = UpdateAssetEndpointProfileStatusRequestPayload {
+        let payload = adr_base_service_gen::UpdateAssetEndpointProfileStatusRequestPayload {
             asset_endpoint_profile_status_update: status.into(),
         };
 
@@ -327,8 +322,8 @@ where
             .register_receiver(aep_name.clone())
             .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
 
-        let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
-            notification_request: NotificationMessageType::On,
+        let payload = adr_base_service_gen::NotifyOnAssetEndpointProfileUpdateRequestPayload {
+            notification_request: adr_base_service_gen::NotificationMessageType::On,
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
@@ -346,7 +341,9 @@ where
 
         match result {
             Ok(response) => {
-                if let NotificationResponse::Accepted = response.payload.notification_response {
+                if let adr_base_service_gen::NotificationResponse::Accepted =
+                    response.payload.notification_response
+                {
                     Ok(AssetEndpointProfileObservation {
                         name: aep_name.clone(),
                         receiver: rx,
@@ -401,8 +398,8 @@ where
         aep_name: String,
         timeout: Duration,
     ) -> Result<(), Error> {
-        let payload = NotifyOnAssetEndpointProfileUpdateRequestPayload {
-            notification_request: NotificationMessageType::Off,
+        let payload = adr_base_service_gen::NotifyOnAssetEndpointProfileUpdateRequestPayload {
+            notification_request: adr_base_service_gen::NotificationMessageType::Off,
         };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
@@ -419,7 +416,9 @@ where
 
         match result {
             Ok(response) => {
-                if let NotificationResponse::Accepted = response.payload.notification_response {
+                if let adr_base_service_gen::NotificationResponse::Accepted =
+                    response.payload.notification_response
+                {
                     Ok(())
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
@@ -442,6 +441,54 @@ where
             }
         }
     }
+
+    /// Creates an asset endpoint profile inside the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * [`DiscoveredAssetEndpointProfile`] - All relevant details needed for an asset endpoint profile creation.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns a [`DiscoveredAssetEndpointProfileResponseStatusSchema`] depending on the status of the asset endpoint profile creation.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
+    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
+    ///
+    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
+    /// if there is an error serializing the request.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
+    /// if there is an error returned by the ADR Service.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if there are any underlying errors from the AIO RPC protocol.
+    pub async fn create_discovered_asset_endpoint_profile(
+        &self,
+        discovered_aep: DiscoveredAssetEndpointProfile,
+        timeout: Duration,
+    ) -> Result<DiscoveredAssetEndpointProfileResponseStatus, Error> {
+        let paylaod = aep_type_service_gen::CreateDiscoveredAssetEndpointProfileRequestPayload {
+            discovered_asset_endpoint_profile: discovered_aep.into(),
+        };
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .payload(paylaod)
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(timeout)
+            .build()?;
+
+        let response = self
+            .create_asset_endpoint_profile_command_invoker
+            .invoke(command_request)
+            .await
+            .map_err(ErrorKind::from)?;
+
+        Ok(response
+            .payload
+            .create_discovered_asset_endpoint_profile_response
+            .status
+            .into())
+    }
+
     /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
@@ -469,7 +516,7 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<Asset, Error> {
-        let get_request_payload = GetAssetRequestPayload { asset_name };
+        let get_request_payload = adr_base_service_gen::GetAssetRequestPayload { asset_name };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .topic_tokens(HashMap::from([("aepName".to_string(), aep_name.clone())]))
@@ -514,8 +561,8 @@ where
         status: AssetStatus,
         timeout: Duration,
     ) -> Result<Asset, Error> {
-        let payload = UpdateAssetStatusRequestPayload {
-            asset_status_update: UpdateAssetStatusRequestSchema {
+        let payload = adr_base_service_gen::UpdateAssetStatusRequestPayload {
+            asset_status_update: adr_base_service_gen::UpdateAssetStatusRequestSchema {
                 asset_name: name,
                 asset_status: status.into(),
             },
@@ -561,7 +608,7 @@ where
         asset: DetectedAsset,
         timeout: Duration,
     ) -> Result<DetectedAssetResponseStatus, Error> {
-        let payload = CreateDetectedAssetRequestPayload {
+        let payload = adr_base_service_gen::CreateDetectedAssetRequestPayload {
             detected_asset: asset.into(),
         };
         let command_request = rpc_command::invoker::RequestBuilder::default()
@@ -625,10 +672,10 @@ where
             .register_receiver(receiver_id.clone())
             .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
 
-        let notification_payload = NotifyOnAssetUpdateRequestPayload {
-            notification_request: NotifyOnAssetUpdateRequestSchema {
+        let notification_payload = adr_base_service_gen::NotifyOnAssetUpdateRequestPayload {
+            notification_request: adr_base_service_gen::NotifyOnAssetUpdateRequestSchema {
                 asset_name: asset_name.clone(),
-                notification_message_type: NotificationMessageType::On,
+                notification_message_type: adr_base_service_gen::NotificationMessageType::On,
             },
         };
 
@@ -646,7 +693,9 @@ where
 
         match result {
             Ok(response) => {
-                if let NotificationResponse::Accepted = response.payload.notification_response {
+                if let adr_base_service_gen::NotificationResponse::Accepted =
+                    response.payload.notification_response
+                {
                     Ok(AssetObservation {
                         name: asset_name,
                         receiver: rx,
@@ -708,10 +757,10 @@ where
         // TODO Right now using aep_name + asset_name as the key for the dispatcher, consider using tuple
         let receiver_id = aep_name.clone() + "~" + &asset_name;
 
-        let notification_payload = NotifyOnAssetUpdateRequestPayload {
-            notification_request: NotifyOnAssetUpdateRequestSchema {
+        let notification_payload = adr_base_service_gen::NotifyOnAssetUpdateRequestPayload {
+            notification_request: adr_base_service_gen::NotifyOnAssetUpdateRequestSchema {
                 asset_name: asset_name.clone(),
-                notification_message_type: NotificationMessageType::On,
+                notification_message_type: adr_base_service_gen::NotificationMessageType::On,
             },
         };
 
@@ -729,7 +778,9 @@ where
 
         match result {
             Ok(response) => {
-                if let NotificationResponse::Accepted = response.payload.notification_response {
+                if let adr_base_service_gen::NotificationResponse::Accepted =
+                    response.payload.notification_response
+                {
                     Ok(())
                 } else {
                     Err(Error(ErrorKind::ObservationError(
@@ -750,52 +801,6 @@ where
                 Err(Error(ErrorKind::AIOProtocolError(e)))
             }
         }
-    }
-    /// Creates an asset endpoint profile inside the Azure Device Registry service.
-    ///
-    /// # Arguments
-    /// * [`DiscoveredAssetEndpointProfile`] - All relevant details needed for an asset endpoint profile creation.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
-    ///
-    /// Returns a [`DiscoveredAssetEndpointProfileResponseStatusSchema`] depending on the status of the asset endpoint profile creation.
-    ///
-    /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
-    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
-    ///
-    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
-    /// if there is an error serializing the request.
-    ///
-    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
-    /// if there is an error returned by the ADR Service.
-    ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn create_discovered_asset_endpoint_profile(
-        &self,
-        discovered_aep: DiscoveredAssetEndpointProfile,
-        timeout: Duration,
-    ) -> Result<DiscoveredAssetEndpointProfileResponseStatus, Error> {
-        let paylaod = CreateDiscoveredAssetEndpointProfileRequestPayload {
-            discovered_asset_endpoint_profile: daep.into(),
-        };
-        let command_request = rpc_command::invoker::RequestBuilder::default()
-            .payload(paylaod)
-            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
-            .timeout(timeout)
-            .build()?;
-
-        let response = self
-            .create_asset_endpoint_profile_command_invoker
-            .invoke(command_request)
-            .await
-            .map_err(ErrorKind::from)?;
-
-        Ok(response
-            .payload
-            .create_discovered_asset_endpoint_profile_response
-            .status
-            .into())
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
@@ -861,8 +866,8 @@ where
 
     async fn receive_update_event_telemetry_loop(
         shutdown_notifier: Arc<Notify>,
-        mut asset_endpoint_profile_update_event_telemetry_receiver: AssetEndpointProfileUpdateEventTelemetryReceiver<C>,
-        mut asset_update_event_telemetry_receiver: AssetUpdateEventTelemetryReceiver<C>,
+        mut asset_endpoint_profile_update_event_telemetry_receiver: adr_base_service_gen::AssetEndpointProfileUpdateEventTelemetryReceiver<C>,
+        mut asset_update_event_telemetry_receiver: adr_base_service_gen::AssetUpdateEventTelemetryReceiver<C>,
         aep_update_event_telemetry_dispatcher: Arc<
             Dispatcher<(AssetEndpointProfile, Option<AckToken>)>,
         >,
