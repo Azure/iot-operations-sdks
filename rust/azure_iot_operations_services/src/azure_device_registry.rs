@@ -48,7 +48,7 @@ pub enum ErrorKind {
     SerializationError(String),
     /// An argument provided for a request was invalid.
     #[error("{0}")]
-    InvalidArgument(String),
+    InvalidArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(ServiceError),
@@ -73,12 +73,6 @@ pub struct ServiceError {
     pub property_name: Option<String>,
     /// The value of the property associated with the error, if present.
     pub property_value: Option<String>,
-}
-
-impl From<rpc_command::invoker::RequestBuilderError> for Error {
-    fn from(e: rpc_command::invoker::RequestBuilderError) -> Self {
-        Error(ErrorKind::InvalidArgument(e.to_string()))
-    }
 }
 
 #[derive(Clone, Debug, Default)]

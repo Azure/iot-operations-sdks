@@ -228,7 +228,8 @@ where
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .topic_tokens(HashMap::from([("aepName".to_string(), aep_name)]))
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(|e| Error(ErrorKind::from(e)))?;
 
         let response = self
             .get_asset_endpoint_profile_command_invoker
@@ -275,7 +276,8 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .update_asset_endpoint_profile_status_command_invoker
@@ -332,7 +334,7 @@ where
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(ErrorKind::from)?;
 
         let result = self
             .notify_on_asset_endpoint_profile_update_command_invoker
@@ -350,9 +352,7 @@ where
                     })
                 } else {
                     // TODO Check error kind - another kind needs to be included ?
-                    Err(Error(ErrorKind::ObservationError(
-                        ("Notification Response Failed").to_string(),
-                    )))
+                    Err(Error(ErrorKind::ObservationError(aep_name)))
                 }
             }
             Err(e) => {
@@ -407,7 +407,8 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let result = self
             .notify_on_asset_endpoint_profile_update_command_invoker
@@ -422,9 +423,7 @@ where
                     Ok(())
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
-                    Err(Error(ErrorKind::ObservationError(
-                        ("Notification Response Failed").to_string(),
-                    )))
+                    Err(Error(ErrorKind::ObservationError(aep_name)))
                 }
             }
             Err(e) => {
@@ -437,7 +436,7 @@ where
                 } else {
                     log::debug!("Aep not in observed list: {aep_name:?}");
                 }
-                Err(Error(ErrorKind::AIOProtocolError(e)))
+                Err(Error(e.into()))
             }
         }
     }
@@ -474,7 +473,8 @@ where
             .payload(paylaod)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .create_asset_endpoint_profile_command_invoker
@@ -523,7 +523,8 @@ where
             .payload(get_request_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .get_asset_command_invoker
@@ -572,7 +573,8 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .update_asset_status_command_invoker
@@ -615,7 +617,8 @@ where
             .payload(payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .create_detected_asset_command_invoker
@@ -684,7 +687,8 @@ where
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let result = self
             .notify_on_asset_update_command_invoker
@@ -702,9 +706,7 @@ where
                     })
                 } else {
                     // TODO Check error kind - another kind needs to be incldued ?
-                    Err(Error(ErrorKind::ObservationError(
-                        ("Notification Response Failed").to_string(),
-                    )))
+                    Err(Error(ErrorKind::ObservationError(asset_name)))
                 }
             }
             Err(e) => {
@@ -769,7 +771,8 @@ where
             .payload(notification_payload)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
-            .build()?;
+            .build()
+            .map_err(ErrorKind::from)?;
 
         let result = self
             .notify_on_asset_update_command_invoker
@@ -783,9 +786,7 @@ where
                 {
                     Ok(())
                 } else {
-                    Err(Error(ErrorKind::ObservationError(
-                        ("Notification Response Failed").to_string(),
-                    )))
+                    Err(Error(ErrorKind::ObservationError(asset_name)))
                 }
             }
             Err(e) => {
