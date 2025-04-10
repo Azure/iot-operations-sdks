@@ -17,21 +17,21 @@ namespace CloudEvents.Oven
         /// </summary>
         [JsonPropertyName("numberOfCakes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  long? NumberOfCakes { get; set; } = default
+        public long? NumberOfCakes { get; set; } = default
 
         /// <summary>
         /// The 'startingTime' Field.
         /// </summary>
         [JsonPropertyName("startingTime")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  DateTime? StartingTime { get; set; } = default
+        public DateTime? StartingTime { get; set; } = default
 
         /// <summary>
         /// The 'totalDuration' Field.
         /// </summary>
         [JsonPropertyName("totalDuration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  TimeSpan? TotalDuration { get; set; } = default
+        public TimeSpan? TotalDuration { get; set; } = default
 
     }
 }

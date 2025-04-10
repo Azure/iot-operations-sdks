@@ -17,49 +17,49 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// </summary>
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  string? Description { get; set; } = default
+        public string? Description { get; set; } = default
 
         /// <summary>
         /// Human-readable display name.
         /// </summary>
         [JsonPropertyName("displayName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  string? DisplayName { get; set; } = default
+        public string? DisplayName { get; set; } = default
 
         /// <summary>
         /// Format of the schema.
         /// </summary>
         [JsonPropertyName("format")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  Format? Format { get; set; } = default
+        public Format? Format { get; set; } = default
 
         /// <summary>
         /// Content stored in the schema.
         /// </summary>
         [JsonPropertyName("schemaContent")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  string? SchemaContent { get; set; } = default
+        public string? SchemaContent { get; set; } = default
 
         /// <summary>
         /// Type of the schema.
         /// </summary>
         [JsonPropertyName("schemaType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  SchemaType? SchemaType { get; set; } = default
+        public SchemaType? SchemaType { get; set; } = default
 
         /// <summary>
         /// Schema tags.
         /// </summary>
         [JsonPropertyName("tags")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  Dictionary<string, string>? Tags { get; set; } = default
+        public Dictionary<string, string>? Tags { get; set; } = default
 
         /// <summary>
         /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  string? Version { get; set; } = default
+        public string? Version { get; set; } = default
 
     }
 }

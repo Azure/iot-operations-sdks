@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         [JsonPropertyName("createDiscoveredAssetEndpointProfileResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public  required  CreateDiscoveredAssetEndpointProfileResponseSchema CreateDiscoveredAssetEndpointProfileResponse { get; set; } 
+        public requiredCreateDiscoveredAssetEndpointProfileResponseSchema CreateDiscoveredAssetEndpointProfileResponse { get; set; } 
 
         void IJsonOnDeserialized.OnDeserialized()
         {

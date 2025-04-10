@@ -19,7 +19,7 @@ namespace TestEnvoys.Memmon
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class StartTelemetryRequestPayload : StartTelemetryRequestPayloadBase, ISpecificRecord
     {
-        public  required  int Interval { get; set; } 
+        public requiredint Interval { get; set; } 
 
         public virtual object Get(int fieldPos)
         {

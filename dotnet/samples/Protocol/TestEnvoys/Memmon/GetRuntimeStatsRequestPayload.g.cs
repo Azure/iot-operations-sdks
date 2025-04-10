@@ -19,7 +19,7 @@ namespace TestEnvoys.Memmon
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class GetRuntimeStatsRequestPayload : GetRuntimeStatsRequestPayloadBase, ISpecificRecord
     {
-        public  required  GetRuntimeStatsRequestSchema DiagnosticsMode { get; set; } 
+        public requiredGetRuntimeStatsRequestSchema DiagnosticsMode { get; set; } 
 
         public virtual object Get(int fieldPos)
         {

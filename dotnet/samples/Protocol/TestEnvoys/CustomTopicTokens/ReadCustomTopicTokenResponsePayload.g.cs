@@ -18,7 +18,7 @@ namespace TestEnvoys.CustomTopicTokens
         [JsonPropertyName("CustomTopicTokenResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public  required  string CustomTopicTokenResponse { get; set; } 
+        public requiredstring CustomTopicTokenResponse { get; set; } 
 
         void IJsonOnDeserialized.OnDeserialized()
         {

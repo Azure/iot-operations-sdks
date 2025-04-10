@@ -17,14 +17,14 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         /// </summary>
         [JsonPropertyName("path")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  string? Path { get; set; } = default
+        public string? Path { get; set; } = default
 
         /// <summary>
         /// The 'retain' Field.
         /// </summary>
         [JsonPropertyName("retain")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  DiscoveredTopicRetain? Retain { get; set; } = default
+        public DiscoveredTopicRetain? Retain { get; set; } = default
 
     }
 }

@@ -19,9 +19,9 @@ namespace TestEnvoys.Memmon
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class MemoryStatsSchema : MemoryStatsSchemaBase, ISpecificRecord
     {
-        public  double? ManagedMemory { get; set; } = default
+        public double? ManagedMemory { get; set; } = default
 
-        public  double? WorkingSet { get; set; } = default
+        public double? WorkingSet { get; set; } = default
 
         public virtual object Get(int fieldPos)
         {

@@ -17,7 +17,7 @@ namespace TestEnvoys.Counter
         /// </summary>
         [JsonPropertyName("CounterValue")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  int? CounterValue { get; set; } = default
+        public int? CounterValue { get; set; } = default
 
     }
 }

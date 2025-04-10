@@ -17,7 +17,7 @@ namespace TestEnvoys.CustomTopicTokens
         /// </summary>
         [JsonPropertyName("CustomTopicTokenPayload")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public  string? CustomTopicTokenPayload { get; set; } = default
+        public string? CustomTopicTokenPayload { get; set; } = default
 
     }
 }

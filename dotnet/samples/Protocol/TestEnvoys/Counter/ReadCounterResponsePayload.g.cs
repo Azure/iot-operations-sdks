@@ -18,7 +18,7 @@ namespace TestEnvoys.Counter
         [JsonPropertyName("CounterResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public  required  int CounterResponse { get; set; } 
+        public requiredint CounterResponse { get; set; } 
 
     }
 }
