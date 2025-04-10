@@ -18,7 +18,7 @@ namespace TestEnvoys.Counter
         [JsonPropertyName("incrementValue")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public requiredint IncrementValue { get; set; } 
+        public required int IncrementValue { get; set; } 
 
     }
 }
