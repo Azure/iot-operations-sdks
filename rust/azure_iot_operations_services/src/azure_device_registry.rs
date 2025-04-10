@@ -11,30 +11,6 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use thiserror::Error;
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_base_service_gen;
-
-// use crate::azure_device_registry::adr_name_gen::adr_base_service::client::
-// {
-//     Asset as GenAsset, AssetDataPointObservabilityModeSchema, AssetDataPointSchemaElementSchema,
-//     AssetDatasetSchemaElementSchema, AssetEndpointProfile as GenAssetEndpointProfile,
-//     AssetEndpointProfileSpecificationSchema as GenAssetEndpointProfileSpecificationSchema,
-//     AssetEndpointProfileStatus as GenAssetEndpointProfileStatus,
-//     AssetEndpointProfileUpdateEventTelemetry as GenAssetEndpointProfileUpdateEventTelemetry,
-//     AssetEventObservabilityModeSchema, AssetEventSchemaElementSchema,
-//     AssetSpecificationSchema as GenAssetSpecificationSchema, AssetStatus as GenAssetStatus,
-//     AssetUpdateEventTelemetry as GenAssetUpdateEventTelemetry,
-//     AuthenticationSchema as GenAuthenticationSchema, DatasetsSchemaSchemaElementSchema,
-//     DetectedAsset as GenDetectedAsset, DetectedAssetDataPointSchemaElementSchema,
-//     DetectedAssetDatasetSchemaElementSchema, DetectedAssetEventSchemaElementSchema,
-//     DetectedAssetResponseStatusSchema, Error as GenError, EventsSchemaSchemaElementSchema,
-//     MessageSchemaReference as GenMessageSchemaReference, MethodSchema, RetainSchema,
-//     Topic as GenTopic, UsernamePasswordCredentialsSchema as GenUsernamePasswordCredentialsSchema,
-//     X509credentialsSchema as GenX509credentialsSchema,
-// };
-// use crate::azure_device_registry::adr_type_gen::aep_type_service::client::{
-//     DiscoveredAssetEndpointProfile as GenDiscoveredAssetEndpointProfile,
-//     DiscoveredAssetEndpointProfileResponseStatusSchema,
-//     SupportedAuthenticationMethodsSchemaElementSchema,
-// };
 use crate::azure_device_registry::adr_type_gen::aep_type_service::client as aep_type_service_gen;
 use crate::common::dispatcher::Receiver;
 
@@ -267,46 +243,32 @@ impl From<AkriError> for adr_base_service_gen::Error {
 pub struct DetectedAsset {
     /// Name of the asset if available.
     pub asset_name: Option<String>,
-
     /// Array of datasets that are part of the asset. Each dataset spec describes the datapoints that make up the set.
     pub datasets: Option<Vec<DetectedAssetDataSet>>,
-
     /// Array of events that are part of the asset. Each event can reference an asset type capability and have per-event configuration.
     pub events: Option<Vec<DetectedAssetEvent>>,
-
     /// The 'assetEndpointProfileRef' Field.
     pub asset_endpoint_profile_ref: String,
-
     /// The 'defaultDatasetsConfiguration' Field.
     pub default_datasets_configuration: Option<String>,
-
     /// The 'defaultEventsConfiguration' Field.
     pub default_events_configuration: Option<String>,
-
     /// The 'defaultTopic' Field.
     pub default_topic: Option<Topic>,
-
     /// The 'documentationUri' Field.
     pub documentation_uri: Option<String>,
-
     /// The 'hardwareRevision' Field.
     pub hardware_revision: Option<String>,
-
     /// The 'manufacturer' Field.
     pub manufacturer: Option<String>,
-
     /// The 'manufacturerUri' Field.
     pub manufacturer_uri: Option<String>,
-
     /// The 'model' Field.
     pub model: Option<String>,
-
     /// The 'productCode' Field.
     pub product_code: Option<String>,
-
     /// The 'serialNumber' Field.
     pub serial_number: Option<String>,
-
     /// The 'softwareRevision' Field.
     pub software_revision: Option<String>,
 }
@@ -343,13 +305,10 @@ impl From<DetectedAsset> for adr_base_service_gen::DetectedAsset {
 pub struct DetectedAssetEvent {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,
-
     /// The 'eventNotifier' Field.
     pub event_notifier: String,
-
     /// The 'name' Field.
     pub name: String,
-
     /// The 'topic' Field.
     pub topic: Option<Topic>,
     /// The 'lastUpdatedOn' Field.
@@ -372,13 +331,10 @@ impl From<DetectedAssetEvent> for adr_base_service_gen::DetectedAssetEventSchema
 pub struct DetectedAssetDataSet {
     /// The 'dataPoints' Field.
     pub data_points: Option<Vec<DetectedAssetDataPoint>>,
-
     /// The 'dataSetConfiguration' Field.
     pub data_set_configuration: Option<String>,
-
     /// The 'name' Field.
     pub name: String,
-
     /// The 'topic' Field.
     pub topic: Option<Topic>,
 }
@@ -403,13 +359,10 @@ impl From<DetectedAssetDataSet> for adr_base_service_gen::DetectedAssetDatasetSc
 pub struct DetectedAssetDataPoint {
     /// The 'dataPointConfiguration' Field.
     pub data_point_configuration: Option<String>,
-
     /// The 'dataSource' Field.
     pub data_source: String,
-
     /// The 'name' Field.
     pub name: Option<String>,
-
     /// The 'lastUpdatedOn' Field.
     pub last_updated_on: Option<String>,
 }
@@ -430,7 +383,6 @@ impl From<DetectedAssetDataPoint>
 pub struct Topic {
     /// The 'path' Field.
     pub path: String,
-
     /// The 'retain' Field.
     pub retain: Option<RetainPolicy>,
 }
@@ -582,10 +534,8 @@ impl From<adr_base_service_gen::AssetUpdateEventTelemetry> for Asset {
 pub struct AssetEndpointProfile {
     /// The 'name' Field.
     pub name: String,
-
     /// The 'specification' Field.
     pub specification: AssetEndpointProfileSpecificationSchema,
-
     /// The 'status' Field.
     pub status: Option<AssetEndpointProfileStatus>,
 }
@@ -705,7 +655,6 @@ impl From<adr_base_service_gen::AuthenticationSchema> for Authentication {
 pub struct UsernamePasswordCredentials {
     /// The 'passwordSecretName' Field.
     pub password_secret_name: String,
-
     /// The 'usernameSecretName' Field.
     pub username_secret_name: String,
 }
@@ -736,10 +685,8 @@ impl From<adr_base_service_gen::X509credentialsSchema> for X509credentials {
 pub struct Asset {
     /// The 'name' Field.
     pub name: String,
-
     /// The 'specification' Field.
     pub specification: AssetSpecification,
-
     /// The status of the asset, including associated schemas and errors.
     pub status: Option<AssetStatus>,
 }
@@ -758,67 +705,46 @@ impl From<adr_base_service_gen::Asset> for Asset {
 pub struct AssetSpecification {
     /// The 'assetEndpointProfileRef' Field.
     pub asset_endpoint_profile_ref: String,
-
     /// The 'defaultDatasetsConfiguration' Field.
     pub default_datasets_configuration: Option<String>,
-
     /// The 'defaultEventsConfiguration' Field.
     pub default_events_configuration: Option<String>,
-
     /// The 'defaultTopic' Field.
     pub default_topic: Option<Topic>,
-
     /// The 'documentationUri' Field.
     pub documentation_uri: Option<String>,
-
     /// The 'hardwareRevision' Field.
     pub hardware_revision: Option<String>,
-
     /// The 'manufacturer' Field.
     pub manufacturer: Option<String>,
-
     /// The 'manufacturerUri' Field.
     pub manufacturer_uri: Option<String>,
-
     /// The 'model' Field.
     pub model: Option<String>,
-
     /// The 'productCode' Field.
     pub product_code: Option<String>,
-
     /// The 'serialNumber' Field.
     pub serial_number: Option<String>,
-
     /// The 'softwareRevision' Field.
     pub software_revision: Option<String>,
-
     /// The 'attributes' Field.
     pub attributes: Option<HashMap<String, String>>,
-
     /// The 'datasets' Field.
     pub datasets: Option<Vec<AssetDataset>>,
-
     /// The 'description' Field.
     pub description: Option<String>,
-
     /// The 'discoveredAssetRefs' Field.
     pub discovered_asset_refs: Option<Vec<String>>,
-
     /// The 'displayName' Field.
     pub display_name: Option<String>,
-
     /// The 'enabled' Field.
     pub enabled: Option<bool>,
-
     /// The 'events' Field.
     pub events: Option<Vec<AssetEvent>>,
-
     /// The 'externalAssetId' Field.
     pub external_asset_id: Option<String>,
-
     /// The 'uuid' Field.
     pub uuid: Option<String>,
-
     /// The 'version' Field.
     pub version: Option<String>,
 }
@@ -860,13 +786,10 @@ impl From<adr_base_service_gen::AssetSpecificationSchema> for AssetSpecification
 pub struct AssetDataset {
     /// The 'dataPoints' Field.
     pub data_points: Option<Vec<AssetDataPoint>>,
-
     /// The 'datasetConfiguration' Field.
     pub dataset_configuration: Option<String>,
-
     /// The 'name' Field.
     pub name: String,
-
     /// The 'topic' Field.
     pub topic: Option<Topic>,
 }
@@ -888,13 +811,10 @@ impl From<adr_base_service_gen::AssetDatasetSchemaElementSchema> for AssetDatase
 pub struct AssetDataPoint {
     /// The 'dataPointConfiguration' Field.
     pub data_point_configuration: Option<String>,
-
     /// The 'dataSource' Field.
     pub data_source: String,
-
     /// The 'name' Field.
     pub name: Option<String>,
-
     /// The 'observabilityMode' Field.
     pub observability_mode: Option<DataPointObservabilityMode>,
 }
@@ -915,16 +835,12 @@ impl From<adr_base_service_gen::AssetDataPointSchemaElementSchema> for AssetData
 pub struct AssetEvent {
     /// The 'eventConfiguration' Field.
     pub event_configuration: Option<String>,
-
     /// The 'eventNotifier' Field.
     pub event_notifier: String,
-
     /// The 'name' Field.
     pub name: String,
-
     /// The 'topic' Field.
     pub topic: Option<Topic>,
-
     /// The 'observabilityMode' Field.
     pub observability_mode: Option<EventObservabilityMode>,
 }
