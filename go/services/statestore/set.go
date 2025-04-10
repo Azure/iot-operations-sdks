@@ -58,7 +58,7 @@ func (c *Client[K, V]) Set(
 		attr = append(attr, slog.Duration("expiry", opts.Expiry))
 	}
 
-	c.logK(ctx, "SET", key, attr...)
+	c.logOp(ctx, "SET", key, attr...)
 	req := resp.OpKV("SET", key, val, rest...)
 	return invoke(ctx, c.invoker, parseOK, &opts, req)
 }
