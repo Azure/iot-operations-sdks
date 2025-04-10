@@ -16,8 +16,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// status of detected asset creation
         /// </summary>
         [JsonPropertyName("status")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DetectedAssetResponseStatusSchema? Status { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public DetectedAssetResponseStatusSchema Status { get; set; } = default!;
 
     }
 }

@@ -15,8 +15,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-    [CommandTopic("akri/connector/resources/{ex:connectorClientId}/{ex:aepName}/{commandName}")]
-    [TelemetryTopic("akri/connector/resources/telemetry/{ex:connectorClientId}/{ex:aepName}/{telemetryName}")]
+    [CommandTopic("akri/connector/resources/{ex:connectorClientId}/{ex:deviceName}/{ex:inboundEndpointName}/{commandName}")]
+    [TelemetryTopic("akri/connector/resources/telemetry/{ex:connectorClientId}/{ex:deviceName}/{ex:inboundEndpointName}/{telemetryName}")]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public static partial class AdrBaseService
     {
@@ -24,14 +24,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-            private readonly GetAssetEndpointProfileCommandExecutor getAssetEndpointProfileCommandExecutor;
+            private readonly GetDeviceCommandExecutor getDeviceCommandExecutor;
             private readonly GetAssetCommandExecutor getAssetCommandExecutor;
-            private readonly UpdateAssetEndpointProfileStatusCommandExecutor updateAssetEndpointProfileStatusCommandExecutor;
+            private readonly UpdateDeviceStatusCommandExecutor updateDeviceStatusCommandExecutor;
             private readonly UpdateAssetStatusCommandExecutor updateAssetStatusCommandExecutor;
-            private readonly NotifyOnAssetEndpointProfileUpdateCommandExecutor notifyOnAssetEndpointProfileUpdateCommandExecutor;
-            private readonly NotifyOnAssetUpdateCommandExecutor notifyOnAssetUpdateCommandExecutor;
+            private readonly SetNotificationPreferenceForDeviceUpdatesCommandExecutor setNotificationPreferenceForDeviceUpdatesCommandExecutor;
+            private readonly SetNotificationPreferenceForAssetUpdatesCommandExecutor setNotificationPreferenceForAssetUpdatesCommandExecutor;
             private readonly CreateDetectedAssetCommandExecutor createDetectedAssetCommandExecutor;
-            private readonly AssetEndpointProfileUpdateEventTelemetrySender assetEndpointProfileUpdateEventTelemetrySender;
+            private readonly DeviceUpdateEventTelemetrySender deviceUpdateEventTelemetrySender;
             private readonly AssetUpdateEventTelemetrySender assetUpdateEventTelemetrySender;
 
             /// <summary>
@@ -56,116 +56,70 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.getAssetEndpointProfileCommandExecutor = new GetAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetAssetEndpointProfileInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.getAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.getAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.getAssetCommandExecutor = new GetAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetAssetInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.getAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.getAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.updateAssetEndpointProfileStatusCommandExecutor = new UpdateAssetEndpointProfileStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateAssetEndpointProfileStatusInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.updateAssetEndpointProfileStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.updateAssetEndpointProfileStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.updateAssetStatusCommandExecutor = new UpdateAssetStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateAssetStatusInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.notifyOnAssetEndpointProfileUpdateCommandExecutor = new NotifyOnAssetEndpointProfileUpdateCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = NotifyOnAssetEndpointProfileUpdateInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.notifyOnAssetEndpointProfileUpdateCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.notifyOnAssetEndpointProfileUpdateCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.notifyOnAssetUpdateCommandExecutor = new NotifyOnAssetUpdateCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = NotifyOnAssetUpdateInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.notifyOnAssetUpdateCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.notifyOnAssetUpdateCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.createDetectedAssetCommandExecutor = new CreateDetectedAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDetectedAssetInt};
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.createDetectedAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-
-                this.createDetectedAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.assetEndpointProfileUpdateEventTelemetrySender = new AssetEndpointProfileUpdateEventTelemetrySender(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.assetEndpointProfileUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
+                this.getDeviceCommandExecutor = new GetDeviceCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetDeviceInt };
+                this.getAssetCommandExecutor = new GetAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetAssetInt };
+                this.updateDeviceStatusCommandExecutor = new UpdateDeviceStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateDeviceStatusInt };
+                this.updateAssetStatusCommandExecutor = new UpdateAssetStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateAssetStatusInt };
+                this.setNotificationPreferenceForDeviceUpdatesCommandExecutor = new SetNotificationPreferenceForDeviceUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForDeviceUpdatesInt };
+                this.setNotificationPreferenceForAssetUpdatesCommandExecutor = new SetNotificationPreferenceForAssetUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForAssetUpdatesInt };
+                this.createDetectedAssetCommandExecutor = new CreateDetectedAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDetectedAssetInt };
+                this.deviceUpdateEventTelemetrySender = new DeviceUpdateEventTelemetrySender(applicationContext, mqttClient);
                 this.assetUpdateEventTelemetrySender = new AssetUpdateEventTelemetrySender(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+                        this.getDeviceCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.updateDeviceStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.setNotificationPreferenceForAssetUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createDetectedAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.deviceUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.assetUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+
+                this.getDeviceCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.getAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.updateDeviceStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.setNotificationPreferenceForAssetUpdatesCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.createDetectedAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
-            public GetAssetEndpointProfileCommandExecutor GetAssetEndpointProfileCommandExecutor { get => this.getAssetEndpointProfileCommandExecutor; }
+            public GetDeviceCommandExecutor GetDeviceCommandExecutor { get => this.getDeviceCommandExecutor; }
+
             public GetAssetCommandExecutor GetAssetCommandExecutor { get => this.getAssetCommandExecutor; }
-            public UpdateAssetEndpointProfileStatusCommandExecutor UpdateAssetEndpointProfileStatusCommandExecutor { get => this.updateAssetEndpointProfileStatusCommandExecutor; }
+
+            public UpdateDeviceStatusCommandExecutor UpdateDeviceStatusCommandExecutor { get => this.updateDeviceStatusCommandExecutor; }
+
             public UpdateAssetStatusCommandExecutor UpdateAssetStatusCommandExecutor { get => this.updateAssetStatusCommandExecutor; }
-            public NotifyOnAssetEndpointProfileUpdateCommandExecutor NotifyOnAssetEndpointProfileUpdateCommandExecutor { get => this.notifyOnAssetEndpointProfileUpdateCommandExecutor; }
-            public NotifyOnAssetUpdateCommandExecutor NotifyOnAssetUpdateCommandExecutor { get => this.notifyOnAssetUpdateCommandExecutor; }
+
+            public SetNotificationPreferenceForDeviceUpdatesCommandExecutor SetNotificationPreferenceForDeviceUpdatesCommandExecutor { get => this.setNotificationPreferenceForDeviceUpdatesCommandExecutor; }
+
+            public SetNotificationPreferenceForAssetUpdatesCommandExecutor SetNotificationPreferenceForAssetUpdatesCommandExecutor { get => this.setNotificationPreferenceForAssetUpdatesCommandExecutor; }
+
             public CreateDetectedAssetCommandExecutor CreateDetectedAssetCommandExecutor { get => this.createDetectedAssetCommandExecutor; }
-            public AssetEndpointProfileUpdateEventTelemetrySender AssetEndpointProfileUpdateEventTelemetrySender { get => this.assetEndpointProfileUpdateEventTelemetrySender; }
+
+            public DeviceUpdateEventTelemetrySender DeviceUpdateEventTelemetrySender { get => this.deviceUpdateEventTelemetrySender; }
+
             public AssetUpdateEventTelemetrySender AssetUpdateEventTelemetrySender { get => this.assetUpdateEventTelemetrySender; }
 
-
-            public abstract Task<ExtendedResponse<GetAssetEndpointProfileResponsePayload>> GetAssetEndpointProfileAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<GetDeviceResponsePayload>> GetDeviceAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<GetAssetResponsePayload>> GetAssetAsync(GetAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<UpdateAssetEndpointProfileStatusResponsePayload>> UpdateAssetEndpointProfileStatusAsync(UpdateAssetEndpointProfileStatusRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<UpdateDeviceStatusResponsePayload>> UpdateDeviceStatusAsync(UpdateDeviceStatusRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<UpdateAssetStatusResponsePayload>> UpdateAssetStatusAsync(UpdateAssetStatusRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<NotifyOnAssetEndpointProfileUpdateResponsePayload>> NotifyOnAssetEndpointProfileUpdateAsync(NotifyOnAssetEndpointProfileUpdateRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload>> SetNotificationPreferenceForDeviceUpdatesAsync(SetNotificationPreferenceForDeviceUpdatesRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<NotifyOnAssetUpdateResponsePayload>> NotifyOnAssetUpdateAsync(NotifyOnAssetUpdateRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>> SetNotificationPreferenceForAssetUpdatesAsync(SetNotificationPreferenceForAssetUpdatesRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<CreateDetectedAssetResponsePayload>> CreateDetectedAssetAsync(CreateDetectedAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -181,7 +135,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="qos">The quality of service to send the telemetry with.</param>
             /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
-            public async Task SendTelemetryAsync(AssetEndpointProfileUpdateEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(DeviceUpdateEventTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
 
@@ -190,7 +144,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
                 }
-                await this.assetEndpointProfileUpdateEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                await this.deviceUpdateEventTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             /// <summary>
@@ -243,56 +197,63 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
 
                 await Task.WhenAll(
-                    this.getAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.getDeviceCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.getAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.updateAssetEndpointProfileStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.updateDeviceStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.updateAssetStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.notifyOnAssetEndpointProfileUpdateCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.notifyOnAssetUpdateCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.setNotificationPreferenceForAssetUpdatesCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.createDetectedAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.getAssetEndpointProfileCommandExecutor.StopAsync(cancellationToken),
+                    this.getDeviceCommandExecutor.StopAsync(cancellationToken),
                     this.getAssetCommandExecutor.StopAsync(cancellationToken),
-                    this.updateAssetEndpointProfileStatusCommandExecutor.StopAsync(cancellationToken),
+                    this.updateDeviceStatusCommandExecutor.StopAsync(cancellationToken),
                     this.updateAssetStatusCommandExecutor.StopAsync(cancellationToken),
-                    this.notifyOnAssetEndpointProfileUpdateCommandExecutor.StopAsync(cancellationToken),
-                    this.notifyOnAssetUpdateCommandExecutor.StopAsync(cancellationToken),
+                    this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.StopAsync(cancellationToken),
+                    this.setNotificationPreferenceForAssetUpdatesCommandExecutor.StopAsync(cancellationToken),
                     this.createDetectedAssetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
-            private async Task<ExtendedResponse<GetAssetEndpointProfileResponsePayload>> GetAssetEndpointProfileInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
+
+            private async Task<ExtendedResponse<GetDeviceResponsePayload>> GetDeviceInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<GetAssetEndpointProfileResponsePayload> extended = await this.GetAssetEndpointProfileAsync(req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetAssetEndpointProfileResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                ExtendedResponse<GetDeviceResponsePayload> extended = await this.GetDeviceAsync(req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<GetDeviceResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<GetAssetResponsePayload>> GetAssetInt(ExtendedRequest<GetAssetRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetAssetResponsePayload> extended = await this.GetAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<GetAssetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<UpdateAssetEndpointProfileStatusResponsePayload>> UpdateAssetEndpointProfileStatusInt(ExtendedRequest<UpdateAssetEndpointProfileStatusRequestPayload> req, CancellationToken cancellationToken)
+
+            private async Task<ExtendedResponse<UpdateDeviceStatusResponsePayload>> UpdateDeviceStatusInt(ExtendedRequest<UpdateDeviceStatusRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<UpdateAssetEndpointProfileStatusResponsePayload> extended = await this.UpdateAssetEndpointProfileStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<UpdateAssetEndpointProfileStatusResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                ExtendedResponse<UpdateDeviceStatusResponsePayload> extended = await this.UpdateDeviceStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<UpdateDeviceStatusResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<UpdateAssetStatusResponsePayload>> UpdateAssetStatusInt(ExtendedRequest<UpdateAssetStatusRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<UpdateAssetStatusResponsePayload> extended = await this.UpdateAssetStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
                 return new ExtendedResponse<UpdateAssetStatusResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<NotifyOnAssetEndpointProfileUpdateResponsePayload>> NotifyOnAssetEndpointProfileUpdateInt(ExtendedRequest<NotifyOnAssetEndpointProfileUpdateRequestPayload> req, CancellationToken cancellationToken)
+
+            private async Task<ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload>> SetNotificationPreferenceForDeviceUpdatesInt(ExtendedRequest<SetNotificationPreferenceForDeviceUpdatesRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<NotifyOnAssetEndpointProfileUpdateResponsePayload> extended = await this.NotifyOnAssetEndpointProfileUpdateAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<NotifyOnAssetEndpointProfileUpdateResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForDeviceUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
-            private async Task<ExtendedResponse<NotifyOnAssetUpdateResponsePayload>> NotifyOnAssetUpdateInt(ExtendedRequest<NotifyOnAssetUpdateRequestPayload> req, CancellationToken cancellationToken)
+
+            private async Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>> SetNotificationPreferenceForAssetUpdatesInt(ExtendedRequest<SetNotificationPreferenceForAssetUpdatesRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<NotifyOnAssetUpdateResponsePayload> extended = await this.NotifyOnAssetUpdateAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<NotifyOnAssetUpdateResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForAssetUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
+
             private async Task<ExtendedResponse<CreateDetectedAssetResponsePayload>> CreateDetectedAssetInt(ExtendedRequest<CreateDetectedAssetRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateDetectedAssetResponsePayload> extended = await this.CreateDetectedAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
@@ -301,27 +262,27 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public async ValueTask DisposeAsync()
             {
-                await this.getAssetEndpointProfileCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.getDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.getAssetCommandExecutor.DisposeAsync().ConfigureAwait(false);
-                await this.updateAssetEndpointProfileStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.updateDeviceStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.updateAssetStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
-                await this.notifyOnAssetEndpointProfileUpdateCommandExecutor.DisposeAsync().ConfigureAwait(false);
-                await this.notifyOnAssetUpdateCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.setNotificationPreferenceForAssetUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.createDetectedAssetCommandExecutor.DisposeAsync().ConfigureAwait(false);
-                await this.assetEndpointProfileUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.deviceUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
                 await this.assetUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-                await this.getAssetEndpointProfileCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getDeviceCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.getAssetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.updateAssetEndpointProfileStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.updateDeviceStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.updateAssetStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.notifyOnAssetEndpointProfileUpdateCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.notifyOnAssetUpdateCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.setNotificationPreferenceForAssetUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.createDetectedAssetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.assetEndpointProfileUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.deviceUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.assetUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
@@ -330,14 +291,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-            private readonly GetAssetEndpointProfileCommandInvoker getAssetEndpointProfileCommandInvoker;
+            private readonly GetDeviceCommandInvoker getDeviceCommandInvoker;
             private readonly GetAssetCommandInvoker getAssetCommandInvoker;
-            private readonly UpdateAssetEndpointProfileStatusCommandInvoker updateAssetEndpointProfileStatusCommandInvoker;
+            private readonly UpdateDeviceStatusCommandInvoker updateDeviceStatusCommandInvoker;
             private readonly UpdateAssetStatusCommandInvoker updateAssetStatusCommandInvoker;
-            private readonly NotifyOnAssetEndpointProfileUpdateCommandInvoker notifyOnAssetEndpointProfileUpdateCommandInvoker;
-            private readonly NotifyOnAssetUpdateCommandInvoker notifyOnAssetUpdateCommandInvoker;
+            private readonly SetNotificationPreferenceForDeviceUpdatesCommandInvoker setNotificationPreferenceForDeviceUpdatesCommandInvoker;
+            private readonly SetNotificationPreferenceForAssetUpdatesCommandInvoker setNotificationPreferenceForAssetUpdatesCommandInvoker;
             private readonly CreateDetectedAssetCommandInvoker createDetectedAssetCommandInvoker;
-            private readonly AssetEndpointProfileUpdateEventTelemetryReceiver assetEndpointProfileUpdateEventTelemetryReceiver;
+            private readonly DeviceUpdateEventTelemetryReceiver deviceUpdateEventTelemetryReceiver;
             private readonly AssetUpdateEventTelemetryReceiver assetUpdateEventTelemetryReceiver;
 
             /// <summary>
@@ -355,12 +316,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
-                this.getAssetEndpointProfileCommandInvoker = new GetAssetEndpointProfileCommandInvoker(applicationContext, mqttClient);
+                this.getDeviceCommandInvoker = new GetDeviceCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.getAssetEndpointProfileCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getDeviceCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.getAssetCommandInvoker = new GetAssetCommandInvoker(applicationContext, mqttClient);
@@ -371,12 +332,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.getAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
-                this.updateAssetEndpointProfileStatusCommandInvoker = new UpdateAssetEndpointProfileStatusCommandInvoker(applicationContext, mqttClient);
+                this.updateDeviceStatusCommandInvoker = new UpdateDeviceStatusCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.updateAssetEndpointProfileStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.updateDeviceStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.updateAssetStatusCommandInvoker = new UpdateAssetStatusCommandInvoker(applicationContext, mqttClient);
@@ -387,20 +348,20 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.updateAssetStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
-                this.notifyOnAssetEndpointProfileUpdateCommandInvoker = new NotifyOnAssetEndpointProfileUpdateCommandInvoker(applicationContext, mqttClient);
+                this.setNotificationPreferenceForDeviceUpdatesCommandInvoker = new SetNotificationPreferenceForDeviceUpdatesCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.notifyOnAssetEndpointProfileUpdateCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
-                this.notifyOnAssetUpdateCommandInvoker = new NotifyOnAssetUpdateCommandInvoker(applicationContext, mqttClient);
+                this.setNotificationPreferenceForAssetUpdatesCommandInvoker = new SetNotificationPreferenceForAssetUpdatesCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.notifyOnAssetUpdateCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.setNotificationPreferenceForAssetUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.createDetectedAssetCommandInvoker = new CreateDetectedAssetCommandInvoker(applicationContext, mqttClient);
@@ -411,12 +372,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.createDetectedAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
-                this.assetEndpointProfileUpdateEventTelemetryReceiver = new AssetEndpointProfileUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.assetEndpointProfileUpdateEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.deviceUpdateEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.assetUpdateEventTelemetryReceiver = new AssetUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
@@ -429,18 +390,25 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
             }
 
-            public GetAssetEndpointProfileCommandInvoker GetAssetEndpointProfileCommandInvoker { get => this.getAssetEndpointProfileCommandInvoker; }
+            public GetDeviceCommandInvoker GetDeviceCommandInvoker { get => this.getDeviceCommandInvoker; }
+
             public GetAssetCommandInvoker GetAssetCommandInvoker { get => this.getAssetCommandInvoker; }
-            public UpdateAssetEndpointProfileStatusCommandInvoker UpdateAssetEndpointProfileStatusCommandInvoker { get => this.updateAssetEndpointProfileStatusCommandInvoker; }
+
+            public UpdateDeviceStatusCommandInvoker UpdateDeviceStatusCommandInvoker { get => this.updateDeviceStatusCommandInvoker; }
+
             public UpdateAssetStatusCommandInvoker UpdateAssetStatusCommandInvoker { get => this.updateAssetStatusCommandInvoker; }
-            public NotifyOnAssetEndpointProfileUpdateCommandInvoker NotifyOnAssetEndpointProfileUpdateCommandInvoker { get => this.notifyOnAssetEndpointProfileUpdateCommandInvoker; }
-            public NotifyOnAssetUpdateCommandInvoker NotifyOnAssetUpdateCommandInvoker { get => this.notifyOnAssetUpdateCommandInvoker; }
+
+            public SetNotificationPreferenceForDeviceUpdatesCommandInvoker SetNotificationPreferenceForDeviceUpdatesCommandInvoker { get => this.setNotificationPreferenceForDeviceUpdatesCommandInvoker; }
+
+            public SetNotificationPreferenceForAssetUpdatesCommandInvoker SetNotificationPreferenceForAssetUpdatesCommandInvoker { get => this.setNotificationPreferenceForAssetUpdatesCommandInvoker; }
+
             public CreateDetectedAssetCommandInvoker CreateDetectedAssetCommandInvoker { get => this.createDetectedAssetCommandInvoker; }
-            public AssetEndpointProfileUpdateEventTelemetryReceiver AssetEndpointProfileUpdateEventTelemetryReceiver { get => this.assetEndpointProfileUpdateEventTelemetryReceiver; }
+
+            public DeviceUpdateEventTelemetryReceiver DeviceUpdateEventTelemetryReceiver { get => this.deviceUpdateEventTelemetryReceiver; }
+
             public AssetUpdateEventTelemetryReceiver AssetUpdateEventTelemetryReceiver { get => this.assetUpdateEventTelemetryReceiver; }
 
-
-            public abstract Task ReceiveTelemetry(string senderId, AssetEndpointProfileUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+            public abstract Task ReceiveTelemetry(string senderId, DeviceUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
             public abstract Task ReceiveTelemetry(string senderId, AssetUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
@@ -455,7 +423,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<GetAssetEndpointProfileResponsePayload> GetAssetEndpointProfileAsync(CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<GetDeviceResponsePayload> GetDeviceAsync(CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -474,7 +442,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<GetAssetEndpointProfileResponsePayload>(this.getAssetEndpointProfileCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetDeviceResponsePayload>(this.getDeviceCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -521,7 +489,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<UpdateAssetEndpointProfileStatusResponsePayload> UpdateAssetEndpointProfileStatusAsync(UpdateAssetEndpointProfileStatusRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<UpdateDeviceStatusResponsePayload> UpdateDeviceStatusAsync(UpdateDeviceStatusRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -540,7 +508,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<UpdateAssetEndpointProfileStatusResponsePayload>(this.updateAssetEndpointProfileStatusCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<UpdateDeviceStatusResponsePayload>(this.updateDeviceStatusCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -587,7 +555,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<NotifyOnAssetEndpointProfileUpdateResponsePayload> NotifyOnAssetEndpointProfileUpdateAsync(NotifyOnAssetEndpointProfileUpdateRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(SetNotificationPreferenceForDeviceUpdatesRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -606,7 +574,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<NotifyOnAssetEndpointProfileUpdateResponsePayload>(this.notifyOnAssetEndpointProfileUpdateCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<SetNotificationPreferenceForDeviceUpdatesResponsePayload>(this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -620,7 +588,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<NotifyOnAssetUpdateResponsePayload> NotifyOnAssetUpdateAsync(NotifyOnAssetUpdateRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(SetNotificationPreferenceForAssetUpdatesRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -639,7 +607,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<NotifyOnAssetUpdateResponsePayload>(this.notifyOnAssetUpdateCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<SetNotificationPreferenceForAssetUpdatesResponsePayload>(this.setNotificationPreferenceForAssetUpdatesCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -694,7 +662,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.assetEndpointProfileUpdateEventTelemetryReceiver.StartAsync(cancellationToken),
+                    this.deviceUpdateEventTelemetryReceiver.StartAsync(cancellationToken),
                     this.assetUpdateEventTelemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
@@ -705,33 +673,33 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.assetEndpointProfileUpdateEventTelemetryReceiver.StopAsync(cancellationToken),
+                    this.deviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken),
                     this.assetUpdateEventTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()
             {
-                await this.getAssetEndpointProfileCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.getDeviceCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.getAssetCommandInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.updateAssetEndpointProfileStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.updateDeviceStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.updateAssetStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.notifyOnAssetEndpointProfileUpdateCommandInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.notifyOnAssetUpdateCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.createDetectedAssetCommandInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.assetEndpointProfileUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.deviceUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-                await this.getAssetEndpointProfileCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getDeviceCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.getAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.updateAssetEndpointProfileStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.updateDeviceStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.updateAssetStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.notifyOnAssetEndpointProfileUpdateCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.notifyOnAssetUpdateCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.createDetectedAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.assetEndpointProfileUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.deviceUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }

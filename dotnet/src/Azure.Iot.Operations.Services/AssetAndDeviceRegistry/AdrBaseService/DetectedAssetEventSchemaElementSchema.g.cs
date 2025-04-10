@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DetectedAssetEventSchemaElementSchema
+    public partial class DetectedAssetEventSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'eventConfiguration' Field.
@@ -23,8 +23,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The 'eventNotifier' Field.
         /// </summary>
         [JsonPropertyName("eventNotifier")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? EventNotifier { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string EventNotifier { get; set; } = default!;
 
         /// <summary>
         /// The 'lastUpdatedOn' Field.
@@ -37,8 +38,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Name { get; set; } = default!;
 
         /// <summary>
         /// The 'topic' Field.
@@ -47,5 +49,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Topic? Topic { get; set; } = default;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (EventNotifier is null)
+            {
+                throw new ArgumentNullException("eventNotifier field cannot be null");
+            }
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (EventNotifier is null)
+            {
+                throw new ArgumentNullException("eventNotifier field cannot be null");
+            }
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
     }
 }

@@ -10,15 +10,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetSpecificationSchema
+    public partial class AssetSpecificationSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
-        /// <summary>
-        /// The 'assetEndpointProfileRef' Field.
-        /// </summary>
-        [JsonPropertyName("assetEndpointProfileRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AssetEndpointProfileRef { get; set; } = default;
-
         /// <summary>
         /// The 'attributes' Field.
         /// </summary>
@@ -41,6 +34,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? DefaultDatasetsConfiguration { get; set; } = default;
 
         /// <summary>
+        /// The 'defaultDatasetsDestinations' Field.
+        /// </summary>
+        [JsonPropertyName("defaultDatasetsDestinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<DefaultDatasetsDestinationsSchemaElementSchema>? DefaultDatasetsDestinations { get; set; } = default;
+
+        /// <summary>
         /// The 'defaultEventsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultEventsConfiguration")]
@@ -48,11 +48,32 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? DefaultEventsConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The 'defaultTopic' Field.
+        /// The 'defaultEventsDestinations' Field.
         /// </summary>
-        [JsonPropertyName("defaultTopic")]
+        [JsonPropertyName("defaultEventsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Topic? DefaultTopic { get; set; } = default;
+        public List<DefaultEventsDestinationsSchemaElementSchema>? DefaultEventsDestinations { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultManagementGroupsConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("defaultManagementGroupsConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultManagementGroupsConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultStreamsConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("defaultStreamsConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultStreamsConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultStreamsDestinations' Field.
+        /// </summary>
+        [JsonPropertyName("defaultStreamsDestinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<DefaultStreamsDestinationsSchemaElementSchema>? DefaultStreamsDestinations { get; set; } = default;
 
         /// <summary>
         /// The 'description' Field.
@@ -60,6 +81,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Description { get; set; } = default;
+
+        /// <summary>
+        /// The 'deviceRef' Field.
+        /// </summary>
+        [JsonPropertyName("deviceRef")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public DeviceRefSchema DeviceRef { get; set; } = default!;
 
         /// <summary>
         /// The 'discoveredAssetRefs' Field.
@@ -111,6 +140,20 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? HardwareRevision { get; set; } = default;
 
         /// <summary>
+        /// The 'lastTransitionTime' Field.
+        /// </summary>
+        [JsonPropertyName("lastTransitionTime")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? LastTransitionTime { get; set; } = default;
+
+        /// <summary>
+        /// The 'managementGroups' Field.
+        /// </summary>
+        [JsonPropertyName("managementGroups")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetManagementGroupSchemaElementSchema>? ManagementGroups { get; set; } = default;
+
+        /// <summary>
         /// The 'manufacturer' Field.
         /// </summary>
         [JsonPropertyName("manufacturer")]
@@ -153,6 +196,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? SoftwareRevision { get; set; } = default;
 
         /// <summary>
+        /// The 'streams' Field.
+        /// </summary>
+        [JsonPropertyName("streams")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetStreamSchemaElementSchema>? Streams { get; set; } = default;
+
+        /// <summary>
         /// The 'uuid' Field.
         /// </summary>
         [JsonPropertyName("uuid")]
@@ -164,7 +214,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Version { get; set; } = default;
+        public ulong? Version { get; set; } = default;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (DeviceRef is null)
+            {
+                throw new ArgumentNullException("deviceRef field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (DeviceRef is null)
+            {
+                throw new ArgumentNullException("deviceRef field cannot be null");
+            }
+        }
     }
 }

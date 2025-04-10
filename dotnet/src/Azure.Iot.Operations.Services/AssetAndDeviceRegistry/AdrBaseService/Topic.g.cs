@@ -10,21 +10,37 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class Topic
+    public partial class Topic : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'path' Field.
         /// </summary>
         [JsonPropertyName("path")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Path { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Path { get; set; } = default!;
 
         /// <summary>
         /// The 'retain' Field.
         /// </summary>
         [JsonPropertyName("retain")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public RetainSchema? Retain { get; set; } = default;
+        public Retain? Retain { get; set; } = default;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Path is null)
+            {
+                throw new ArgumentNullException("path field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Path is null)
+            {
+                throw new ArgumentNullException("path field cannot be null");
+            }
+        }
     }
 }

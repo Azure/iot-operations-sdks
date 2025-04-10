@@ -10,21 +10,46 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetUpdateEventSchema
+    public partial class AssetUpdateEventSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'asset' Field.
         /// </summary>
         [JsonPropertyName("asset")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Asset? Asset { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public Asset Asset { get; set; } = default!;
 
         /// <summary>
         /// The 'assetName' Field.
         /// </summary>
         [JsonPropertyName("assetName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AssetName { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string AssetName { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Asset is null)
+            {
+                throw new ArgumentNullException("asset field cannot be null");
+            }
+            if (AssetName is null)
+            {
+                throw new ArgumentNullException("assetName field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Asset is null)
+            {
+                throw new ArgumentNullException("asset field cannot be null");
+            }
+            if (AssetName is null)
+            {
+                throw new ArgumentNullException("assetName field cannot be null");
+            }
+        }
     }
 }

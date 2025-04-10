@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DetectedAssetDataPointSchemaElementSchema
+    public partial class DetectedAssetDataPointSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'dataPointConfiguration' Field.
@@ -23,8 +23,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The 'dataSource' Field.
         /// </summary>
         [JsonPropertyName("dataSource")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DataSource { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string DataSource { get; set; } = default!;
 
         /// <summary>
         /// The 'lastUpdatedOn' Field.
@@ -40,5 +41,20 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Name { get; set; } = default;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (DataSource is null)
+            {
+                throw new ArgumentNullException("dataSource field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (DataSource is null)
+            {
+                throw new ArgumentNullException("dataSource field cannot be null");
+            }
+        }
     }
 }

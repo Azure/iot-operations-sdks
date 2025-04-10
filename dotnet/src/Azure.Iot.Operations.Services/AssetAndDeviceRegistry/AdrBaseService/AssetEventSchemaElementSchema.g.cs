@@ -10,8 +10,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetEventSchemaElementSchema
+    public partial class AssetEventSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
+        /// <summary>
+        /// The 'dataPoints' Field.
+        /// </summary>
+        [JsonPropertyName("dataPoints")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetEventDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
+
+        /// <summary>
+        /// The 'destinations' Field.
+        /// </summary>
+        [JsonPropertyName("destinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetEventDestinationSchemaElementSchema>? Destinations { get; set; } = default;
+
         /// <summary>
         /// The 'eventConfiguration' Field.
         /// </summary>
@@ -23,29 +37,47 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The 'eventNotifier' Field.
         /// </summary>
         [JsonPropertyName("eventNotifier")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? EventNotifier { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string EventNotifier { get; set; } = default!;
 
         /// <summary>
         /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'observabilityMode' Field.
+        /// The 'typeRef' Field.
         /// </summary>
-        [JsonPropertyName("observabilityMode")]
+        [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public AssetEventObservabilityModeSchema? ObservabilityMode { get; set; } = default;
+        public string? TypeRef { get; set; } = default;
 
-        /// <summary>
-        /// The 'topic' Field.
-        /// </summary>
-        [JsonPropertyName("topic")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Topic? Topic { get; set; } = default;
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (EventNotifier is null)
+            {
+                throw new ArgumentNullException("eventNotifier field cannot be null");
+            }
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
 
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (EventNotifier is null)
+            {
+                throw new ArgumentNullException("eventNotifier field cannot be null");
+            }
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
     }
 }
