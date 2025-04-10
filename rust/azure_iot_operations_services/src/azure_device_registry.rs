@@ -8,6 +8,7 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use azure_iot_operations_protocol::rpc_command;
 use thiserror::Error;
 
 use crate::azure_device_registry::adr_name_gen::adr_base_service::client as adr_base_service_gen;
@@ -74,8 +75,8 @@ pub struct ServiceError {
     pub property_value: Option<String>,
 }
 
-impl From<azure_iot_operations_protocol::rpc_command::invoker::RequestBuilderError> for Error {
-    fn from(e: azure_iot_operations_protocol::rpc_command::invoker::RequestBuilderError) -> Self {
+impl From<rpc_command::invoker::RequestBuilderError> for Error {
+    fn from(e: rpc_command::invoker::RequestBuilderError) -> Self {
         Error(ErrorKind::InvalidArgument(e.to_string()))
     }
 }
