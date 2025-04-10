@@ -17,28 +17,28 @@ namespace TestEnvoys.Memmon
     {
       ""name"": ""memoryStats"",
       ""type"": {
-        ""name"": ""MemoryStatsSchema"",
-        ""type"": ""record"",
-        ""fields"": [
-          {
-            ""name"": ""managedMemory"",
-            ""type"": [
-              ""null"",
-              {
-                ""type"": ""double""
-              }
-            ]
-          },
-          {
-            ""name"": ""workingSet"",
-            ""type"": [
-              ""null"",
-              {
-                ""type"": ""double""
-              }
-            ]
-          }
-        ]
+""name"": ""MemoryStatsSchema"",
+""type"": ""record"",
+""fields"": [
+  {
+    ""name"": ""managedMemory"",
+""type"": [
+  ""null"",
+  {
+    ""type"": ""double""
+  }
+]
+  },
+  {
+    ""name"": ""workingSet"",
+""type"": [
+  ""null"",
+  {
+    ""type"": ""double""
+  }
+]
+  }
+]
       }
     }
   ]
