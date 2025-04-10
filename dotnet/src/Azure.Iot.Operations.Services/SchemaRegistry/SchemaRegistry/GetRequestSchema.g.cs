@@ -17,14 +17,14 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        public  string? Name { get; set; } = default
 
         /// <summary>
         /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Version { get; set; } = default;
+        public  string? Version { get; set; } = default
 
     }
 }

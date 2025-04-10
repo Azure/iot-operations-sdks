@@ -17,11 +17,11 @@ namespace TestEnvoys.Memmon
     {
       ""name"": ""diagnosticResults"",
       ""type"": {
-        ""type"": ""map"",
-        ""values"": {
-          ""type"": ""string""
-        },
-        ""default"": {}
+""type"": ""map"",
+""values"": {
+  ""type"": ""string""
+},
+""default"": {}
       }
     }
   ]

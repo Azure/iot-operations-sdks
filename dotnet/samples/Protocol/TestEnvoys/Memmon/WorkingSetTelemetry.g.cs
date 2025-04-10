@@ -19,7 +19,7 @@ namespace TestEnvoys.Memmon
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class WorkingSetTelemetry : WorkingSetTelemetryBase, ISpecificRecord
     {
-        public double WorkingSet { get; set; } = default!;
+        public  required  double WorkingSet { get; set; } 
 
         public virtual object Get(int fieldPos)
         {

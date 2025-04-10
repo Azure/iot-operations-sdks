@@ -17,28 +17,28 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         /// </summary>
         [JsonPropertyName("dataPoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DataPointsSchemaElementSchema>? DataPoints { get; set; } = default;
+        public  List<DataPointsSchemaElementSchema>? DataPoints { get; set; } = default
 
         /// <summary>
         /// The 'dataSetConfiguration' Field.
         /// </summary>
         [JsonPropertyName("dataSetConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DataSetConfiguration { get; set; } = default;
+        public  string? DataSetConfiguration { get; set; } = default
 
         /// <summary>
         /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        public  string? Name { get; set; } = default
 
         /// <summary>
         /// The 'topic' Field.
         /// </summary>
         [JsonPropertyName("topic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TopicSchema? Topic { get; set; } = default;
+        public  TopicSchema? Topic { get; set; } = default
 
     }
 }

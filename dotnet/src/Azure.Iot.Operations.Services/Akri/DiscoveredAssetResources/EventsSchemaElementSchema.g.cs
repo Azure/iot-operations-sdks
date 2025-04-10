@@ -17,35 +17,35 @@ namespace Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources
         /// </summary>
         [JsonPropertyName("eventConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? EventConfiguration { get; set; } = default;
+        public  string? EventConfiguration { get; set; } = default
 
         /// <summary>
         /// The 'eventNotifier' Field.
         /// </summary>
         [JsonPropertyName("eventNotifier")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? EventNotifier { get; set; } = default;
+        public  string? EventNotifier { get; set; } = default
 
         /// <summary>
         /// The 'lastUpdatedOn' Field.
         /// </summary>
         [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? LastUpdatedOn { get; set; } = default;
+        public  string? LastUpdatedOn { get; set; } = default
 
         /// <summary>
         /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        public  string? Name { get; set; } = default
 
         /// <summary>
         /// The 'topic' Field.
         /// </summary>
         [JsonPropertyName("topic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TopicSchema? Topic { get; set; } = default;
+        public  TopicSchema? Topic { get; set; } = default
 
     }
 }

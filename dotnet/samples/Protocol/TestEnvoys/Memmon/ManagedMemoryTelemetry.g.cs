@@ -19,7 +19,7 @@ namespace TestEnvoys.Memmon
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class ManagedMemoryTelemetry : ManagedMemoryTelemetryBase, ISpecificRecord
     {
-        public double ManagedMemory { get; set; } = default!;
+        public  required  double ManagedMemory { get; set; } 
 
         public virtual object Get(int fieldPos)
         {

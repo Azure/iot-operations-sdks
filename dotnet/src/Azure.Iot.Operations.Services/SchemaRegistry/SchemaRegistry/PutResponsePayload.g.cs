@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         [JsonPropertyName("schema")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public Schema Schema { get; set; } = default!;
+        public  required  Schema Schema { get; set; } 
 
         void IJsonOnDeserialized.OnDeserialized()
         {

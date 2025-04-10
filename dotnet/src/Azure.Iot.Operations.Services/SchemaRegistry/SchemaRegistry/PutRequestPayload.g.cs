@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         [JsonPropertyName("putSchemaRequest")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public PutRequestSchema PutSchemaRequest { get; set; } = default!;
+        public  required  PutRequestSchema PutSchemaRequest { get; set; } 
 
         void IJsonOnDeserialized.OnDeserialized()
         {

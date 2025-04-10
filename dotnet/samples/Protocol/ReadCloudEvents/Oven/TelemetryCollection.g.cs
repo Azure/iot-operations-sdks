@@ -17,21 +17,21 @@ namespace ReadCloudEvents.Oven
         /// </summary>
         [JsonPropertyName("externalTemperature")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double? ExternalTemperature { get; set; } = default;
+        public  double? ExternalTemperature { get; set; } = default
 
         /// <summary>
         /// The 'internalTemperature' Telemetry.
         /// </summary>
         [JsonPropertyName("internalTemperature")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double? InternalTemperature { get; set; } = default;
+        public  double? InternalTemperature { get; set; } = default
 
         /// <summary>
         /// The 'operationSummary' Telemetry.
         /// </summary>
         [JsonPropertyName("operationSummary")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public OperationSummarySchema? OperationSummary { get; set; } = default;
+        public  OperationSummarySchema? OperationSummary { get; set; } = default
 
     }
 }
