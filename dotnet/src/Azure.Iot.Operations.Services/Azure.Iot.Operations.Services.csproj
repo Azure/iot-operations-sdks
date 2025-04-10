@@ -27,4 +27,13 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="..\..\..\eng\dtdl\aep-name-based-operations.json">
+      <Link>AssetAndDeviceRegistry\aep-name-based-operations.json</Link>
+    </Content>
+    <Content Include="..\..\..\eng\dtdl\aep-type-based-operations.json">
+      <Link>AssetAndDeviceRegistry\aep-type-based-operations.json</Link>
+    </Content>
+  </ItemGroup>
+
 </Project>
