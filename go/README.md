@@ -13,11 +13,11 @@ Review the following links for more information about the product and broader de
 
 The following Azure IoT Operations modules are available:
 
-| Module                                                           | Description                                                            |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [**github.com/Azure/iot-operations-sdks/go/mqtt**](mqtt)         | MQTTv5 client library for decoupled asynchronous applications          |
-| [**github.com/Azure/iot-operations-sdks/go/protocol**](protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
-| [**github.com/Azure/iot-operations-sdks/go/services**](services) | Clients for using services of Azure IoT Operations                     |
+| Module | API | Description  |
+|-|-|-|
+| [**github.com/Azure/iot-operations-sdks/go/mqtt**](mqtt) | [:link:](https://pkg.go.dev/github.com/Azure/iot-operations-sdks/go/mqtt) | MQTTv5 client library for decoupled asynchronous applications |
+| [**github.com/Azure/iot-operations-sdks/go/protocol**](protocol) | [:link:](https://pkg.go.dev/github.com/Azure/iot-operations-sdks/go/protocol) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
+| [**github.com/Azure/iot-operations-sdks/go/services**](services) | [:link:](https://pkg.go.dev/github.com/Azure/iot-operations-sdks/go/services) | Clients for using services of Azure IoT Operations |
 
 > [!CAUTION]
 > These modules are currently in preview and are subject to change until version 1.0. Pinning a specific release will protect you from any breaking changes, which are subject to occur until we release 1.0.

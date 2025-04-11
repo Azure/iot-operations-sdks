@@ -140,7 +140,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             Debug.Assert(_generatedClientStub != null);
 
             byte[] requestPayload = StateStorePayloadParser.BuildGetRequestPayload(key);
-            LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+            Trace.TraceInformation($"GET {Encoding.ASCII.GetString(key.Bytes)}");
             ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientStub.InvokeAsync(
                     requestPayload,
@@ -154,8 +154,6 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             byte[]? value = StateStorePayloadParser.ParseGetResponse(commandResponse.Response);
-
-            LogWithoutLineBreaks($"<- {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (value == null)
             {
@@ -185,7 +183,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             options ??= new StateStoreSetRequestOptions();
 
             byte[] requestPayload = StateStorePayloadParser.BuildSetRequestPayload(key, value, options);
-            LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+            Trace.TraceInformation($"SET {Encoding.ASCII.GetString(key.Bytes)}");
 
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
             if (options.FencingToken != null)
@@ -206,8 +204,6 @@ namespace Azure.Iot.Operations.Services.StateStore
                 throw new StateStoreOperationException("Received no response payload from State Store");
             }
 
-            LogWithoutLineBreaks($"<- {Encoding.ASCII.GetString(commandResponse.Response)}");
-
             return StateStorePayloadParser.ParseSetResponse(commandResponse.Response, commandResponse.ResponseMetadata?.Timestamp);
         }
 
@@ -227,7 +223,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             byte[] requestPayload = options.OnlyDeleteIfValueEquals != null
                 ? StateStorePayloadParser.BuildVDelRequestPayload(key, options.OnlyDeleteIfValueEquals)
                 : StateStorePayloadParser.BuildDelRequestPayload(key);
-            LogWithoutLineBreaks($"-> {Encoding.ASCII.GetString(requestPayload)}");
+            Trace.TraceInformation($"DEL {Encoding.ASCII.GetString(key.Bytes)}");
 
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
             if (options.FencingToken != null)
@@ -284,18 +280,16 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 _isSubscribedToNotifications = true;
-                Trace.TraceInformation($"Subscribed to notifications for key {key}");
+                Trace.TraceInformation($"Subscribed to key notifications for this client");
             }
 
+            Trace.TraceInformation($"OBSERVE {Encoding.ASCII.GetString(key.Bytes)}");
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyRequestPayload(key);
             ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
-
-            Trace.TraceInformation($"Key notification receiver started for key {key}.");
-            Trace.TraceInformation($"Response from Observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -318,15 +312,13 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             Debug.Assert(_generatedClientStub != null);
 
+            Trace.TraceInformation($"UNOBSERVE {Encoding.ASCII.GetString(key.Bytes)}");
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyStopRequestPayload(key);
             ExtendedResponse<byte[]> commandResponse =
                 await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
-
-            Trace.TraceInformation($"Key notification receiver stopped for key {key}.");
-            Trace.TraceInformation($"Response from Un-observe Async: {Encoding.ASCII.GetString(commandResponse.Response)}");
 
             if (commandResponse.Response == null || commandResponse.Response.Length == 0)
             {
@@ -385,12 +377,5 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             _disposed = true;
         }
-
-        private void LogWithoutLineBreaks(string message)
-        {
-            // Escape the \r\n characters so they don't actually print new lines in the logger
-            Trace.TraceInformation(message.Replace("\r\n", "\\r\\n"));
-        }
-
     }
 }

@@ -2323,6 +2323,48 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             Assert.Equal(1, reconnectAttemptNumber);
         }
 
+        [Fact]
+        public async Task MqttSessionClient_ThrowsOnConnectIfInvalidSessionExpiryIntervalSpecified()
+        {
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            var invalidOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 0
+            };
+
+            await Assert.ThrowsAsync<ArgumentException>(async () => await sessionClient.ConnectAsync(invalidOptions));
+        }
+
+        [Fact]
+        public async Task MqttSessionClient_ThrowsOnConnectIfAlreadyConnected()
+        {
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            var options = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100
+            };
+
+            await sessionClient.ConnectAsync(options);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await sessionClient.ConnectAsync(options));
+        }
+
+        [Fact]
+        public async Task MqttSessionClient_ThrowsOnDisconnectIfInvalidSessionExpiryIntervalSpecified()
+        {
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            var invalidOptions = new MqttClientDisconnectOptions()
+            {
+                SessionExpiryInterval = 1
+            };
+
+            await Assert.ThrowsAsync<ArgumentException>(async () => await sessionClient.DisconnectAsync(invalidOptions));
+        }
 
         private class TestCertificateProvider : IMqttClientCertificatesProvider
         {

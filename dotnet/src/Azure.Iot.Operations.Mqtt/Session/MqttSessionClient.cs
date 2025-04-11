@@ -356,7 +356,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     if (base.IsConnected)
                     {
-                        Trace.TraceInformation("Disconnect reported by MQTTnet client, but it was already handled");
+                        Trace.TraceInformation("Disconnect reported by underlying MQTT client, but it was already handled");
                         return;
                     }
 
@@ -642,12 +642,6 @@ namespace Azure.Iot.Operations.Mqtt.Session
                     else if (queuedRequest is QueuedUnsubscribeRequest queuedUnsubscribeRequest)
                     {
                         _ = ExecuteSingleUnsubscribeAsync(queuedUnsubscribeRequest, cts.Token);
-                    }
-                    else
-                    {
-                        // This should never happen since the queue should only contain pubs, subs, and unsubs
-                        Trace.TraceError("Unrecognized queued item. Discarding it.");
-                        await _outgoingRequestList.RemoveAsync(queuedRequest, connectionLostCancellationToken);
                     }
                 }
             }
