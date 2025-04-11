@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.Assets
 {
-    public interface IAssetFileMonitor
+    public interface IAssetFileMonitor : IDisposable
     {
         /// <summary>
         /// The callback that executes when an asset has been created once you start observing assets with
@@ -19,13 +19,13 @@ namespace Azure.Iot.Operations.Services.Assets
 
         /// <summary>
         /// The callback that executes when the asset endpoint profile has been created once you start observing AEPs with
-        /// <see cref="ObserveAssetEndpointProfile()"/>.
+        /// <see cref="ObserveAssetEndpointProfiles()"/>.
         /// </summary>
         event EventHandler<AssetEndpointProfileCreatedEventArgs>? AssetEndpointProfileCreated;
 
         /// <summary>
         /// The callback that executes when the asset endpoint profile has been deleted once you start observing AEPs with
-        /// <see cref="ObserveAssetEndpointProfile()"/>.
+        /// <see cref="ObserveAssetEndpointProfiles()"/>.
         /// </summary>
         event EventHandler<AssetEndpointProfileDeletedEventArgs>? AssetEndpointProfileDeleted;
 
@@ -33,25 +33,27 @@ namespace Azure.Iot.Operations.Services.Assets
         /// Start receiving notifications on <see cref="AssetChanged"/> when any asset changes.
         /// </summary>
         /// <param name="pollingInterval">How frequently to check for changes to the asset.</param>
-        void ObserveAssets();
+        void ObserveAssets(string aepName);
 
         /// <summary>
         /// Stop receiving notifications on <see cref="AssetChanged"/> when an asset changes.
         /// </summary>
-        void UnobserveAssets();
+        void UnobserveAssets(string aepName);
 
         /// <summary>
         /// Start receiving notifications on <see cref="AssetEndpointProfileChanged"/> when the asset endpoint profile
         /// changes for the asset with the provided Id.
         /// </summary>
         /// <param name="pollingInterval">How frequently to check for changes to the asset endpoint profile.</param>
-        void ObserveAssetEndpointProfile();
+        void ObserveAssetEndpointProfiles();
 
         /// <summary>
         /// Stop receiving notifications on <see cref="AssetEndpointProfileChanged"/> when the asset endpoint profile
         /// changes for the asset with the provided Id.
         /// </summary>
-        void UnobserveAssetEndpointProfile();
+        void UnobserveAssetEndpointProfiles();
+
+        void UnobserveAll();
 
         /// <summary>
         /// Returns the complete list of assets deployed by the operator to this pod.

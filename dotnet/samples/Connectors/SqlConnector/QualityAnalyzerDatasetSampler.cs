@@ -6,6 +6,8 @@ using Azure.Iot.Operations.Services.Assets;
 using System.Text.Json;
 using System.Text;
 using System.Data.SqlClient;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 
 namespace SqlQualityAnalyzerConnectorApp
 {
@@ -14,25 +16,25 @@ namespace SqlQualityAnalyzerConnectorApp
         private readonly string _connectionString;
         private string _fullConnectionString = "";
         private readonly string _assetName;
-        private readonly AssetEndpointProfileCredentials? _credentials;
+        private readonly Authentication? _credentials;
 
-        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, AssetEndpointProfileCredentials? credentials)
+        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, Authentication? credentials)
         {
             _connectionString = connectionString;
             _assetName = assetName;
             _credentials = credentials;
         }
 
-        public async Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
         {
             try
             {
-                DataPoint sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
+                DataPointsSchemaElementSchema sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
-                DataPoint sqlServerViscosityDataPoint = dataset.DataPointsDictionary!["Viscosity"];
-                DataPoint sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
-                DataPoint sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
-                DataPoint sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
+                DataPointsSchemaElementSchema sqlServerViscosityDataPoint = dataset.DataPointsDictionary!["Viscosity"];
+                DataPointsSchemaElementSchema sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
+                DataPointsSchemaElementSchema sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
+                DataPointsSchemaElementSchema sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 
@@ -40,8 +42,8 @@ namespace SqlQualityAnalyzerConnectorApp
                 {
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
-                    string sqlServerUsername = _credentials.Username!;
-                    byte[] sqlServerPassword = _credentials.Password!;
+                    string sqlServerUsername = _credentials!.UsernamePasswordCredentials.UsernameSecretName!; //TODO "secret name" now? How do we look up the value?
+                    byte[] sqlServerPassword = Encoding.UTF8.GetBytes(_credentials!.UsernamePasswordCredentials.PasswordSecretName!);
                     _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
                 }
 

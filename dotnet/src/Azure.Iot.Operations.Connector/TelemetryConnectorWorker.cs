@@ -6,13 +6,12 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Assets;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Data;
 using System.Text;
-using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -24,9 +23,10 @@ namespace Azure.Iot.Operations.Connector
         protected readonly ILogger<TelemetryConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
-        private readonly AdrClientWrapper _assetMonitor;
+        private readonly IAdrClientWrapper _assetMonitor;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
-        private readonly ConcurrentDictionary<string, Asset> _assets = new();
+        private LeaderElectionClient? _leaderElectionClient;
+        private readonly ConcurrentDictionary<string, AssetEndpointProfileContext> _assetEndpointProfiles = new();
         private bool _isDisposed = false;
 
         /// <summary>
@@ -39,19 +39,14 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public EventHandler<AssetUnavailableEventArgs>? OnAssetUnavailable;
 
-        /// <summary>
-        /// The asset endpoint profile associated with this connector. This will be null until the asset endpoint profile is first discovered.
-        /// </summary>
-        public AssetEndpointProfile? AssetEndpointProfile { get; set; }
-
-        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
+        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all AEPs? Or will some connectors have a subset of AEPs?
 
         public TelemetryConnectorWorker(
             ApplicationContext applicationContext,
             ILogger<TelemetryConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            AdrClientWrapper assetMonitor,
+            IAdrClientWrapper assetMonitor,
             IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _applicationContext = applicationContext;
@@ -83,108 +78,144 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
-            _assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
+            while (!cancellationToken.IsCancellationRequested)
             {
-                // Each connector should have one AEP deployed to the pod. It shouldn't ever be deleted, but it may be updated.
-                if (args.ChangeType == ChangeType.Created)
+                bool isLeader = true;
+                using CancellationTokenSource leadershipPositionRevokedOrUserCancelledCancellationToken
+                    = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+                if (_leaderElectionConfiguration != null)
                 {
-                    if (args.AssetEndpointProfile == null)
+                    isLeader = false;
+                    while (!isLeader && !cancellationToken.IsCancellationRequested)
                     {
-                        // shouldn't ever happen
-                        _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
-                    }
-                    else
-                    {
+                        string leadershipPositionId = _leaderElectionConfiguration.LeadershipPositionId;
+
+                        _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
+
+                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, candidateName)
+                        {
+                            AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
+                            {
+                                AutomaticRenewal = true,
+                                ElectionTerm = _leaderElectionConfiguration.LeadershipPositionTermLength,
+                                RenewalPeriod = _leaderElectionConfiguration.LeadershipPositionRenewalRate
+                            }
+                        };
+
+                        _leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
+                        {
+                            isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(candidateName);
+                            if (isLeader)
+                            {
+                                _logger.LogInformation("Received notification that this pod is the leader");
+                            }
+                            else
+                            {
+                                _logger.LogInformation("Received notification that this pod is not the leader");
+                                leadershipPositionRevokedOrUserCancelledCancellationToken.Cancel();
+                            }
+
+                            return Task.CompletedTask;
+                        };
+
+                        _logger.LogInformation("This pod is waiting to be elected leader.");
+                        // Waits until elected leader
+                        await _leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength, null, cancellationToken);
+
+                        isLeader = true;
+                        _logger.LogInformation("This pod was elected leader.");
                     }
                 }
-                else if (args.ChangeType == ChangeType.Deleted)
+
+                _assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
                 {
-                }
-                else if (args.ChangeType == ChangeType.Updated)
+                    if (args.ChangeType == ChangeType.Created)
+                    {
+                        if (args.AssetEndpointProfile == null)
+                        {
+                            // shouldn't ever happen
+                            _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
+                        }
+                        else
+                        {
+                            _assetEndpointProfiles[args.AssetEndpointProfileName] = new();
+                            _assetMonitor.ObserveAssets(args.AssetEndpointProfileName);
+                        }
+                    }
+                    else if (args.ChangeType == ChangeType.Deleted)
+                    {
+                        _assetMonitor.UnobserveAssets(args.AssetEndpointProfileName);
+                        _assetEndpointProfiles.Remove(args.AssetEndpointProfileName, out var _);
+                    }
+                    else if (args.ChangeType == ChangeType.Updated)
+                    {
+                    }
+                };
+
+                _assetMonitor.AssetChanged += async (sender, args) =>
                 {
-                }
-            };
+                    string aepName = "todo"; // Should be provided by service + asset monitor, right?
+                    if (!_assetEndpointProfiles.TryGetValue(aepName, out AssetEndpointProfileContext? aepContext))
+                    {
+                        _logger.LogError("Could not correlate asset endpoint profile name {0} with any saved asset endpoint profile", aepName);
+                        return;
+                    }
 
-            _assetMonitor.Start();
+                    AssetEndpointProfile aep = aepContext.AssetEndpointProfile;
 
-            try
-            {
-                await Task.Delay(TimeSpan.MaxValue, cancellationToken);
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogInformation("Connector app was cancelled. Shutting down now.");
-            }
+                    if (args.ChangeType == ChangeType.Created)
+                    {
+                        if (args.Asset == null)
+                        {
+                            // shouldn't ever happen
+                            _logger.LogError("Received notification that asset was created, but no asset was provided");
+                        }
+                        else if (aepName != null) //TODO else?
+                        {
+                            await AssetAvailableAsync(aep, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                            _assetMonitor.ObserveAssets(aepName);
+                        }
+                    }
+                    else if (args.ChangeType == ChangeType.Deleted)
+                    {
+                        AssetUnavailable(aepName, args.AssetName, false);
+                        _assetMonitor.UnobserveAssets(aepName);
+                    }
+                    else if (args.ChangeType == ChangeType.Updated)
+                    {
+                        AssetUnavailable(aepName, args.AssetName, true);
+                        await AssetAvailableAsync(aep, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                    }
+                };
 
-            await _assetMonitor.StopAsync();
-            await _mqttClient.DisconnectAsync();
-        }
+                _assetMonitor.ObserveAssetEndpointProfiles();
 
-        private async Task AssetAvailableAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
-        {
-            _assets.TryAdd(assetName, asset);
-
-            if (asset!.Specification!.Datasets == null)
-            {
-                _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
-            }
-            else
-            {
-                foreach (var dataset in asset!.Specification!.Datasets)
+                try
                 {
-                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, dataset.Name!, dataset);
-                    if (datasetMessageSchema != null)
-                    {
-                        _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                        await schemaRegistryClient.PutAsync(
-                            datasetMessageSchema.SchemaContent,
-                            datasetMessageSchema.SchemaFormat,
-                            datasetMessageSchema.SchemaType,
-                            datasetMessageSchema.Version ?? "1.0.0",
-                            datasetMessageSchema.Tags,
-                            null,
-                            cancellationToken);
-                    }
-                    else
-                    {
-                        _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName}");
-                    }
+                    await Task.Delay(TimeSpan.MaxValue, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
                 }
-            }
-
-            if (asset!.Specification.Events == null)
-            {
-                _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
-            }
-            else
-            {
-                foreach (var assetEvent in asset!.Specification.Events)
+                catch (OperationCanceledException)
                 {
-                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, assetEvent!.Name!, assetEvent);
-                    if (eventMessageSchema != null)
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                        await schemaRegistryClient.PutAsync(
-                            eventMessageSchema.SchemaContent,
-                            eventMessageSchema.SchemaFormat,
-                            eventMessageSchema.SchemaType,
-                            eventMessageSchema.Version ?? "1.0.0",
-                            eventMessageSchema.Tags,
-                            null,
-                            cancellationToken);
+                        _logger.LogInformation("Connector app was cancelled. Shutting down now.");
+
+                        // Don't propagate the user-provided cancellation token since it has already been cancelled.
+                        await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
+                        await _mqttClient.DisconnectAsync(null, CancellationToken.None);
                     }
-                    else
+                    else if (leadershipPositionRevokedOrUserCancelledCancellationToken.Token.IsCancellationRequested)
                     {
-                        _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName}");
+                        _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
+                        // Don't propagate the user-provided cancellation token since 
+                        await _assetMonitor.UnobserveAllAsync(cancellationToken);
+                        await _mqttClient.DisconnectAsync(null, cancellationToken);
                     }
                 }
             }
 
-            OnAssetAvailable?.Invoke(this, new(assetName, asset, assetEndpointProfile));
+            _leaderElectionClient?.DisposeAsync();
         }
 
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
@@ -247,6 +278,98 @@ namespace Azure.Iot.Operations.Connector
         {
             base.Dispose();
             _isDisposed = true;
+        }
+
+        private async Task AssetAvailableAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
+        {
+            _assetEndpointProfiles[assetEndpointProfile.Name].Assets.Add(assetName, asset);
+
+            if (asset!.Specification!.Datasets == null)
+            {
+                _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
+            }
+            else
+            {
+                foreach (var dataset in asset!.Specification!.Datasets)
+                {
+                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, dataset.Name!, dataset);
+                    if (datasetMessageSchema != null)
+                    {
+                        try
+                        {
+                            _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                            await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                            await schemaRegistryClient.PutAsync(
+                                datasetMessageSchema.SchemaContent,
+                                datasetMessageSchema.SchemaFormat,
+                                datasetMessageSchema.SchemaType,
+                                datasetMessageSchema.Version ?? "1",
+                                datasetMessageSchema.Tags,
+                                null,
+                                cancellationToken);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}. Error: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                    }
+                }
+            }
+
+            if (asset!.Specification.Events == null)
+            {
+                _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
+            }
+            else
+            {
+                foreach (var assetEvent in asset!.Specification.Events)
+                {
+                    // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
+                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, assetEvent!.Name!, assetEvent);
+                    if (eventMessageSchema != null)
+                    {
+                        try
+                        {
+                            _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                            await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                            await schemaRegistryClient.PutAsync(
+                                eventMessageSchema.SchemaContent,
+                                eventMessageSchema.SchemaFormat,
+                                eventMessageSchema.SchemaType,
+                                eventMessageSchema.Version ?? "1",
+                                eventMessageSchema.Tags,
+                                null,
+                                cancellationToken);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}. Error: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                    }
+                }
+            }
+
+            OnAssetAvailable?.Invoke(this, new(assetName, asset, assetEndpointProfile));
+        }
+
+        private void AssetUnavailable(string aepName, string assetName, bool isUpdating)
+        {
+            _assetEndpointProfiles[aepName].Assets.Remove(assetName);
+
+            // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
+            if (!isUpdating)
+            {
+                OnAssetUnavailable?.Invoke(this, new(assetName));
+            }
         }
     }
 }

@@ -33,16 +33,30 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetDeleted += AssetFileDeleted;
         }
 
-        public void Start()
+        public void ObserveAssetEndpointProfiles()
         {
-            _monitor.ObserveAssetEndpointProfile();
-            _monitor.ObserveAssets();
+            _monitor.ObserveAssetEndpointProfiles();
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken = default)
+        public void ObserveAssets(string aepName)
         {
-            _monitor.UnobserveAssetEndpointProfile();
-            _monitor.UnobserveAssets();
+            _monitor.ObserveAssets(aepName);
+        }
+
+        public void UnobserveAssetEndpointProfiles()
+        {
+            _monitor.UnobserveAssetEndpointProfiles();
+            //_client.UnobserveAssetEndpointProfileUpdatesAsync(); //TODO all at once or one AEP name at a time?
+        }
+
+        public void UnobserveAssets(string aepName)
+        {
+            _monitor.UnobserveAssets(aepName);
+        }
+
+        public async Task UnobserveAllAsync(CancellationToken cancellationToken = default)
+        {
+            _monitor.UnobserveAll();
 
             foreach (string assetEndpointProfileName in _observedAssets.Keys)
             {

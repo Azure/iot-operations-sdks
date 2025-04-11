@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.Assets;
 
 namespace RestThermostatConnector
@@ -20,16 +21,16 @@ namespace RestThermostatConnector
         /// <param name="asset">The asset that the dataset sampler will sample from.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, AssetDatasetSchemaElement dataset)
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
                 var httpClient = new HttpClient()
                 {
-                    BaseAddress = new Uri(assetEndpointProfile.TargetAddress),
+                    BaseAddress = new Uri(assetEndpointProfile.Specification.TargetAddress),
                 };
 
-                return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName!, assetEndpointProfile.Credentials);
+                return new ThermostatStatusDatasetSampler(httpClient, asset.Name, assetEndpointProfile.Specification.Authentication);
             }
             else
             {

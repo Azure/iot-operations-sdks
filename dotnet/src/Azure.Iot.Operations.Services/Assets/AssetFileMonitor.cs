@@ -36,25 +36,25 @@ namespace Azure.Iot.Operations.Services.Assets
         }
 
         /// <inheritdoc/>
-        public void ObserveAssets()
+        public void ObserveAssets(string aepName)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void UnobserveAssets()
+        public void UnobserveAssets(string aepName)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void ObserveAssetEndpointProfile()
+        public void ObserveAssetEndpointProfiles()
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void UnobserveAssetEndpointProfile()
+        public void UnobserveAssetEndpointProfiles()
         {
             throw new NotImplementedException();
         }
@@ -66,6 +66,16 @@ namespace Azure.Iot.Operations.Services.Assets
         }
 
         public List<string> GetAssetEndpointProfileNames()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnobserveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }
