@@ -17,10 +17,8 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
             if (cert.NotAfter.ToUniversalTime() < DateTime.UtcNow)
             {
-                throw new ArgumentException($"Cert '{cert.Subject}' expired '{cert.GetExpirationDateString()}'");
+                throw new ArgumentException($"Certificate has expired");
             }
-
-            Trace.TraceInformation($"Loaded Cert: {cert.SubjectName.Name} {cert.Thumbprint} issued by {cert.Issuer}, not after: {cert.GetExpirationDateString()}");
 
             return cert;
         }
