@@ -168,6 +168,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 KeepAlivePeriod = genericOptions.KeepAlivePeriod,
                 MaximumPacketSize = genericOptions.MaximumPacketSize,
                 ProtocolVersion = (MQTTnet.Formatter.MqttProtocolVersion)genericOptions.ProtocolVersion,
+                ReceiveMaximum = genericOptions.ReceiveMaximum,
                 RequestProblemInformation = genericOptions.RequestProblemInformation,
                 RequestResponseInformation = genericOptions.RequestResponseInformation,
                 SessionExpiryInterval = genericOptions.SessionExpiryInterval,
@@ -190,12 +191,6 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 WriterBufferSize = genericOptions.WriterBufferSize,
                 WriterBufferSizeMax = genericOptions.WriterBufferSizeMax
             };
-
-            if (genericOptions.ReceiveMaximum != null)
-            {
-                mqttNetOptions.ReceiveMaximum = genericOptions.ReceiveMaximum.Value;
-            }
-
             return mqttNetOptions;
         }
 
