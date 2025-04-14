@@ -14,6 +14,8 @@ use stub_service::{
     schema_registry::{self},
 };
 
+const HOSTNAME: &str = "localhost";
+const PORT: u16 = 1883;
 const LOGGING_FILE_SIZE: u64 = 1024 * 1024 * 10; // 10 MB
 
 /// Helper function to initialize the logger for the stub service.
@@ -72,7 +74,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create the schema registry service session and stub
-    let sr_service_session = create_service_session(schema_registry::CLIENT_ID.to_string())?;
+    let sr_service_session = create_service_session(
+        schema_registry::CLIENT_ID.to_string(),
+        HOSTNAME.to_string(),
+        PORT,
+    )?;
     let sr_service_stub = schema_registry::Service::new(
         application_context,
         sr_service_session.create_managed_client(),

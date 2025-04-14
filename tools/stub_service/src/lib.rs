@@ -38,17 +38,19 @@ use log4rs::{
 /// Module for the schema registry stub service.
 pub mod schema_registry;
 
-const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1883;
 const STUB_SERVICE_OUTPUT_DIR_NAME: &str = "stub_service";
 const STUB_SERVICE_ENVIRONMENT_VARIABLE: &str = "STUB_SERVICE_OUTPUT_DIR";
 
 /// Helper function to create a new service session with the given client ID.
-pub fn create_service_session(client_id: String) -> Result<Session, Box<dyn std::error::Error>> {
+pub fn create_service_session(
+    client_id: String,
+    hostname: String,
+    port: u16,
+) -> Result<Session, Box<dyn std::error::Error>> {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
-        .hostname(HOSTNAME)
-        .tcp_port(PORT)
+        .hostname(hostname)
+        .tcp_port(port)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
         .build()?;
