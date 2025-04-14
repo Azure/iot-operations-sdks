@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Diagnostics;
+using System.Text.Json;
+
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetSpecification
@@ -11,9 +14,34 @@ public record AssetSpecification
 
     public List<AssetDatasetSchemaElement>? Datasets { get; set; } = default;
 
-    public string? DefaultDatasetsConfiguration { get; set; } = default;
+    public Dictionary<string, AssetDatasetSchemaElement>? DatasetsDictionary
+    {
+        get
+        {
+            Dictionary<string, AssetDatasetSchemaElement>? dictionary = null;
+            if (Datasets != null)
+            {
+                dictionary = new();
+                foreach (AssetDatasetSchemaElement dataset in Datasets)
+                {
+                    if (!string.IsNullOrWhiteSpace(dataset.Name))
+                    {
+                        dictionary[dataset.Name] = dataset;
+                    }
+                    else
+                    {
+                        Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
+                    }
+                }
+            }
 
-    public string? DefaultEventsConfiguration { get; set; } = default;
+            return dictionary;
+        }
+    }
+
+    public JsonDocument? DefaultDatasetsConfiguration { get; set; } = default;
+
+    public JsonDocument? DefaultEventsConfiguration { get; set; } = default;
 
     public Topic? DefaultTopic { get; set; } = default;
 
@@ -28,6 +56,31 @@ public record AssetSpecification
     public bool? Enabled { get; set; } = default;
 
     public List<AssetEventSchemaElement>? Events { get; set; } = default;
+
+    public Dictionary<string, AssetEventSchemaElement>? EventsDictionary
+    {
+        get
+        {
+            Dictionary<string, AssetEventSchemaElement>? dictionary = null;
+            if (Events != null)
+            {
+                dictionary = new();
+                foreach (AssetEventSchemaElement assetEvent in Events)
+                {
+                    if (!string.IsNullOrWhiteSpace(assetEvent.Name))
+                    {
+                        dictionary[assetEvent.Name] = assetEvent;
+                    }
+                    else
+                    {
+                        Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
+                    }
+                }
+            }
+
+            return dictionary;
+        }
+    }
 
     public string? ExternalAssetId { get; set; } = default;
 

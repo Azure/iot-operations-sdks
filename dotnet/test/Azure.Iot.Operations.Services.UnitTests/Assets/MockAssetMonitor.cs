@@ -1,119 +1,97 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
-    public class MockAssetMonitor : IAssetMonitor
+    public class MockAssetMonitor : IAssetFileMonitor
     {
-        public event EventHandler<AssetChangedEventArgs>? AssetChanged;
-        public event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
+        public event EventHandler<AssetCreatedEventArgs>? AssetCreated;
+        public event EventHandler<AssetDeletedEventArgs>? AssetDeleted;
+        public event EventHandler<AssetEndpointProfileCreatedEventArgs>? AssetEndpointProfileCreated;
+        public event EventHandler<AssetEndpointProfileDeletedEventArgs>? AssetEndpointProfileDeleted;
 
-        public Dictionary<string, Asset> _assets = new();
-        public AssetEndpointProfile? _assetEndpointProfile;
+        public List<string> AssetEndpointProfileNames { get; set; } = new();
 
-        public bool _isObservingAssets = false;
-        public bool _isObservingAssetEndpointProfile = false;
+        public List<string> AssetNames { get; set; } = new();
 
-        public void AddOrUpdateMockAsset(string assetName, Asset asset)
+        private List<string> _observedAssetEndpointProfileAssetNames = new();
+
+        private bool _isObservingAssetEndpointProfiles = false;
+
+        public void SimulateNewAssetEndpointProfileCreated(AssetEndpointProfile aep)
         {
-            if (_assets.ContainsKey(assetName))
+            if (_isObservingAssetEndpointProfiles)
             {
-                _assets[assetName] = asset;
-                if (_isObservingAssets)
-                { 
-                    AssetChanged?.Invoke(this, new AssetChangedEventArgs(assetName, ChangeType.Updated, asset));
-                }
-            }
-            else
-            { 
-                _assets.Add(assetName, asset);
-                if (_isObservingAssets)
-                { 
-                    AssetChanged?.Invoke(this, new AssetChangedEventArgs(assetName, ChangeType.Created, asset));
-                }
+                AssetEndpointProfileCreated?.Invoke(this, new(aep.Name, aep));
             }
         }
 
-        public void DeleteMockAsset(string assetName)
+        public void SimulateNewAssetEndpointProfileDeleted(string aepName)
         {
-            if (_assets.Remove(assetName) && _isObservingAssets)
+            if (_isObservingAssetEndpointProfiles)
             {
-                AssetChanged?.Invoke(this, new AssetChangedEventArgs(assetName, ChangeType.Deleted, null));
+                AssetEndpointProfileDeleted?.Invoke(this, new(aepName));
             }
         }
 
-        public void AddOrUpdateMockAssetEndpointProfile(AssetEndpointProfile assetEndpointProfile)
+        public void SimulateNewAssetCreated(string aepName, string assetName, Asset asset)
         {
-            if (_assetEndpointProfile != null)
+            if (_observedAssetEndpointProfileAssetNames.Contains(aepName))
             {
-                _assetEndpointProfile = assetEndpointProfile;
-                if (_isObservingAssetEndpointProfile)
-                { 
-                    AssetEndpointProfileChanged?.Invoke(this, new AssetEndpointProfileChangedEventArgs(ChangeType.Updated, assetEndpointProfile));
-                }
+                AssetCreated?.Invoke(this, new(aepName, assetName, asset));
             }
-            else
+        }
+
+        public void SimulateNewAssetDeleted(string aepName, string assetName)
+        {
+            if (_observedAssetEndpointProfileAssetNames.Contains(aepName))
             {
-                _assetEndpointProfile = assetEndpointProfile;
-                if (_isObservingAssetEndpointProfile)
-                { 
-                    AssetEndpointProfileChanged?.Invoke(this, new AssetEndpointProfileChangedEventArgs(ChangeType.Created, assetEndpointProfile));
-                }
+                AssetDeleted?.Invoke(this, new(aepName, assetName));
             }
         }
 
-        public void DeleteMockAssetEndpointProfile()
+        public List<string> GetAssetEndpointProfileNames()
         {
-            if (_assetEndpointProfile != null)
-            {
-                _assetEndpointProfile = null;
-                if (_isObservingAssetEndpointProfile)
-                { 
-                    AssetEndpointProfileChanged?.Invoke(this, new AssetEndpointProfileChangedEventArgs(ChangeType.Deleted, null));
-                }
-            }
+            return AssetEndpointProfileNames;
         }
 
-        public Task<Asset?> GetAssetAsync(string assetName, CancellationToken cancellationToken = default)
+        public List<string> GetAssetNames()
         {
-            if (_assets.TryGetValue(assetName, out Asset? asset))
-            {
-                return Task.FromResult((Asset?) asset);
-            }
-
-            return Task.FromResult((Asset?)null);
+            return AssetNames;
         }
 
-        public Task<AssetEndpointProfile?> GetAssetEndpointProfileAsync(CancellationToken cancellationToken = default)
+        public void ObserveAssets(string aepName)
         {
-            return Task.FromResult(_assetEndpointProfile);
+            _observedAssetEndpointProfileAssetNames.Add(aepName);
         }
 
-        public Task<List<string>> GetAssetNamesAsync(CancellationToken cancellationToken = default)
+        public void ObserveAssetEndpointProfiles()
         {
-            return Task.FromResult(_assets.Keys.ToList<string>());
+            _isObservingAssetEndpointProfiles = true;
         }
 
-        public void ObserveAssetEndpointProfile(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public void UnobserveAssetEndpointProfiles()
         {
-            _isObservingAssetEndpointProfile = true;
+            _isObservingAssetEndpointProfiles = false;
         }
 
-        public void ObserveAssets(TimeSpan? pollingInterval = null, CancellationToken cancellationToken = default)
+        public void UnobserveAssets(string aepName)
         {
-            _isObservingAssets = true;
+            _observedAssetEndpointProfileAssetNames.Remove(aepName);
         }
 
-        public void UnobserveAssetEndpointProfile(CancellationToken cancellationToken = default)
+        public void UnobserveAll()
         {
-            _isObservingAssetEndpointProfile = false;
+            _observedAssetEndpointProfileAssetNames.Clear();
+            _isObservingAssetEndpointProfiles = false;
         }
 
-        public void UnobserveAssets(CancellationToken cancellationToken = default)
+        public void Dispose()
         {
-            _isObservingAssets = false;
+            // Nothing needs to be disposed in this mock implementation
         }
     }
 }

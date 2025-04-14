@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Azure.Iot.Operations.Services.Assets
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using Azure.Iot.Operations.Services.Assets;
+
+namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// EventArgs with context about which Asset changed and what kind of change happened to it.
@@ -12,6 +15,8 @@ namespace Azure.Iot.Operations.Services.Assets
         /// Specifies if the change in this asset was that it was updated, deleted, or created
         /// </summary>
         public ChangeType ChangeType { get; set; }
+
+        public string AssetEndpointProfileName { get; set; }
 
         /// <summary>
         /// The name of the asset that changed. This value is provided even if the asset was deleted.
@@ -26,8 +31,9 @@ namespace Azure.Iot.Operations.Services.Assets
         /// </remarks>
         public Asset? Asset { get; set; }
 
-        internal AssetChangedEventArgs(string assetName, ChangeType changeType, Asset? asset)
+        internal AssetChangedEventArgs(string assetEndpointProfile, string assetName, ChangeType changeType, Asset? asset)
         {
+            AssetEndpointProfileName = assetEndpointProfile;
             AssetName = assetName;
             ChangeType = changeType;
             Asset = asset;

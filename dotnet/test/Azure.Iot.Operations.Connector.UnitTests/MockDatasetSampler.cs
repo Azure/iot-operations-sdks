@@ -1,13 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.Assets;
-using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
@@ -27,7 +22,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return ValueTask.CompletedTask;
         }
 
-        public Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
+        public Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
         {
             _sampleAttemptCount++;
 
