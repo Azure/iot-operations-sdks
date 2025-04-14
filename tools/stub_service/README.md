@@ -10,9 +10,9 @@ The Stub Service will also be used for basic happy path testing on the SDKs.
   - See [Schema Registry Stub Service Behavior](#schema-registry).
 - **Session Isolation**: Each service operates in its own session with a unique MQTT client ID.
 - **State and Logs**: Writes state and logs to a folder specified by the environment variable `STUB_SERVICE_OUTPUT_DIR`.
-  - This feature is enabled by default with the Rust feature `enable-output`. 
+  - This feature is enabled by default with the Rust feature `enable-output`.
   - The folder structure follows this format: `stub_service_[timestamp]`.
-  - Each service creates its own subfolder within the main folder to store its state.
+  - Each service creates its own subfolder within the main folder to store its state and logs (each under a respective `state` and `logs` folder)
   - See [Example Output Folder](#schema-registry-output-sample).
 - **Unified Execution**: All stub services run from the same crate. A critical failure in any service causes a crash, with the error returned from `main`.
 - **Logging**: Adheres to [ADR 0005](../../doc/dev/adr/0005-logging.md).
@@ -43,10 +43,15 @@ Stores schemas in an internal hashmap with the key being the hash of the content
 folder [STUB_SERVICE_OUTPUT_DIR]
   folder stub_service_1743702989
   ├── folder SchemaRegistry
-  │   ├── foo_schema.json
-  │   ├── bar_schema.json
+  | ├── folder logs
+  | │   ├── logs.json
+  | ├── folder state
+  | │   ├── foo_schema.json
+  | │   ├── bar_schema.json
   folder stub_service_1743700000
   ├── folder SchemaRegistry
-  │   ├── foo_schema.json
-  │   ├── bar_schema.json
+  | ├── folder logs
+  | │   ├── logs.json
+  | ├── folder state
+  | │   ├── foo_schema.json
 ```
