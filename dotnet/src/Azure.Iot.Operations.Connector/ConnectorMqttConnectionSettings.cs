@@ -20,21 +20,26 @@ namespace Azure.Iot.Operations.Connector
         public const string ConnectorAioMetadataFileName = "AIO_METADATA";
         public const string ConnectorDiagnosticsConfigFileName = "DIAGNOSTICS";
 
+        /// <summary>
+        /// Create an instance of <see cref="MqttConnectionSettings"/> using the files mounted when this connector was
+        /// deployed.
+        /// </summary>
+        /// <returns>The instance of <see cref="MqttConnectionSettings"/> that allows the connector to connect to the MQTT broker.</returns>
         public static MqttConnectionSettings FromFileMount()
         {
-            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? throw new InvalidOperationException("Missing connector client id");
-            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException("Missing configuration TODO");
+            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorClientIdEnvVar} environemnt variable");
+            string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
             string? brokerTrustBundleMountPath = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
             string? brokerSatMountPath = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
 
-            string connectorMqttConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorMqttConfigFileName) ?? throw new InvalidOperationException();
-            MqttConnectionConfiguration connectorMqttConfig = JsonSerializer.Deserialize<MqttConnectionConfiguration>(connectorMqttConfigFileContents) ?? throw new InvalidOperationException();
+            string connectorMqttConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorMqttConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file");
+            MqttConnectionConfiguration connectorMqttConfig = JsonSerializer.Deserialize<MqttConnectionConfiguration>(connectorMqttConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorMqttConfigFileName} file was empty");
 
-            string connectorAioMetadataConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorAioMetadataFileName) ?? throw new InvalidOperationException();
-            AioMetadata connectorAioMetadata = JsonSerializer.Deserialize<AioMetadata>(connectorAioMetadataConfigFileContents) ?? throw new InvalidOperationException();
+            string connectorAioMetadataConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorAioMetadataFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorAioMetadataFileName} file");
+            AioMetadata connectorAioMetadata = JsonSerializer.Deserialize<AioMetadata>(connectorAioMetadataConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorAioMetadataFileName} file was empty");
 
-            string connectorDiagnosticsConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName) ?? throw new InvalidOperationException();
-            ConnectorDiagnostics connectorDiagnosticsConfig = JsonSerializer.Deserialize<ConnectorDiagnostics>(connectorDiagnosticsConfigFileContents) ?? throw new InvalidOperationException();
+            string connectorDiagnosticsConfigFileContents = File.ReadAllText(connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName) ?? throw new InvalidOperationException($"Missing {connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName} file");
+            ConnectorDiagnostics connectorDiagnosticsConfig = JsonSerializer.Deserialize<ConnectorDiagnostics>(connectorDiagnosticsConfigFileContents) ?? throw new InvalidOperationException($"{connectorConfigMountPath + "/" + ConnectorDiagnosticsConfigFileName} file was empty");
 
             string hostname;
             int port;
@@ -46,7 +51,7 @@ namespace Azure.Iot.Operations.Connector
             }
             catch (Exception)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException($"Could not parse the 'host' field into hostname and port. Expected format \"<hostname>:<port>\" but received {connectorMqttConfig.Host}");
             }
 
             bool useTls = false;
@@ -59,7 +64,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     if (!Directory.Exists(brokerTrustBundleMountPath))
                     {
-                        throw new InvalidOperationException();
+                        throw new InvalidOperationException("Expected one or more files in trust bundle mount path, but none were found.");
                     }
 
                     foreach (string caFilePath in Directory.EnumerateFiles(brokerTrustBundleMountPath))
