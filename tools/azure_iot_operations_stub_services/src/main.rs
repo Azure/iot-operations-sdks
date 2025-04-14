@@ -11,7 +11,7 @@ use log4rs::{
     encode::pattern::PatternEncoder,
     init_config,
 };
-use azure_iot_operations_stub_service::{
+use azure_iot_operations_stub_services::{
     OutputDirectoryManager, create_service_session,
     schema_registry::{self},
 };

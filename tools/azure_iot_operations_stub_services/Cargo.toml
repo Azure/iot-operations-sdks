@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 [package]
-name = "azure_iot_operations_stub_service"
+name = "azure_iot_operations_stub_services"
 version = "0.1.0"
 edition = "2024"
 
