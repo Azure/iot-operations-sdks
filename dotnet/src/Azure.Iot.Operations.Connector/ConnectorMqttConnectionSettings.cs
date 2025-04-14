@@ -79,7 +79,7 @@ namespace Azure.Iot.Operations.Connector
                 UseTls = useTls,
                 SatAuthFile = brokerSatMountPath, // May be null if no SAT auth is used.
                 TrustChain = chain,
-                ReceiveMaximum = connectorMqttConfig.MaxInflightMessages,
+                //ReceiveMaximum = connectorMqttConfig.MaxInflightMessages, //TODO: #697 needs to be released
                 TcpPort = port
             };
 
