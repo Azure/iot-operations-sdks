@@ -29,6 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             ProtocolVersion = MqttProtocolVersion.V500;
             CleanSession = cs.CleanStart;
             SessionExpiryInterval = (uint)cs.SessionExpiry.TotalSeconds;
+            ReceiveMaximum = cs.ReceiveMaximum;
 
             if (!string.IsNullOrEmpty(cs.Username))
             {
@@ -184,7 +185,7 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     This tells the broker the maximum number of in-flight messages that can be in flight to this client at a time.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
-        public ushort ReceiveMaximum { get; set; }
+        public ushort? ReceiveMaximum { get; set; }
 
         /// <summary>
         ///     Gets or sets the request problem information.

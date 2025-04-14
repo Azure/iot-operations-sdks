@@ -11,16 +11,16 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         public required string Host { get; set; }
 
         [JsonPropertyName("keepAliveSeconds")]
-        public required int KeepAliveSeconds { get; set; }
+        public int? KeepAliveSeconds { get; set; }
 
         [JsonPropertyName("maxInflightMessages")]
-        public required int MaxInflightMessages { get; set; }
+        public ushort? MaxInflightMessages { get; set; }
 
         [JsonPropertyName("protocol")]
         public required string Protocol { get; set; }
 
         [JsonPropertyName("sessionExpirySeconds")]
-        public required int SessionExpirySeconds { get; set; }
+        public int? SessionExpirySeconds { get; set; }
 
         [JsonPropertyName("authentication")]
         public MqttConnectionConfigurationAuthentication? Authentication { get; set; }
