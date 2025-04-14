@@ -51,7 +51,11 @@
 
         public void CollateSchemaTypes(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, string schemaFilePath, CodeName genNamespace, List<SchemaType> schemaTypes)
         {
-            string title = schemaElt.GetProperty("title").GetString()!;
+            string? title = schemaElt.GetProperty("title").GetString();
+            if (string.IsNullOrEmpty(title))
+            {
+                throw new InvalidOperationException($"The 'title' property is missing or empty in the schema at {schemaFilePath}.");
+            }
             CodeName schemaName = new CodeName((char.IsNumber(title[0]) ? "_" : "") + Regex.Replace(title, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant));
 
             string? description = schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
