@@ -16,14 +16,13 @@ namespace Azure.Iot.Operations.Services.StateStore
     /// </summary>
     public class StateStoreClient : IAsyncDisposable, IStateStoreClient
     {
-        private readonly StateStoreGeneratedClientHolder? _generatedClientHolder;
+        private readonly IStateStoreClientStub? _generatedClientStub;
         private readonly IMqttPubSubClient? _mqttClient; // only used in this layer while the code gen patterns for KeyNotify type scenarios aren't solved yet.
         private bool _isSubscribedToNotifications = false;
         private const string NotificationsTopicFormat = "clients/statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/{0}/command/notify";
         private const string NotificationsTopicFilter = NotificationsTopicFormat + "/+";
         private string _clientIdHexString = "";
         private bool _disposed = false;
-        private readonly ApplicationContext _applicationContext;
 
         internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
 
@@ -31,18 +30,16 @@ namespace Azure.Iot.Operations.Services.StateStore
 
         public StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
         {
-            _applicationContext = applicationContext;
-            _generatedClientHolder = new StateStoreGeneratedClientHolder(new StateStoreGeneratedClient(applicationContext, mqttClient));
+            _generatedClientStub = new StateStoreClientStub(applicationContext, mqttClient);
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;
         }
 
         // For unit test purposes only
-        internal StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, StateStoreGeneratedClientHolder generatedClientHolder)
+        internal StateStoreClient(IMqttPubSubClient mqttClient, IStateStoreClientStub generatedClientStub)
             : this(new ApplicationContext(), mqttClient)
         {
-            _applicationContext = applicationContext;
-            _generatedClientHolder = generatedClientHolder;
+            _generatedClientStub = generatedClientStub;
             _mqttClient = mqttClient;
             _mqttClient.ApplicationMessageReceivedAsync += OnTelemetryReceived;
         }
@@ -50,7 +47,6 @@ namespace Azure.Iot.Operations.Services.StateStore
         // For unit test purposes only
         internal StateStoreClient()
         {
-            _applicationContext = new();
         }
 
         /// <inheritdoc/>
@@ -75,7 +71,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     {
                         if (userProperty.Name.Equals("__ts"))
                         {
-                            version = DecodeFromString(userProperty.Value);
+                            version = HybridLogicalClock.DecodeFromString(AkriSystemProperties.Timestamp, userProperty.Value);
                             break;
                         }
                     }
@@ -141,12 +137,12 @@ namespace Azure.Iot.Operations.Services.StateStore
             ArgumentNullException.ThrowIfNull(key.Bytes, nameof(key.Bytes));
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            Debug.Assert(_generatedClientHolder != null);
+            Debug.Assert(_generatedClientStub != null);
 
             byte[] requestPayload = StateStorePayloadParser.BuildGetRequestPayload(key);
             Trace.TraceInformation($"GET {Encoding.ASCII.GetString(key.Bytes)}");
             ExtendedResponse<byte[]> commandResponse =
-                await _generatedClientHolder.InvokeAsync(
+                await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
@@ -182,7 +178,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             ArgumentNullException.ThrowIfNull(value.Bytes, nameof(value.Bytes));
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            Debug.Assert(_generatedClientHolder != null);
+            Debug.Assert(_generatedClientStub != null);
 
             options ??= new StateStoreSetRequestOptions();
 
@@ -196,7 +192,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             ExtendedResponse<byte[]> commandResponse =
-                await _generatedClientHolder.InvokeAsync(
+                await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     requestMetadata,
                     commandTimeout: requestTimeout,
@@ -220,7 +216,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             ArgumentNullException.ThrowIfNull(key.Bytes, nameof(key.Bytes));
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            Debug.Assert(_generatedClientHolder != null);
+            Debug.Assert(_generatedClientStub != null);
 
             options ??= new StateStoreDeleteRequestOptions();
 
@@ -236,7 +232,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             ExtendedResponse<byte[]> commandResponse =
-                await _generatedClientHolder.InvokeAsync(
+                await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     requestMetadata,
                     commandTimeout: requestTimeout,
@@ -252,7 +248,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         /// <inheritdoc/>
-        public virtual async Task ObserveAsync(StateStoreKey key, StateStoreObserveRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task ObserveAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -261,12 +257,8 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            Debug.Assert(_generatedClientHolder != null);
+            Debug.Assert(_generatedClientStub != null);
             Debug.Assert(_mqttClient != null);
-
-            //TODO these values are ignored because the service currently only allows one configuration. Once
-            // service support is added for these flags, we can respect the options here.
-            options ??= new StateStoreObserveRequestOptions();
 
             if (!_isSubscribedToNotifications)
             {
@@ -294,7 +286,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             Trace.TraceInformation($"OBSERVE {Encoding.ASCII.GetString(key.Bytes)}");
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyRequestPayload(key);
             ExtendedResponse<byte[]> commandResponse =
-                await _generatedClientHolder.InvokeAsync(
+                await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
@@ -318,12 +310,12 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            Debug.Assert(_generatedClientHolder != null);
+            Debug.Assert(_generatedClientStub != null);
 
             Trace.TraceInformation($"UNOBSERVE {Encoding.ASCII.GetString(key.Bytes)}");
             byte[] requestPayload = StateStorePayloadParser.BuildKeyNotifyStopRequestPayload(key);
             ExtendedResponse<byte[]> commandResponse =
-                await _generatedClientHolder.InvokeAsync(
+                await _generatedClientStub.InvokeAsync(
                     requestPayload,
                     commandTimeout: requestTimeout,
                     cancellationToken: cancellationToken).WithMetadata();
@@ -355,7 +347,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                 return;
             }
 
-            if (_generatedClientHolder != null && _mqttClient != null)
+            if (_generatedClientStub != null && _mqttClient != null)
             {
                 if (_isSubscribedToNotifications
                     && !string.IsNullOrEmpty(_mqttClient.ClientId))
@@ -375,7 +367,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                 }
 
                 _mqttClient.ApplicationMessageReceivedAsync -= OnTelemetryReceived;
-                await _generatedClientHolder.DisposeAsync().ConfigureAwait(false);
+                await _generatedClientStub.DisposeAsync().ConfigureAwait(false);
 
                 if (disposing)
                 {
@@ -384,41 +376,6 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
 
             _disposed = true;
-        }
-        //TODO this code is temporary while the telemetry receiver pattern is implemented in code gen. Once it is implemented
-        // in code gen, this should be handled by the underlying library and this block can be deleted.
-        internal static HybridLogicalClock DecodeFromString(string encoded)
-        {
-            string[] array = encoded.Split(":");
-            if (array.Length != 3)
-            {
-                throw new HybridLogicalClockException("Malformed HLC. Expected three segments separated by ':' character");
-            }
-
-            DateTime unixEpoch = DateTime.UnixEpoch;
-            if (double.TryParse(array[0], out var result))
-            {
-                unixEpoch = unixEpoch.AddMilliseconds(result);
-                int counter;
-                try
-                {
-                    counter = Convert.ToInt32(array[1], 10);
-                }
-                catch (Exception)
-                {
-                    throw new HybridLogicalClockException("Malformed HLC. Could not parse second segment as a base 32 integer");
-                }
-
-                if (array[2].Length < 1)
-                {
-                    throw new HybridLogicalClockException("Malformed HLC. Missing nodeId as the final segment");
-                }
-
-                string nodeId = array[2];
-                return new HybridLogicalClock(unixEpoch, counter, nodeId);
-            }
-
-            throw new HybridLogicalClockException("Malformed HLC. Could not parse first segment as an integer");
         }
     }
 }

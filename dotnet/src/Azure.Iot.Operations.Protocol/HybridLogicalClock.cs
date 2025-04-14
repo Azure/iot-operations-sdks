@@ -228,8 +228,8 @@ namespace Azure.Iot.Operations.Protocol
         public override bool Equals(object? obj)
         {
             return obj != null
-&& obj is HybridLogicalClock otherHlc
-&& NodeId.Equals(otherHlc.NodeId, StringComparison.Ordinal)
+                    && obj is HybridLogicalClock otherHlc
+                    && NodeId.Equals(otherHlc.NodeId, StringComparison.Ordinal)
                     && Counter == otherHlc.Counter
                     && Timestamp.Equals(otherHlc.Timestamp);
         }
