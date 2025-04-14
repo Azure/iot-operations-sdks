@@ -47,14 +47,14 @@ namespace Azure.Iot.Operations.Connector
 
                 TimeSpan samplingInterval;
                 if (dataset.DatasetConfiguration != null
-                    && JsonDocument.Parse(dataset.DatasetConfiguration).RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
+                    && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
                     && datasetSpecificSamplingInterval.TryGetInt32(out int datasetSpecificSamplingIntervalMilliseconds))
                 {
                     samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingIntervalMilliseconds);
                 }
                 //TODO make our lib enforce configuration fields as json
                 else if (args.Asset.Specification.DefaultDatasetsConfiguration != null
-                    && JsonDocument.Parse(args.Asset.Specification.DefaultDatasetsConfiguration).RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
+                    && args.Asset.Specification.DefaultDatasetsConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
                     && defaultDatasetSamplingInterval.TryGetInt32(out int defaultSamplingIntervalMilliseconds))
                 {
                     samplingInterval = TimeSpan.FromMilliseconds(defaultSamplingIntervalMilliseconds);

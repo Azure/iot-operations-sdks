@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Services.Assets;
 using System.Text.Json;
 using System.Text;
 using System.Data.SqlClient;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 
 namespace SqlQualityAnalyzerConnectorApp
 {
@@ -29,12 +27,12 @@ namespace SqlQualityAnalyzerConnectorApp
         {
             try
             {
-                DataPointsSchemaElementSchema sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
+                AssetDataPointSchemaElement sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
-                DataPointsSchemaElementSchema sqlServerViscosityDataPoint = dataset.DataPointsDictionary!["Viscosity"];
-                DataPointsSchemaElementSchema sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
-                DataPointsSchemaElementSchema sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
-                DataPointsSchemaElementSchema sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
+                AssetDataPointSchemaElement sqlServerViscosityDataPoint = dataset.DataPointsDictionary!["Viscosity"];
+                AssetDataPointSchemaElement sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
+                AssetDataPointSchemaElement sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
+                AssetDataPointSchemaElement sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 

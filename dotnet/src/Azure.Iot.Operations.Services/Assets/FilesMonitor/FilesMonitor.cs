@@ -3,9 +3,6 @@
 
 namespace Azure.Iot.Operations.Services.Assets.FileMonitor
 {
-    /// <summary>
-    /// A utility for monitoring for changes in any of a set of files.
-    /// </summary>
     internal class FilesMonitor
     {
         private readonly string _directory;

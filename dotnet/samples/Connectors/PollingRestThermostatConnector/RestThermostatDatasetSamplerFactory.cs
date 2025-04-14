@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Assets;
 
 namespace RestThermostatConnector
 {
@@ -34,7 +33,7 @@ namespace RestThermostatConnector
             }
             else
             {
-                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName}");
+                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.Name}");
             }
         }
     }

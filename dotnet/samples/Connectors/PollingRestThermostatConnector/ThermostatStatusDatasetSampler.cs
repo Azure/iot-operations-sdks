@@ -35,12 +35,12 @@ namespace RestThermostatConnector
         {
             try
             {
-                DataPointsSchemaElementSchema httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
-                HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(JsonDocument.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!).RootElement.GetProperty("HttpRequestMethod").GetString());
+                AssetDataPointSchemaElement httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
+                HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
 
-                DataPointsSchemaElementSchema httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
-                HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(JsonDocument.Parse(httpServerCurrentTemperatureDataPoint.DataPointConfiguration!).RootElement.GetProperty("HttpRequestMethod").GetString());
+                AssetDataPointSchemaElement httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
+                HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(httpServerCurrentTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerCurrentTemperatureRequestPath = httpServerCurrentTemperatureDataPoint.DataSource!;
 
                 if (_credentials != null)

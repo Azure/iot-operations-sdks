@@ -215,7 +215,7 @@ public class ModelsConverterTests
         {
             Name = "TestName",
             DataPoints = [new() { Name = "TestDataPoint", ObservabilityMode = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter }],
-            DatasetConfiguration = "TestConfig",
+            DatasetConfiguration = "{\"testKey\":\"testValue\"}",
             Topic = new AdrBaseService.Topic(){
                 Path = "TestPath",
                 Retain = AdrBaseService.RetainSchema.Keep
@@ -230,7 +230,8 @@ public class ModelsConverterTests
         Assert.Single(result.DataPoints);
         Assert.Equal("TestDataPoint", result.DataPoints?[0].Name);
         Assert.Equal(AssetDataPointObservabilityMode.Counter, result.DataPoints?[0].ObservabilityMode);
-        Assert.Equal("TestConfig", result.DatasetConfiguration);
+        Assert.NotNull(result.DatasetConfiguration);
+        Assert.Equal(source.DatasetConfiguration, result.DatasetConfiguration.ToString());
         Assert.NotNull(result.Topic);
         Assert.Equal("TestPath", result.Topic.Path);
         Assert.Equal(Retain.Keep, result.Topic.Retain);
@@ -247,7 +248,7 @@ public class ModelsConverterTests
                 Path = "TestPath",
                 Retain = AdrBaseService.RetainSchema.Keep
             },
-            EventConfiguration = "TestConfig",
+            EventConfiguration = "{\"testKey\":\"testValue\"}",
             ObservabilityMode = AdrBaseService.AssetEventObservabilityModeSchema.Log,
             EventNotifier = "TestNotifier",
         };
@@ -259,7 +260,8 @@ public class ModelsConverterTests
         Assert.NotNull(result.Topic);
         Assert.Equal("TestPath", result.Topic.Path);
         Assert.Equal(Retain.Keep, result.Topic.Retain);
-        Assert.Equal("TestConfig", result.EventConfiguration);
+        Assert.NotNull(result.EventConfiguration);
+        Assert.Equal(source.EventConfiguration, result.EventConfiguration.ToString());
         Assert.Equal(AssetEventObservabilityMode.Log, result.ObservabilityMode);
         Assert.Equal("TestNotifier", result.EventNotifier);
     }
@@ -317,7 +319,7 @@ public class ModelsConverterTests
     {
         var source = new AdrBaseService.AssetDataPointSchemaElementSchema
         {
-            DataPointConfiguration = "TestConfig",
+            DataPointConfiguration = "{\"testKey\":\"testValue\"}",
             DataSource = "TestSource",
             Name = "TestName",
             ObservabilityMode = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter
@@ -326,7 +328,8 @@ public class ModelsConverterTests
         var result = source.ToModel();
 
         Assert.NotNull(result);
-        Assert.Equal("TestConfig", result.DataPointConfiguration);
+        Assert.NotNull(result.DataPointConfiguration);
+        Assert.Equal(source.DataPointConfiguration, result.DataPointConfiguration.ToString());
         Assert.Equal("TestSource", result.DataSource);
         Assert.Equal("TestName", result.Name);
         Assert.Equal(AssetDataPointObservabilityMode.Counter, result.ObservabilityMode);
