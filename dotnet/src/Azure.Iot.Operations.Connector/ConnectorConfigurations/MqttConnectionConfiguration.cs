@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
-    public class MqttConnectionConfiguration
+    internal class MqttConnectionConfiguration
     {
         [JsonPropertyName("host")]
         public required string Host { get; set; }

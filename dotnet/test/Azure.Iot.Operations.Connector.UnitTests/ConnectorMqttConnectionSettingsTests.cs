@@ -55,7 +55,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Assert.Equal(1234, settings.TcpPort);
             Assert.False(settings.UseTls);
             Assert.Null(settings.ClientCertificate);
-            Assert.Null(settings.SatAuthFile);
+            Assert.Null(settings.SatAuthFile); // fails when run in parallel?
             Assert.NotNull(settings.TrustChain);
             Assert.Empty(settings.TrustChain);
         }

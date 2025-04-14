@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
-    public class ConnectorDiagnostics
+    internal class ConnectorDiagnostics
     {
         [JsonPropertyName("logs")]
         public required ConnectorDiagnosticsLogs Logs { get; set; }
