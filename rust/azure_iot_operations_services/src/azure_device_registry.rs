@@ -56,7 +56,7 @@ pub enum ErrorKind {
     #[error("Aep or asset may only be observed once at a time")]
     DuplicateObserve,
     /// A aep or an asset had an error during observation.
-    #[error("{0}")]
+    #[error("Observation request for '{0}' not accepted by service")]
     ObservationError(String),
     /// An error occurred while shutting down the Azure Device Registry Client.
     #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
