@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public required string Name { get; set; }
+        public string? Name { get; set; } = default;
 
         /// <summary>
         /// The 'specification' Field.

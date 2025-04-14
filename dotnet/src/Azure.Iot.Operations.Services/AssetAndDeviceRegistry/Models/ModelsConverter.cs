@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Text.Json;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
@@ -78,8 +77,8 @@ internal static class ModelsConverter
             ProductCode = source.ProductCode,
             SerialNumber = source.SerialNumber,
             SoftwareRevision = source.SoftwareRevision,
-            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration != null ? JsonDocument.Parse(source.DefaultDatasetsConfiguration) : null,
-            DefaultEventsConfiguration = source.DefaultEventsConfiguration != null ? JsonDocument.Parse(source.DefaultEventsConfiguration) : null,
+            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration,
+            DefaultEventsConfiguration = source.DefaultEventsConfiguration,
             DiscoveredAssetRefs = source.DiscoveredAssetRefs,
             ExternalAssetId = source.ExternalAssetId,
             AssetEndpointProfileRef = source.AssetEndpointProfileRef
@@ -93,7 +92,7 @@ internal static class ModelsConverter
             Name = source.Name,
             Topic = source.Topic?.ToModel(),
             DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
-            DatasetConfiguration = source.DatasetConfiguration != null ? JsonDocument.Parse(source.DatasetConfiguration) : null
+            DatasetConfiguration = source.DatasetConfiguration
         };
     }
 
@@ -103,7 +102,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             Topic = source.Topic?.ToModel(),
-            EventConfiguration = source.EventConfiguration != null ? JsonDocument.Parse(source.EventConfiguration) : null,
+            EventConfiguration = source.EventConfiguration,
             EventNotifier = source.EventNotifier,
             ObservabilityMode = source.ObservabilityMode?.ToModel()
         };
@@ -132,7 +131,7 @@ internal static class ModelsConverter
     {
         return new AssetDataPointSchemaElement
         {
-            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration) : null,
+            DataPointConfiguration = source.DataPointConfiguration,
             DataSource = source.DataSource,
             Name = source.Name,
             ObservabilityMode = source.ObservabilityMode?.ToModel()

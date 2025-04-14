@@ -1,4 +1,9 @@
-﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -12,12 +17,12 @@ namespace Azure.Iot.Operations.Connector
             return new NoMessageSchemaProvider();
         };
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName, AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName, Dataset dataset, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string eventName, AssetEventSchemaElement assetEvent, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string eventName, Event assetEvent, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }

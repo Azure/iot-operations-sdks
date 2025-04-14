@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-
-namespace Azure.Iot.Operations.Connector
+namespace Azure.Iot.Operations.Services.Assets
 {
     /// <summary>
     /// EventArgs with context about which AssetEndpointProfile changed and what kind of change happened to it.
@@ -16,13 +13,13 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public ChangeType ChangeType { get; set; }
 
-        public string AssetEndpointProfileName { get; set; }
-
+        /// <summary>
+        /// The 
+        /// </summary>
         public AssetEndpointProfile? AssetEndpointProfile { get; set; }
 
-        internal AssetEndpointProfileChangedEventArgs(string assetEndpointProfileName, ChangeType changeType, AssetEndpointProfile? assetEndpointProfile)
+        internal AssetEndpointProfileChangedEventArgs(ChangeType changeType, AssetEndpointProfile? assetEndpointProfile)
         {
-            AssetEndpointProfileName = assetEndpointProfileName;
             ChangeType = changeType;
             AssetEndpointProfile = assetEndpointProfile;
         }

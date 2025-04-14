@@ -3,7 +3,6 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.Assets;
 using System.Net.Sockets;
 
@@ -15,7 +14,7 @@ namespace EventDrivenTcpThermostatConnector
         private readonly TelemetryConnectorWorker _connector;
         private CancellationTokenSource? _tcpConnectionCancellationToken;
 
-        public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
+        public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAssetMonitor assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
         {
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor, leaderElectionConfigurationProvider);
@@ -27,7 +26,7 @@ namespace EventDrivenTcpThermostatConnector
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
 
-            if (args.Asset.Specification.Events == null)
+            if (args.Asset.Events == null)
             {
                 // If the asset has no datasets to sample, then do nothing
                 _logger.LogError("Asset with name {0} does not have the expected event", args.AssetName);
@@ -35,7 +34,7 @@ namespace EventDrivenTcpThermostatConnector
             }
 
             // This sample only has one asset with one event
-            var assetEvent = args.Asset.Specification.Events[0];
+            var assetEvent = args.Asset.Events[0];
 
             if (assetEvent.EventNotifier == null || !int.TryParse(assetEvent.EventNotifier, out int port))
             {
@@ -47,13 +46,13 @@ namespace EventDrivenTcpThermostatConnector
             await OpenTcpConnectionAsync(args, assetEvent, port);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailabileEventArgs args, AssetEventSchemaElement assetEvent, int port)
+        private async Task OpenTcpConnectionAsync(AssetAvailabileEventArgs args, Event assetEvent, int port)
         {
             _tcpConnectionCancellationToken = new();
             try
             {
                 //tcp-service.azure-iot-operations.svc.cluster.local:80
-                string host = args.AssetEndpointProfile.Specification.TargetAddress.Split(":")[0];
+                string host = args.AssetEndpointProfile.TargetAddress.Split(":")[0];
                 _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
                 using TcpClient client = new();
                 await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);

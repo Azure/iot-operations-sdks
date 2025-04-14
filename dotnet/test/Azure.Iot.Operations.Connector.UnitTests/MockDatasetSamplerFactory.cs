@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             _isFaulty = isFaulty;
         }
 
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, AssetDatasetSchemaElement dataset)
+        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, Dataset dataset)
         {
             return new MockDatasetSampler(_isFaulty);
         }
