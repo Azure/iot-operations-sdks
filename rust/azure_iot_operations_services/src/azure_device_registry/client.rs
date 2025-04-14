@@ -101,11 +101,17 @@ where
             .expect("DTDL schema generated invalid arguments");
 
         // Create the shutdown notifier for the receiver loop
-        let shutdown_notifier = Arc::new(Notify::new());
+        let aep_shutdown_notifier = Arc::new(Notify::new());
+        let asset_shutdown_notifier = Arc::new(Notify::new());
 
         // Dispatchers for AEPs and Assets
-        let aep_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
         let asset_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
+        let aep_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
+
+        let aep_update_event_telemetry_dispatcher_clone =
+            aep_update_event_telemetry_dispatcher.clone();
+        let asset_update_event_telemetry_dispatcher_clone =
+            asset_update_event_telemetry_dispatcher.clone();
 
         // Start the update aep and assets notification loop
         task::spawn({
@@ -121,18 +127,15 @@ where
                     client.clone(),
                     &aep_telemetry_options,
                 );
-            let shutdown_notifier_clone = shutdown_notifier.clone();
-            let aep_update_event_telemetry_dispatcher_clone =
-                aep_update_event_telemetry_dispatcher.clone();
-            let asset_update_event_telemetry_dispatcher_clone =
-                asset_update_event_telemetry_dispatcher.clone();
+
             async move {
                 Self::receive_update_event_telemetry_loop(
-                    shutdown_notifier_clone,
+                    aep_shutdown_notifier,
+                    asset_shutdown_notifier,
                     asset_endpoint_profile_update_event_telemetry_receiver,
                     asset_update_event_telemetry_receiver,
-                    aep_update_event_telemetry_dispatcher_clone,
-                    asset_update_event_telemetry_dispatcher_clone,
+                    aep_update_event_telemetry_dispatcher,
+                    asset_update_event_telemetry_dispatcher,
                 )
                 .await;
             }
@@ -198,8 +201,8 @@ where
                         .expect("Statically generated options should not fail."),
                 ),
             ),
-            aep_update_event_telemetry_dispatcher,
-            asset_update_event_telemetry_dispatcher,
+            aep_update_event_telemetry_dispatcher: aep_update_event_telemetry_dispatcher_clone,
+            asset_update_event_telemetry_dispatcher: asset_update_event_telemetry_dispatcher_clone,
         }
     }
 
@@ -866,7 +869,8 @@ where
     }
 
     async fn receive_update_event_telemetry_loop(
-        shutdown_notifier: Arc<Notify>,
+        aep_shutdown_notifier: Arc<Notify>,   // Separate notifier for AEP
+        asset_shutdown_notifier: Arc<Notify>, // Separate notifier for Asset
         mut asset_endpoint_profile_update_event_telemetry_receiver: adr_base_service_gen::AssetEndpointProfileUpdateEventTelemetryReceiver<C>,
         mut asset_update_event_telemetry_receiver: adr_base_service_gen::AssetUpdateEventTelemetryReceiver<C>,
         aep_update_event_telemetry_dispatcher: Arc<
@@ -874,25 +878,31 @@ where
         >,
         asset_update_event_telemetry_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
     ) {
-        let mut shutdown_attempt_count = 0;
+        let mut aep_shutdown_attempt_count = 0;
+        let mut asset_shutdown_attempt_count = 0;
+
         loop {
             tokio::select! {
-                  // on shutdown/drop, we will be notified so that we can stop receiving any more messages
-                  // The loop will continue to receive any more publishes that are already in the queue
-                  () = shutdown_notifier.notified() => {
+                // AEP shutdown handler
+                () = aep_shutdown_notifier.notified() => {
                     match asset_endpoint_profile_update_event_telemetry_receiver.shutdown().await {
                         Ok(()) => {
                             log::info!("AssetEndpointProfileUpdateEventTelemetryReceiver shutdown");
+
                         }
                         Err(e) => {
                             log::error!("Error shutting down AssetEndpointProfileUpdateEventTelemetryReceiver: {e}");
                             // try shutdown again, but not indefinitely
-                            if shutdown_attempt_count < 3 {
-                                shutdown_attempt_count += 1;
-                                shutdown_notifier.notify_one();
+                            if aep_shutdown_attempt_count < 3 {
+                                aep_shutdown_attempt_count += 1;
+                                aep_shutdown_notifier.notify_one();
                             }
                         }
                     }
+                },
+
+                // Asset shutdown handler
+                () = asset_shutdown_notifier.notified() => {
                     match asset_update_event_telemetry_receiver.shutdown().await {
                         Ok(()) => {
                             log::info!("AssetUpdateEventTelemetryReceiver shutdown");
@@ -900,14 +910,15 @@ where
                         Err(e) => {
                             log::error!("Error shutting down AssetUpdateEventTelemetryReceiver: {e}");
                             // try shutdown again, but not indefinitely
-                            if shutdown_attempt_count < 3 {
-                                shutdown_attempt_count += 1;
-                                shutdown_notifier.notify_one();
+                            if asset_shutdown_attempt_count < 3 {
+                                asset_shutdown_attempt_count += 1;
+                                asset_shutdown_notifier.notify_one();
                             }
                         }
                     }
-                  },
-                  aep_msg = asset_endpoint_profile_update_event_telemetry_receiver.recv() => {
+                },
+
+                aep_msg = asset_endpoint_profile_update_event_telemetry_receiver.recv() => {
                     if let Some(m) = aep_msg {
                         match m {
                             Ok((aep_update_event_telemetry, ack_token)) => {
@@ -932,8 +943,8 @@ where
                                 // This should only happen on errors subscribing, but it's likely not recoverable
                                 log::error!("Error receiving AssetEndpointProfileUpdateEventTelemetry: {e}. Shutting down AssetEndpointProfileUpdateEventTelemetryReceiver.");
                                 // try to shutdown telemetry receiver, but not indefinitely
-                                if shutdown_attempt_count < 3 {
-                                    shutdown_notifier.notify_one();
+                                if aep_shutdown_attempt_count < 3 {
+                                    aep_shutdown_notifier.notify_one();
                                 }
                             }
                         }
@@ -944,6 +955,7 @@ where
                         break;
                     }
                 },
+
                 asset_msg = asset_update_event_telemetry_receiver.recv() => {
                     if let Some(m) = asset_msg {
                         match m {
@@ -971,8 +983,8 @@ where
                                 // This should only happen on errors subscribing, but it's likely not recoverable
                                 log::error!("Error receiving AssetUpdateEventTelemetry: {e}. Shutting down AssetUpdateEventTelemetryReceiver.");
                                 // try to shutdown telemetry receiver, but not indefinitely
-                                if shutdown_attempt_count < 3 {
-                                    shutdown_notifier.notify_one();
+                                if asset_shutdown_attempt_count < 3 {
+                                    asset_shutdown_notifier.notify_one();
                                 }
                             }
                         }
