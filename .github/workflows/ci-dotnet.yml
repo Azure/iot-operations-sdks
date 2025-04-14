@@ -73,9 +73,8 @@ jobs:
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
-    # TODO re-enable this once the connector package has access to a protocol package version with ReceiveMaximum  
-    #- name: Build SDK (Release)
-    #  run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
+    - name: Build SDK (Release)
+      run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
 
     - name: Install .NET connector templates
       run: |
