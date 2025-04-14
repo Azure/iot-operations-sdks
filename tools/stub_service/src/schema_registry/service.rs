@@ -9,7 +9,9 @@ use std::{
 };
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::{application::ApplicationContext, rpc_command};
+use azure_iot_operations_protocol::{
+    application::ApplicationContext, common::aio_protocol_error::AIOProtocolError, rpc_command,
+};
 
 use crate::{OutputDirectoryManager, schema_registry::service_gen};
 use crate::{
@@ -102,7 +104,7 @@ where
     async fn get_schema_runner(
         mut get_command_executor: service_gen::GetCommandExecutor<C>,
         schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
-    ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    ) -> Result<(), AIOProtocolError> {
         loop {
             // Wait for a new get request
             match get_command_executor.recv().await {
@@ -122,14 +124,21 @@ where
                             .expect("Schema name is required")
                             .clone();
                         // Extract the schema version
-                        let schema_version: u32 = get_request
+                        let schema_version: u32 = match get_request
                             .payload
                             .get_schema_request
                             .version
                             .as_ref()
                             .expect("Schema version is required")
                             .parse()
-                            .unwrap(); // TODO: Implement error handling for incorrect version number
+                        {
+                            Ok(version) => version,
+                            Err(_) => {
+                                // TODO: Implement error handling for incorrect version number
+                                log::error!("Invalid schema version, skipping request");
+                                continue;
+                            }
+                        };
 
                         // Retrieve the schema from the request
                         let schema = {
@@ -193,7 +202,7 @@ where
                     }
                     Err(e) => {
                         log::error!("Error receiving Get request: {:?}", e);
-                        return Err(Box::new(e));
+                        return Err(e);
                     }
                 },
                 None => {
@@ -208,7 +217,7 @@ where
         mut put_command_executor: service_gen::PutCommandExecutor<C>,
         schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
         service_state_manager: ServiceStateOutputManager,
-    ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    ) -> Result<(), AIOProtocolError> {
         loop {
             // Wait for a new put request
             match put_command_executor.recv().await {
@@ -220,7 +229,14 @@ where
                         );
 
                         // Extract the schema from the request
-                        let schema: Schema = put_request.payload.put_schema_request.clone().into();
+                        let schema: Schema =
+                            match put_request.payload.put_schema_request.clone().try_into() {
+                                Ok(schema) => schema,
+                                Err(e) => {
+                                    log::error!("{e}"); // TODO: Implement error handling for incorrect schema
+                                    continue;
+                                }
+                            };
 
                         // TODO: Add verification of schema
 
@@ -305,7 +321,7 @@ where
                     }
                     Err(e) => {
                         log::error!("Error receiving Put request: {:?}", e);
-                        return Err(Box::new(e));
+                        return Err(e);
                     }
                 },
                 None => {

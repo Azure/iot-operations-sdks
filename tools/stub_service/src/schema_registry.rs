@@ -89,21 +89,21 @@ struct Schema {
     name: String,
 
     /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
-    pub namespace: String,
+    namespace: String,
 
     /// Content stored in the schema.
     #[serde(rename = "schemaContent")]
-    pub schema_content: String,
+    schema_content: String,
 
     /// Type of the schema.
     #[serde(rename = "schemaType")]
-    pub schema_type: SchemaType,
+    schema_type: SchemaType,
 
     /// Schema tags.
-    pub tags: HashMap<String, String>,
+    tags: HashMap<String, String>,
 
     /// Version of the schema. Allowed between 0-9.
-    pub version: u32,
+    version: u32,
 }
 
 impl Ord for Schema {
@@ -144,8 +144,10 @@ impl From<Schema> for service_gen::Schema {
     }
 }
 
-impl From<service_gen::PutRequestSchema> for Schema {
-    fn from(put_request_schema: service_gen::PutRequestSchema) -> Self {
+impl TryFrom<service_gen::PutRequestSchema> for Schema {
+    type Error = String;
+
+    fn try_from(put_request_schema: service_gen::PutRequestSchema) -> Result<Self, Self::Error> {
         // Create the hash of the schema content
         let schema_hash = {
             let mut hasher = DefaultHasher::new();
@@ -158,7 +160,7 @@ impl From<service_gen::PutRequestSchema> for Schema {
         };
 
         // Transfrom the put request schema into a Schema
-        Self {
+        Ok(Self {
             description: put_request_schema.description,
             display_name: put_request_schema.display_name,
             format: put_request_schema
@@ -180,7 +182,7 @@ impl From<service_gen::PutRequestSchema> for Schema {
                 .version
                 .expect("Schema version is required")
                 .parse()
-                .unwrap(), // TODO: Implement error handling for incorrect version number
-        }
+                .map_err(|_| "Invalid schema version, skipping request".to_string())?, // TODO: Implement error handling for incorrect version number
+        })
     }
 }
