@@ -25,6 +25,7 @@ use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
     session::{Session, SessionOptionsBuilder},
 };
+use log4rs::{append::file::FileAppender, encode::pattern::PatternEncoder};
 
 /// Module for the schema registry stub service.
 pub mod schema_registry;
@@ -98,45 +99,71 @@ impl OutputDirectoryManager {
         }
     }
 
-    /// Creates a new [`ServiceOutputManager`] for the given service name.
+    /// Creates a new [`ServiceStateOutputManager`] for the given service name.
     ///
-    /// The output directory for the service is created under the main output directory.
+    /// The output directory for the service is created under the main output directory specified by
+    /// the environment variable.
     #[cfg(feature = "enable-output")]
-    fn create_new_service_output_manager(&self, service_name: &str) -> ServiceOutputManager {
-        let service_dir = Path::new(&self.output_stub_service_path).join(service_name);
+    fn create_new_service_output_manager(&self, service_name: &str) -> ServiceStateOutputManager {
+        let service_state_dir = Path::new(&self.output_stub_service_path)
+            .join(service_name)
+            .join("state"); // Directory for service state
 
-        std::fs::create_dir_all(Path::new(&service_dir))
+        std::fs::create_dir_all(Path::new(&service_state_dir))
             .expect("Failed to create service directory");
 
         // Create the service state directory
-        ServiceOutputManager::new(
-            service_dir
+        ServiceStateOutputManager::new(
+            service_state_dir
                 .to_str()
                 .expect("Created path is valid")
                 .to_string(),
         )
     }
 
-    /// Creates a new dummy [`ServiceOutputManager`] for the given service name if the output feature is not enabled.
+    /// Creates a new dummy [`ServiceStateOutputManager`] for the given service name if the output feature is not enabled.
     #[cfg(not(feature = "enable-output"))]
-    fn create_new_service_output_manager(&self, _service_name: &str) -> ServiceOutputManager {
+    fn create_new_service_output_manager(&self, _service_name: &str) -> ServiceStateOutputManager {
         // If the feature is not enabled, return a dummy instance
-        ServiceOutputManager::new(String::new())
+        ServiceStateOutputManager::new(String::new())
+    }
+
+    /// Creates a new [`FileAppender`] for the given service name and returns it.
+    ///
+    /// The appender is configured to append logs to a file in the service's log directory.
+    pub fn create_new_service_log_appender(&self, service_name: &str) -> FileAppender {
+        let service_log_dir = Path::new(&self.output_stub_service_path)
+            .join(service_name)
+            .join("logs"); // Directory for service logs
+
+        std::fs::create_dir_all(Path::new(&service_log_dir))
+            .expect("Failed to create service directory");
+
+        FileAppender::builder()
+            .append(true)
+            .encoder(Box::new(PatternEncoder::new("{d} - {m}{n}")))
+            .build(
+                service_log_dir
+                    .join("log.log")
+                    .to_str()
+                    .expect("Created path is valid"),
+            )
+            .expect("Creating file appender should not fail")
     }
 }
 
-/// Helper struct to manage the output directory for a specific service.
-struct ServiceOutputManager {
+/// Helper struct to manage the output directory for a specific service's state.
+struct ServiceStateOutputManager {
     pub service_dir: String,
 }
 
-impl ServiceOutputManager {
-    /// Creates a new [`ServiceOutputManager`] instance for the given service output directory.
+impl ServiceStateOutputManager {
+    /// Creates a new [`ServiceStateOutputManager`] instance for the given service state output directory.
     pub fn new(service_dir: String) -> Self {
         Self { service_dir }
     }
 
-    /// Writes the state to a JSON file in the service output directory.
+    /// Writes the state to a JSON file in the service state output directory.
     #[cfg(feature = "enable-output")]
     pub fn write_state(&self, file_name: &str, state: String) {
         // Append JSON extension to the file name
@@ -145,7 +172,7 @@ impl ServiceOutputManager {
         let file_path = Path::new(&self.service_dir).join(file_name);
 
         // Overwrite the file if it exists
-        std::fs::write(&file_path, state).expect("Failed to write state to file");
+        std::fs::write(&file_path, state).expect("Writing state to file should not fail");
     }
 
     /// Dummy function to write the state if the output feature is not enabled.

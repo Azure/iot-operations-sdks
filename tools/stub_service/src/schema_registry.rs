@@ -15,7 +15,7 @@ pub use crate::schema_registry::service::Service;
 use schema_registry_gen::schema_registry::service as service_gen;
 use serde::{Deserialize, Serialize};
 
-const SERVICE_NAME: &str = "SchemaRegistry";
+pub const SERVICE_NAME: &str = "schema_registry";
 pub const CLIENT_ID: &str = "schema_registry_service_stub";
 const NAMESPACE: &str = "aio-sr-ns-stub";
 

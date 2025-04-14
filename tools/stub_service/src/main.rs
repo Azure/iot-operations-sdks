@@ -2,25 +2,69 @@
 // Licensed under the MIT License.
 
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use env_logger::Builder;
 
+use log4rs::{
+    Config,
+    append::console::ConsoleAppender,
+    config::{Appender, Logger, Root},
+    init_config,
+};
 use stub_service::{
     OutputDirectoryManager, create_service_session,
     schema_registry::{self},
 };
 
+/// Helper function to initialize the logger for the stub service.
+#[cfg(feature = "enable-output")]
+fn initialize_logger(output_directory_manager: &OutputDirectoryManager) {
+    // Create a file appender for the schema registry service
+    let sr_appender =
+        output_directory_manager.create_new_service_log_appender(schema_registry::SERVICE_NAME);
+
+    // Create config for logger
+    let config = Config::builder()
+        .appender(Appender::builder().build("stdout", Box::new(ConsoleAppender::builder().build())))
+        .appender(Appender::builder().build(schema_registry::SERVICE_NAME, Box::new(sr_appender)))
+        .logger(
+            Logger::builder()
+                .appender(schema_registry::SERVICE_NAME)
+                .additive(true)
+                .build("stub_service::schema_registry", log::LevelFilter::Debug),
+        )
+        .build(
+            Root::builder()
+                .appender("stdout")
+                .build(log::LevelFilter::Debug),
+        )
+        .unwrap();
+
+    // Initialize the logger
+    init_config(config).unwrap();
+}
+
+/// If the "enable-output" feature is not enabled, the logger will only log to the console.
+#[cfg(not(feature = "enable-output"))]
+fn initialize_logger(_output_directory_manager: OutputDirectoryManager) {
+    let config = Config::builder()
+        .appender(Appender::builder().build("stdout", Box::new(ConsoleAppender::builder().build())))
+        .build(
+            Root::builder()
+                .appender("stdout")
+                .build(log::LevelFilter::Debug),
+        )
+        .unwrap();
+
+    // Initialize the logger
+    init_config(config).unwrap();
+}
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    Builder::new()
-        .filter_level(log::LevelFilter::Debug)
-        .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_protocol", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
-        .init();
-
     // Initialize the output directory manager
     let output_directory_manager = OutputDirectoryManager::new();
+
+    // Initialize the logger
+    initialize_logger(&output_directory_manager);
 
     // Create the application context
     let application_context = ApplicationContextBuilder::default().build()?;

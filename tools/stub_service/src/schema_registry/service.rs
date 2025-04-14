@@ -13,7 +13,7 @@ use azure_iot_operations_protocol::{application::ApplicationContext, rpc_command
 
 use crate::{OutputDirectoryManager, schema_registry::service_gen};
 use crate::{
-    ServiceOutputManager,
+    ServiceStateOutputManager,
     schema_registry::{
         SERVICE_NAME, Schema,
         schema_registry_gen::{
@@ -32,7 +32,7 @@ where
     schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
     get_command_executor: service_gen::GetCommandExecutor<C>,
     put_command_executor: service_gen::PutCommandExecutor<C>,
-    service_output_manager: ServiceOutputManager,
+    service_output_manager: ServiceStateOutputManager,
 }
 
 impl<C> Service<C>
@@ -207,7 +207,7 @@ where
     async fn put_schema_runner(
         mut put_command_executor: service_gen::PutCommandExecutor<C>,
         schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
-        service_state_manager: ServiceOutputManager,
+        service_state_manager: ServiceStateOutputManager,
     ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         loop {
             // Wait for a new put request
