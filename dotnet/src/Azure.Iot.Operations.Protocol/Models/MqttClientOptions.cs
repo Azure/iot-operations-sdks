@@ -182,7 +182,7 @@ namespace Azure.Iot.Operations.Protocol.Models
 
         /// <summary>
         ///     Gets or sets the receive maximum.
-        ///     This tells the broker the maximum number of in-flight messages that can be in flight to this client at a time.
+        ///     This tells the broker the maximum number of messages that can be in flight to this client at a time.
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
         public ushort? ReceiveMaximum { get; set; }
