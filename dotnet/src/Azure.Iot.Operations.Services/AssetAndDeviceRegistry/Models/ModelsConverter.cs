@@ -250,4 +250,124 @@ internal static class ModelsConverter
             };
         return new CreateDiscoveredAssetEndpointProfileResponse();
     }
+
+    public static Device ToModel(this AdrBaseService.Device source)
+    {
+        return new Device
+        {
+            Name = source.Name,
+            Specification = source.Specification.ToModel(),
+            Status = source.Status?.ToModel()
+        };
+    }
+
+    public static DeviceSpecification ToModel(this DeviceSpecificationSchema source)
+    {
+        return new DeviceSpecification
+        {
+            Attributes = source.Attributes ?? new Dictionary<string, string>(),
+            Enabled = source.Enabled,
+            Manufacturer = source.Manufacturer,
+            Model = source.Model,
+            Uuid = source.Uuid,
+            Version = source.Version,
+            DiscoveredDeviceRef = source.DiscoveredDeviceRef,
+            Endpoints = source.Endpoints?.ToModel(),
+            ExternalDeviceId = source.ExternalDeviceId,
+            LastTransitionTime = source.LastTransitionTime,
+            OperatingSystemVersion = source.OperatingSystemVersion
+        };
+    }
+
+    public static DeviceEndpoint ToModel(this DeviceEndpointSchema source)
+    {
+        return new DeviceEndpoint
+        {
+            Inbound = new Dictionary<string, DeviceInboundEndpointSchemaMapValue>(
+                source.Inbound?.Select(x => new KeyValuePair<string, DeviceInboundEndpointSchemaMapValue>(x.Key, x.Value.ToModel())) ??
+                new Dictionary<string, DeviceInboundEndpointSchemaMapValue>())
+        };
+    }
+
+    public static DeviceInboundEndpointSchemaMapValue ToModel(this DeviceInboundEndpointSchemaMapValueSchema source)
+    {
+        return new DeviceInboundEndpointSchemaMapValue
+        {
+            Address = source.Address,
+            AdditionalConfiguration = source.AdditionalConfiguration,
+            Version = source.Version,
+            Type = source.Type,
+            Authentication = source.Authentication?.ToModel(),
+            TrustSettings = source.TrustSettings?.ToModel()
+        };
+    }
+
+    public static TrustSettings ToModel(this TrustSettingsSchema source)
+    {
+        return new TrustSettings
+        {
+            IssuerList = source.IssuerList,
+            TrustList = source.TrustList,
+            TrustMode = source.TrustMode
+        };
+    }
+
+    public static DeviceStatus ToModel(this AdrBaseService.DeviceStatus source)
+    {
+        return new DeviceStatus
+        {
+            Endpoints = source.Endpoints?.ToModel(),
+            Config = source.Config?.ToModel()
+        };
+    }
+
+    public static DeviceStatusConfig ToModel(this DeviceStatusConfigSchema source)
+    {
+        return new DeviceStatusConfig
+        {
+            Error = source.Error?.ToModel(),
+            Version = source.Version,
+            LastTransitionTime = source.LastTransitionTime
+        };
+    }
+
+    public static DeviceStatusEndpoint ToModel(this DeviceStatusEndpointSchema source)
+    {
+        return new DeviceStatusEndpoint
+        {
+            Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>(
+                source.Inbound?.Select(x => new KeyValuePair<string, DeviceStatusInboundEndpointSchemaMapValue>(x.Key, x.Value.ToModel())) ??
+                new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>())
+        };
+    }
+
+    public static DeviceStatusInboundEndpointSchemaMapValue ToModel(this DeviceStatusInboundEndpointSchemaMapValueSchema source)
+    {
+        return new DeviceStatusInboundEndpointSchemaMapValue
+        {
+            Error = source.Error?.ToModel()
+        };
+    }
+
+    public static ConfigError ToModel(this AdrBaseService.ConfigError source)
+    {
+        return new ConfigError
+        {
+            Code = source.Code,
+            Message = source.Message,
+            InnerError = source.InnerError,
+            Details = source.Details?.Select(x => x.ToModel()).ToList()
+        };
+    }
+
+    public static DetailsSchemaElement ToModel(this AdrBaseService.DetailsSchemaElementSchema source)
+    {
+        return new DetailsSchemaElement
+        {
+            Code = source.Code,
+            Message = source.Message,
+            Info = source.Info,
+            CorrelationId = source.CorrelationId
+        };
+    }
 }

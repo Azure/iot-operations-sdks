@@ -7,6 +7,8 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using AssetEndpointProfile = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.AssetEndpointProfile;
+using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
+using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DeviceStatus;
 using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.NotificationResponse;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
@@ -37,16 +39,16 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc/>
-    public async Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName, TimeSpan? commandTimeout = null,
+    public async Task<NotificationResponse> ObserveDeviceUpdatesAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        _observedAeps[aepName] = _dummyByte;
+        _observedAeps[inboundEndpointName] = _dummyByte;
         await _assetServiceClient.AssetEndpointProfileUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, aepName } };
+        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, inboundEndpointName } };
         var notificationRequest = new NotifyOnAssetEndpointProfileUpdateRequestPayload
         {
             NotificationRequest = NotificationMessageType.On
@@ -58,18 +60,18 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc/>
-    public async Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName, TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<NotificationResponse> UnobserveDeviceUpdatesAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = bad)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        if (_observedAeps.TryRemove(aepName, out _) && _observedAeps.IsEmpty)
+        if (_observedAeps.TryRemove(inboundEndpointName, out _) && _observedAeps.IsEmpty)
         {
             await _assetServiceClient.AssetEndpointProfileUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
         }
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, aepName } };
+        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, inboundEndpointName } };
         var notificationRequest = new NotifyOnAssetEndpointProfileUpdateRequestPayload
         {
             NotificationRequest = NotificationMessageType.Off
@@ -81,29 +83,29 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc/>
-    public async Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<Device> GetDeviceAsync(string deviceName, TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = bad)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, aepName } };
+        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, deviceName } };
 
-        var result = await _assetServiceClient.GetAssetEndpointProfileAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
+        var result = await _assetServiceClient.GetDeviceAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
             cancellationToken);
         return result.AssetEndpointProfile.ToModel();
     }
 
     /// <inheritdoc/>
-    public async Task<AssetEndpointProfile> UpdateAssetEndpointProfileStatusAsync(string aepName,
-        UpdateAssetEndpointProfileStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+    public async Task<Device> UpdateDeviceStatusAsync(string deviceName,
+        DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = bad)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, aepName } };
+        var additionalTopicTokenMap = new Dictionary<string, string> { { _aepNameTokenKey, deviceName } };
 
-        var result = await _assetServiceClient.UpdateAssetEndpointProfileStatusAsync(request.ToProtocol(), null, additionalTopicTokenMap,
+        var result = await _assetServiceClient.UpdateAssetEndpointProfileStatusAsync(status.ToProtocol(), null, additionalTopicTokenMap,
             commandTimeout ?? _defaultTimeout, cancellationToken);
         return result.UpdatedAssetEndpointProfile.ToModel();
     }
@@ -215,10 +217,10 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc/>
-    public event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry
+    public event Func<string, Device?, Task>? OnReceiveDeviceUpdateEventTelemetry
     {
-        add => _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry += value;
-        remove => _assetServiceClient.OnReceiveAssetEndpointProfileUpdateTelemetry -= value;
+        add => _assetServiceClient.OnReceiveDeviceUpdateEventTelemetry += value;
+        remove => _assetServiceClient.OnReceiveDeviceUpdateEventTelemetry -= value;
     }
 
     /// <inheritdoc/>
