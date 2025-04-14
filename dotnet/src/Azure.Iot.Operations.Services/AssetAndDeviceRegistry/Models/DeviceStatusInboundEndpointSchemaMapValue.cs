@@ -5,5 +5,5 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DeviceStatusInboundEndpointSchemaMapValue
 {
-    public ConfigError? Error { get; set; } = default;
+    public ConfigError? Error { get; set; }
 }

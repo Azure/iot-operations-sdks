@@ -5,11 +5,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DetectedAssetDatasetSchemaElement
 {
-    public List<DetectedAssetDataPointSchemaElement>? DataPoints { get; set; } = default;
+    public List<DetectedAssetDataPointSchemaElement>? DataPoints { get; set; }
 
-    public string? DataSetConfiguration { get; set; } = default;
+    public string? DataSetConfiguration { get; set; }
 
-    public string? Name { get; set; } = default;
+    public required string Name { get; set; }
 
-    public Topic? Topic { get; set; } = default;
+    public Topic? Topic { get; set; }
 }

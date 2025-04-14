@@ -5,9 +5,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record MessageSchemaReference
 {
-    public string? SchemaName { get; set; } = default;
+    public required string SchemaName { get; set; }
 
-    public string? SchemaNamespace { get; set; } = default;
+    public required string SchemaRegistryNamespace { get; set; }
 
-    public string? SchemaVersion { get; set; } = default;
+    public required string SchemaVersion { get; set; }
 }

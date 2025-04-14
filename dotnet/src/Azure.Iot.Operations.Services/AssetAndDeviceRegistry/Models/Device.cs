@@ -12,5 +12,5 @@ public record Device
     /// <summary>
     /// The 'status' Field.
     /// </summary>
-    public DeviceStatus? Status { get; set; } = default;
+    public DeviceStatus? Status { get; set; }
 }

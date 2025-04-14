@@ -5,11 +5,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DetailsSchemaElement
 {
-    public string? Code { get; set; } = default;
+    public string? Code { get; set; }
 
-    public string? CorrelationId { get; set; } = default;
+    public string? CorrelationId { get; set; }
 
-    public string? Info { get; set; } = default;
+    public string? Info { get; set; }
 
-    public string? Message { get; set; } = default;
+    public string? Message { get; set; }
 }

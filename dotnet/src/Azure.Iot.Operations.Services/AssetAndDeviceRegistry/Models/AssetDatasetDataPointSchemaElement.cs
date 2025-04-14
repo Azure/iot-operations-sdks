@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetDataPointSchemaElement
+public record AssetDatasetDataPointSchemaElement
 {
     public string? DataPointConfiguration { get; set; }
 
@@ -11,5 +11,5 @@ public record AssetDataPointSchemaElement
 
     public string? Name { get; set; }
 
-    public AssetDataPointObservabilityMode? ObservabilityMode { get; set; }
+    public string? TypeRef { get; set; }
 }

@@ -5,13 +5,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DetectedAssetEventSchemaElement
 {
-    public string? EventConfiguration { get; set; } = default;
+    public string? EventConfiguration { get; set; }
 
-    public string? EventNotifier { get; set; } = default;
+    public string? EventNotifier { get; set; }
 
-    public string? LastUpdatedOn { get; set; } = default;
+    public string? LastUpdatedOn { get; set; }
 
-    public string? Name { get; set; } = default;
+    public required string Name { get; set; }
 
-    public Topic? Topic { get; set; } = default;
+    public Topic? Topic { get; set; }
 }
