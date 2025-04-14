@@ -88,7 +88,7 @@ namespace Azure.Iot.Operations.Services.Assets
 
             string? aepUsernameSecretFileContents = GetAepUsernameDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepUsernameDirectory()}/{_aepUsernameSecretName}") : null;
             byte[]? aepPasswordSecretFileContents = GetAepPasswordDirectory() != null ? await GetMountedConfigurationValueAsync($"{GetAepPasswordDirectory()}/{_aepPasswordSecretName}") : null;
-            string? aepCertFileContents = GetAepCertDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepCertDirectory()}/{_aepCertificateSecretName}"): null;
+            string? aepCertFileContents = GetAepCertDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepCertDirectory()}/{_aepCertificateSecretName}") : null;
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
@@ -124,8 +124,8 @@ namespace Azure.Iot.Operations.Services.Assets
 
             if (_assetFilesObserver == null)
             {
-                _assetFilesObserver = new(GetAssetDirectory());
-                _assetFilesObserver.OnFileChanged += OnAssetFileCreatedOrDeleted;
+                _assetFilesObserver = new(GetAssetDirectory, pollingInterval);
+                _assetFilesObserver.OnFileChanged += OnAssetFileChanged;
                 _assetFilesObserver.Start();
             }
         }
@@ -138,7 +138,7 @@ namespace Azure.Iot.Operations.Services.Assets
             if (_assetFilesObserver != null)
             {
                 _assetFilesObserver.Stop();
-                _assetFilesObserver.OnFileChanged -= OnAssetFileCreatedOrDeleted;
+                _assetFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetFilesObserver = null;
             }
         }
@@ -152,19 +152,19 @@ namespace Azure.Iot.Operations.Services.Assets
             {
                 // Asset endpoint profile files live in a few different directories, so several file directory observers
                 // are needed
-                _assetEndpointProfileConfigFilesObserver = new(GetAssetEndpointProfileConfigDirectory());
+                _assetEndpointProfileConfigFilesObserver = new(GetAssetEndpointProfileConfigDirectory, pollingInterval);
                 _assetEndpointProfileConfigFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 _assetEndpointProfileConfigFilesObserver.Start();
 
-                _assetEndpointProfileUsernameSecretFilesObserver = new(GetAepUsernameDirectory());
+                _assetEndpointProfileUsernameSecretFilesObserver = new(GetAepUsernameDirectory, pollingInterval);
                 _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 _assetEndpointProfileUsernameSecretFilesObserver.Start();
 
-                _assetEndpointProfilePasswordSecretFilesObserver = new(GetAepPasswordDirectory());
+                _assetEndpointProfilePasswordSecretFilesObserver = new(GetAepPasswordDirectory, pollingInterval);
                 _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 _assetEndpointProfilePasswordSecretFilesObserver.Start();
 
-                _assetEndpointProfileCertificateSecretFilesObserver = new(GetAepCertDirectory());
+                _assetEndpointProfileCertificateSecretFilesObserver = new(GetAepCertDirectory, pollingInterval);
                 _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged += OnAssetEndpointProfileFileChanged;
                 _assetEndpointProfileCertificateSecretFilesObserver.Start();
             }
@@ -178,28 +178,28 @@ namespace Azure.Iot.Operations.Services.Assets
             if (_assetEndpointProfileConfigFilesObserver != null)
             {
                 _assetEndpointProfileConfigFilesObserver.Start();
-                _assetEndpointProfileConfigFilesObserver.OnFileChanged -= OnAssetEndpointProfileFileChanged;
+                _assetEndpointProfileConfigFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfileConfigFilesObserver = null;
             }
 
             if (_assetEndpointProfileUsernameSecretFilesObserver != null)
             {
                 _assetEndpointProfileUsernameSecretFilesObserver!.Start();
-                _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged -= OnAssetEndpointProfileFileChanged;
+                _assetEndpointProfileUsernameSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfileUsernameSecretFilesObserver = null;
             }
 
             if (_assetEndpointProfilePasswordSecretFilesObserver != null)
             {
                 _assetEndpointProfilePasswordSecretFilesObserver!.Start();
-                _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged -= OnAssetEndpointProfileFileChanged;
+                _assetEndpointProfilePasswordSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfilePasswordSecretFilesObserver = null;
             }
 
             if (_assetEndpointProfileCertificateSecretFilesObserver != null)
             {
                 _assetEndpointProfileCertificateSecretFilesObserver!.Stop();
-                _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged -= OnAssetEndpointProfileFileChanged;
+                _assetEndpointProfileCertificateSecretFilesObserver.OnFileChanged -= OnAssetFileChanged;
                 _assetEndpointProfileCertificateSecretFilesObserver = null;
             }
         }
@@ -238,7 +238,7 @@ namespace Azure.Iot.Operations.Services.Assets
             });
         }
 
-        private void OnAssetFileCreatedOrDeleted(object? sender, FileChangedEventArgs e)
+        private void OnAssetFileChanged(object? sender, FileChangedEventArgs e)
         {
             _ = Task.Run(async () =>
             {
