@@ -4,6 +4,7 @@
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Protocol.Connection;
 
 namespace Azure.Iot.Operations.Connector

@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Azure.Iot.Operations.Connector
+namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
     public class MqttConnectionConfiguration
     {
