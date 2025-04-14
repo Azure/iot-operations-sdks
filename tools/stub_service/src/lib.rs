@@ -147,6 +147,7 @@ impl OutputDirectoryManager {
         &self,
         service_name: &str,
         size_limit: u64,
+        logging_partner: &str,
     ) -> RollingFileAppender {
         let service_log_dir = Path::new(&self.output_stub_service_path)
             .join(service_name)
@@ -163,7 +164,7 @@ impl OutputDirectoryManager {
 
         RollingFileAppender::builder()
             .append(true)
-            .encoder(Box::new(PatternEncoder::new("{d} - {m}{n}"))) // TODO: Improve logger format
+            .encoder(Box::new(PatternEncoder::new(logging_partner)))
             .build(
                 service_log_dir
                     .join("log.log")
