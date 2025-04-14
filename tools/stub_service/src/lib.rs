@@ -25,7 +25,15 @@ use azure_iot_operations_mqtt::{
     MqttConnectionSettingsBuilder,
     session::{Session, SessionOptionsBuilder},
 };
-use log4rs::{append::file::FileAppender, encode::pattern::PatternEncoder};
+use log4rs::{
+    append::rolling_file::{
+        RollingFileAppender,
+        policy::compound::{
+            CompoundPolicy, roll::delete::DeleteRoller, trigger::size::SizeTrigger,
+        },
+    },
+    encode::pattern::PatternEncoder,
+};
 
 /// Module for the schema registry stub service.
 pub mod schema_registry;
@@ -128,10 +136,16 @@ impl OutputDirectoryManager {
         ServiceStateOutputManager::new(String::new())
     }
 
-    /// Creates a new [`FileAppender`] for the given service name and returns it.
+    /// Creates a new [`RollingFileAppender`] for the given service name and returns it.
     ///
-    /// The appender is configured to append logs to a file in the service's log directory.
-    pub fn create_new_service_log_appender(&self, service_name: &str) -> FileAppender {
+    /// The appender is configured to append logs to a file in the service's log directory with a
+    /// rolling policy based on size.
+    #[cfg(feature = "enable-output")]
+    pub fn create_new_service_log_appender(
+        &self,
+        service_name: &str,
+        size_limit: u64,
+    ) -> RollingFileAppender {
         let service_log_dir = Path::new(&self.output_stub_service_path)
             .join(service_name)
             .join("logs"); // Directory for service logs
@@ -139,14 +153,21 @@ impl OutputDirectoryManager {
         std::fs::create_dir_all(Path::new(&service_log_dir))
             .expect("Failed to create service directory");
 
-        FileAppender::builder()
+        // Create a policy for rolling the log file based on size
+        let compound_policy = CompoundPolicy::new(
+            Box::new(SizeTrigger::new(size_limit)),
+            Box::new(DeleteRoller::new()),
+        );
+
+        RollingFileAppender::builder()
             .append(true)
-            .encoder(Box::new(PatternEncoder::new("{d} - {m}{n}")))
+            .encoder(Box::new(PatternEncoder::new("{d} - {m}{n}"))) // TODO: Improve logger format
             .build(
                 service_log_dir
                     .join("log.log")
                     .to_str()
                     .expect("Created path is valid"),
+                Box::new(compound_policy),
             )
             .expect("Creating file appender should not fail")
     }

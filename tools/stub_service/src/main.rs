@@ -14,12 +14,14 @@ use stub_service::{
     schema_registry::{self},
 };
 
+const LOGGING_FILE_SIZE: u64 = 1024 * 1024 * 10; // 10 MB
+
 /// Helper function to initialize the logger for the stub service.
 #[cfg(feature = "enable-output")]
 fn initialize_logger(output_directory_manager: &OutputDirectoryManager) {
     // Create a file appender for the schema registry service
-    let sr_appender =
-        output_directory_manager.create_new_service_log_appender(schema_registry::SERVICE_NAME);
+    let sr_appender = output_directory_manager
+        .create_new_service_log_appender(schema_registry::SERVICE_NAME, LOGGING_FILE_SIZE);
 
     // Create config for logger
     let config = Config::builder()
