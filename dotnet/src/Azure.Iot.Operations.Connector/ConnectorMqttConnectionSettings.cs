@@ -68,15 +68,21 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            return new MqttConnectionSettings(connectorMqttConfig.Host, clientId)
+            return new MqttConnectionSettings(hostname, clientId)
             {
+                KeepAlive = TimeSpan.FromSeconds(connectorMqttConfig.KeepAliveSeconds),
                 UseTls = useTls,
                 SatAuthFile = brokerSatMountPath, // May be null if no SAT auth is used.
                 TrustChain = chain,
                 SessionExpiry = TimeSpan.FromSeconds(connectorMqttConfig.SessionExpirySeconds),
-                //TODO maxInFlight unused
+                //TODO maxInFlight and others unused
                 TcpPort = port
             };
+        }
+
+        private ConnectorMqttConnectionSettings()
+        {
+            // Users won't construct this class
         }
     }
 }

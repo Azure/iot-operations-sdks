@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Connector
         [JsonPropertyName("host")]
         public required string Host { get; set; }
 
-        [JsonPropertyName("KeepAliveSeconds")]
+        [JsonPropertyName("keepAliveSeconds")]
         public required int KeepAliveSeconds { get; set; }
 
         [JsonPropertyName("maxInflightMessages")]
