@@ -1,12 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -28,9 +23,9 @@ namespace Azure.Iot.Operations.Connector
         public required int SessionExpirySeconds { get; set; }
 
         [JsonPropertyName("authentication")]
-        public required MqttConnectionConfigurationAuthentication Authentication { get; set; }
+        public MqttConnectionConfigurationAuthentication? Authentication { get; set; }
 
         [JsonPropertyName("tls")]
-        public required MqttConnectionConfigurationTls Tls { get; set; }
+        public MqttConnectionConfigurationTls? Tls { get; set; }
     }
 }
