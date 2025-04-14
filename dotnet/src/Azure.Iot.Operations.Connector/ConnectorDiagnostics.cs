@@ -8,6 +8,6 @@ namespace Azure.Iot.Operations.Connector
     public class ConnectorDiagnostics
     {
         [JsonPropertyName("logs")]
-        public required AioDiagnosticsLogs Logs { get; set; }
+        public required ConnectorDiagnosticsLogs Logs { get; set; }
     }
 }

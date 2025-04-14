@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Connector
 
             bool useTls = false;
             X509Certificate2Collection chain = [];
-            if (connectorMqttConfig.Tls != null || connectorMqttConfig.Tls.Mode != null) // TODO or is mode set to none?
+            if (connectorMqttConfig.Tls != null && connectorMqttConfig.Tls.Mode != null) // TODO or is mode set to none?
             {
                 useTls = true;
 
