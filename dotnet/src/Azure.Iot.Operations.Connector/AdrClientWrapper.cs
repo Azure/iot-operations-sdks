@@ -27,15 +27,15 @@ namespace Azure.Iot.Operations.Connector
             _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
             _client.OnReceiveAssetEndpointProfileUpdateTelemetry += AssetEndpointProfileUpdateReceived;
             _monitor = new AssetFileMonitor();
-            _monitor.AssetEndpointProfileCreated += AssetEndpointProfileFileCreated;
-            _monitor.AssetEndpointProfileDeleted += AssetEndpointProfileFileDeleted;
+            _monitor.DeviceCreated += AssetEndpointProfileFileCreated;
+            _monitor.DeviceDeleted += AssetEndpointProfileFileDeleted;
             _monitor.AssetCreated += AssetFileCreated;
             _monitor.AssetDeleted += AssetFileDeleted;
         }
 
         public void ObserveAssetEndpointProfiles()
         {
-            _monitor.ObserveAssetEndpointProfiles();
+            _monitor.ObserveDevices();
         }
 
         public void ObserveAssets(string aepName)
@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Connector
 
         public void UnobserveAssetEndpointProfiles()
         {
-            _monitor.UnobserveAssetEndpointProfiles();
+            _monitor.UnobserveDevices();
             //_client.UnobserveAssetEndpointProfileUpdatesAsync(); //TODO all at once or one AEP name at a time?
         }
 
@@ -116,13 +116,13 @@ namespace Azure.Iot.Operations.Connector
             //TODO what if response is negative?
         }
 
-        private void AssetEndpointProfileFileDeleted(object? sender, AssetEndpointProfileDeletedEventArgs e)
+        private void AssetEndpointProfileFileDeleted(object? sender, DeviceDeletedEventArgs e)
         {
             _client.UnobserveAssetEndpointProfileUpdatesAsync(e.AssetEndpointProfileName);
             AssetEndpointProfileChanged?.Invoke(this, new(e.AssetEndpointProfileName, ChangeType.Deleted, null));
         }
 
-        private async void AssetEndpointProfileFileCreated(object? sender, AssetEndpointProfileCreatedEventArgs e)
+        private async void AssetEndpointProfileFileCreated(object? sender, DeviceCreatedEventArgs e)
         {
             var notificationResponse = await _client.ObserveAssetEndpointProfileUpdatesAsync(e.AssetEndpointProfileName);
 

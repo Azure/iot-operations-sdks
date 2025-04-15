@@ -6,16 +6,18 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
     internal class FilesMonitor
     {
         private readonly string _directory;
+        private readonly string? _fileName;
 
-        private FileSystemWatcher? _directoryWatcher;
+        private FileSystemWatcher? _watcher;
 
         internal event EventHandler<FileChangedEventArgs>? OnFileChanged;
 
         private bool _startedObserving = false;
 
-        internal FilesMonitor(string directory)
+        internal FilesMonitor(string directory, string? fileName)
         {
             _directory = directory;
+            _fileName = fileName;
         }
 
         internal void Start()
@@ -27,7 +29,7 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
 
             _startedObserving = true;
 
-            _directoryWatcher = new FileSystemWatcher(_directory)
+            _watcher = new FileSystemWatcher(_directory)
             {
                 NotifyFilter = NotifyFilters.Attributes
                                      | NotifyFilters.CreationTime
@@ -38,11 +40,17 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
                                      | NotifyFilters.Size
             };
 
-            _directoryWatcher.Created += OnChanged;
-            _directoryWatcher.Changed += OnChanged;
-            _directoryWatcher.Deleted += OnChanged;
-            _directoryWatcher.IncludeSubdirectories = false; //TODO separate watchers for AEP level changes and Asset level changes, right?
-            _directoryWatcher.EnableRaisingEvents = true;
+            if (_fileName != null)
+            {
+                // Watch only this file in the directory
+                _watcher.Filter = _fileName;
+            }
+
+            _watcher.Created += OnChanged;
+            _watcher.Changed += OnChanged;
+            _watcher.Deleted += OnChanged;
+            _watcher.IncludeSubdirectories = false;
+            _watcher.EnableRaisingEvents = true;
         }
 
         private void OnChanged(object sender, FileSystemEventArgs e)
@@ -52,7 +60,7 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
 
         internal void Stop()
         {
-            _directoryWatcher?.Dispose();
+            _watcher?.Dispose();
             _startedObserving = false;
         }
     }

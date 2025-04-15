@@ -3,11 +3,11 @@
 
 namespace Azure.Iot.Operations.Services.Assets
 {
-    public class AssetEndpointProfileDeletedEventArgs : EventArgs
+    public class DeviceDeletedEventArgs : EventArgs
     {
         public string AssetEndpointProfileName { get; set; }
 
-        internal AssetEndpointProfileDeletedEventArgs(string name)
+        internal DeviceDeletedEventArgs(string name)
         {
             AssetEndpointProfileName = name;
         }

@@ -15,13 +15,10 @@ namespace Azure.Iot.Operations.Services.Assets
 
         public string AssetName { get; set; }
 
-        public Asset Asset { get; set; }
-
-        internal AssetCreatedEventArgs(string assetEndpointProfileName, string assetName, Asset asset)
+        internal AssetCreatedEventArgs(string assetEndpointProfileName, string assetName)
         {
             AssetEndpointProfileName = assetEndpointProfileName;
             AssetName = assetName;
-            Asset = asset;
         }
     }
 }

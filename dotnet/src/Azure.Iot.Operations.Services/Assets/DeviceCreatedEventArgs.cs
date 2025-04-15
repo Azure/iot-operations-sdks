@@ -6,16 +6,13 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.Assets
 {
-    public class AssetEndpointProfileCreatedEventArgs : EventArgs
+    public class DeviceCreatedEventArgs : EventArgs
     {
         public string AssetEndpointProfileName { get; set; }
 
-        public AssetEndpointProfile AssetEndpointProfile { get; set; }
-
-        internal AssetEndpointProfileCreatedEventArgs(string name, AssetEndpointProfile assetEndpointProfile)
+        internal DeviceCreatedEventArgs(string name)
         {
             AssetEndpointProfileName = name;
-            AssetEndpointProfile = assetEndpointProfile;
         }
     }
 }

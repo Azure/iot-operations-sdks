@@ -10,8 +10,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
     {
         public event EventHandler<AssetCreatedEventArgs>? AssetCreated;
         public event EventHandler<AssetDeletedEventArgs>? AssetDeleted;
-        public event EventHandler<AssetEndpointProfileCreatedEventArgs>? AssetEndpointProfileCreated;
-        public event EventHandler<AssetEndpointProfileDeletedEventArgs>? AssetEndpointProfileDeleted;
+        public event EventHandler<DeviceCreatedEventArgs>? DeviceCreated;
+        public event EventHandler<DeviceDeletedEventArgs>? DeviceDeleted;
 
         public List<string> AssetEndpointProfileNames { get; set; } = new();
 
@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             if (_isObservingAssetEndpointProfiles)
             {
-                AssetEndpointProfileCreated?.Invoke(this, new(aep.Name, aep));
+                DeviceCreated?.Invoke(this, new(aep.Name, aep));
             }
         }
 
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             if (_isObservingAssetEndpointProfiles)
             {
-                AssetEndpointProfileDeleted?.Invoke(this, new(aepName));
+                DeviceDeleted?.Invoke(this, new(aepName));
             }
         }
 
@@ -53,7 +53,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             }
         }
 
-        public List<string> GetAssetEndpointProfileNames()
+        public List<string> GetDeviceNames()
         {
             return AssetEndpointProfileNames;
         }
@@ -68,12 +68,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             _observedAssetEndpointProfileAssetNames.Add(aepName);
         }
 
-        public void ObserveAssetEndpointProfiles()
+        public void ObserveDevices()
         {
             _isObservingAssetEndpointProfiles = true;
         }
 
-        public void UnobserveAssetEndpointProfiles()
+        public void UnobserveDevices()
         {
             _isObservingAssetEndpointProfiles = false;
         }
