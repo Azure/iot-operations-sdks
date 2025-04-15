@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
     {
         public PollingTelemetryConnectorWorkerTests()
         {
-            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./TestMountFiles/ConnectorConfigNoAuthNoTls");
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./connector-config-no-auth-no-tls");
             Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, "someClientId");
         }
 
