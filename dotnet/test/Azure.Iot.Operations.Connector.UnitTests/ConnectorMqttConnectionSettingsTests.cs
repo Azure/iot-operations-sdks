@@ -8,6 +8,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 {
     public class ConnectorMqttConnectionSettingsTests
     {
+        public ConnectorMqttConnectionSettingsTests()
+        {
+            // Clear the environment variables before each test runs
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, null);
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerTrustBundleMountPathEnvVar, null);
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerSatMountPathEnvVar, null);
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, null);
+        }
+
         [Fact]
         public void TestConstructorWithAuthAndTls()
         {
