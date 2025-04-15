@@ -3,14 +3,10 @@
 
 //!Azure Device Registry Client that uses file mount to get names and create/delete notifications.
 
-use notify::{Config, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
-use std::fs::File;
+use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
-use std::time::Duration;
-use tokio::sync::mpsc;
-use tokio::sync::mpsc::Receiver;
-use tokio_stream::{Stream, StreamExt};
+use tokio_stream::Stream;
 /// A client that interacts with the file mount
 ///
 /// This client provides functionality to retrieve device names and handle
@@ -46,7 +42,7 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A `Result` containing the initialized `FileMountClient` or a `FileMountError`.
-    pub async fn new(mount_path_env_var: &str) -> Result<Self, FileMountError> {
+    pub fn new(mount_path_env_var: &str) -> Result<Self, FileMountError> {
         let mount_path = PathBuf::from(mount_path_env_var);
         let watcher = notify::recommended_watcher(|_| {}).map_err(FileMountError::NotifyError)?;
         Ok(Self {
@@ -59,15 +55,15 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A vector of device names as strings.
-    pub async fn get_device_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
+    pub fn get_device_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
         Ok(vec![])
     }
 
     /// Get names of all available assets from the monitored device.
     ///
     /// # Returns
-    /// Get names of all available assets from the monitored directory
-    pub async fn get_asset_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
+    ///  names of all available assets from the monitored directory
+    pub fn get_asset_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
         Ok(vec![])
     }
 
@@ -75,7 +71,7 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A stream of `DeviceEndpoint` items representing newly created device endpoints.
-    pub async fn observe_device_endpoint_create(
+    pub fn observe_device_endpoint_create(
         &self,
     ) -> Result<impl Stream<Item = DeviceEndpoint> + Send + 'static, FileMountError> {
         // Monitor directory for new files
@@ -89,7 +85,7 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A stream of `DeviceEndpoint` items representing removed device endpoints.
-    pub async fn observe_device_endpoint_delete(
+    pub fn observe_device_endpoint_delete(
         &self,
     ) -> Result<impl Stream<Item = DeviceEndpoint> + Send + 'static, FileMountError> {
         // Monitor directory for deleted files
@@ -106,7 +102,7 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A stream of `Asset` items representing newly created assets.
-    pub async fn observe_asset_create(
+    pub fn observe_asset_create(
         &self,
         _device: &str,
         _endpoint: &str,
@@ -125,7 +121,7 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A stream of `Asset` items representing removed assets.
-    pub async fn observe_asset_delete(
+    pub fn observe_asset_delete(
         &self,
         _device: &str,
         _endpoint: &str,
