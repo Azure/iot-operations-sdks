@@ -74,21 +74,29 @@ func WithLogger(logger *slog.Logger) ClientOption {
 }
 
 // WithAssetUpdateHandler sets a handler for asset update events.
-func WithAssetUpdateHandler(handler func(aepName string, asset *Asset) error) ClientOption {
+func WithAssetUpdateHandler(
+	handler func(aepName string, asset *Asset) error,
+) ClientOption {
 	return func(c *Client) {
 		c.onAssetUpdate = handler
 	}
 }
 
 // WithAepUpdateHandler sets a handler for asset endpoint profile update events.
-func WithAepUpdateHandler(handler func(aepName string, profile *AssetEndpointProfile) error) ClientOption {
+func WithAepUpdateHandler(
+	handler func(aepName string, profile *AssetEndpointProfile) error,
+) ClientOption {
 	return func(c *Client) {
 		c.onAepUpdate = handler
 	}
 }
 
 // New creates a new ADR client.
-func New(app *protocol.Application, client protocol.MqttClient, opts ...ClientOption) (*Client, error) {
+func New(
+	app *protocol.Application,
+	client protocol.MqttClient,
+	opts ...ClientOption,
+) (*Client, error) {
 	notifyInvoker, err := adrbaseservice.NewNotifyOnAssetEndpointProfileUpdateCommandInvoker(
 		app,
 		client,
@@ -154,8 +162,15 @@ func (c *Client) Start(ctx context.Context) error {
 }
 
 // ObserveAssetEndpointProfileUpdates starts observation of asset endpoint profile updates.
-func (c *Client) ObserveAssetEndpointProfileUpdates(ctx context.Context, aepName string) (*NotificationResponse, error) {
-	c.logger.Debug("Observing asset endpoint profile updates", "aepName", aepName)
+func (c *Client) ObserveAssetEndpointProfileUpdates(
+	ctx context.Context,
+	aepName string,
+) (*NotificationResponse, error) {
+	c.logger.Debug(
+		"Observing asset endpoint profile updates",
+		"aepName",
+		aepName,
+	)
 
 	req := adrbaseservice.NotifyOnAssetEndpointProfileUpdateRequestPayload{
 		NotificationRequest: adrbaseservice.On,
@@ -182,8 +197,15 @@ func (c *Client) ObserveAssetEndpointProfileUpdates(ctx context.Context, aepName
 }
 
 // UnobserveAssetEndpointProfileUpdates stops observation of asset endpoint profile updates.
-func (c *Client) UnobserveAssetEndpointProfileUpdates(ctx context.Context, aepName string) (*NotificationResponse, error) {
-	c.logger.Debug("Unobserving asset endpoint profile updates", "aepName", aepName)
+func (c *Client) UnobserveAssetEndpointProfileUpdates(
+	ctx context.Context,
+	aepName string,
+) (*NotificationResponse, error) {
+	c.logger.Debug(
+		"Unobserving asset endpoint profile updates",
+		"aepName",
+		aepName,
+	)
 
 	req := adrbaseservice.NotifyOnAssetEndpointProfileUpdateRequestPayload{
 		NotificationRequest: adrbaseservice.Off,
@@ -210,8 +232,17 @@ func (c *Client) UnobserveAssetEndpointProfileUpdates(ctx context.Context, aepNa
 }
 
 // ObserveAssetUpdates starts observation of asset updates.
-func (c *Client) ObserveAssetUpdates(ctx context.Context, aepName, assetName string) (*NotificationResponse, error) {
-	c.logger.Debug("Observing asset updates", "aepName", aepName, "assetName", assetName)
+func (c *Client) ObserveAssetUpdates(
+	ctx context.Context,
+	aepName, assetName string,
+) (*NotificationResponse, error) {
+	c.logger.Debug(
+		"Observing asset updates",
+		"aepName",
+		aepName,
+		"assetName",
+		assetName,
+	)
 
 	req := adrbaseservice.NotifyOnAssetUpdateRequestPayload{
 		NotificationRequest: adrbaseservice.NotifyOnAssetUpdateRequestSchema{
@@ -243,8 +274,17 @@ func (c *Client) ObserveAssetUpdates(ctx context.Context, aepName, assetName str
 }
 
 // UnobserveAssetUpdates stops observation of asset updates.
-func (c *Client) UnobserveAssetUpdates(ctx context.Context, aepName, assetName string) (*NotificationResponse, error) {
-	c.logger.Debug("Unobserving asset updates", "aepName", aepName, "assetName", assetName)
+func (c *Client) UnobserveAssetUpdates(
+	ctx context.Context,
+	aepName, assetName string,
+) (*NotificationResponse, error) {
+	c.logger.Debug(
+		"Unobserving asset updates",
+		"aepName",
+		aepName,
+		"assetName",
+		assetName,
+	)
 
 	req := adrbaseservice.NotifyOnAssetUpdateRequestPayload{
 		NotificationRequest: adrbaseservice.NotifyOnAssetUpdateRequestSchema{
@@ -275,7 +315,10 @@ func (c *Client) UnobserveAssetUpdates(ctx context.Context, aepName, assetName s
 }
 
 // GetAssetEndpointProfile retrieves an asset endpoint profile by name.
-func (c *Client) GetAssetEndpointProfile(ctx context.Context, aepName string) (*AssetEndpointProfile, error) {
+func (c *Client) GetAssetEndpointProfile(
+	ctx context.Context,
+	aepName string,
+) (*AssetEndpointProfile, error) {
 	c.logger.Debug("Getting asset endpoint profile", "aepName", aepName)
 
 	tokens := map[string]string{
@@ -294,7 +337,11 @@ func (c *Client) GetAssetEndpointProfile(ctx context.Context, aepName string) (*
 }
 
 // UpdateAssetEndpointProfileStatus updates the status of an asset endpoint profile.
-func (c *Client) UpdateAssetEndpointProfileStatus(ctx context.Context, aepName string, status *AssetEndpointProfileStatus) (*AssetEndpointProfile, error) {
+func (c *Client) UpdateAssetEndpointProfileStatus(
+	ctx context.Context,
+	aepName string,
+	status *AssetEndpointProfileStatus,
+) (*AssetEndpointProfile, error) {
 	c.logger.Debug("Updating asset endpoint profile status", "aepName", aepName)
 
 	req := adrbaseservice.UpdateAssetEndpointProfileStatusRequestPayload{
@@ -318,7 +365,10 @@ func (c *Client) UpdateAssetEndpointProfileStatus(ctx context.Context, aepName s
 }
 
 // GetAsset retrieves an asset by name.
-func (c *Client) GetAsset(ctx context.Context, aepName, assetName string) (*Asset, error) {
+func (c *Client) GetAsset(
+	ctx context.Context,
+	aepName, assetName string,
+) (*Asset, error) {
 	c.logger.Debug("Getting asset", "aepName", aepName, "assetName", assetName)
 
 	req := adrbaseservice.GetAssetRequestPayload{
@@ -343,8 +393,19 @@ func (c *Client) GetAsset(ctx context.Context, aepName, assetName string) (*Asse
 }
 
 // UpdateAssetStatus updates the status of an asset.
-func (c *Client) UpdateAssetStatus(ctx context.Context, aepName string, asset *Asset) (*Asset, error) {
-	c.logger.Debug("Updating asset status", "aepName", aepName, "assetName", asset.Name, asset.Status)
+func (c *Client) UpdateAssetStatus(
+	ctx context.Context,
+	aepName string,
+	asset *Asset,
+) (*Asset, error) {
+	c.logger.Debug(
+		"Updating asset status",
+		"aepName",
+		aepName,
+		"assetName",
+		asset.Name,
+		asset.Status,
+	)
 
 	req := adrbaseservice.UpdateAssetStatusRequestPayload{
 		AssetStatusUpdate: adrbaseservice.UpdateAssetStatusRequestSchema{
@@ -370,7 +431,11 @@ func (c *Client) UpdateAssetStatus(ctx context.Context, aepName string, asset *A
 }
 
 // CreateDetectedAsset creates a detected asset.
-func (c *Client) CreateDetectedAsset(ctx context.Context, aepName string, asset *DetectedAsset) (*adrbaseservice.CreateDetectedAssetResponsePayload, error) {
+func (c *Client) CreateDetectedAsset(
+	ctx context.Context,
+	aepName string,
+	asset *DetectedAsset,
+) (*adrbaseservice.CreateDetectedAssetResponsePayload, error) {
 	req := adrbaseservice.CreateDetectedAssetRequestPayload{
 		DetectedAsset: *asset,
 	}
@@ -391,8 +456,16 @@ func (c *Client) CreateDetectedAsset(ctx context.Context, aepName string, asset 
 }
 
 // CreateDiscoveredAssetEndpointProfile creates a discovered asset endpoint profile.
-func (c *Client) CreateDiscoveredAssetEndpointProfile(ctx context.Context, aepName string, profile *DiscoveredAssetEndpointProfile) (*aeptypeservice.CreateDiscoveredAssetEndpointProfileResponsePayload, error) {
-	c.logger.Debug("Creating discovered asset endpoint profile", "aepName", aepName)
+func (c *Client) CreateDiscoveredAssetEndpointProfile(
+	ctx context.Context,
+	aepName string,
+	profile *DiscoveredAssetEndpointProfile,
+) (*aeptypeservice.CreateDiscoveredAssetEndpointProfileResponsePayload, error) {
+	c.logger.Debug(
+		"Creating discovered asset endpoint profile",
+		"aepName",
+		aepName,
+	)
 
 	req := aeptypeservice.CreateDiscoveredAssetEndpointProfileRequestPayload{
 		DiscoveredAssetEndpointProfile: *profile,
@@ -415,7 +488,10 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(ctx context.Context, aepNa
 }
 
 // handleAssetUpdateTelemetry processes asset update telemetry messages.
-func (c *Client) handleAssetUpdateTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[Asset]) error {
+func (c *Client) handleAssetUpdateTelemetry(
+	ctx context.Context,
+	msg *protocol.TelemetryMessage[Asset],
+) error {
 	if c.onAssetUpdate == nil {
 		msg.Ack()
 		return nil
@@ -430,14 +506,21 @@ func (c *Client) handleAssetUpdateTelemetry(ctx context.Context, msg *protocol.T
 }
 
 // handleAepUpdateTelemetry processes asset endpoint profile update telemetry messages.
-func (c *Client) handleAepUpdateTelemetry(ctx context.Context, msg *protocol.TelemetryMessage[AssetEndpointProfile]) error {
+func (c *Client) handleAepUpdateTelemetry(
+	ctx context.Context,
+	msg *protocol.TelemetryMessage[AssetEndpointProfile],
+) error {
 	if c.onAepUpdate == nil {
 		msg.Ack()
 		return nil
 	}
 
 	aepName := msg.TopicTokens[aepNameTokenKey]
-	c.logger.Debug("Received asset endpoint profile update telemetry", "aepName", aepName)
+	c.logger.Debug(
+		"Received asset endpoint profile update telemetry",
+		"aepName",
+		aepName,
+	)
 
 	err := c.onAepUpdate(aepName, &msg.Payload)
 	msg.Ack()
