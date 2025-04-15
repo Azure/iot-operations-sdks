@@ -87,7 +87,7 @@ jobs:
         cargo fmt --verbose --all
 
     - name: Verify Stub Service
-      working-directory: tools/azure_iot_operations_stub_service
+      working-directory: tools/azure_iot_operations_stub_services
       run:
         source ../../rust/ci/build-deps.sh
         cargo clippy --all-features
