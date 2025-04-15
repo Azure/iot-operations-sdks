@@ -3,6 +3,7 @@
 
 [workspace]
 members = [
+  "azure_iot_operations_connector",
   "azure_iot_operations_mqtt",
   "azure_iot_operations_protocol",
   "azure_iot_operations_services",
