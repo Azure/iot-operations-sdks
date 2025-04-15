@@ -23,8 +23,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedClientId = Guid.NewGuid().ToString();
             string expectedSatPath = Guid.NewGuid().ToString();
 
-            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./TestMountFiles/ConnectorConfig");
-            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerTrustBundleMountPathEnvVar, "./TestMountFiles/TrustBundle");
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./connector-config");
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerTrustBundleMountPathEnvVar, "./trust-bundle");
             Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerSatMountPathEnvVar, expectedSatPath);
             Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, expectedClientId);
 
@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedClientId = Guid.NewGuid().ToString();
             string expectedSatPath = Guid.NewGuid().ToString();
 
-            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./TestMountFiles/ConnectorConfigNoAuthNoTls");
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./connector-config-no-auth-no-tls");
             Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, expectedClientId);
 
             MqttConnectionSettings settings = ConnectorMqttConnectionSettings.FromFileMount();
