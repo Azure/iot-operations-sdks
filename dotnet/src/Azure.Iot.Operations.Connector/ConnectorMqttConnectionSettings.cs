@@ -64,12 +64,19 @@ namespace Azure.Iot.Operations.Connector
                 {
                     if (!Directory.Exists(brokerTrustBundleMountPath))
                     {
-                        throw new InvalidOperationException("Expected one or more files in trust bundle mount path, but none were found.");
+                        throw new InvalidOperationException("Expected one or more files in trust bundle mount path, but the path was not found.");
                     }
 
+                    bool atLeastOneCaFileFound = false;
                     foreach (string caFilePath in Directory.EnumerateFiles(brokerTrustBundleMountPath))
                     {
+                        atLeastOneCaFileFound = true;
                         chain.ImportFromPemFile(caFilePath);
+                    }
+
+                    if (!atLeastOneCaFileFound)
+                    {
+                        throw new InvalidOperationException("Expected one or more files in trust bundle mount path, but none were found in the path.");
                     }
                 }
             }
@@ -86,7 +93,6 @@ namespace Azure.Iot.Operations.Connector
             if (connectorMqttConfig.SessionExpirySeconds != null)
             {
                 mqttConnectionSettings.SessionExpiry = TimeSpan.FromSeconds(connectorMqttConfig.SessionExpirySeconds.Value);
-
             }
             if (connectorMqttConfig.KeepAliveSeconds != null)
             {

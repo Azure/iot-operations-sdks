@@ -63,5 +63,34 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Assert.NotNull(settings.TrustChain);
             Assert.Empty(settings.TrustChain);
         }
+
+        [Fact]
+        public void TestConstructorThrowsIfNoConnectorConfigEnvVarSet()
+        {
+            string expectedClientId = Guid.NewGuid().ToString();
+
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, expectedClientId);
+
+            Assert.Throws<InvalidOperationException>(() => ConnectorMqttConnectionSettings.FromFileMount());
+        }
+
+        [Fact]
+        public void TestConstructorThrowsIfNoTlsConfiguredButNoCaCert()
+        {
+            string expectedClientId = Guid.NewGuid().ToString();
+
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./connector-config");
+            string emptyDirectoryPath = "./" + Guid.NewGuid().ToString();
+            Directory.CreateDirectory(emptyDirectoryPath); // Create some empty directory
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerTrustBundleMountPathEnvVar, emptyDirectoryPath);
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerSatMountPathEnvVar, "someSatPath");
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, expectedClientId);
+
+            Assert.Throws<InvalidOperationException>(() => ConnectorMqttConnectionSettings.FromFileMount());
+
+            string nonExistantDirectoryPath = "./" + Guid.NewGuid().ToString();
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.BrokerTrustBundleMountPathEnvVar, nonExistantDirectoryPath);
+            Assert.Throws<InvalidOperationException>(() => ConnectorMqttConnectionSettings.FromFileMount());
+        }
     }
 }
