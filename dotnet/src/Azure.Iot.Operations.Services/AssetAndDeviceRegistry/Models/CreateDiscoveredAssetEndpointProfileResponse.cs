@@ -5,5 +5,5 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record CreateDiscoveredAssetEndpointProfileResponse
 {
-    public DiscoveredAssetEndpointProfileResponseStatus? Status { get; set; }
+    public DiscoveredAssetEndpointProfileResponseStatus Status { get; set; }
 }

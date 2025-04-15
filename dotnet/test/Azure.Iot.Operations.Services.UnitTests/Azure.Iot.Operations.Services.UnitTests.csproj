@@ -28,10 +28,6 @@
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AssetAndDeviceRegistry\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <!-- Add strong name signing properties -->

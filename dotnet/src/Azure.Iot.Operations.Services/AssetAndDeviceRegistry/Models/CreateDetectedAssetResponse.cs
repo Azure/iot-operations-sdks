@@ -5,5 +5,5 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record CreateDetectedAssetResponse
 {
-    public DetectedAssetResponseStatus? Status { get; set; }
+    public DetectedAssetResponseStatus Status { get; set; }
 }

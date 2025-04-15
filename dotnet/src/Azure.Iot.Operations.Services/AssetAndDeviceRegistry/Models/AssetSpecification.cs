@@ -45,5 +45,5 @@ public record AssetSpecification
 
     public string? Uuid { get; set; }
 
-    public string? Version { get; set; }
+    public ulong? Version { get; set; }
 }
