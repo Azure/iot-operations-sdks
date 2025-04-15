@@ -8,7 +8,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
-use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::options::CommandExecutorOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 use super::increment_request_payload::IncrementRequestPayload;
@@ -74,7 +74,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        options: &CommandOptions,
+        options: &CommandExecutorOptions,
     ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {

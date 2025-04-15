@@ -81,7 +81,7 @@ async fn send_increment_command(
 ) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let options = counters::common_types::common_options::CommandOptionsBuilder::default()
+    let options = counters::common_types::options::CommandInvokerOptionsBuilder::default()
         .build()
         .unwrap();
     let increment_invoker =
@@ -135,7 +135,7 @@ async fn send_get_location_command(
 ) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let options = counters::common_types::common_options::CommandOptionsBuilder::default()
+    let options = counters::common_types::options::CommandInvokerOptionsBuilder::default()
         .build()
         .unwrap();
     let get_location_invoker =

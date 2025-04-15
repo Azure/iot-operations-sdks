@@ -20,7 +20,7 @@ use super::TELEMETRY_TOPIC_PATTERN;
 <# if (this.schemaType is CustomTypeName) { #>
 use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
-use super::super::common_types::common_options::TelemetryOptions;
+use super::super::common_types::options::TelemetrySenderOptions;
 
 pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#> = telemetry::sender::Message<<#=this.schemaType.GetTypeName(TargetLanguage.Rust)#>>;
 pub type <#=this.messageName.GetTypeName(TargetLanguage.Rust)#>BuilderError = telemetry::sender::MessageBuilderError;
@@ -105,7 +105,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetrySenderOptions) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());

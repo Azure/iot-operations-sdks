@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 
-use crate::schema_registry::schemaregistry_gen::common_types::common_options::CommandOptionsBuilder;
+use crate::schema_registry::schemaregistry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
     GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
     PutRequestPayloadBuilder, PutRequestSchemaBuilder,
@@ -42,7 +42,7 @@ where
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
     pub fn new(application_context: ApplicationContext, client: &C) -> Self {
-        let options = CommandOptionsBuilder::default()
+        let options = CommandInvokerOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
 
