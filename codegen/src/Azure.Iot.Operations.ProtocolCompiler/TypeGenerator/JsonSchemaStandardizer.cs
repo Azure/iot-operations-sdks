@@ -5,11 +5,11 @@
     using System.IO;
     using System.Linq;
     using System.Text.Json;
+    using System.Text.RegularExpressions;
 
     public class JsonSchemaStandardizer : ISchemaStandardizer
     {
-        private const string InternalDefsKey = "$defs";
-        private const string InternalRefPrefix = $"#/{InternalDefsKey}/";
+        private readonly string[] InternalDefsKeys = new string[] { "$defs", "definitions" };
 
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
@@ -21,13 +21,26 @@
             {
                 using (JsonDocument schemaDoc = JsonDocument.Parse(schemaReader.ReadToEnd()))
                 {
-                    CollateSchemaTypes(schemaDoc.RootElement, schemaDoc.RootElement, schemaFilePath, genNamespace, schemaTypes);
-
-                    if (schemaDoc.RootElement.TryGetProperty(InternalDefsKey, out JsonElement defsElt))
+                    string? internalDefsKey = null;
+                    foreach (string key in InternalDefsKeys)
                     {
-                        foreach (JsonProperty defProp in defsElt.EnumerateObject())
+                        if (schemaDoc.RootElement.TryGetProperty(key, out _))
                         {
-                            CollateSchemaTypes(schemaDoc.RootElement, defProp.Value, schemaFilePath, genNamespace, schemaTypes);
+                            internalDefsKey = key;
+                            break;
+                        }
+                    }
+
+                    CollateSchemaTypes(schemaDoc.RootElement, schemaDoc.RootElement, internalDefsKey, schemaFilePath, genNamespace, schemaTypes);
+
+                    if (internalDefsKey != null)
+                    {
+                        if (schemaDoc.RootElement.TryGetProperty(internalDefsKey, out JsonElement defsElt))
+                        {
+                            foreach (JsonProperty defProp in defsElt.EnumerateObject())
+                            {
+                                CollateSchemaTypes(schemaDoc.RootElement, defProp.Value, internalDefsKey, schemaFilePath, genNamespace, schemaTypes);
+                            }
                         }
                     }
                 }
@@ -36,9 +49,15 @@
             return schemaTypes;
         }
 
-        public void CollateSchemaTypes(JsonElement rootElt, JsonElement schemaElt, string schemaFilePath, CodeName genNamespace, List<SchemaType> schemaTypes)
+        public void CollateSchemaTypes(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, string schemaFilePath, CodeName genNamespace, List<SchemaType> schemaTypes)
         {
-            CodeName schemaName = new CodeName(schemaElt.GetProperty("title").GetString()!);
+            string? title = schemaElt.GetProperty("title").GetString();
+            if (string.IsNullOrEmpty(title))
+            {
+                throw new InvalidOperationException($"The 'title' property is missing or empty in the schema at {schemaFilePath}.");
+            }
+            CodeName schemaName = new CodeName((char.IsNumber(title[0]) ? "_" : "") + Regex.Replace(title, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant));
+
             string? description = schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null;
 
             if (schemaElt.TryGetProperty("properties", out JsonElement propertiesElt) && schemaElt.GetProperty("type").GetString() == "object")
@@ -48,7 +67,7 @@
                     schemaName,
                     genNamespace,
                     description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, requiredFields, schemaFilePath, genNamespace))));
+                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, internalDefsKey, requiredFields, schemaFilePath, genNamespace))));
             }
             else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
             {
@@ -63,43 +82,47 @@
                             intValues: enumElt.EnumerateArray().Select(e => e.GetInt32()).ToArray()));
                         break;
                     case "string":
+                        string[] stringValues = enumElt.EnumerateArray().Select(e => e.GetString()!).ToArray();
+                        CodeName[] enumNames = schemaElt.TryGetProperty("x-enumNames", out JsonElement enumNameElt) ?
+                            enumNameElt.EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray() :
+                            stringValues.Select(v => new CodeName(v)).ToArray();
                         schemaTypes.Add(new EnumType(
                             schemaName,
                             genNamespace,
                             description,
-                            names: schemaElt.GetProperty("x-enumNames").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray(),
-                            stringValues: enumElt.EnumerateArray().Select(e => e.GetString()!).ToArray()));
+                            names: enumNames,
+                            stringValues: stringValues));
                         break;
                 }
             }
         }
 
-        private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement rootElt, string fieldName, JsonElement schemaElt, HashSet<string> requiredFields, string schemaFilePath, CodeName genNamespace)
+        private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement rootElt, string fieldName, JsonElement schemaElt, string? internalDefsKey, HashSet<string> requiredFields, string schemaFilePath, CodeName genNamespace)
         {
             return new ObjectType.FieldInfo(
-                GetSchemaTypeFromJsonElement(rootElt, schemaElt, schemaFilePath, genNamespace),
+                GetSchemaTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, schemaFilePath, genNamespace),
                 requiredFields.Contains(fieldName),
                 schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
                 schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
         }
 
-        private SchemaType GetSchemaTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string schemaFilePath, CodeName genNamespace)
+        private SchemaType GetSchemaTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, string schemaFilePath, CodeName genNamespace)
         {
             if (!schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
             {
-                return GetPrimitiveTypeFromJsonElement(rootElt, schemaElt, schemaFilePath, genNamespace);
+                return GetPrimitiveTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, schemaFilePath, genNamespace);
             }
 
             string refString = referencingElt.GetString()!;
 
-            if (!refString.StartsWith(InternalRefPrefix))
+            if (internalDefsKey == null || !refString.StartsWith($"#/{internalDefsKey}/"))
             {
                 string refFilePath = Path.Combine(Path.GetDirectoryName(schemaFilePath)!, refString);
                 GetTitleTypeAndNamespace(refFilePath, out string title, out string type, out genNamespace);
                 return new ReferenceType(new CodeName(title), genNamespace, isNullable: type == "object");
             }
 
-            JsonElement referencedElt = rootElt.GetProperty(InternalDefsKey).GetProperty(refString.Substring(InternalRefPrefix.Length));
+            JsonElement referencedElt = rootElt.GetProperty(internalDefsKey).GetProperty(refString.Substring($"#/{internalDefsKey}/".Length));
 
             if (referencedElt.TryGetProperty("properties", out _) || referencedElt.TryGetProperty("enum", out _))
             {
@@ -108,17 +131,17 @@
                 return new ReferenceType(new CodeName(title), genNamespace, isNullable: type == "object");
             }
 
-            return GetPrimitiveTypeFromJsonElement(rootElt, referencedElt, schemaFilePath, genNamespace);
+            return GetPrimitiveTypeFromJsonElement(rootElt, referencedElt, internalDefsKey, schemaFilePath, genNamespace);
         }
 
-        private SchemaType GetPrimitiveTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string schemaFilePath, CodeName genNamespace)
+        private SchemaType GetPrimitiveTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, string schemaFilePath, CodeName genNamespace)
         {
             switch (schemaElt.GetProperty("type").GetString())
             {
                 case "array":
-                    return new ArrayType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("items"), schemaFilePath, genNamespace));
+                    return new ArrayType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("items"), internalDefsKey, schemaFilePath, genNamespace));
                 case "object":
-                    return new MapType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("additionalProperties"), schemaFilePath, genNamespace));
+                    return new MapType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("additionalProperties"), internalDefsKey, schemaFilePath, genNamespace));
                 case "boolean":
                     return new BooleanType();
                 case "number":

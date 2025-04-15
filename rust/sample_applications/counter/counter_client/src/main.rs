@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
-use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
+use envoy::common_types::options::{CommandInvokerOptionsBuilder, TelemetryReceiverOptionsBuilder};
 use envoy::counter::client::{
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
     ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryReceiver,
@@ -76,7 +76,7 @@ async fn counter_telemetry_check(
     let mut counter_value_receiver = TelemetryReceiver::new(
         application_context,
         client,
-        &TelemetryOptionsBuilder::default()
+        &TelemetryReceiverOptionsBuilder::default()
             .auto_ack(false)
             .build()
             .unwrap(),
@@ -121,7 +121,7 @@ async fn increment_and_check(
     client: SessionManagedClient,
 ) {
     // Create invokers
-    let options = CommandOptionsBuilder::default().build().unwrap();
+    let options = CommandInvokerOptionsBuilder::default().build().unwrap();
     let increment_invoker =
         IncrementCommandInvoker::new(application_context.clone(), client.clone(), &options);
     let read_counter_invoker =
