@@ -18,11 +18,17 @@ pub struct FileMountClient {
 
 impl FileMountClient {
     /// Returns the mount path.
+    #[must_use]
     pub fn get_mount_path(&self) -> &Path {
         &self.mount_path
     }
 
     /// Starts watching the mount path for changes.
+    ///
+    /// # Returns
+    /// A `Result` indicating success or failure.
+    /// # Errors
+    /// Returns an error if the watcher cannot be started or if there is an issue with the file mount.
     pub fn start_watching(&self) -> Result<(), FileMountError> {
         let mut watcher = self.watcher.lock().map_err(|_| {
             FileMountError::NotifyError(notify::Error::generic("Failed to lock watcher"))
@@ -42,11 +48,13 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A `Result` containing the initialized `FileMountClient` or a `FileMountError`.
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub fn new(mount_path_env_var: &str) -> Result<Self, FileMountError> {
         let mount_path = PathBuf::from(mount_path_env_var);
         let watcher = notify::recommended_watcher(|_| {}).map_err(FileMountError::NotifyError)?;
         Ok(Self {
-            mount_path: mount_path,
+            mount_path,
             watcher: Arc::new(Mutex::new(watcher)),
         })
     }
@@ -54,7 +62,9 @@ impl FileMountClient {
     /// Gets names of all devices from the file mount.
     ///
     /// # Returns
-    /// A vector of device names as strings.
+    /// A vector of device names as strings.    
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub fn get_device_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
         Ok(vec![])
     }
@@ -62,7 +72,9 @@ impl FileMountClient {
     /// Get names of all available assets from the monitored device.
     ///
     /// # Returns
-    ///  names of all available assets from the monitored directory
+    ///  names of all available assets from the monitored directory    
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub fn get_asset_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
         Ok(vec![])
     }
@@ -70,27 +82,36 @@ impl FileMountClient {
     /// Observes the creation of device endpoints.
     ///
     /// # Returns
-    /// A stream of `DeviceEndpoint` items representing newly created device endpoints.
-    pub fn observe_device_endpoint_create(
+    /// A stream of `DeviceEndpoint` items representing newly created device endpoints.    
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
+    pub async fn observe_device_endpoint_create(
         &self,
     ) -> Result<impl Stream<Item = DeviceEndpoint> + Send + 'static, FileMountError> {
         // Monitor directory for new files
         // Parse filenames to extract device and endpoint names
         // Return stream of new device/endpoint combinations
+
         // Example implementation returning an empty stream
+        tokio::task::yield_now().await;
         Ok(tokio_stream::empty())
     }
 
     /// Observes the deletion of device endpoints.
     ///
     /// # Returns
-    /// A stream of `DeviceEndpoint` items representing removed device endpoints.
-    pub fn observe_device_endpoint_delete(
+    /// A stream of `DeviceEndpoint` items representing removed device endpoints.    
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
+    pub async fn observe_device_endpoint_delete(
         &self,
     ) -> Result<impl Stream<Item = DeviceEndpoint> + Send + 'static, FileMountError> {
         // Monitor directory for deleted files
         // Parse filenames to extract device and endpoint info
         // Return stream of removed device/endpoint combinations
+
+        // Example implementation returning an empty stream
+        tokio::task::yield_now().await;
         Ok(tokio_stream::empty())
     }
 
@@ -102,7 +123,9 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A stream of `Asset` items representing newly created assets.
-    pub fn observe_asset_create(
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
+    pub async fn observe_asset_create(
         &self,
         _device: &str,
         _endpoint: &str,
@@ -110,6 +133,9 @@ impl FileMountClient {
         // Monitor specific file content changes
         // Compare old and new content to detect added assets
         // Return stream of newly added assets
+
+        // Example implementation returning an empty stream
+        tokio::task::yield_now().await;
         Ok(tokio_stream::empty())
     }
 
@@ -121,7 +147,9 @@ impl FileMountClient {
     ///
     /// # Returns
     /// A stream of `Asset` items representing removed assets.
-    pub fn observe_asset_delete(
+    /// # Errors
+    /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
+    pub async fn observe_asset_delete(
         &self,
         _device: &str,
         _endpoint: &str,
@@ -129,6 +157,9 @@ impl FileMountClient {
         // Monitor specific file content changes
         // Compare old and new content to detect removed assets
         // Return stream of removed assets
+
+        // Example implementation returning an empty stream
+        tokio::task::yield_now().await;
         Ok(tokio_stream::empty())
     }
 }
