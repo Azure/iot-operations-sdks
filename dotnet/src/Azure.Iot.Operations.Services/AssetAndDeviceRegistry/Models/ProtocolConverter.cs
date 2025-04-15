@@ -3,10 +3,6 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
-using CreateDiscoveredAssetEndpointProfileRequestPayload =
-    Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService.CreateDiscoveredAssetEndpointProfileRequestPayload;
-using SupportedAuthenticationMethodsSchemaElementSchema =
-    Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService.SupportedAuthenticationMethodsSchemaElementSchema;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -29,87 +25,6 @@ internal static class ProtocolConverter
                 AssetName = source.AssetName,
                 AssetStatus = source.AssetStatus.ToProtocol()
             }
-        };
-    }
-
-    public static AdrBaseService.AssetStatus ToProtocol(this AssetStatus source)
-    {
-        return new AdrBaseService.AssetStatus
-        {
-            Config = source.Config?.ToProtocol(),
-            Datasets = source.Datasets?.Select(x => x.ToProtocol()).ToList(),
-            Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
-            ManagementGroups = source.ManagementGroups?.Select(x => x.ToProtocol()).ToList(),
-            Streams = source.Streams?.Select(x => x.ToProtocol()).ToList()
-        };
-    }
-
-    public static AssetStatusManagementGroupSchemaElementSchema ToProtocol(this AssetStatusManagementGroupSchemaElement source)
-    {
-        return new AssetStatusManagementGroupSchemaElementSchema
-        {
-            Name = source.Name,
-            Actions = source.Actions?.Select(x => x.ToProtocol()).ToList()
-        };
-    }
-
-    public static AssetStatusStreamSchemaElementSchema ToProtocol(this AssetStatusStreamSchemaElement source)
-    {
-        return new AssetStatusStreamSchemaElementSchema
-        {
-            Name = source.Name,
-            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol(),
-            Error = source.Error?.ToProtocol()
-        };
-    }
-
-    public static AssetStatusManagementGroupActionSchemaElementSchema ToProtocol(this AssetStatusManagementGroupActionSchemaElement source)
-    {
-        return new AssetStatusManagementGroupActionSchemaElementSchema
-        {
-            Error = source.Error?.ToProtocol(),
-            Name = source.Name,
-            RequestMessageSchemaReference = source.RequestMessageSchemaReference?.ToProtocol(),
-            ResponseMessageSchemaReference = source.ResponseMessageSchemaReference?.ToProtocol()
-        };
-    }
-
-    public static AssetStatusConfigSchema ToProtocol(this AssetStatusConfig source)
-    {
-        return new AssetStatusConfigSchema
-        {
-            Error = source.Error?.ToProtocol(),
-            LastTransitionTime = source.LastTransitionTime,
-            Version = source.Version
-        };
-    }
-
-    public static AssetStatusDatasetSchemaElementSchema ToProtocol(this AssetStatusDatasetSchemaElement source)
-    {
-        return new AssetStatusDatasetSchemaElementSchema
-        {
-            Name = source.Name,
-            Error = source.Error?.ToProtocol(),
-            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
-        };
-    }
-
-    public static AssetStatusEventSchemaElementSchema ToProtocol(this EventsSchemaElement source)
-    {
-        return new AssetStatusEventSchemaElementSchema
-        {
-            Name = source.Name,
-            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
-        };
-    }
-
-    public static AdrBaseService.MessageSchemaReference ToProtocol(this MessageSchemaReference source)
-    {
-        return new AdrBaseService.MessageSchemaReference
-        {
-            SchemaName = source.SchemaName,
-            SchemaRegistryNamespace = source.SchemaRegistryNamespace,
-            SchemaVersion = source.SchemaVersion
         };
     }
 
@@ -138,52 +53,6 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DetectedAssetDatasetSchemaElementSchema ToProtocol(this DetectedAssetDatasetSchemaElement source)
-    {
-        return new DetectedAssetDatasetSchemaElementSchema
-        {
-            Name = source.Name,
-            DataSetConfiguration = source.DataSetConfiguration,
-            DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
-            Topic = source.Topic?.ToProtocol()
-        };
-    }
-
-    public static DetectedAssetEventSchemaElementSchema ToProtocol(this DetectedAssetEventSchemaElement source)
-    {
-        return new DetectedAssetEventSchemaElementSchema
-        {
-            Name = source.Name,
-            EventConfiguration = source.EventConfiguration,
-            Topic = source.Topic?.ToProtocol()
-        };
-    }
-
-    public static AdrBaseService.Topic ToProtocol(this Topic source)
-    {
-        return new AdrBaseService.Topic
-        {
-            Path = source.Path,
-            Retain = source.Retain?.ToProtocol()
-        };
-    }
-
-    public static AdrBaseService.Retain ToProtocol(this Retain source)
-    {
-        return (AdrBaseService.Retain)(int)source;
-    }
-
-    public static DetectedAssetDataPointSchemaElementSchema ToProtocol(this DetectedAssetDataPointSchemaElement source)
-    {
-        return new DetectedAssetDataPointSchemaElementSchema
-        {
-            Name = source.Name,
-            DataPointConfiguration = source.DataPointConfiguration,
-            DataSource = source.DataSource,
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
     public static CreateDiscoveredAssetEndpointProfileRequestPayload ToProtocol(this CreateDiscoveredAssetEndpointProfileRequest source)
     {
         return new CreateDiscoveredAssetEndpointProfileRequestPayload
@@ -199,11 +68,6 @@ internal static class ProtocolConverter
         };
     }
 
-    public static SupportedAuthenticationMethodsSchemaElementSchema ToProtocol(this SupportedAuthenticationMethodsSchemaElement source)
-    {
-        return (SupportedAuthenticationMethodsSchemaElementSchema)(int)source;
-    }
-
     public static AdrBaseService.DeviceStatus ToProtocol(this DeviceStatus source)
     {
         return new AdrBaseService.DeviceStatus
@@ -213,7 +77,139 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DeviceStatusConfigSchema ToProtocol(this DeviceStatusConfig source)
+    internal static AdrBaseService.AssetStatus ToProtocol(this AssetStatus source)
+    {
+        return new AdrBaseService.AssetStatus
+        {
+            Config = source.Config?.ToProtocol(),
+            Datasets = source.Datasets?.Select(x => x.ToProtocol()).ToList(),
+            Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
+            ManagementGroups = source.ManagementGroups?.Select(x => x.ToProtocol()).ToList(),
+            Streams = source.Streams?.Select(x => x.ToProtocol()).ToList()
+        };
+    }
+
+    internal static AssetStatusManagementGroupSchemaElementSchema ToProtocol(this AssetStatusManagementGroupSchemaElement source)
+    {
+        return new AssetStatusManagementGroupSchemaElementSchema
+        {
+            Name = source.Name,
+            Actions = source.Actions?.Select(x => x.ToProtocol()).ToList()
+        };
+    }
+
+    internal static AssetStatusStreamSchemaElementSchema ToProtocol(this AssetStatusStreamSchemaElement source)
+    {
+        return new AssetStatusStreamSchemaElementSchema
+        {
+            Name = source.Name,
+            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol(),
+            Error = source.Error?.ToProtocol()
+        };
+    }
+
+    internal static AssetStatusManagementGroupActionSchemaElementSchema ToProtocol(this AssetStatusManagementGroupActionSchemaElement source)
+    {
+        return new AssetStatusManagementGroupActionSchemaElementSchema
+        {
+            Error = source.Error?.ToProtocol(),
+            Name = source.Name,
+            RequestMessageSchemaReference = source.RequestMessageSchemaReference?.ToProtocol(),
+            ResponseMessageSchemaReference = source.ResponseMessageSchemaReference?.ToProtocol()
+        };
+    }
+
+    internal static AssetStatusConfigSchema ToProtocol(this AssetStatusConfig source)
+    {
+        return new AssetStatusConfigSchema
+        {
+            Error = source.Error?.ToProtocol(),
+            LastTransitionTime = source.LastTransitionTime,
+            Version = source.Version
+        };
+    }
+
+    internal static AssetStatusDatasetSchemaElementSchema ToProtocol(this AssetStatusDatasetSchemaElement source)
+    {
+        return new AssetStatusDatasetSchemaElementSchema
+        {
+            Name = source.Name,
+            Error = source.Error?.ToProtocol(),
+            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
+        };
+    }
+
+    internal static AssetStatusEventSchemaElementSchema ToProtocol(this EventsSchemaElement source)
+    {
+        return new AssetStatusEventSchemaElementSchema
+        {
+            Name = source.Name,
+            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.MessageSchemaReference ToProtocol(this MessageSchemaReference source)
+    {
+        return new AdrBaseService.MessageSchemaReference
+        {
+            SchemaName = source.SchemaName,
+            SchemaRegistryNamespace = source.SchemaRegistryNamespace,
+            SchemaVersion = source.SchemaVersion,
+        };
+    }
+
+    internal static DetectedAssetDatasetSchemaElementSchema ToProtocol(this DetectedAssetDatasetSchemaElement source)
+    {
+        return new DetectedAssetDatasetSchemaElementSchema
+        {
+            Name = source.Name,
+            DataSetConfiguration = source.DataSetConfiguration,
+            DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
+            Topic = source.Topic?.ToProtocol()
+        };
+    }
+
+    internal static DetectedAssetEventSchemaElementSchema ToProtocol(this DetectedAssetEventSchemaElement source)
+    {
+        return new DetectedAssetEventSchemaElementSchema
+        {
+            Name = source.Name,
+            EventConfiguration = source.EventConfiguration,
+            Topic = source.Topic?.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.Topic ToProtocol(this Topic source)
+    {
+        return new AdrBaseService.Topic
+        {
+            Path = source.Path,
+            Retain = source.Retain?.ToProtocol()
+        };
+    }
+
+    internal static AdrBaseService.Retain ToProtocol(this Retain source)
+    {
+        return (AdrBaseService.Retain)(int)source;
+    }
+
+    internal static DetectedAssetDataPointSchemaElementSchema ToProtocol(this DetectedAssetDataPointSchemaElement source)
+    {
+        return new DetectedAssetDataPointSchemaElementSchema
+        {
+            Name = source.Name,
+            DataPointConfiguration = source.DataPointConfiguration,
+            DataSource = source.DataSource,
+            LastUpdatedOn = source.LastUpdatedOn
+        };
+    }
+
+    internal static SupportedAuthenticationMethodsSchemaElementSchema ToProtocol(this SupportedAuthenticationMethodsSchemaElement source)
+    {
+        return (SupportedAuthenticationMethodsSchemaElementSchema)(int)source;
+    }
+
+    internal static DeviceStatusConfigSchema ToProtocol(this DeviceStatusConfig source)
     {
         return new DeviceStatusConfigSchema
         {
@@ -223,7 +219,7 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
+    internal static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
     {
         return new DeviceStatusEndpointSchema
         {
@@ -233,7 +229,7 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DeviceStatusInboundEndpointSchemaMapValueSchema ToProtocol(this DeviceStatusInboundEndpointSchemaMapValue source)
+    internal static DeviceStatusInboundEndpointSchemaMapValueSchema ToProtocol(this DeviceStatusInboundEndpointSchemaMapValue source)
     {
         return new DeviceStatusInboundEndpointSchemaMapValueSchema
         {
@@ -241,12 +237,25 @@ internal static class ProtocolConverter
         };
     }
 
-    public static AdrBaseService.ConfigError ToProtocol(this ConfigError source)
+    internal static AdrBaseService.ConfigError ToProtocol(this ConfigError source)
     {
         return new AdrBaseService.ConfigError
         {
             Code = source.Code,
-            Message = source.Message
+            Message = source.Message,
+            Details = source.Details?.Select(x => x.ToProtocol()).ToList(),
+            InnerError = source.InnerError
+        };
+    }
+
+    internal static AdrBaseService.DetailsSchemaElementSchema ToProtocol(this DetailsSchemaElement source)
+    {
+        return new AdrBaseService.DetailsSchemaElementSchema
+        {
+            Code = source.Code,
+            Message = source.Message,
+            CorrelationId = source.CorrelationId,
+            Info = source.Info
         };
     }
 }

@@ -10,8 +10,111 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
         [Fact]
         public void AssetStatus_ToModel_ShouldConvertAllProperties()
         {
-            // Arrange
-            var source = CreateCompleteAssetStatus();
+            // Arrange - Create complete source AssetStatus with all properties
+            var source = new AdrBaseService.AssetStatus
+            {
+                Config = new AdrBaseService.AssetStatusConfigSchema
+                {
+                    Error = new AdrBaseService.ConfigError
+                    {
+                        Code = "error-code",
+                        Message = "error-message",
+                        InnerError = new Dictionary<string, string> { { "inner-error", "inner-error-message" } },
+                        Details =
+                        [
+                            new()
+                            {
+                                Code = "detail-code",
+                                Message = "detail-message",
+                                Info = "info",
+                                CorrelationId = "correlation-id"
+                            }
+                        ]
+                    },
+                    LastTransitionTime = "2023-01-01T00:00:00Z",
+                    Version = 1
+                },
+                Datasets =
+                [
+                    new()
+                    {
+                        Name = "dataset1",
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "dataset-error",
+                            Message = "dataset-error-message"
+                        },
+                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                        {
+                            SchemaName = "schema1",
+                            SchemaRegistryNamespace = "namespace1",
+                            SchemaVersion = "1.0"
+                        }
+                    }
+                ],
+                Events =
+                [
+                    new()
+                    {
+                        Name = "event1",
+                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                        {
+                            SchemaName = "event-schema",
+                            SchemaRegistryNamespace = "event-namespace",
+                            SchemaVersion = "2.0"
+                        }
+                    }
+                ],
+                ManagementGroups =
+                [
+                    new()
+                    {
+                        Name = "mgmt-group1",
+                        Actions =
+                        [
+                            new()
+                            {
+                                Name = "action1",
+                                Error = new AdrBaseService.ConfigError
+                                {
+                                    Code = "action-error",
+                                    Message = "action-error-message"
+                                },
+                                RequestMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                {
+                                    SchemaName = "req-schema",
+                                    SchemaRegistryNamespace = "req-namespace",
+                                    SchemaVersion = "1.0"
+                                },
+                                ResponseMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                {
+                                    SchemaName = "resp-schema",
+                                    SchemaRegistryNamespace = "resp-namespace",
+                                    SchemaVersion = "1.0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                Streams =
+                [
+                    new()
+                    {
+                        Name = "stream1",
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "stream-error",
+                            Message = "stream-error-message"
+                        },
+                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                        {
+                            SchemaName = "stream-schema",
+                            SchemaRegistryNamespace = "stream-namespace",
+                            SchemaVersion = "3.0"
+                        }
+                    }
+                ]
+            };
 
             // Act
             var result = source.ToModel();
@@ -63,8 +166,216 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
         [Fact]
         public void Asset_ToModel_ShouldConvertAllProperties()
         {
-            // Arrange
-            var source = CreateCompleteAsset();
+            // Arrange - Create complete source Asset with all properties
+            var source = new AdrBaseService.Asset
+            {
+                Name = "test-asset",
+                Specification = new AdrBaseService.AssetSpecificationSchema
+                {
+                    Description = "test-description",
+                    Enabled = true,
+                    Manufacturer = "test-manufacturer",
+                    Model = "test-model",
+                    Uuid = "test-uuid",
+                    Version = 1,
+                    DisplayName = "Test Asset",
+                    DocumentationUri = "https://docs.example.com",
+                    HardwareRevision = "v1.2",
+                    ManufacturerUri = "https://manufacturer.example.com",
+                    ProductCode = "ABC123",
+                    SerialNumber = "SN12345",
+                    SoftwareRevision = "sw1.3",
+                    ExternalAssetId = "ext-id-123",
+                    Attributes = new Dictionary<string, string>
+                    {
+                        ["key1"] = "value1",
+                        ["key2"] = "value2"
+                    },
+                    Datasets =
+                    [
+                        new AdrBaseService.AssetDatasetSchemaElementSchema
+                        {
+                            Name = "dataset1",
+                            DataSource = "ds-source",
+                            TypeRef = "ds-type",
+                            DataPoints =
+                            [
+                                new AdrBaseService.AssetDatasetDataPointSchemaElementSchema
+                                {
+                                    Name = "datapoint1",
+                                    DataSource = "dp-source",
+                                    TypeRef = "dp-type",
+                                    DataPointConfiguration = "datapoint-conf-value"
+                                }
+                            ],
+                            Destinations =
+                            [
+                                new AdrBaseService.AssetDatasetDestinationSchemaElementSchema
+                                {
+                                    Target = AdrBaseService.DatasetTarget.Mqtt,
+                                    Configuration = new AdrBaseService.DestinationConfiguration
+                                    {
+                                        Key = "config-key",
+                                        Path = "config-path",
+                                        Topic = "config-topic",
+                                        Qos = AdrBaseService.QoS.Qos1,
+                                        Retain = AdrBaseService.Retain.Keep,
+                                        Ttl = 60
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    Events =
+                    [
+                        new AdrBaseService.AssetEventSchemaElementSchema
+                        {
+                            Name = "event1",
+                            EventNotifier = "event-notifier",
+                            EventConfiguration = "event-config-value",
+                            DataPoints =
+                            [
+                                new AdrBaseService.AssetEventDataPointSchemaElementSchema
+                                {
+                                    Name = "event-datapoint1",
+                                    DataSource = "event-dp-source",
+                                    DataPointConfiguration = "event-datapoint-conf-value"
+                                }
+                            ],
+                            Destinations =
+                            [
+                                new AdrBaseService.AssetEventDestinationSchemaElementSchema
+                                {
+                                    Target = AdrBaseService.EventStreamTarget.Storage,
+                                    Configuration = new AdrBaseService.DestinationConfiguration
+                                    {
+                                        Key = "event-config-key",
+                                        Path = "event-config-path",
+                                        Topic = "event-config-topic"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    DefaultDatasetsDestinations =
+                    [
+                        new AdrBaseService.DefaultDatasetsDestinationsSchemaElementSchema
+                        {
+                            Target = AdrBaseService.DatasetTarget.Mqtt,
+                            Configuration = new AdrBaseService.DestinationConfiguration
+                            {
+                                Key = "default-config-key",
+                                Path = "default-config-path",
+                                Topic = "default-config-topic"
+                            }
+                        }
+                    ]
+                },
+                Status = new AdrBaseService.AssetStatus
+                {
+                    Config = new AdrBaseService.AssetStatusConfigSchema
+                    {
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "error-code",
+                            Message = "error-message",
+                            InnerError = new Dictionary<string, string> { { "inner-error", "inner-error-message" } },
+                            Details =
+                            [
+                                new()
+                                {
+                                    Code = "detail-code",
+                                    Message = "detail-message",
+                                    Info = "info",
+                                    CorrelationId = "correlation-id"
+                                }
+                            ]
+                        },
+                        LastTransitionTime = "2023-01-01T00:00:00Z",
+                        Version = 1
+                    },
+                    Datasets =
+                    [
+                        new()
+                        {
+                            Name = "dataset1",
+                            Error = new AdrBaseService.ConfigError
+                            {
+                                Code = "dataset-error",
+                                Message = "dataset-error-message"
+                            },
+                            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                            {
+                                SchemaName = "schema1",
+                                SchemaRegistryNamespace = "namespace1",
+                                SchemaVersion = "1.0"
+                            }
+                        }
+                    ],
+                    Events =
+                    [
+                        new()
+                        {
+                            Name = "event1",
+                            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                            {
+                                SchemaName = "event-schema",
+                                SchemaRegistryNamespace = "event-namespace",
+                                SchemaVersion = "2.0"
+                            }
+                        }
+                    ],
+                    ManagementGroups =
+                    [
+                        new()
+                        {
+                            Name = "mgmt-group1",
+                            Actions =
+                            [
+                                new()
+                                {
+                                    Name = "action1",
+                                    Error = new AdrBaseService.ConfigError
+                                    {
+                                        Code = "action-error",
+                                        Message = "action-error-message"
+                                    },
+                                    RequestMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                    {
+                                        SchemaName = "req-schema",
+                                        SchemaRegistryNamespace = "req-namespace",
+                                        SchemaVersion = "1.0"
+                                    },
+                                    ResponseMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                    {
+                                        SchemaName = "resp-schema",
+                                        SchemaRegistryNamespace = "resp-namespace",
+                                        SchemaVersion = "1.0"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    Streams =
+                    [
+                        new()
+                        {
+                            Name = "stream1",
+                            Error = new AdrBaseService.ConfigError
+                            {
+                                Code = "stream-error",
+                                Message = "stream-error-message"
+                            },
+                            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                            {
+                                SchemaName = "stream-schema",
+                                SchemaRegistryNamespace = "stream-namespace",
+                                SchemaVersion = "3.0"
+                            }
+                        }
+                    ]
+                }
+            };
 
             // Act
             var result = source.ToModel();
@@ -190,8 +501,119 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
         [Fact]
         public void Device_ToModel_ShouldConvertAllProperties()
         {
-            // Arrange
-            var source = CreateCompleteDevice();
+            // Arrange - Create complete source Device with all properties
+            var source = new AdrBaseService.Device
+            {
+                Name = "test-device",
+                Specification = new AdrBaseService.DeviceSpecificationSchema
+                {
+                    Manufacturer = "test-manufacturer",
+                    Model = "test-model",
+                    Uuid = "test-uuid",
+                    Version = 1,
+                    Enabled = true,
+                    DiscoveredDeviceRef = "discovered-device-ref",
+                    ExternalDeviceId = "external-device-id",
+                    LastTransitionTime = "2023-01-01T00:00:00Z",
+                    OperatingSystemVersion = "1.2.3",
+                    Attributes = new Dictionary<string, string>
+                    {
+                        ["key1"] = "value1",
+                        ["key2"] = "value2"
+                    },
+                    Endpoints = new AdrBaseService.DeviceEndpointSchema
+                    {
+                        Inbound = new Dictionary<string, AdrBaseService.DeviceInboundEndpointSchemaMapValueSchema>
+                        {
+                            ["mqtt-endpoint"] = new()
+                            {
+                                Address = "mqtt://device:1883",
+                                Version = "1.0",
+                                Type = "mqtt",
+                                AdditionalConfiguration = "mqtt-config-value",
+                                Authentication = new AdrBaseService.AuthenticationSchema
+                                {
+                                    Method = AdrBaseService.MethodSchema.Certificate,
+                                    X509credentials = new AdrBaseService.X509credentialsSchema
+                                    {
+                                        CertificateSecretName = "certificate-secret"
+                                    }
+                                },
+                                TrustSettings = new AdrBaseService.TrustSettingsSchema
+                                {
+                                    TrustMode = "trust-mode-value",
+                                    IssuerList = "issuer1",
+                                    TrustList = "trust1"
+                                }
+                            },
+                            ["http-endpoint"] = new()
+                            {
+                                Address = "http://device:8080",
+                                Version = "2.0",
+                                Type = "http",
+                                Authentication = new AdrBaseService.AuthenticationSchema
+                                {
+                                    Method = AdrBaseService.MethodSchema.UsernamePassword,
+                                    UsernamePasswordCredentials = new AdrBaseService.UsernamePasswordCredentialsSchema
+                                    {
+                                        UsernameSecretName = "username-secret",
+                                        PasswordSecretName = "password-secret"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                Status = new AdrBaseService.DeviceStatus
+                {
+                    Config = new AdrBaseService.DeviceStatusConfigSchema
+                    {
+                        LastTransitionTime = "2023-01-02T00:00:00Z",
+                        Version = 2,
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "config-error-code",
+                            Message = "config-error-message",
+                            InnerError = new Dictionary<string, string>
+                            {
+                                ["inner-key"] = "inner-value"
+                            },
+                            Details = new List<AdrBaseService.DetailsSchemaElementSchema>
+                            {
+                                new()
+                                {
+                                    Code = "detail-code",
+                                    Message = "detail-message",
+                                    Info = "detail-info",
+                                    CorrelationId = "correlation-id"
+                                }
+                            }
+                        }
+                    },
+                    Endpoints = new AdrBaseService.DeviceStatusEndpointSchema
+                    {
+                        Inbound = new Dictionary<string, AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema>
+                        {
+                            ["mqtt-endpoint"] = new()
+                            {
+                                Error = new AdrBaseService.ConfigError
+                                {
+                                    Code = "mqtt-error-code",
+                                    Message = "mqtt-error-message"
+                                }
+                            },
+                            ["http-endpoint"] = new()
+                            {
+                                Error = new AdrBaseService.ConfigError
+                                {
+                                    Code = "http-error-code",
+                                    Message = "http-error-message"
+                                }
+                            }
+                        }
+                    }
+                }
+            };
 
             // Act
             var result = source.ToModel();
@@ -350,340 +772,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             // Assert
             Assert.Equal(NotificationResponse.Accepted, resultAccepted);
             Assert.Equal(NotificationResponse.Failed, resultFailed);
-        }
-
-        private AdrBaseService.Device CreateCompleteDevice()
-        {
-            return new AdrBaseService.Device
-            {
-                Name = "test-device",
-                Specification = new AdrBaseService.DeviceSpecificationSchema
-                {
-                    Manufacturer = "test-manufacturer",
-                    Model = "test-model",
-                    Uuid = "test-uuid",
-                    Version = 1,
-                    Enabled = true,
-                    DiscoveredDeviceRef = "discovered-device-ref",
-                    ExternalDeviceId = "external-device-id",
-                    LastTransitionTime = "2023-01-01T00:00:00Z",
-                    OperatingSystemVersion = "1.2.3",
-                    Attributes = new Dictionary<string, string>
-                    {
-                        ["key1"] = "value1",
-                        ["key2"] = "value2"
-                    },
-                    Endpoints = new AdrBaseService.DeviceEndpointSchema
-                    {
-                        Inbound = new Dictionary<string, AdrBaseService.DeviceInboundEndpointSchemaMapValueSchema>
-                        {
-                            ["mqtt-endpoint"] = new()
-                            {
-                                Address = "mqtt://device:1883",
-                                Version = "1.0",
-                                Type = "mqtt",
-                                AdditionalConfiguration = "mqtt-config-value",
-                                Authentication = new AdrBaseService.AuthenticationSchema
-                                {
-                                    Method = AdrBaseService.MethodSchema.Certificate,
-                                    X509credentials = new AdrBaseService.X509credentialsSchema
-                                    {
-                                        CertificateSecretName = "certificate-secret"
-                                    }
-                                },
-                                TrustSettings = new AdrBaseService.TrustSettingsSchema
-                                {
-                                    TrustMode = "trust-mode-value",
-                                    IssuerList = "issuer1",
-                                    TrustList = "trust1"
-                                }
-                            },
-                            ["http-endpoint"] = new()
-                            {
-                                Address = "http://device:8080",
-                                Version = "2.0",
-                                Type = "http",
-                                Authentication = new AdrBaseService.AuthenticationSchema
-                                {
-                                    Method = AdrBaseService.MethodSchema.UsernamePassword,
-                                    UsernamePasswordCredentials = new AdrBaseService.UsernamePasswordCredentialsSchema
-                                    {
-                                        UsernameSecretName = "username-secret",
-                                        PasswordSecretName = "password-secret"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                Status = new AdrBaseService.DeviceStatus
-                {
-                    Config = new AdrBaseService.DeviceStatusConfigSchema
-                    {
-                        LastTransitionTime = "2023-01-02T00:00:00Z",
-                        Version = 2,
-                        Error = new AdrBaseService.ConfigError
-                        {
-                            Code = "config-error-code",
-                            Message = "config-error-message",
-                            InnerError = new Dictionary<string, string>
-                            {
-                                ["inner-key"] = "inner-value"
-                            },
-                            Details = new List<AdrBaseService.DetailsSchemaElementSchema>
-                            {
-                                new()
-                                {
-                                    Code = "detail-code",
-                                    Message = "detail-message",
-                                    Info = "detail-info",
-                                    CorrelationId = "correlation-id"
-                                }
-                            }
-                        }
-                    },
-                    Endpoints = new AdrBaseService.DeviceStatusEndpointSchema
-                    {
-                        Inbound = new Dictionary<string, AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema>
-                        {
-                            ["mqtt-endpoint"] = new()
-                            {
-                                Error = new AdrBaseService.ConfigError
-                                {
-                                    Code = "mqtt-error-code",
-                                    Message = "mqtt-error-message"
-                                }
-                            },
-                            ["http-endpoint"] = new()
-                            {
-                                Error = new AdrBaseService.ConfigError
-                                {
-                                    Code = "http-error-code",
-                                    Message = "http-error-message"
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        private AdrBaseService.Asset CreateCompleteAsset()
-        {
-            return new AdrBaseService.Asset
-            {
-                Name = "test-asset",
-                Specification = new AdrBaseService.AssetSpecificationSchema
-                {
-                    Description = "test-description",
-                    Enabled = true,
-                    Manufacturer = "test-manufacturer",
-                    Model = "test-model",
-                    Uuid = "test-uuid",
-                    Version = 1,
-                    DisplayName = "Test Asset",
-                    DocumentationUri = "https://docs.example.com",
-                    HardwareRevision = "v1.2",
-                    ManufacturerUri = "https://manufacturer.example.com",
-                    ProductCode = "ABC123",
-                    SerialNumber = "SN12345",
-                    SoftwareRevision = "sw1.3",
-                    ExternalAssetId = "ext-id-123",
-                    Attributes = new Dictionary<string, string>
-                    {
-                        ["key1"] = "value1",
-                        ["key2"] = "value2"
-                    },
-                    Datasets =
-                    [
-                        new AdrBaseService.AssetDatasetSchemaElementSchema
-                        {
-                            Name = "dataset1",
-                            DataSource = "ds-source",
-                            TypeRef = "ds-type",
-                            DataPoints =
-                            [
-                                new AdrBaseService.AssetDatasetDataPointSchemaElementSchema
-                                {
-                                    Name = "datapoint1",
-                                    DataSource = "dp-source",
-                                    TypeRef = "dp-type",
-                                    DataPointConfiguration = "datapoint-conf-value"
-                                }
-                            ],
-                            Destinations =
-                            [
-                                new AdrBaseService.AssetDatasetDestinationSchemaElementSchema
-                                {
-                                    Target = AdrBaseService.DatasetTarget.Mqtt,
-                                    Configuration = new AdrBaseService.DestinationConfiguration
-                                    {
-                                        Key = "config-key",
-                                        Path = "config-path",
-                                        Topic = "config-topic",
-                                        Qos = AdrBaseService.QoS.Qos1,
-                                        Retain = AdrBaseService.Retain.Keep,
-                                        Ttl = 60
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    Events =
-                    [
-                        new AdrBaseService.AssetEventSchemaElementSchema
-                        {
-                            Name = "event1",
-                            EventNotifier = "event-notifier",
-                            EventConfiguration = "event-config-value",
-                            DataPoints =
-                            [
-                                new AdrBaseService.AssetEventDataPointSchemaElementSchema
-                                {
-                                    Name = "event-datapoint1",
-                                    DataSource = "event-dp-source",
-                                    DataPointConfiguration = "event-datapoint-conf-value"
-                                }
-                            ],
-                            Destinations =
-                            [
-                                new AdrBaseService.AssetEventDestinationSchemaElementSchema
-                                {
-                                    Target = AdrBaseService.EventStreamTarget.Storage,
-                                    Configuration = new AdrBaseService.DestinationConfiguration
-                                    {
-                                        Key = "event-config-key",
-                                        Path = "event-config-path",
-                                        Topic = "event-config-topic"
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    DefaultDatasetsDestinations =
-                    [
-                        new AdrBaseService.DefaultDatasetsDestinationsSchemaElementSchema
-                        {
-                            Target = AdrBaseService.DatasetTarget.Mqtt,
-                            Configuration = new AdrBaseService.DestinationConfiguration
-                            {
-                                Key = "default-config-key",
-                                Path = "default-config-path",
-                                Topic = "default-config-topic"
-                            }
-                        }
-                    ]
-                },
-                Status = CreateCompleteAssetStatus()
-            };
-        }
-
-        private AdrBaseService.AssetStatus CreateCompleteAssetStatus()
-        {
-            return new AdrBaseService.AssetStatus
-            {
-                Config = new AdrBaseService.AssetStatusConfigSchema
-                {
-                    Error = new AdrBaseService.ConfigError
-                    {
-                        Code = "error-code",
-                        Message = "error-message",
-                        InnerError = new Dictionary<string, string> { { "inner-error", "inner-error-message" } },
-                        Details =
-                        [
-                            new()
-                            {
-                                Code = "detail-code",
-                                Message = "detail-message",
-                                Info = "info",
-                                CorrelationId = "correlation-id"
-                            }
-                        ]
-                    },
-                    LastTransitionTime = "2023-01-01T00:00:00Z",
-                    Version = 1
-                },
-                Datasets =
-                [
-                    new()
-                    {
-                        Name = "dataset1",
-                        Error = new AdrBaseService.ConfigError
-                        {
-                            Code = "dataset-error",
-                            Message = "dataset-error-message"
-                        },
-                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
-                        {
-                            SchemaName = "schema1",
-                            SchemaRegistryNamespace = "namespace1",
-                            SchemaVersion = "1.0"
-                        }
-                    }
-                ],
-                Events =
-                [
-                    new()
-                    {
-                        Name = "event1",
-                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
-                        {
-                            SchemaName = "event-schema",
-                            SchemaRegistryNamespace = "event-namespace",
-                            SchemaVersion = "2.0"
-                        }
-                    }
-                ],
-                ManagementGroups =
-                [
-                    new()
-                    {
-                        Name = "mgmt-group1",
-                        Actions =
-                        [
-                            new()
-                            {
-                                Name = "action1",
-                                Error = new AdrBaseService.ConfigError
-                                {
-                                    Code = "action-error",
-                                    Message = "action-error-message"
-                                },
-                                RequestMessageSchemaReference = new AdrBaseService.MessageSchemaReference
-                                {
-                                    SchemaName = "req-schema",
-                                    SchemaRegistryNamespace = "req-namespace",
-                                    SchemaVersion = "1.0"
-                                },
-                                ResponseMessageSchemaReference = new AdrBaseService.MessageSchemaReference
-                                {
-                                    SchemaName = "resp-schema",
-                                    SchemaRegistryNamespace = "resp-namespace",
-                                    SchemaVersion = "1.0"
-                                }
-                            }
-                        ]
-                    }
-                ],
-                Streams =
-                [
-                    new()
-                    {
-                        Name = "stream1",
-                        Error = new AdrBaseService.ConfigError
-                        {
-                            Code = "stream-error",
-                            Message = "stream-error-message"
-                        },
-                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
-                        {
-                            SchemaName = "stream-schema",
-                            SchemaRegistryNamespace = "stream-namespace",
-                            SchemaVersion = "3.0"
-                        }
-                    }
-                ]
-            };
         }
     }
 }
