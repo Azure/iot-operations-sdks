@@ -25,6 +25,8 @@ pub struct CommandInvokerOptions {
     #[builder(default)]
     pub topic_token_map: HashMap<String, String>,
     /// Prefix for the response topic.
+    /// If all response topic options are `None`, the response topic will be generated
+    /// based on the request topic in the form: `clients/<client_id>/<request_topic>`
     #[builder(default = "None")]
     pub response_topic_prefix: Option<String>,
     /// Suffix for the response topic.
