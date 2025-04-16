@@ -1,18 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-
 namespace Azure.Iot.Operations.Services.Assets
 {
     public class DeviceCreatedEventArgs : EventArgs
     {
-        public string AssetEndpointProfileName { get; set; }
+        public string DeviceName { get; set; }
 
-        internal DeviceCreatedEventArgs(string name)
+        public string InboundEndpointName { get; set; }
+
+        internal DeviceCreatedEventArgs(string deviceName, string inboundEndpointName)
         {
-            AssetEndpointProfileName = name;
+            DeviceName = deviceName;
+            InboundEndpointName = inboundEndpointName;
         }
     }
 }

@@ -24,11 +24,11 @@ namespace Azure.Iot.Operations.Services.Assets
         private readonly string? _deviceEndpointTlsTrustBundleCertMountPath;
         private readonly string? _deviceEndpointCredentialsMountPath;
 
-        // Key is <deviceName>_<inboundEndpointName>, value is the file watcher for the asset
-        private readonly ConcurrentDictionary<string, FilesMonitor> _assetFileMonitors = new();
-
         // Key is <deviceName>_<inboundEndpointName>, value is list of asset names in that file
         private readonly ConcurrentDictionary<string, List<string>> _lastKnownAssetNames = new();
+
+        // Key is <deviceName>_<inboundEndpointName>, value is the file watcher for the asset
+        private readonly ConcurrentDictionary<string, FilesMonitor> _assetFileMonitors = new();
 
         private FilesMonitor? _deviceDirectoryMonitor;
 
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Services.Assets
                     if (args.ChangeType == WatcherChangeTypes.Changed)
                     {
                         // Asset names may have changed. Compare new asset names with last known asset names for this device + inbound endpoint
-                        IEnumerable<string>? currentAssetNames = await GetAssetNamesAsync(deviceName, inboundEndpointName);
+                        IEnumerable<string>? currentAssetNames = GetAssetNames(deviceName, inboundEndpointName);
 
                         List<string> newAssetNames = new();
                         List<string> removedAssetNames = new();
@@ -130,15 +130,15 @@ namespace Azure.Iot.Operations.Services.Assets
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
                     string deviceName = args.FileName.Split("_")[0];
-                    string inboundEndpointName = args.FileName.Split("_")[1]; //TODO what to do with this?
+                    string inboundEndpointName = args.FileName.Split("_")[1];
 
                     if (args.ChangeType == WatcherChangeTypes.Created)
                     {
-                        DeviceCreated?.Invoke(this, new(deviceName));
+                        DeviceCreated?.Invoke(this, new(deviceName, inboundEndpointName));
                     }
                     else if (args.ChangeType == WatcherChangeTypes.Deleted)
                     {
-                        DeviceDeleted?.Invoke(this, new(deviceName));
+                        DeviceDeleted?.Invoke(this, new(deviceName, inboundEndpointName));
                     }
                 };
 
@@ -157,14 +157,14 @@ namespace Azure.Iot.Operations.Services.Assets
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<string>?> GetAssetNamesAsync(string deviceName, string inboundEndpointName)
+        public IEnumerable<string>? GetAssetNames(string deviceName, string inboundEndpointName)
         {
             List<string>? deviceNames = null;
 
             string devicePath = Path.Combine(_adrResourcesNameMountPath, $"{deviceName}_{inboundEndpointName}");
             if (Directory.Exists(devicePath))
             {
-                string contents = await GetMountedConfigurationValueAsStringAsync(devicePath);
+                string contents = GetMountedConfigurationValueAsString(devicePath);
                 string[] delimitedContents = contents.Split(";");
                 return [.. delimitedContents];
             }
@@ -191,28 +191,27 @@ namespace Azure.Iot.Operations.Services.Assets
 
         public void UnobserveAll()
         {
-            throw new NotImplementedException();
+            _deviceDirectoryMonitor?.Stop();
+            foreach (var assetMonitor in _assetFileMonitors.Values)
+            {
+                assetMonitor.Stop();
+            }
         }
 
-        public void Dispose()
+        private static string? GetMountedConfigurationValueAsString(string path)
         {
-            throw new NotImplementedException();
-        }
-
-        private static async Task<string?> GetMountedConfigurationValueAsStringAsync(string path)
-        {
-            byte[]? bytesRead = await GetMountedConfigurationValueAsync(path);
+            byte[]? bytesRead = GetMountedConfigurationValue(path);
             return bytesRead != null ? Encoding.UTF8.GetString(bytesRead) : null;
         }
 
-        private static async Task<byte[]?> GetMountedConfigurationValueAsync(string path)
+        private static byte[]? GetMountedConfigurationValue(string path)
         {
             if (!File.Exists(path))
             {
                 return null;
             }
 
-            return await FileUtilities.ReadFileWithRetryAsync(path);
+            return FileUtilities.ReadFileWithRetry(path);
         }
     }
 }

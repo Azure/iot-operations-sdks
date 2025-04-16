@@ -16,13 +16,13 @@ namespace Azure.Iot.Operations.Connector
 
         event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
 
-        void ObserveAssetEndpointProfiles();
+        void ObserveDevices();
 
-        void ObserveAssets(string aepName);
+        void ObserveAssets(string deviceName, string inboundEndpointName);
 
-        void UnobserveAssetEndpointProfiles();
+        void UnobserveDevices();
 
-        void UnobserveAssets(string aepName);
+        void UnobserveAssets(string deviceName, string inboundEndpointName);
 
         Task UnobserveAllAsync(CancellationToken cancellationToken = default);
     }

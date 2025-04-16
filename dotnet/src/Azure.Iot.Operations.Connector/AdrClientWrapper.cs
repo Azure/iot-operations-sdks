@@ -8,10 +8,8 @@ using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class AdrClientWrapper // TODO naming
+    public class AdrClientWrapper : IAdrClientWrapper // TODO naming
     {
-        //TODO nullablility of required fields in DTDL model types
-
         private readonly IAdrServiceClient _client;
         private readonly IAssetFileMonitor _monitor;
         private readonly HashSet<string> _observedAssetEndpointProfiles = new();
@@ -33,25 +31,25 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetDeleted += AssetFileDeleted;
         }
 
-        public void ObserveAssetEndpointProfiles()
+        public void ObserveDevices()
         {
             _monitor.ObserveDevices();
         }
 
-        public void ObserveAssets(string aepName)
+        public void ObserveAssets(string deviceName, string inboundEndpointName)
         {
-            _monitor.ObserveAssets(aepName);
+            _monitor.ObserveAssets(deviceName, inboundEndpointName);
         }
 
-        public void UnobserveAssetEndpointProfiles()
+        public void UnobserveDevices()
         {
             _monitor.UnobserveDevices();
-            //_client.UnobserveAssetEndpointProfileUpdatesAsync(); //TODO all at once or one AEP name at a time?
+            //_client.UnobserveAssetEndpointProfileUpdatesAsync();
         }
 
-        public void UnobserveAssets(string aepName)
+        public void UnobserveAssets(string deviceName, string inboundEndpointName)
         {
-            _monitor.UnobserveAssets(aepName);
+            _monitor.UnobserveAssets(deviceName, inboundEndpointName);
         }
 
         public async Task UnobserveAllAsync(CancellationToken cancellationToken = default)
@@ -118,19 +116,19 @@ namespace Azure.Iot.Operations.Connector
 
         private void AssetEndpointProfileFileDeleted(object? sender, DeviceDeletedEventArgs e)
         {
-            _client.UnobserveAssetEndpointProfileUpdatesAsync(e.AssetEndpointProfileName);
-            AssetEndpointProfileChanged?.Invoke(this, new(e.AssetEndpointProfileName, ChangeType.Deleted, null));
+            _client.UnobserveAssetEndpointProfileUpdatesAsync(e.DeviceName);
+            AssetEndpointProfileChanged?.Invoke(this, new(e.DeviceName, ChangeType.Deleted, null));
         }
 
         private async void AssetEndpointProfileFileCreated(object? sender, DeviceCreatedEventArgs e)
         {
-            var notificationResponse = await _client.ObserveAssetEndpointProfileUpdatesAsync(e.AssetEndpointProfileName);
+            var notificationResponse = await _client.ObserveAssetEndpointProfileUpdatesAsync(e.DeviceName);
 
             if (notificationResponse == NotificationResponse.Accepted)
             {
-                _observedAssetEndpointProfiles.Add(e.AssetEndpointProfileName);
-                var assetEndpointProfile = await _client.GetAssetEndpointProfileAsync(e.AssetEndpointProfileName);
-                AssetEndpointProfileChanged?.Invoke(this, new(e.AssetEndpointProfileName, ChangeType.Created, assetEndpointProfile));
+                _observedAssetEndpointProfiles.Add(e.DeviceName);
+                var assetEndpointProfile = await _client.GetAssetEndpointProfileAsync(e.DeviceName);
+                AssetEndpointProfileChanged?.Invoke(this, new(e.DeviceName, ChangeType.Created, assetEndpointProfile));
             }
 
             //TODO what if response is negative?
