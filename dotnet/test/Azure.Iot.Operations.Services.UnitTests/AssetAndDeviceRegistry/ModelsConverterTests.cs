@@ -269,7 +269,12 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                                 Topic = "default-config-topic"
                             }
                         }
-                    ]
+                    ],
+                    DeviceRef = new AdrBaseService.DeviceRefSchema
+                    {
+                        DeviceName = "device-name",
+                        EndpointName = "endpoint-name"
+                    }
                 },
                 Status = new AdrBaseService.AssetStatus
                 {
@@ -400,6 +405,8 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal("SN12345", result.Specification.SerialNumber);
             Assert.Equal("sw1.3", result.Specification.SoftwareRevision);
             Assert.Equal("ext-id-123", result.Specification.ExternalAssetId);
+            Assert.Equal("device-name", result.Specification.DeviceRef.DeviceName);
+            Assert.Equal("endpoint-name", result.Specification.DeviceRef.EndpointName);
 
             // Verify Attributes
             Assert.NotNull(result.Specification.Attributes);
