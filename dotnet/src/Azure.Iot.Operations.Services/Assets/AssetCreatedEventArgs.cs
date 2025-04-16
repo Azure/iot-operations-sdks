@@ -6,19 +6,19 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.Assets
 {
-    /// <summary>
-    /// EventArgs with context about which Asset changed and what kind of change happened to it.
-    /// </summary>
     public class AssetCreatedEventArgs : EventArgs
     {
-        public string AssetEndpointProfileName { get; set; }
+        public string DeviceName { get; set; }
+
+        public string InboundEndpointName { get; set; }
 
         public string AssetName { get; set; }
 
-        internal AssetCreatedEventArgs(string assetEndpointProfileName, string assetName)
+        internal AssetCreatedEventArgs(string deviceName, string inboundEndpointName, string assetName)
         {
-            AssetEndpointProfileName = assetEndpointProfileName;
+            DeviceName = deviceName;
             AssetName = assetName;
+            InboundEndpointName = inboundEndpointName;
         }
     }
 }

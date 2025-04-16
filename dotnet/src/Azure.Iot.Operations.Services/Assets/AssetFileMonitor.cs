@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.Assets
     /// <remarks>
     /// This class is only applicable for connector applications that have been deployed by the Akri operator.
     /// </remarks>
-    public class AssetFileMonitor : IAssetFileMonitor
+    public class AssetFileMonitor : IAssetFileMonitor // TODO should this be public?
     {
         // Environment variables set by operator when connector is deployed
         internal const string AdrResourcesNameMountPathEnvVar = "ADR_RESOURCES_NAME_MOUNT_PATH";
@@ -59,7 +59,7 @@ namespace Azure.Iot.Operations.Services.Assets
             {
                 FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
                 _assetFileMonitors.TryAdd(assetFileName, assetMonitor);
-                assetMonitor.OnFileChanged += async (sender, args) =>
+                assetMonitor.OnFileChanged += (sender, args) =>
                 {
                     if (args.ChangeType == WatcherChangeTypes.Changed)
                     {
@@ -106,6 +106,16 @@ namespace Azure.Iot.Operations.Services.Assets
                 };
 
                 assetMonitor.Start();
+
+                // Treate any assets that already exist as though they were just created
+                IEnumerable<string>? currentAssetNames = GetAssetNames(deviceName, inboundEndpointName);
+                if (currentAssetNames != null)
+                {
+                    foreach (string currentAssetName in currentAssetNames)
+                    {
+                        AssetCreated?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName));
+                    }
+                }
             }
         }
 
@@ -122,8 +132,6 @@ namespace Azure.Iot.Operations.Services.Assets
         /// <inheritdoc/>
         public void ObserveDevices()
         {
-            //TODO make start check the initial state!
-
             if (_deviceDirectoryMonitor != null)
             {
                 _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
@@ -143,6 +151,16 @@ namespace Azure.Iot.Operations.Services.Assets
                 };
 
                 _deviceDirectoryMonitor.Start();
+
+                // Treat any devices created before this call as newly created
+                IEnumerable<string>? currentDeviceNames = GetDeviceNames();
+                if (currentDeviceNames != null)
+                {
+                    foreach (string deviceName in currentDeviceNames)
+                    {
+                        DeviceCreated?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1]));
+                    }
+                }
             }
         }
 
@@ -164,7 +182,12 @@ namespace Azure.Iot.Operations.Services.Assets
             string devicePath = Path.Combine(_adrResourcesNameMountPath, $"{deviceName}_{inboundEndpointName}");
             if (Directory.Exists(devicePath))
             {
-                string contents = GetMountedConfigurationValueAsString(devicePath);
+                string? contents = GetMountedConfigurationValueAsString(devicePath);
+                if (contents == null)
+                {
+                    return null;
+                }
+
                 string[] delimitedContents = contents.Split(";");
                 return [.. delimitedContents];
             }
@@ -172,7 +195,7 @@ namespace Azure.Iot.Operations.Services.Assets
             return deviceNames;
         }
 
-        public IEnumerable<string>? GetDeviceNames()
+        public IEnumerable<string>? GetDeviceNames() // {<deviceName>_<inboundEndpointName>}
         {
             List<string>? deviceNames = null;
 
@@ -182,7 +205,7 @@ namespace Azure.Iot.Operations.Services.Assets
                 foreach (string fileNameWithPath in files)
                 {
                     deviceNames ??= new();
-                    deviceNames.Add(Path.GetFileName(fileNameWithPath).Split("_")[0]);
+                    deviceNames.Add(Path.GetFileName(fileNameWithPath));
                 }
             }
 
