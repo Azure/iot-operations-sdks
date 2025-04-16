@@ -5,5 +5,5 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record X509Credentials
 {
-    public string? CertificateSecretName { get; set; } = default;
+    public string? CertificateSecretName { get; set; }
 }

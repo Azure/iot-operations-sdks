@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DetectedAssetDatasetSchemaElementSchema
+    public partial class DetectedAssetDatasetSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'dataPoints' Field.
@@ -30,8 +30,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Name { get; set; } = default!;
 
         /// <summary>
         /// The 'topic' Field.
@@ -40,5 +41,20 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Topic? Topic { get; set; } = default;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
     }
 }

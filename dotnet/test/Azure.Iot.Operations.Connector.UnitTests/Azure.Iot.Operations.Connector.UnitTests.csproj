@@ -30,12 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TestMountFiles\**">
+    <Content Include="..\..\..\eng\test\test-connector-mount-files\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestMountFiles\AIO_MQTT_CLIENT_ID">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

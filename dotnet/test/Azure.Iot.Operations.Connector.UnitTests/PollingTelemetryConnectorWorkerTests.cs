@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.Assets;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -13,14 +12,17 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 {
     public sealed class PollingTelemetryConnectorWorkerTests
     {
-        /*
+        public PollingTelemetryConnectorWorkerTests()
+        {
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorConfigMountPathEnvVar, "./connector-config-no-auth-no-tls");
+            Environment.SetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar, "someClientId");
+        }
+
         [Fact]
         public async Task ConnectSingleAssetSingleDataset()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -70,10 +72,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task ConnectSingleAssetMultipleDatasets()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -146,10 +146,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task ConnectMultipleAssetsSingleDataset()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -230,10 +228,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task ConnectMultipleAssetsMultipleDataset()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -360,10 +356,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task DeletedAssetStopsSampling()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -424,10 +418,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task UpdateSingleAssetSingleDataset()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -494,10 +486,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task DatasetUsesDefaultsIfNoDatasetSpecificValuesConfigured()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -547,14 +537,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task ConnectorRecoversFromSamplingErrors()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             // This dataset sampler factory will create a faulty dataset sampler that fails to sample the dataset
             // for the first few attempts.
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory(true);
 
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, mockAssetMonitor);
@@ -603,10 +591,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task DeletingAssetEndpointProfileStopsSampling()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -668,10 +654,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task DeletingSingleAssetDoesNotStopSamplingOfOtherAsset()
         {
-            Environment.SetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH", "./TestMountFiles");
-
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAssetMonitor = new MockAdrClientWrapper();
+            MockAssetMonitor mockAssetMonitor = new MockAssetMonitor();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -764,6 +748,5 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             asset2TelemetryForwardedToBrokerTcs = new();
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
         }
-        */ //TODO
     }
 }

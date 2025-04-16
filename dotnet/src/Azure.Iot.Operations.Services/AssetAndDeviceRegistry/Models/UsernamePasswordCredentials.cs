@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record UsernamePasswordCredentials
 {
-    public string? PasswordSecretName { get; set; } = default;
+    public string? PasswordSecretName { get; set; }
 
-    public string? UsernameSecretName { get; set; } = default;
+    public string? UsernameSecretName { get; set; }
 }

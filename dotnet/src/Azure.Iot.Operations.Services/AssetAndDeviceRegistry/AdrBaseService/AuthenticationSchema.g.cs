@@ -16,8 +16,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The 'method' Field.
         /// </summary>
         [JsonPropertyName("method")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public MethodSchema? Method { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public MethodSchema Method { get; set; } = default!;
 
         /// <summary>
         /// The 'usernamePasswordCredentials' Field.

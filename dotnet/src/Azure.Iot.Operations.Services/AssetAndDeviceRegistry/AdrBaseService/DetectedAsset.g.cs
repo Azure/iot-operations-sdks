@@ -10,14 +10,15 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DetectedAsset
+    public partial class DetectedAsset : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// A reference to the asset endpoint profile.
         /// </summary>
         [JsonPropertyName("assetEndpointProfileRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AssetEndpointProfileRef { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string AssetEndpointProfileRef { get; set; } = default!;
 
         /// <summary>
         /// Name of the asset if available.
@@ -117,5 +118,20 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? SoftwareRevision { get; set; } = default;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (AssetEndpointProfileRef is null)
+            {
+                throw new ArgumentNullException("assetEndpointProfileRef field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (AssetEndpointProfileRef is null)
+            {
+                throw new ArgumentNullException("assetEndpointProfileRef field cannot be null");
+            }
+        }
     }
 }

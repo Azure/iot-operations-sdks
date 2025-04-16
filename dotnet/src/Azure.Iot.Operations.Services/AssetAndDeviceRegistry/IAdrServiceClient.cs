@@ -8,129 +8,164 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 public interface IAdrServiceClient : IAsyncDisposable
 {
     /// <summary>
-    /// Starts observing updates for a specified Asset Endpoint Profile (AEP).
+    /// Observes updates for a specific device endpoint.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile to observe.</param>
-    /// <param name="commandTimeout"></param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> ObserveAssetEndpointProfileUpdatesAsync(string aepName,
-        TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Stops observing updates for a specified Asset Endpoint Profile (AEP).
-    /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile to stop observing.</param>
-    /// <param name="commandTimeout"></param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> UnobserveAssetEndpointProfileUpdatesAsync(string aepName,
-        TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Retrieves the details of a specified Asset Endpoint Profile (AEP).
-    /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile to retrieve.</param>
-    /// <param name="commandTimeout">Optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>The requested Asset Endpoint Profile.</returns>
-    Task<AssetEndpointProfile> GetAssetEndpointProfileAsync(string aepName, TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Updates the status of a specified Asset Endpoint Profile (AEP).
-    /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile to update.</param>
-    /// <param name="request">The request containing the status update details.</param>
-    /// <param name="commandTimeout">Optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>The updated Asset Endpoint Profile.</returns>
-    Task<AssetEndpointProfile> UpdateAssetEndpointProfileStatusAsync(string aepName,
-        UpdateAssetEndpointProfileStatusRequest request,
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
+    Task<NotificationResponse> ObserveDeviceEndpointUpdatesAsync(
+        string deviceName,
+        string inboundEndpointName,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts observing updates for a specified asset within an Asset Endpoint Profile (AEP).
+    /// Stops observing updates for a specific device endpoint.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
-    /// <param name="assetName">The name of the asset to observe.</param>
-    /// <param name="commandTimeout">The optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> ObserveAssetUpdatesAsync(string aepName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
+    Task<NotificationResponse> UnobserveDeviceEndpointUpdatesAsync(
+        string deviceName,
+        string inboundEndpointName,
+        TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Stops observing updates for a specified asset within an Asset Endpoint Profile (AEP).
+    /// Retrieves details of a specific device.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
-    /// <param name="assetName">The name of the asset to stop observing.</param>
-    /// <param name="commandTimeout">The optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>A notification response indicating the result of the operation.</returns>
-    Task<NotificationResponse> UnobserveAssetUpdatesAsync(string aepName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default);
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the device details.</returns>
+    Task<Device> GetDeviceAsync(
+        string deviceName,
+        string inboundEndpointName,
+        TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves details of a specified asset within an Asset Endpoint Profile (AEP).
+    /// Updates the status of a specific device.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
-    /// <param name="request">The request containing asset retrieval details.</param>
-    /// <param name="commandTimeout">Optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>The requested asset details.</returns>
-    Task<Asset> GetAssetAsync(string aepName,
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="status">The new status of the device.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the updated device details.</returns>
+    Task<Device> UpdateDeviceStatusAsync(
+        string deviceName,
+        string inboundEndpointName,
+        DeviceStatus status,
+        TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Observes updates for a specific asset.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="assetName">The name of the asset.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
+    Task<NotificationResponse> ObserveAssetUpdatesAsync(
+        string deviceName,
+        string inboundEndpointName,
+        string assetName,
+        TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Stops observing updates for a specific asset.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="assetName">The name of the asset.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
+    Task<NotificationResponse> UnobserveAssetUpdatesAsync(
+        string deviceName,
+        string inboundEndpointName,
+        string assetName,
+        TimeSpan? commandTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves details of a specific asset.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="request">The request containing asset retrieval parameters.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the asset details.</returns>
+    Task<Asset> GetAssetAsync(
+        string deviceName,
+        string inboundEndpointName,
         GetAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the status of a specified asset within an Asset Endpoint Profile (AEP).
+    /// Updates the status of a specific asset.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
-    /// <param name="request">The request containing the asset status update details.</param>
-    /// <param name="commandTimeout">Optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>The updated asset details.</returns>
-    Task<Asset> UpdateAssetStatusAsync(string aepName,
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="request">The request containing asset status update parameters.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the updated asset details.</returns>
+    Task<Asset> UpdateAssetStatusAsync(
+        string deviceName,
+        string inboundEndpointName,
         UpdateAssetStatusRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a detected asset within an Asset Endpoint Profile (AEP).
+    /// Creates a detected asset.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
-    /// <param name="request">The request containing details of the detected asset.</param>
-    /// <param name="commandTimeout">Optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>The response containing details of the created detected asset.</returns>
-    Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string aepName,
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="request">The request containing detected asset creation parameters.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response for the created detected asset.</returns>
+    Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(
+        string deviceName,
+        string inboundEndpointName,
         CreateDetectedAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a discovered Asset Endpoint Profile (AEP).
+    /// Creates a discovered asset endpoint profile.
     /// </summary>
-    /// <param name="aepName">The name of the Asset Endpoint Profile.</param>
-    /// <param name="request">The request containing details of the discovered AEP.</param>
-    /// <param name="commandTimeout">Optional timeout for the command execution.</param>
-    /// <param name="cancellationToken">Token to cancel the operation.</param>
-    /// <returns>The response containing details of the created discovered AEP.</returns>
-    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(string aepName,
+    /// <param name="request">The request containing discovered asset endpoint profile creation parameters.</param>
+    /// <param name="commandTimeout">Optional timeout for the command.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered asset endpoint profile.</returns>
+    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(
         CreateDiscoveredAssetEndpointProfileRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Event triggered when telemetry updates for an Asset Endpoint Profile (AEP) are received.
-    /// NOTE: This event starts triggering when <see cref="ObserveAssetEndpointProfileUpdatesAsync"/> called.
+    /// Event triggered when a device update telemetry event is received.
+    /// NOTE: This event starts triggering after the call to ObserveDeviceEndpointUpdatesAsync.
     /// </summary>
-    event Func<string, AssetEndpointProfile?, Task>? OnReceiveAssetEndpointProfileUpdateTelemetry;
+    event Func<string, Device?, Task>? OnReceiveDeviceUpdateEventTelemetry;
 
     /// <summary>
-    /// Event triggered when telemetry updates for an asset are received.
-    /// NOTE: This event starts triggering when <see cref="ObserveAssetUpdatesAsync"/> called.
+    /// Event triggered when an asset update telemetry event is received.
+    /// NOTE: This event starts triggering after the call to ObserveAssetUpdatesAsync.
     /// </summary>
     event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry;
 }

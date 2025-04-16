@@ -1,104 +1,49 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Diagnostics;
-using System.Text.Json;
-
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetSpecification
 {
-    public string? AssetEndpointProfileRef { get; set; } = default;
+    public Dictionary<string, string>? Attributes { get; set; }
 
-    public Dictionary<string, string>? Attributes { get; set; } = default;
+    public List<AssetDatasetSchemaElement>? Datasets { get; set; }
 
-    public List<AssetDatasetSchemaElement>? Datasets { get; set; } = default;
+    public string? DefaultDatasetsConfiguration { get; set; }
 
-    public Dictionary<string, AssetDatasetSchemaElement>? DatasetsDictionary
-    {
-        get
-        {
-            Dictionary<string, AssetDatasetSchemaElement>? dictionary = null;
-            if (Datasets != null)
-            {
-                dictionary = new();
-                foreach (AssetDatasetSchemaElement dataset in Datasets)
-                {
-                    if (!string.IsNullOrWhiteSpace(dataset.Name))
-                    {
-                        dictionary[dataset.Name] = dataset;
-                    }
-                    else
-                    {
-                        Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
-                    }
-                }
-            }
+    public List<DefaultDatasetsDestinationsSchemaElement>? DefaultDatasetsDestinations { get; set; }
 
-            return dictionary;
-        }
-    }
+    public string? DefaultEventsConfiguration { get; set; }
 
-    public JsonDocument? DefaultDatasetsConfiguration { get; set; } = default;
+    public string? Description { get; set; }
 
-    public JsonDocument? DefaultEventsConfiguration { get; set; } = default;
+    public List<string>? DiscoveredAssetRefs { get; set; }
 
-    public Topic? DefaultTopic { get; set; } = default;
+    public string? DisplayName { get; set; }
 
-    public string? Description { get; set; } = default;
+    public string? DocumentationUri { get; set; }
 
-    public List<string>? DiscoveredAssetRefs { get; set; } = default;
+    public bool? Enabled { get; set; }
 
-    public string? DisplayName { get; set; } = default;
+    public List<AssetEventSchemaElement>? Events { get; set; }
 
-    public string? DocumentationUri { get; set; } = default;
+    public string? ExternalAssetId { get; set; }
 
-    public bool? Enabled { get; set; } = default;
+    public string? HardwareRevision { get; set; }
 
-    public List<AssetEventSchemaElement>? Events { get; set; } = default;
+    public string? Manufacturer { get; set; }
 
-    public Dictionary<string, AssetEventSchemaElement>? EventsDictionary
-    {
-        get
-        {
-            Dictionary<string, AssetEventSchemaElement>? dictionary = null;
-            if (Events != null)
-            {
-                dictionary = new();
-                foreach (AssetEventSchemaElement assetEvent in Events)
-                {
-                    if (!string.IsNullOrWhiteSpace(assetEvent.Name))
-                    {
-                        dictionary[assetEvent.Name] = assetEvent;
-                    }
-                    else
-                    {
-                        Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
-                    }
-                }
-            }
+    public string? ManufacturerUri { get; set; }
 
-            return dictionary;
-        }
-    }
+    public string? Model { get; set; }
 
-    public string? ExternalAssetId { get; set; } = default;
+    public string? ProductCode { get; set; }
 
-    public string? HardwareRevision { get; set; } = default;
+    public string? SerialNumber { get; set; }
 
-    public string? Manufacturer { get; set; } = default;
+    public string? SoftwareRevision { get; set; }
 
-    public string? ManufacturerUri { get; set; } = default;
+    public string? Uuid { get; set; }
 
-    public string? Model { get; set; } = default;
-
-    public string? ProductCode { get; set; } = default;
-
-    public string? SerialNumber { get; set; } = default;
-
-    public string? SoftwareRevision { get; set; } = default;
-
-    public string? Uuid { get; set; } = default;
-
-    public string? Version { get; set; } = default;
+    public ulong? Version { get; set; }
 }
