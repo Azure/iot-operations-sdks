@@ -6,6 +6,7 @@
 use notify::RecommendedWatcher;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
+use tokio::sync::mpsc::UnboundedReceiver;
 use tokio_stream::Stream;
 /// A client that interacts with the file mount
 ///
@@ -144,6 +145,15 @@ impl FileMountClient {
     }
 }
 
+/// Represents an observation for asset creation events.
+///
+/// This struct contains an internal channel for receiving notifications
+/// about newly created assets.
+pub struct AssetCreateObservation {
+    /// The internal channel for receiving notifications for an asset creation event.
+    #[allow(dead_code)]
+    receiver: UnboundedReceiver<AssetRef>,
+}
 /// Represents a device and its associated endpoint.
 pub struct DeviceEndpointRef {
     /// The name of the device
