@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Assets;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;

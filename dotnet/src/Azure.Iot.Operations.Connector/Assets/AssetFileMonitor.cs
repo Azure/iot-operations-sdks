@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.Assets.FileMonitor;
+using Azure.Iot.Operations.Connector.Assets.FileMonitor;
 using System.Collections.Concurrent;
 using System.Text;
 
-namespace Azure.Iot.Operations.Services.Assets
+namespace Azure.Iot.Operations.Connector.Assets
 {
     /// <summary>
     /// This class allows for getting and monitor changes to assets and asset endpoint profiles.
@@ -21,8 +21,8 @@ namespace Azure.Iot.Operations.Services.Assets
         internal const string DeviceEndpointCredentialsMountPathEnvVar = "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH";
 
         private readonly string _adrResourcesNameMountPath;
-        private readonly string? _deviceEndpointTlsTrustBundleCertMountPath;
-        private readonly string? _deviceEndpointCredentialsMountPath;
+        private readonly string _deviceEndpointTlsTrustBundleCertMountPath;
+        private readonly string _deviceEndpointCredentialsMountPath;
 
         // Key is <deviceName>_<inboundEndpointName>, value is list of asset names in that file
         private readonly ConcurrentDictionary<string, List<string>> _lastKnownAssetNames = new();
@@ -47,8 +47,8 @@ namespace Azure.Iot.Operations.Services.Assets
         public AssetFileMonitor()
         {
             _adrResourcesNameMountPath = Environment.GetEnvironmentVariable(AdrResourcesNameMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {AdrResourcesNameMountPathEnvVar} environment variable");
-            _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar);
-            _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar);
+            _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {DeviceEndpointTlsTrustBundleCertMountPathEnvVar} environment variable");
+            _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {DeviceEndpointCredentialsMountPathEnvVar} environment variable");
         }
 
         /// <inheritdoc/>
@@ -212,14 +212,21 @@ namespace Azure.Iot.Operations.Services.Assets
             return deviceNames;
         }
 
-        public string GetDeviceCredentials(string deviceName, string inboundEndpointName)
+        public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
         {
+            string fileName = $"{deviceName}_{inboundEndpointName}";
+            string? username = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_username"));
+            byte[]? password = GetMountedConfigurationValue(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_password"));
+            string? clientCertificate = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_certificate"));
+            string? caCert = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, fileName));
 
-        }
-
-        public string GetDeviceTrustBundleCaCertLocation(string deviceName, string inboundEndpointName)
-        {
-
+            return new DeviceCredentials()
+            {
+                Username = username,
+                Password = password,
+                ClientCertificate = clientCertificate,
+                CaCertificate = caCert
+            };
         }
 
         public void UnobserveAll()
