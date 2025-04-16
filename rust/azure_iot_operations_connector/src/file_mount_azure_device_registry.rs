@@ -3,41 +3,20 @@
 
 //!Azure Device Registry Client that uses file mount to get names and create/delete notifications.
 
-use notify::{RecommendedWatcher, RecursiveMode, Watcher};
-use std::path::{Path, PathBuf};
+use notify::RecommendedWatcher;
+use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use tokio_stream::Stream;
 /// A client that interacts with the file mount
 ///
 /// This client provides functionality to retrieve device names and handle
 /// create/delete notifications from the Azure Device Registry.
+#[allow(dead_code)]
 pub struct FileMountClient {
-    mount_path: PathBuf,
-    watcher: Arc<Mutex<RecommendedWatcher>>,
-}
-
-impl FileMountClient {
-    /// Returns the mount path.
-    #[must_use]
-    pub fn get_mount_path(&self) -> &Path {
-        &self.mount_path
-    }
-
-    /// Starts watching the mount path for changes.
-    ///
-    /// # Returns
-    /// A `Result` indicating success or failure.
-    /// # Errors
-    /// Returns an error if the watcher cannot be started or if there is an issue with the file mount.
-    pub fn start_watching(&self) -> Result<(), FileMountError> {
-        let mut watcher = self.watcher.lock().map_err(|_| {
-            FileMountError::NotifyError(notify::Error::generic("Failed to lock watcher"))
-        })?;
-        watcher
-            .watch(&self.mount_path, RecursiveMode::Recursive)
-            .map_err(FileMountError::NotifyError)?;
-        Ok(())
-    }
+    /// The path to the file mount used by the client.
+    pub mount_path: PathBuf,
+    /// A file watcher used to monitor changes in the file mount.
+    pub watcher: Arc<Mutex<RecommendedWatcher>>,
 }
 
 impl FileMountClient {
@@ -51,6 +30,7 @@ impl FileMountClient {
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub fn new(mount_path_env_var: &str) -> Result<Self, FileMountError> {
+        // read env vars here direclty without taking them, const at top of files
         let mount_path = PathBuf::from(mount_path_env_var);
         let watcher = notify::recommended_watcher(|_| {}).map_err(FileMountError::NotifyError)?;
         Ok(Self {
@@ -65,7 +45,7 @@ impl FileMountClient {
     /// A vector of device names as strings.    
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
-    pub fn get_device_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
+    pub fn get_device_names(&self) -> Result<Vec<String>, FileMountError> {
         Ok(vec![])
     }
 
@@ -75,7 +55,7 @@ impl FileMountClient {
     ///  names of all available assets from the monitored directory    
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
-    pub fn get_asset_names(&self) -> Result<Vec<String>, Box<FileMountError>> {
+    pub fn get_asset_names(&self) -> Result<Vec<String>, FileMountError> {
         Ok(vec![])
     }
 
@@ -87,7 +67,7 @@ impl FileMountClient {
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_device_endpoint_create(
         &self,
-    ) -> Result<impl Stream<Item = DeviceEndpoint> + Send + 'static, FileMountError> {
+    ) -> Result<impl Stream<Item = DeviceEndpointRef> + Send + 'static, FileMountError> {
         // Monitor directory for new files
         // Parse filenames to extract device and endpoint names
         // Return stream of new device/endpoint combinations
@@ -105,7 +85,7 @@ impl FileMountClient {
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_device_endpoint_delete(
         &self,
-    ) -> Result<impl Stream<Item = DeviceEndpoint> + Send + 'static, FileMountError> {
+    ) -> Result<impl Stream<Item = DeviceEndpointRef> + Send + 'static, FileMountError> {
         // Monitor directory for deleted files
         // Parse filenames to extract device and endpoint info
         // Return stream of removed device/endpoint combinations
@@ -129,7 +109,7 @@ impl FileMountClient {
         &self,
         _device: &str,
         _endpoint: &str,
-    ) -> Result<impl Stream<Item = Asset> + Send + 'static, FileMountError> {
+    ) -> Result<impl Stream<Item = AssetRef> + Send + 'static, FileMountError> {
         // Monitor specific file content changes
         // Compare old and new content to detect added assets
         // Return stream of newly added assets
@@ -153,7 +133,7 @@ impl FileMountClient {
         &self,
         _device: &str,
         _endpoint: &str,
-    ) -> Result<impl Stream<Item = Asset> + Send + 'static, FileMountError> {
+    ) -> Result<impl Stream<Item = AssetRef> + Send + 'static, FileMountError> {
         // Monitor specific file content changes
         // Compare old and new content to detect removed assets
         // Return stream of removed assets
@@ -165,7 +145,7 @@ impl FileMountClient {
 }
 
 /// Represents a device and its associated endpoint.
-pub struct DeviceEndpoint {
+pub struct DeviceEndpointRef {
     /// The name of the device
     pub device_name: String,
     /// The name of the endpoint
@@ -173,7 +153,7 @@ pub struct DeviceEndpoint {
 }
 
 /// Represents an asset associated with a specific device and endpoint.
-pub struct Asset {
+pub struct AssetRef {
     /// The name of the asset
     pub name: String,
     /// The name of the device
@@ -188,13 +168,16 @@ pub struct Asset {
 pub enum FileMountError {
     #[error("Failed to access filesystem: {0}")]
     /// Error that occurs when accessing the filesystem.
+    /// NOT retriable
     FilesystemError(#[from] std::io::Error),
 
     /// Error that occurs when there is an issue with the file watcher.
+    /// retriable ??
     #[error("Watcher error: {0}")]
     NotifyError(#[from] notify::Error),
 
     /// Error that occurs when parsing file content fails.
+    /// retriable
     #[error("Failed to parse file content: {0}")]
     ParseError(String),
     // Add other error variants as needed
