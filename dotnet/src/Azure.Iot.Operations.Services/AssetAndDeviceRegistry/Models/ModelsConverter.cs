@@ -96,6 +96,7 @@ internal static class ModelsConverter
             DiscoveredAssetRefs = source.DiscoveredAssetRefs,
             ExternalAssetId = source.ExternalAssetId,
             DefaultDatasetsDestinations = source.DefaultDatasetsDestinations?.Select(x => x.ToModel()).ToList(),
+            DeviceRef = source.DeviceRef.ToModel(),
         };
     }
 
@@ -402,6 +403,15 @@ internal static class ModelsConverter
             Error = source.Error?.ToModel(),
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToModel()
+        };
+    }
+
+    internal static DeviceRef ToModel(this DeviceRefSchema source)
+    {
+        return new DeviceRef
+        {
+            DeviceName = source.DeviceName,
+            EndpointName = source.EndpointName
         };
     }
 }

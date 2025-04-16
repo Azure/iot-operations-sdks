@@ -17,6 +17,8 @@ public record AssetSpecification
 
     public string? Description { get; set; }
 
+    public required DeviceRef DeviceRef { get; set; }
+
     public List<string>? DiscoveredAssetRefs { get; set; }
 
     public string? DisplayName { get; set; }
