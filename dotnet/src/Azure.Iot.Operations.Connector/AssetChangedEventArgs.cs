@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -16,7 +15,9 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public ChangeType ChangeType { get; set; }
 
-        public string AssetEndpointProfileName { get; set; }
+        public string DeviceName { get; set; }
+
+        public string InboundEndpointName { get; set; }
 
         /// <summary>
         /// The name of the asset that changed. This value is provided even if the asset was deleted.
@@ -31,9 +32,10 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public Asset? Asset { get; set; }
 
-        internal AssetChangedEventArgs(string assetEndpointProfile, string assetName, ChangeType changeType, Asset? asset)
+        internal AssetChangedEventArgs(string deviceName, string inboundDeviceEndpointName, string assetName, ChangeType changeType, Asset? asset)
         {
-            AssetEndpointProfileName = assetEndpointProfile;
+            DeviceName = deviceName;
+            InboundEndpointName = inboundDeviceEndpointName;
             AssetName = assetName;
             ChangeType = changeType;
             Asset = asset;

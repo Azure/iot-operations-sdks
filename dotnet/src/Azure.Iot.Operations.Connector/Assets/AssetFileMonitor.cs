@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                         foreach (string removedAssetName in removedAssetNames)
                         {
                             _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
-                            AssetDeleted?.Invoke(this, new(deviceName, removedAssetName));
+                            AssetDeleted?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName));
                         }
                     }
                 };

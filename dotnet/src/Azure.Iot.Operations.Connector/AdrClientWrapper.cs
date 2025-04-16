@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Assets;
+using Azure.Iot.Operations.Connector.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -89,25 +89,25 @@ namespace Azure.Iot.Operations.Connector
 
         private void AssetFileDeleted(object? sender, AssetDeletedEventArgs e)
         {
-            _client.UnobserveAssetUpdatesAsync(e.AssetEndpointProfileName, e.AssetName);
-            AssetChanged?.Invoke(this, new(e.AssetEndpointProfileName, e.AssetName, ChangeType.Deleted, null));
+            _client.UnobserveAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
+            AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
         }
 
         private async void AssetFileCreated(object? sender, AssetCreatedEventArgs e)
         {
-            var notificationResponse = await _client.ObserveAssetUpdatesAsync(e.AssetEndpointProfileName, e.AssetName);
+            var notificationResponse = await _client.ObserveAssetUpdatesAsync(e.DeviceName, e.AssetName);
 
             if (notificationResponse == NotificationResponse.Accepted)
             {
-                if (_observedAssets[e.AssetEndpointProfileName] != null)
+                if (_observedAssets[e.DeviceName] != null)
                 {
-                    _observedAssets[e.AssetEndpointProfileName] = new();
+                    _observedAssets[e.DeviceName] = new();
                 }
 
-                _observedAssets[e.AssetEndpointProfileName].Add(e.AssetName);
+                _observedAssets[e.DeviceName].Add(e.AssetName);
 
-                var asset = await _client.GetAssetAsync(e.AssetEndpointProfileName, new GetAssetRequest() { AssetName = e.AssetName });
-                AssetChanged?.Invoke(this, new(e.AssetEndpointProfileName, e.AssetName, ChangeType.Created, null));
+                var asset = await _client.GetAssetAsync(e.DeviceName, new GetAssetRequest() { AssetName = e.AssetName });
+                AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, null));
 
             }
 
