@@ -12,8 +12,9 @@ using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistr
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : IAdrServiceClient
+public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string connectorClientId) : IAdrServiceClient
 {
+    private const string _connectorClientIdTokenKey = "connectorClientId";
     private const string _endpointNameTokenKey = "inboundEndpointName";
     private const string _deviceNameTokenKey = "deviceName";
     private const byte _dummyByte = 1;
@@ -48,7 +49,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         _observedEndpoints[$"{deviceName}_{endpointName}"] = _dummyByte;
         await _assetServiceClient.DeviceUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
         var notificationRequest = new SetNotificationPreferenceForDeviceUpdatesRequestPayload
         {
             NotificationPreferenceRequest = NotificationPreference.On
@@ -75,7 +81,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             await _assetServiceClient.DeviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
         }
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
         var notificationRequest = new SetNotificationPreferenceForDeviceUpdatesRequestPayload
         {
             NotificationPreferenceRequest = NotificationPreference.Off
@@ -97,7 +108,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
 
         var result = await _assetServiceClient.GetDeviceAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
             cancellationToken);
@@ -111,7 +127,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
 
         var request = new UpdateDeviceStatusRequestPayload
         {
@@ -138,7 +159,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         _observedAssets[$"{deviceName}_{endpointName}_{assetName}"] = _dummyByte;
         await _assetServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
         var notificationRequest = new SetNotificationPreferenceForAssetUpdatesRequestPayload
         {
             NotificationPreferenceRequest = new SetNotificationPreferenceForAssetUpdatesRequestSchema
@@ -170,7 +196,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             await _assetServiceClient.AssetUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
         }
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
         var notificationRequest = new SetNotificationPreferenceForAssetUpdatesRequestPayload
         {
             NotificationPreferenceRequest = new SetNotificationPreferenceForAssetUpdatesRequestSchema
@@ -196,7 +227,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
 
         var result = await _assetServiceClient.GetAssetAsync(
             request.ToProtocol(),
@@ -215,7 +251,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
 
         var result = await _assetServiceClient.UpdateAssetStatusAsync(request.ToProtocol(),
             null,
@@ -232,7 +273,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
 
         var result = await _assetServiceClient.CreateDetectedAssetAsync(
             request.ToProtocol(),
@@ -250,7 +296,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var additionalTopicTokenMap = new Dictionary<string, string> { { _deviceNameTokenKey, deviceName }, { _endpointNameTokenKey, endpointName } };
+        Dictionary<string, string> additionalTopicTokenMap = new()
+        {
+            { _connectorClientIdTokenKey, connectorClientId },
+            { _deviceNameTokenKey, deviceName },
+            { _endpointNameTokenKey, endpointName }
+        };
 
         var result = await _deviceServiceClient.CreateDiscoveredAssetEndpointProfileAsync(
             request.ToProtocol(),
