@@ -33,16 +33,16 @@ namespace Azure.Iot.Operations.Connector.Assets
         private FilesMonitor? _deviceDirectoryMonitor;
 
         /// </inheritdoc>
-        public event EventHandler<AssetCreatedEventArgs>? AssetCreated;
+        public event EventHandler<AssetCreatedEventArgs>? AssetFileCreated;
 
         /// </inheritdoc>
-        public event EventHandler<AssetDeletedEventArgs>? AssetDeleted;
+        public event EventHandler<AssetDeletedEventArgs>? AssetFileDeleted;
 
         /// </inheritdoc>
-        public event EventHandler<DeviceCreatedEventArgs>? DeviceCreated;
+        public event EventHandler<DeviceCreatedEventArgs>? DeviceFileCreated;
 
         /// </inheritdoc>
-        public event EventHandler<DeviceDeletedEventArgs>? DeviceDeleted;
+        public event EventHandler<DeviceDeletedEventArgs>? DeviceFileDeleted;
 
         public AssetFileMonitor()
         {
@@ -94,13 +94,13 @@ namespace Azure.Iot.Operations.Connector.Assets
                         foreach (string addedAssetName in newAssetNames)
                         {
                             _lastKnownAssetNames[assetFileName].Add(addedAssetName);
-                            AssetCreated?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName));
+                            AssetFileCreated?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName));
                         }
 
                         foreach (string removedAssetName in removedAssetNames)
                         {
                             _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
-                            AssetDeleted?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName));
+                            AssetFileDeleted?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName));
                         }
                     }
                 };
@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string currentAssetName in currentAssetNames)
                     {
-                        AssetCreated?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName));
+                        AssetFileCreated?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName));
                     }
                 }
             }
@@ -142,11 +142,11 @@ namespace Azure.Iot.Operations.Connector.Assets
 
                     if (args.ChangeType == WatcherChangeTypes.Created)
                     {
-                        DeviceCreated?.Invoke(this, new(deviceName, inboundEndpointName));
+                        DeviceFileCreated?.Invoke(this, new(deviceName, inboundEndpointName));
                     }
                     else if (args.ChangeType == WatcherChangeTypes.Deleted)
                     {
-                        DeviceDeleted?.Invoke(this, new(deviceName, inboundEndpointName));
+                        DeviceFileDeleted?.Invoke(this, new(deviceName, inboundEndpointName));
                     }
                 };
 
@@ -158,7 +158,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string deviceName in currentDeviceNames)
                     {
-                        DeviceCreated?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1]));
+                        DeviceFileCreated?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1]));
                     }
                 }
             }

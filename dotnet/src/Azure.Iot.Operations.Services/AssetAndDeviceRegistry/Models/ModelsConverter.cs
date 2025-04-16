@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Text.Json;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 
@@ -91,8 +92,8 @@ internal static class ModelsConverter
             ProductCode = source.ProductCode,
             SerialNumber = source.SerialNumber,
             SoftwareRevision = source.SoftwareRevision,
-            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration,
-            DefaultEventsConfiguration = source.DefaultEventsConfiguration,
+            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration != null ? JsonDocument.Parse(source.DefaultDatasetsConfiguration) : null,
+            DefaultEventsConfiguration = source.DefaultEventsConfiguration != null ? JsonDocument.Parse(source.DefaultEventsConfiguration) : null,
             DiscoveredAssetRefs = source.DiscoveredAssetRefs,
             ExternalAssetId = source.ExternalAssetId,
             DefaultDatasetsDestinations = source.DefaultDatasetsDestinations?.Select(x => x.ToModel()).ToList(),
@@ -154,7 +155,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             DataSource = source.DataSource,
-            DataPointConfiguration = source.DataPointConfiguration,
+            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration) : null,
             TypeRef = source.TypeRef,
         };
     }
@@ -174,7 +175,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
-            EventConfiguration = source.EventConfiguration,
+            EventConfiguration = source.EventConfiguration != null ? JsonDocument.Parse(source.EventConfiguration) : null,
             EventNotifier = source.EventNotifier,
             DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
         };
@@ -199,7 +200,7 @@ internal static class ModelsConverter
         return new AssetEventDataPointSchemaElement
         {
             DataSource = source.DataSource,
-            DataPointConfiguration = source.DataPointConfiguration,
+            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration) : null,
             Name = source.Name
         };
     }

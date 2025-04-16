@@ -5,13 +5,13 @@ namespace Azure.Iot.Operations.Connector.Assets
 {
     public interface IAssetFileMonitor
     {
-        event EventHandler<AssetCreatedEventArgs>? AssetCreated;
+        event EventHandler<AssetCreatedEventArgs>? AssetFileCreated;
 
-        event EventHandler<AssetDeletedEventArgs>? AssetDeleted;
+        event EventHandler<AssetDeletedEventArgs>? AssetFileDeleted;
 
-        event EventHandler<DeviceCreatedEventArgs>? DeviceCreated;
+        event EventHandler<DeviceCreatedEventArgs>? DeviceFileCreated;
 
-        event EventHandler<DeviceDeletedEventArgs>? DeviceDeleted;
+        event EventHandler<DeviceDeletedEventArgs>? DeviceFileDeleted;
 
         void ObserveAssets(string deviceName, string inboundEndpointName);
 

@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Connector
     {
         event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
-        event EventHandler<AssetEndpointProfileChangedEventArgs>? AssetEndpointProfileChanged;
+        event EventHandler<DeviceChangedEventArgs>? AssetEndpointProfileChanged;
 
         void ObserveDevices();
 
