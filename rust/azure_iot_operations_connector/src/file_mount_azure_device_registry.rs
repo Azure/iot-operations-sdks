@@ -7,7 +7,9 @@ use notify::RecommendedWatcher;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use tokio::sync::mpsc::UnboundedReceiver;
-use tokio_stream::Stream;
+
+const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "/etc/akri/config/adr_resources_names";
+
 /// A client that interacts with the file mount
 ///
 /// This client provides functionality to retrieve device names and handle
@@ -30,10 +32,11 @@ impl FileMountClient {
     /// A `Result` containing the initialized `FileMountClient` or a `FileMountError`.
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
-    pub fn new(mount_path_env_var: &str) -> Result<Self, FileMountError> {
+    pub fn new() -> Result<Self, FileMountError> {
         // read env vars here direclty without taking them, const at top of files
-        let mount_path = PathBuf::from(mount_path_env_var);
+        let mount_path = PathBuf::from(ADR_RESOURCES_NAME_MOUNT_PATH);
         let watcher = notify::recommended_watcher(|_| {}).map_err(FileMountError::NotifyError)?;
+
         Ok(Self {
             mount_path,
             watcher: Arc::new(Mutex::new(watcher)),
@@ -63,39 +66,27 @@ impl FileMountClient {
     /// Observes the creation of device endpoints.
     ///
     /// # Returns
-    /// A stream of `DeviceEndpoint` items representing newly created device endpoints.    
+    /// `DeviceEndpointCreateObservation`.
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_device_endpoint_create(
         &self,
-    ) -> Result<impl Stream<Item = DeviceEndpointRef> + Send + 'static, FileMountError> {
-        // Monitor directory for new files
-        // Parse filenames to extract device and endpoint names
-        // Return stream of new device/endpoint combinations
-
-        // Example implementation returning an empty stream
-        tokio::task::yield_now().await;
-        Ok(tokio_stream::empty())
+    ) -> Result<DeviceEndpointCreateObservation, FileMountError> {
+        //todo!("Implement device endpoint creation observation");
+        let () = tokio::task::yield_now().await;
+        Ok(DeviceEndpointCreateObservation {
+            receiver: tokio::sync::mpsc::unbounded_channel().1,
+        })
     }
 
     /// Observes the deletion of device endpoints.
     ///
-    /// # Returns
-    /// A stream of `DeviceEndpoint` items representing removed device endpoints.    
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
-    pub async fn observe_device_endpoint_delete(
-        &self,
-    ) -> Result<impl Stream<Item = DeviceEndpointRef> + Send + 'static, FileMountError> {
-        // Monitor directory for deleted files
-        // Parse filenames to extract device and endpoint info
-        // Return stream of removed device/endpoint combinations
-
-        // Example implementation returning an empty stream
-        tokio::task::yield_now().await;
-        Ok(tokio_stream::empty())
+    pub async fn observe_device_endpoint_delete(&self) -> Result<(), FileMountError> {
+        let () = tokio::task::yield_now().await;
+        Ok(())
     }
-
     /// Observes the creation of assets for a specific device and endpoint.
     ///
     /// # Arguments
@@ -103,21 +94,19 @@ impl FileMountClient {
     /// * `endpoint` - The name of the endpoint to monitor.
     ///
     /// # Returns
-    /// A stream of `Asset` items representing newly created assets.
+    /// `AssetCreateObservation`
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_asset_create(
         &self,
-        _device: &str,
-        _endpoint: &str,
-    ) -> Result<impl Stream<Item = AssetRef> + Send + 'static, FileMountError> {
-        // Monitor specific file content changes
-        // Compare old and new content to detect added assets
-        // Return stream of newly added assets
-
-        // Example implementation returning an empty stream
-        tokio::task::yield_now().await;
-        Ok(tokio_stream::empty())
+        device: String,
+        endpoint: String,
+    ) -> Result<AssetCreateObservation, FileMountError> {
+        let () = tokio::task::yield_now().await;
+        let _ = (device, endpoint); // Avoid unused parameter warnings
+        Ok(AssetCreateObservation {
+            receiver: tokio::sync::mpsc::unbounded_channel().1,
+        })
     }
 
     /// Observes the deletion of assets for a specific device and endpoint.
@@ -126,23 +115,43 @@ impl FileMountClient {
     /// * `device` - The name of the device to monitor.
     /// * `endpoint` - The name of the endpoint to monitor.
     ///
-    /// # Returns
-    /// A stream of `Asset` items representing removed assets.
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_asset_delete(
         &self,
-        _device: &str,
-        _endpoint: &str,
-    ) -> Result<impl Stream<Item = AssetRef> + Send + 'static, FileMountError> {
-        // Monitor specific file content changes
-        // Compare old and new content to detect removed assets
-        // Return stream of removed assets
-
-        // Example implementation returning an empty stream
-        tokio::task::yield_now().await;
-        Ok(tokio_stream::empty())
+        device: &str,
+        endpoint: &str,
+    ) -> Result<(), FileMountError> {
+        let () = tokio::task::yield_now().await;
+        let _ = (device, endpoint); // Avoid unused parameter warnings
+        Ok(())
     }
+}
+
+/// Represents an observation for device endpoint creation events.
+///
+/// This struct contains an internal channel for receiving notifications
+/// about newly created device endpoints.
+pub struct DeviceEndpointCreateObservation {
+    receiver: UnboundedReceiver<DeviceEndpointRef>,
+}
+
+impl DeviceEndpointCreateObservation {
+    /// Receives a notification for a newly created device endpoint.
+    ///
+    /// # Returns
+    /// An `Option` containing a `DeviceEndpointRef` if a notification is received, or `None` if the channel is closed.
+    pub async fn recv_notification(&mut self) -> Option<DeviceEndpointRef> {
+        self.receiver.recv().await
+    }
+}
+
+/// Represents a device and its associated endpoint.
+pub struct DeviceEndpointRef {
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub endpoint_name: String,
 }
 
 /// Represents an observation for asset creation events.
@@ -154,12 +163,15 @@ pub struct AssetCreateObservation {
     #[allow(dead_code)]
     receiver: UnboundedReceiver<AssetRef>,
 }
-/// Represents a device and its associated endpoint.
-pub struct DeviceEndpointRef {
-    /// The name of the device
-    pub device_name: String,
-    /// The name of the endpoint
-    pub endpoint_name: String,
+
+impl AssetCreateObservation {
+    /// Receives a notification for a newly created asset.
+    ///
+    /// # Returns
+    /// An `Option` containing an `AssetRef` if a notification is received, or `None` if the channel is closed.
+    pub async fn recv_notification(&mut self) -> Option<AssetRef> {
+        self.receiver.recv().await
+    }
 }
 
 /// Represents an asset associated with a specific device and endpoint.
