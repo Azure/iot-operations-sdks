@@ -212,6 +212,16 @@ namespace Azure.Iot.Operations.Services.Assets
             return deviceNames;
         }
 
+        public string GetDeviceCredentialsLocation(string deviceName, string inboundEndpointName)
+        {
+
+        }
+
+        public string GetDeviceTrustBundleCaCertLocation(string deviceName, string inboundEndpointName)
+        {
+
+        }
+
         public void UnobserveAll()
         {
             _deviceDirectoryMonitor?.Stop();

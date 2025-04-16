@@ -10,7 +10,6 @@ using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Data;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector
