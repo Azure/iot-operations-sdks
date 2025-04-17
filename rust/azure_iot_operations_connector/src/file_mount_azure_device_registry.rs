@@ -6,7 +6,9 @@
 use notify::RecommendedWatcher;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 use tokio::sync::mpsc::UnboundedReceiver;
+use tokio::sync::oneshot;
 
 const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "/etc/akri/config/adr_resources_names";
 
@@ -45,37 +47,55 @@ impl FileMountClient {
 
     /// Gets names of all devices from the file mount.
     ///
+    /// # Arguments
+    /// * `_timeout` - The duration to wait for the operation to complete.
+    ///
     /// # Returns
-    /// A vector of device names as strings.    
+    /// A vector of [`DeviceEndpointRef`].
+    ///
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
-    pub fn get_device_names(&self) -> Result<Vec<DeviceEndpointRef>, FileMountError> {
+    pub fn get_device_names(
+        &self,
+        _timeout: Duration,
+    ) -> Result<Vec<DeviceEndpointRef>, FileMountError> {
         Ok(vec![])
     }
 
-    /// Get names of all available assets from the monitored device.
+    /// Get names of all available assets from the monitored [`DeviceEndpointRef`].
+    ///
+    /// # Arguments
+    /// * `_device_endpoint` - A reference to the device endpoint for which to get asset names.
+    /// * `_timeout` - The duration to wait for the operation to complete.
     ///
     /// # Returns
-    ///  names of all available assets from the monitored directory    
+    /// A vector of [`AssetRef`].
+    ///  
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub fn get_asset_names(
         &self,
         _device_endpoint: DeviceEndpointRef,
+        _timeout: Duration,
     ) -> Result<Vec<AssetRef>, FileMountError> {
         Ok(vec![])
     }
 
     /// Observes the creation of device endpoints.
     ///
+    /// # Arguments
+    /// * `_timeout` - The duration to wait for the observation to complete.
+    ///
     /// # Returns
-    /// `DeviceEndpointCreateObservation`.
+    /// Returns OK([`DeviceEndpointCreateObservation`]) if observation was success.
+    /// The [`DeviceEndpointCreateObservation`] can be used to receive notifications.
+    ///
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_device_endpoint_create(
         &self,
+        _timeout: Duration,
     ) -> Result<DeviceEndpointCreateObservation, FileMountError> {
-        //todo!("Implement device endpoint creation observation");
         let () = tokio::task::yield_now().await;
         Ok(DeviceEndpointCreateObservation {
             receiver: tokio::sync::mpsc::unbounded_channel().1,
@@ -84,11 +104,20 @@ impl FileMountClient {
 
     /// Observes the deletion of device endpoints.
     ///
+    /// # Arguments
+    /// * `device_endpoint` - A reference to the device endpoint for which to observe deletion.
+    /// * `_timeout` - The duration to wait for the observation to complete.
+    ///
+    /// # Returns
+    /// Returns OK([`DeviceEndpointDeleteObservation`]) if observation was success.
+    /// The [`DeviceEndpointDeleteObservation`] can be used to receive notifications.
+    ///
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_device_endpoint_delete(
         &self,
         _device_endpoint: DeviceEndpointRef,
+        _timeout: Duration,
     ) -> Result<DeviceEndpointDeleteObservation, FileMountError> {
         let () = tokio::task::yield_now().await;
         Ok(DeviceEndpointDeleteObservation {
@@ -99,16 +128,19 @@ impl FileMountClient {
     /// Observes the creation of assets for a specific device and endpoint.
     ///
     /// # Arguments
-    /// * `device` - The name of the device to monitor.
-    /// * `endpoint` - The name of the endpoint to monitor.
+    /// * `_device_endpoint_ref` - A reference to the device endpoint for which to observe asset creation.
+    /// * `_timeout` - The duration to wait for the observation to complete.
     ///
     /// # Returns
-    /// `AssetCreateObservation`
+    /// Returns OK([`AssetCreateObservation`]) if observation was success.
+    /// The [`AssetCreateObservation`] can be used to receive notifications.
+    ///
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_asset_create(
         &self,
         _device_endpoint_ref: DeviceEndpointRef,
+        _timeout: Duration,
     ) -> Result<AssetCreateObservation, FileMountError> {
         let () = tokio::task::yield_now().await;
         Ok(AssetCreateObservation {
@@ -119,14 +151,19 @@ impl FileMountClient {
     /// Observes the deletion of assets for a specific device and endpoint.
     ///
     /// # Arguments
-    /// * `device` - The name of the device to monitor.
-    /// * `endpoint` - The name of the endpoint to monitor.
+    /// * `_asset_ref` - A reference to the asset for which to observe deletion.
+    /// * `_timeout` - The duration to wait for the observation to complete.
+    ///
+    /// # Returns
+    /// Returns OK([`AssetDeleteObservation`]) if observation was success.
+    /// The [`AssetDeleteObservation`] can be used to receive notifications.
     ///
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub async fn observe_asset_delete(
         &self,
         _asset_ref: AssetRef,
+        _timeout: Duration,
     ) -> Result<AssetDeleteObservation, FileMountError> {
         let () = tokio::task::yield_now().await;
         Ok(AssetDeleteObservation {
@@ -153,8 +190,14 @@ impl DeviceEndpointCreateObservation {
     }
 }
 
+/// Represents an observation for device endpoint deletion events.
+///
+/// This struct contains an internal channel for receiving notifications
+/// about deleted device endpoints.
 pub struct DeviceEndpointDeleteObservation {
-    receiver: tokio::sync::oneshot::Receiver<DeviceEndpointRef>,
+    /// The internal channel for receiving notifications for an device deletion event.
+    #[allow(dead_code)]
+    receiver: oneshot::Receiver<DeviceEndpointRef>,
 }
 
 /// Represents a device and its associated endpoint.
@@ -185,10 +228,14 @@ impl AssetCreateObservation {
     }
 }
 
+/// Represents an observation for asset deletion events.
+///
+/// This struct contains an internal channel for receiving notifications
+/// about deleted assets.
 pub struct AssetDeleteObservation {
-    /// The internal channel for receiving notifications for an asset creation event.
+    /// The internal channel for receiving notifications for an asset deletion event.
     #[allow(dead_code)]
-    receiver: tokio::sync::oneshot::Receiver<AssetRef>,
+    receiver: oneshot::Receiver<AssetRef>,
 }
 
 /// Represents an asset associated with a specific device and endpoint.
