@@ -8,8 +8,10 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Data;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector
@@ -22,10 +24,10 @@ namespace Azure.Iot.Operations.Connector
         protected readonly ILogger<TelemetryConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
-        private readonly IAdrClientWrapper _assetMonitor;
+        protected readonly IAdrClientWrapper _assetMonitor;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
-        private readonly ConcurrentDictionary<string, AssetEndpointProfileContext> _assetEndpointProfiles = new();
+        private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
 
         /// <summary>
@@ -127,68 +129,73 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                _assetMonitor.AssetEndpointProfileChanged += (sender, args) =>
+                _assetMonitor.DeviceChanged += (sender, args) =>
                 {
+                    string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                     if (args.ChangeType == ChangeType.Created)
                     {
-                        if (args.AssetEndpointProfile == null)
+                        if (args.Device == null)
                         {
                             // shouldn't ever happen
                             _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
                         }
                         else
                         {
-                            _assetEndpointProfiles[args.AssetEndpointProfileName] = new();
-                            _assetMonitor.ObserveAssets(args.AssetEndpointProfileName);
+                            _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName);
+                            _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
                         }
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
-                        _assetMonitor.UnobserveAssets(args.AssetEndpointProfileName);
-                        _assetEndpointProfiles.Remove(args.AssetEndpointProfileName, out var _);
+                        _assetMonitor.UnobserveAssets(args.DeviceName, args.InboundEndpointName);
+                        _devices.Remove(compoundDeviceName, out var _);
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
+                        //TODO?
                     }
                 };
 
                 _assetMonitor.AssetChanged += async (sender, args) =>
                 {
-                    string aepName = "todo"; // Should be provided by service + asset monitor, right?
-                    if (!_assetEndpointProfiles.TryGetValue(aepName, out AssetEndpointProfileContext? aepContext))
-                    {
-                        _logger.LogError("Could not correlate asset endpoint profile name {0} with any saved asset endpoint profile", aepName);
-                        return;
-                    }
-
-                    AssetEndpointProfile aep = aepContext.AssetEndpointProfile;
-
+                    string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                     if (args.ChangeType == ChangeType.Created)
                     {
                         if (args.Asset == null)
                         {
-                            // shouldn't ever happen
+                            // Should never happen
                             _logger.LogError("Received notification that asset was created, but no asset was provided");
+                            return;
                         }
-                        else if (aepName != null) //TODO else?
+
+                        if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
                         {
-                            await AssetAvailableAsync(aep, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
-                            _assetMonitor.ObserveAssets(aepName);
+                            deviceContext.Assets.Add(args.AssetName, args.Asset);
                         }
+
+                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                        _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
-                        AssetUnavailable(aepName, args.AssetName, false);
-                        _assetMonitor.UnobserveAssets(aepName);
+                        AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
+                        _assetMonitor.UnobserveAssets(args.DeviceName, args.InboundEndpointName);
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
-                        AssetUnavailable(aepName, args.AssetName, true);
-                        await AssetAvailableAsync(aep, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                        if (args.Asset == null)
+                        {
+                            // Should never happen
+                            _logger.LogError("Received notification that asset was updated, but no asset was provided");
+                            return;
+                        }
+
+                        AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
+                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
                     }
                 };
 
-                _assetMonitor.ObserveAssetEndpointProfiles();
+                _assetMonitor.ObserveDevices();
 
                 try
                 {
@@ -223,25 +230,71 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.Name}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
-            Topic topic = dataset.Topic ?? asset.Specification!.DefaultTopic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
-            var mqttMessage = new MqttApplicationMessage(topic.Path!)
+            if (dataset.Destinations == null)
             {
-                PayloadSegment = serializedPayload,
-                Retain = topic.Retain == Retain.Keep,
-            };
-
-            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
-
-            if (puback.ReasonCode == MqttClientPublishReasonCode.Success
-                || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
-            {
-                // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
-                // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                _logger.LogError("Cannot forward sampled dataset because it has no configured destinations");
+                return;
             }
-            else
+
+            foreach (var destination in dataset.Destinations)
             {
-                _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                if (destination.Target == DatasetTarget.Mqtt)
+                {
+                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                    var mqttMessage = new MqttApplicationMessage(topic)
+                    {
+                        PayloadSegment = serializedPayload,
+                    };
+
+                    Retain? retain = destination.Configuration.Retain;
+                    if (retain != null)
+                    {
+                        mqttMessage.Retain = retain == Retain.Keep;
+                    }
+
+                    MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
+
+                    if (puback.ReasonCode == MqttClientPublishReasonCode.Success
+                        || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+                    {
+                        // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                        // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                    }
+                }
+                else if (destination.Target == DatasetTarget.BrokerStateStore)
+                {
+                    await using StateStoreClient stateStoreClient = new(_applicationContext, _mqttClient);
+
+                    string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
+
+                    ulong? ttl = destination.Configuration.Ttl;
+                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
+                    if (ttl != null)
+                    {
+                        //TODO ttl is in seconds? milliseconds?
+                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
+                    }
+
+                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
+
+                    if (response.Success)
+                    {
+                        _logger.LogInformation($"Message was accepted by the state store");
+                    }
+                    else
+                    {
+                        _logger.LogError($"Message was not accepted by the state store");
+                    }
+                }
+                else if (destination.Target == DatasetTarget.Storage)
+                {
+                    throw new NotImplementedException();
+                }
             }
         }
 
@@ -251,25 +304,72 @@ namespace Azure.Iot.Operations.Connector
 
             _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.Name}. Now publishing it to MQTT broker.");
 
-            Topic topic = assetEvent.Topic ?? asset.Specification!.DefaultTopic ?? throw new AssetConfigurationException($"Event with name {assetEvent.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this event.");
-            var mqttMessage = new MqttApplicationMessage(topic.Path!)
+            if (assetEvent.Destinations == null)
             {
-                PayloadSegment = serializedPayload,
-                Retain = topic.Retain == Retain.Keep,
-            };
-
-            MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
-
-            if (puback.ReasonCode == MqttClientPublishReasonCode.Success
-                || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
-            {
-                // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
-                // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                _logger.LogError("Cannot forward received event because it has no configured destinations");
+                return;
             }
-            else
+
+            foreach (var destination in assetEvent.Destinations)
             {
-                _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                //if (destination.Target == EventStreamTarget.Mqtt) //TODO not allowed for streams
+                if (new Random().Next() == 0)
+                {
+                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                    var mqttMessage = new MqttApplicationMessage(topic)
+                    {
+                        PayloadSegment = serializedPayload,
+                    };
+
+                    Retain? retain = destination.Configuration.Retain;
+                    if (retain != null)
+                    {
+                        mqttMessage.Retain = retain == Retain.Keep;
+                    }
+
+                    MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
+
+                    if (puback.ReasonCode == MqttClientPublishReasonCode.Success
+                        || puback.ReasonCode == MqttClientPublishReasonCode.NoMatchingSubscribers)
+                    {
+                        // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
+                        // It does suggest that the broker has no one to send that PUBLISH packet to, though.
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                    }
+                }
+                else if (destination.Target == EventStreamTarget.BrokerStateStore)
+                {
+                    await using StateStoreClient stateStoreClient = new(_applicationContext, _mqttClient);
+
+                    string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish received event to state store as it has no configured key");
+
+                    ulong? ttl = destination.Configuration.Ttl;
+                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
+                    if (ttl != null)
+                    {
+                        //TODO ttl is in seconds? milliseconds?
+                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
+                    }
+
+                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
+
+                    if (response.Success)
+                    {
+                        _logger.LogInformation($"Message was accepted by the state store");
+                    }
+                    else
+                    {
+                        _logger.LogError($"Message was not accepted by the state store");
+                    }
+                }
+                else if (destination.Target == EventStreamTarget.Storage)
+                {
+                    throw new NotImplementedException();
+                }
             }
         }
 
@@ -279,9 +379,18 @@ namespace Azure.Iot.Operations.Connector
             _isDisposed = true;
         }
 
-        private async Task AssetAvailableAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string assetName, CancellationToken cancellationToken = default)
+        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, CancellationToken cancellationToken = default)
         {
-            _assetEndpointProfiles[assetEndpointProfile.Name].Assets.Add(assetName, asset);
+
+            string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
+            _devices[compoundDeviceName].Assets.Add(assetName, asset);
+            Device? device = _devices[compoundDeviceName].Device;
+
+            if (device == null)
+            {
+                _logger.LogWarning("Failed to correlate a newly available asset to its device");
+                return;
+            }
 
             if (asset!.Specification!.Datasets == null)
             {
@@ -292,12 +401,12 @@ namespace Azure.Iot.Operations.Connector
                 foreach (var dataset in asset!.Specification!.Datasets)
                 {
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, dataset.Name!, dataset);
+                    var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset);
                     if (datasetMessageSchema != null)
                     {
                         try
                         {
-                            _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                            _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                             await schemaRegistryClient.PutAsync(
                                 datasetMessageSchema.SchemaContent,
@@ -310,12 +419,12 @@ namespace Azure.Iot.Operations.Connector
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}. Error: {ex.Message}");
+                            _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
                     else
                     {
-                        _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                        _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                     }
                 }
             }
@@ -329,12 +438,12 @@ namespace Azure.Iot.Operations.Connector
                 foreach (var assetEvent in asset!.Specification.Events)
                 {
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(assetEndpointProfile, asset, assetEvent!.Name!, assetEvent);
+                    var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent!.Name!, assetEvent);
                     if (eventMessageSchema != null)
                     {
                         try
                         {
-                            _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                            _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                             await schemaRegistryClient.PutAsync(
                                 eventMessageSchema.SchemaContent,
@@ -347,22 +456,23 @@ namespace Azure.Iot.Operations.Connector
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}. Error: {ex.Message}");
+                            _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
                     else
                     {
-                        _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with asset endpoint profile with name {assetEndpointProfile.Name}");
+                        _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                     }
                 }
             }
 
-            OnAssetAvailable?.Invoke(this, new(assetName, asset, assetEndpointProfile));
+            OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset));
         }
 
-        private void AssetUnavailable(string aepName, string assetName, bool isUpdating)
+        private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
         {
-            _assetEndpointProfiles[aepName].Assets.Remove(assetName);
+            string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
+            _devices[compoundDeviceName].Assets.Remove(assetName);
 
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isUpdating)

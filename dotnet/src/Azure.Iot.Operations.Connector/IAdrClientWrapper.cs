@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Azure.Iot.Operations.Connector.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -14,7 +15,7 @@ namespace Azure.Iot.Operations.Connector
     {
         event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
-        event EventHandler<DeviceChangedEventArgs>? AssetEndpointProfileChanged;
+        event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
 
         void ObserveDevices();
 
@@ -25,5 +26,7 @@ namespace Azure.Iot.Operations.Connector
         void UnobserveAssets(string deviceName, string inboundEndpointName);
 
         Task UnobserveAllAsync(CancellationToken cancellationToken = default);
+
+        DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName);
     }
 }

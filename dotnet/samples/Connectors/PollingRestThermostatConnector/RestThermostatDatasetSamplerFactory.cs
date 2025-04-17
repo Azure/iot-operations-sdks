@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Connector.Assets;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace RestThermostatConnector
@@ -16,25 +17,27 @@ namespace RestThermostatConnector
         /// <summary>
         /// Creates a dataset sampler for the given dataset.
         /// </summary>
-        /// <param name="assetEndpointProfile">The asset endpoint profile to connect to when sampling this dataset.</param>
+        /// <param name="device">The device to connect to when sampling this dataset.</param>
         /// <param name="asset">The asset that the dataset sampler will sample from.</param>
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
+        /// <param name="authentication">The authentication to use when connecting to the device with this asset.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(AssetEndpointProfile assetEndpointProfile, Asset asset, AssetDatasetSchemaElement dataset)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, DeviceCredentials credentials)
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
-                var httpClient = new HttpClient()
+                if (device.Specification.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
                 {
-                    BaseAddress = new Uri(assetEndpointProfile.Specification.TargetAddress),
-                };
+                    var httpClient = new HttpClient()
+                    {
+                        BaseAddress = new Uri(inboundEndpoint.Address),
+                    };
 
-                return new ThermostatStatusDatasetSampler(httpClient, asset.Name, assetEndpointProfile.Specification.Authentication);
+                    return new ThermostatStatusDatasetSampler(httpClient, asset.Name, credentials);
+                }
             }
-            else
-            {
-                throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.Name}");
-            }
+
+            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.Name}");
         }
     }
 }

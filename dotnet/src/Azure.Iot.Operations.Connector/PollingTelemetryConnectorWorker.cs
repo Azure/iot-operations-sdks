@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
+        public async void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
         {
             if (args.Asset.Specification.Datasets == null)
             {
@@ -43,27 +43,9 @@ namespace Azure.Iot.Operations.Connector
             _assetsSamplingTimers[args.AssetName] = new Dictionary<string, Timer>();
             foreach (AssetDatasetSchemaElement dataset in args.Asset.Specification.Datasets)
             {
-                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.AssetEndpointProfile, args.Asset, dataset);
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.Asset, dataset, _assetMonitor.GetDeviceCredentials(args.Device.Name, args.InboundEndpointName));
 
-                TimeSpan samplingInterval;
-                if (dataset.DatasetConfiguration != null
-                    && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
-                    && datasetSpecificSamplingInterval.TryGetInt32(out int datasetSpecificSamplingIntervalMilliseconds))
-                {
-                    samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingIntervalMilliseconds);
-                }
-                //TODO make our lib enforce configuration fields as json
-                else if (args.Asset.Specification.DefaultDatasetsConfiguration != null
-                    && args.Asset.Specification.DefaultDatasetsConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
-                    && defaultDatasetSamplingInterval.TryGetInt32(out int defaultSamplingIntervalMilliseconds))
-                {
-                    samplingInterval = TimeSpan.FromMilliseconds(defaultSamplingIntervalMilliseconds);
-                }
-                else
-                {
-                    _logger.LogError($"Dataset with name {dataset.Name} in Asset with name {args.AssetName} has no configured sampling interval. This dataset will not be sampled.");
-                    return;
-                }
+                TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 

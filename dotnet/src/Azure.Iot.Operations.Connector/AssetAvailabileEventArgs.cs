@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Connector.Assets;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -11,7 +10,9 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public class AssetAvailabileEventArgs : EventArgs
     {
-        public AssetEndpointProfile AssetEndpointProfile { get; }
+        public Device Device { get; }
+
+        public string InboundEndpointName { get; }
 
         /// <summary>
         /// The name of the asset that is now available to sample.
@@ -23,11 +24,12 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public Asset Asset { get; }
 
-        internal AssetAvailabileEventArgs(string assetName, Asset asset, AssetEndpointProfile assetEndpointProfile)
+        internal AssetAvailabileEventArgs(Device device, string inboundEndpointName, string assetName, Asset asset)
         {
+            Device = device;
+            InboundEndpointName = inboundEndpointName;
             AssetName = assetName;
             Asset = asset;
-            AssetEndpointProfile = assetEndpointProfile;
         }
     }
 }

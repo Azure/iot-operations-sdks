@@ -92,13 +92,13 @@ namespace Azure.Iot.Operations.Connector
                 TcpPort = port
             };
 
-            if (connectorMqttConfig.SessionExpirySeconds != 0) //TODO hmmmm
+            if (connectorMqttConfig.SessionExpirySeconds != null && connectorMqttConfig.SessionExpirySeconds != 0) //TODO hmmmm
             {
-                mqttConnectionSettings.SessionExpiry = TimeSpan.FromSeconds(connectorMqttConfig.SessionExpirySeconds);
+                mqttConnectionSettings.SessionExpiry = TimeSpan.FromSeconds(connectorMqttConfig.SessionExpirySeconds.Value);
             }
-            if (connectorMqttConfig.KeepAliveSeconds != 0)
+            if (connectorMqttConfig.KeepAliveSeconds != null && connectorMqttConfig.KeepAliveSeconds != 0)
             {
-                mqttConnectionSettings.KeepAlive = TimeSpan.FromSeconds(connectorMqttConfig.KeepAliveSeconds);
+                mqttConnectionSettings.KeepAlive = TimeSpan.FromSeconds(connectorMqttConfig.KeepAliveSeconds.Value);
             }
 
             return mqttConnectionSettings;

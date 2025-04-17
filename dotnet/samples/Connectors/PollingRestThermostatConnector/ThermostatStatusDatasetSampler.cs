@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Services.Akri.DiscoveredAssetResources;
+using Azure.Iot.Operations.Connector.Assets;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Net.Http.Headers;
 using System.Text;
@@ -14,9 +14,9 @@ namespace RestThermostatConnector
     {
         private readonly HttpClient _httpClient;
         private readonly string _assetName;
-        private readonly Authentication? _credentials;
+        private readonly DeviceCredentials? _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, Authentication? credentials)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, DeviceCredentials? credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;
@@ -34,11 +34,11 @@ namespace RestThermostatConnector
         {
             try
             {
-                AssetDataPointSchemaElement httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
+                AssetDatasetDataPointSchemaElement httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
                 HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
 
-                AssetDataPointSchemaElement httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
+                AssetDatasetDataPointSchemaElement httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
                 HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(httpServerCurrentTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerCurrentTemperatureRequestPath = httpServerCurrentTemperatureDataPoint.DataSource!;
 
@@ -46,8 +46,8 @@ namespace RestThermostatConnector
                 {
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
-                    string httpServerUsername = _credentials!.UsernamePasswordCredentials.UsernameSecretName!; //TODO "secret name" now? How do we look up the value?
-                    byte[] httpServerPassword = Encoding.UTF8.GetBytes(_credentials!.UsernamePasswordCredentials.PasswordSecretName!);
+                    string httpServerUsername = _credentials!.Username!;
+                    byte[] httpServerPassword = _credentials!.Password!;
                     var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 }
@@ -69,6 +69,11 @@ namespace RestThermostatConnector
             {
                 throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
+        }
+
+        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(TimeSpan.FromSeconds(1));
         }
 
         public ValueTask DisposeAsync()

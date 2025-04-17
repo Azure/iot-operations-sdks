@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Services.Assets;
 using System.Net.Sockets;
 
 namespace EventDrivenTcpThermostatConnector
@@ -53,7 +52,7 @@ namespace EventDrivenTcpThermostatConnector
             try
             {
                 //tcp-service.azure-iot-operations.svc.cluster.local:80
-                string host = args.AssetEndpointProfile.Specification.TargetAddress.Split(":")[0];
+                string host = args.Device.Specification.Endpoints.Inbound["todo"].Address.Split(":")[0];
                 _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
                 using TcpClient client = new();
                 await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);

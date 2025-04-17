@@ -21,5 +21,7 @@ namespace Azure.Iot.Operations.Connector
         /// will then forward the returned serialized payload to the MQTT broker.
         /// </remarks>
         Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default);
+
+        Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default);
     }
 }

@@ -12,12 +12,12 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly IAdrServiceClient _client;
         private readonly IAssetFileMonitor _monitor;
-        private readonly HashSet<string> _observedAssetEndpointProfiles = new();
+        private readonly HashSet<string> _observedDevices = new();
         private readonly Dictionary<string, HashSet<string>> _observedAssets = new(); // TODO concurrency
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
-        public event EventHandler<DeviceChangedEventArgs>? AssetEndpointProfileChanged;
+        public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
 
         public AdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient, string connectorClientId)
         {
@@ -56,36 +56,45 @@ namespace Azure.Iot.Operations.Connector
         {
             _monitor.UnobserveAll();
 
-            foreach (string assetEndpointProfileName in _observedAssets.Keys)
+            foreach (string compositeDeviceName in _observedAssets.Keys)
             {
-                foreach (string observedAssetName in _observedAssets[assetEndpointProfileName])
+                foreach (string observedAssetName in _observedAssets[compositeDeviceName])
                 {
-                    await _client.UnobserveAssetUpdatesAsync(assetEndpointProfileName, observedAssetName, null, cancellationToken);
+                    string deviceName = compositeDeviceName.Split('_')[0];
+                    string inboundEndpointName = compositeDeviceName.Split('_')[1];
+                    await _client.UnobserveAssetUpdatesAsync(deviceName, inboundEndpointName, observedAssetName, null, cancellationToken);
                 }
             }
 
             _observedAssets.Clear();
 
-            foreach (string assetEndpointProfileName in _observedAssetEndpointProfiles)
+            foreach (string compositeDeviceName in _observedDevices)
             {
-                await _client.UnobserveAssetEndpointProfileUpdatesAsync(assetEndpointProfileName, null, cancellationToken);
+                string deviceName = compositeDeviceName.Split('_')[0];
+                string inboundEndpointName = compositeDeviceName.Split('_')[1];
+                await _client.UnobserveDeviceEndpointUpdatesAsync(deviceName, inboundEndpointName, null, cancellationToken);
             }
 
-            _observedAssetEndpointProfiles.Clear();
+            _observedDevices.Clear();
+        }
+
+        public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
+        {
+            return _monitor.GetDeviceCredentials(deviceName, inboundEndpointName);
         }
 
         private Task DeviceUpdateReceived(string arg1, Device? device)
         {
             string deviceName = device.Name.Split('_')[0];
             string inboundEndpointName = device.Name.Split('_')[1];
-            AssetEndpointProfileChanged?.Invoke(this, new(deviceName, inboundEndpointName, ChangeType.Updated, device));
+            DeviceChanged?.Invoke(this, new(deviceName, inboundEndpointName, ChangeType.Updated, device));
             return Task.CompletedTask;
         }
 
-        private Task AssetUpdateReceived(string arg1, Asset? asset)
+        private Task AssetUpdateReceived(string arg1, Asset asset)
         {
             //TODO bit of leap on this assumption
-            AssetChanged?.Invoke(this, new(asset!.Specification!.!.Split("/")[1], asset!.Name!, ChangeType.Updated, asset!));
+            AssetChanged?.Invoke(this, new(asset.Specification.DeviceRef.DeviceName, asset!.Specification.DeviceRef.EndpointName, asset.Name!, ChangeType.Updated, asset!));
             return Task.CompletedTask;
         }
 
@@ -119,7 +128,7 @@ namespace Azure.Iot.Operations.Connector
         private async void DeviceDeleted(object? sender, DeviceDeletedEventArgs e)
         {
             await _client.UnobserveDeviceEndpointUpdatesAsync(e.DeviceName, e.InboundEndpointName);
-            AssetEndpointProfileChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
+            DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
         }
 
         private async void DeviceCreated(object? sender, DeviceCreatedEventArgs e)
@@ -128,9 +137,9 @@ namespace Azure.Iot.Operations.Connector
 
             if (notificationResponse == NotificationResponse.Accepted)
             {
-                _observedAssetEndpointProfiles.Add(e.DeviceName);
+                _observedDevices.Add(e.DeviceName);
                 var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
-                AssetEndpointProfileChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
+                DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
             }
 
             //TODO what if response is negative?
