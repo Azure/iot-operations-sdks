@@ -85,6 +85,9 @@ artifacts/
 Cargo.lock
 target/
 
+# Go
+akri/
+
 # Tye
 .tye/
 
