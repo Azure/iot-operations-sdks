@@ -26,7 +26,16 @@ schema_registry = [
   "uuid",
 ]
 leased_lock = ["state_store"]
-azure_device_registry = [] # TODO: add dependencies for adr feature
+azure_device_registry = [
+  "serde",
+  "serde_json",
+  "chrono",
+  "iso8601-duration",
+  "base64",
+  "bigdecimal",
+  "time",
+  "uuid",
+]
 
 [dependencies]
 azure_iot_operations_protocol = { version = "0.9", path = "../azure_iot_operations_protocol", registry = "aio-sdks" }
