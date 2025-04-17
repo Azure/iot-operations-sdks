@@ -3,9 +3,11 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DatasetsSchemaElement
+public record AssetStatusDatasetSchemaElement
 {
-    public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
+    public ConfigError? Error { get; set; }
 
-    public string? Name { get; set; } = default;
+    public MessageSchemaReference? MessageSchemaReference { get; set; }
+
+    public required string Name { get; set; }
 }

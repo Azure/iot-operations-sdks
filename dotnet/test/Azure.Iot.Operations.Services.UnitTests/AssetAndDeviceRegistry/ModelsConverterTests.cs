@@ -1,575 +1,784 @@
-using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
+using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 
-namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry;
-
-public class ModelsConverterTests
+namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 {
-    [Fact]
-    public void ToModel_AssetStatus_ConvertsCorrectly()
+    public class ModelsConverterTests
     {
-        var source = new AdrBaseService.AssetStatus
+        [Fact]
+        public void AssetStatus_ToModel_ShouldConvertAllProperties()
         {
-            Errors = new List<AdrBaseService.Error>
+            // Arrange - Create complete source AssetStatus with all properties
+            var source = new AdrBaseService.AssetStatus
             {
-                new() { Code = 1, Message = "Message1" }
-            }
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Single(result.Errors!);
-        Assert.Equal(1, result.Errors?[0].Code);
-        Assert.Equal("Message1", result.Errors?[0].Message);
-    }
-
-    [Fact]
-    public void ToModel_DatasetsSchemaSchemaElementSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.DatasetsSchemaSchemaElementSchema
-        {
-            Name = "TestName",
-            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
-            {
-                SchemaName = "TestSchema",
-                SchemaNamespace = "TestNamespace",
-                SchemaVersion = "1.0"
-            }
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestName", result.Name);
-        Assert.NotNull(result.MessageSchemaReference);
-        Assert.Equal("TestSchema", result.MessageSchemaReference.SchemaName);
-        Assert.Equal("TestNamespace", result.MessageSchemaReference.SchemaNamespace);
-        Assert.Equal("1.0", result.MessageSchemaReference.SchemaVersion);
-    }
-
-    [Fact]
-    public void ToModel_EventsSchemaSchemaElementSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.EventsSchemaSchemaElementSchema
-        {
-            Name = "TestName",
-            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
-            {
-                SchemaName = "TestSchema",
-                SchemaNamespace = "TestNamespace",
-                SchemaVersion = "1.0"
-            }
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestName", result.Name);
-        Assert.NotNull(result.MessageSchemaReference);
-        Assert.Equal("TestSchema", result.MessageSchemaReference.SchemaName);
-        Assert.Equal("TestNamespace", result.MessageSchemaReference.SchemaNamespace);
-        Assert.Equal("1.0", result.MessageSchemaReference.SchemaVersion);
-    }
-
-    [Fact]
-    public void ToModel_Asset_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.Asset
-        {
-            Name = "TestAsset",
-            Specification = new AdrBaseService.AssetSpecificationSchema
-            {
-                Description = "Test Description",
-                Enabled = true,
-                Manufacturer = "Test Manufacturer",
-                Model = "Test Model",
-                Uuid = "12345",
-                Version = "1.0",
-                DocumentationUri = "http://example.com",
-                HardwareRevision = "1.0",
-                ManufacturerUri = "http://example.com",
-                ProductCode = "Test ProductCode",
-                DefaultDatasetsConfiguration = "Test DefaultDatasetsConfiguration",
-                DefaultEventsConfiguration = "Test DefaultEventsConfiguration",
-                DefaultTopic = new AdrBaseService.Topic
+                Config = new AdrBaseService.AssetStatusConfigSchema
                 {
-                    Path = "TestPath",
-                    Retain = AdrBaseService.RetainSchema.Keep
-                },
-                SerialNumber = "Test SerialNumber",
-                SoftwareRevision = "Test SoftwareRevision",
-                AssetEndpointProfileRef = "Test AssetEndpointProfileRef",
-                DisplayName = "Test DisplayName",
-                ExternalAssetId = "Test ExternalAssetId",
-                DiscoveredAssetRefs = new List<string> { "Test DiscoveredAssetRef1", "Test DiscoveredAssetRef2" },
-                Events =
-                [
-                    new()
+                    Error = new AdrBaseService.ConfigError
                     {
-                        Name = "TestEvent",
-                        Topic = new AdrBaseService.Topic
-                        {
-                            Path = "TestPath",
-                            Retain = AdrBaseService.RetainSchema.Keep
-                        },
-                        EventConfiguration = "TestConfig",
-                        ObservabilityMode = AdrBaseService.AssetEventObservabilityModeSchema.Log,
-                        EventNotifier = "TestNotifier",
-                    }
-                ],
+                        Code = "error-code",
+                        Message = "error-message",
+                        InnerError = new Dictionary<string, string> { { "inner-error", "inner-error-message" } },
+                        Details =
+                        [
+                            new()
+                            {
+                                Code = "detail-code",
+                                Message = "detail-message",
+                                Info = "info",
+                                CorrelationId = "correlation-id"
+                            }
+                        ]
+                    },
+                    LastTransitionTime = "2023-01-01T00:00:00Z",
+                    Version = 1
+                },
                 Datasets =
                 [
                     new()
                     {
-                        Name = "TestName",
-                        DataPoints = new List<AdrBaseService.AssetDataPointSchemaElementSchema>
+                        Name = "dataset1",
+                        Error = new AdrBaseService.ConfigError
                         {
-                            new()
-                            {
-                                DataPointConfiguration = "TestConfig",
-                                DataSource = "TestSource",
-                                Name = "TestName",
-                                ObservabilityMode = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter
-                            }
+                            Code = "dataset-error",
+                            Message = "dataset-error-message"
                         },
-                        Topic = new AdrBaseService.Topic
+                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
                         {
-                            Path = "TestPath",
-                            Retain = AdrBaseService.RetainSchema.Keep
-                        },
-                        DatasetConfiguration = "TestDatasetConfiguration"
+                            SchemaName = "schema1",
+                            SchemaRegistryNamespace = "namespace1",
+                            SchemaVersion = "1.0"
+                        }
                     }
                 ],
-                Attributes = new Dictionary<string, string>{ {"TestKey", "TestValue" } },
-            },
-            Status = new AdrBaseService.AssetStatus
+                Events =
+                [
+                    new()
+                    {
+                        Name = "event1",
+                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                        {
+                            SchemaName = "event-schema",
+                            SchemaRegistryNamespace = "event-namespace",
+                            SchemaVersion = "2.0"
+                        }
+                    }
+                ],
+                ManagementGroups =
+                [
+                    new()
+                    {
+                        Name = "mgmt-group1",
+                        Actions =
+                        [
+                            new()
+                            {
+                                Name = "action1",
+                                Error = new AdrBaseService.ConfigError
+                                {
+                                    Code = "action-error",
+                                    Message = "action-error-message"
+                                },
+                                RequestMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                {
+                                    SchemaName = "req-schema",
+                                    SchemaRegistryNamespace = "req-namespace",
+                                    SchemaVersion = "1.0"
+                                },
+                                ResponseMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                {
+                                    SchemaName = "resp-schema",
+                                    SchemaRegistryNamespace = "resp-namespace",
+                                    SchemaVersion = "1.0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                Streams =
+                [
+                    new()
+                    {
+                        Name = "stream1",
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "stream-error",
+                            Message = "stream-error-message"
+                        },
+                        MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                        {
+                            SchemaName = "stream-schema",
+                            SchemaRegistryNamespace = "stream-namespace",
+                            SchemaVersion = "3.0"
+                        }
+                    }
+                ]
+            };
+
+            // Act
+            var result = source.ToModel();
+
+            // Assert
+            Assert.NotNull(result);
+
+            // Config assertions
+            Assert.NotNull(result.Config);
+            Assert.NotNull(result.Config.Error);
+            Assert.Equal("error-code", result.Config.Error.Code);
+            Assert.Equal("error-message", result.Config.Error.Message);
+            Assert.Equal("2023-01-01T00:00:00Z", result.Config.LastTransitionTime);
+            Assert.Equal((ulong)1, result.Config?.Version);
+
+            // Datasets assertions
+            Assert.NotNull(result.Datasets);
+            Assert.Single(result.Datasets);
+            Assert.Equal("dataset1", result.Datasets[0].Name);
+            Assert.NotNull(result.Datasets[0].Error);
+            Assert.Equal("dataset-error", result.Datasets[0].Error?.Code);
+            Assert.NotNull(result.Datasets[0].MessageSchemaReference);
+            Assert.Equal("schema1", result.Datasets[0].MessageSchemaReference?.SchemaName);
+
+            // Events assertions
+            Assert.NotNull(result.Events);
+            Assert.Single(result.Events);
+            Assert.Equal("event1", result.Events[0].Name);
+            Assert.NotNull(result.Events[0].MessageSchemaReference);
+            Assert.Equal("event-schema", result.Events[0].MessageSchemaReference?.SchemaName);
+
+            // ManagementGroups assertions
+            Assert.NotNull(result.ManagementGroups);
+            Assert.Single(result.ManagementGroups);
+            Assert.Equal("mgmt-group1", result.ManagementGroups[0].Name);
+            Assert.NotNull(result.ManagementGroups[0].Actions);
+            Assert.Single(result.ManagementGroups[0].Actions!);
+            Assert.Equal("action1", result.ManagementGroups[0].Actions?[0].Name);
+            Assert.NotNull(result.ManagementGroups[0].Actions?[0].Error);
+
+            // Streams assertions
+            Assert.NotNull(result.Streams);
+            Assert.Single(result.Streams);
+            Assert.Equal("stream1", result.Streams[0].Name);
+            Assert.NotNull(result.Streams[0].Error);
+            Assert.NotNull(result.Streams[0].MessageSchemaReference);
+        }
+
+        [Fact]
+        public void Asset_ToModel_ShouldConvertAllProperties()
+        {
+            // Arrange - Create complete source Asset with all properties
+            var source = new AdrBaseService.Asset
             {
-                Errors = [new() { Code = 1, Message = "Message1" }]
-            }
-        };
-        var result = source.ToModel();
-        Assert.NotNull(result);
-        Assert.Equal("TestAsset", result.Name);
-        Assert.NotNull(result.Specification);
-        Assert.Equal("Test Description", result.Specification.Description);
-        Assert.True(result.Specification.Enabled);
-        Assert.Equal("Test Manufacturer", result.Specification.Manufacturer);
-        Assert.Equal("Test Model", result.Specification.Model);
-        Assert.Equal("12345", result.Specification.Uuid);
-        Assert.Equal("1.0", result.Specification.Version);
-        Assert.NotNull(result.Status);
-        Assert.Single(result.Status.Errors!);
-        Assert.Equal(1, result.Status.Errors?[0].Code);
-        Assert.Equal("Message1", result.Status.Errors?[0].Message);
-    }
-
-    [Fact]
-    public void ToModel_MessageSchemaReference_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.MessageSchemaReference
-        {
-            SchemaName = "TestSchema",
-            SchemaNamespace = "TestNamespace",
-            SchemaVersion = "1.0"
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestSchema", result.SchemaName);
-        Assert.Equal("TestNamespace", result.SchemaNamespace);
-        Assert.Equal("1.0", result.SchemaVersion);
-    }
-
-    [Fact]
-    public void ToModel_AssetSpecification_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AssetSpecificationSchema
-        {
-            Description = "Test Asset",
-            Enabled = true,
-            Manufacturer = "Test Manufacturer",
-            Model = "Test Model",
-            Uuid = "12345",
-            Version = "1.0"
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("Test Asset", result.Description);
-        Assert.True(result.Enabled);
-        Assert.Equal("Test Manufacturer", result.Manufacturer);
-        Assert.Equal("Test Model", result.Model);
-        Assert.Equal("12345", result.Uuid);
-        Assert.Equal("1.0", result.Version);
-    }
-
-    [Fact]
-    public void ToModel_AssetDatasetSchemaElementSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AssetDatasetSchemaElementSchema
-        {
-            Name = "TestName",
-            DataPoints = [new() { Name = "TestDataPoint", ObservabilityMode = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter }],
-            DatasetConfiguration = "TestConfig",
-            Topic = new AdrBaseService.Topic(){
-                Path = "TestPath",
-                Retain = AdrBaseService.RetainSchema.Keep
-            },
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestName", result.Name);
-        Assert.NotNull(result.DataPoints);
-        Assert.Single(result.DataPoints);
-        Assert.Equal("TestDataPoint", result.DataPoints?[0].Name);
-        Assert.Equal(AssetDataPointObservabilityMode.Counter, result.DataPoints?[0].ObservabilityMode);
-        Assert.Equal("TestConfig", result.DatasetConfiguration);
-        Assert.NotNull(result.Topic);
-        Assert.Equal("TestPath", result.Topic.Path);
-        Assert.Equal(Retain.Keep, result.Topic.Retain);
-    }
-
-    [Fact]
-    public void ToModel_AssetEventSchemaElementSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AssetEventSchemaElementSchema
-        {
-            Name = "TestName",
-            Topic = new AdrBaseService.Topic
-            {
-                Path = "TestPath",
-                Retain = AdrBaseService.RetainSchema.Keep
-            },
-            EventConfiguration = "TestConfig",
-            ObservabilityMode = AdrBaseService.AssetEventObservabilityModeSchema.Log,
-            EventNotifier = "TestNotifier",
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestName", result.Name);
-        Assert.NotNull(result.Topic);
-        Assert.Equal("TestPath", result.Topic.Path);
-        Assert.Equal(Retain.Keep, result.Topic.Retain);
-        Assert.Equal("TestConfig", result.EventConfiguration);
-        Assert.Equal(AssetEventObservabilityMode.Log, result.ObservabilityMode);
-        Assert.Equal("TestNotifier", result.EventNotifier);
-    }
-
-    [Fact]
-    public void ToModel_AssetEventObservabilityModeSchema_ConvertsCorrectly()
-    {
-        var source = AdrBaseService.AssetEventObservabilityModeSchema.Log;
-
-        var result = source.ToModel();
-
-        Assert.Equal(AssetEventObservabilityMode.Log, result);
-
-        source = AdrBaseService.AssetEventObservabilityModeSchema.None;
-
-        result = source.ToModel();
-
-        Assert.Equal(AssetEventObservabilityMode.None, result);
-    }
-
-    [Fact]
-    public void ToModel_Topic_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.Topic
-        {
-            Path = "TestPath",
-            Retain = AdrBaseService.RetainSchema.Keep
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestPath", result.Path);
-        Assert.Equal(Retain.Keep, result.Retain);
-    }
-
-    [Fact]
-    public void ToModel_RetainSchema_ConvertsCorrectly()
-    {
-        var source = AdrBaseService.RetainSchema.Keep;
-
-        var result = source.ToModel();
-
-        Assert.Equal(Retain.Keep, result);
-
-        source = AdrBaseService.RetainSchema.Never;
-
-        result = source.ToModel();
-
-        Assert.Equal(Retain.Never, result);
-    }
-
-    [Fact]
-    public void ToModel_AssetDataPointSchemaElementSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AssetDataPointSchemaElementSchema
-        {
-            DataPointConfiguration = "TestConfig",
-            DataSource = "TestSource",
-            Name = "TestName",
-            ObservabilityMode = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestConfig", result.DataPointConfiguration);
-        Assert.Equal("TestSource", result.DataSource);
-        Assert.Equal("TestName", result.Name);
-        Assert.Equal(AssetDataPointObservabilityMode.Counter, result.ObservabilityMode);
-    }
-
-    [Fact]
-    public void ToModel_AssetDataPointObservabilityModeSchema_ConvertsCorrectly()
-    {
-        var source = AdrBaseService.AssetDataPointObservabilityModeSchema.Counter;
-        var result = source.ToModel();
-        Assert.Equal(AssetDataPointObservabilityMode.Counter, result);
-
-        source = AdrBaseService.AssetDataPointObservabilityModeSchema.Gauge;
-        result = source.ToModel();
-        Assert.Equal(AssetDataPointObservabilityMode.Gauge, result);
-
-        source = AdrBaseService.AssetDataPointObservabilityModeSchema.None;
-        result = source.ToModel();
-        Assert.Equal(AssetDataPointObservabilityMode.None, result);
-
-        source = AdrBaseService.AssetDataPointObservabilityModeSchema.Log;
-        result = source.ToModel();
-        Assert.Equal(AssetDataPointObservabilityMode.Log, result);
-
-        source = AdrBaseService.AssetDataPointObservabilityModeSchema.Histogram;
-        result = source.ToModel();
-        Assert.Equal(AssetDataPointObservabilityMode.Histogram, result);
-
-    }
-
-    [Fact]
-    public void ToModel_DetectedAssetDataPointSchemaElementSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.DetectedAssetDataPointSchemaElementSchema
-        {
-            DataPointConfiguration = "TestConfig",
-            DataSource = "TestSource",
-            Name = "TestName",
-            LastUpdatedOn = "2023-10-01T00:00:00Z",
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestConfig", result.DataPointConfiguration);
-        Assert.Equal("TestSource", result.DataSource);
-        Assert.Equal("TestName", result.Name);
-        Assert.NotEqual("2023-10-01T00:00:00Z", result.LastUpdatedOn);
-    }
-
-    [Fact]
-    public void ToModel_NotificationResponse_ConvertsCorrectly()
-    {
-        var source = AdrBaseService.NotificationResponse.Accepted;
-        var result = source.ToModel();
-        Assert.Equal(NotificationResponse.Accepted, result);
-
-        source = AdrBaseService.NotificationResponse.Failed;
-        result = source.ToModel();
-        Assert.Equal(NotificationResponse.Failed, result);
-    }
-
-    [Fact]
-    public void ToModel_AssetEndpointProfile_ConvertCorrectly()
-    {
-        var source = new AdrBaseService.AssetEndpointProfile
-        {
-            Name = "TestName",
-            Specification = new AdrBaseService.AssetEndpointProfileSpecificationSchema
-            {
-                Uuid = "TestUuid",
-                TargetAddress = "TestAddress",
-                EndpointProfileType = "TestType",
-                AdditionalConfiguration = "TestConfig",
-                Authentication = new AdrBaseService.AuthenticationSchema
+                Name = "test-asset",
+                Specification = new AdrBaseService.AssetSpecificationSchema
                 {
-                    Method = AdrBaseService.MethodSchema.Certificate
-                }
-            },
-            Status = new AdrBaseService.AssetEndpointProfileStatus()
-            {
-                Errors = new List<AdrBaseService.Error>
+                    Description = "test-description",
+                    Enabled = true,
+                    Manufacturer = "test-manufacturer",
+                    Model = "test-model",
+                    Uuid = "test-uuid",
+                    Version = 1,
+                    DisplayName = "Test Asset",
+                    DocumentationUri = "https://docs.example.com",
+                    HardwareRevision = "v1.2",
+                    ManufacturerUri = "https://manufacturer.example.com",
+                    ProductCode = "ABC123",
+                    SerialNumber = "SN12345",
+                    SoftwareRevision = "sw1.3",
+                    ExternalAssetId = "ext-id-123",
+                    Attributes = new Dictionary<string, string>
+                    {
+                        ["key1"] = "value1",
+                        ["key2"] = "value2"
+                    },
+                    Datasets =
+                    [
+                        new AdrBaseService.AssetDatasetSchemaElementSchema
+                        {
+                            Name = "dataset1",
+                            DataSource = "ds-source",
+                            TypeRef = "ds-type",
+                            DataPoints =
+                            [
+                                new AdrBaseService.AssetDatasetDataPointSchemaElementSchema
+                                {
+                                    Name = "datapoint1",
+                                    DataSource = "dp-source",
+                                    TypeRef = "dp-type",
+                                    DataPointConfiguration = "datapoint-conf-value"
+                                }
+                            ],
+                            Destinations =
+                            [
+                                new AdrBaseService.AssetDatasetDestinationSchemaElementSchema
+                                {
+                                    Target = AdrBaseService.DatasetTarget.Mqtt,
+                                    Configuration = new AdrBaseService.DestinationConfiguration
+                                    {
+                                        Key = "config-key",
+                                        Path = "config-path",
+                                        Topic = "config-topic",
+                                        Qos = AdrBaseService.QoS.Qos1,
+                                        Retain = AdrBaseService.Retain.Keep,
+                                        Ttl = 60
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    Events =
+                    [
+                        new AdrBaseService.AssetEventSchemaElementSchema
+                        {
+                            Name = "event1",
+                            EventNotifier = "event-notifier",
+                            EventConfiguration = "event-config-value",
+                            DataPoints =
+                            [
+                                new AdrBaseService.AssetEventDataPointSchemaElementSchema
+                                {
+                                    Name = "event-datapoint1",
+                                    DataSource = "event-dp-source",
+                                    DataPointConfiguration = "event-datapoint-conf-value"
+                                }
+                            ],
+                            Destinations =
+                            [
+                                new AdrBaseService.AssetEventDestinationSchemaElementSchema
+                                {
+                                    Target = AdrBaseService.EventStreamTarget.Storage,
+                                    Configuration = new AdrBaseService.DestinationConfiguration
+                                    {
+                                        Key = "event-config-key",
+                                        Path = "event-config-path",
+                                        Topic = "event-config-topic"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    DefaultDatasetsDestinations =
+                    [
+                        new AdrBaseService.DefaultDatasetsDestinationsSchemaElementSchema
+                        {
+                            Target = AdrBaseService.DatasetTarget.Mqtt,
+                            Configuration = new AdrBaseService.DestinationConfiguration
+                            {
+                                Key = "default-config-key",
+                                Path = "default-config-path",
+                                Topic = "default-config-topic"
+                            }
+                        }
+                    ],
+                    DeviceRef = new AdrBaseService.DeviceRefSchema
+                    {
+                        DeviceName = "device-name",
+                        EndpointName = "endpoint-name"
+                    }
+                },
+                Status = new AdrBaseService.AssetStatus
                 {
-                    new() { Code = 1, Message = "Message1" }
+                    Config = new AdrBaseService.AssetStatusConfigSchema
+                    {
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "error-code",
+                            Message = "error-message",
+                            InnerError = new Dictionary<string, string> { { "inner-error", "inner-error-message" } },
+                            Details =
+                            [
+                                new()
+                                {
+                                    Code = "detail-code",
+                                    Message = "detail-message",
+                                    Info = "info",
+                                    CorrelationId = "correlation-id"
+                                }
+                            ]
+                        },
+                        LastTransitionTime = "2023-01-01T00:00:00Z",
+                        Version = 1
+                    },
+                    Datasets =
+                    [
+                        new()
+                        {
+                            Name = "dataset1",
+                            Error = new AdrBaseService.ConfigError
+                            {
+                                Code = "dataset-error",
+                                Message = "dataset-error-message"
+                            },
+                            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                            {
+                                SchemaName = "schema1",
+                                SchemaRegistryNamespace = "namespace1",
+                                SchemaVersion = "1.0"
+                            }
+                        }
+                    ],
+                    Events =
+                    [
+                        new()
+                        {
+                            Name = "event1",
+                            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                            {
+                                SchemaName = "event-schema",
+                                SchemaRegistryNamespace = "event-namespace",
+                                SchemaVersion = "2.0"
+                            }
+                        }
+                    ],
+                    ManagementGroups =
+                    [
+                        new()
+                        {
+                            Name = "mgmt-group1",
+                            Actions =
+                            [
+                                new()
+                                {
+                                    Name = "action1",
+                                    Error = new AdrBaseService.ConfigError
+                                    {
+                                        Code = "action-error",
+                                        Message = "action-error-message"
+                                    },
+                                    RequestMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                    {
+                                        SchemaName = "req-schema",
+                                        SchemaRegistryNamespace = "req-namespace",
+                                        SchemaVersion = "1.0"
+                                    },
+                                    ResponseMessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                                    {
+                                        SchemaName = "resp-schema",
+                                        SchemaRegistryNamespace = "resp-namespace",
+                                        SchemaVersion = "1.0"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    Streams =
+                    [
+                        new()
+                        {
+                            Name = "stream1",
+                            Error = new AdrBaseService.ConfigError
+                            {
+                                Code = "stream-error",
+                                Message = "stream-error-message"
+                            },
+                            MessageSchemaReference = new AdrBaseService.MessageSchemaReference
+                            {
+                                SchemaName = "stream-schema",
+                                SchemaRegistryNamespace = "stream-namespace",
+                                SchemaVersion = "3.0"
+                            }
+                        }
+                    ]
                 }
-            }
-        };
+            };
 
-        var result = source.ToModel();
+            // Act
+            var result = source.ToModel();
 
-        Assert.NotNull(result);
-        Assert.Equal("TestName", result.Name);
-        Assert.NotNull(result.Specification);
-        Assert.Equal("TestUuid", result.Specification.Uuid);
-        Assert.Equal("TestAddress", result.Specification.TargetAddress);
-        Assert.Equal("TestType", result.Specification.EndpointProfileType);
-        Assert.NotNull(result.Status);
-        Assert.Single(result.Status.Errors!);
-        Assert.Equal(1, result.Status.Errors?[0].Code);
-        Assert.Equal("Message1", result.Status.Errors?[0].Message);
-    }
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("test-asset", result.Name);
 
-    [Fact]
-    public void ToModel_UsernamePasswordCredentialsSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.UsernamePasswordCredentialsSchema
+            // Verify Specification
+            Assert.NotNull(result.Specification);
+            Assert.Equal("test-description", result.Specification.Description);
+            Assert.True(result.Specification.Enabled);
+            Assert.Equal("test-manufacturer", result.Specification.Manufacturer);
+            Assert.Equal("test-model", result.Specification.Model);
+            Assert.Equal("test-uuid", result.Specification.Uuid);
+            Assert.Equal((ulong)1, result.Specification.Version);
+            Assert.Equal("Test Asset", result.Specification.DisplayName);
+            Assert.Equal("https://docs.example.com", result.Specification.DocumentationUri);
+            Assert.Equal("v1.2", result.Specification.HardwareRevision);
+            Assert.Equal("https://manufacturer.example.com", result.Specification.ManufacturerUri);
+            Assert.Equal("ABC123", result.Specification.ProductCode);
+            Assert.Equal("SN12345", result.Specification.SerialNumber);
+            Assert.Equal("sw1.3", result.Specification.SoftwareRevision);
+            Assert.Equal("ext-id-123", result.Specification.ExternalAssetId);
+            Assert.Equal("device-name", result.Specification.DeviceRef.DeviceName);
+            Assert.Equal("endpoint-name", result.Specification.DeviceRef.EndpointName);
+
+            // Verify Attributes
+            Assert.NotNull(result.Specification.Attributes);
+            Assert.Equal(2, result.Specification.Attributes.Count);
+            Assert.Equal("value1", result.Specification.Attributes["key1"]);
+            Assert.Equal("value2", result.Specification.Attributes["key2"]);
+
+            // Verify Datasets
+            Assert.NotNull(result.Specification.Datasets);
+            Assert.Single(result.Specification.Datasets);
+            Assert.Equal("dataset1", result.Specification.Datasets[0].Name);
+            Assert.Equal("ds-source", result.Specification.Datasets[0].DataSource);
+            Assert.Equal("ds-type", result.Specification.Datasets[0].TypeRef);
+
+            // Verify Dataset DataPoints
+            Assert.NotNull(result.Specification.Datasets[0].DataPoints);
+            Assert.Single(result.Specification.Datasets[0].DataPoints!);
+            Assert.Equal("datapoint1", result.Specification.Datasets[0].DataPoints![0].Name);
+            Assert.Equal("dp-source", result.Specification.Datasets[0].DataPoints![0].DataSource);
+            Assert.Equal("dp-type", result.Specification.Datasets[0].DataPoints![0].TypeRef);
+
+            // Verify Dataset Destinations
+            Assert.NotNull(result.Specification.Datasets[0].Destinations);
+            Assert.Single(result.Specification.Datasets[0].Destinations!);
+            Assert.Equal(DatasetTarget.Mqtt, result.Specification.Datasets[0].Destinations![0].Target);
+            Assert.NotNull(result.Specification.Datasets[0].Destinations![0].Configuration);
+            Assert.Equal("config-key", result.Specification.Datasets[0].Destinations![0].Configuration.Key);
+            Assert.Equal("config-path", result.Specification.Datasets[0].Destinations![0].Configuration.Path);
+            Assert.Equal("config-topic", result.Specification.Datasets[0].Destinations![0].Configuration.Topic);
+            Assert.Equal(QoS.Qos1, result.Specification.Datasets[0].Destinations![0].Configuration.Qos);
+            Assert.Equal(Retain.Keep, result.Specification.Datasets[0].Destinations![0].Configuration.Retain);
+            Assert.Equal((ulong)60, result.Specification.Datasets[0].Destinations![0].Configuration.Ttl);
+
+            // Verify Events
+            Assert.NotNull(result.Specification.Events);
+            Assert.Single(result.Specification.Events);
+            Assert.Equal("event1", result.Specification.Events[0].Name);
+            Assert.Equal("event-notifier", result.Specification.Events[0].EventNotifier);
+
+            // Verify Event DataPoints
+            Assert.NotNull(result.Specification.Events[0].DataPoints);
+            Assert.Single(result.Specification.Events[0].DataPoints!);
+            Assert.Equal("event-datapoint1", result.Specification.Events[0].DataPoints![0].Name);
+            Assert.Equal("event-dp-source", result.Specification.Events[0].DataPoints![0].DataSource);
+
+            // Verify Event Destinations
+            Assert.NotNull(result.Specification.Events[0].Destinations);
+            Assert.Single(result.Specification.Events[0].Destinations!);
+            Assert.Equal(EventStreamTarget.Storage, result.Specification.Events[0].Destinations![0].Target);
+
+            // Verify DefaultDatasetsDestinations
+            Assert.NotNull(result.Specification.DefaultDatasetsDestinations);
+            Assert.Single(result.Specification.DefaultDatasetsDestinations);
+            Assert.Equal(DatasetTarget.Mqtt, result.Specification.DefaultDatasetsDestinations[0].Target);
+            Assert.NotNull(result.Specification.DefaultDatasetsDestinations[0].Configuration);
+
+            // Verify Status
+            Assert.NotNull(result.Status);
+            Assert.NotNull(result.Status.Config);
+            Assert.Equal("error-code", result.Status.Config.Error!.Code);
+            Assert.Equal("error-message", result.Status.Config.Error.Message);
+        }
+
+        [Fact]
+        public void CreateDetectedAssetResponse_ToModel_ShouldConvertStatus()
         {
-            UsernameSecretName = "TestUser",
-            PasswordSecretName = "TestPassword"
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("TestUser", result.UsernameSecretName);
-        Assert.Equal("TestPassword", result.PasswordSecretName);
-    }
-
-    [Fact]
-    public void ToModel_AssetEndpointProfileSpecification_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AssetEndpointProfileSpecificationSchema
-        {
-            Uuid = "endpoint-uuid",
-            TargetAddress = "192.168.1.1",
-            EndpointProfileType = "TestType"
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal("endpoint-uuid", result.Uuid);
-        Assert.Equal("192.168.1.1", result.TargetAddress);
-        Assert.Equal("TestType", result.EndpointProfileType);
-    }
-
-    [Fact]
-    public void ToModel_Authentication_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AuthenticationSchema
-        {
-            Method = AdrBaseService.MethodSchema.Certificate,
-            X509credentials = new AdrBaseService.X509credentialsSchema { CertificateSecretName = "cert-secret" }
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal(Method.Certificate, result.Method);
-        Assert.NotNull(result.X509Credentials);
-        Assert.Equal("cert-secret", result.X509Credentials.CertificateSecretName);
-    }
-
-    [Fact]
-    public void ToModel_CreateDetectedAssetResponse_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.CreateDetectedAssetResponseSchema
-        {
-            Status = AdrBaseService.DetectedAssetResponseStatusSchema.Created
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal(DetectedAssetResponseStatus.Created, result.Status);
-    }
-
-    [Fact]
-    public void ToModel_CreateDiscoveredAssetEndpointProfileResponse_ConvertsCorrectly()
-    {
-        var source = new CreateDiscoveredAssetEndpointProfileResponseSchema
-        {
-            Status = DiscoveredAssetEndpointProfileResponseStatusSchema.Created
-        };
-
-        var result = source.ToModel();
-
-        Assert.NotNull(result);
-        Assert.Equal(DiscoveredAssetEndpointProfileResponseStatus.Created, result.Status);
-    }
-
-    [Fact]
-    public void ToModel_AssetEndpointProfileStatus_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.AssetEndpointProfileStatus
-        {
-            Errors = new List<AdrBaseService.Error>
+            // Arrange - Test with each possible status value
+            var sourceSuccess = new AdrBaseService.CreateDetectedAssetResponseSchema
             {
-                new() { Code = 2, Message = "Error message" }
-            }
-        };
+                Status =  AdrBaseService.DetectedAssetResponseStatusSchema.Created
+            };
 
-        var result = source.ToModel();
+            var sourceFailed = new AdrBaseService.CreateDetectedAssetResponseSchema
+            {
+                Status = AdrBaseService.DetectedAssetResponseStatusSchema.Failed
+            };
 
-        Assert.NotNull(result);
-        Assert.Single(result.Errors!);
-        Assert.Equal(2, result.Errors?[0].Code);
-        Assert.Equal("Error message", result.Errors?[0].Message);
-    }
+            var sourceDuplicate = new AdrBaseService.CreateDetectedAssetResponseSchema
+            {
+                Status = AdrBaseService.DetectedAssetResponseStatusSchema.Duplicate
+            };
 
-    [Fact]
-    public void ToModel_Error_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.Error
+            // Act
+            var resultCreated = sourceSuccess.ToModel();
+            var resultFailed = sourceFailed.ToModel();
+            var resultDuplicate = sourceDuplicate.ToModel();
+
+            // Assert
+            Assert.Equal(DetectedAssetResponseStatus.Created, resultCreated.Status);
+            Assert.Equal(DetectedAssetResponseStatus.Failed, resultFailed.Status);
+            Assert.Equal(DetectedAssetResponseStatus.Duplicate, resultDuplicate.Status);
+
+            // Verify the underlying integer values match
+            Assert.Equal((int)AdrBaseService.DetectedAssetResponseStatusSchema.Created, (int)resultCreated.Status);
+            Assert.Equal((int)AdrBaseService.DetectedAssetResponseStatusSchema.Failed, (int)resultFailed.Status);
+            Assert.Equal((int)AdrBaseService.DetectedAssetResponseStatusSchema.Duplicate, (int)resultDuplicate.Status);
+        }
+
+        [Fact]
+        public void Device_ToModel_ShouldConvertAllProperties()
         {
-            Code = 404,
-            Message = "Not Found"
-        };
+            // Arrange - Create complete source Device with all properties
+            var source = new AdrBaseService.Device
+            {
+                Name = "test-device",
+                Specification = new AdrBaseService.DeviceSpecificationSchema
+                {
+                    Manufacturer = "test-manufacturer",
+                    Model = "test-model",
+                    Uuid = "test-uuid",
+                    Version = 1,
+                    Enabled = true,
+                    DiscoveredDeviceRef = "discovered-device-ref",
+                    ExternalDeviceId = "external-device-id",
+                    LastTransitionTime = "2023-01-01T00:00:00Z",
+                    OperatingSystemVersion = "1.2.3",
+                    Attributes = new Dictionary<string, string>
+                    {
+                        ["key1"] = "value1",
+                        ["key2"] = "value2"
+                    },
+                    Endpoints = new AdrBaseService.DeviceEndpointSchema
+                    {
+                        Inbound = new Dictionary<string, AdrBaseService.DeviceInboundEndpointSchemaMapValueSchema>
+                        {
+                            ["mqtt-endpoint"] = new()
+                            {
+                                Address = "mqtt://device:1883",
+                                Version = "1.0",
+                                Type = "mqtt",
+                                AdditionalConfiguration = "mqtt-config-value",
+                                Authentication = new AdrBaseService.AuthenticationSchema
+                                {
+                                    Method = AdrBaseService.MethodSchema.Certificate,
+                                    X509credentials = new AdrBaseService.X509credentialsSchema
+                                    {
+                                        CertificateSecretName = "certificate-secret"
+                                    }
+                                },
+                                TrustSettings = new AdrBaseService.TrustSettingsSchema
+                                {
+                                    TrustMode = "trust-mode-value",
+                                    IssuerList = "issuer1",
+                                    TrustList = "trust1"
+                                }
+                            },
+                            ["http-endpoint"] = new()
+                            {
+                                Address = "http://device:8080",
+                                Version = "2.0",
+                                Type = "http",
+                                Authentication = new AdrBaseService.AuthenticationSchema
+                                {
+                                    Method = AdrBaseService.MethodSchema.UsernamePassword,
+                                    UsernamePasswordCredentials = new AdrBaseService.UsernamePasswordCredentialsSchema
+                                    {
+                                        UsernameSecretName = "username-secret",
+                                        PasswordSecretName = "password-secret"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                Status = new AdrBaseService.DeviceStatus
+                {
+                    Config = new AdrBaseService.DeviceStatusConfigSchema
+                    {
+                        LastTransitionTime = "2023-01-02T00:00:00Z",
+                        Version = 2,
+                        Error = new AdrBaseService.ConfigError
+                        {
+                            Code = "config-error-code",
+                            Message = "config-error-message",
+                            InnerError = new Dictionary<string, string>
+                            {
+                                ["inner-key"] = "inner-value"
+                            },
+                            Details = new List<AdrBaseService.DetailsSchemaElementSchema>
+                            {
+                                new()
+                                {
+                                    Code = "detail-code",
+                                    Message = "detail-message",
+                                    Info = "detail-info",
+                                    CorrelationId = "correlation-id"
+                                }
+                            }
+                        }
+                    },
+                    Endpoints = new AdrBaseService.DeviceStatusEndpointSchema
+                    {
+                        Inbound = new Dictionary<string, AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema>
+                        {
+                            ["mqtt-endpoint"] = new()
+                            {
+                                Error = new AdrBaseService.ConfigError
+                                {
+                                    Code = "mqtt-error-code",
+                                    Message = "mqtt-error-message"
+                                }
+                            },
+                            ["http-endpoint"] = new()
+                            {
+                                Error = new AdrBaseService.ConfigError
+                                {
+                                    Code = "http-error-code",
+                                    Message = "http-error-message"
+                                }
+                            }
+                        }
+                    }
+                }
+            };
 
-        var result = source.ToModel();
+            // Act
+            var result = source.ToModel();
 
-        Assert.NotNull(result);
-        Assert.Equal(404, result.Code);
-        Assert.Equal("Not Found", result.Message);
-    }
+            // Assert
+            Assert.NotNull(result);
 
-    [Fact]
-    public void ToModel_MethodSchema_ConvertsCorrectly()
-    {
-        var source = AdrBaseService.MethodSchema.Certificate;
+            // Verify top-level Device properties
+            Assert.Equal("test-device", result.Name);
 
-        var result = source.ToModel();
+            // Verify DeviceSpecification
+            Assert.NotNull(result.Specification);
+            Assert.Equal("test-manufacturer", result.Specification.Manufacturer);
+            Assert.Equal("test-model", result.Specification.Model);
+            Assert.Equal("test-uuid", result.Specification.Uuid);
+            Assert.Equal((ulong)1, result.Specification.Version);
+            Assert.True(result.Specification.Enabled);
+            Assert.Equal("discovered-device-ref", result.Specification.DiscoveredDeviceRef);
+            Assert.Equal("external-device-id", result.Specification.ExternalDeviceId);
+            Assert.Equal("2023-01-01T00:00:00Z", result.Specification.LastTransitionTime);
+            Assert.Equal("1.2.3", result.Specification.OperatingSystemVersion);
 
-        Assert.Equal(Method.Certificate, result);
+            // Verify Attributes
+            Assert.NotNull(result.Specification.Attributes);
+            Assert.Equal(2, result.Specification.Attributes.Count);
+            Assert.Equal("value1", result.Specification.Attributes["key1"]);
+            Assert.Equal("value2", result.Specification.Attributes["key2"]);
 
-        source = AdrBaseService.MethodSchema.UsernamePassword;
+            // Verify Endpoints
+            Assert.NotNull(result.Specification.Endpoints);
+            Assert.NotNull(result.Specification.Endpoints.Inbound);
+            Assert.Equal(2, result.Specification.Endpoints.Inbound.Count);
 
-        result = source.ToModel();
+            // Verify first endpoint (MQTT)
+            Assert.True(result.Specification.Endpoints.Inbound.ContainsKey("mqtt-endpoint"));
+            var mqttEndpoint = result.Specification.Endpoints.Inbound["mqtt-endpoint"];
+            Assert.Equal("mqtt://device:1883", mqttEndpoint.Address);
+            Assert.Equal("1.0", mqttEndpoint.Version);
+            Assert.Equal("mqtt", mqttEndpoint.Type);
+            Assert.NotNull(mqttEndpoint.AdditionalConfiguration);
+            Assert.Equal("mqtt-config-value", mqttEndpoint.AdditionalConfiguration);
 
-        Assert.Equal(Method.UsernamePassword, result);
-    }
+            // Verify MQTT endpoint authentication
+            Assert.NotNull(mqttEndpoint.Authentication);
+            Assert.Equal(Method.Certificate, mqttEndpoint.Authentication.Method);
+            Assert.NotNull(mqttEndpoint.Authentication.X509Credentials);
+            Assert.Equal("certificate-secret", mqttEndpoint.Authentication.X509Credentials.CertificateSecretName);
 
-    [Fact]
-    public void ToModel_X509CredentialsSchema_ConvertsCorrectly()
-    {
-        var source = new AdrBaseService.X509credentialsSchema
+            // Verify MQTT endpoint trust settings
+            Assert.NotNull(mqttEndpoint.TrustSettings);
+            Assert.Equal("trust-mode-value", mqttEndpoint.TrustSettings.TrustMode);
+            Assert.NotNull(mqttEndpoint.TrustSettings.IssuerList);
+            Assert.Equal("issuer1", mqttEndpoint.TrustSettings.IssuerList);
+            Assert.NotNull(mqttEndpoint.TrustSettings.TrustList);
+            Assert.Equal("trust1", mqttEndpoint.TrustSettings.TrustList);
+
+            // Verify second endpoint (HTTP)
+            Assert.True(result.Specification.Endpoints.Inbound.ContainsKey("http-endpoint"));
+            var httpEndpoint = result.Specification.Endpoints.Inbound["http-endpoint"];
+            Assert.Equal("http://device:8080", httpEndpoint.Address);
+            Assert.Equal("2.0", httpEndpoint.Version);
+            Assert.Equal("http", httpEndpoint.Type);
+
+            // Verify HTTP endpoint authentication
+            Assert.NotNull(httpEndpoint.Authentication);
+            Assert.Equal(Method.UsernamePassword, httpEndpoint.Authentication.Method);
+            Assert.NotNull(httpEndpoint.Authentication.UsernamePasswordCredentials);
+            Assert.Equal("username-secret", httpEndpoint.Authentication.UsernamePasswordCredentials.UsernameSecretName);
+            Assert.Equal("password-secret", httpEndpoint.Authentication.UsernamePasswordCredentials.PasswordSecretName);
+
+            // Verify DeviceStatus
+            Assert.NotNull(result.Status);
+            Assert.NotNull(result.Status.Config);
+            Assert.Equal("2023-01-02T00:00:00Z", result.Status.Config.LastTransitionTime);
+            Assert.Equal((ulong)2, result.Status.Config.Version);
+
+            // Verify Error information
+            Assert.NotNull(result.Status.Config.Error);
+            Assert.Equal("config-error-code", result.Status.Config.Error.Code);
+            Assert.Equal("config-error-message", result.Status.Config.Error.Message);
+            Assert.NotNull(result.Status.Config.Error.InnerError);
+            Assert.Equal("inner-value", result.Status.Config.Error.InnerError["inner-key"]);
+
+            // Verify Error Details
+            Assert.NotNull(result.Status.Config.Error.Details);
+            Assert.Single(result.Status.Config.Error.Details);
+            Assert.Equal("detail-code", result.Status.Config.Error.Details[0].Code);
+            Assert.Equal("detail-message", result.Status.Config.Error.Details[0].Message);
+            Assert.Equal("detail-info", result.Status.Config.Error.Details[0].Info);
+            Assert.Equal("correlation-id", result.Status.Config.Error.Details[0].CorrelationId);
+
+            // Verify Status Endpoints
+            Assert.NotNull(result.Status.Endpoints);
+            Assert.NotNull(result.Status.Endpoints.Inbound);
+            Assert.Equal(2, result.Status.Endpoints.Inbound.Count);
+
+            // Verify first status endpoint
+            Assert.True(result.Status.Endpoints.Inbound.ContainsKey("mqtt-endpoint"));
+            var mqttStatusEndpoint = result.Status.Endpoints.Inbound["mqtt-endpoint"];
+            Assert.NotNull(mqttStatusEndpoint.Error);
+            Assert.Equal("mqtt-error-code", mqttStatusEndpoint.Error.Code);
+
+            // Verify second status endpoint
+            Assert.True(result.Status.Endpoints.Inbound.ContainsKey("http-endpoint"));
+            var httpStatusEndpoint = result.Status.Endpoints.Inbound["http-endpoint"];
+            Assert.NotNull(httpStatusEndpoint.Error);
+            Assert.Equal("http-error-code", httpStatusEndpoint.Error.Code);
+        }
+
+        [Fact]
+        public void CreateDiscoveredAssetEndpointProfileResponse_ToModel_ShouldConvertStatus()
         {
-            CertificateSecretName = "TestCertSecret"
-        };
+            // Arrange - Test with each possible status value
+            var sourceCreated = new CreateDiscoveredAssetEndpointProfileResponseSchema
+            {
+                Status = DiscoveredAssetEndpointProfileResponseStatusSchema.Created
+            };
 
-        var result = source.ToModel();
+            var sourceFailed = new CreateDiscoveredAssetEndpointProfileResponseSchema
+            {
+                Status = DiscoveredAssetEndpointProfileResponseStatusSchema.Failed
+            };
 
-        Assert.NotNull(result);
-        Assert.Equal("TestCertSecret", result.CertificateSecretName);
+            var sourceDuplicate = new CreateDiscoveredAssetEndpointProfileResponseSchema
+            {
+                Status = DiscoveredAssetEndpointProfileResponseStatusSchema.Duplicate
+            };
+
+            // Act
+            var resultCreated = sourceCreated.ToModel();
+            var resultFailed = sourceFailed.ToModel();
+            var resultDuplicate = sourceDuplicate.ToModel();
+
+            // Assert
+            Assert.Equal(DiscoveredAssetEndpointProfileResponseStatus.Created, resultCreated.Status);
+            Assert.Equal(DiscoveredAssetEndpointProfileResponseStatus.Failed, resultFailed.Status);
+            Assert.Equal(DiscoveredAssetEndpointProfileResponseStatus.Duplicate, resultDuplicate.Status);
+
+            // Verify the underlying integer values match
+            Assert.Equal((int)DiscoveredAssetEndpointProfileResponseStatusSchema.Created, (int)resultCreated.Status);
+            Assert.Equal((int)DiscoveredAssetEndpointProfileResponseStatusSchema.Failed, (int)resultFailed.Status);
+            Assert.Equal((int)DiscoveredAssetEndpointProfileResponseStatusSchema.Duplicate, (int)resultDuplicate.Status);
+        }
+
+        [Fact]
+        public void NotificationPreferenceResponse_ToModel_ShouldConvert()
+        {
+            // Arrange
+            var sourceAccepted = AdrBaseService.NotificationPreferenceResponse.Accepted;
+            var sourceFailed = AdrBaseService.NotificationPreferenceResponse.Failed;
+
+            // Act
+            var resultAccepted = sourceAccepted.ToModel();
+            var resultFailed = sourceFailed.ToModel();
+
+            // Assert
+            Assert.Equal(NotificationResponse.Accepted, resultAccepted);
+            Assert.Equal(NotificationResponse.Failed, resultFailed);
+        }
     }
 }

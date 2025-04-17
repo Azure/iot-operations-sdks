@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
-use envoy::common_types::common_options::{CommandOptionsBuilder, TelemetryOptionsBuilder};
+use envoy::common_types::options::{CommandExecutorOptionsBuilder, TelemetrySenderOptionsBuilder};
 use envoy::counter::service::{
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
     ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
@@ -67,7 +67,7 @@ async fn read_counter_executor(
     counter: Arc<Mutex<i32>>,
 ) {
     // Create executor
-    let options = CommandOptionsBuilder::default().build().unwrap();
+    let options = CommandExecutorOptionsBuilder::default().build().unwrap();
     let mut read_counter_executor =
         ReadCounterCommandExecutor::new(application_context, client, &options);
 
@@ -94,7 +94,7 @@ async fn increment_counter_and_publish(
     counter: Arc<Mutex<i32>>,
 ) {
     // Create executor
-    let options = CommandOptionsBuilder::default().build().unwrap();
+    let options = CommandExecutorOptionsBuilder::default().build().unwrap();
     let mut increment_executor =
         IncrementCommandExecutor::new(application_context.clone(), client.clone(), &options);
 
@@ -102,7 +102,7 @@ async fn increment_counter_and_publish(
     let counter_sender = TelemetrySender::new(
         application_context,
         client,
-        &TelemetryOptionsBuilder::default().build().unwrap(),
+        &TelemetrySenderOptionsBuilder::default().build().unwrap(),
     );
 
     // Respond to each increment request by incrementing the counter value and responding with the new value

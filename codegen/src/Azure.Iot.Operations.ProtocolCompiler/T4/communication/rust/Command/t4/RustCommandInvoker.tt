@@ -36,7 +36,7 @@ use super::REQUEST_TOPIC_PATTERN;
 <# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
 use super::super::common_types::custom_payload::CustomPayload;
 <# } #>
-use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::options::CommandInvokerOptions;
 <# if (this.reqSchema == null || this.respSchema == null) { #>
 use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
@@ -143,7 +143,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandOptions) -> Self {
+    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -164,6 +164,8 @@ where
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("<#=this.commandName.AsGiven#>")
             .topic_token_map(topic_token_map)
+            .response_topic_prefix(options.response_topic_prefix.clone())
+            .response_topic_suffix(options.response_topic_suffix.clone())
             .build()
             .expect("DTDL schema generated invalid arguments");
 

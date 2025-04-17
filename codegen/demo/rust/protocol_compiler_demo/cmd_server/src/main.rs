@@ -10,7 +10,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use counters::common_types::common_options::CommandOptionsBuilder;
+use counters::common_types::options::CommandExecutorOptionsBuilder;
 use counters::counter_collection::service::{
     ConditionSchema, CounterError, CounterLocation,
     GetLocationCommandExecutor, GetLocationResponseBuilder, GetLocationResponsePayload,
@@ -66,7 +66,7 @@ async fn main() {
 async fn increment_execute_loop(client: SessionManagedClient) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let options = CommandOptionsBuilder::default().build().unwrap();
+    let options = CommandExecutorOptionsBuilder::default().build().unwrap();
 
     let mut increment_executor =
         IncrementCommandExecutor::new(application_context, client, &options);
@@ -128,7 +128,7 @@ async fn increment_execute_loop(client: SessionManagedClient) {
 async fn get_location_execute_loop(client: SessionManagedClient) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let options = CommandOptionsBuilder::default().build().unwrap();
+    let options = CommandExecutorOptionsBuilder::default().build().unwrap();
 
     let mut get_location_executor =
         GetLocationCommandExecutor::new(application_context, client, &options);

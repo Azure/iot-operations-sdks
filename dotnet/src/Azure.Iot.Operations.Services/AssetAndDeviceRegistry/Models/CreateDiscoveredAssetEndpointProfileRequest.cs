@@ -5,13 +5,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record CreateDiscoveredAssetEndpointProfileRequest
 {
-    public string? AdditionalConfiguration { get; set; } = default;
+    public string? AdditionalConfiguration { get; set; }
 
-    public string? Name { get; set; } = default;
+    public string? Name { get; set; }
 
-    public string? EndpointProfileType { get; set; } = default;
+    public required string EndpointProfileType { get; set; }
 
-    public List<SupportedAuthenticationMethodsSchemaElement>? SupportedAuthenticationMethods { get; set; } = default;
+    public List<SupportedAuthenticationMethodsSchemaElement>? SupportedAuthenticationMethods { get; set; }
 
-    public string? TargetAddress { get; set; } = default;
+    public required string TargetAddress { get; set; }
 }

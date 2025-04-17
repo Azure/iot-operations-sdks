@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DiscoveredAssetEndpointProfile
+    public partial class DiscoveredAssetEndpointProfile : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// A unique identifier for a discovered asset.
@@ -30,8 +30,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
         /// Defines the configuration for the connector type that is being used with the endpoint profile.
         /// </summary>
         [JsonPropertyName("endpointProfileType")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? EndpointProfileType { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string EndpointProfileType { get; set; } = default!;
 
         /// <summary>
         /// list of supported authentication methods
@@ -44,8 +45,32 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
         /// local valid URI specifying the network address/dns name of southbound service.
         /// </summary>
         [JsonPropertyName("targetAddress")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? TargetAddress { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string TargetAddress { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (EndpointProfileType is null)
+            {
+                throw new ArgumentNullException("endpointProfileType field cannot be null");
+            }
+            if (TargetAddress is null)
+            {
+                throw new ArgumentNullException("targetAddress field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (EndpointProfileType is null)
+            {
+                throw new ArgumentNullException("endpointProfileType field cannot be null");
+            }
+            if (TargetAddress is null)
+            {
+                throw new ArgumentNullException("targetAddress field cannot be null");
+            }
+        }
     }
 }

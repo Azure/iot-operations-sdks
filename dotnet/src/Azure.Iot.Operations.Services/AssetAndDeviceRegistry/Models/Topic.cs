@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record Topic
 {
-    public string? Path { get; set; } = default;
+    public required string Path { get; set; }
 
-    public Retain? Retain { get; set; } = default;
+    public Retain? Retain { get; set; }
 }

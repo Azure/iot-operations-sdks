@@ -5,5 +5,5 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetEndpointProfileStatus
 {
-    public List<Error>? Errors { get; set; } = default;
+    public List<Error>? Errors { get; set; }
 }
