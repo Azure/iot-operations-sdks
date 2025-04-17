@@ -5,7 +5,6 @@ using Azure.Iot.Operations.Services.StateStore;
 using Azure.Iot.Operations.Protocol;
 using System.Diagnostics;
 using Azure.Iot.Operations.Protocol.Retry;
-using Azure.Iot.Operations.Services.LeaderElection;
 
 namespace Azure.Iot.Operations.Services.LeasedLock
 {
@@ -503,7 +502,6 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Start receiving notifications when the lock holder changes for this leased lock.
         /// </summary>
-        /// <param name="options">The optional parameters for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// Users who want to watch lock holder change events must first set one or more handlers on
@@ -511,19 +509,14 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// To stop watching lock holder change events, call <see cref="UnobserveLockAsync(CancellationToken)"/>
         /// and then remove any handlers from <see cref="LockChangeEventReceivedAsync"/>.
         /// </remarks>
-        public virtual async Task ObserveLockAsync(ObserveLockRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task ObserveLockAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            options ??= new ObserveLockRequestOptions();
             Debug.Assert(_lockKey != null);
             await _stateStoreClient.ObserveAsync(
                 _lockKey,
-                new StateStoreObserveRequestOptions()
-                {
-                    GetNewValue = options.GetNewValue,
-                },
                 cancellationToken: cancellationToken).ConfigureAwait(false);
 
             _isObservingLock = true;
