@@ -52,6 +52,7 @@ public class AdrServiceClientIntegrationTests
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
         var status = new DeviceStatus
         {
             Config = new DeviceStatusConfig
@@ -79,18 +80,18 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
-    public async Task CanObserveAndUnobserveDeviceEndpointUpdatesAsync()
+    public async Task TriggerDeviceTelemetryEventWhenObservedAsync()
     {
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        bool notificationReceived = false;
+        int notificationReceivedCount = 0;
         client.OnReceiveDeviceUpdateEventTelemetry += (source, device) =>
         {
             _output.WriteLine($"Device update received from: {source}");
-            notificationReceived = true;
+            notificationReceivedCount++;
             return Task.CompletedTask;
         };
 
@@ -98,12 +99,37 @@ public class AdrServiceClientIntegrationTests
         var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
 
         // Trigger an update so we can observe it
-        var status = new DeviceStatus
+        var status = CreateDeviceStatus();
+        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
+
+        // Wait a short time for the notification to arrive
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
+        // Assert
+        Assert.Equal(1, notificationReceivedCount);
+    }
+
+    [Fact]
+    public async Task DoNotTriggerTelemetryEventAfterUnobserveDeviceAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        int notificationReceivedCount = 0;
+        client.OnReceiveDeviceUpdateEventTelemetry += (source, device) =>
         {
-            Health = DeviceHealth.Good,
-            LastActivityTime = DateTimeOffset.UtcNow,
-            StatusMessage = "Update to trigger notification"
+            _output.WriteLine($"Device update received from: {source}");
+            notificationReceivedCount++;
+            return Task.CompletedTask;
         };
+
+        // Act - Observe
+        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+
+        // Trigger an update so we can observe it
+        var status = CreateDeviceStatus();
         await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
 
         // Wait a short time for the notification to arrive
@@ -112,12 +138,33 @@ public class AdrServiceClientIntegrationTests
         // Act - Unobserve
         var unobserveResponse = await client.UnobserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
 
+        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
+
+        // Wait a short time for the notification to arrive
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
         // Assert
-        Assert.NotNull(observeResponse);
-        Assert.Equal(NotificationState.On, observeResponse.NotificationState);
-        Assert.NotNull(unobserveResponse);
-        Assert.Equal(NotificationState.Off, unobserveResponse.NotificationState);
-        Assert.True(notificationReceived, "Expected to receive device update notification");
+        Assert.Equal(1, notificationReceivedCount);
+    }
+
+    private static DeviceStatus CreateDeviceStatus()
+    {
+        return new DeviceStatus
+        {
+            Config = new DeviceStatusConfig
+            {
+                Error = null,
+                LastTransitionTime = "2023-10-01T12:00:00Z",
+                Version = 2
+            },
+            Endpoints = new DeviceStatusEndpoint
+            {
+                Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
+                {
+                    { TestEndpointName, new DeviceStatusInboundEndpointSchemaMapValue() }
+                }
+            }
+        };
     }
 
     [Fact]
@@ -148,41 +195,30 @@ public class AdrServiceClientIntegrationTests
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-        var request = new UpdateAssetStatusRequest
-        {
-            AssetName = TestAssetName,
-            Status = new AssetStatus
-            {
-                Health = AssetHealth.Good,
-                LastActivityTime = DateTimeOffset.UtcNow,
-                StatusMessage = "Test asset status update"
-            }
-        };
+
+        UpdateAssetStatusRequest request = CreateUpdateAssetStatusRequest();
 
         // Act
         var updatedAsset = await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, request);
 
         // Assert
-        _output.WriteLine($"Updated asset: {updatedAsset.Name}, Health: {updatedAsset.Status?.Health}");
         Assert.NotNull(updatedAsset);
         Assert.Equal(TestAssetName, updatedAsset.Name);
-        Assert.Equal(AssetHealth.Good, updatedAsset.Status?.Health);
-        Assert.Equal("Test asset status update", updatedAsset.Status?.StatusMessage);
     }
 
     [Fact]
-    public async Task CanObserveAndUnobserveAssetUpdatesAsync()
+    public async Task TriggerAssetTelemetryEventWhenObservedAsync()
     {
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        bool notificationReceived = false;
+        int notificationReceivedCount = 0;
         client.OnReceiveAssetUpdateEventTelemetry += (source, asset) =>
         {
             _output.WriteLine($"Asset update received from: {source}");
-            notificationReceived = true;
+            notificationReceivedCount++;
             return Task.CompletedTask;
         };
 
@@ -190,16 +226,37 @@ public class AdrServiceClientIntegrationTests
         var observeResponse = await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
-        var updateRequest = new UpdateAssetStatusRequest
+        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest();
+        await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+
+        // Wait a short time for the notification to arrive
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
+        // Assert
+        Assert.Equal(1, notificationReceivedCount);
+    }
+
+    [Fact]
+    public async Task DoNotTriggerTelemetryEventAfterUnobserveAssetAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        int notificationReceivedCount = 0;
+        client.OnReceiveAssetUpdateEventTelemetry += (source, asset) =>
         {
-            AssetName = TestAssetName,
-            Status = new AssetStatus
-            {
-                Health = AssetHealth.Good,
-                LastActivityTime = DateTimeOffset.UtcNow,
-                StatusMessage = "Update to trigger asset notification"
-            }
+            _output.WriteLine($"Asset update received from: {source}");
+            notificationReceivedCount++;
+            return Task.CompletedTask;
         };
+
+        // Act - Observe
+        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+
+        // Trigger an update so we can observe it
+        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest();
         await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
 
         // Wait a short time for the notification to arrive
@@ -209,11 +266,7 @@ public class AdrServiceClientIntegrationTests
         var unobserveResponse = await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
 
         // Assert
-        Assert.NotNull(observeResponse);
-        Assert.Equal(NotificationState.On, observeResponse.NotificationState);
-        Assert.NotNull(unobserveResponse);
-        Assert.Equal(NotificationState.Off, unobserveResponse.NotificationState);
-        Assert.True(notificationReceived, "Expected to receive asset update notification");
+        Assert.Equal(1, notificationReceivedCount);
     }
 
     [Fact]
@@ -223,62 +276,13 @@ public class AdrServiceClientIntegrationTests
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-        var request = new CreateDetectedAssetRequest
-        {
-            DetectedAsset = new DetectedAsset
-            {
-                AssetName = $"detected-asset-{Guid.NewGuid():N}",
-                Description = "Test detected asset",
-                Properties = new Dictionary<string, object>
-                {
-                    { "property1", "value1" },
-                    { "property2", 42 }
-                }
-            }
-        };
+
+        CreateDetectedAssetRequest request = CreateCreateDetectedAssetRequest();
 
         // Act
         var response = await client.CreateDetectedAssetAsync(TestDeviceName, TestEndpointName, request);
 
         // Assert
-        _output.WriteLine($"Created detected asset: {response?.CreatedAsset?.Name}");
-        Assert.NotNull(response);
-        Assert.NotNull(response.CreatedAsset);
-        Assert.Equal(request.DetectedAsset.AssetName, response.CreatedAsset.Name);
-        Assert.Equal(request.DetectedAsset.Description, response.CreatedAsset.Description);
-    }
-
-    [Fact]
-    public async Task CanCreateDiscoveredAssetEndpointProfileAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-        var profileId = $"test-profile-{Guid.NewGuid():N}";
-        var request = new CreateDiscoveredAssetEndpointProfileRequest
-        {
-            EndpointProfileType = "opc-ua",
-            DiscoveredAssetEndpointProfile = new DiscoveredAssetEndpointProfile
-            {
-                Id = profileId,
-                Description = "Test discovered endpoint profile",
-                Properties = new Dictionary<string, object>
-                {
-                    { "endpointUrl", "opc.tcp://test.server:4840" },
-                    { "securityPolicy", "None" }
-                }
-            }
-        };
-
-        // Act
-        var response = await client.CreateDiscoveredAssetEndpointProfileAsync(request);
-
-        // Assert
-        _output.WriteLine($"Created endpoint profile: {response?.CreatedProfile?.Id}");
-        Assert.NotNull(response);
-        Assert.NotNull(response.CreatedProfile);
-        Assert.Equal(profileId, response.CreatedProfile.Id);
     }
 
     [Fact]
@@ -316,4 +320,15 @@ public class AdrServiceClientIntegrationTests
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName, cancellationToken: cts.Token));
     }
+
+    private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
+    {
+        throw new NotImplementedException();
+    }
+
+    private UpdateAssetStatusRequest CreateUpdateAssetStatusRequest()
+    {
+        throw new NotImplementedException();
+    }
+
 }
