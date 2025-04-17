@@ -33,9 +33,9 @@ func main() {
 	check(client.Start(ctx))
 
 	key := "someSharedResourceKey"
-	lock := leasedlock.New(client, "someLock")
+	lock := leasedlock.NewLock(client, "someLock")
 
-	// Sample of editing using Acquire/Release directly.
+	// Sample of editing using Lock/Unlock directly.
 	for !tryEdit(ctx, log, client, lock, key, uuid.NewString()) {
 	}
 
@@ -58,12 +58,13 @@ func main() {
 	get := must(client.Get(ctx, key))
 	log.Info("value after edit", "key", key, "value", get.Value)
 
-	// Sample of renewing lock.
-	if must(lock.TryAcquire(ctx, time.Minute, leasedlock.WithRenew(2*time.Second))) {
-		defer lock.Release(ctx)
+	// Sample of renewing lease.
+	lease := leasedlock.NewLease(client, "someLease")
+	if must(lease.Acquire(ctx, time.Minute, leasedlock.WithRenew(2*time.Second))) {
+		defer lease.Release(ctx)
 
 		for range 10 {
-			log.Info("current token", "token", must(lock.Token(ctx)))
+			log.Info("current token", "token", must(lease.Token(ctx)))
 			time.Sleep(time.Second)
 		}
 	}
@@ -73,13 +74,13 @@ func tryEdit[K, V statestore.Bytes](
 	ctx context.Context,
 	log *slog.Logger,
 	client *statestore.Client[K, V],
-	lock *leasedlock.Lock[K, V],
+	lock leasedlock.Lock[K, V],
 	key K,
 	value V,
 ) bool {
-	check(lock.Acquire(ctx, time.Minute))
+	check(lock.Lock(ctx, time.Minute))
 	log.Info("acquired lock", "name", lock.Name)
-	defer lock.Release(ctx)
+	defer lock.Unlock(ctx)
 
 	ft := must(lock.Token(ctx))
 	set := must(client.Set(ctx, key, value, statestore.WithFencingToken(ft)))

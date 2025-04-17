@@ -14,47 +14,64 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type leasedLockTest struct {
-	*stateStoreTest
-	name string
-	lock *leasedlock.Lock[string, string]
-}
+type (
+	leaseTest struct {
+		*stateStoreTest
+		lease *leasedlock.Lease[string, string]
+	}
 
-func newLeasedLockTest(
+	lockTest struct {
+		*stateStoreTest
+		lock leasedlock.Lock[string, string]
+	}
+)
+
+func newLeaseTest(
 	ctx context.Context,
 	t *testing.T,
 	name string,
 	opt ...leasedlock.Option,
-) *leasedLockTest {
-	test := &leasedLockTest{}
+) *leaseTest {
+	test := &leaseTest{}
 	test.stateStoreTest = newStateStoreTest(ctx, t)
-	test.name = name
-	test.lock = leasedlock.New(test.client, name, opt...)
+	test.lease = leasedlock.NewLease(test.client, name, opt...)
+	return test
+}
+
+func newLockTest(
+	ctx context.Context,
+	t *testing.T,
+	name string,
+	opt ...leasedlock.Option,
+) *lockTest {
+	test := &lockTest{}
+	test.stateStoreTest = newStateStoreTest(ctx, t)
+	test.lock = leasedlock.NewLock(test.client, name, opt...)
 	return test
 }
 
 func TestFencing(t *testing.T) {
 	ctx := context.Background()
-	test := newLeasedLockTest(ctx, t, uuid.NewString())
+	test := newLeaseTest(ctx, t, uuid.NewString())
 	defer test.done()
 
 	badFT, err := app.GetHLC()
 	require.NoError(t, err)
 
-	holder, held, err := test.lock.Holder(ctx)
+	holder, held, err := test.lease.Holder(ctx)
 	require.NoError(t, err)
 	require.False(t, held)
 	require.Empty(t, holder)
 
-	ok, err := test.lock.TryAcquire(ctx, 10*time.Second)
+	ok, err := test.lease.Acquire(ctx, 10*time.Second)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	ft, err := test.lock.Token(ctx)
+	ft, err := test.lease.Token(ctx)
 	require.NoError(t, err)
 	require.False(t, ft.IsZero())
 
-	holder, held, err = test.lock.Holder(ctx)
+	holder, held, err = test.lease.Holder(ctx)
 	require.NoError(t, err)
 	require.True(t, held)
 	require.Equal(t, test.client.ID(), holder)
@@ -70,10 +87,10 @@ func TestFencing(t *testing.T) {
 
 	test.del(ctx, t, 1, statestore.WithFencingToken(ft))
 
-	err = test.lock.Release(ctx)
+	err = test.lease.Release(ctx)
 	require.NoError(t, err)
 
-	holder, held, err = test.lock.Holder(ctx)
+	holder, held, err = test.lease.Holder(ctx)
 	require.NoError(t, err)
 	require.False(t, held)
 	require.Empty(t, holder)
@@ -81,7 +98,7 @@ func TestFencing(t *testing.T) {
 
 func TestEdit(t *testing.T) {
 	ctx := context.Background()
-	test := newLeasedLockTest(ctx, t, uuid.NewString())
+	test := newLockTest(ctx, t, uuid.NewString())
 	defer test.done()
 
 	initialValue := "someInitialValue"
@@ -100,7 +117,7 @@ func TestEdit(t *testing.T) {
 
 func TestFencingWithSessionID(t *testing.T) {
 	ctx := context.Background()
-	test := newLeasedLockTest(ctx, t, uuid.NewString(),
+	test := newLeaseTest(ctx, t, uuid.NewString(),
 		leasedlock.WithSessionID(uuid.NewString()),
 	)
 	defer test.done()
@@ -108,11 +125,11 @@ func TestFencingWithSessionID(t *testing.T) {
 	badFT, err := app.GetHLC()
 	require.NoError(t, err)
 
-	ok, err := test.lock.TryAcquire(ctx, 10*time.Second)
+	ok, err := test.lease.Acquire(ctx, 10*time.Second)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	ft, err := test.lock.Token(ctx)
+	ft, err := test.lease.Token(ctx)
 	require.NoError(t, err)
 	require.False(t, ft.IsZero())
 
@@ -127,28 +144,28 @@ func TestFencingWithSessionID(t *testing.T) {
 
 	test.del(ctx, t, 1, statestore.WithFencingToken(ft))
 
-	err = test.lock.Release(ctx)
+	err = test.lease.Release(ctx)
 	require.NoError(t, err)
 }
 
-func TestProactivelyReacquiringALock(t *testing.T) {
+func TestProactivelyReacquiringALease(t *testing.T) {
 	ctx := context.Background()
-	test := newLeasedLockTest(ctx, t, uuid.NewString())
+	test := newLeaseTest(ctx, t, uuid.NewString())
 	defer test.done()
 
-	ok, err := test.lock.TryAcquire(ctx, 10*time.Second)
+	ok, err := test.lease.Acquire(ctx, 10*time.Second)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	oldFT, err := test.lock.Token(ctx)
+	oldFT, err := test.lease.Token(ctx)
 	require.NoError(t, err)
 	require.False(t, oldFT.IsZero())
 
-	ok, err = test.lock.TryAcquire(ctx, 10*time.Second)
+	ok, err = test.lease.Acquire(ctx, 10*time.Second)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	newFT, err := test.lock.Token(ctx)
+	newFT, err := test.lease.Token(ctx)
 	require.NoError(t, err)
 	require.False(t, newFT.IsZero())
 
@@ -157,20 +174,19 @@ func TestProactivelyReacquiringALock(t *testing.T) {
 
 func TestAcquireLockWhenLockIsUnavailable(t *testing.T) {
 	ctx := context.Background()
-	test1 := newLeasedLockTest(ctx, t, uuid.NewString())
+	test1 := newLockTest(ctx, t, uuid.NewString())
 	defer test1.done()
-	test2 := newLeasedLockTest(ctx, t, test1.name)
+	test2 := newLockTest(ctx, t, test1.lock.Name)
 	defer test2.done()
 
-	ok, err := test1.lock.TryAcquire(ctx, 2*time.Second)
+	err := test1.lock.Lock(ctx, 2*time.Second)
 	require.NoError(t, err)
-	require.True(t, ok)
 
 	oldFT, err := test1.lock.Token(ctx)
 	require.NoError(t, err)
 	require.False(t, oldFT.IsZero())
 
-	err = test2.lock.Acquire(ctx, time.Second)
+	err = test2.lock.Lock(ctx, time.Second)
 	require.NoError(t, err)
 
 	newFT, err := test2.lock.Token(ctx)
@@ -182,14 +198,13 @@ func TestAcquireLockWhenLockIsUnavailable(t *testing.T) {
 
 func TestEditWhenLockIsUnavailable(t *testing.T) {
 	ctx := context.Background()
-	test1 := newLeasedLockTest(ctx, t, uuid.NewString())
+	test1 := newLockTest(ctx, t, uuid.NewString())
 	defer test1.done()
-	test2 := newLeasedLockTest(ctx, t, test1.name)
+	test2 := newLockTest(ctx, t, test1.lock.Name)
 	defer test2.done()
 
-	ok, err := test1.lock.TryAcquire(ctx, 2*time.Second)
+	err := test1.lock.Lock(ctx, 2*time.Second)
 	require.NoError(t, err)
-	require.True(t, ok)
 
 	oldFT, err := test1.lock.Token(ctx)
 	require.NoError(t, err)
@@ -209,14 +224,13 @@ func TestEditWhenLockIsUnavailable(t *testing.T) {
 
 func TestEditDoesNotUpdateValueIfLockNotAcquired(t *testing.T) {
 	ctx := context.Background()
-	test1 := newLeasedLockTest(ctx, t, uuid.NewString())
+	test1 := newLockTest(ctx, t, uuid.NewString())
 	defer test1.done()
-	test2 := newLeasedLockTest(ctx, t, test1.name)
+	test2 := newLockTest(ctx, t, test1.lock.Name)
 	defer test2.done()
 
-	ok, err := test1.lock.TryAcquire(ctx, 10*time.Second)
+	err := test1.lock.Lock(ctx, 10*time.Second)
 	require.NoError(t, err)
-	require.True(t, ok)
 
 	oldFT, err := test1.lock.Token(ctx)
 	require.NoError(t, err)
