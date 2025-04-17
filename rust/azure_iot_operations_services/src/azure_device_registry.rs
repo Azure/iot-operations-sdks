@@ -252,7 +252,6 @@ pub struct DetectedAsset {
     pub default_topic: Option<Topic>,
     /// The 'documentationUri' Field.
     pub documentation_uri: Option<String>,
-    /// The 'hardwareRevision' Field.
     pub hardware_revision: Option<String>,
     /// The 'manufacturer' Field.
     pub manufacturer: Option<String>,
