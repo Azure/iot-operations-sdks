@@ -25,7 +25,7 @@ internal static class ModelsConverter
         return new Asset
         {
             Name = source.Name,
-            Specification = source.Specification?.ToModel(),
+            Specification = source.Specification.ToModel(),
             Status = source.Status?.ToModel()
         };
     }

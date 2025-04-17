@@ -7,7 +7,7 @@ public record AssetEventSchemaElement
 {
     public string? EventConfiguration { get; set; }
 
-    public string? EventNotifier { get; set; }
+    public required string EventNotifier { get; set; }
 
     public required string Name { get; set; }
 
