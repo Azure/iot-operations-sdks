@@ -36,7 +36,7 @@ use super::DiscoveredAssetEndpointProfileResponseStatus;
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
 pub struct ClientOptions {
-    /// If true, key notifications are auto-acknowledged
+    /// If true, update notifications are auto-acknowledged
     #[builder(default = "true")]
     key_notification_auto_ack: bool,
 }
