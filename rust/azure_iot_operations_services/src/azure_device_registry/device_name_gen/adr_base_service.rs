@@ -98,7 +98,7 @@ mod x509credentials_schema;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 
-pub use super::common_types::common_options::{CommandOptions, TelemetryOptions};
+pub use super::common_types::options::{CommandInvokerOptions, TelemetryReceiverOptions};
 
 pub const MODEL_ID: &str = "dtmi:com:microsoft:akri:AdrBaseService;1";
 pub const REQUEST_TOPIC_PATTERN: &str = "akri/connector/resources/{ex:connectorClientId}/{ex:deviceName}/{ex:inboundEndpointName}/{commandName}";

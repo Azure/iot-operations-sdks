@@ -9,10 +9,10 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::detected_asset_dataset_schema_element_schema::DetectedAssetDatasetSchemaElementSchema;
-use super::topic::Topic;
-use super::detected_asset_event_schema_element_schema::DetectedAssetEventSchemaElementSchema;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::detected_asset_dataset_schema_element_schema::DetectedAssetDatasetSchemaElementSchema;
+use super::detected_asset_event_schema_element_schema::DetectedAssetEventSchemaElementSchema;
+use super::topic::Topic;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DetectedAsset {

@@ -9,15 +9,15 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::asset_dataset_schema_element_schema::AssetDatasetSchemaElementSchema;
+use super::asset_event_schema_element_schema::AssetEventSchemaElementSchema;
+use super::asset_management_group_schema_element_schema::AssetManagementGroupSchemaElementSchema;
+use super::asset_stream_schema_element_schema::AssetStreamSchemaElementSchema;
 use super::default_datasets_destinations_schema_element_schema::DefaultDatasetsDestinationsSchemaElementSchema;
 use super::default_events_destinations_schema_element_schema::DefaultEventsDestinationsSchemaElementSchema;
 use super::default_streams_destinations_schema_element_schema::DefaultStreamsDestinationsSchemaElementSchema;
 use super::device_ref_schema::DeviceRefSchema;
-use super::asset_event_schema_element_schema::AssetEventSchemaElementSchema;
-use super::asset_management_group_schema_element_schema::AssetManagementGroupSchemaElementSchema;
-use super::asset_stream_schema_element_schema::AssetStreamSchemaElementSchema;
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetSpecificationSchema {

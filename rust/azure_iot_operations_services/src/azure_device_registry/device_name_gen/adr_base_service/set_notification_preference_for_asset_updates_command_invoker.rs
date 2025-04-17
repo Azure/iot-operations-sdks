@@ -4,27 +4,30 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError,
-};
+use azure_iot_operations_protocol::application::ApplicationContext;
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::set_notification_preference_for_asset_updates_request_payload::SetNotificationPreferenceForAssetUpdatesRequestPayload;
-use super::set_notification_preference_for_asset_updates_response_payload::SetNotificationPreferenceForAssetUpdatesResponsePayload;
+use super::super::common_types::options::CommandInvokerOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::super::common_types::common_options::CommandOptions;
+use super::set_notification_preference_for_asset_updates_request_payload::SetNotificationPreferenceForAssetUpdatesRequestPayload;
+use super::set_notification_preference_for_asset_updates_response_payload::SetNotificationPreferenceForAssetUpdatesResponsePayload;
 
-pub type SetNotificationPreferenceForAssetUpdatesRequest = rpc_command::invoker::Request<SetNotificationPreferenceForAssetUpdatesRequestPayload>;
-pub type SetNotificationPreferenceForAssetUpdatesResponse = rpc_command::invoker::Response<SetNotificationPreferenceForAssetUpdatesResponsePayload>;
-pub type SetNotificationPreferenceForAssetUpdatesRequestBuilderError = rpc_command::invoker::RequestBuilderError;
+pub type SetNotificationPreferenceForAssetUpdatesRequest =
+    rpc_command::invoker::Request<SetNotificationPreferenceForAssetUpdatesRequestPayload>;
+pub type SetNotificationPreferenceForAssetUpdatesResponse =
+    rpc_command::invoker::Response<SetNotificationPreferenceForAssetUpdatesResponsePayload>;
+pub type SetNotificationPreferenceForAssetUpdatesRequestBuilderError =
+    rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`SetNotificationPreferenceForAssetUpdatesRequest`]
 pub struct SetNotificationPreferenceForAssetUpdatesRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<SetNotificationPreferenceForAssetUpdatesRequestPayload>,
+    inner_builder: rpc_command::invoker::RequestBuilder<
+        SetNotificationPreferenceForAssetUpdatesRequestPayload,
+    >,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -67,8 +70,13 @@ impl SetNotificationPreferenceForAssetUpdatesRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
-    pub fn build(&mut self) -> Result<SetNotificationPreferenceForAssetUpdatesRequest, SetNotificationPreferenceForAssetUpdatesRequestBuilderError> {
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
+    pub fn build(
+        &mut self,
+    ) -> Result<
+        SetNotificationPreferenceForAssetUpdatesRequest,
+        SetNotificationPreferenceForAssetUpdatesRequestBuilderError,
+    > {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -77,7 +85,11 @@ impl SetNotificationPreferenceForAssetUpdatesRequestBuilder {
 
 /// Command Invoker for `setNotificationPreferenceForAssetUpdates`
 pub struct SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>(
-    rpc_command::Invoker<SetNotificationPreferenceForAssetUpdatesRequestPayload, SetNotificationPreferenceForAssetUpdatesResponsePayload, C>,
+    rpc_command::Invoker<
+        SetNotificationPreferenceForAssetUpdatesRequestPayload,
+        SetNotificationPreferenceForAssetUpdatesResponsePayload,
+        C,
+    >,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -92,7 +104,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &CommandInvokerOptions,
+    ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -106,13 +122,21 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "setNotificationPreferenceForAssetUpdates".to_string());
+        topic_token_map.insert(
+            "invokerClientId".to_string(),
+            client.client_id().to_string(),
+        );
+        topic_token_map.insert(
+            "commandName".to_string(),
+            "setNotificationPreferenceForAssetUpdates".to_string(),
+        );
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("setNotificationPreferenceForAssetUpdates")
             .topic_token_map(topic_token_map)
+            .response_topic_prefix(options.response_topic_prefix.clone())
+            .response_topic_suffix(options.response_topic_suffix.clone())
             .build()
             .expect("DTDL schema generated invalid arguments");
 

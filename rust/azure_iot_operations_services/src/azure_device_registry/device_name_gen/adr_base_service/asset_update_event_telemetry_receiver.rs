@@ -3,21 +3,19 @@
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::asset_update_event_telemetry::AssetUpdateEventTelemetry;
+use super::super::common_types::options::TelemetryReceiverOptions;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-use super::super::common_types::common_options::TelemetryOptions;
+use super::asset_update_event_telemetry::AssetUpdateEventTelemetry;
 
 pub type AssetUpdateEventTelemetryMessage = telemetry::receiver::Message<AssetUpdateEventTelemetry>;
 
 /// Telemetry Receiver for `AssetUpdateEventTelemetry`
-pub struct AssetUpdateEventTelemetryReceiver<C>(
-    telemetry::Receiver<AssetUpdateEventTelemetry, C>,
-)
+pub struct AssetUpdateEventTelemetryReceiver<C>(telemetry::Receiver<AssetUpdateEventTelemetry, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -31,7 +29,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &TelemetryReceiverOptions,
+    ) -> Self {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
@@ -74,7 +76,8 @@ where
     /// [`AIOProtocolError`] if there is a failure receiving a message
     pub async fn recv(
         &mut self,
-    ) -> Option<Result<(AssetUpdateEventTelemetryMessage, Option<AckToken>), AIOProtocolError>> {
+    ) -> Option<Result<(AssetUpdateEventTelemetryMessage, Option<AckToken>), AIOProtocolError>>
+    {
         self.0.recv().await
     }
 }

@@ -9,9 +9,9 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::authentication_schema::AuthenticationSchema;
 use super::trust_settings_schema::TrustSettingsSchema;
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceInboundEndpointSchemaMapValueSchema {
@@ -36,7 +36,8 @@ pub struct DeviceInboundEndpointSchemaMapValueSchema {
     pub trust_settings: Option<TrustSettingsSchema>,
 
     /// The 'type' Field.
-    pub type: String,
+    #[serde(rename = "type")]
+    pub r#type: String,
 
     /// The 'version' Field.
     #[serde(skip_serializing_if = "Option::is_none")]

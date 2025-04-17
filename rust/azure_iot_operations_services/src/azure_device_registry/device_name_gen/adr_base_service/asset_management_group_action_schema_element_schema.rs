@@ -9,8 +9,8 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::asset_management_group_action_type_schema::AssetManagementGroupActionTypeSchema;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::asset_management_group_action_type_schema::AssetManagementGroupActionTypeSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetManagementGroupActionSchemaElementSchema {
@@ -39,7 +39,8 @@ pub struct AssetManagementGroupActionSchemaElementSchema {
     pub topic: Option<String>,
 
     /// The 'type' Field.
-    pub type: AssetManagementGroupActionTypeSchema,
+    #[serde(rename = "type")]
+    pub r#type: AssetManagementGroupActionTypeSchema,
 
     /// The 'typeRef' Field.
     #[serde(rename = "typeRef")]
