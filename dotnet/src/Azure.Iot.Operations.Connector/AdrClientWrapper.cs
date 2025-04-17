@@ -83,15 +83,15 @@ namespace Azure.Iot.Operations.Connector
             return _monitor.GetDeviceCredentials(deviceName, inboundEndpointName);
         }
 
-        private Task DeviceUpdateReceived(string arg1, Device? device)
+        private Task DeviceUpdateReceived(string compositeDeviceName, Device device)
         {
-            string deviceName = device.Name.Split('_')[0];
-            string inboundEndpointName = device.Name.Split('_')[1];
+            string deviceName = compositeDeviceName.Split('_')[0];
+            string inboundEndpointName = compositeDeviceName.Split('_')[1];
             DeviceChanged?.Invoke(this, new(deviceName, inboundEndpointName, ChangeType.Updated, device));
             return Task.CompletedTask;
         }
 
-        private Task AssetUpdateReceived(string arg1, Asset asset)
+        private Task AssetUpdateReceived(string assetName, Asset asset)
         {
             //TODO bit of leap on this assumption
             AssetChanged?.Invoke(this, new(asset.Specification.DeviceRef.DeviceName, asset!.Specification.DeviceRef.EndpointName, asset.Name!, ChangeType.Updated, asset!));

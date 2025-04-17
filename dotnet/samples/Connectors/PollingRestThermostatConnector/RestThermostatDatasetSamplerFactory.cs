@@ -26,7 +26,9 @@ namespace RestThermostatConnector
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
-                if (device.Specification.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
+                if (device.Specification.Endpoints != null
+                    && device.Specification.Endpoints.Inbound != null
+                    && device.Specification.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
                 {
                     var httpClient = new HttpClient()
                     {

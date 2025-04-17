@@ -52,6 +52,13 @@ namespace EventDrivenTcpThermostatConnector
             try
             {
                 //tcp-service.azure-iot-operations.svc.cluster.local:80
+                if (args.Device.Specification.Endpoints == null
+                    || args.Device.Specification.Endpoints.Inbound == null)
+                {
+                    _logger.LogError("Missing TCP server address configuration");
+                    return;
+                }
+
                 string host = args.Device.Specification.Endpoints.Inbound["todo"].Address.Split(":")[0];
                 _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
                 using TcpClient client = new();
