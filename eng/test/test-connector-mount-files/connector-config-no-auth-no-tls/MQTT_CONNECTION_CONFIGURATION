@@ -1,0 +1,7 @@
+﻿{
+    "host": "someHostName:1234",
+    "keepAliveSeconds": 10,
+    "maxInflightMessages": 10,
+    "protocol": "mqtt",
+    "sessionExpirySeconds": 20
+}

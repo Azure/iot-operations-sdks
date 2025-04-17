@@ -88,7 +88,7 @@ namespace Azure.Iot.Operations.Services.Assets
 
             string? aepUsernameSecretFileContents = GetAepUsernameDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepUsernameDirectory()}/{_aepUsernameSecretName}") : null;
             byte[]? aepPasswordSecretFileContents = GetAepPasswordDirectory() != null ? await GetMountedConfigurationValueAsync($"{GetAepPasswordDirectory()}/{_aepPasswordSecretName}") : null;
-            string? aepCertFileContents = GetAepCertDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepCertDirectory()}/{_aepCertificateSecretName}"): null;
+            string? aepCertFileContents = GetAepCertDirectory() != null ? await GetMountedConfigurationValueAsStringAsync($"{GetAepCertDirectory()}/{_aepCertificateSecretName}") : null;
 
             var credentials = new AssetEndpointProfileCredentials(aepUsernameSecretFileContents, aepPasswordSecretFileContents, aepCertFileContents);
 
