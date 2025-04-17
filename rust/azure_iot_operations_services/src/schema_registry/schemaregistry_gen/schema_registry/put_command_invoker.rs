@@ -9,7 +9,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
-use super::super::common_types::common_options::CommandOptions;
+use super::super::common_types::options::CommandInvokerOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
 use super::put_request_payload::PutRequestPayload;
@@ -88,7 +88,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        options: &CommandOptions,
+        options: &CommandInvokerOptions,
     ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
@@ -113,6 +113,8 @@ where
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("put")
             .topic_token_map(topic_token_map)
+            .response_topic_prefix(options.response_topic_prefix.clone())
+            .response_topic_suffix(options.response_topic_suffix.clone())
             .build()
             .expect("DTDL schema generated invalid arguments");
 

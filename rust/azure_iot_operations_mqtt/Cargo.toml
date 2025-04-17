@@ -30,6 +30,8 @@ tokio-util.workspace = true
 [dev-dependencies]
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
+temp-env = "0.3.6"
+tempfile = "3.19.1"
 test-case.workspace = true
 tokio-test.workspace = true
 

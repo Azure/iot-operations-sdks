@@ -10,7 +10,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry;
 
-use super::super::common_types::common_options::TelemetryOptions;
+use super::super::common_types::options::TelemetrySenderOptions;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
 use super::telemetry_collection::TelemetryCollection;
@@ -96,7 +96,7 @@ where
     pub fn new(
         application_context: ApplicationContext,
         client: C,
-        options: &TelemetryOptions,
+        options: &TelemetrySenderOptions,
     ) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {

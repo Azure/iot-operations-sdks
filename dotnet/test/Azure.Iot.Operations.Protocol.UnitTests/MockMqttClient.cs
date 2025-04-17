@@ -298,7 +298,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             }
             else if (expectedOptions.ReceiveMaximum != actualOptions.ReceiveMaximum)
             {
-                throw new InvalidOperationException("The ReceiveMaximum value of the connect did not propagate down to the underlying mqtt client's connect request");
+                // Our library allows for a null receive maximum, but MQTTnet's default value is 0
+                if (expectedOptions.ReceiveMaximum != null || actualOptions.ReceiveMaximum != 0)
+                {
+                    throw new InvalidOperationException("The ReceiveMaximum value of the connect did not propagate down to the underlying mqtt client's connect request");
+                }
             }
             else if (expectedOptions.RequestProblemInformation != actualOptions.RequestProblemInformation)
             {

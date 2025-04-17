@@ -39,7 +39,7 @@ public record AssetDatasetSchemaElement
 
     public List<AssetDatasetDestinationSchemaElement>? Destinations { get; set; }
 
-    public string? Name { get; set; }
+    public required string Name { get; set; }
 
     public string? TypeRef { get; set; }
 }

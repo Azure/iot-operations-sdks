@@ -85,7 +85,7 @@ async fn avro_telemetry_loop(client: SessionManagedClient) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
-        avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        avro_comm::common_types::options::TelemetryReceiverOptionsBuilder::default()
             .build()
             .unwrap();
 
@@ -145,7 +145,7 @@ async fn json_telemetry_loop(client: SessionManagedClient) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
-        json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        json_comm::common_types::options::TelemetryReceiverOptionsBuilder::default()
             .build()
             .unwrap();
 
@@ -208,7 +208,7 @@ async fn raw_telemetry_loop(client: SessionManagedClient) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
-        raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        raw_comm::common_types::options::TelemetryReceiverOptionsBuilder::default()
             .build()
             .unwrap();
 
@@ -246,7 +246,7 @@ async fn custom_telemetry_loop(client: SessionManagedClient) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let receiver_options =
-        custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        custom_comm::common_types::options::TelemetryReceiverOptionsBuilder::default()
             .build()
             .unwrap();
 

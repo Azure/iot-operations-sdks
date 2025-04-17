@@ -9,7 +9,7 @@ public record AssetEventSchemaElement
 {
     public JsonDocument? EventConfiguration { get; set; }
 
-    public string? EventNotifier { get; set; }
+    public required string EventNotifier { get; set; }
 
     public required string Name { get; set; }
 

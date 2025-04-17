@@ -12,6 +12,7 @@ pub mod rpc_command;
 pub mod telemetry;
 
 /// Struct containing the major and minor version of the protocol.
+#[derive(Debug, Clone)]
 pub struct ProtocolVersion {
     major: u16,
     minor: u16,
