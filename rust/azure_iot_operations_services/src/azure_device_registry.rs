@@ -5,13 +5,44 @@
 
 //! Types for Azure Device Registry operations.
 
-use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_base_service_gen;
+use core::fmt::Debug;
 use std::collections::HashMap;
 
+use azure_iot_operations_mqtt::interface::AckToken;
+
+use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use crate::common::dispatcher::Receiver;
+
+/// Azure Device Registry Client implementation wrapper
+// mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
 
+// pub use client::Client;
+
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
+pub struct Error {}
+
+// ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
+/// A struct to manage receiving notifications for a key
+#[derive(Debug)]
+pub struct DeviceUpdateObservation {
+    /// The internal channel for receiving update telemetry for this device
+    receiver: Receiver<(Device, Option<AckToken>)>,
+}
+
+impl DeviceUpdateObservation {
+    /// Receives an updated [`Device`] or [`None`] if there will be no more notifications.
+    ///
+    /// If there are notifications:
+    /// - Returns Some([`Device`], [`Option<AckToken>`]) on success
+    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`Device`], _) to ignore the [`AckToken`].
+    ///
+    /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    pub async fn recv_notification(&mut self) -> Option<(Device, Option<AckToken>)> {
+        self.receiver.recv().await
+    }
+}
 
 // ~~~~~~~~~~~~~~~~~~~Helper fns ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Option<Vec<U>> {
@@ -19,62 +50,216 @@ fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Op
 }
 
 // ~~~~~~~~~~~~~~~~~~~Common DTDL Equivalent Structs~~~~~~~~~~~~~
+#[derive(Clone, Debug, Default)]
+pub struct StatusConfig {
+    pub version: Option<u64>,
+    pub error: Option<ConfigError>,
+    pub last_transition_time: Option<String>,
+}
+
+#[derive(Clone, Debug)]
+/// Represents an error in the configuration of an asset or device.
+pub struct ConfigError {
+    /// The code of the error.
+    pub code: Option<String>,
+    /// Array of event statuses that describe the status of each event.
+    pub details: Option<Vec<Details>>,
+    /// The inner error, if any.
+    pub inner_error: Option<HashMap<String, String>>,
+    /// The message of the error.
+    pub message: Option<String>,
+}
+
+impl From<ConfigError> for adr_name_gen::ConfigError {
+    fn from(value: ConfigError) -> Self {
+        adr_name_gen::ConfigError {
+            code: value.code,
+            message: value.message,
+            details: option_vec_from(value.details, |details| {
+                adr_name_gen::DetailsSchemaElementSchema {
+                    code: details.code,
+                    correlation_id: details.correlation_id,
+                    info: details.info,
+                    message: details.message,
+                }
+            }),
+            inner_error: value.inner_error,
+        }
+    }
+}
+
+impl From<adr_name_gen::ConfigError> for ConfigError {
+    fn from(value: adr_name_gen::ConfigError) -> Self {
+        ConfigError {
+            code: value.code,
+            message: value.message,
+            details: option_vec_from(value.details, |details| Details {
+                code: details.code,
+                correlation_id: details.correlation_id,
+                info: details.info,
+                message: details.message,
+            }),
+            inner_error: value.inner_error,
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+/// Represents the details of an error.
+pub struct Details {
+    /// The multi part error code for root cause analysis.
+    pub code: Option<String>,
+    /// The correlation ID of the details.
+    pub correlation_id: Option<String>,
+    /// Any helpful information associated with the details.
+    pub info: Option<String>,
+    /// The error message of the details.
+    pub message: Option<String>,
+}
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
+
+/// Represents a Device in the Azure Device Registry service.
+pub struct Device {
+    /// The 'name' Field.
+    pub name: String,
+    /// The 'specification' Field.
+    pub specification: DeviceSpecification,
+    /// The 'status' Field.
+    pub status: Option<DeviceStatus>,
+}
+
+#[derive(Debug, Clone)]
+pub struct DeviceSpecification {
+    /// The 'attributes' Field.
+    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    /// The 'discoveredDeviceRef' Field.
+    pub discovered_device_ref: Option<String>,
+    /// The 'enabled' Field.
+    pub enabled: Option<bool>,
+    /// The 'endpoints' Field.
+    pub inbound_endpoints: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    /// The 'externalDeviceId' Field.
+    pub external_device_id: Option<String>,
+    /// The 'lastTransitionTime' Field.
+    pub last_transition_time: Option<String>, // DateTime?
+    /// The 'manufacturer' Field.
+    pub manufacturer: Option<String>,
+    /// The 'model' Field.
+    pub model: Option<String>,
+    /// The 'operatingSystem' Field.
+    pub operating_system: Option<String>,
+    /// The 'operatingSystemVersion' Field.
+    pub operating_system_version: Option<String>,
+    /// The 'uuid' Field.
+    pub uuid: Option<String>,
+    /// The 'version' Field.
+    pub version: Option<u64>,
+}
+
+#[derive(Debug, Clone)]
+pub struct InboundEndpoint {
+    /// The 'additionalConfiguration' Field.
+    pub additional_configuration: Option<String>,
+    /// The 'address' Field.
+    pub address: String,
+    /// The 'authentication' Field.
+    pub authentication: Authentication,
+    /// The 'trustSettings' Field.
+    pub trust_settings: Option<TrustSettings>,
+    /// The 'type' Field.
+    pub r#type: String,
+    /// The 'version' Field.
+    pub version: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct TrustSettings {
+    /// The 'issuerList' Field.
+    pub issuer_list: Option<String>,
+    /// The 'trustList' Field.
+    pub trust_list: Option<String>,
+    /// The 'trustMode' Field.
+    pub trust_mode: String,
+}
+
+#[derive(Debug, Clone)] // default Anonymous
+pub enum Authentication {
+    Anonymous,
+    Certificate {
+        /// The 'certificateSecretName' Field.
+        certificate_secret_name: String,
+    },
+    UsernamePassword {
+        /// The 'passwordSecretName' Field.
+        password_secret_name: String,
+        /// The 'usernameSecretName' Field.
+        username_secret_name: String,
+    },
+}
+// ~~~~~~~~~~~~~~~~~~~Device Endpoint Status DTDL Equivalent Structs~~~~
+#[derive(Clone, Debug, Default)]
+/// Represents the status of a Device in the ADR Service.
+pub struct DeviceStatus {
+    /// The 'config' Field.
+    pub config: Option<StatusConfig>,
+    /// The 'endpoints' Field.
+    pub endpoints: HashMap<String, Option<ConfigError>>,
+}
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 
 #[derive(Clone, Debug)]
 pub struct Asset {
     pub name: String,
-    pub specification: AssetSpecificationSchema,
+    pub specification: AssetSpecification,
     pub status: Option<AssetStatus>,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetSpecificationSchema {
+pub struct AssetSpecification {
     pub attributes: Option<HashMap<String, String>>,
-    pub datasets: Option<Vec<AssetDatasetSchemaElementSchema>>,
+    pub datasets: Option<Vec<AssetDataset>>,
     pub default_datasets_configuration: Option<String>,
-    pub default_datasets_destinations: Option<Vec<DefaultDatasetsDestinationsSchemaElementSchema>>,
+    pub default_datasets_destinations: Option<Vec<AssetAndDefaultDatasetsDestinations>>,
     pub default_events_configuration: Option<String>,
-    pub default_events_destinations: Option<Vec<DefaultEventsDestinationsSchemaElementSchema>>,
+    pub default_events_destinations: Option<Vec<DefaultEventsAndStreamsDestinations>>,
     pub default_management_groups_configuration: Option<String>,
     pub default_streams_configuration: Option<String>,
-    pub default_streams_destinations: Option<Vec<DefaultStreamsDestinationsSchemaElementSchema>>,
+    pub default_streams_destinations: Option<Vec<DefaultEventsAndStreamsDestinations>>,
     pub description: Option<String>,
-    pub device_ref: DeviceRefSchema,
+    pub device_ref: DeviceRef,
     pub discovered_asset_refs: Option<Vec<String>>,
     pub display_name: Option<String>,
     pub documentation_uri: Option<String>,
     pub enabled: Option<bool>,
-    pub events: Option<Vec<AssetEventSchemaElementSchema>>,
+    pub events: Option<Vec<AssetEvent>>,
     pub external_asset_id: Option<String>,
     pub hardware_revision: Option<String>,
     pub last_transition_time: Option<String>,
-    pub management_groups: Option<Vec<AssetManagementGroupSchemaElementSchema>>,
+    pub management_groups: Option<Vec<AssetManagementGroup>>,
     pub manufacturer: Option<String>,
     pub manufacturer_uri: Option<String>,
     pub model: Option<String>,
     pub product_code: Option<String>,
     pub serial_number: Option<String>,
     pub software_revision: Option<String>,
-    pub streams: Option<Vec<AssetStreamSchemaElementSchema>>,
+    pub streams: Option<Vec<AssetStream>>,
     pub uuid: Option<String>,
     pub version: Option<u64>,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetDatasetSchemaElementSchema {
-    pub data_points: Option<Vec<AssetDatasetDataPointSchemaElementSchema>>,
+pub struct AssetDataset {
+    pub data_points: Option<Vec<AssetDatasetDataPoint>>,
     pub data_source: Option<String>,
-    pub destinations: Option<Vec<AssetDatasetDestinationSchemaElementSchema>>,
+    pub destinations: Option<Vec<AssetAndDefaultDatasetsDestinations>>,
     pub name: String,
     pub type_ref: Option<String>,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetDatasetDataPointSchemaElementSchema {
+pub struct AssetDatasetDataPoint {
     pub data_point_configuration: Option<String>,
     pub data_source: String,
     pub name: String,
@@ -82,39 +267,39 @@ pub struct AssetDatasetDataPointSchemaElementSchema {
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetDatasetDestinationSchemaElementSchema {
+pub struct AssetAndDefaultDatasetsDestinations {
     pub configuration: DestinationConfiguration,
     pub target: DatasetTarget,
 }
 
-#[derive(Clone, Debug)]
-pub struct DefaultDatasetsDestinationsSchemaElementSchema {
-    pub configuration: DestinationConfiguration,
-    pub target: DatasetTarget,
-}
+// #[derive(Clone, Debug)]
+// pub struct AssetAndDefaultDatasetsDestinations {
+//     pub configuration: DestinationConfiguration,
+//     pub target: DatasetTarget,
+// }
 
 #[derive(Clone, Debug)]
-pub struct DefaultEventsDestinationsSchemaElementSchema {
-    pub configuration: DestinationConfiguration,
-    pub target: EventStreamTarget,
-}
-
-#[derive(Clone, Debug)]
-pub struct DefaultStreamsDestinationsSchemaElementSchema {
+pub struct DefaultEventsAndStreamsDestinations {
     pub configuration: DestinationConfiguration,
     pub target: EventStreamTarget,
 }
 
+// #[derive(Clone, Debug)]
+// pub struct DefaultEventsAndStreamsDestinations {
+//     pub configuration: DestinationConfiguration,
+//     pub target: EventStreamTarget,
+// }
+
 #[derive(Clone, Debug)]
-pub struct DeviceRefSchema {
+pub struct DeviceRef {
     pub device_name: String,
     pub endpoint_name: String,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetEventSchemaElementSchema {
-    pub data_points: Option<Vec<AssetEventDataPointSchemaElementSchema>>,
-    pub destinations: Option<Vec<AssetEventDestinationSchemaElementSchema>>,
+pub struct AssetEvent {
+    pub data_points: Option<Vec<AssetEventDataPoint>>,
+    pub destinations: Option<Vec<AssetStreamAndEventDestination>>,
     pub event_configuration: Option<String>,
     pub event_notifier: String,
     pub name: String,
@@ -122,8 +307,8 @@ pub struct AssetEventSchemaElementSchema {
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetManagementGroupSchemaElementSchema {
-    pub actions: Option<Vec<AssetManagementGroupActionSchemaElementSchema>>,
+pub struct AssetManagementGroup {
+    pub actions: Option<Vec<AssetManagementGroupAction>>,
     pub default_time_out_in_seconds: Option<u32>,
     pub default_topic: Option<String>,
     pub management_group_configuration: Option<String>,
@@ -132,42 +317,42 @@ pub struct AssetManagementGroupSchemaElementSchema {
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetManagementGroupActionSchemaElementSchema {
+pub struct AssetManagementGroupAction {
     pub management_action_configuration: Option<String>,
     pub name: String,
     pub target_uri: String,
     pub time_out_in_seconds: Option<u32>,
     pub topic: Option<String>,
-    pub r#type: AssetManagementGroupActionTypeSchema,
+    pub r#type: AssetManagementGroupActionType,
     pub type_ref: Option<String>,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetStreamSchemaElementSchema {
-    pub destinations: Option<Vec<AssetStreamDestinationSchemaElementSchema>>,
+pub struct AssetStream {
+    pub destinations: Option<Vec<AssetStreamAndEventDestination>>,
     pub name: String,
     pub stream_configuration: Option<String>,
     pub type_ref: Option<String>,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetStreamDestinationSchemaElementSchema {
+pub struct AssetStreamAndEventDestination {
     pub configuration: DestinationConfiguration,
     pub target: EventStreamTarget,
 }
 
 #[derive(Clone, Debug)]
-pub struct AssetEventDataPointSchemaElementSchema {
+pub struct AssetEventDataPoint {
     pub data_point_configuration: Option<String>,
     pub data_source: String,
     pub name: String,
 }
 
-#[derive(Clone, Debug)]
-pub struct AssetEventDestinationSchemaElementSchema {
-    pub configuration: DestinationConfiguration,
-    pub target: EventStreamTarget,
-}
+// #[derive(Clone, Debug)]
+// pub struct AssetStreamAndEventDestination {
+//     pub configuration: DestinationConfiguration,
+//     pub target: EventStreamTarget,
+// }
 
 #[derive(Clone, Debug)]
 pub struct DestinationConfiguration {
@@ -177,6 +362,222 @@ pub struct DestinationConfiguration {
     pub retain: Option<Retain>,
     pub topic: Option<String>,
     pub ttl: Option<u64>,
+}
+
+impl From<AssetSpecification> for adr_name_gen::AssetSpecificationSchema {
+    fn from(value: AssetSpecification) -> Self {
+        adr_name_gen::AssetSpecificationSchema {
+            attributes: value.attributes,
+            datasets: option_vec_from(value.datasets, AssetDataset::into),
+            default_datasets_configuration: value.default_datasets_configuration,
+            default_datasets_destinations: option_vec_from(
+                value.default_datasets_destinations,
+                AssetAndDefaultDatasetsDestinations::into,
+            ),
+            default_events_configuration: value.default_events_configuration,
+            default_events_destinations: option_vec_from(
+                value.default_events_destinations,
+                DefaultEventsAndStreamsDestinations::into,
+            ),
+            default_management_groups_configuration: value.default_management_groups_configuration,
+            default_streams_configuration: value.default_streams_configuration,
+            default_streams_destinations: option_vec_from(
+                value.default_streams_destinations,
+                DefaultEventsAndStreamsDestinations::into,
+            ),
+            description: value.description,
+            device_ref: value.device_ref.into(),
+            discovered_asset_refs: value.discovered_asset_refs,
+            display_name: value.display_name,
+            documentation_uri: value.documentation_uri,
+            enabled: value.enabled,
+            events: option_vec_from(value.events, AssetEvent::into),
+            external_asset_id: value.external_asset_id,
+            hardware_revision: value.hardware_revision,
+            last_transition_time: value.last_transition_time,
+            management_groups: option_vec_from(value.management_groups, AssetManagementGroup::into),
+            manufacturer: value.manufacturer,
+            manufacturer_uri: value.manufacturer_uri,
+            model: value.model,
+            product_code: value.product_code,
+            serial_number: value.serial_number,
+            software_revision: value.software_revision,
+            streams: option_vec_from(value.streams, AssetStream::into),
+            uuid: value.uuid,
+            version: value.version,
+        }
+    }
+}
+
+impl From<AssetDataset> for adr_name_gen::AssetDatasetSchemaElementSchema {
+    fn from(value: AssetDataset) -> Self {
+        adr_name_gen::AssetDatasetSchemaElementSchema {
+            data_points: option_vec_from(value.data_points, AssetDatasetDataPoint::into),
+            data_source: value.data_source,
+            destinations: option_vec_from(
+                value.destinations,
+                AssetAndDefaultDatasetsDestinations::into,
+            ),
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+impl From<AssetDatasetDataPoint> for adr_name_gen::AssetDatasetDataPointSchemaElementSchema {
+    fn from(value: AssetDatasetDataPoint) -> Self {
+        adr_name_gen::AssetDatasetDataPointSchemaElementSchema {
+            data_point_configuration: value.data_point_configuration,
+            data_source: value.data_source,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<AssetAndDefaultDatasetsDestinations>
+    for adr_name_gen::AssetDatasetDestinationSchemaElementSchema
+{
+    fn from(value: AssetAndDefaultDatasetsDestinations) -> Self {
+        adr_name_gen::AssetDatasetDestinationSchemaElementSchema {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+impl From<AssetAndDefaultDatasetsDestinations>
+    for adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema
+{
+    fn from(value: AssetAndDefaultDatasetsDestinations) -> Self {
+        adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<DefaultEventsAndStreamsDestinations>
+    for adr_name_gen::DefaultStreamsDestinationsSchemaElementSchema
+{
+    fn from(value: DefaultEventsAndStreamsDestinations) -> Self {
+        adr_name_gen::DefaultStreamsDestinationsSchemaElementSchema {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<DefaultEventsAndStreamsDestinations>
+    for adr_name_gen::DefaultEventsDestinationsSchemaElementSchema
+{
+    fn from(value: DefaultEventsAndStreamsDestinations) -> Self {
+        adr_name_gen::DefaultEventsDestinationsSchemaElementSchema {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<DeviceRef> for adr_name_gen::DeviceRefSchema {
+    fn from(value: DeviceRef) -> Self {
+        adr_name_gen::DeviceRefSchema {
+            device_name: value.device_name,
+            endpoint_name: value.endpoint_name,
+        }
+    }
+}
+impl From<AssetEvent> for adr_name_gen::AssetEventSchemaElementSchema {
+    fn from(value: AssetEvent) -> Self {
+        adr_name_gen::AssetEventSchemaElementSchema {
+            data_points: option_vec_from(value.data_points, AssetEventDataPoint::into),
+            destinations: option_vec_from(value.destinations, AssetStreamAndEventDestination::into),
+            event_configuration: value.event_configuration,
+            event_notifier: value.event_notifier,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+impl From<AssetManagementGroup> for adr_name_gen::AssetManagementGroupSchemaElementSchema {
+    fn from(value: AssetManagementGroup) -> Self {
+        adr_name_gen::AssetManagementGroupSchemaElementSchema {
+            actions: option_vec_from(value.actions, AssetManagementGroupAction::into),
+            default_time_out_in_seconds: value.default_time_out_in_seconds,
+            default_topic: value.default_topic,
+            management_group_configuration: value.management_group_configuration,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+impl From<AssetManagementGroupAction>
+    for adr_name_gen::AssetManagementGroupActionSchemaElementSchema
+{
+    fn from(value: AssetManagementGroupAction) -> Self {
+        adr_name_gen::AssetManagementGroupActionSchemaElementSchema {
+            management_action_configuration: value.management_action_configuration,
+            name: value.name,
+            target_uri: value.target_uri,
+            time_out_in_seconds: value.time_out_in_seconds,
+            topic: value.topic,
+            r#type: value.r#type.into(),
+            type_ref: value.type_ref,
+        }
+    }
+}
+impl From<AssetStream> for adr_name_gen::AssetStreamSchemaElementSchema {
+    fn from(value: AssetStream) -> Self {
+        adr_name_gen::AssetStreamSchemaElementSchema {
+            destinations: option_vec_from(value.destinations, AssetStreamAndEventDestination::into),
+            name: value.name,
+            stream_configuration: value.stream_configuration,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<AssetStreamAndEventDestination>
+    for adr_name_gen::AssetStreamDestinationSchemaElementSchema
+{
+    fn from(value: AssetStreamAndEventDestination) -> Self {
+        adr_name_gen::AssetStreamDestinationSchemaElementSchema {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<AssetStreamAndEventDestination>
+    for adr_name_gen::AssetEventDestinationSchemaElementSchema
+{
+    fn from(value: AssetStreamAndEventDestination) -> Self {
+        adr_name_gen::AssetEventDestinationSchemaElementSchema {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<AssetEventDataPoint> for adr_name_gen::AssetEventDataPointSchemaElementSchema {
+    fn from(value: AssetEventDataPoint) -> Self {
+        adr_name_gen::AssetEventDataPointSchemaElementSchema {
+            data_point_configuration: value.data_point_configuration,
+            data_source: value.data_source,
+            name: value.name,
+        }
+    }
+}
+
+impl From<DestinationConfiguration> for adr_name_gen::DestinationConfiguration {
+    fn from(value: DestinationConfiguration) -> Self {
+        adr_name_gen::DestinationConfiguration {
+            key: value.key,
+            path: value.path,
+            qos: value.qos.map(QoS::into),
+            retain: value.retain.map(Retain::into),
+            topic: value.topic,
+            ttl: value.ttl,
+        }
+    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset Status DTDL Equivalent Structs~~~~~~~
@@ -190,7 +591,7 @@ pub struct AssetStatus {
     /// A collection of events associated with the asset.
     pub events_schema: Option<Vec<AssetDatasetEventStream>>,
     /// A collection of management groups associated with the asset.
-    pub management_groups: Option<Vec<AssetManagementGroup>>,
+    pub management_groups: Option<Vec<AssetManagementGroupStatus>>,
     /// A collection of schema references for streams associated with the asset.
     pub streams: Option<Vec<AssetDatasetEventStream>>,
 }
@@ -208,16 +609,16 @@ pub struct AssetDatasetEventStream {
 
 #[derive(Clone, Debug)]
 /// Represents an asset management group
-pub struct AssetManagementGroup {
+pub struct AssetManagementGroupStatus {
     /// A collection of actions associated with the management group.
-    pub actions: Option<Vec<AssetManagementGroupAction>>,
+    pub actions: Option<Vec<AssetManagementGroupActionStatus>>,
     /// The name of the management group.
     pub name: String,
 }
 
 #[derive(Clone, Debug)]
 /// Represents an action associated with an asset management group.
-pub struct AssetManagementGroupAction {
+pub struct AssetManagementGroupActionStatus {
     /// The configuration error of the management group action.
     pub error: Option<ConfigError>,
     /// The name of the management group action.
@@ -250,84 +651,6 @@ pub struct Config {
     pub version: Option<u64>,
 }
 
-#[derive(Clone, Debug)]
-/// Represents an error in the configuration of an asset.
-pub struct ConfigError {
-    /// The code of the error.
-    pub code: Option<String>,
-    /// Array of event statuses that describe the status of each event.
-    pub details: Option<Vec<Details>>,
-    /// The inner error, if any.
-    pub inner_error: Option<HashMap<String, String>>,
-    /// The message of the error.
-    pub message: Option<String>,
-}
-
-#[derive(Clone, Debug)]
-/// Represents the details of an error.
-pub struct Details {
-    /// The multi part error code for root cause analysis.
-    pub code: Option<String>,
-    /// The correlation ID of the details.
-    pub correlation_id: Option<String>,
-    /// Any helpful information associated with the details.
-    pub info: Option<String>,
-    /// The error message of the details.
-    pub message: Option<String>,
-}
-
-// ~~~~~~~~~~~~~~~~~~~Detected Asset DTDL Equivalent Structs~~~~~~~
-
-#[derive(Clone, Debug)]
-pub struct DetectedAsset {
-    pub asset_endpoint_profile_ref: String,
-    pub asset_name: Option<String>,
-    pub datasets: Option<Vec<DetectedAssetDatasetSchemaElementSchema>>,
-    pub default_datasets_configuration: Option<String>,
-    pub default_events_configuration: Option<String>,
-    pub default_topic: Option<Topic>,
-    pub documentation_uri: Option<String>,
-    pub events: Option<Vec<DetectedAssetEventSchemaElementSchema>>,
-    pub hardware_revision: Option<String>,
-    pub manufacturer: Option<String>,
-    pub manufacturer_uri: Option<String>,
-    pub model: Option<String>,
-    pub product_code: Option<String>,
-    pub serial_number: Option<String>,
-    pub software_revision: Option<String>,
-}
-
-#[derive(Clone, Debug)]
-pub struct DetectedAssetEventSchemaElementSchema {
-    pub event_configuration: Option<String>,
-    pub event_notifier: String,
-    pub last_updated_on: Option<String>,
-    pub name: String,
-    pub topic: Option<Topic>,
-}
-
-#[derive(Clone, Debug)]
-pub struct DetectedAssetDatasetSchemaElementSchema {
-    pub data_points: Option<Vec<DetectedAssetDataPointSchemaElementSchema>>,
-    pub data_set_configuration: Option<String>,
-    pub name: String,
-    pub topic: Option<Topic>,
-}
-
-#[derive(Clone, Debug)]
-pub struct Topic {
-    pub path: String,
-    pub retain: Option<Retain>,
-}
-
-#[derive(Clone, Debug)]
-pub struct DetectedAssetDataPointSchemaElementSchema {
-    pub data_point_configuration: Option<String>,
-    pub data_source: String,
-    pub last_updated_on: Option<String>,
-    pub name: Option<String>,
-}
-
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 #[derive(Clone, Debug)]
 pub enum EventStreamTarget {
@@ -355,8 +678,55 @@ pub enum DatasetTarget {
 }
 
 #[derive(Clone, Debug)]
-pub enum AssetManagementGroupActionTypeSchema {
+pub enum AssetManagementGroupActionType {
     Call,
     Read,
     Write,
+}
+
+impl From<EventStreamTarget> for adr_name_gen::EventStreamTarget {
+    fn from(value: EventStreamTarget) -> Self {
+        match value {
+            EventStreamTarget::BrokerStateStore => Self::BrokerStateStore,
+            EventStreamTarget::Storage => Self::Storage,
+        }
+    }
+}
+
+impl From<QoS> for adr_name_gen::QoS {
+    fn from(value: QoS) -> Self {
+        match value {
+            QoS::Qos0 => Self::Qos0,
+            QoS::Qos1 => Self::Qos1,
+        }
+    }
+}
+
+impl From<Retain> for adr_name_gen::Retain {
+    fn from(value: Retain) -> Self {
+        match value {
+            Retain::Keep => Self::Keep,
+            Retain::Never => Self::Never,
+        }
+    }
+}
+
+impl From<DatasetTarget> for adr_name_gen::DatasetTarget {
+    fn from(value: DatasetTarget) -> Self {
+        match value {
+            DatasetTarget::BrokerStateStore => Self::BrokerStateStore,
+            DatasetTarget::Mqtt => Self::Mqtt,
+            DatasetTarget::Storage => Self::Storage,
+        }
+    }
+}
+
+impl From<AssetManagementGroupActionType> for adr_name_gen::AssetManagementGroupActionTypeSchema {
+    fn from(value: AssetManagementGroupActionType) -> Self {
+        match value {
+            AssetManagementGroupActionType::Call => Self::Call,
+            AssetManagementGroupActionType::Read => Self::Read,
+            AssetManagementGroupActionType::Write => Self::Write,
+        }
+    }
 }
