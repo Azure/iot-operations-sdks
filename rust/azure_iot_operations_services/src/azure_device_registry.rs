@@ -44,6 +44,28 @@ impl DeviceUpdateObservation {
     }
 }
 
+/// A struct to manage receiving notifications for a key
+#[derive(Debug)]
+pub struct AssetUpdateObservation {
+    /// The name of the asset (for convenience)
+    pub name: String,
+    /// The internal channel for receiving update telemetry for this asset
+    receiver: Receiver<(Asset, Option<AckToken>)>,
+}
+
+impl AssetUpdateObservation {
+    /// Receives an updated [`Asset`] or [`None`] if there will be no more notifications.
+    ///
+    /// If there are notifications:
+    /// - Returns Some([`Asset`], [`Option<AckToken>`]) on success
+    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`Asset`], _) to ignore the [`AckToken`].
+    ///
+    /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    pub async fn recv_notification(&mut self) -> Option<(Asset, Option<AckToken>)> {
+        self.receiver.recv().await
+    }
+}
+
 // ~~~~~~~~~~~~~~~~~~~Helper fns ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Option<Vec<U>> {
     source.map(|vec| vec.into_iter().map(into_fn).collect())
@@ -884,6 +906,283 @@ impl From<AssetManagementGroupActionType> for adr_name_gen::AssetManagementGroup
             AssetManagementGroupActionType::Call => Self::Call,
             AssetManagementGroupActionType::Read => Self::Read,
             AssetManagementGroupActionType::Write => Self::Write,
+        }
+    }
+}
+
+// ~~~~~~~~~~~~~~DTDL structs to SDK Asset Structs for Asset Observation Need~~~~~~~
+impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
+    fn from(value: adr_name_gen::AssetSpecificationSchema) -> Self {
+        AssetSpecification {
+            attributes: value.attributes,
+            datasets: option_vec_from(value.datasets, AssetDataset::from),
+            default_datasets_configuration: value.default_datasets_configuration,
+            default_datasets_destinations: option_vec_from(
+                value.default_datasets_destinations,
+                AssetAndDefaultDatasetsDestinations::from,
+            ),
+            default_events_configuration: value.default_events_configuration,
+            default_events_destinations: option_vec_from(
+                value.default_events_destinations,
+                DefaultEventsAndStreamsDestinations::from,
+            ),
+            default_management_groups_configuration: value.default_management_groups_configuration,
+            default_streams_configuration: value.default_streams_configuration,
+            default_streams_destinations: option_vec_from(
+                value.default_streams_destinations,
+                DefaultEventsAndStreamsDestinations::from,
+            ),
+            description: value.description,
+            device_ref: DeviceRef::from(value.device_ref),
+            discovered_asset_refs: value.discovered_asset_refs,
+            display_name: value.display_name,
+            documentation_uri: value.documentation_uri,
+            enabled: value.enabled,
+            events: option_vec_from(value.events, AssetEvent::from),
+            external_asset_id: value.external_asset_id,
+            hardware_revision: value.hardware_revision,
+            last_transition_time: value.last_transition_time,
+            management_groups: option_vec_from(value.management_groups, AssetManagementGroup::from),
+            manufacturer: value.manufacturer,
+            manufacturer_uri: value.manufacturer_uri,
+            model: value.model,
+            product_code: value.product_code,
+            serial_number: value.serial_number,
+            software_revision: value.software_revision,
+            streams: option_vec_from(value.streams, AssetStream::from),
+            uuid: value.uuid,
+            version: value.version,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetDatasetSchemaElementSchema> for AssetDataset {
+    fn from(value: adr_name_gen::AssetDatasetSchemaElementSchema) -> Self {
+        AssetDataset {
+            data_points: option_vec_from(value.data_points, AssetDatasetDataPoint::from),
+            data_source: value.data_source,
+            destinations: option_vec_from(
+                value.destinations,
+                AssetAndDefaultDatasetsDestinations::from,
+            ),
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetDatasetDataPointSchemaElementSchema> for AssetDatasetDataPoint {
+    fn from(value: adr_name_gen::AssetDatasetDataPointSchemaElementSchema) -> Self {
+        AssetDatasetDataPoint {
+            data_point_configuration: value.data_point_configuration,
+            data_source: value.data_source,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetDatasetDestinationSchemaElementSchema>
+    for AssetAndDefaultDatasetsDestinations
+{
+    fn from(value: adr_name_gen::AssetDatasetDestinationSchemaElementSchema) -> Self {
+        AssetAndDefaultDatasetsDestinations {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema>
+    for AssetAndDefaultDatasetsDestinations
+{
+    fn from(value: adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema) -> Self {
+        AssetAndDefaultDatasetsDestinations {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<adr_name_gen::DefaultEventsDestinationsSchemaElementSchema>
+    for DefaultEventsAndStreamsDestinations
+{
+    fn from(value: adr_name_gen::DefaultEventsDestinationsSchemaElementSchema) -> Self {
+        DefaultEventsAndStreamsDestinations {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<adr_name_gen::DefaultStreamsDestinationsSchemaElementSchema>
+    for DefaultEventsAndStreamsDestinations
+{
+    fn from(value: adr_name_gen::DefaultStreamsDestinationsSchemaElementSchema) -> Self {
+        DefaultEventsAndStreamsDestinations {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceRefSchema> for DeviceRef {
+    fn from(value: adr_name_gen::DeviceRefSchema) -> Self {
+        DeviceRef {
+            device_name: value.device_name,
+            endpoint_name: value.endpoint_name,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetEventSchemaElementSchema> for AssetEvent {
+    fn from(value: adr_name_gen::AssetEventSchemaElementSchema) -> Self {
+        AssetEvent {
+            data_points: option_vec_from(value.data_points, AssetEventDataPoint::from),
+            destinations: option_vec_from(value.destinations, AssetStreamAndEventDestination::from),
+            event_configuration: value.event_configuration,
+            event_notifier: value.event_notifier,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetEventDestinationSchemaElementSchema>
+    for AssetStreamAndEventDestination
+{
+    fn from(value: adr_name_gen::AssetEventDestinationSchemaElementSchema) -> Self {
+        AssetStreamAndEventDestination {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetEventDataPointSchemaElementSchema> for AssetEventDataPoint {
+    fn from(value: adr_name_gen::AssetEventDataPointSchemaElementSchema) -> Self {
+        AssetEventDataPoint {
+            data_point_configuration: value.data_point_configuration,
+            data_source: value.data_source,
+            name: value.name,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetManagementGroupSchemaElementSchema> for AssetManagementGroup {
+    fn from(value: adr_name_gen::AssetManagementGroupSchemaElementSchema) -> Self {
+        AssetManagementGroup {
+            actions: option_vec_from(value.actions, AssetManagementGroupAction::from),
+            default_time_out_in_seconds: value.default_time_out_in_seconds,
+            default_topic: value.default_topic,
+            management_group_configuration: value.management_group_configuration,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetManagementGroupActionSchemaElementSchema>
+    for AssetManagementGroupAction
+{
+    fn from(value: adr_name_gen::AssetManagementGroupActionSchemaElementSchema) -> Self {
+        AssetManagementGroupAction {
+            management_action_configuration: value.management_action_configuration,
+            name: value.name,
+            target_uri: value.target_uri,
+            time_out_in_seconds: value.time_out_in_seconds,
+            topic: value.topic,
+            r#type: value.r#type.into(),
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetManagementGroupActionTypeSchema> for AssetManagementGroupActionType {
+    fn from(value: adr_name_gen::AssetManagementGroupActionTypeSchema) -> Self {
+        match value {
+            adr_name_gen::AssetManagementGroupActionTypeSchema::Call => {
+                AssetManagementGroupActionType::Call
+            }
+            adr_name_gen::AssetManagementGroupActionTypeSchema::Read => {
+                AssetManagementGroupActionType::Read
+            }
+            adr_name_gen::AssetManagementGroupActionTypeSchema::Write => {
+                AssetManagementGroupActionType::Write
+            }
+        }
+    }
+}
+impl From<adr_name_gen::AssetStreamSchemaElementSchema> for AssetStream {
+    fn from(value: adr_name_gen::AssetStreamSchemaElementSchema) -> Self {
+        AssetStream {
+            destinations: option_vec_from(value.destinations, AssetStreamAndEventDestination::from),
+            name: value.name,
+            stream_configuration: value.stream_configuration,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetStreamDestinationSchemaElementSchema>
+    for AssetStreamAndEventDestination
+{
+    fn from(value: adr_name_gen::AssetStreamDestinationSchemaElementSchema) -> Self {
+        AssetStreamAndEventDestination {
+            configuration: value.configuration.into(),
+            target: value.target.into(),
+        }
+    }
+}
+
+impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
+    fn from(value: adr_name_gen::DestinationConfiguration) -> Self {
+        DestinationConfiguration {
+            key: value.key,
+            path: value.path,
+            qos: value.qos.map(QoS::from),
+            retain: value.retain.map(Retain::from),
+            topic: value.topic,
+            ttl: value.ttl,
+        }
+    }
+}
+
+impl From<adr_name_gen::EventStreamTarget> for EventStreamTarget {
+    fn from(value: adr_name_gen::EventStreamTarget) -> Self {
+        match value {
+            adr_name_gen::EventStreamTarget::BrokerStateStore => {
+                EventStreamTarget::BrokerStateStore
+            }
+            adr_name_gen::EventStreamTarget::Storage => EventStreamTarget::Storage,
+        }
+    }
+}
+
+impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
+    fn from(value: adr_name_gen::DatasetTarget) -> Self {
+        match value {
+            adr_name_gen::DatasetTarget::BrokerStateStore => DatasetTarget::BrokerStateStore,
+            adr_name_gen::DatasetTarget::Mqtt => DatasetTarget::Mqtt,
+            adr_name_gen::DatasetTarget::Storage => DatasetTarget::Storage,
+        }
+    }
+}
+
+impl From<adr_name_gen::QoS> for QoS {
+    fn from(value: adr_name_gen::QoS) -> Self {
+        match value {
+            adr_name_gen::QoS::Qos0 => QoS::Qos0,
+            adr_name_gen::QoS::Qos1 => QoS::Qos1,
+        }
+    }
+}
+
+impl From<adr_name_gen::Retain> for Retain {
+    fn from(value: adr_name_gen::Retain) -> Self {
+        match value {
+            adr_name_gen::Retain::Keep => Retain::Keep,
+            adr_name_gen::Retain::Never => Retain::Never,
         }
     }
 }
