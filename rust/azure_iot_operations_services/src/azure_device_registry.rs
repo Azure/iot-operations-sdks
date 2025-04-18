@@ -651,6 +651,89 @@ pub struct Config {
     pub version: Option<u64>,
 }
 
+// ~~~~~~~~~~~~~~~~~~~Detected Asset DTDL Equivalent Structs~~~~~~~
+
+#[derive(Clone, Debug)]
+pub struct DetectedAsset {
+    pub asset_endpoint_profile_ref: String,
+    pub asset_name: Option<String>,
+    pub datasets: Option<Vec<DetectedAssetDataset>>,
+    pub default_datasets_configuration: Option<String>,
+    pub default_events_configuration: Option<String>,
+    pub default_topic: Option<Topic>,
+    pub documentation_uri: Option<String>,
+    pub events: Option<Vec<DetectedAssetEvent>>,
+    pub hardware_revision: Option<String>,
+    pub manufacturer: Option<String>,
+    pub manufacturer_uri: Option<String>,
+    pub model: Option<String>,
+    pub product_code: Option<String>,
+    pub serial_number: Option<String>,
+    pub software_revision: Option<String>,
+}
+
+#[derive(Clone, Debug)]
+pub struct DetectedAssetEvent {
+    pub event_configuration: Option<String>,
+    pub event_notifier: String,
+    pub last_updated_on: Option<String>,
+    pub name: String,
+    pub topic: Option<Topic>,
+}
+
+#[derive(Clone, Debug)]
+pub struct DetectedAssetDataset {
+    pub data_points: Option<Vec<DetectedAssetDataPoint>>,
+    pub data_set_configuration: Option<String>,
+    pub name: String,
+    pub topic: Option<Topic>,
+}
+
+#[derive(Clone, Debug)]
+pub struct Topic {
+    pub path: String,
+    pub retain: Option<Retain>,
+}
+
+#[derive(Clone, Debug)]
+pub struct DetectedAssetDataPoint {
+    pub data_point_configuration: Option<String>,
+    pub data_source: String,
+    pub last_updated_on: Option<String>,
+    pub name: Option<String>,
+}
+
+impl From<DetectedAssetDataset> for adr_name_gen::DetectedAssetDatasetSchemaElementSchema {
+    fn from(value: DetectedAssetDataset) -> Self {
+        adr_name_gen::DetectedAssetDatasetSchemaElementSchema {
+            data_points: option_vec_from(value.data_points, DetectedAssetDataPoint::into),
+            data_set_configuration: value.data_set_configuration,
+            name: value.name,
+            topic: value.topic.map(Topic::into),
+        }
+    }
+}
+
+impl From<Topic> for adr_name_gen::Topic {
+    fn from(value: Topic) -> Self {
+        adr_name_gen::Topic {
+            path: value.path,
+            retain: value.retain.map(Retain::into),
+        }
+    }
+}
+
+impl From<DetectedAssetDataPoint> for adr_name_gen::DetectedAssetDataPointSchemaElementSchema {
+    fn from(value: DetectedAssetDataPoint) -> Self {
+        adr_name_gen::DetectedAssetDataPointSchemaElementSchema {
+            data_point_configuration: value.data_point_configuration,
+            data_source: value.data_source,
+            last_updated_on: value.last_updated_on,
+            name: value.name,
+        }
+    }
+}
+
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 #[derive(Clone, Debug)]
 pub enum EventStreamTarget {
