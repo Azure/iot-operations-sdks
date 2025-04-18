@@ -323,12 +323,28 @@ public class AdrServiceClientIntegrationTests
 
     private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
     {
-        throw new NotImplementedException();
+        return new CreateDetectedAssetRequest
+        {
+            AssetName = TestAssetName,
+            AssetEndpointProfileRef = "test-asset-endpoint-profile",
+        };
     }
 
     private UpdateAssetStatusRequest CreateUpdateAssetStatusRequest()
     {
-        throw new NotImplementedException();
+        return new UpdateAssetStatusRequest
+        {
+            AssetName = TestAssetName,
+            AssetStatus = new AssetStatus
+            {
+                Config = new AssetStatusConfig
+                {
+                    Error = null,
+                    LastTransitionTime = "2023-10-01T12:00:00Z",
+                    Version = 1
+                }
+            }
+        };
     }
 
 }
