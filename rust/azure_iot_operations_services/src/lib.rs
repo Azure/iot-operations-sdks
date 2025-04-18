@@ -19,7 +19,7 @@
 //! azure_iot_operations_services = { version = "<version>", features = ["schema_registry"] }
 //! ```
 
-#![warn(missing_docs)]
+// #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
 #[cfg(feature = "azure_device_registry")]
