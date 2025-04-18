@@ -33,16 +33,10 @@ namespace Azure.Iot.Operations.Connector.Assets
         private FilesMonitor? _deviceDirectoryMonitor;
 
         /// </inheritdoc>
-        public event EventHandler<AssetCreatedEventArgs>? AssetFileCreated;
+        public event EventHandler<AssetChangedEventArgs>? AssetFileChanged;
 
         /// </inheritdoc>
-        public event EventHandler<AssetDeletedEventArgs>? AssetFileDeleted;
-
-        /// </inheritdoc>
-        public event EventHandler<DeviceCreatedEventArgs>? DeviceFileCreated;
-
-        /// </inheritdoc>
-        public event EventHandler<DeviceDeletedEventArgs>? DeviceFileDeleted;
+        public event EventHandler<DeviceChangedEventArgs>? DeviceFileChanged;
 
         public AssetFileMonitor()
         {
@@ -94,13 +88,13 @@ namespace Azure.Iot.Operations.Connector.Assets
                         foreach (string addedAssetName in newAssetNames)
                         {
                             _lastKnownAssetNames[assetFileName].Add(addedAssetName);
-                            AssetFileCreated?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName));
+                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, AssetFileMonitorChangeType.Created));
                         }
 
                         foreach (string removedAssetName in removedAssetNames)
                         {
                             _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
-                            AssetFileDeleted?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName));
+                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, AssetFileMonitorChangeType.Deleted));
                         }
                     }
                 };
@@ -113,7 +107,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string currentAssetName in currentAssetNames)
                     {
-                        AssetFileCreated?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName));
+                        AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
                     }
                 }
             }
@@ -142,11 +136,11 @@ namespace Azure.Iot.Operations.Connector.Assets
 
                     if (args.ChangeType == WatcherChangeTypes.Created)
                     {
-                        DeviceFileCreated?.Invoke(this, new(deviceName, inboundEndpointName));
+                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Created));
                     }
                     else if (args.ChangeType == WatcherChangeTypes.Deleted)
                     {
-                        DeviceFileDeleted?.Invoke(this, new(deviceName, inboundEndpointName));
+                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Deleted));
                     }
                 };
 
@@ -158,7 +152,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string deviceName in currentDeviceNames)
                     {
-                        DeviceFileCreated?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1]));
+                        DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
                     }
                 }
             }
@@ -175,43 +169,61 @@ namespace Azure.Iot.Operations.Connector.Assets
         }
 
         /// <inheritdoc/>
-        public IEnumerable<string>? GetAssetNames(string deviceName, string inboundEndpointName)
+        public IEnumerable<string> GetAssetNames(string deviceName, string inboundEndpointName)
         {
-            List<string>? deviceNames = null;
-
             string devicePath = Path.Combine(_adrResourcesNameMountPath, $"{deviceName}_{inboundEndpointName}");
             if (Directory.Exists(devicePath))
             {
                 string? contents = GetMountedConfigurationValueAsString(devicePath);
-                if (contents == null)
+                if (contents != null)
                 {
-                    return null;
+                    string[] delimitedContents = contents.Split(";");
+                    return [.. delimitedContents];
                 }
-
-                string[] delimitedContents = contents.Split(";");
-                return [.. delimitedContents];
             }
 
-            return deviceNames;
+            return new List<string>();
         }
 
-        public IEnumerable<string>? GetDeviceNames() // {<deviceName>_<inboundEndpointName>}
+        /// <inheritdoc/>
+        public IEnumerable<string> GetInboundEndpointNames(string deviceName)
         {
-            List<string>? deviceNames = null;
+            List<string> inboundEndpointNames = new();
 
             if (Directory.Exists(AdrResourcesNameMountPathEnvVar))
             {
                 string[] files = Directory.GetFiles(AdrResourcesNameMountPathEnvVar);
                 foreach (string fileNameWithPath in files)
                 {
-                    deviceNames ??= new();
-                    deviceNames.Add(Path.GetFileName(fileNameWithPath));
+                    string[] fileNameParts = Path.GetFileName(fileNameWithPath).Split('_');
+                    if (fileNameParts[0].Equals(deviceName))
+                    {
+                        inboundEndpointNames.Add(fileNameParts[1]);
+                    }
+                }
+            }
+
+            return inboundEndpointNames;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<string> GetDeviceNames()
+        {
+            HashSet<string> deviceNames = new(); // A device name can appear more than once when searching files, so don't use a list here.
+
+            if (Directory.Exists(AdrResourcesNameMountPathEnvVar))
+            {
+                string[] files = Directory.GetFiles(AdrResourcesNameMountPathEnvVar);
+                foreach (string fileNameWithPath in files)
+                {
+                    deviceNames.Add(Path.GetFileName(fileNameWithPath).Split('_')[0]);
                 }
             }
 
             return deviceNames;
         }
 
+        /// <inheritdoc/>
         public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
         {
             string fileName = $"{deviceName}_{inboundEndpointName}";
@@ -229,6 +241,7 @@ namespace Azure.Iot.Operations.Connector.Assets
             };
         }
 
+        /// <inheritdoc/>
         public void UnobserveAll()
         {
             _deviceDirectoryMonitor?.Stop();

@@ -3,16 +3,19 @@
 
 namespace Azure.Iot.Operations.Connector.Assets
 {
-    public class DeviceDeletedEventArgs : EventArgs
+    public class DeviceChangedEventArgs : EventArgs
     {
         public string DeviceName { get; set; }
 
         public string InboundEndpointName { get; set; }
 
-        internal DeviceDeletedEventArgs(string deviceName, string inboundEndpointName)
+        public AssetFileMonitorChangeType ChangeType { get; set; }
+
+        internal DeviceChangedEventArgs(string deviceName, string inboundEndpointName, AssetFileMonitorChangeType changeType)
         {
             DeviceName = deviceName;
             InboundEndpointName = inboundEndpointName;
+            ChangeType = changeType;
         }
     }
 }

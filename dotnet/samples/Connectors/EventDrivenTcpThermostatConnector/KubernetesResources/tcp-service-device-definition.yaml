@@ -1,0 +1,18 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Device
+metadata:
+  name: my-tcp-thermostat
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    deviceId: my-tcp-thermostat
+    deviceType: thermostat
+  enabled: true
+  endpoints:
+    inbound:
+      my-tcp-endpoint:
+        additionalConfiguration: ''
+        address: tcp-service.azure-iot-operations.svc.cluster.local:80
+        endpointType: tcp-thermostat
+  uuid: 1234-5678-9012-3456
+  version: 2

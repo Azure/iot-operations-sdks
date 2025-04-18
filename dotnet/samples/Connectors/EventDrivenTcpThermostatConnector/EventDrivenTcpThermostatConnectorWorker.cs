@@ -69,7 +69,6 @@ namespace EventDrivenTcpThermostatConnector
                 {
                     while (true)
                     {
-
                         byte[] buffer = new byte[1024];
                         int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, 1024), _tcpConnectionCancellationToken.Token);
                         Array.Resize(ref buffer, bytesRead);

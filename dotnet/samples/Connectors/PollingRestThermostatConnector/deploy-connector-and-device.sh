@@ -15,6 +15,6 @@ kubectl apply -f ./KubernetesResources/connector-config.yaml
 # Deploy REST server (as an asset)
 kubectl apply -f ./KubernetesResources/rest-server.yaml
 
-# Deploy REST server asset and AEP
-kubectl apply -f ./KubernetesResources/rest-server-asset-endpoint-profile-definition.yaml
+# Deploy REST server device and its lone asset
+kubectl apply -f ./KubernetesResources/rest-server-device-definition.yaml
 kubectl apply -f ./KubernetesResources/rest-server-asset-definition.yaml

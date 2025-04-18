@@ -129,7 +129,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                _assetMonitor.DeviceChanged += (sender, args) =>
+                _assetMonitor.DeviceChanged += async (sender, args) =>
                 {
                     string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                     if (args.ChangeType == ChangeType.Created)
@@ -147,7 +147,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
-                        _assetMonitor.UnobserveAssets(args.DeviceName, args.InboundEndpointName);
+                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
                         _devices.Remove(compoundDeviceName, out var _);
                     }
                     else if (args.ChangeType == ChangeType.Updated)
@@ -179,7 +179,7 @@ namespace Azure.Iot.Operations.Connector
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
-                        _assetMonitor.UnobserveAssets(args.DeviceName, args.InboundEndpointName);
+                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {

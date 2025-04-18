@@ -1,0 +1,23 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Device
+metadata:
+  name: my-sql-qualityanalyzer-profile
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    deviceId: my-sql-qualityanalyzer-profile
+    deviceType: sql-server
+  enabled: true
+  endpoints:
+    inbound:
+      my-sql-endpoint:
+        additionalConfiguration: ''
+        address: Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=MySampleDB; # Server=mssqlinst,1433;Database=master; # Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=master; # Server=mssqlinst,1433;Database=MySampleDB; # sql-server.yaml => <Service.metadata.name>.<namespace>.svc.cluster.local:<port>)
+        authentication:
+          method: UsernamePassword
+          usernamePasswordCredentials:
+            usernameSecretName: sql-server-auth-credentials/USERNAME
+            passwordSecretName: sql-server-auth-credentials/SA_PASSWORD
+        endpointType: qualityanalyzer-profile-sql-server
+  uuid: 1234-5678-9012-3456
+  version: 2
