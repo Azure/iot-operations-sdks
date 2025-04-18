@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public EventHandler<AssetUnavailableEventArgs>? OnAssetUnavailable;
 
-        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all AEPs? Or will some connectors have a subset of AEPs?
+        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all devices? Or will some connectors have a subset of devices?
 
         public TelemetryConnectorWorker(
             ApplicationContext applicationContext,

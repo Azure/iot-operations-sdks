@@ -59,7 +59,7 @@ namespace EventDrivenTcpThermostatConnector
                     return;
                 }
 
-                string host = args.Device.Specification.Endpoints.Inbound["todo"].Address.Split(":")[0];
+                string host = args.Device.Specification.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
                 _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
                 using TcpClient client = new();
                 await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);

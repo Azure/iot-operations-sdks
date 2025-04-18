@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Connector.Assets
 {
-    public interface IAssetFileMonitor
+    internal interface IAssetFileMonitor
     {
         /// <summary>
         /// Executes whenever an asset is added to or removed from an existing device after observing asset changes with <see cref="ObserveAssets(string, string)"/>.

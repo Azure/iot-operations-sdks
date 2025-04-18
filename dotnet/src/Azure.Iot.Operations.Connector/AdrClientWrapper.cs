@@ -131,6 +131,24 @@ namespace Azure.Iot.Operations.Connector
             return _client.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
         }
 
+        /// </inheritdoc>
+        public IEnumerable<string> GetAssetNames(string deviceName, string inboundEndpointName)
+        {
+            return _monitor.GetAssetNames(deviceName, inboundEndpointName);
+        }
+
+        /// </inheritdoc>
+        public IEnumerable<string> GetInboundEndpointNames(string deviceName)
+        {
+            return _monitor.GetInboundEndpointNames(deviceName);
+        }
+
+        /// </inheritdoc>
+        public IEnumerable<string> GetDeviceNames()
+        {
+            return _monitor.GetDeviceNames();
+        }
+
         private Task DeviceUpdateReceived(string compositeDeviceName, Device device)
         {
             string deviceName = compositeDeviceName.Split('_')[0];

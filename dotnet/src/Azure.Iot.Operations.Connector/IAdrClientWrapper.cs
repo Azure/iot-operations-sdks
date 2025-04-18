@@ -66,6 +66,34 @@ namespace Azure.Iot.Operations.Connector
         DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName);
 
         /// <summary>
+        /// List the names of all available assets within the provided endpoint within the provided device.
+        /// </summary>
+        /// <param name="deviceName">The name of the device to get asset names from.</param>
+        /// <param name="inboundEndpointName">The name of the endpoint within the provided device to get asset names from.</param>
+        /// <returns>
+        /// The collection of asset names associated with the provided endpoint in the provided device.
+        /// This collection is empty if the device does not exist (or is unavailable) or if the device has no inbound endpoint with the provided name or if
+        /// both the device and inbound endpoint are available, but they have no assets.
+        /// </returns>
+        IEnumerable<string> GetAssetNames(string deviceName, string inboundEndpointName);
+
+        /// <summary>
+        /// List the names of all available inbound endpoints associated with the provided device name.
+        /// </summary>
+        /// <param name="deviceName">The device whose inbound endpoint names will be listed.</param>
+        /// <returns>
+        /// The collection of inbound endpoint names associated with this device. This collection is empty if the device
+        /// doesn't exist or isn't available.
+        /// </returns>
+        IEnumerable<string> GetInboundEndpointNames(string deviceName);
+
+        /// <summary>
+        /// List the names of all available devices.
+        /// </summary>
+        /// <returns>The names of all available devices</returns>
+        IEnumerable<string> GetDeviceNames();
+
+        /// <summary>
         /// Updates the status of a specific asset.
         /// </summary>
         /// <param name="deviceName">The name of the device.</param>
