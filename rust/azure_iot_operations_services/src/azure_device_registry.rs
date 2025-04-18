@@ -14,11 +14,11 @@ use crate::azure_device_registry::device_name_gen::adr_base_service::client as a
 use crate::common::dispatcher::Receiver;
 
 /// Azure Device Registry Client implementation wrapper
-// mod client;
+mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
 
-// pub use client::Client;
+pub use client::Client;
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 pub struct Error {}
