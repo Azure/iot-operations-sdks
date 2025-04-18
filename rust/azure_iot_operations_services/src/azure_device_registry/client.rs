@@ -18,8 +18,7 @@ use super::{Device, DeviceStatus, DeviceUpdateObservation, Error};
 /// Options for the Azure Device Registry client.
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
-pub struct ClientOptions {
-}
+pub struct ClientOptions {}
 
 /// Azure Device Registry client implementation.
 #[derive(Clone)]
