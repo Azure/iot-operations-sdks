@@ -8,12 +8,41 @@
 use core::fmt::Debug;
 use std::collections::HashMap;
 
-use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use azure_iot_operations_mqtt::interface::AckToken;
 
+use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use crate::common::dispatcher::Receiver;
+
+/// Azure Device Registry Client implementation wrapper
+mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
 
+pub use client::Client;
+
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
+pub struct Error {}
+
+// ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
+/// A struct to manage receiving notifications for a key
+#[derive(Debug)]
+pub struct DeviceUpdateObservation {
+    /// The internal channel for receiving update telemetry for this device
+    receiver: Receiver<(Device, Option<AckToken>)>,
+}
+
+impl DeviceUpdateObservation {
+    /// Receives an updated [`Device`] or [`None`] if there will be no more notifications.
+    ///
+    /// If there are notifications:
+    /// - Returns Some([`Device`], [`Option<AckToken>`]) on success
+    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`Device`], _) to ignore the [`AckToken`].
+    ///
+    /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
+    pub async fn recv_notification(&mut self) -> Option<(Device, Option<AckToken>)> {
+        self.receiver.recv().await
+    }
+}
 
 // ~~~~~~~~~~~~~~~~~~~Helper fns ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Option<Vec<U>> {
@@ -108,7 +137,7 @@ pub struct DeviceSpecification {
     /// The 'enabled' Field.
     pub enabled: Option<bool>,
     /// The 'endpoints' Field.
-    pub inbound_endpoints: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap
+    pub inbound_endpoints: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
