@@ -22,19 +22,6 @@ fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Op
 
 // ~~~~~~~~~~~~~~~~~~~Common DTDL Equivalent Structs~~~~~~~~~~~~~
 #[derive(Clone, Debug)]
-/// Details describing an error?
-pub struct Details {
-    /// The 'code' Field.
-    pub code: Option<String>,
-    /// The 'correlationId' Field.
-    pub correlation_id: Option<String>,
-    /// The 'info' Field.
-    pub info: Option<String>,
-    /// The 'message' Field.
-    pub message: Option<String>,
-}
-
-#[derive(Clone, Debug)]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
     /// The code of the error.
@@ -79,6 +66,19 @@ impl From<adr_name_gen::ConfigError> for ConfigError {
             inner_error: value.inner_error,
         }
     }
+}
+
+#[derive(Clone, Debug)]
+/// Details describing an error?
+pub struct Details {
+    /// The 'code' Field.
+    pub code: Option<String>,
+    /// The 'correlationId' Field.
+    pub correlation_id: Option<String>,
+    /// The 'info' Field.
+    pub info: Option<String>,
+    /// The 'message' Field.
+    pub message: Option<String>,
 }
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
