@@ -21,6 +21,13 @@ fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Op
 }
 
 // ~~~~~~~~~~~~~~~~~~~Common DTDL Equivalent Structs~~~~~~~~~~~~~
+#[derive(Clone, Debug, Default)]
+pub struct StatusConfig {
+    pub version: Option<u64>,
+    pub error: Option<ConfigError>,
+    pub last_transition_time: Option<String>,
+}
+
 #[derive(Clone, Debug)]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
@@ -69,7 +76,6 @@ impl From<adr_name_gen::ConfigError> for ConfigError {
 }
 
 #[derive(Clone, Debug)]
-/// Details describing an error?
 pub struct Details {
     /// The 'code' Field.
     pub code: Option<String>,
@@ -166,16 +172,9 @@ pub enum Authentication {
 /// Represents the status of a Device in the ADR Service.
 pub struct DeviceStatus {
     /// The 'config' Field.
-    pub config: Option<DeviceStatusConfig>,
+    pub config: Option<StatusConfig>,
     /// The 'endpoints' Field.
     pub endpoints: HashMap<String, Option<ConfigError>>,
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct DeviceStatusConfig {
-    pub version: Option<u64>,
-    pub error: Option<ConfigError>,
-    pub last_transition_time: Option<String>,
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
