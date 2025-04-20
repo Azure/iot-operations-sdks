@@ -24,7 +24,7 @@ pub use client::Client;
 pub struct Error {}
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
-/// A struct to manage receiving notifications for a key
+/// A struct to manage receiving notifications for a device
 #[derive(Debug)]
 pub struct DeviceUpdateObservation {
     /// The internal channel for receiving update telemetry for this device
@@ -44,7 +44,7 @@ impl DeviceUpdateObservation {
     }
 }
 
-/// A struct to manage receiving notifications for a key
+/// A struct to manage receiving notifications for a asset
 #[derive(Debug)]
 pub struct AssetUpdateObservation {
     /// The name of the asset (for convenience)
@@ -911,6 +911,81 @@ impl From<AssetManagementGroupActionType> for adr_name_gen::AssetManagementGroup
 }
 
 // ~~~~~~~~~~~~~~DTDL structs to SDK Asset Structs for Asset Observation Need~~~~~~~
+impl From<adr_name_gen::AssetStatus> for AssetStatus {
+    fn from(value: adr_name_gen::AssetStatus) -> Self {
+        AssetStatus {
+            config: value.config.map(Config::from),
+            datasets_schema: option_vec_from(value.datasets, AssetDatasetEventStream::from),
+            events_schema: option_vec_from(value.events, AssetDatasetEventStream::from),
+            management_groups: option_vec_from(
+                value.management_groups,
+                AssetManagementGroupStatus::from,
+            ),
+            streams: option_vec_from(value.streams, AssetDatasetEventStream::from),
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetManagementGroupStatusSchemaElementSchema>
+    for AssetManagementGroupStatus
+{
+    fn from(value: adr_name_gen::AssetManagementGroupStatusSchemaElementSchema) -> Self {
+        AssetManagementGroupStatus {
+            actions: option_vec_from(value.actions, AssetManagementGroupActionStatus::from),
+            name: value.name,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema>
+    for AssetManagementGroupActionStatus
+{
+    fn from(value: adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema) -> Self {
+        AssetManagementGroupActionStatus {
+            error: value.error.map(ConfigError::from),
+            name: value.name,
+            request_message_schema_reference: value
+                .request_message_schema_reference
+                .map(MessageSchemaReference::from),
+            response_message_schema_reference: value
+                .response_message_schema_reference
+                .map(MessageSchemaReference::from),
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetDatasetEventStreamStatus> for AssetDatasetEventStream {
+    fn from(value: adr_name_gen::AssetDatasetEventStreamStatus) -> Self {
+        AssetDatasetEventStream {
+            name: value.name,
+            message_schema_reference: value
+                .message_schema_reference
+                .map(MessageSchemaReference::from),
+            error: value.error.map(ConfigError::from),
+        }
+    }
+}
+
+impl From<adr_name_gen::MessageSchemaReference> for MessageSchemaReference {
+    fn from(value: adr_name_gen::MessageSchemaReference) -> Self {
+        MessageSchemaReference {
+            name: value.schema_name,
+            version: value.schema_version,
+            registry_namespace: value.schema_registry_namespace,
+        }
+    }
+}
+
+impl From<adr_name_gen::AssetConfigStatusSchema> for Config {
+    fn from(value: adr_name_gen::AssetConfigStatusSchema) -> Self {
+        Config {
+            error: value.error.map(ConfigError::from),
+            last_transition_time: value.last_transition_time,
+            version: value.version,
+        }
+    }
+}
+
 impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
     fn from(value: adr_name_gen::AssetSpecificationSchema) -> Self {
         AssetSpecification {
