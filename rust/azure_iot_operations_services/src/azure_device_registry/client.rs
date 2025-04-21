@@ -35,6 +35,7 @@ where
     C::PubReceiver: Send + Sync,
 {
     get_asset_command_invoker: Arc<adr_name_gen::GetAssetCommandInvoker<C>>,
+    update_asset_status_command_invoker: Arc<adr_name_gen::UpdateAssetStatusCommandInvoker<C>>,
 }
 
 impl<C> Client<C>
@@ -61,6 +62,13 @@ where
                 client.clone(),
                 &aep_name_command_options,
             )),
+            update_asset_status_command_invoker: Arc::new(
+                adr_name_gen::UpdateAssetStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &aep_name_command_options,
+                ),
+            ),
         }
     }
 
@@ -237,7 +245,34 @@ where
         _status: AssetStatus,
         _timeout: Duration,
     ) -> Result<Asset, Error> {
-        Err(Error {})
+        let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
+            asset_status_update: adr_name_gen::UpdateAssetStatusRequestSchema {
+                asset_name: _asset_name,
+                asset_status: _status.into(),
+            },
+        };
+
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([
+                ("deviceName".to_string(), _device_name.clone()),
+                (
+                    "inboundEndpointName".to_string(),
+                    _inbound_endpoint_name.clone(),
+                ),
+            ]))
+            .payload(payload)
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(_timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .update_asset_status_command_invoker
+            .invoke(command_request)
+            .await
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.updated_asset.into())
     }
 
     /// Starts observation of any Asset updates from the Azure Device Registry service.
