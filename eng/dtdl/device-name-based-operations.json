@@ -55,12 +55,18 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "assetName",
               "schema": "string"
             },
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "assetStatus",
               "schema": "dtmi:com:microsoft:akri:AssetStatus;1"
             }
@@ -79,7 +85,10 @@
         "@type": "Object",
         "fields": [
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "device",
             "schema": "dtmi:com:microsoft:akri:Device;1"
           }
@@ -93,12 +102,18 @@
         "@type": "Object",
         "fields": [
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "assetName",
             "schema": "string"
           },
           {
-            "@type": ["Field", "Required"],
+            "@type": [
+              "Field",
+              "Required"
+            ],
             "name": "asset",
             "schema": "dtmi:com:microsoft:akri:Asset;1"
           }
@@ -126,12 +141,18 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "assetName",
               "schema": "string"
             },
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "name": "notificationPreference",
               "schema": "dtmi:com:microsoft:akri:NotificationPreference;1"
             }
@@ -156,7 +177,10 @@
           "@type": "Object",
           "fields": [
             {
-              "@type": ["Field", "Required"],
+              "@type": [
+                "Field",
+                "Required"
+              ],
               "@id": "dtmi:com:microsoft:akri:DetectedAssetResponseStatus;1",
               "name": "status",
               "description": "status of detected asset creation",
@@ -190,12 +214,18 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "schema": "string"
         },
         {
-          "@type": [ "Field", "Required" ],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "@id": "dtmi:com:microsoft:akri:DeviceSpecification;1",
           "name": "specification",
           "schema": {
@@ -253,7 +283,10 @@
                                 "schema": "string"
                               },
                               {
-                                "@type": [ "Field", "Required" ],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "address",
                                 "schema": "string"
                               },
@@ -264,7 +297,10 @@
                                   "@type": "Object",
                                   "fields": [
                                     {
-                                      "@type": [ "Field", "Required" ],
+                                      "@type": [
+                                        "Field",
+                                        "Required"
+                                      ],
                                       "name": "method",
                                       "schema": {
                                         "@type": "Enum",
@@ -292,12 +328,18 @@
                                         "@type": "Object",
                                         "fields": [
                                           {
-                                            "@type": [ "Field", "Required" ],
+                                            "@type": [
+                                              "Field",
+                                              "Required"
+                                            ],
                                             "name": "usernameSecretName",
                                             "schema": "string"
                                           },
                                           {
-                                            "@type": [ "Field", "Required" ],
+                                            "@type": [
+                                              "Field",
+                                              "Required"
+                                            ],
                                             "name": "passwordSecretName",
                                             "schema": "string"
                                           }
@@ -311,7 +353,10 @@
                                         "@type": "Object",
                                         "fields": [
                                           {
-                                            "@type": [ "Field", "Required" ],
+                                            "@type": [
+                                              "Field",
+                                              "Required"
+                                            ],
                                             "name": "certificateSecretName",
                                             "schema": "string"
                                           }
@@ -322,7 +367,10 @@
                                 }
                               },
                               {
-                                "@type": [ "Field", "Required" ],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
                                 "name": "endpointType",
                                 "schema": "string"
@@ -363,7 +411,10 @@
                         "@type": "Object",
                         "fields": [
                           {
-                            "@type": ["Field", "Required"],
+                            "@type": [
+                              "Field",
+                              "Required"
+                            ],
                             "name": "assigned",
                             "schema": {
                               "@type": "Map",
@@ -453,12 +504,18 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "@id": "dtmi:com:microsoft:akri:AssetSpecification;1",
           "name": "specification",
           "schema": {
@@ -511,12 +568,18 @@
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "dataSource",
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "name",
                                 "schema": "string"
                               },
@@ -544,12 +607,18 @@
                             "@type": "Object",
                             "fields": [
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "configuration",
                                 "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "target",
                                 "schema": "dtmi:com:microsoft:akri:DatasetTarget;1"
                               }
@@ -558,7 +627,10 @@
                         }
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "name",
                         "schema": "string"
                       },
@@ -585,12 +657,18 @@
                     "@type": "Object",
                     "fields": [
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "configuration",
                         "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "target",
                         "schema": "dtmi:com:microsoft:akri:DatasetTarget;1"
                       }
@@ -612,12 +690,18 @@
                     "@type": "Object",
                     "fields": [
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "configuration",
                         "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "target",
                         "schema": "dtmi:com:microsoft:akri:EventStreamTarget;1"
                       }
@@ -644,12 +728,18 @@
                     "@type": "Object",
                     "fields": [
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "configuration",
                         "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "target",
                         "schema": "dtmi:com:microsoft:akri:EventStreamTarget;1"
                       }
@@ -663,18 +753,27 @@
                 "schema": "string"
               },
               {
-                "@type": ["Field", "Required"],
+                "@type": [
+                  "Field",
+                  "Required"
+                ],
                 "name": "deviceRef",
                 "schema": {
                   "@type": "Object",
                   "fields": [
                     {
-                      "@type": ["Field", "Required"],
+                      "@type": [
+                        "Field",
+                        "Required"
+                      ],
                       "name": "deviceName",
                       "schema": "string"
                     },
                     {
-                      "@type": ["Field", "Required"],
+                      "@type": [
+                        "Field",
+                        "Required"
+                      ],
                       "name": "endpointName",
                       "schema": "string"
                     }
@@ -728,12 +827,18 @@
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "dataSource",
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "name",
                                 "schema": "string"
                               }
@@ -751,12 +856,18 @@
                             "@type": "Object",
                             "fields": [
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "configuration",
                                 "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "target",
                                 "schema": "dtmi:com:microsoft:akri:EventStreamTarget;1"
                               }
@@ -770,12 +881,18 @@
                         "schema": "string"
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "eventNotifier",
                         "schema": "string"
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "name",
                         "schema": "string"
                       },
@@ -827,7 +944,10 @@
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1",
                                 "name": "actionType",
                                 "schema": {
@@ -850,12 +970,18 @@
                                 }
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "name",
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "targetUri",
                                 "schema": "string"
                               },
@@ -894,7 +1020,10 @@
                         "schema": "string"
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "name",
                         "schema": "string"
                       },
@@ -956,12 +1085,18 @@
                             "@type": "Object",
                             "fields": [
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "configuration",
                                 "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "target",
                                 "schema": "dtmi:com:microsoft:akri:EventStreamTarget;1"
                               }
@@ -970,7 +1105,10 @@
                         }
                       },
                       {
-                        "@type": ["Field", "Required"],
+                        "@type": [
+                          "Field",
+                          "Required"
+                        ],
                         "name": "name",
                         "schema": "string"
                       },
@@ -1013,7 +1151,10 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "address",
           "schema": "string"
         },
@@ -1095,7 +1236,10 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "path",
           "schema": "string"
         },
@@ -1111,17 +1255,26 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "schemaName",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "schemaRegistryNamespace",
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "schemaVersion",
           "schema": "string"
         }
@@ -1361,7 +1514,10 @@
                           "schema": "dtmi:com:microsoft:akri:ConfigError;1"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "name",
                           "schema": "string"
                         },
@@ -1380,7 +1536,10 @@
                   }
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "schema": "string"
                 }
@@ -1414,7 +1573,10 @@
           "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "schema": "string"
         }
@@ -1431,7 +1593,10 @@
           "schema": "string"
         },
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "assetEndpointProfileRef",
           "description": "A reference to the asset endpoint profile.",
           "schema": "string"
@@ -1509,7 +1674,10 @@
               "@type": "Object",
               "fields": [
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "schema": "string"
                 },
@@ -1537,7 +1705,10 @@
                           "schema": "string"
                         },
                         {
-                          "@type": ["Field", "Required"],
+                          "@type": [
+                            "Field",
+                            "Required"
+                          ],
                           "name": "dataSource",
                           "schema": "string"
                         },
@@ -1570,12 +1741,18 @@
               "@type": "Object",
               "fields": [
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "name",
                   "schema": "string"
                 },
                 {
-                  "@type": ["Field", "Required"],
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
                   "name": "eventNotifier",
                   "schema": "string"
                 },
