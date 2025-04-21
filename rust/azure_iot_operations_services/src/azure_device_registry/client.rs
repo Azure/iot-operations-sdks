@@ -12,8 +12,8 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
 // use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-
 use super::{Device, DeviceStatus, DeviceUpdateObservation, Error};
+use crate::azure_device_registry::{Asset, AssetStatus, AssetUpdateObservation};
 
 /// Options for the Azure Device Registry client.
 #[derive(Builder, Clone)]
@@ -149,4 +149,94 @@ where
     }
 
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
+
+    /// Retrieves an asset from a Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the Device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns a [`Asset`] if the the asset was found.
+    ///
+    /// # Errors
+    /// TODO
+    #[allow(clippy::unused_async)]
+    pub async fn get_asset(
+        &self,
+        _device_name: String,
+        _inbound_endpoint_name: String,
+        _asset_name: String,
+        _timeout: Duration,
+    ) -> Result<Device, Error> {
+        Err(Error {})
+    }
+
+    /// Updates the status of an asset in the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `asset_name` - The name of the asset.
+    /// * [`AssetStatus`] - The status of an asset for the update.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the updated [`Asset`] once updated.
+    ///
+    /// # Errors
+    /// TODO
+    #[allow(clippy::unused_async)]
+    pub async fn update_asset_status(
+        &self,
+        _asset_name: String,
+        _status: AssetStatus,
+        _timeout: Duration,
+    ) -> Result<Asset, Error> {
+        Err(Error {})
+    }
+
+    /// Starts observation of any Asset updates from the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the Device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns a [`AssetUpdateObservation`].
+    ///
+    /// # Errors
+    /// TODO
+    #[allow(clippy::unused_async)]
+    pub async fn observe_asset_update(
+        &self,
+        _device_name: String,
+        _inbound_endpoint_name: String,
+        _asset_name: String,
+        _timeout: Duration,
+    ) -> Result<AssetUpdateObservation, Error> {
+        Err(Error {})
+    }
+
+    /// Stops observation of any Asset updates from the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the Device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns `Ok(())` if the Device Updates are no longer being observed.
+    ///
+    /// # Errors
+    /// TODO
+    #[allow(clippy::unused_async)]
+    pub async fn unobserve_asset_update_notifications(
+        &self,
+        _device_name: String,
+        _inbound_endpoint_name: String,
+        _asset_name: String,
+        _timeout: Duration,
+    ) -> Result<(), Error> {
+        Err(Error {})
+    }
 }
