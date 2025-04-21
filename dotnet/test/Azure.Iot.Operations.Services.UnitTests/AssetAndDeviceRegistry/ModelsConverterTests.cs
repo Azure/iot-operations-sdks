@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             // Arrange - Create complete source AssetStatus with all properties
             var source = new AdrBaseService.AssetStatus
             {
-                Config = new AdrBaseService.AssetStatusConfigSchema
+                Config = new AdrBaseService.AssetConfigStatusSchema
                 {
                     Error = new AdrBaseService.ConfigError
                     {
@@ -172,6 +172,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                 Name = "test-asset",
                 Specification = new AdrBaseService.AssetSpecificationSchema
                 {
+                    AssetTypeRefs = ["test-asset-type"],
                     Description = "test-description",
                     Enabled = true,
                     Manufacturer = "test-manufacturer",
@@ -218,7 +219,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                                         Key = "config-key",
                                         Path = "config-path",
                                         Topic = "config-topic",
-                                        Qos = AdrBaseService.QoS.Qos1,
+                                        Qos = AdrBaseService.Qos.Qos1,
                                         Retain = AdrBaseService.Retain.Keep,
                                         Ttl = 60
                                     }
@@ -278,7 +279,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                 },
                 Status = new AdrBaseService.AssetStatus
                 {
-                    Config = new AdrBaseService.AssetStatusConfigSchema
+                    Config = new AdrBaseService.AssetConfigStatusSchema
                     {
                         Error = new AdrBaseService.ConfigError
                         {
@@ -530,13 +531,13 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                     },
                     Endpoints = new AdrBaseService.DeviceEndpointSchema
                     {
-                        Inbound = new Dictionary<string, AdrBaseService.DeviceInboundEndpointSchemaMapValueSchema>
+                        Inbound = new Dictionary<string, AdrBaseService.InboundSchemaMapValueSchema>
                         {
                             ["mqtt-endpoint"] = new()
                             {
                                 Address = "mqtt://device:1883",
                                 Version = "1.0",
-                                Type = "mqtt",
+                                EndpointType = "mqtt",
                                 AdditionalConfiguration = "mqtt-config-value",
                                 Authentication = new AdrBaseService.AuthenticationSchema
                                 {
@@ -548,7 +549,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                                 },
                                 TrustSettings = new AdrBaseService.TrustSettingsSchema
                                 {
-                                    TrustMode = "trust-mode-value",
                                     IssuerList = "issuer1",
                                     TrustList = "trust1"
                                 }
@@ -557,7 +557,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                             {
                                 Address = "http://device:8080",
                                 Version = "2.0",
-                                Type = "http",
+                                EndpointType = "http",
                                 Authentication = new AdrBaseService.AuthenticationSchema
                                 {
                                     Method = AdrBaseService.MethodSchema.UsernamePassword,
@@ -659,7 +659,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             var mqttEndpoint = result.Specification.Endpoints.Inbound["mqtt-endpoint"];
             Assert.Equal("mqtt://device:1883", mqttEndpoint.Address);
             Assert.Equal("1.0", mqttEndpoint.Version);
-            Assert.Equal("mqtt", mqttEndpoint.Type);
+            Assert.Equal("mqtt", mqttEndpoint.EndpointType);
             Assert.NotNull(mqttEndpoint.AdditionalConfiguration);
             Assert.Equal("mqtt-config-value", mqttEndpoint.AdditionalConfiguration);
 
@@ -671,7 +671,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
             // Verify MQTT endpoint trust settings
             Assert.NotNull(mqttEndpoint.TrustSettings);
-            Assert.Equal("trust-mode-value", mqttEndpoint.TrustSettings.TrustMode);
             Assert.NotNull(mqttEndpoint.TrustSettings.IssuerList);
             Assert.Equal("issuer1", mqttEndpoint.TrustSettings.IssuerList);
             Assert.NotNull(mqttEndpoint.TrustSettings.TrustList);
@@ -682,7 +681,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             var httpEndpoint = result.Specification.Endpoints.Inbound["http-endpoint"];
             Assert.Equal("http://device:8080", httpEndpoint.Address);
             Assert.Equal("2.0", httpEndpoint.Version);
-            Assert.Equal("http", httpEndpoint.Type);
+            Assert.Equal("http", httpEndpoint.EndpointType);
 
             // Verify HTTP endpoint authentication
             Assert.NotNull(httpEndpoint.Authentication);
