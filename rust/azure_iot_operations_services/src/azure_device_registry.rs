@@ -315,7 +315,7 @@ impl From<adr_name_gen::AuthenticationSchema> for Authentication {
                 Authentication::Certificate {
                     certificate_secret_name: match value.x509credentials {
                         Some(x509credentials) => x509credentials.certificate_secret_name,
-                        None => "".to_string(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
+                        None => String::new(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
                     },
                 }
             }
@@ -327,8 +327,8 @@ impl From<adr_name_gen::AuthenticationSchema> for Authentication {
                     },
                     None => {
                         Authentication::UsernamePassword {
-                            password_secret_name: "".to_string(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
-                            username_secret_name: "".to_string(),
+                            password_secret_name: String::new(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
+                            username_secret_name: String::new(),
                         }
                     }
                 }
@@ -362,7 +362,7 @@ impl From<DeviceStatus> for adr_name_gen::DeviceStatus {
                             (
                                 k,
                                 adr_name_gen::DeviceStatusInboundEndpointSchemaMapValueSchema {
-                                    error: v.map(|e| e.into()),
+                                    error: v.map(ConfigError::into),
                                 },
                             )
                         })
@@ -383,7 +383,7 @@ impl From<adr_name_gen::DeviceStatus> for DeviceStatus {
             Some(endpoint_status) => match endpoint_status.inbound {
                 Some(inbound_endpoints) => inbound_endpoints
                     .into_iter()
-                    .map(|(k, v)| (k, v.error.map(|e| ConfigError::from(e))))
+                    .map(|(k, v)| (k, v.error.map(ConfigError::from)))
                     .collect(),
                 None => HashMap::new(),
             },
