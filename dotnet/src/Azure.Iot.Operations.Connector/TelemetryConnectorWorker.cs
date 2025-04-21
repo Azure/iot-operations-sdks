@@ -70,7 +70,7 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            string candidateName = Guid.NewGuid().ToString();
+            string candidateName = Guid.NewGuid().ToString(); //TODO configurable?
 
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
@@ -85,6 +85,8 @@ namespace Azure.Iot.Operations.Connector
                 bool isLeader = true;
                 using CancellationTokenSource leadershipPositionRevokedOrUserCancelledCancellationToken
                     = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+                CancellationToken linkedToken = leadershipPositionRevokedOrUserCancelledCancellationToken.Token;
 
                 if (_leaderElectionConfiguration != null)
                 {
@@ -142,7 +144,10 @@ namespace Azure.Iot.Operations.Connector
                         }
                         else
                         {
-                            _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName);
+                            _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
+                            {
+                                Device = args.Device
+                            };
                             _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
                         }
                     }
@@ -171,10 +176,10 @@ namespace Azure.Iot.Operations.Connector
 
                         if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
                         {
-                            deviceContext.Assets.Add(args.AssetName, args.Asset);
+                            deviceContext.Assets.TryAdd(args.AssetName, args.Asset);
                         }
 
-                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
                         _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
@@ -382,9 +387,8 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, CancellationToken cancellationToken = default)
         {
-
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
-            _devices[compoundDeviceName].Assets.Add(assetName, asset);
+
             Device? device = _devices[compoundDeviceName].Device;
 
             if (device == null)
