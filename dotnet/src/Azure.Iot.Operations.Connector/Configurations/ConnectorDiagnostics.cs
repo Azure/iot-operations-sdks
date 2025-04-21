@@ -3,11 +3,11 @@
 
 using System.Text.Json.Serialization;
 
-namespace Azure.Iot.Operations.Connector
+namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
     public class ConnectorDiagnostics
     {
         [JsonPropertyName("logs")]
-        public required AioDiagnosticsLogs Logs { get; set; }
+        public required ConnectorDiagnosticsLogs Logs { get; set; }
     }
 }

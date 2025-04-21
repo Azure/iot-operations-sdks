@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Protocol;
 using EventDrivenTcpThermostatConnector;
 
-string connectorClientId = Environment.GetEnvironmentVariable(ConnectorMqttConnectionSettings.ConnectorClientIdEnvVar) ?? throw new InvalidOperationException("Missing connector client id environment variable");
+string connectorClientId = Environment.GetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar) ?? throw new InvalidOperationException("Missing connector client id environment variable");
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

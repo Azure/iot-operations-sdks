@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
-    internal class MqttConnectionConfigurationServiceAccountTokenSettings
+    public class MqttConnectionConfigurationTls
     {
-        [JsonPropertyName("audience")]
-        public required string Audience { get; set; }
+        [JsonPropertyName("mode")]
+        public required string Mode { get; set; }
     }
 }

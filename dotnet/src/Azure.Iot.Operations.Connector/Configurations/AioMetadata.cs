@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
-    internal class AioMetadata
+    public class AioMetadata
     {
         [JsonPropertyName("aioMinVersion")]
         public required string AioMinVersion { get; set; }

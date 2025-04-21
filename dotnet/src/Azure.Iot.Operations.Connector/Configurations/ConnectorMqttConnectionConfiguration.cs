@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
-    internal class MqttConnectionConfiguration
+    public class ConnectorMqttConnectionConfiguration
     {
         [JsonPropertyName("host")]
         public required string Host { get; set; }
@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         public int? SessionExpirySeconds { get; set; }
 
         [JsonPropertyName("authentication")]
-        public MqttConnectionConfigurationAuthentication? Authentication { get; set; }
+        public ConnectorMqttConnectionAuthenticationConfiguration? Authentication { get; set; }
 
         [JsonPropertyName("tls")]
         public MqttConnectionConfigurationTls? Tls { get; set; }

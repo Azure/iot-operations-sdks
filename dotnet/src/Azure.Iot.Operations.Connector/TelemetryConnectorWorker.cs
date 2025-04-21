@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
@@ -72,7 +73,7 @@ namespace Azure.Iot.Operations.Connector
             string candidateName = Guid.NewGuid().ToString();
 
             // Create MQTT client from credentials provided by the operator
-            MqttConnectionSettings mqttConnectionSettings = ConnectorMqttConnectionSettings.FromFileMount();
+            MqttConnectionSettings mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
             _logger.LogInformation("Connecting to MQTT broker with hostname {hostname} and port {port}", mqttConnectionSettings.HostName, mqttConnectionSettings.TcpPort);
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);

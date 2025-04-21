@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 {
-    internal class ConnectorDiagnosticsLogs
+    public class ConnectorDiagnosticsLogs
     {
         [JsonPropertyName("level")]
         public required string Level { get; set; }
