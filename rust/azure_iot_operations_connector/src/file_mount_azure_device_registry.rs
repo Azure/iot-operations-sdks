@@ -195,7 +195,6 @@ impl DeviceEndpointCreateObservation {
 /// about deleted device endpoints.
 pub struct DeviceEndpointDeleteObservation {
     /// The internal channel for receiving notifications for an device deletion event.
-    #[allow(dead_code)]
     receiver: oneshot::Receiver<DeviceEndpointRef>,
 }
 
@@ -223,7 +222,6 @@ pub struct DeviceEndpointRef {
 /// about newly created assets.
 pub struct AssetCreateObservation {
     /// The internal channel for receiving notifications for an asset creation event.
-    #[allow(dead_code)]
     receiver: UnboundedReceiver<AssetRef>,
 }
 
@@ -243,8 +241,17 @@ impl AssetCreateObservation {
 /// about deleted assets.
 pub struct AssetDeleteObservation {
     /// The internal channel for receiving notifications for an asset deletion event.
-    #[allow(dead_code)]
     receiver: oneshot::Receiver<AssetRef>,
+}
+
+impl AssetDeleteObservation {
+    /// Receives a notification for a deleted asset.
+    ///
+    /// # Returns
+    /// An `Option` containing an `AssetRef` if a notification is received, or `None` if the channel is closed.
+    pub async fn recv_notification(self) -> Option<AssetRef> {
+        self.receiver.await.ok()
+    }
 }
 
 /// Represents an asset associated with a specific device and endpoint.
