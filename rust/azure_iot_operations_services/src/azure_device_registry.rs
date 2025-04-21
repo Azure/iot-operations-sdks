@@ -460,6 +460,7 @@ pub struct Asset {
 
 #[derive(Clone, Debug)]
 pub struct AssetSpecification {
+    pub asset_type_refs: Option<Vec<String>>,
     pub attributes: Option<HashMap<String, String>>,
     pub datasets: Option<Vec<AssetDataset>>,
     pub default_datasets_configuration: Option<String>,
@@ -548,12 +549,12 @@ pub struct AssetManagementGroup {
 
 #[derive(Clone, Debug)]
 pub struct AssetManagementGroupAction {
-    pub management_action_configuration: Option<String>,
+    pub action_configuration: Option<String>,
+    pub action_type: AssetManagementGroupActionType,
     pub name: String,
     pub target_uri: String,
     pub time_out_in_seconds: Option<u32>,
     pub topic: Option<String>,
-    pub r#type: AssetManagementGroupActionType,
     pub type_ref: Option<String>,
 }
 
@@ -582,7 +583,7 @@ pub struct AssetEventDataPoint {
 pub struct DestinationConfiguration {
     pub key: Option<String>,
     pub path: Option<String>,
-    pub qos: Option<QoS>,
+    pub qos: Option<Qos>,
     pub retain: Option<Retain>,
     pub topic: Option<String>,
     pub ttl: Option<u64>,
@@ -601,6 +602,7 @@ impl From<Asset> for adr_name_gen::Asset {
 impl From<AssetSpecification> for adr_name_gen::AssetSpecificationSchema {
     fn from(value: AssetSpecification) -> Self {
         adr_name_gen::AssetSpecificationSchema {
+            asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
             datasets: option_vec_from(value.datasets, AssetDataset::into),
             default_datasets_configuration: value.default_datasets_configuration,
@@ -753,12 +755,12 @@ impl From<AssetManagementGroupAction>
 {
     fn from(value: AssetManagementGroupAction) -> Self {
         adr_name_gen::AssetManagementGroupActionSchemaElementSchema {
-            management_action_configuration: value.management_action_configuration,
+            action_configuration: value.action_configuration,
+            action_type: value.action_type.into(),
             name: value.name,
             target_uri: value.target_uri,
             time_out_in_seconds: value.time_out_in_seconds,
             topic: value.topic,
-            r#type: value.r#type.into(),
             type_ref: value.type_ref,
         }
     }
@@ -812,7 +814,7 @@ impl From<DestinationConfiguration> for adr_name_gen::DestinationConfiguration {
         adr_name_gen::DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(QoS::into),
+            qos: value.qos.map(Qos::into),
             retain: value.retain.map(Retain::into),
             topic: value.topic,
             ttl: value.ttl,
@@ -1051,12 +1053,12 @@ impl From<DetectedAssetDataPoint> for adr_name_gen::DetectedAssetDataPointSchema
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 #[derive(Clone, Debug)]
 pub enum EventStreamTarget {
-    BrokerStateStore,
+    Mqtt,
     Storage,
 }
 
 #[derive(Clone, Debug)]
-pub enum QoS {
+pub enum Qos {
     Qos0,
     Qos1,
 }
@@ -1084,17 +1086,17 @@ pub enum AssetManagementGroupActionType {
 impl From<EventStreamTarget> for adr_name_gen::EventStreamTarget {
     fn from(value: EventStreamTarget) -> Self {
         match value {
-            EventStreamTarget::BrokerStateStore => Self::BrokerStateStore,
+            EventStreamTarget::Mqtt => Self::Mqtt,
             EventStreamTarget::Storage => Self::Storage,
         }
     }
 }
 
-impl From<QoS> for adr_name_gen::QoS {
-    fn from(value: QoS) -> Self {
+impl From<Qos> for adr_name_gen::Qos {
+    fn from(value: Qos) -> Self {
         match value {
-            QoS::Qos0 => Self::Qos0,
-            QoS::Qos1 => Self::Qos1,
+            Qos::Qos0 => Self::Qos0,
+            Qos::Qos1 => Self::Qos1,
         }
     }
 }
@@ -1217,6 +1219,7 @@ impl From<adr_name_gen::AssetConfigStatusSchema> for Config {
 impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
     fn from(value: adr_name_gen::AssetSpecificationSchema) -> Self {
         AssetSpecification {
+            asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
             datasets: option_vec_from(value.datasets, AssetDataset::from),
             default_datasets_configuration: value.default_datasets_configuration,
@@ -1390,12 +1393,12 @@ impl From<adr_name_gen::AssetManagementGroupActionSchemaElementSchema>
 {
     fn from(value: adr_name_gen::AssetManagementGroupActionSchemaElementSchema) -> Self {
         AssetManagementGroupAction {
-            management_action_configuration: value.management_action_configuration,
+            action_configuration: value.action_configuration,
+            action_type: value.action_type.into(),
             name: value.name,
             target_uri: value.target_uri,
             time_out_in_seconds: value.time_out_in_seconds,
             topic: value.topic,
-            r#type: value.r#type.into(),
             type_ref: value.type_ref,
         }
     }
@@ -1443,7 +1446,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
         DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(QoS::from),
+            qos: value.qos.map(Qos::from),
             retain: value.retain.map(Retain::from),
             topic: value.topic,
             ttl: value.ttl,
@@ -1454,9 +1457,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
 impl From<adr_name_gen::EventStreamTarget> for EventStreamTarget {
     fn from(value: adr_name_gen::EventStreamTarget) -> Self {
         match value {
-            adr_name_gen::EventStreamTarget::BrokerStateStore => {
-                EventStreamTarget::BrokerStateStore
-            }
+            adr_name_gen::EventStreamTarget::Mqtt => EventStreamTarget::Mqtt,
             adr_name_gen::EventStreamTarget::Storage => EventStreamTarget::Storage,
         }
     }
@@ -1472,11 +1473,11 @@ impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
     }
 }
 
-impl From<adr_name_gen::QoS> for QoS {
-    fn from(value: adr_name_gen::QoS) -> Self {
+impl From<adr_name_gen::Qos> for Qos {
+    fn from(value: adr_name_gen::Qos) -> Self {
         match value {
-            adr_name_gen::QoS::Qos0 => QoS::Qos0,
-            adr_name_gen::QoS::Qos1 => QoS::Qos1,
+            adr_name_gen::Qos::Qos0 => Qos::Qos0,
+            adr_name_gen::Qos::Qos1 => Qos::Qos1,
         }
     }
 }
