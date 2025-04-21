@@ -92,6 +92,40 @@ pub struct ConfigError {
     pub message: Option<String>,
 }
 
+#[derive(Clone, Debug)]
+/// Represents the details of an error.
+pub struct Details {
+    /// The multi part error code for root cause analysis.
+    pub code: Option<String>,
+    /// The correlation ID of the details.
+    pub correlation_id: Option<String>,
+    /// Any helpful information associated with the details.
+    pub info: Option<String>,
+    /// The error message of the details.
+    pub message: Option<String>,
+}
+
+// ~~ From impls ~~
+impl From<StatusConfig> for adr_name_gen::DeviceStatusConfigSchema {
+    fn from(value: StatusConfig) -> Self {
+        adr_name_gen::DeviceStatusConfigSchema {
+            version: value.version,
+            error: value.error.map(ConfigError::into),
+            last_transition_time: value.last_transition_time,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceStatusConfigSchema> for StatusConfig {
+    fn from(value: adr_name_gen::DeviceStatusConfigSchema) -> Self {
+        StatusConfig {
+            version: value.version,
+            error: value.error.map(adr_name_gen::ConfigError::into),
+            last_transition_time: value.last_transition_time,
+        }
+    }
+}
+
 impl From<ConfigError> for adr_name_gen::ConfigError {
     fn from(value: ConfigError) -> Self {
         adr_name_gen::ConfigError {
@@ -126,19 +160,6 @@ impl From<adr_name_gen::ConfigError> for ConfigError {
     }
 }
 
-#[derive(Clone, Debug)]
-/// Represents the details of an error.
-pub struct Details {
-    /// The multi part error code for root cause analysis.
-    pub code: Option<String>,
-    /// The correlation ID of the details.
-    pub correlation_id: Option<String>,
-    /// Any helpful information associated with the details.
-    pub info: Option<String>,
-    /// The error message of the details.
-    pub message: Option<String>,
-}
-
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
 /// Represents a Device in the Azure Device Registry service.
@@ -161,7 +182,7 @@ pub struct DeviceSpecification {
     /// The 'enabled' Field.
     pub enabled: Option<bool>,
     /// The 'endpoints' Field.
-    pub inbound_endpoints: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub endpoints: DeviceEndpoints,
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
@@ -180,6 +201,21 @@ pub struct DeviceSpecification {
     pub version: Option<u64>,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct DeviceEndpoints {
+    pub inbound: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub outbound_assigned: HashMap<String, OutboundEndpoint>,
+    pub outbound_unassigned: HashMap<String, OutboundEndpoint>,
+}
+
+#[derive(Debug, Clone)]
+pub struct OutboundEndpoint {
+    /// The 'address' Field.
+    pub address: String,
+    /// The 'endpointType' Field.
+    pub endpoint_type: Option<String>,
+}
+
 #[derive(Debug, Clone)]
 pub struct InboundEndpoint {
     /// The 'additionalConfiguration' Field.
@@ -188,10 +224,10 @@ pub struct InboundEndpoint {
     pub address: String,
     /// The 'authentication' Field.
     pub authentication: Authentication,
+    /// The 'endpointType' Field.
+    pub endpoint_type: String,
     /// The 'trustSettings' Field.
     pub trust_settings: Option<TrustSettings>,
-    /// The 'type' Field.
-    pub r#type: String,
     /// The 'version' Field.
     pub version: Option<String>,
 }
@@ -202,12 +238,11 @@ pub struct TrustSettings {
     pub issuer_list: Option<String>,
     /// The 'trustList' Field.
     pub trust_list: Option<String>,
-    /// The 'trustMode' Field.
-    pub trust_mode: String,
 }
 
-#[derive(Debug, Clone)] // default Anonymous
+#[derive(Debug, Clone, Default)]
 pub enum Authentication {
+    #[default]
     Anonymous,
     Certificate {
         /// The 'certificateSecretName' Field.
@@ -220,6 +255,138 @@ pub enum Authentication {
         username_secret_name: String,
     },
 }
+// ~~ From impls ~~
+impl From<adr_name_gen::Device> for Device {
+    fn from(value: adr_name_gen::Device) -> Self {
+        Device {
+            name: value.name,
+            specification: value.specification.into(),
+            status: value.status.map(DeviceStatus::from),
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceSpecificationSchema> for DeviceSpecification {
+    fn from(value: adr_name_gen::DeviceSpecificationSchema) -> Self {
+        DeviceSpecification {
+            attributes: value.attributes.unwrap_or_default(),
+            discovered_device_ref: value.discovered_device_ref,
+            enabled: value.enabled,
+            endpoints: value
+                .endpoints
+                .map(DeviceEndpoints::from)
+                .unwrap_or_default(),
+            external_device_id: value.external_device_id,
+            last_transition_time: value.last_transition_time,
+            manufacturer: value.manufacturer,
+            model: value.model,
+            operating_system: value.operating_system,
+            operating_system_version: value.operating_system_version,
+            uuid: value.uuid,
+            version: value.version,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceEndpointSchema> for DeviceEndpoints {
+    fn from(value: adr_name_gen::DeviceEndpointSchema) -> Self {
+        let inbound = match value.inbound {
+            Some(inbound_endpoints) => inbound_endpoints
+                .into_iter()
+                .map(|(k, v)| (k, v.into()))
+                .collect(),
+            None => HashMap::new(),
+        };
+        let outbound_assigned;
+        let outbound_unassigned;
+        if let Some(outbound) = value.outbound {
+            outbound_assigned = outbound
+                .assigned
+                .into_iter()
+                .map(|(k, v)| (k, OutboundEndpoint::from(v)))
+                .collect();
+            outbound_unassigned = match outbound.unassigned {
+                Some(unassigned) => unassigned
+                    .into_iter()
+                    .map(|(k, v)| (k, OutboundEndpoint::from(v)))
+                    .collect(),
+                None => HashMap::new(),
+            };
+        } else {
+            outbound_assigned = HashMap::new();
+            outbound_unassigned = HashMap::new();
+        }
+        DeviceEndpoints {
+            inbound,
+            outbound_assigned,
+            outbound_unassigned,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
+    fn from(value: adr_name_gen::DeviceOutboundEndpoint) -> Self {
+        OutboundEndpoint {
+            address: value.address,
+            endpoint_type: value.endpoint_type,
+        }
+    }
+}
+
+impl From<adr_name_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
+    fn from(value: adr_name_gen::InboundSchemaMapValueSchema) -> Self {
+        InboundEndpoint {
+            additional_configuration: value.additional_configuration,
+            address: value.address,
+            authentication: value
+                .authentication
+                .map(Authentication::from)
+                .unwrap_or_default(),
+            trust_settings: value.trust_settings.map(TrustSettings::from),
+            endpoint_type: value.endpoint_type,
+            version: value.version,
+        }
+    }
+}
+
+impl From<adr_name_gen::TrustSettingsSchema> for TrustSettings {
+    fn from(value: adr_name_gen::TrustSettingsSchema) -> Self {
+        TrustSettings {
+            issuer_list: value.issuer_list,
+            trust_list: value.trust_list,
+        }
+    }
+}
+
+impl From<adr_name_gen::AuthenticationSchema> for Authentication {
+    fn from(value: adr_name_gen::AuthenticationSchema) -> Self {
+        match value.method {
+            adr_name_gen::MethodSchema::Anonymous => Authentication::Anonymous,
+            adr_name_gen::MethodSchema::Certificate => {
+                Authentication::Certificate {
+                    certificate_secret_name: match value.x509credentials {
+                        Some(x509credentials) => x509credentials.certificate_secret_name,
+                        None => String::new(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
+                    },
+                }
+            }
+            adr_name_gen::MethodSchema::UsernamePassword => {
+                match value.username_password_credentials {
+                    Some(username_password_credentials) => Authentication::UsernamePassword {
+                        password_secret_name: username_password_credentials.password_secret_name,
+                        username_secret_name: username_password_credentials.username_secret_name,
+                    },
+                    None => {
+                        Authentication::UsernamePassword {
+                            password_secret_name: String::new(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
+                            username_secret_name: String::new(),
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint Status DTDL Equivalent Structs~~~~
 #[derive(Clone, Debug, Default)]
@@ -229,6 +396,57 @@ pub struct DeviceStatus {
     pub config: Option<StatusConfig>,
     /// The 'endpoints' Field.
     pub endpoints: HashMap<String, Option<ConfigError>>,
+}
+
+// ~~ From impls ~~
+impl From<DeviceStatus> for adr_name_gen::DeviceStatus {
+    fn from(value: DeviceStatus) -> Self {
+        let endpoints = if value.endpoints.is_empty() {
+            None
+        } else {
+            Some(adr_name_gen::DeviceStatusEndpointSchema {
+                inbound: Some(
+                    value
+                        .endpoints
+                        .into_iter()
+                        .map(|(k, v)| {
+                            (
+                                k,
+                                adr_name_gen::DeviceStatusInboundEndpointSchemaMapValueSchema {
+                                    error: v.map(ConfigError::into),
+                                },
+                            )
+                        })
+                        .collect(),
+                ),
+            })
+        };
+        adr_name_gen::DeviceStatus {
+            config: value.config.map(StatusConfig::into),
+            endpoints,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceStatus> for DeviceStatus {
+    fn from(value: adr_name_gen::DeviceStatus) -> Self {
+        let endpoints = match value.endpoints {
+            Some(endpoint_status) => match endpoint_status.inbound {
+                Some(inbound_endpoints) => inbound_endpoints
+                    .into_iter()
+                    .map(|(k, v)| (k, v.error.map(ConfigError::from)))
+                    .collect(),
+                None => HashMap::new(),
+            },
+            None => HashMap::new(),
+        };
+        DeviceStatus {
+            config: value
+                .config
+                .map(adr_name_gen::DeviceStatusConfigSchema::into),
+            endpoints,
+        }
+    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
@@ -242,6 +460,7 @@ pub struct Asset {
 
 #[derive(Clone, Debug)]
 pub struct AssetSpecification {
+    pub asset_type_refs: Option<Vec<String>>,
     pub attributes: Option<HashMap<String, String>>,
     pub datasets: Option<Vec<AssetDataset>>,
     pub default_datasets_configuration: Option<String>,
@@ -330,12 +549,12 @@ pub struct AssetManagementGroup {
 
 #[derive(Clone, Debug)]
 pub struct AssetManagementGroupAction {
-    pub management_action_configuration: Option<String>,
+    pub action_configuration: Option<String>,
+    pub action_type: AssetManagementGroupActionType,
     pub name: String,
     pub target_uri: String,
     pub time_out_in_seconds: Option<u32>,
     pub topic: Option<String>,
-    pub r#type: AssetManagementGroupActionType,
     pub type_ref: Option<String>,
 }
 
@@ -364,7 +583,7 @@ pub struct AssetEventDataPoint {
 pub struct DestinationConfiguration {
     pub key: Option<String>,
     pub path: Option<String>,
-    pub qos: Option<QoS>,
+    pub qos: Option<Qos>,
     pub retain: Option<Retain>,
     pub topic: Option<String>,
     pub ttl: Option<u64>,
@@ -383,6 +602,7 @@ impl From<Asset> for adr_name_gen::Asset {
 impl From<AssetSpecification> for adr_name_gen::AssetSpecificationSchema {
     fn from(value: AssetSpecification) -> Self {
         adr_name_gen::AssetSpecificationSchema {
+            asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
             datasets: option_vec_from(value.datasets, AssetDataset::into),
             default_datasets_configuration: value.default_datasets_configuration,
@@ -535,12 +755,12 @@ impl From<AssetManagementGroupAction>
 {
     fn from(value: AssetManagementGroupAction) -> Self {
         adr_name_gen::AssetManagementGroupActionSchemaElementSchema {
-            management_action_configuration: value.management_action_configuration,
+            action_configuration: value.action_configuration,
+            action_type: value.action_type.into(),
             name: value.name,
             target_uri: value.target_uri,
             time_out_in_seconds: value.time_out_in_seconds,
             topic: value.topic,
-            r#type: value.r#type.into(),
             type_ref: value.type_ref,
         }
     }
@@ -594,7 +814,7 @@ impl From<DestinationConfiguration> for adr_name_gen::DestinationConfiguration {
         adr_name_gen::DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(QoS::into),
+            qos: value.qos.map(Qos::into),
             retain: value.retain.map(Retain::into),
             topic: value.topic,
             ttl: value.ttl,
@@ -833,12 +1053,12 @@ impl From<DetectedAssetDataPoint> for adr_name_gen::DetectedAssetDataPointSchema
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 #[derive(Clone, Debug)]
 pub enum EventStreamTarget {
-    BrokerStateStore,
+    Mqtt,
     Storage,
 }
 
 #[derive(Clone, Debug)]
-pub enum QoS {
+pub enum Qos {
     Qos0,
     Qos1,
 }
@@ -866,17 +1086,17 @@ pub enum AssetManagementGroupActionType {
 impl From<EventStreamTarget> for adr_name_gen::EventStreamTarget {
     fn from(value: EventStreamTarget) -> Self {
         match value {
-            EventStreamTarget::BrokerStateStore => Self::BrokerStateStore,
+            EventStreamTarget::Mqtt => Self::Mqtt,
             EventStreamTarget::Storage => Self::Storage,
         }
     }
 }
 
-impl From<QoS> for adr_name_gen::QoS {
-    fn from(value: QoS) -> Self {
+impl From<Qos> for adr_name_gen::Qos {
+    fn from(value: Qos) -> Self {
         match value {
-            QoS::Qos0 => Self::Qos0,
-            QoS::Qos1 => Self::Qos1,
+            Qos::Qos0 => Self::Qos0,
+            Qos::Qos1 => Self::Qos1,
         }
     }
 }
@@ -999,6 +1219,7 @@ impl From<adr_name_gen::AssetConfigStatusSchema> for Config {
 impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
     fn from(value: adr_name_gen::AssetSpecificationSchema) -> Self {
         AssetSpecification {
+            asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
             datasets: option_vec_from(value.datasets, AssetDataset::from),
             default_datasets_configuration: value.default_datasets_configuration,
@@ -1172,12 +1393,12 @@ impl From<adr_name_gen::AssetManagementGroupActionSchemaElementSchema>
 {
     fn from(value: adr_name_gen::AssetManagementGroupActionSchemaElementSchema) -> Self {
         AssetManagementGroupAction {
-            management_action_configuration: value.management_action_configuration,
+            action_configuration: value.action_configuration,
+            action_type: value.action_type.into(),
             name: value.name,
             target_uri: value.target_uri,
             time_out_in_seconds: value.time_out_in_seconds,
             topic: value.topic,
-            r#type: value.r#type.into(),
             type_ref: value.type_ref,
         }
     }
@@ -1225,7 +1446,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
         DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(QoS::from),
+            qos: value.qos.map(Qos::from),
             retain: value.retain.map(Retain::from),
             topic: value.topic,
             ttl: value.ttl,
@@ -1236,9 +1457,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
 impl From<adr_name_gen::EventStreamTarget> for EventStreamTarget {
     fn from(value: adr_name_gen::EventStreamTarget) -> Self {
         match value {
-            adr_name_gen::EventStreamTarget::BrokerStateStore => {
-                EventStreamTarget::BrokerStateStore
-            }
+            adr_name_gen::EventStreamTarget::Mqtt => EventStreamTarget::Mqtt,
             adr_name_gen::EventStreamTarget::Storage => EventStreamTarget::Storage,
         }
     }
@@ -1254,11 +1473,11 @@ impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
     }
 }
 
-impl From<adr_name_gen::QoS> for QoS {
-    fn from(value: adr_name_gen::QoS) -> Self {
+impl From<adr_name_gen::Qos> for Qos {
+    fn from(value: adr_name_gen::Qos) -> Self {
         match value {
-            adr_name_gen::QoS::Qos0 => QoS::Qos0,
-            adr_name_gen::QoS::Qos1 => QoS::Qos1,
+            adr_name_gen::Qos::Qos0 => Qos::Qos0,
+            adr_name_gen::Qos::Qos1 => Qos::Qos1,
         }
     }
 }

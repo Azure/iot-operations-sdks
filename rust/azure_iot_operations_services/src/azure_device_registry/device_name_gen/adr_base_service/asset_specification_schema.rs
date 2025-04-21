@@ -21,6 +21,12 @@ use super::device_ref_schema::DeviceRefSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetSpecificationSchema {
+    /// The 'assetTypeRefs' Field.
+    #[serde(rename = "assetTypeRefs")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub asset_type_refs: Option<Vec<String>>,
+
     /// The 'attributes' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

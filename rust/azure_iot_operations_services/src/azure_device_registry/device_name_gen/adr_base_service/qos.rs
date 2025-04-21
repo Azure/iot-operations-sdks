@@ -3,9 +3,9 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub enum EventStreamTarget {
-    #[serde(rename = "Mqtt")]
-    Mqtt,
-    #[serde(rename = "Storage")]
-    Storage,
+pub enum Qos {
+    #[serde(rename = "Qos0")]
+    Qos0,
+    #[serde(rename = "Qos1")]
+    Qos1,
 }
