@@ -20,9 +20,9 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// Base class for a connector worker that allows users to forward data samplied from datasets and forwarding of received events.
     /// </summary>
-    public class TelemetryConnectorWorker : ConnectorBackgroundService
+    public class ConnectorWorker : ConnectorBackgroundService
     {
-        protected readonly ILogger<TelemetryConnectorWorker> _logger;
+        protected readonly ILogger<ConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
         private readonly ApplicationContext _applicationContext;
         protected readonly IAdrClientWrapper _assetMonitor;
@@ -43,9 +43,9 @@ namespace Azure.Iot.Operations.Connector
 
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all devices? Or will some connectors have a subset of devices?
 
-        public TelemetryConnectorWorker(
+        public ConnectorWorker(
             ApplicationContext applicationContext,
-            ILogger<TelemetryConnectorWorker> logger,
+            ILogger<ConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
             IAdrClientWrapper assetMonitor,
@@ -154,11 +154,41 @@ namespace Azure.Iot.Operations.Connector
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
-                        _devices.Remove(compoundDeviceName, out var _);
+
+                        if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
+                        {
+                            foreach (string assetName in deviceContext.Assets.Keys)
+                            {
+                                AssetUnavailable(args.DeviceName, args.InboundEndpointName, assetName, false);
+                            }
+                        }
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
-                        //TODO?
+                        //TODO factor out? Its just the deleted->created snippets above
+                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+
+                        if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
+                        {
+                            foreach (string assetName in deviceContext.Assets.Keys)
+                            {
+                                AssetUnavailable(args.DeviceName, args.InboundEndpointName, assetName, false);
+                            }
+                        }
+
+                        if (args.Device == null)
+                        {
+                            // shouldn't ever happen
+                            _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
+                        }
+                        else
+                        {
+                            _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
+                            {
+                                Device = args.Device
+                            };
+                            _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                        }
                     }
                 };
 
@@ -197,7 +227,7 @@ namespace Azure.Iot.Operations.Connector
                         }
 
                         AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
-                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
                     }
                 };
 
@@ -205,7 +235,7 @@ namespace Azure.Iot.Operations.Connector
 
                 try
                 {
-                    await Task.Delay(TimeSpan.MaxValue, leadershipPositionRevokedOrUserCancelledCancellationToken.Token);
+                    await Task.Delay(TimeSpan.MaxValue, linkedToken);
                 }
                 catch (OperationCanceledException)
                 {
@@ -217,7 +247,7 @@ namespace Azure.Iot.Operations.Connector
                         await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
                         await _mqttClient.DisconnectAsync(null, CancellationToken.None);
                     }
-                    else if (leadershipPositionRevokedOrUserCancelledCancellationToken.Token.IsCancellationRequested)
+                    else if (linkedToken.IsCancellationRequested)
                     {
                         _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
                         // Don't propagate the user-provided cancellation token since 
@@ -477,7 +507,6 @@ namespace Azure.Iot.Operations.Connector
         private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
-            _devices[compoundDeviceName].Assets.Remove(assetName);
 
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isUpdating)

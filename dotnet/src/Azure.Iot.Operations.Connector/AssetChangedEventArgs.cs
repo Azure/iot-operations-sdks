@@ -32,10 +32,10 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public Asset? Asset { get; set; }
 
-        internal AssetChangedEventArgs(string deviceName, string inboundDeviceEndpointName, string assetName, ChangeType changeType, Asset? asset)
+        internal AssetChangedEventArgs(string deviceName, string inboundEndpointName, string assetName, ChangeType changeType, Asset? asset)
         {
             DeviceName = deviceName;
-            InboundEndpointName = inboundDeviceEndpointName;
+            InboundEndpointName = inboundEndpointName;
             AssetName = assetName;
             ChangeType = changeType;
             Asset = asset;

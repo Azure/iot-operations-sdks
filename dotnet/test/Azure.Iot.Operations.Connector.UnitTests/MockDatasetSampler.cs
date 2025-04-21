@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(TimeSpan.FromSeconds(1));
+            return Task.FromResult(TimeSpan.FromMilliseconds(10));
         }
 
         public Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)

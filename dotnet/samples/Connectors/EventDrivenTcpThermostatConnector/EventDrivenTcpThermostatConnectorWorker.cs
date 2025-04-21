@@ -11,10 +11,10 @@ namespace EventDrivenTcpThermostatConnector
     public class EventDrivenTcpThermostatConnectorWorker : BackgroundService, IDisposable
     {
         private readonly ILogger<EventDrivenTcpThermostatConnectorWorker> _logger;
-        private readonly TelemetryConnectorWorker _connector;
+        private readonly ConnectorWorker _connector;
         private CancellationTokenSource? _tcpConnectionCancellationToken;
 
-        public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<TelemetryConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
+        public EventDrivenTcpThermostatConnectorWorker(ApplicationContext applicationContext, ILogger<EventDrivenTcpThermostatConnectorWorker> logger, ILogger<ConnectorWorker> connectorLogger, IMqttClient mqttClient, IMessageSchemaProvider datasetSamplerFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider leaderElectionConfigurationProvider)
         {
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, datasetSamplerFactory, assetMonitor, leaderElectionConfigurationProvider);

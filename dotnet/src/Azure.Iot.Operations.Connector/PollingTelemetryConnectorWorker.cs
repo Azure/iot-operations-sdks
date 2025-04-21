@@ -8,12 +8,12 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class PollingTelemetryConnectorWorker : TelemetryConnectorWorker
+    public class PollingTelemetryConnectorWorker : ConnectorWorker
     {
         private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
-        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<TelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor, leaderElectionConfigurationProvider)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapper assetMonitor, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor, leaderElectionConfigurationProvider)
         {
             base.OnAssetAvailable += OnAssetSampleableAsync;
             base.OnAssetUnavailable += OnAssetNotSampleableAsync;
