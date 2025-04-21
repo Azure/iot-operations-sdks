@@ -44,4 +44,4 @@ When installing Azure IoT Operations on WSL, the installation fails.
 
 A features is missing from the current WSL kernel (v5.15) that is needed for Azure IoT Operations to install. We are working with the WSL team on an upcoming update to kernel v6.6 which will resolve this issue.
 
-As a workaround, we recommend deploying Azure IoT Operations directly on Linux, or installing a previous WSL package that contains the v6.6 kernel as outlined in the [setup instructions](/doc/setup.md).
+As a workaround, we recommend deploying Azure IoT Operations directly on Linux, or installing a pre-release WSL package that contains the v6.6 kernel as outlined in the [setup instructions](/doc/setup.md).
