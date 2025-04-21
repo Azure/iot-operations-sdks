@@ -5,15 +5,22 @@
 //!
 //! To use this client, the `azure_device_registry` feature must be enabled.
 
+use azure_iot_operations_protocol::rpc_command;
 use derive_builder::Builder;
+use std::collections::HashMap;
+use std::sync::Arc;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
-// use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-use super::{Device, DeviceStatus, DeviceUpdateObservation, Error};
-use crate::azure_device_registry::{Asset, AssetStatus, AssetUpdateObservation};
+use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use crate::azure_device_registry::device_name_gen::common_types::options::CommandInvokerOptionsBuilder;
+
+use super::{
+    Asset, AssetStatus, AssetUpdateObservation, Device, DeviceStatus, DeviceUpdateObservation,
+    Error, ErrorKind,
+};
 
 /// Options for the Azure Device Registry client.
 #[derive(Builder, Clone)]
@@ -27,7 +34,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    temp: std::marker::PhantomData<C>,
+    get_asset_command_invoker: Arc<adr_name_gen::GetAssetCommandInvoker<C>>,
 }
 
 impl<C> Client<C>
@@ -37,12 +44,23 @@ where
 {
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
     pub fn new(
-        _application_context: ApplicationContext,
-        _client: &C,
+        application_context: ApplicationContext,
+        client: &C,
         _options: &ClientOptions,
     ) -> Self {
+        let aep_name_command_options = CommandInvokerOptionsBuilder::default()
+            .topic_token_map(HashMap::from([(
+                "connectorClientId".to_string(),
+                client.client_id().to_string(),
+            )]))
+            .build()
+            .expect("Statically generated options should not fail.");
         Self {
-            temp: std::marker::PhantomData,
+            get_asset_command_invoker: Arc::new(adr_name_gen::GetAssetCommandInvoker::new(
+                application_context.clone(),
+                client.clone(),
+                &aep_name_command_options,
+            )),
         }
     }
 
@@ -170,7 +188,31 @@ where
         _asset_name: String,
         _timeout: Duration,
     ) -> Result<Device, Error> {
-        Err(Error {})
+        let get_request_payload = adr_name_gen::GetAssetRequestPayload {
+            asset_name: _asset_name,
+        };
+
+        let command_request = rpc_command::invoker::RequestBuilder::default()
+            .topic_tokens(HashMap::from([
+                ("deviceName".to_string(), _device_name.clone()),
+                (
+                    "inboundEndpointName".to_string(),
+                    _inbound_endpoint_name.clone(),
+                ),
+            ]))
+            .payload(get_request_payload)
+            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .timeout(_timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_asset_command_invoker
+            .invoke(command_request)
+            .await
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.asset.into())
     }
 
     /// Updates the status of an asset in the Azure Device Registry service.
