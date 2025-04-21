@@ -911,6 +911,16 @@ impl From<AssetManagementGroupActionType> for adr_name_gen::AssetManagementGroup
 }
 
 // ~~~~~~~~~~~~~~DTDL structs to SDK Asset Structs for Asset Observation Need~~~~~~~
+impl From<adr_name_gen::Asset> for Asset {
+    fn from(value: adr_name_gen::Asset) -> Self {
+        Asset {
+            name: value.name,
+            specification: AssetSpecification::from(value.specification),
+            status: value.status.map(AssetStatus::from),
+        }
+    }
+}
+
 impl From<adr_name_gen::AssetStatus> for AssetStatus {
     fn from(value: adr_name_gen::AssetStatus) -> Self {
         AssetStatus {
