@@ -19,10 +19,10 @@ publish = true
 # log.workspace = true
 tokio.workspace = true
 # tokio-util.workspace = true
-notify = "5.1"
-futures = "0.3"
+notify.workspace = true
+# futures = "0.3"
 tokio-stream = "0.1"
-thiserror = "1.0"
+thiserror.workspace = true
 
 [dev-dependencies]
 # env_logger.workspace = true

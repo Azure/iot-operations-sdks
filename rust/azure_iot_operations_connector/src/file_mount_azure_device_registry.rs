@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//!Azure Device Registry Client that uses file mount to get names and create/delete notifications.
+//! Azure Device Registry Client that uses file mount to get names and create/delete notifications.
 
-use notify::RecommendedWatcher;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
+
+use notify::RecommendedWatcher;
 use tokio::sync::mpsc::UnboundedReceiver;
 use tokio::sync::oneshot;
 
-const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "/etc/akri/config/adr_resources_names";
+/// Environment variable name for the directory containing device and asset names.
+const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "ADR_RESOURCES_NAME_MOUNT_PATH";
 
 /// A client that interacts with the file mount
 ///
@@ -19,23 +21,20 @@ const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "/etc/akri/config/adr_resources_name
 #[allow(dead_code)]
 pub struct FileMountClient {
     /// The path to the file mount used by the client.
-    pub mount_path: PathBuf,
+    mount_path: PathBuf,
     /// A file watcher used to monitor changes in the file mount.
-    pub watcher: Arc<Mutex<RecommendedWatcher>>,
+    watcher: Arc<Mutex<RecommendedWatcher>>,
 }
 
 impl FileMountClient {
     /// Creates a new instance of the `FileMountClient`.
-    ///
-    /// # Arguments
-    /// * `mount_path_env_var` - The environment variable containing the path to the file mount.
     ///
     /// # Returns
     /// A `Result` containing the initialized `FileMountClient` or a `FileMountError`.
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
     pub fn new() -> Result<Self, FileMountError> {
-        // read env vars here direclty without taking them, const at top of files
+        // read env vars here directly without taking them, const at top of files
         let mount_path = PathBuf::from(ADR_RESOURCES_NAME_MOUNT_PATH);
         let watcher = notify::recommended_watcher(|_| {}).map_err(FileMountError::NotifyError)?;
 
@@ -55,14 +54,14 @@ impl FileMountClient {
     ///
     /// # Errors
     /// Returns an error if the file mount cannot be accessed or if there is an issue with the watcher.
-    pub fn get_device_names(
+    pub fn get_device_endpoint_names(
         &self,
         _timeout: Duration,
     ) -> Result<Vec<DeviceEndpointRef>, FileMountError> {
         Ok(vec![])
     }
 
-    /// Get names of all available assets from the monitored [`DeviceEndpointRef`].
+    /// Get names of all available assets from the [`DeviceEndpointRef`].
     ///
     /// # Arguments
     /// * `_device_endpoint` - A reference to the device endpoint for which to get asset names.
@@ -102,7 +101,7 @@ impl FileMountClient {
         })
     }
 
-    /// Observes the deletion of device endpoints.
+    /// Observes for the deletion of a device endpoint.
     ///
     /// # Arguments
     /// * `device_endpoint` - A reference to the device endpoint for which to observe deletion.
@@ -148,7 +147,7 @@ impl FileMountClient {
         })
     }
 
-    /// Observes the deletion of assets for a specific device and endpoint.
+    /// Observes for the deletion of an asset.
     ///
     /// # Arguments
     /// * `_asset_ref` - A reference to the asset for which to observe deletion.
@@ -200,6 +199,16 @@ pub struct DeviceEndpointDeleteObservation {
     receiver: oneshot::Receiver<DeviceEndpointRef>,
 }
 
+impl DeviceEndpointDeleteObservation {
+    /// Receives a notification for a deleted device endpoint.
+    ///
+    /// # Returns
+    /// An `Option` containing a `DeviceEndpointRef` if a notification is received, or `None` if the channel is closed.
+    pub async fn recv_notification(self) -> Option<DeviceEndpointRef> {
+        self.receiver.await.ok()
+    }
+}
+
 /// Represents a device and its associated endpoint.
 pub struct DeviceEndpointRef {
     /// The name of the device
@@ -248,7 +257,6 @@ pub struct AssetRef {
     pub endpoint_name: String,
 }
 
-// Error type for your API
 #[derive(Debug, thiserror::Error)]
 /// Represents errors that can occur while interacting with the file mount.
 pub enum FileMountError {
