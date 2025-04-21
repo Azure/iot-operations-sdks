@@ -92,6 +92,40 @@ pub struct ConfigError {
     pub message: Option<String>,
 }
 
+#[derive(Clone, Debug)]
+/// Represents the details of an error.
+pub struct Details {
+    /// The multi part error code for root cause analysis.
+    pub code: Option<String>,
+    /// The correlation ID of the details.
+    pub correlation_id: Option<String>,
+    /// Any helpful information associated with the details.
+    pub info: Option<String>,
+    /// The error message of the details.
+    pub message: Option<String>,
+}
+
+// ~~ From impls ~~
+impl From<StatusConfig> for adr_name_gen::DeviceStatusConfigSchema {
+    fn from(value: StatusConfig) -> Self {
+        adr_name_gen::DeviceStatusConfigSchema {
+            version: value.version,
+            error: value.error.map(ConfigError::into),
+            last_transition_time: value.last_transition_time,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceStatusConfigSchema> for StatusConfig {
+    fn from(value: adr_name_gen::DeviceStatusConfigSchema) -> Self {
+        StatusConfig {
+            version: value.version,
+            error: value.error.map(adr_name_gen::ConfigError::into),
+            last_transition_time: value.last_transition_time,
+        }
+    }
+}
+
 impl From<ConfigError> for adr_name_gen::ConfigError {
     fn from(value: ConfigError) -> Self {
         adr_name_gen::ConfigError {
@@ -124,19 +158,6 @@ impl From<adr_name_gen::ConfigError> for ConfigError {
             inner_error: value.inner_error,
         }
     }
-}
-
-#[derive(Clone, Debug)]
-/// Represents the details of an error.
-pub struct Details {
-    /// The multi part error code for root cause analysis.
-    pub code: Option<String>,
-    /// The correlation ID of the details.
-    pub correlation_id: Option<String>,
-    /// Any helpful information associated with the details.
-    pub info: Option<String>,
-    /// The error message of the details.
-    pub message: Option<String>,
 }
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
@@ -206,8 +227,9 @@ pub struct TrustSettings {
     pub trust_mode: String,
 }
 
-#[derive(Debug, Clone)] // default Anonymous
+#[derive(Debug, Clone, Default)]
 pub enum Authentication {
+    #[default]
     Anonymous,
     Certificate {
         /// The 'certificateSecretName' Field.
@@ -220,6 +242,100 @@ pub enum Authentication {
         username_secret_name: String,
     },
 }
+// ~~ From impls ~~
+impl From<adr_name_gen::Device> for Device {
+    fn from(value: adr_name_gen::Device) -> Self {
+        Device {
+            name: value.name,
+            specification: value.specification.into(),
+            status: value.status.map(DeviceStatus::from),
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceSpecificationSchema> for DeviceSpecification {
+    fn from(value: adr_name_gen::DeviceSpecificationSchema) -> Self {
+        let inbound_endpoints = match value.endpoints {
+            Some(all_endpoints) => match all_endpoints.inbound {
+                Some(inbound_endpoints) => inbound_endpoints
+                    .into_iter()
+                    .map(|(k, v)| (k, v.into()))
+                    .collect(),
+                None => HashMap::new(),
+            },
+            None => HashMap::new(),
+        };
+        DeviceSpecification {
+            attributes: value.attributes.unwrap_or_default(),
+            discovered_device_ref: value.discovered_device_ref,
+            enabled: value.enabled,
+            inbound_endpoints,
+            external_device_id: value.external_device_id,
+            last_transition_time: value.last_transition_time,
+            manufacturer: value.manufacturer,
+            model: value.model,
+            operating_system: value.operating_system,
+            operating_system_version: value.operating_system_version,
+            uuid: value.uuid,
+            version: value.version,
+        }
+    }
+}
+impl From<adr_name_gen::DeviceInboundEndpointSchemaMapValueSchema> for InboundEndpoint {
+    fn from(value: adr_name_gen::DeviceInboundEndpointSchemaMapValueSchema) -> Self {
+        InboundEndpoint {
+            additional_configuration: value.additional_configuration,
+            address: value.address,
+            authentication: value
+                .authentication
+                .map(Authentication::from)
+                .unwrap_or_default(),
+            trust_settings: value.trust_settings.map(TrustSettings::from),
+            r#type: value.r#type,
+            version: value.version,
+        }
+    }
+}
+
+impl From<adr_name_gen::TrustSettingsSchema> for TrustSettings {
+    fn from(value: adr_name_gen::TrustSettingsSchema) -> Self {
+        TrustSettings {
+            issuer_list: value.issuer_list,
+            trust_list: value.trust_list,
+            trust_mode: value.trust_mode,
+        }
+    }
+}
+
+impl From<adr_name_gen::AuthenticationSchema> for Authentication {
+    fn from(value: adr_name_gen::AuthenticationSchema) -> Self {
+        match value.method {
+            adr_name_gen::MethodSchema::Anonymous => Authentication::Anonymous,
+            adr_name_gen::MethodSchema::Certificate => {
+                Authentication::Certificate {
+                    certificate_secret_name: match value.x509credentials {
+                        Some(x509credentials) => x509credentials.certificate_secret_name,
+                        None => "".to_string(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
+                    },
+                }
+            }
+            adr_name_gen::MethodSchema::UsernamePassword => {
+                match value.username_password_credentials {
+                    Some(username_password_credentials) => Authentication::UsernamePassword {
+                        password_secret_name: username_password_credentials.password_secret_name,
+                        username_secret_name: username_password_credentials.username_secret_name,
+                    },
+                    None => {
+                        Authentication::UsernamePassword {
+                            password_secret_name: "".to_string(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
+                            username_secret_name: "".to_string(),
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint Status DTDL Equivalent Structs~~~~
 #[derive(Clone, Debug, Default)]
@@ -229,6 +345,57 @@ pub struct DeviceStatus {
     pub config: Option<StatusConfig>,
     /// The 'endpoints' Field.
     pub endpoints: HashMap<String, Option<ConfigError>>,
+}
+
+// ~~ From impls ~~
+impl From<DeviceStatus> for adr_name_gen::DeviceStatus {
+    fn from(value: DeviceStatus) -> Self {
+        let endpoints = if value.endpoints.is_empty() {
+            None
+        } else {
+            Some(adr_name_gen::DeviceStatusEndpointSchema {
+                inbound: Some(
+                    value
+                        .endpoints
+                        .into_iter()
+                        .map(|(k, v)| {
+                            (
+                                k,
+                                adr_name_gen::DeviceStatusInboundEndpointSchemaMapValueSchema {
+                                    error: v.map(|e| e.into()),
+                                },
+                            )
+                        })
+                        .collect(),
+                ),
+            })
+        };
+        adr_name_gen::DeviceStatus {
+            config: value.config.map(StatusConfig::into),
+            endpoints,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceStatus> for DeviceStatus {
+    fn from(value: adr_name_gen::DeviceStatus) -> Self {
+        let endpoints = match value.endpoints {
+            Some(endpoint_status) => match endpoint_status.inbound {
+                Some(inbound_endpoints) => inbound_endpoints
+                    .into_iter()
+                    .map(|(k, v)| (k, v.error.map(|e| ConfigError::from(e))))
+                    .collect(),
+                None => HashMap::new(),
+            },
+            None => HashMap::new(),
+        };
+        DeviceStatus {
+            config: value
+                .config
+                .map(adr_name_gen::DeviceStatusConfigSchema::into),
+            endpoints,
+        }
+    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
