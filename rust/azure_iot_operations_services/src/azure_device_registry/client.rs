@@ -207,7 +207,7 @@ where
     /// # Errors
     /// TODO
     #[allow(clippy::unused_async)]
-    pub async fn observe_asset_update(
+    pub async fn observe_asset_update_notifications(
         &self,
         _device_name: String,
         _inbound_endpoint_name: String,
