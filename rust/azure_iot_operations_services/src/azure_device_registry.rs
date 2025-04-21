@@ -182,7 +182,7 @@ pub struct DeviceSpecification {
     /// The 'enabled' Field.
     pub enabled: Option<bool>,
     /// The 'endpoints' Field.
-    pub inbound_endpoints: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub endpoints: DeviceEndpoints,
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
@@ -201,6 +201,21 @@ pub struct DeviceSpecification {
     pub version: Option<u64>,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct DeviceEndpoints {
+    pub inbound: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub outbound_assigned: HashMap<String, OutboundEndpoint>,
+    pub outbound_unassigned: HashMap<String, OutboundEndpoint>,
+}
+
+#[derive(Debug, Clone)]
+pub struct OutboundEndpoint {
+    /// The 'address' Field.
+    pub address: String,
+    /// The 'endpointType' Field.
+    pub endpoint_type: Option<String>,
+}
+
 #[derive(Debug, Clone)]
 pub struct InboundEndpoint {
     /// The 'additionalConfiguration' Field.
@@ -209,10 +224,10 @@ pub struct InboundEndpoint {
     pub address: String,
     /// The 'authentication' Field.
     pub authentication: Authentication,
+    /// The 'endpointType' Field.
+    pub endpoint_type: String,
     /// The 'trustSettings' Field.
     pub trust_settings: Option<TrustSettings>,
-    /// The 'type' Field.
-    pub r#type: String,
     /// The 'version' Field.
     pub version: Option<String>,
 }
@@ -223,8 +238,6 @@ pub struct TrustSettings {
     pub issuer_list: Option<String>,
     /// The 'trustList' Field.
     pub trust_list: Option<String>,
-    /// The 'trustMode' Field.
-    pub trust_mode: String,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -255,21 +268,14 @@ impl From<adr_name_gen::Device> for Device {
 
 impl From<adr_name_gen::DeviceSpecificationSchema> for DeviceSpecification {
     fn from(value: adr_name_gen::DeviceSpecificationSchema) -> Self {
-        let inbound_endpoints = match value.endpoints {
-            Some(all_endpoints) => match all_endpoints.inbound {
-                Some(inbound_endpoints) => inbound_endpoints
-                    .into_iter()
-                    .map(|(k, v)| (k, v.into()))
-                    .collect(),
-                None => HashMap::new(),
-            },
-            None => HashMap::new(),
-        };
         DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
             enabled: value.enabled,
-            inbound_endpoints,
+            endpoints: value
+                .endpoints
+                .map(DeviceEndpoints::from)
+                .unwrap_or_default(),
             external_device_id: value.external_device_id,
             last_transition_time: value.last_transition_time,
             manufacturer: value.manufacturer,
@@ -281,8 +287,54 @@ impl From<adr_name_gen::DeviceSpecificationSchema> for DeviceSpecification {
         }
     }
 }
-impl From<adr_name_gen::DeviceInboundEndpointSchemaMapValueSchema> for InboundEndpoint {
-    fn from(value: adr_name_gen::DeviceInboundEndpointSchemaMapValueSchema) -> Self {
+
+impl From<adr_name_gen::DeviceEndpointSchema> for DeviceEndpoints {
+    fn from(value: adr_name_gen::DeviceEndpointSchema) -> Self {
+        let inbound = match value.inbound {
+            Some(inbound_endpoints) => inbound_endpoints
+                .into_iter()
+                .map(|(k, v)| (k, v.into()))
+                .collect(),
+            None => HashMap::new(),
+        };
+        let outbound_assigned;
+        let outbound_unassigned;
+        if let Some(outbound) = value.outbound {
+            outbound_assigned = outbound
+                .assigned
+                .into_iter()
+                .map(|(k, v)| (k, OutboundEndpoint::from(v)))
+                .collect();
+            outbound_unassigned = match outbound.unassigned {
+                Some(unassigned) => unassigned
+                    .into_iter()
+                    .map(|(k, v)| (k, OutboundEndpoint::from(v)))
+                    .collect(),
+                None => HashMap::new(),
+            };
+        } else {
+            outbound_assigned = HashMap::new();
+            outbound_unassigned = HashMap::new();
+        }
+        DeviceEndpoints {
+            inbound,
+            outbound_assigned,
+            outbound_unassigned,
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
+    fn from(value: adr_name_gen::DeviceOutboundEndpoint) -> Self {
+        OutboundEndpoint {
+            address: value.address,
+            endpoint_type: value.endpoint_type,
+        }
+    }
+}
+
+impl From<adr_name_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
+    fn from(value: adr_name_gen::InboundSchemaMapValueSchema) -> Self {
         InboundEndpoint {
             additional_configuration: value.additional_configuration,
             address: value.address,
@@ -291,7 +343,7 @@ impl From<adr_name_gen::DeviceInboundEndpointSchemaMapValueSchema> for InboundEn
                 .map(Authentication::from)
                 .unwrap_or_default(),
             trust_settings: value.trust_settings.map(TrustSettings::from),
-            r#type: value.r#type,
+            endpoint_type: value.endpoint_type,
             version: value.version,
         }
     }
@@ -302,7 +354,6 @@ impl From<adr_name_gen::TrustSettingsSchema> for TrustSettings {
         TrustSettings {
             issuer_list: value.issuer_list,
             trust_list: value.trust_list,
-            trust_mode: value.trust_mode,
         }
     }
 }
