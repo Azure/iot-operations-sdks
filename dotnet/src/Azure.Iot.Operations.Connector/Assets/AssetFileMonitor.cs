@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Connector.Assets.FileMonitor;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector.Assets
@@ -49,10 +50,9 @@ namespace Azure.Iot.Operations.Connector.Assets
         public void ObserveAssets(string deviceName, string inboundEndpointName)
         {
             string assetFileName = $"{deviceName}_{inboundEndpointName}";
-            if (!_assetFileMonitors.ContainsKey(assetFileName))
+            FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
+            if (_assetFileMonitors.TryAdd(assetFileName, assetMonitor))
             {
-                FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
-                _assetFileMonitors.TryAdd(assetFileName, assetMonitor);
                 assetMonitor.OnFileChanged += (sender, args) =>
                 {
                     if (args.ChangeType == WatcherChangeTypes.Changed)

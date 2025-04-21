@@ -6,6 +6,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Connector.Assets;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -13,8 +14,10 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly IAdrServiceClient _client;
         private readonly IAssetFileMonitor _monitor;
-        private readonly HashSet<string> _observedDevices = new();
-        private readonly Dictionary<string, HashSet<string>> _observedAssets = new(); // TODO concurrency
+
+        private const byte _dummyByte = 1;
+        private readonly ConcurrentDictionary<string, byte> _observedDevices = new();
+        private readonly ConcurrentDictionary<string, HashSet<string>> _observedAssets = new();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
 
@@ -31,7 +34,7 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// </inheritdoc>
-        public void ObserveDevices() //TODO observe all vs one device at a time? Assets are one at a time and devices aren't?
+        public void ObserveDevices()
         {
             // Any pre-existing devices will trigger the monitor's callback which triggers the ADR client to observe updates
             _monitor.ObserveDevices();
@@ -42,7 +45,7 @@ namespace Azure.Iot.Operations.Connector
         {
             _monitor.UnobserveDevices();
 
-            foreach (string compositeDeviceName in _observedDevices)
+            foreach (string compositeDeviceName in _observedDevices.Keys)
             {
                 string deviceName = compositeDeviceName.Split('_')[0];
                 string inboundEndpointName = compositeDeviceName.Split('_')[1];
@@ -93,7 +96,7 @@ namespace Azure.Iot.Operations.Connector
 
             _observedAssets.Clear();
 
-            foreach (string compositeDeviceName in _observedDevices)
+            foreach (string compositeDeviceName in _observedDevices.Keys)
             {
                 string deviceName = compositeDeviceName.Split('_')[0];
                 string inboundEndpointName = compositeDeviceName.Split('_')[1];
@@ -205,7 +208,7 @@ namespace Azure.Iot.Operations.Connector
 
                 if (notificationResponse == NotificationResponse.Accepted)
                 {
-                    _observedDevices.Add(e.DeviceName);
+                    _observedDevices.TryAdd(e.DeviceName, _dummyByte);
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
                     DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
                 }
