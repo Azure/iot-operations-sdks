@@ -37,12 +37,12 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
         // Act
-        var device = await client.GetDeviceAsync(TestDeviceName, TestEndpointName);
+        var device = await client.GetDeviceAsync("my-thermostat", "my-rest-endpoint");
 
         // Assert
         _output.WriteLine($"Device: {device?.Name}");
         Assert.NotNull(device);
-        Assert.Equal(TestDeviceName, device.Name);
+        Assert.Equal("my-thermostat", device.Name);
     }
 
     [Fact]
