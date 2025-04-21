@@ -337,7 +337,7 @@ public class AdrServiceClientIntegrationTests
             AssetName = TestAssetName,
             AssetStatus = new AssetStatus
             {
-                Config = new AssetStatusConfig
+                Config = new AssetConfigStatus
                 {
                     Error = null,
                     LastTransitionTime = "2023-10-01T12:00:00Z",
