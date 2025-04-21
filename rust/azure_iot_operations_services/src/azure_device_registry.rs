@@ -70,7 +70,6 @@ pub enum ErrorKind {
     PlaceholderError,
 }
 
-
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
 /// A struct to manage receiving notifications for a device
 #[derive(Debug)]
