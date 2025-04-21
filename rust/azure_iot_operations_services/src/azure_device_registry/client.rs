@@ -6,17 +6,24 @@
 //! To use this client, the `azure_device_registry` feature must be enabled.
 
 use derive_builder::Builder;
-use std::time::Duration;
+use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
-// use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-use super::{Device, DeviceStatus, DeviceUpdateObservation, Error};
-use crate::azure_device_registry::{Asset, AssetStatus, AssetUpdateObservation};
+use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use crate::azure_device_registry::{
+    AssetStatus, Device, DeviceStatus, DeviceUpdateObservation, Error, ErrorKind,
+    device_name_gen::{
+        adr_base_service::client::GetDeviceRequestBuilder,
+        common_types::options::CommandInvokerOptionsBuilder,
+    },
+};
+
+use super::Asset;
 
 /// Options for the Azure Device Registry client.
-#[derive(Builder, Clone)]
+#[derive(Builder, Clone, Default)]
 #[builder(setter(into))]
 pub struct ClientOptions {}
 
@@ -27,7 +34,10 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    temp: std::marker::PhantomData<C>,
+    get_device_command_invoker: Arc<adr_name_gen::GetDeviceCommandInvoker<C>>,
+    update_device_status_command_invoker: Arc<adr_name_gen::UpdateDeviceStatusCommandInvoker<C>>,
+    _notify_on_device_update_command_invoker:
+        Arc<adr_name_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
 }
 
 impl<C> Client<C>
@@ -36,14 +46,42 @@ where
     C::PubReceiver: Send + Sync,
 {
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
+    // Create a new Azure Device Registry Client.
+    /// # Errors
+    /// TODO
     pub fn new(
-        _application_context: ApplicationContext,
-        _client: &C,
+        application_context: ApplicationContext,
+        client: &C,
         _options: &ClientOptions,
-    ) -> Self {
-        Self {
-            temp: std::marker::PhantomData,
-        }
+    ) -> Result<Self, Error> {
+        let command_options = CommandInvokerOptionsBuilder::default()
+            .topic_token_map(HashMap::from([(
+                "connectorClientId".to_string(),
+                client.client_id().to_string(),
+            )]))
+            .build()
+            .map_err(ErrorKind::from)?;
+        Ok(Self {
+            get_device_command_invoker: Arc::new(adr_name_gen::GetDeviceCommandInvoker::new(
+                application_context.clone(),
+                client.clone(),
+                &command_options,
+            )),
+            update_device_status_command_invoker: Arc::new(
+                adr_name_gen::UpdateDeviceStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &command_options,
+                ),
+            ),
+            _notify_on_device_update_command_invoker: Arc::new(
+                adr_name_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker::new(
+                    application_context,
+                    client.clone(),
+                    &command_options,
+                ),
+            ),
+        })
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers.
@@ -57,7 +95,7 @@ where
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     #[allow(clippy::unused_async)]
     pub async fn shutdown(&self) -> Result<(), Error> {
-        Err(Error {})
+        Err(Error(ErrorKind::PlaceholderError))
     }
 
     // ~~~~~~~~~~~~~~~~~ Device APIs ~~~~~~~~~~~~~~~~~~~~~
@@ -73,14 +111,27 @@ where
     ///
     /// # Errors
     /// TODO
-    #[allow(clippy::unused_async)]
     pub async fn get_device(
         &self,
-        _device_name: String,
-        _inbound_endpoint_name: String,
-        _timeout: Duration,
+        device_name: String,
+        inbound_endpoint_name: String,
+        timeout: Duration,
     ) -> Result<Device, Error> {
-        Err(Error {})
+        let get_device_request = GetDeviceRequestBuilder::default()
+            .topic_tokens(HashMap::from([
+                ("deviceName".to_string(), device_name),
+                ("inboundEndpointName".to_string(), inbound_endpoint_name),
+            ]))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_device_command_invoker
+            .invoke(get_device_request)
+            .await
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.device.into())
     }
 
     /// Updates a Device's status in the Azure Device Registry service.
@@ -95,15 +146,33 @@ where
     ///
     /// # Errors
     /// TODO
-    #[allow(clippy::unused_async)]
     pub async fn update_device_plus_endpoint_status(
         &self,
-        _device_name: String,
-        _inbound_endpoint_name: String,
-        _status: DeviceStatus, // TODO: should this be DeviceEndpointStatus that doesn't have hashmap of endpoints?
-        _timeout: Duration,
+        device_name: String,
+        inbound_endpoint_name: String,
+        status: DeviceStatus, // TODO: should this be DeviceEndpointStatus that doesn't have hashmap of endpoints?
+        timeout: Duration,
     ) -> Result<Device, Error> {
-        Err(Error {})
+        let status_payload = adr_name_gen::UpdateDeviceStatusRequestPayload {
+            device_status_update: status.into(),
+        };
+        let update_device_status_request =
+            adr_name_gen::UpdateDeviceStatusRequestBuilder::default()
+                .payload(status_payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(HashMap::from([
+                    ("deviceName".to_string(), device_name),
+                    ("inboundEndpointName".to_string(), inbound_endpoint_name),
+                ]))
+                .timeout(timeout)
+                .build()
+                .map_err(ErrorKind::from)?;
+        let response = self
+            .update_device_status_command_invoker
+            .invoke(update_device_status_request)
+            .await
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.updated_device.into())
     }
 
     /// Starts observation of any Device updates from the Azure Device Registry service.
@@ -124,7 +193,7 @@ where
         _inbound_endpoint_name: String,
         _timeout: Duration,
     ) -> Result<DeviceUpdateObservation, Error> {
-        Err(Error {})
+        Err(Error(ErrorKind::PlaceholderError))
     }
 
     /// Stops observation of any Device updates from the Azure Device Registry service.
@@ -145,7 +214,7 @@ where
         _inbound_endpoint_name: String,
         _timeout: Duration,
     ) -> Result<(), Error> {
-        Err(Error {})
+        Err(Error(ErrorKind::PlaceholderError))
     }
 
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
@@ -170,7 +239,7 @@ where
         _asset_name: String,
         _timeout: Duration,
     ) -> Result<Device, Error> {
-        Err(Error {})
+        Err(Error(ErrorKind::PlaceholderError))
     }
 
     /// Updates the status of an asset in the Azure Device Registry service.
@@ -195,7 +264,7 @@ where
         _status: AssetStatus,
         _timeout: Duration,
     ) -> Result<Asset, Error> {
-        Err(Error {})
+        Err(Error(ErrorKind::PlaceholderError))
     }
 
     /// Starts observation of any Asset updates from the Azure Device Registry service.
@@ -217,8 +286,8 @@ where
         _inbound_endpoint_name: String,
         _asset_name: String,
         _timeout: Duration,
-    ) -> Result<AssetUpdateObservation, Error> {
-        Err(Error {})
+    ) -> Result<(), Error> {
+        Err(Error(ErrorKind::PlaceholderError))
     }
 
     /// Stops observation of any Asset updates from the Azure Device Registry service.
@@ -241,6 +310,6 @@ where
         _asset_name: String,
         _timeout: Duration,
     ) -> Result<(), Error> {
-        Err(Error {})
+        Err(Error(ErrorKind::PlaceholderError))
     }
 }
