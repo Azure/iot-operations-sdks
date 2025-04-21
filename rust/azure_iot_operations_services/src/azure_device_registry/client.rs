@@ -176,6 +176,8 @@ where
     /// Updates the status of an asset in the Azure Device Registry service.
     ///
     /// # Arguments
+    /// * `device_name` - The name of the Device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
     /// * [`AssetStatus`] - The status of an asset for the update.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
@@ -187,6 +189,8 @@ where
     #[allow(clippy::unused_async)]
     pub async fn update_asset_status(
         &self,
+        _device_name: String,
+        _inbound_endpoint_name: String,
         _asset_name: String,
         _status: AssetStatus,
         _timeout: Duration,
