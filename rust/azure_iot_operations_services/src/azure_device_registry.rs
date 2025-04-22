@@ -57,11 +57,11 @@ pub enum ErrorKind {
     // #[error("{0:?}")]
     // ServiceError(ServiceError),
     // /// A aep or an asset may only have one observation at a time.
-    // #[error("Aep or asset may only be observed once at a time")]
-    // DuplicateObserve,
-    // /// A aep or an asset had an error during observation.
-    // #[error("{0}")]
-    // ObservationError(String),
+    #[error("Aep or asset may only be observed once at a time")]
+    DuplicateObserve,
+    /// A device or an asset had an error during observation.
+    #[error("{0}")]
+    ObservationError(String),
     // /// An error occurred while shutting down the Azure Device Registry Client.
     // #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     // ShutdownError(Vec<AIOProtocolError>),
@@ -1015,6 +1015,13 @@ impl From<Config> for adr_name_gen::AssetConfigStatusSchema {
     }
 }
 
+// ~~~~~~~~~~~~~~~~~~~ Asset Observation Event DTDL Equivalent Structs~~~~~~~
+
+#[derive(Clone, Debug)]
+pub struct AssetUpdateEvent {
+    pub asset: Asset,
+    pub asset_name: String,
+}
 // ~~~~~~~~~~~~~~~~~~~Detected Asset DTDL Equivalent Structs~~~~~~~
 #[derive(Clone, Debug)]
 pub struct DetectedAsset {
@@ -1178,6 +1185,15 @@ impl From<AssetManagementGroupActionType> for adr_name_gen::AssetManagementGroup
 }
 
 // ~~~~~~~~~~~~~~DTDL structs to SDK Asset Structs for Asset Observation Need~~~~~~~
+impl From<adr_name_gen::AssetUpdateEventSchema> for AssetUpdateEvent {
+    fn from(value: adr_name_gen::AssetUpdateEventSchema) -> Self {
+        AssetUpdateEvent {
+            asset: value.asset.into(),
+            asset_name: value.asset_name,
+        }
+    }
+}
+
 impl From<adr_name_gen::Asset> for Asset {
     fn from(value: adr_name_gen::Asset) -> Self {
         Asset {
