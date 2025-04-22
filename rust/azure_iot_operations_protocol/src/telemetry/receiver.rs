@@ -314,6 +314,7 @@ where
             custom_user_data: telemetry_custom_user_data,
             sender_id: telemetry_aio_data.remove(&UserProperty::SourceId),
             timestamp,
+            // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),
             topic,
         };
