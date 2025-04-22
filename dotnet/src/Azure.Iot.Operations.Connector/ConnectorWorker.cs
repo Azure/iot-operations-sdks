@@ -377,7 +377,7 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
                     }
                 }
-                /*else if (destination.Target == EventStreamTarget.) //TODO why did this go away?
+                /*else if (destination.Target == EventStreamTarget.) //TODO why is this only present for datasets?
                 {
                     await using StateStoreClient stateStoreClient = new(_applicationContext, _mqttClient);
 
