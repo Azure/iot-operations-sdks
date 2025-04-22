@@ -68,3 +68,23 @@ runs:
       if: inputs.wait-for-broker == 'true'
       run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
       shell: bash
+
+    - name: Install ADR CRDs
+      run: helm install adr-crds-namespace oci://azureadr.azurecr.io/helm/adr/common/adr-crds-prp --version 0.20.0-alpha.1
+      shell: bash
+
+    - name: Run ADR service
+    - run: helm install akri oci://akribuilds.azurecr.io/helm/microsoft-managed-akri --version 0.8.0-nightly -n azure-iot-operations --set adrService.log_level="debug"
+      shell: bash
+
+    - name: Checkout AKRI repository
+      uses: actions/checkout@v4
+      with:
+        repository: akri
+        ref: main
+        token: ${{ secrets.AZURE_DEVOPS_PAT }}
+        repository-url: 'https://msazure.visualstudio.com/DefaultCollection/One/_git/akri'
+        path: akri_root
+    
+    - name: Create ADR resources
+      run: kubectl apply -f akri_root/samples/adr-client-sample/resources

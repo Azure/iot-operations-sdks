@@ -19,9 +19,9 @@ public class AdrServiceClientIntegrationTests
 {
     private readonly ITestOutputHelper _output;
     private const string ConnectorClientId = "test-connector-client";
-    private const string TestDeviceName = "test-device";
-    private const string TestEndpointName = "test-endpoint";
-    private const string TestAssetName = "test-asset";
+    private const string TestDeviceName = "my-thermostat";
+    private const string TestEndpointName = "my-rest-endpoint";
+    private const string TestAssetName = "my-rest-thermostat-asset";
 
     public AdrServiceClientIntegrationTests(ITestOutputHelper output)
     {
@@ -99,7 +99,7 @@ public class AdrServiceClientIntegrationTests
         var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
 
         // Trigger an update so we can observe it
-        var status = CreateDeviceStatus();
+        var status = CreateDeviceStatus(DateTime.UtcNow);
         await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
 
         // Wait a short time for the notification to arrive
@@ -129,7 +129,7 @@ public class AdrServiceClientIntegrationTests
         var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
 
         // Trigger an update so we can observe it
-        var status = CreateDeviceStatus();
+        var status = CreateDeviceStatus(DateTime.UtcNow);
         await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
 
         // Wait a short time for the notification to arrive
@@ -138,6 +138,7 @@ public class AdrServiceClientIntegrationTests
         // Act - Unobserve
         var unobserveResponse = await client.UnobserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
 
+        status = CreateDeviceStatus(DateTime.UtcNow);
         await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
 
         // Wait a short time for the notification to arrive
@@ -145,26 +146,6 @@ public class AdrServiceClientIntegrationTests
 
         // Assert
         Assert.Equal(1, notificationReceivedCount);
-    }
-
-    private static DeviceStatus CreateDeviceStatus()
-    {
-        return new DeviceStatus
-        {
-            Config = new DeviceStatusConfig
-            {
-                Error = null,
-                LastTransitionTime = "2023-10-01T12:00:00Z",
-                Version = 2
-            },
-            Endpoints = new DeviceStatusEndpoint
-            {
-                Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
-                {
-                    { TestEndpointName, new DeviceStatusInboundEndpointSchemaMapValue() }
-                }
-            }
-        };
     }
 
     [Fact]
@@ -196,7 +177,7 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        UpdateAssetStatusRequest request = CreateUpdateAssetStatusRequest();
+        UpdateAssetStatusRequest request = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
 
         // Act
         var updatedAsset = await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, request);
@@ -226,7 +207,7 @@ public class AdrServiceClientIntegrationTests
         var observeResponse = await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
-        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest();
+        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
 
         // Wait a short time for the notification to arrive
@@ -256,7 +237,7 @@ public class AdrServiceClientIntegrationTests
         var observeResponse = await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
-        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest();
+        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
 
         // Wait a short time for the notification to arrive
@@ -265,11 +246,18 @@ public class AdrServiceClientIntegrationTests
         // Act - Unobserve
         var unobserveResponse = await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
 
+        // Trigger an update so we can observe it
+        updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
+        await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+
+        // Wait a short time for the notification to arrive
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
         // Assert
         Assert.Equal(1, notificationReceivedCount);
     }
 
-    [Fact]
+    [Fact(Skip = "Requires ADR service changes")]
     public async Task CanCreateDetectedAssetAsync()
     {
         // Arrange
@@ -326,11 +314,31 @@ public class AdrServiceClientIntegrationTests
         return new CreateDetectedAssetRequest
         {
             AssetName = TestAssetName,
-            AssetEndpointProfileRef = "test-asset-endpoint-profile",
+            AssetEndpointProfileRef = TestEndpointName,
         };
     }
 
-    private UpdateAssetStatusRequest CreateUpdateAssetStatusRequest()
+    private static DeviceStatus CreateDeviceStatus(DateTime timeStamp)
+    {
+        return new DeviceStatus
+        {
+            Config = new DeviceStatusConfig
+            {
+                Error = null,
+                LastTransitionTime = timeStamp.ToString("o"),
+                Version = 2
+            },
+            Endpoints = new DeviceStatusEndpoint
+            {
+                Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
+                {
+                    { TestEndpointName, new DeviceStatusInboundEndpointSchemaMapValue() }
+                }
+            }
+        };
+    }
+
+    private UpdateAssetStatusRequest CreateUpdateAssetStatusRequest(DateTime timeStamp)
     {
         return new UpdateAssetStatusRequest
         {
@@ -340,7 +348,7 @@ public class AdrServiceClientIntegrationTests
                 Config = new AssetConfigStatus
                 {
                     Error = null,
-                    LastTransitionTime = "2023-10-01T12:00:00Z",
+                    LastTransitionTime = timeStamp.ToString("o"),
                     Version = 1
                 }
             }
