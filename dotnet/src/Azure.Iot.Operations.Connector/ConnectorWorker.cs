@@ -377,7 +377,7 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
                     }
                 }
-                else if (destination.Target == EventStreamTarget.BrokerStateStore)
+                /*else if (destination.Target == EventStreamTarget.) //TODO why did this go away?
                 {
                     await using StateStoreClient stateStoreClient = new(_applicationContext, _mqttClient);
 
@@ -401,7 +401,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogError($"Message was not accepted by the state store");
                     }
-                }
+                }*/
                 else if (destination.Target == EventStreamTarget.Storage)
                 {
                     throw new NotImplementedException();
