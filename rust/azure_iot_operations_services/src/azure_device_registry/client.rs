@@ -397,7 +397,7 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
-        // TODO Right now using aep_name + asset_name as the key for the dispatcher, consider using tuple
+        // TODO Right now using device name + endpoint name + asset_name as the key for the dispatcher, consider using tuple
         let receiver_id = format!("{device_name}~{inbound_endpoint_name}~{asset_name}");
 
         let rx = self
@@ -477,12 +477,66 @@ where
     #[allow(clippy::unused_async)]
     pub async fn unobserve_asset_update_notifications(
         &self,
-        _device_name: String,
-        _inbound_endpoint_name: String,
-        _asset_name: String,
-        _timeout: Duration,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        timeout: Duration,
     ) -> Result<(), Error> {
-        Err(Error(ErrorKind::PlaceholderError))
+        // TODO Right now using device name + endpoint name + asset_name as the key for the dispatcher, consider using tuple
+        let receiver_id = format!("{device_name}~{inbound_endpoint_name}~{asset_name}");
+
+        let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
+            notification_preference_request:
+                adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
+                    asset_name: asset_name.clone(),
+                    notification_preference: adr_name_gen::NotificationPreference::Off,
+                },
+        };
+
+        let command_request =
+            adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
+                .payload(payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(HashMap::from([
+                    ("deviceName".to_string(), device_name),
+                    ("inboundEndpointName".to_string(), inbound_endpoint_name),
+                ]))
+                .timeout(timeout)
+                .build()
+                .map_err(ErrorKind::from)?;
+
+        let result = self
+            .notify_on_asset_update_command_invoker
+            .invoke(command_request)
+            .await;
+
+        match result {
+            Ok(response) => {
+                if let adr_name_gen::NotificationPreferenceResponse::Accepted =
+                    response.payload.notification_preference_response
+                {
+                    Ok(())
+                } else {
+                    Err(Error(ErrorKind::ObservationError(asset_name)))
+                }
+            }
+            Err(e) => {
+                // If the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .asset_update_event_telemetry_dispatcher
+                    .unregister_receiver(&receiver_id)
+                {
+                    log::debug!(
+                        "Device , Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+                    );
+                } else {
+                    log::debug!(
+                        "Device , Endpoint and Asset combination not in observed list: {receiver_id:?}"
+                    );
+                }
+                Err(Error(ErrorKind::AIOProtocolError(e)))
+            }
+        }
     }
 
     #[allow(clippy::unused_async)]
