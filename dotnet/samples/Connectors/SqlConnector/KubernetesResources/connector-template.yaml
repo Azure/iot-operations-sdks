@@ -22,5 +22,5 @@ spec:
       serviceAccountTokenSettings:
         audience: aio-internal
     tls:
-      mode: Disabled #Enabled
-      #trustedCaCertificateConfigMapRef: broker-tls-cacert-cm-volume
+      mode: Enabled
+      trustedCaCertificateConfigMapRef: broker-tls-cacert-cm-volume
