@@ -9,6 +9,9 @@ use core::fmt::Debug;
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::AckToken;
+use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
+use device_name_gen::common_types::options::CommandInvokerOptionsBuilderError;
+use thiserror::Error;
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
 use crate::common::dispatcher::Receiver;
@@ -18,10 +21,54 @@ mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
 
-pub use client::Client;
+pub use client::{Client, ClientOptions, ClientOptionsBuilder};
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
-pub struct Error {}
+/// Represents an error that occurred in the Azure Device Registry Client implementation.
+#[derive(Debug, Error)]
+#[error(transparent)]
+pub struct Error(#[from] ErrorKind);
+
+impl Error {
+    /// Returns the [`ErrorKind`] of the error.
+    #[must_use]
+    pub fn kind(&self) -> &ErrorKind {
+        &self.0
+    }
+}
+
+/// Represents the kinds of errors that occur in the Azure Device Registry Client implementation.
+#[derive(Error, Debug)]
+#[allow(clippy::large_enum_variant)]
+pub enum ErrorKind {
+    /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
+    #[error(transparent)]
+    AIOProtocolError(#[from] AIOProtocolError),
+    // /// An error occurred during serialization of a request.
+    // #[error("{0}")]
+    // SerializationError(String),
+    /// An argument provided for a request was invalid.
+    #[error(transparent)]
+    InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
+    // An argument provided for a request was invalid.
+    #[error(transparent)]
+    InvalidClientId(#[from] CommandInvokerOptionsBuilderError),
+    // /// An error was returned by the Azure Device Registry Service.
+    // #[error("{0:?}")]
+    // ServiceError(ServiceError),
+    // /// A aep or an asset may only have one observation at a time.
+    // #[error("Aep or asset may only be observed once at a time")]
+    // DuplicateObserve,
+    // /// A aep or an asset had an error during observation.
+    // #[error("{0}")]
+    // ObservationError(String),
+    // /// An error occurred while shutting down the Azure Device Registry Client.
+    // #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
+    // ShutdownError(Vec<AIOProtocolError>),
+    /// error for api stubs, do not keep.
+    #[error("error to use for api stubs")]
+    PlaceholderError,
+}
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
 /// A struct to manage receiving notifications for a device
