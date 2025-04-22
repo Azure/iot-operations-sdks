@@ -6,7 +6,7 @@ metadata:
 spec:
   deviceInboundEndpointTypes:
   - endpointType: rest-thermostat
-  version: "0.0.1"
+    version: "0.0.1"
   runtimeConfiguration:
     runtimeConfigurationType: managedConfiguration
     managedConfigurationSettings:
