@@ -265,7 +265,6 @@
                   "fields": [
                     {
                       "@type": "Field",
-                      "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpoint;1",
                       "name": "inbound",
                       "schema": {
                         "@type": "Map",
@@ -368,6 +367,15 @@
                                 }
                               },
                               {
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
+                                "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
+                                "name": "endpointType",
+                                "schema": "string"
+                              },
+                              {
                                 "@type": "Field",
                                 "name": "trustSettings",
                                 "schema": {
@@ -382,26 +390,9 @@
                                       "@type": "Field",
                                       "name": "trustList",
                                       "schema": "string"
-                                    },
-                                    {
-                                      "@type": [
-                                        "Field",
-                                        "Required"
-                                      ],
-                                      "name": "trustMode",
-                                      "schema": "string"
                                     }
                                   ]
                                 }
-                              },
-                              {
-                                "@type": [
-                                  "Field",
-                                  "Required"
-                                ],
-                                "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
-                                "name": "type",
-                                "schema": "string"
                               },
                               {
                                 "@type": "Field",
@@ -411,6 +402,48 @@
                             ]
                           }
                         }
+                      }
+                    },
+                    {
+                      "@type": "Field",
+                      "name": "outbound",
+                      "schema": {
+                        "@type": "Object",
+                        "fields": [
+                          {
+                            "@type": [
+                              "Field",
+                              "Required"
+                            ],
+                            "name": "assigned",
+                            "schema": {
+                              "@type": "Map",
+                              "mapKey": {
+                                "name": "assignedOutboundEndpointName",
+                                "schema": "string"
+                              },
+                              "mapValue": {
+                                "name": "assignedOutboundEndpoint",
+                                "schema": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1"
+                              }
+                            }
+                          },
+                          {
+                            "@type": "Field",
+                            "name": "unassigned",
+                            "schema": {
+                              "@type": "Map",
+                              "mapKey": {
+                                "name": "unassignedOutboundEndpointName",
+                                "schema": "string"
+                              },
+                              "mapValue": {
+                                "name": "unassignedOutboundEndpoint",
+                                "schema": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1"
+                              }
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -488,6 +521,14 @@
           "schema": {
             "@type": "Object",
             "fields": [
+              {
+                "@type": "Field",
+                "name": "assetTypeRefs",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "string"
+                }
+              },
               {
                 "@type": "Field",
                 "name": "attributes",
@@ -899,8 +940,34 @@
                             "fields": [
                               {
                                 "@type": "Field",
-                                "name": "managementActionConfiguration",
+                                "name": "actionConfiguration",
                                 "schema": "string"
+                              },
+                              {
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
+                                "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1",
+                                "name": "actionType",
+                                "schema": {
+                                  "@type": "Enum",
+                                  "valueSchema": "string",
+                                  "enumValues": [
+                                    {
+                                      "name": "Read",
+                                      "enumValue": "Read"
+                                    },
+                                    {
+                                      "name": "Write",
+                                      "enumValue": "Write"
+                                    },
+                                    {
+                                      "name": "Call",
+                                      "enumValue": "Call"
+                                    }
+                                  ]
+                                }
                               },
                               {
                                 "@type": [
@@ -927,32 +994,6 @@
                                 "@type": "Field",
                                 "name": "topic",
                                 "schema": "string"
-                              },
-                              {
-                                "@type": [
-                                  "Field",
-                                  "Required"
-                                ],
-                                "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1",
-                                "name": "type",
-                                "schema": {
-                                  "@type": "Enum",
-                                  "valueSchema": "string",
-                                  "enumValues": [
-                                    {
-                                      "name": "Read",
-                                      "enumValue": "Read"
-                                    },
-                                    {
-                                      "name": "Write",
-                                      "enumValue": "Write"
-                                    },
-                                    {
-                                      "name": "Call",
-                                      "enumValue": "Call"
-                                    }
-                                  ]
-                                }
                               },
                               {
                                 "@type": "Field",
@@ -1106,6 +1147,25 @@
       ]
     },
     {
+      "@id": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "address",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "endpointType",
+          "schema": "string"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:com:microsoft:akri:DestinationConfiguration;1",
       "@type": "Object",
       "fields": [
@@ -1122,7 +1182,7 @@
         {
           "@type": "Field",
           "name": "qos",
-          "schema": "dtmi:com:microsoft:akri:QoS;1"
+          "schema": "dtmi:com:microsoft:akri:Qos;1"
         },
         {
           "@type": "Field",
@@ -1142,7 +1202,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:QoS;1",
+      "@id": "dtmi:com:microsoft:akri:Qos;1",
       "@type": "Enum",
       "valueSchema": "string",
       "enumValues": [
@@ -1308,8 +1368,8 @@
       "valueSchema": "string",
       "enumValues": [
         {
-          "name": "BrokerStateStore",
-          "enumValue": "BrokerStateStore"
+          "name": "Mqtt",
+          "enumValue": "Mqtt"
         },
         {
           "name": "Storage",

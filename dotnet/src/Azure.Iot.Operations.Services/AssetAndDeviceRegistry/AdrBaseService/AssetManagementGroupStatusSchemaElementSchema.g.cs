@@ -10,14 +10,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetStatusManagementGroupSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetManagementGroupStatusSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'actions' Field.
         /// </summary>
         [JsonPropertyName("actions")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetStatusManagementGroupActionSchemaElementSchema>? Actions { get; set; } = default;
+        public List<AssetManagementGroupActionStatusSchemaElementSchema>? Actions { get; set; } = default;
 
         /// <summary>
         /// The 'name' Field.

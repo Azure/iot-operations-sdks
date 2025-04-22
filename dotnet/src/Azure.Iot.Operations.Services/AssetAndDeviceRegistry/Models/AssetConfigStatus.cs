@@ -1,6 +1,6 @@
 ﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetStatusConfig
+public record AssetConfigStatus
 {
     public ConfigError? Error { get; set; }
     

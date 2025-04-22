@@ -73,7 +73,7 @@ internal static class ProtocolConverter
         return new AdrBaseService.DeviceStatus
         {
             Config = source.Config?.ToProtocol(),
-            Endpoints = source.Endpoints?.ToProtocol()
+            Endpoints = source.Endpoints?.ToProtocol(),
         };
     }
 
@@ -89,28 +89,18 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetStatusManagementGroupSchemaElementSchema ToProtocol(this AssetStatusManagementGroupSchemaElement source)
+    internal static AssetManagementGroupStatusSchemaElementSchema ToProtocol(this AssetManagementGroupStatusSchemaElement source)
     {
-        return new AssetStatusManagementGroupSchemaElementSchema
+        return new AssetManagementGroupStatusSchemaElementSchema
         {
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToProtocol()).ToList()
         };
     }
 
-    internal static AssetStatusStreamSchemaElementSchema ToProtocol(this AssetStatusStreamSchemaElement source)
+    internal static AssetManagementGroupActionStatusSchemaElementSchema ToProtocol(this AssetManagementGroupActionStatusSchemaElement source)
     {
-        return new AssetStatusStreamSchemaElementSchema
-        {
-            Name = source.Name,
-            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol(),
-            Error = source.Error?.ToProtocol()
-        };
-    }
-
-    internal static AssetStatusManagementGroupActionSchemaElementSchema ToProtocol(this AssetStatusManagementGroupActionSchemaElement source)
-    {
-        return new AssetStatusManagementGroupActionSchemaElementSchema
+        return new AssetManagementGroupActionStatusSchemaElementSchema
         {
             Error = source.Error?.ToProtocol(),
             Name = source.Name,
@@ -119,9 +109,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetStatusConfigSchema ToProtocol(this AssetStatusConfig source)
+    internal static AssetConfigStatusSchema ToProtocol(this AssetConfigStatus source)
     {
-        return new AssetStatusConfigSchema
+        return new AssetConfigStatusSchema
         {
             Error = source.Error?.ToProtocol(),
             LastTransitionTime = source.LastTransitionTime,
@@ -129,20 +119,11 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetStatusDatasetSchemaElementSchema ToProtocol(this AssetStatusDatasetSchemaElement source)
+    internal static AdrBaseService.AssetDatasetEventStreamStatus ToProtocol(this AssetDatasetEventStreamStatus source)
     {
-        return new AssetStatusDatasetSchemaElementSchema
+        return new AdrBaseService.AssetDatasetEventStreamStatus
         {
-            Name = source.Name,
             Error = source.Error?.ToProtocol(),
-            MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
-        };
-    }
-
-    internal static AssetStatusEventSchemaElementSchema ToProtocol(this EventsSchemaElement source)
-    {
-        return new AssetStatusEventSchemaElementSchema
-        {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToProtocol()
         };
@@ -175,7 +156,9 @@ internal static class ProtocolConverter
         {
             Name = source.Name,
             EventConfiguration = source.EventConfiguration,
-            Topic = source.Topic?.ToProtocol()
+            Topic = source.Topic?.ToProtocol(),
+            EventNotifier = source.EventNotifier,
+            LastUpdatedOn = source.LastUpdatedOn
         };
     }
 

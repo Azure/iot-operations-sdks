@@ -7,7 +7,7 @@ public record DetectedAssetEventSchemaElement
 {
     public string? EventConfiguration { get; set; }
 
-    public string? EventNotifier { get; set; }
+    public required string EventNotifier { get; set; }
 
     public string? LastUpdatedOn { get; set; }
 

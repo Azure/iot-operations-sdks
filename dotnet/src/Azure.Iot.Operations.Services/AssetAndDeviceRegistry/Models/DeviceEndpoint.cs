@@ -5,5 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record DeviceEndpoint
 {
-    public Dictionary<string, DeviceInboundEndpointSchemaMapValue>? Inbound { get; set; }
+    public Dictionary<string, InboundEndpointSchemaMapValue>? Inbound { get; set; }
+
+    public OutboundSchema? Outbound { get; set; }
 }

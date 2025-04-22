@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DeviceInboundEndpointSchemaMapValue
+public record InboundEndpointSchemaMapValue
 {
     public string? AdditionalConfiguration { get; set; }
 
@@ -13,7 +13,7 @@ public record DeviceInboundEndpointSchemaMapValue
 
     public TrustSettings? TrustSettings { get; set; }
 
-    public string Type { get; set; } = default!;
+    public string EndpointType { get; set; } = default!;
 
     public string? Version { get; set; }
 }

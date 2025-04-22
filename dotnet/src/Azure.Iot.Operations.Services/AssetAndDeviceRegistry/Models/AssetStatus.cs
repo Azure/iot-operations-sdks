@@ -5,13 +5,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetStatus
 {
-    public AssetStatusConfig? Config { get; set; }
+    public AssetConfigStatus? Config { get; set; }
 
-    public List<AssetStatusDatasetSchemaElement>? Datasets { get; set; }
+    public List<AssetDatasetEventStreamStatus>? Datasets { get; set; }
 
-    public List<EventsSchemaElement>? Events { get; set; }
+    public List<AssetDatasetEventStreamStatus>? Events { get; set; }
 
-    public List<AssetStatusManagementGroupSchemaElement>? ManagementGroups { get; set; }
+    public List<AssetManagementGroupStatusSchemaElement>? ManagementGroups { get; set; }
 
-    public List<AssetStatusStreamSchemaElement>? Streams { get; set; }
+    public List<AssetDatasetEventStreamStatus>? Streams { get; set; }
 }
