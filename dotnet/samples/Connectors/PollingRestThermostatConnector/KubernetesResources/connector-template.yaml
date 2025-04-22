@@ -4,6 +4,7 @@ metadata:
   name: rest-ctemplate
   namespace: azure-iot-operations
 spec:
+  version: "0.0.1"
   deviceInboundEndpointTypes:
   - endpointType: rest-thermostat
     version: "0.0.1"
