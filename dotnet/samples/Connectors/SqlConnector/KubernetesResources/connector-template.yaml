@@ -17,4 +17,9 @@ spec:
         imagePullPolicy: Never
   mqttConnectionConfiguration:
     host: "aio-broker:18883"
-    #TODO MQTT auth/tls config?
+    authentication:
+      serviceAccountTokenSettings:
+        audience: aio-internal
+      tls:
+        mode: enabled
+        trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle

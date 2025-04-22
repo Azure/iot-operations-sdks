@@ -14,5 +14,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
     {
         [JsonPropertyName("mode")]
         public required string Mode { get; set; }
+
+        //TODO the cert itself? trustedCaCertificateConfigMapRef
     }
 }
