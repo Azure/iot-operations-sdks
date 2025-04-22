@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The instance of <see cref="MqttConnectionSettings"/> that allows the connector to connect to the MQTT broker.</returns>
         public static MqttConnectionSettings FromFileMount()
         {
-            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorClientIdEnvVar} environment variable");
+            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? "todo";
             string? brokerTrustBundleMountPath = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
             string? brokerSatMountPath = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
 
@@ -112,7 +112,6 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
 
         public static ConnectorMqttConnectionConfiguration GetMqttConnectionConfiguration()
         {
-            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? "TODO-" + Guid.NewGuid().ToString();
             string connectorConfigMountPath = Environment.GetEnvironmentVariable(ConnectorConfigMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {ConnectorConfigMountPathEnvVar} environment variable");
             string? brokerTrustBundleMountPath = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
             string? brokerSatMountPath = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
