@@ -22,8 +22,8 @@ namespace Azure.Iot.Operations.Connector.Assets
         internal const string DeviceEndpointCredentialsMountPathEnvVar = "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH";
 
         private readonly string _adrResourcesNameMountPath;
-        private readonly string _deviceEndpointTlsTrustBundleCertMountPath;
-        private readonly string _deviceEndpointCredentialsMountPath;
+        private readonly string? _deviceEndpointTlsTrustBundleCertMountPath;
+        private readonly string? _deviceEndpointCredentialsMountPath;
 
         // Key is <deviceName>_<inboundEndpointName>, value is list of asset names in that file
         private readonly ConcurrentDictionary<string, List<string>> _lastKnownAssetNames = new();
@@ -42,8 +42,8 @@ namespace Azure.Iot.Operations.Connector.Assets
         public AssetFileMonitor()
         {
             _adrResourcesNameMountPath = Environment.GetEnvironmentVariable(AdrResourcesNameMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {AdrResourcesNameMountPathEnvVar} environment variable");
-            _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {DeviceEndpointTlsTrustBundleCertMountPathEnvVar} environment variable");
-            _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {DeviceEndpointCredentialsMountPathEnvVar} environment variable");
+            _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar);
+            _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar);
         }
 
         /// <inheritdoc/>
@@ -227,10 +227,10 @@ namespace Azure.Iot.Operations.Connector.Assets
         public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
         {
             string fileName = $"{deviceName}_{inboundEndpointName}";
-            string? username = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_username"));
-            byte[]? password = GetMountedConfigurationValue(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_password"));
-            string? clientCertificate = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_certificate"));
-            string? caCert = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, fileName));
+            string? username = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_username")) : null;
+            byte[]? password = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValue(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_password")) : null;
+            string? clientCertificate = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_certificate")) : null;
+            string? caCert = _deviceEndpointTlsTrustBundleCertMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, fileName)) : null;
 
             return new DeviceCredentials()
             {
