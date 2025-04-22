@@ -20,6 +20,6 @@ spec:
     authentication:
       serviceAccountTokenSettings:
         audience: aio-internal
-      tls:
-        mode: enabled
-        trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle
+    tls:
+    mode: enabled
+    trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle
