@@ -1,9 +1,7 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler
 {
     using System;
-    using System.ComponentModel;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -24,16 +22,11 @@
         {
             try
             {
-                bool isModelSpecified = options.ModelFiles.Length > 0 || (options.ModelId != null && options.DmrRoot != null);
+                bool isModelSpecified = options.ModelFiles.Length > 0;
                 if (!isModelSpecified && options.GenNamespace == null)
                 {
-#if DEBUG
-                    Console.WriteLine("You must specify at least (a) one modelFile, (b) both a modelId and dmrRoot, or (c) a namespace.");
-                    Console.WriteLine("Alternatives (a) and (b) will generate schema definitions and code from a DTDL model.");
-                    Console.WriteLine("Alternative (c) will generate code from schema definitions in the workingDir, bypassing DTDL.");
-#else
-                    Console.WriteLine("You must specify at least one modelFile or both a modelId and dmrRoot.");
-#endif
+                    Console.WriteLine("You must specify at least one modelFile or a namespace.");
+                    Console.WriteLine("In the absence of a modelFile, code will be generated from schema definitions in the workingDir, bypassing DTDL.");
                     Console.WriteLine("Use option --help for a full list of options");
                     return 1;
                 }
@@ -104,26 +97,9 @@
                         return 1;
                     }
 
-                    Uri? dmrUri = null;
-                    if (options.DmrRoot != null)
-                    {
-                        if (!Uri.TryCreate(options.DmrRoot, UriKind.Absolute, out dmrUri))
-                        {
-                            if (Directory.Exists(options.DmrRoot))
-                            {
-                                dmrUri = new Uri(Path.GetFullPath(options.DmrRoot));
-                            }
-                            else
-                            {
-                                Console.WriteLine($"The dmrRoot {options.DmrRoot} must exist");
-                                return 1;
-                            }
-                        }
-                    }
-
                     string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
                     string[] modelNames = options.ModelFiles.Select(mf => mf.Name).ToArray();
-                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, dmrUri, Console.WriteLine);
+                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, Console.WriteLine);
 
                     if (contextualizedInterface.InterfaceId == null)
                     {
