@@ -252,9 +252,7 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<Asset, Error> {
-        let payload = adr_name_gen::GetAssetRequestPayload {
-            asset_name: asset_name,
-        };
+        let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
@@ -299,7 +297,7 @@ where
     ) -> Result<Asset, Error> {
         let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
             asset_status_update: adr_name_gen::UpdateAssetStatusRequestSchema {
-                asset_name: asset_name,
+                asset_name,
                 asset_status: status.into(),
             },
         };
