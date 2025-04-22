@@ -10,7 +10,7 @@ docker tag rest-server:latest rest-server:latest
 k3d image import rest-server:latest -c k3s-default
 
 # Deploy connector config
-kubectl apply -f ./KubernetesResources/connector-config.yaml
+kubectl apply -f ./KubernetesResources/connector-template.yaml
 
 # Deploy REST server (as an asset)
 kubectl apply -f ./KubernetesResources/rest-server.yaml

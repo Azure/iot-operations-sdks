@@ -6,7 +6,7 @@ k3d image import sqlqualityanalyzerconnectorapp:latest -c k3s-default
 kubectl apply -f ./KubernetesResources/sql-server.yaml
 
 # Deploy connector config
-kubectl apply -f ./KubernetesResources/connector-config.yaml
+kubectl apply -f ./KubernetesResources/connector-template.yaml
 
 # Deploy device and its lone asset
 kubectl apply -f ./KubernetesResources/sql-server-device-definition.yaml
