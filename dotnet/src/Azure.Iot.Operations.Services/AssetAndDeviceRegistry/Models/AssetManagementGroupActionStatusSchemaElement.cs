@@ -1,6 +1,6 @@
 ﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetStatusManagementGroupActionSchemaElement
+public record AssetManagementGroupActionStatusSchemaElement
 {
     public ConfigError? Error { get; set; }
     public required string Name { get; set; }

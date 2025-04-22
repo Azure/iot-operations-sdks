@@ -13,11 +13,19 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetManagementGroupActionSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'managementActionConfiguration' Field.
+        /// The 'actionConfiguration' Field.
         /// </summary>
-        [JsonPropertyName("managementActionConfiguration")]
+        [JsonPropertyName("actionConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ManagementActionConfiguration { get; set; } = default;
+        public string? ActionConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'actionType' Field.
+        /// </summary>
+        [JsonPropertyName("actionType")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public AssetManagementGroupActionTypeSchema ActionType { get; set; } = default!;
 
         /// <summary>
         /// The 'name' Field.
@@ -48,14 +56,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonPropertyName("topic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Topic { get; set; } = default;
-
-        /// <summary>
-        /// The 'type' Field.
-        /// </summary>
-        [JsonPropertyName("type")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public AssetManagementGroupActionTypeSchema Type { get; set; } = default!;
 
         /// <summary>
         /// The 'typeRef' Field.

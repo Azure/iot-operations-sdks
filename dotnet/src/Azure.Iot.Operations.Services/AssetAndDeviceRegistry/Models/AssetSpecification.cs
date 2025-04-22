@@ -5,6 +5,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetSpecification
 {
+    public List<string>? AssetTypeRefs { get; set; }
+
     public Dictionary<string, string>? Attributes { get; set; }
 
     public List<AssetDatasetSchemaElement>? Datasets { get; set; }

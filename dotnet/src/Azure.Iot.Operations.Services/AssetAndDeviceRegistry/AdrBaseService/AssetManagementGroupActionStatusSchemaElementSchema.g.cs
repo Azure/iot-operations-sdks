@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetStatusDatasetSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetManagementGroupActionStatusSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'error' Field.
@@ -20,19 +20,26 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public ConfigError? Error { get; set; } = default;
 
         /// <summary>
-        /// The 'messageSchemaReference' Field.
-        /// </summary>
-        [JsonPropertyName("messageSchemaReference")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
-
-        /// <summary>
         /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
         public string Name { get; set; } = default!;
+
+        /// <summary>
+        /// The 'requestMessageSchemaReference' Field.
+        /// </summary>
+        [JsonPropertyName("requestMessageSchemaReference")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public MessageSchemaReference? RequestMessageSchemaReference { get; set; } = default;
+
+        /// <summary>
+        /// The 'responseMessageSchemaReference' Field.
+        /// </summary>
+        [JsonPropertyName("responseMessageSchemaReference")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public MessageSchemaReference? ResponseMessageSchemaReference { get; set; } = default;
 
         void IJsonOnDeserialized.OnDeserialized()
         {

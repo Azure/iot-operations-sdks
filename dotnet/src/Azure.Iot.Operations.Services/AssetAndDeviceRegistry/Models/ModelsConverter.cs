@@ -75,6 +75,7 @@ internal static class ModelsConverter
     {
         return new AssetSpecification
         {
+            AssetTypeRefs = source.AssetTypeRefs,
             Datasets = source.Datasets?.Select(x => x.ToModel()).ToList(),
             Attributes = source.Attributes ?? new Dictionary<string, string>(),
             Description = source.Description,
@@ -132,7 +133,7 @@ internal static class ModelsConverter
         return (Retain)(int)source;
     }
 
-    internal static QoS ToModel(this AdrBaseService.QoS source)
+    internal static QoS ToModel(this AdrBaseService.Qos source)
     {
         return (QoS)(int)source;
     }
@@ -259,20 +260,21 @@ internal static class ModelsConverter
     {
         return new DeviceEndpoint
         {
-            Inbound = new Dictionary<string, DeviceInboundEndpointSchemaMapValue>(
-                source.Inbound?.Select(x => new KeyValuePair<string, DeviceInboundEndpointSchemaMapValue>(x.Key, x.Value.ToModel())) ??
-                new Dictionary<string, DeviceInboundEndpointSchemaMapValue>())
+            Inbound = new Dictionary<string, InboundEndpointSchemaMapValue>(
+                source.Inbound?.Select(x => new KeyValuePair<string, InboundEndpointSchemaMapValue>(x.Key, x.Value.ToModel())) ??
+                new Dictionary<string, InboundEndpointSchemaMapValue>()),
+            Outbound = source.Outbound?.ToModel()
         };
     }
 
-    internal static DeviceInboundEndpointSchemaMapValue ToModel(this DeviceInboundEndpointSchemaMapValueSchema source)
+    internal static InboundEndpointSchemaMapValue ToModel(this InboundSchemaMapValueSchema source)
     {
-        return new DeviceInboundEndpointSchemaMapValue
+        return new InboundEndpointSchemaMapValue
         {
             Address = source.Address,
             AdditionalConfiguration = source.AdditionalConfiguration,
             Version = source.Version,
-            Type = source.Type,
+            EndpointType = source.EndpointType,
             Authentication = source.Authentication?.ToModel(),
             TrustSettings = source.TrustSettings?.ToModel()
         };
@@ -283,8 +285,7 @@ internal static class ModelsConverter
         return new TrustSettings
         {
             IssuerList = source.IssuerList,
-            TrustList = source.TrustList,
-            TrustMode = source.TrustMode
+            TrustList = source.TrustList
         };
     }
 
@@ -347,9 +348,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetStatusConfig ToModel(this AdrBaseService.AssetStatusConfigSchema source)
+    internal static AssetConfigStatus ToModel(this AssetConfigStatusSchema source)
     {
-        return new AssetStatusConfig
+        return new AssetConfigStatus
         {
             Error = source.Error?.ToModel(),
             LastTransitionTime = source.LastTransitionTime,
@@ -357,52 +358,33 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetStatusDatasetSchemaElement ToModel(this AdrBaseService.AssetStatusDatasetSchemaElementSchema source)
+    internal static AssetDatasetEventStreamStatus ToModel(this AdrBaseService.AssetDatasetEventStreamStatus source)
     {
-        return new AssetStatusDatasetSchemaElement
-        {
-            Error = source.Error?.ToModel(),
-            Name = source.Name,
-            MessageSchemaReference = source.MessageSchemaReference?.ToModel(),
-        };
-    }
-
-    internal static EventsSchemaElement ToModel(this AssetStatusEventSchemaElementSchema source)
-    {
-        return new EventsSchemaElement
+        return new AssetDatasetEventStreamStatus
         {
             Name = source.Name,
             MessageSchemaReference = source.MessageSchemaReference?.ToModel(),
+            Error = source.Error?.ToModel()
         };
     }
 
-    internal static AssetStatusManagementGroupSchemaElement ToModel(this AssetStatusManagementGroupSchemaElementSchema source)
+    internal static AssetManagementGroupStatusSchemaElement ToModel(this AssetManagementGroupStatusSchemaElementSchema source)
     {
-        return new AssetStatusManagementGroupSchemaElement
+        return new AssetManagementGroupStatusSchemaElement
         {
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
         };
     }
 
-    internal static AssetStatusManagementGroupActionSchemaElement ToModel(this AssetStatusManagementGroupActionSchemaElementSchema source)
+    internal static AssetManagementGroupActionStatusSchemaElement ToModel(this AssetManagementGroupActionStatusSchemaElementSchema source)
     {
-        return new AssetStatusManagementGroupActionSchemaElement
+        return new AssetManagementGroupActionStatusSchemaElement
         {
             Error = source.Error?.ToModel(),
             Name = source.Name,
             RequestMessageSchemaReference = source.RequestMessageSchemaReference?.ToModel(),
             ResponseMessageSchemaReference = source.ResponseMessageSchemaReference?.ToModel()
-        };
-    }
-
-    internal static AssetStatusStreamSchemaElement ToModel(this AssetStatusStreamSchemaElementSchema source)
-    {
-        return new AssetStatusStreamSchemaElement
-        {
-            Error = source.Error?.ToModel(),
-            Name = source.Name,
-            MessageSchemaReference = source.MessageSchemaReference?.ToModel()
         };
     }
 
@@ -412,6 +394,27 @@ internal static class ModelsConverter
         {
             DeviceName = source.DeviceName,
             EndpointName = source.EndpointName
+        };
+    }
+
+    internal static DeviceOutboundEndpoint ToModel(this AdrBaseService.DeviceOutboundEndpoint source)
+    {
+        return new DeviceOutboundEndpoint
+        {
+            Address = source.Address,
+            EndpointType = source.EndpointType
+        };
+    }
+
+    internal static OutboundSchema ToModel(this AdrBaseService.OutboundSchema source)
+    {
+        return new OutboundSchema
+        {
+            Assigned = new Dictionary<string, DeviceOutboundEndpoint>(
+                source.Assigned.Select(x => new KeyValuePair<string, DeviceOutboundEndpoint>(x.Key, x.Value.ToModel()))),
+            Unassigned = new Dictionary<string, DeviceOutboundEndpoint>(
+                source.Unassigned?.Select(x => new KeyValuePair<string, DeviceOutboundEndpoint>(x.Key, x.Value.ToModel())) ??
+                new Dictionary<string, DeviceOutboundEndpoint>())
         };
     }
 }

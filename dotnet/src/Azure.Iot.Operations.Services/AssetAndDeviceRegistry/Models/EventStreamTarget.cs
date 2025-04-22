@@ -2,6 +2,6 @@
 
 public enum EventStreamTarget
 {
-    BrokerStateStore = 0,
+    Mqtt = 0,
     Storage = 1,
 }

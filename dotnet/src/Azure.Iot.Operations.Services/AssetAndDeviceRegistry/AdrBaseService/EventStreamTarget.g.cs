@@ -11,8 +11,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public enum EventStreamTarget
     {
-        [EnumMember(Value = @"BrokerStateStore")]
-        BrokerStateStore = 0,
+        [EnumMember(Value = @"Mqtt")]
+        Mqtt = 0,
         [EnumMember(Value = @"Storage")]
         Storage = 1,
     }

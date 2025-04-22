@@ -13,6 +13,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetSpecificationSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
+        /// The 'assetTypeRefs' Field.
+        /// </summary>
+        [JsonPropertyName("assetTypeRefs")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<string>? AssetTypeRefs { get; set; } = default;
+
+        /// <summary>
         /// The 'attributes' Field.
         /// </summary>
         [JsonPropertyName("attributes")]

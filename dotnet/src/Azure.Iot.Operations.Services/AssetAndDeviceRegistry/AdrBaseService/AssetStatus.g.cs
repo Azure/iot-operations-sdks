@@ -17,35 +17,35 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("config")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public AssetStatusConfigSchema? Config { get; set; } = default;
+        public AssetConfigStatusSchema? Config { get; set; } = default;
 
         /// <summary>
         /// The 'datasets' Field.
         /// </summary>
         [JsonPropertyName("datasets")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetStatusDatasetSchemaElementSchema>? Datasets { get; set; } = default;
+        public List<AssetDatasetEventStreamStatus>? Datasets { get; set; } = default;
 
         /// <summary>
         /// The 'events' Field.
         /// </summary>
         [JsonPropertyName("events")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetStatusEventSchemaElementSchema>? Events { get; set; } = default;
+        public List<AssetDatasetEventStreamStatus>? Events { get; set; } = default;
 
         /// <summary>
         /// The 'managementGroups' Field.
         /// </summary>
         [JsonPropertyName("managementGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetStatusManagementGroupSchemaElementSchema>? ManagementGroups { get; set; } = default;
+        public List<AssetManagementGroupStatusSchemaElementSchema>? ManagementGroups { get; set; } = default;
 
         /// <summary>
         /// The 'streams' Field.
         /// </summary>
         [JsonPropertyName("streams")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetStatusStreamSchemaElementSchema>? Streams { get; set; } = default;
+        public List<AssetDatasetEventStreamStatus>? Streams { get; set; } = default;
 
     }
 }

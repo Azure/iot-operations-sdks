@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("qos")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public QoS? Qos { get; set; } = default;
+        public Qos? Qos { get; set; } = default;
 
         /// <summary>
         /// The 'retain' Field.

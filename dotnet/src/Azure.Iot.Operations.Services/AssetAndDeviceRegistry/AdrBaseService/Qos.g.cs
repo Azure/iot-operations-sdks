@@ -9,13 +9,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public enum EventType
+    public enum Qos
     {
-        [EnumMember(Value = @"Create")]
-        Create = 0,
-        [EnumMember(Value = @"Delete")]
-        Delete = 1,
-        [EnumMember(Value = @"Update")]
-        Update = 2,
+        [EnumMember(Value = @"Qos0")]
+        Qos0 = 0,
+        [EnumMember(Value = @"Qos1")]
+        Qos1 = 1,
     }
 }

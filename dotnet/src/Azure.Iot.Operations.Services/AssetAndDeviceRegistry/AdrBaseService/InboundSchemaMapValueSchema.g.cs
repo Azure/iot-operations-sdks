@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DeviceInboundEndpointSchemaMapValueSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class InboundSchemaMapValueSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'additionalConfiguration' Field.
@@ -35,19 +35,19 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public AuthenticationSchema? Authentication { get; set; } = default;
 
         /// <summary>
+        /// The 'endpointType' Field.
+        /// </summary>
+        [JsonPropertyName("endpointType")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string EndpointType { get; set; } = default!;
+
+        /// <summary>
         /// The 'trustSettings' Field.
         /// </summary>
         [JsonPropertyName("trustSettings")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public TrustSettingsSchema? TrustSettings { get; set; } = default;
-
-        /// <summary>
-        /// The 'type' Field.
-        /// </summary>
-        [JsonPropertyName("type")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Type { get; set; } = default!;
 
         /// <summary>
         /// The 'version' Field.
@@ -62,9 +62,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 throw new ArgumentNullException("address field cannot be null");
             }
-            if (Type is null)
+            if (EndpointType is null)
             {
-                throw new ArgumentNullException("type field cannot be null");
+                throw new ArgumentNullException("endpointType field cannot be null");
             }
         }
 
@@ -74,9 +74,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 throw new ArgumentNullException("address field cannot be null");
             }
-            if (Type is null)
+            if (EndpointType is null)
             {
-                throw new ArgumentNullException("type field cannot be null");
+                throw new ArgumentNullException("endpointType field cannot be null");
             }
         }
     }
