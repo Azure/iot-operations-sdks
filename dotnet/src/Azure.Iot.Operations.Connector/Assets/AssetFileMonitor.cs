@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             if (_deviceDirectoryMonitor == null)
             {
-                Trace.WriteLine("Now observing devices");
+                Trace.WriteLine("Now observing devices in dir " + _adrResourcesNameMountPath);
 
                 _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
@@ -201,9 +201,9 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             List<string> inboundEndpointNames = new();
 
-            if (Directory.Exists(AdrResourcesNameMountPathEnvVar))
+            if (Directory.Exists(_adrResourcesNameMountPath))
             {
-                string[] files = Directory.GetFiles(AdrResourcesNameMountPathEnvVar);
+                string[] files = Directory.GetFiles(_adrResourcesNameMountPath);
                 foreach (string fileNameWithPath in files)
                 {
                     string[] fileNameParts = Path.GetFileName(fileNameWithPath).Split('_');
@@ -222,9 +222,9 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             HashSet<string> deviceNames = new(); // A device name can appear more than once when searching files, so don't use a list here.
 
-            if (Directory.Exists(AdrResourcesNameMountPathEnvVar))
+            if (Directory.Exists(_adrResourcesNameMountPath))
             {
-                string[] files = Directory.GetFiles(AdrResourcesNameMountPathEnvVar);
+                string[] files = Directory.GetFiles(_adrResourcesNameMountPath);
                 foreach (string fileNameWithPath in files)
                 {
                     deviceNames.Add(Path.GetFileName(fileNameWithPath).Split('_')[0]);
