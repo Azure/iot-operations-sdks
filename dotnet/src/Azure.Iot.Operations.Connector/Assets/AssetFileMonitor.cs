@@ -112,6 +112,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string currentAssetName in currentAssetNames)
                     {
+                        Trace.WriteLine("AssetFileMonitor reporting initial asset as created with name " + currentAssetName + " and composite device name " + deviceName + "_" + inboundEndpointName);
                         AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
                     }
                 }
@@ -161,6 +162,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string deviceName in currentDeviceNames)
                     {
+                        Trace.WriteLine("AssetFileMonitor reporting initial device as created with composite name " + deviceName);
                         DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
                     }
                 }
