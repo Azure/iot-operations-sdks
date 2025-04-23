@@ -499,9 +499,13 @@ where
                             .device_update_notification_dispatcher
                             .unregister_receiver(&receiver_id)
                         {
-                            log::debug!("Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list");
+                            log::debug!(
+                                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
+                            );
                         } else {
-                            log::debug!("Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list");
+                            log::debug!(
+                                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
+                            );
                         }
                         Err(Error(ErrorKind::ObservationError))
                     }
@@ -513,9 +517,13 @@ where
                     .device_update_notification_dispatcher
                     .unregister_receiver(&receiver_id)
                 {
-                    log::debug!("Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list");
+                    log::debug!(
+                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
+                    );
                 } else {
-                    log::debug!("Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list");
+                    log::debug!(
+                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
+                    );
                 }
                 Err(Error(ErrorKind::from(e)))
             }
@@ -568,9 +576,13 @@ where
                     .device_update_notification_dispatcher
                     .unregister_receiver(&receiver_id)
                 {
-                    log::debug!("Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list");
+                    log::debug!(
+                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
+                    );
                 } else {
-                    log::debug!("Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list");
+                    log::debug!(
+                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
+                    );
                 }
                 Ok(())
             }
@@ -810,18 +822,26 @@ where
 
         match response.payload.notification_preference_response {
             adr_name_gen::NotificationPreferenceResponse::Accepted => {
-                let receiver_id = Self::hash_device_endpoint_asset(&device_name, &inbound_endpoint_name, &asset_name);
+                let receiver_id = Self::hash_device_endpoint_asset(
+                    &device_name,
+                    &inbound_endpoint_name,
+                    &asset_name,
+                );
                 // Remove it from our dispatcher
                 if self
                     .asset_update_notification_dispatcher
                     .unregister_receiver(&receiver_id)
                 {
-                    log::debug!("Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}");
+                    log::debug!(
+                        "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+                    );
                 } else {
-                    log::debug!("Device, Endpoint and Asset combination not in observed list: {receiver_id:?}");
+                    log::debug!(
+                        "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
+                    );
                 }
                 Ok(())
-            },
+            }
             adr_name_gen::NotificationPreferenceResponse::Failed => {
                 Err(Error(ErrorKind::ObservationError))
             }
