@@ -141,16 +141,23 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     //TODO
                     Trace.WriteLine("AssetFileMonitor notification device file changed: " + args.FileName + " was " + args.ChangeType + " file path: " + args.FilePath);
-                    string deviceName = args.FileName.Split("_")[0];
-                    string inboundEndpointName = args.FileName.Split("_")[1];
+                    try
+                    {
+                        string deviceName = args.FileName.Split("_")[0];
+                        string inboundEndpointName = args.FileName.Split("_")[1];
 
-                    if (args.ChangeType == WatcherChangeTypes.Created)
-                    {
-                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Created));
+                        if (args.ChangeType == WatcherChangeTypes.Created)
+                        {
+                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Created));
+                        }
+                        else if (args.ChangeType == WatcherChangeTypes.Deleted)
+                        {
+                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Deleted));
+                        }
                     }
-                    else if (args.ChangeType == WatcherChangeTypes.Deleted)
+                    catch (IndexOutOfRangeException)
                     {
-                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Deleted));
+                        // Irrelevant file, safe to ignore.
                     }
                 };
 
@@ -162,8 +169,15 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string deviceName in currentDeviceNames)
                     {
-                        Trace.WriteLine("AssetFileMonitor reporting initial device as created with composite name " + deviceName);
-                        DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
+                        try
+                        {
+                            DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
+                            Trace.WriteLine("AssetFileMonitor reporting initial device as created with composite name " + deviceName);
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                            // Irrelevant file, safe to ignore.
+                        }
                     }
                 }
             }
@@ -206,10 +220,17 @@ namespace Azure.Iot.Operations.Connector.Assets
                 string[] files = Directory.GetFiles(_adrResourcesNameMountPath);
                 foreach (string fileNameWithPath in files)
                 {
-                    string[] fileNameParts = Path.GetFileName(fileNameWithPath).Split('_');
-                    if (fileNameParts[0].Equals(deviceName))
+                    try
                     {
-                        inboundEndpointNames.Add(fileNameParts[1]);
+                        string[] fileNameParts = Path.GetFileName(fileNameWithPath).Split('_');
+                        if (fileNameParts[0].Equals(deviceName))
+                        {
+                            inboundEndpointNames.Add(fileNameParts[1]);
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        // Irrelevant file, safe to ignore.
                     }
                 }
             }
