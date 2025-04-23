@@ -140,10 +140,12 @@ namespace Azure.Iot.Operations.Connector
                         if (args.Device == null)
                         {
                             // shouldn't ever happen
-                            _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
+                            _logger.LogError("Received notification that device was created, but no device was provided");
                         }
                         else
                         {
+                            _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
+
                             _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
                             {
                                 Device = args.Device
@@ -153,6 +155,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
+                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
                         await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
                         if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
@@ -165,6 +168,8 @@ namespace Azure.Iot.Operations.Connector
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
+                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
+
                         //TODO factor out? Its just the deleted->created snippets above
                         await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
@@ -179,7 +184,7 @@ namespace Azure.Iot.Operations.Connector
                         if (args.Device == null)
                         {
                             // shouldn't ever happen
-                            _logger.LogError("Received notification that asset endpoint profile was created, but no asset endpoint profile was provided");
+                            _logger.LogError("Received notification that device was created, but no device was provided");
                         }
                         else
                         {
