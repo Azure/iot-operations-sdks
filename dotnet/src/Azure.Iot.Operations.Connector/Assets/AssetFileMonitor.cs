@@ -167,6 +167,10 @@ namespace Azure.Iot.Operations.Connector.Assets
                     }
                 }
             }
+            else
+            {
+                Trace.WriteLine("wat");
+            }
         }
 
         /// <inheritdoc/>
