@@ -106,11 +106,10 @@ impl DeviceUpdateObservation {
     }
 }
 
+// ~~~~~~~~~~~~~~~~~~~SDK Created Asset Structs~~~~~~~~~~~~~
 /// A struct to manage receiving notifications for a asset
 #[derive(Debug)]
 pub struct AssetUpdateObservation {
-    /// The name of the asset (for convenience)
-    pub name: String,
     /// The internal channel for receiving update telemetry for this asset
     receiver: Receiver<(Asset, Option<AckToken>)>,
 }
@@ -141,7 +140,7 @@ pub struct StatusConfig {
     pub last_transition_time: Option<String>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
     /// The code of the error.
@@ -1044,13 +1043,6 @@ impl From<Config> for adr_name_gen::AssetConfigStatusSchema {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~ Asset Observation Event DTDL Equivalent Structs~~~~~~~
-
-#[derive(Clone, Debug)]
-pub struct AssetUpdateEvent {
-    pub asset: Asset,
-    pub asset_name: String,
-}
 // ~~~~~~~~~~~~~~~~~~~Detected Asset DTDL Equivalent Structs~~~~~~~
 #[derive(Clone, Debug)]
 pub struct DetectedAsset {
@@ -1209,16 +1201,6 @@ impl From<AssetManagementGroupActionType> for adr_name_gen::AssetManagementGroup
             AssetManagementGroupActionType::Call => Self::Call,
             AssetManagementGroupActionType::Read => Self::Read,
             AssetManagementGroupActionType::Write => Self::Write,
-        }
-    }
-}
-
-// ~~~~~~~~~~~~~~DTDL structs to SDK Asset Structs for Asset Observation Need~~~~~~~
-impl From<adr_name_gen::AssetUpdateEventSchema> for AssetUpdateEvent {
-    fn from(value: adr_name_gen::AssetUpdateEventSchema) -> Self {
-        AssetUpdateEvent {
-            asset: value.asset.into(),
-            asset_name: value.asset_name,
         }
     }
 }
