@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Connector.Assets.FileMonitor;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector.Assets
@@ -52,14 +53,14 @@ namespace Azure.Iot.Operations.Connector.Assets
             FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
             if (_assetFileMonitors.TryAdd(assetFileName, assetMonitor))
             {
-                Console.WriteLine("Now observing assets");
+                Trace.WriteLine("Now observing assets");
 
                 assetMonitor.OnFileChanged += (sender, args) =>
                 {
                     if (args.ChangeType == WatcherChangeTypes.Changed)
                     {
                         //TODO
-                        Console.WriteLine("AssetFileMonitor notification asset changed: " + args.FileName + " was " + args.ChangeType);
+                        Trace.WriteLine("AssetFileMonitor notification asset changed: " + args.FileName + " was " + args.ChangeType);
 
                         // Asset names may have changed. Compare new asset names with last known asset names for this device + inbound endpoint
                         IEnumerable<string>? currentAssetNames = GetAssetNames(deviceName, inboundEndpointName);
@@ -132,13 +133,13 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             if (_deviceDirectoryMonitor != null)
             {
-                Console.WriteLine("Now observing devices");
+                Trace.WriteLine("Now observing devices");
 
                 _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
                     //TODO
-                    Console.WriteLine("AssetFileMonitor notification device file changed: " + args.FileName + " was " + args.ChangeType);
+                    Trace.WriteLine("AssetFileMonitor notification device file changed: " + args.FileName + " was " + args.ChangeType);
                     string deviceName = args.FileName.Split("_")[0];
                     string inboundEndpointName = args.FileName.Split("_")[1];
 
