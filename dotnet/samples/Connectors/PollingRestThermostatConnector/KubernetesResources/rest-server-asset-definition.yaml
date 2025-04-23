@@ -29,6 +29,6 @@ spec:
           target: Mqtt
   defaultDatasetsConfiguration: ''
   deviceRef:
-    deviceName: my-thermostat
-    endpointName: my-rest-endpoint
+    deviceName: my-rest-thermostat-device-name
+    endpointName: my-rest-thermostat-endpoint-name
   version: 1

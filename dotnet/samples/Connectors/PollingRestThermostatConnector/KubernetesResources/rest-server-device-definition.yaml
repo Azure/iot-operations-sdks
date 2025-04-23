@@ -1,7 +1,7 @@
 apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
 kind: Device
 metadata:
-  name: my-thermostat
+  name: my-rest-thermostat-device-name
   namespace: azure-iot-operations
 spec:
   attributes:
@@ -10,7 +10,7 @@ spec:
   enabled: true
   endpoints:
     inbound:
-      my-rest-endpoint:
+      my-rest-thermostat-endpoint-name:
         additionalConfiguration: ''
         address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
         authentication:
