@@ -470,6 +470,146 @@ public class AdrServiceClientIntegrationTests
         Assert.Equal("validation-error", errorEvent.Error.Details[0].Code);
     }
 
+    [Fact]
+    public async Task ObservationsPersistAfterReconnection()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        // Set up tracking for received events
+        var receivedEvents = new List<Asset>();
+        var firstEventReceived = new TaskCompletionSource<bool>();
+        var reconnectionEventReceived = new TaskCompletionSource<bool>();
+        var eventCounter = 0;
+
+        // Set up event handler to track events
+        client.OnReceiveAssetUpdateEventTelemetry += (_, asset) =>
+        {
+            if (asset != null)
+            {
+                _output.WriteLine($"Received asset event: {asset.Name}, count: {++eventCounter}");
+                receivedEvents.Add(asset);
+
+                // Signal based on which event we're processing
+                if (eventCounter == 1)
+                {
+                    firstEventReceived.TrySetResult(true);
+                }
+                else if (eventCounter > 1)
+                {
+                    reconnectionEventReceived.TrySetResult(true);
+                }
+            }
+            return Task.CompletedTask;
+        };
+
+        // Start observing asset updates
+        var observeResponse = await client.ObserveAssetUpdatesAsync(
+            TestDeviceName, TestEndpointName, TestAssetName);
+        Assert.Equal(NotificationResponse.Accepted, observeResponse);
+
+        // Act - Phase 1: Send an update and verify it's received
+        var updateRequest1 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
+        updateRequest1.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
+        {
+            new AssetDatasetEventStreamStatus
+            {
+                Name = "pre-disconnect-event",
+                MessageSchemaReference = new MessageSchemaReference
+                {
+                    SchemaName = "test-schema",
+                    SchemaRegistryNamespace = "test-namespace",
+                    SchemaVersion = "1.0"
+                }
+            }
+        };
+
+        await client.UpdateAssetStatusAsync(
+            TestDeviceName, TestEndpointName, updateRequest1);
+
+        // Wait for the first event
+        var firstEventReceived1 = await Task.WhenAny(
+            firstEventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
+
+        Assert.True(firstEventReceived1.IsCompleted && !firstEventReceived1.IsFaulted,
+            "Did not receive first asset event update within timeout");
+
+        // Act - Phase 2: Simulate reconnection by disposing and recreating the client
+        _output.WriteLine("Simulating disconnection by disposing client...");
+        await client.DisposeAsync();
+
+        // Create a new client to simulate reconnection
+        _output.WriteLine("Creating new client to simulate reconnection...");
+        await using var reconnectedClient = new AdrServiceClient(applicationContext,
+            await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(),
+            ConnectorClientId);
+
+        // Set up event handler for the reconnected client
+        reconnectedClient.OnReceiveAssetUpdateEventTelemetry += (_, asset) =>
+        {
+            if (asset != null)
+            {
+                _output.WriteLine($"Received asset event after reconnection: {asset.Name}");
+                receivedEvents.Add(asset);
+                reconnectionEventReceived.TrySetResult(true);
+            }
+            return Task.CompletedTask;
+        };
+
+        // Re-establish the observation after reconnection
+        var observeResponseAfterReconnect = await reconnectedClient.ObserveAssetUpdatesAsync(
+            TestDeviceName, TestEndpointName, TestAssetName);
+        Assert.Equal(NotificationResponse.Accepted, observeResponseAfterReconnect);
+
+        // Act - Phase 3: Send another update after reconnection
+        var updateRequest2 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
+        updateRequest2.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
+        {
+            new AssetDatasetEventStreamStatus
+            {
+                Name = "post-reconnect-event",
+                MessageSchemaReference = new MessageSchemaReference
+                {
+                    SchemaName = "reconnect-schema",
+                    SchemaRegistryNamespace = "test-namespace",
+                    SchemaVersion = "2.0"
+                }
+            }
+        };
+
+        await reconnectedClient.UpdateAssetStatusAsync(
+            TestDeviceName, TestEndpointName, updateRequest2);
+
+        // Wait for the post-reconnection event
+        var reconnectionEventTask = await Task.WhenAny(
+            reconnectionEventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
+
+        // Cleanup
+        await reconnectedClient.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+
+        // Assert
+        Assert.True(reconnectionEventTask.IsCompleted && !reconnectionEventTask.IsFaulted,
+            "Did not receive asset event after reconnection within timeout");
+
+        // Verify events were received after reconnection
+        var postReconnectEvents = receivedEvents.Where(e =>
+            e.Status?.Events?.Any(evt => evt.Name == "post-reconnect-event") == true).ToList();
+
+        Assert.NotEmpty(postReconnectEvents);
+
+        // Verify the event data after reconnection
+        var latestEvent = postReconnectEvents[^1];
+        Assert.NotNull(latestEvent.Status?.Events);
+        var eventData = latestEvent.Status.Events.Find(e => e.Name == "post-reconnect-event");
+        Assert.NotNull(eventData?.MessageSchemaReference);
+        Assert.Equal("reconnect-schema", eventData.MessageSchemaReference.SchemaName);
+        Assert.Equal("test-namespace", eventData.MessageSchemaReference.SchemaRegistryNamespace);
+        Assert.Equal("2.0", eventData.MessageSchemaReference.SchemaVersion);
+    }
     private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
     {
         return new CreateDetectedAssetRequest
