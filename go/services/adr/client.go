@@ -75,16 +75,6 @@ type ClientOptions struct {
 	OnAepUpdate   func(string, *AssetEndpointProfile) error
 }
 
-// Apply resolves the provided list of options.
-func (o *ClientOptions) Apply(
-	opts []ClientOption,
-	rest ...ClientOption,
-) {
-	for opt := range options.Apply[ClientOption](opts, rest...) {
-		opt.client(o)
-	}
-}
-
 type (
 	withLogger struct{ *slog.Logger }
 
@@ -96,43 +86,6 @@ type (
 		fn func(string, *AssetEndpointProfile) error
 	}
 )
-
-func (o withLogger) client(
-	opt *ClientOptions,
-) {
-	opt.Logger = o.Logger
-}
-
-func (o withAssetUpdateHandler) client(
-	opt *ClientOptions,
-) {
-	opt.OnAssetUpdate = o.fn
-}
-
-func (o withAepUpdateHandler) client(
-	opt *ClientOptions,
-) {
-	opt.OnAepUpdate = o.fn
-}
-
-// WithLogger enables logging with the provided slog logger.
-func WithLogger(logger *slog.Logger) ClientOption {
-	return withLogger{logger}
-}
-
-// WithAssetUpdateHandler sets a handler for asset update events.
-func WithAssetUpdateHandler(
-	handler func(aepName string, asset *Asset) error,
-) ClientOption {
-	return withAssetUpdateHandler{handler}
-}
-
-// WithAepUpdateHandler sets a handler for asset endpoint profile update events.
-func WithAepUpdateHandler(
-	handler func(aepName string, profile *AssetEndpointProfile) error,
-) ClientOption {
-	return withAepUpdateHandler{handler}
-}
 
 // New creates a new ADR client.
 func New(
@@ -212,6 +165,17 @@ func New(
 	c.listeners = append(c.listeners, aepUpdateReceiver)
 
 	return c, nil
+}
+
+// Start starts the client and its listeners.
+func (c *Client) Start(ctx context.Context) error {
+	return c.listeners.Start(ctx)
+}
+
+// Close all underlying resources.
+func (c *Client) Close(ctx context.Context) error {
+	c.listeners.Close()
+	return nil
 }
 
 // ObserveAssetEndpointProfileUpdates starts observation of asset endpoint profile updates.
@@ -626,4 +590,51 @@ func translateError(err error) error {
 	}
 
 	return err
+}
+
+// Apply resolves the provided list of options.
+func (o *ClientOptions) Apply(
+	opts []ClientOption,
+	rest ...ClientOption,
+) {
+	for opt := range options.Apply[ClientOption](opts, rest...) {
+		opt.client(o)
+	}
+}
+
+func (o withLogger) client(
+	opt *ClientOptions,
+) {
+	opt.Logger = o.Logger
+}
+
+func (o withAssetUpdateHandler) client(
+	opt *ClientOptions,
+) {
+	opt.OnAssetUpdate = o.fn
+}
+
+func (o withAepUpdateHandler) client(
+	opt *ClientOptions,
+) {
+	opt.OnAepUpdate = o.fn
+}
+
+// WithLogger enables logging with the provided slog logger.
+func WithLogger(logger *slog.Logger) ClientOption {
+	return withLogger{logger}
+}
+
+// WithAssetUpdateHandler sets a handler for asset update events.
+func WithAssetUpdateHandler(
+	handler func(aepName string, asset *Asset) error,
+) ClientOption {
+	return withAssetUpdateHandler{handler}
+}
+
+// WithAepUpdateHandler sets a handler for asset endpoint profile update events.
+func WithAepUpdateHandler(
+	handler func(aepName string, profile *AssetEndpointProfile) error,
+) ClientOption {
+	return withAepUpdateHandler{handler}
 }
