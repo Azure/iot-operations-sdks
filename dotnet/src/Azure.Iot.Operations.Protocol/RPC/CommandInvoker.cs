@@ -215,7 +215,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 _subscribedTopics.Add(responseTopicFilter);
             }
-            Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{_commandName}'");
+            //Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{_commandName}'");
         }
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
@@ -326,7 +326,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             }
                             else
                             {
-                                Trace.TraceWarning("Command executor failed to provide the request's protocol version");
+                                //Trace.TraceWarning("Command executor failed to provide the request's protocol version");
                             }
 
                             if (supportedMajorVersions != null
@@ -336,7 +336,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             }
                             else
                             {
-                                Trace.TraceWarning("Command executor failed to provide the supported major protocol versions");
+                                //Trace.TraceWarning("Command executor failed to provide the supported major protocol versions");
                             }
                         }
 
@@ -363,14 +363,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                     else
                     {
-                        Trace.TraceInformation($"No timestamp present in command response metadata.");
+                        //Trace.TraceInformation($"No timestamp present in command response metadata.");
                     }
 
                     ExtendedResponse<TResp> extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
 
                     if (!responsePromise.CompletionSource.TrySetResult(extendedResponse))
                     {
-                        Trace.TraceWarning("Failed to complete the command response promise. This may be because the operation was cancelled or finished with exception.");
+                        //Trace.TraceWarning("Failed to complete the command response promise. This may be because the operation was cancelled or finished with exception.");
                     }
                 }
             }
@@ -600,7 +600,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             CorrelationId = requestGuid,
                         };
                     }
-                    Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
+                    //Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {
@@ -747,13 +747,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, CancellationToken.None).ConfigureAwait(false);
                     if (!unsubAck.IsUnsubAckSuccessful())
                     {
-                        Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{_commandName}'.");
+                        //Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{_commandName}'.");
                     }
                 }
             }
             catch (Exception e)
             {
-                Trace.TraceWarning("Encountered an error while unsubscribing during disposal {0}", e);
+                //Trace.TraceWarning("Encountered an error while unsubscribing during disposal {0}", e);
             }
 
             lock (_subscribedTopicsSetLock)
@@ -774,7 +774,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             if (!tcs.TrySetException(ex))
             {
-                Trace.TraceWarning("Failed to mark the command response promise as finished with exception. This may be because the operation was cancelled or already finished. Exception: {0}", ex);
+                //Trace.TraceWarning("Failed to mark the command response promise as finished with exception. This may be because the operation was cancelled or already finished. Exception: {0}", ex);
             }
         }
 
@@ -782,7 +782,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             if (!tcs.TrySetCanceled())
             {
-                Trace.TraceWarning($"Failed to cancel the response promise. This may be because the promise was already completed.");
+                //Trace.TraceWarning($"Failed to cancel the response promise. This may be because the promise was already completed.");
             }
         }
 
