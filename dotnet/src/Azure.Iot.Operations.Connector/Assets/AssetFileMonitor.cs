@@ -139,8 +139,6 @@ namespace Azure.Iot.Operations.Connector.Assets
                 _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
-                    //TODO
-                    Trace.WriteLine("AssetFileMonitor notification device file changed: " + args.FileName + " was " + args.ChangeType + " file path: " + args.FilePath);
                     if (args.FileName.Contains("_") && args.FileName.Split("_").Length == 2)
                     {
                         string deviceName = args.FileName.Split("_")[0];
