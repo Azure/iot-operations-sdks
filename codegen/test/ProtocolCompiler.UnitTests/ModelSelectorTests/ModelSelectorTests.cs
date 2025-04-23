@@ -1,6 +1,5 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests.ModelSelectorTests
 {
-    using System;
     using DTDLParser;
     using Azure.Iot.Operations.ProtocolCompiler;
 
@@ -8,11 +7,6 @@
     {
         private const string rootPath = "../../../ModelSelectorTests";
         private const string modelsPath = $"{rootPath}/models";
-
-        private static readonly Uri dmrPath = new Uri(Path.GetFullPath($"{rootPath}/dmr"));
-        private static readonly Uri nonExistentPath = new Uri(Path.GetFullPath($"{rootPath}/nonexistent"));
-        private static readonly Uri dmrUri = new Uri("https://devicemodels.azure.com/");
-        private static readonly Uri nonExistentUri = new Uri("https://not.exist.azure.com/");
 
         private static readonly Dtmi dtmiNoCotype = new Dtmi("dtmi:akri:DTDL:ModelSelector:noCotype;1");
         private static readonly Dtmi dtmiMqttAlpha = new Dtmi("dtmi:akri:DTDL:ModelSelector:mqttAlpha;1");
@@ -36,7 +30,6 @@
                 new string[] { interfaceNoCotypeText },
                 new string[] { "NoCotype" },
                 null,
-                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -48,7 +41,6 @@
             ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
                 new string[] { interfaceMqttAlphaText },
                 new string[] { "Alpha" },
-                null,
                 null,
                 _ => { });
 
@@ -62,7 +54,6 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 null,
-                null,
                 _ => { });
 
             Assert.NotNull(contextualizedInterface.InterfaceId);
@@ -74,7 +65,6 @@
             ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
                 new string[] { interfaceMqttAlphaText, interfaceMqttBetaText },
                 new string[] { "Alpha", "Beta" },
-                null,
                 null,
                 _ => { });
 
@@ -88,7 +78,6 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiMqttBeta,
-                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -101,7 +90,6 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiMqttAlphaTelem,
-                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -114,7 +102,6 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiNoCotype,
-                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -127,7 +114,6 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiMqttAlpha,
-                null,
                 _ => { });
 
             Assert.NotNull(contextualizedInterface.InterfaceId);
@@ -140,7 +126,6 @@
                 new string[] { interfaceMqttAlphaText, interfaceMqttBetaText },
                 new string[] { "Alpha", "Beta" },
                 dtmiMqttAlpha,
-                null,
                 _ => { });
 
             Assert.NotNull(contextualizedInterface.InterfaceId);
@@ -153,176 +138,6 @@
                 new string[] { interfaceExtendsBaseText },
                 new string[] { "Extends" },
                 null,
-                null,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task ModelTextWithOneCotypedInterfaceExternalRefMissingFileRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { interfaceExtendsBaseText },
-                new string[] { "Extends" },
-                null,
-                nonExistentPath,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task ModelTextWithOneCotypedInterfaceExternalRefNotInFileRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { interfaceExtendsDIText },
-                new string[] { "Extends" },
-                null,
-                dmrPath,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task ModelTextWithOneCotypedInterfaceExternalRefInFileRepo_Succeeds()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { interfaceExtendsBaseText },
-                new string[] { "Extends" },
-                null,
-                dmrPath,
-                _ => { });
-
-            Assert.NotNull(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task ModelTextWithOneCotypedInterfaceExternalRefMissingRemoteRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { interfaceExtendsDIText },
-                new string[] { "Extends" },
-                null,
-                nonExistentUri,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact(Skip = "global DMR is planned to be archived")]
-        public async Task ModelTextWithOneCotypedInterfaceExternalRefNotInRemoteRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { interfaceExtendsBaseText },
-                new string[] { "Extends" },
-                null,
-                dmrUri,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact(Skip = "global DMR is planned to be archived")]
-        public async Task ModelTextWithOneCotypedInterfaceExternalRefInRemoteRepo_Succeeds()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { interfaceExtendsDIText },
-                new string[] { "Extends" },
-                null,
-                dmrUri,
-                _ => { });
-
-            Assert.NotNull(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task NoModelTextMissingFileRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiExtendsBase,
-                nonExistentPath,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task NoModelTextDtmiNotInFileRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiMqttAlpha,
-                dmrPath,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task NoModelTextDtmiInFileRepoNoCotype_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiInterfaceBase,
-                dmrPath,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task NoModelTextDtmiInFileRepoWithCotype_Succeeds()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiExtendsBase,
-                dmrPath,
-                _ => { });
-
-            Assert.NotNull(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact]
-        public async Task NoModelTextMissingRemoteRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiExtendsBase,
-                nonExistentUri,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact(Skip = "global DMR is planned to be archived")]
-        public async Task NoModelTextDtmiNotInRemoteRepo_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiMqttAlpha,
-                dmrUri,
-                _ => { });
-
-            Assert.Null(contextualizedInterface.InterfaceId);
-        }
-
-        [Fact(Skip = "global DMR is planned to be archived")]
-        public async Task NoModelTextDtmiInRemoteRepoNoCotype_Fails()
-        {
-            ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
-                new string[] { },
-                new string[] { },
-                dtmiDeviceInformation,
-                dmrUri,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);

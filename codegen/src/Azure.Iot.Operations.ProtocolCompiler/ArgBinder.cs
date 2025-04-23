@@ -11,7 +11,6 @@
     {
         private readonly Option<FileInfo[]> modelFile;
         private readonly Option<string?> modelId;
-        private readonly Option<string?> dmrRoot;
         private readonly Option<string?> workingDir;
         private readonly Option<DirectoryInfo> outDir;
         private readonly Option<string?> genNamespace;
@@ -30,7 +29,6 @@
         /// </summary>
         /// <param name="modelFile">File(s) containing DTDL model(s) to process.</param>
         /// <param name="modelId">DTMI of Interface to use for codegen (not needed when model has only one Mqtt Interface).</param>
-        /// <param name="dmrRoot">Directory or URL from which to retrieve referenced models.</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
         /// <param name="outDir">Directory for receiving generated code.</param>
         /// <param name="genNamespace">Namespace for generated code.</param>
@@ -44,7 +42,6 @@
         public ArgBinder(
             Option<FileInfo[]> modelFile,
             Option<string?> modelId,
-            Option<string?> dmrRoot,
             Option<string?> workingDir,
             Option<DirectoryInfo> outDir,
             Option<string?> genNamespace,
@@ -60,7 +57,6 @@
         {
             this.modelFile = modelFile;
             this.modelId = modelId;
-            this.dmrRoot = dmrRoot;
             this.workingDir = workingDir;
             this.outDir = outDir;
             this.genNamespace = genNamespace;
@@ -81,7 +77,6 @@
             {
                 ModelFiles = bindingContext.ParseResult.GetValueForOption(this.modelFile)!,
                 ModelId = bindingContext.ParseResult.GetValueForOption(this.modelId),
-                DmrRoot = bindingContext.ParseResult.GetValueForOption(this.dmrRoot),
                 WorkingDir = bindingContext.ParseResult.GetValueForOption(this.workingDir),
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
