@@ -51,7 +51,6 @@ type Client struct {
 	observedAeps                                       map[string]struct{}
 	observedAssets                                     map[string]struct{}
 	mu                                                 sync.RWMutex
-	closeOnce                                          sync.Once
 	listeners                                          protocol.Listeners
 	onAssetUpdate                                      func(aepName string, asset *Asset) error
 	onAepUpdate                                        func(aepName string, profile *AssetEndpointProfile) error
