@@ -239,6 +239,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                 };
 
+                _logger.LogInformation("Starting to observe devices...");
                 _assetMonitor.ObserveDevices();
 
                 try
