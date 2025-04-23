@@ -84,6 +84,30 @@ async fn run_program(
     };
 
     match azure_device_registry_client
+        .observe_asset_update_notifications(
+            device_name.clone(),
+            inbound_endpoint_name.clone(),
+            asset_name.clone(),
+            timeout,
+        )
+        .await
+    {
+        Ok(mut observation) => {
+            tokio::task::spawn({
+                async move {
+                    while let Some((notification, _)) = observation.recv_notification().await {
+                        log::info!("asset updated! {notification:?}");
+                    }
+                    log::info!("asset notification receiver closed");
+                }
+            });
+        }
+        Err(e) => {
+            log::error!("Observing for asset updates failed: {e}");
+        }
+    };
+
+    match azure_device_registry_client
         .get_device(device_name.clone(), inbound_endpoint_name.clone(), timeout)
         .await
     {
