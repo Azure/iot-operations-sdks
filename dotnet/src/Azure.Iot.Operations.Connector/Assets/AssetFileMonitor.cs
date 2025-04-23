@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         /// <inheritdoc/>
         public void ObserveDevices()
         {
-            if (_deviceDirectoryMonitor != null)
+            if (_deviceDirectoryMonitor == null)
             {
                 Trace.WriteLine("Now observing devices");
 
@@ -166,10 +166,6 @@ namespace Azure.Iot.Operations.Connector.Assets
                         DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
                     }
                 }
-            }
-            else
-            {
-                Trace.WriteLine("wat");
             }
         }
 
