@@ -9,7 +9,7 @@ using System.Text;
 namespace Azure.Iot.Operations.Connector.Assets
 {
     /// <summary>
-    /// This class allows for getting and monitor changes to assets and asset endpoint profiles.
+    /// This class allows for getting and monitor changes to assets and devices.
     /// </summary>
     /// <remarks>
     /// This class is only applicable for connector applications that have been deployed by the Akri operator.
