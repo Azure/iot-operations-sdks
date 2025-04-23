@@ -6,7 +6,7 @@ metadata:
 spec:
   attributes:
     assetId: my-rest-thermostat-asset
-    assetType: thermostat
+    assetType: rest-thermostat-asset
   datasets:
     - name: thermostat_status
       dataPoints:
