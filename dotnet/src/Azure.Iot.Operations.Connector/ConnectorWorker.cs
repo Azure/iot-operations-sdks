@@ -235,7 +235,8 @@ namespace Azure.Iot.Operations.Connector
 
                 try
                 {
-                    await Task.Delay(TimeSpan.MaxValue, linkedToken);
+                    // Wait until the background service is cancelled or the pod is no longer leader
+                    await Task.Delay(-1, linkedToken);
                 }
                 catch (OperationCanceledException)
                 {
