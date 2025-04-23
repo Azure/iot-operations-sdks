@@ -5,27 +5,29 @@
 //!
 //! To use this client, the `azure_device_registry` feature must be enabled.
 
-use derive_builder::Builder;
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
+use derive_builder::Builder;
 use tokio::{sync::Notify, task};
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
 use crate::azure_device_registry::{
-    AssetStatus, AssetUpdateObservation, Device, DeviceStatus, DeviceUpdateObservation, Error,
-    ErrorKind,
+    Asset, AssetStatus, AssetUpdateObservation, Device, DeviceStatus, DeviceUpdateObservation,
+    Error, ErrorKind,
     device_name_gen::{
-        adr_base_service::client::GetDeviceRequestBuilder,
         common_types::options::CommandInvokerOptionsBuilder,
         common_types::options::TelemetryReceiverOptionsBuilder,
     },
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
-use super::Asset;
+const DEVICE_NAME_TOPIC_TOKEN: &str = "deviceName";
+const DEVICE_NAME_RECEIVED_TOPIC_TOKEN: &str = "ex:deviceName";
+const INBOUND_ENDPOINT_NAME_TOPIC_TOKEN: &str = "inboundEndpointName";
+const INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN: &str = "ex:inboundEndpointName";
 
 /// Options for the Azure Device Registry client.
 #[derive(Builder, Clone, Default)]
@@ -43,15 +45,20 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
+    // general
+    shutdown_notifier: Arc<Notify>,
+    // device
     get_device_command_invoker: Arc<adr_name_gen::GetDeviceCommandInvoker<C>>,
     update_device_status_command_invoker: Arc<adr_name_gen::UpdateDeviceStatusCommandInvoker<C>>,
-    _notify_on_device_update_command_invoker:
+    notify_on_device_update_command_invoker:
         Arc<adr_name_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
+    device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
+    // asset
     get_asset_command_invoker: Arc<adr_name_gen::GetAssetCommandInvoker<C>>,
     update_asset_status_command_invoker: Arc<adr_name_gen::UpdateAssetStatusCommandInvoker<C>>,
     notify_on_asset_update_command_invoker:
         Arc<adr_name_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>>,
-    asset_update_event_telemetry_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
+    asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
 }
 
 impl<C> Client<C>
@@ -63,13 +70,11 @@ where
     // Create a new Azure Device Registry Client.
     /// # Errors
     /// TODO
-    /// # Panics
-    /// Panics if the options for the underlying command invokers and telemetry receivers cannot be built. Not possible since
-    /// the options are statically generated.
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
         client: &C,
-        options: &ClientOptions,
+        options: ClientOptions,
     ) -> Result<Self, Error> {
         let command_options = CommandInvokerOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
@@ -86,16 +91,32 @@ where
             )]))
             .auto_ack(options.notification_auto_ack)
             .build()
-            .expect("DTDL schema generated invalid arguments");
+            .map_err(ErrorKind::from)?;
 
-        let asset_shutdown_notifier = Arc::new(Notify::new());
-        let asset_update_event_telemetry_dispatcher = Arc::new(Dispatcher::new());
-        let asset_update_event_telemetry_dispatcher_clone =
-            asset_update_event_telemetry_dispatcher.clone();
+        // Create the shutdown notifier for the receiver loop
+        let shutdown_notifier = Arc::new(Notify::new());
 
-        // Start the update notification loop
+        // Create dispatchers for devices/assets being observed to send their update notifications to
+        let device_update_notification_dispatcher = Arc::new(Dispatcher::new());
+        let asset_update_notification_dispatcher = Arc::new(Dispatcher::new());
+
+        // Start the update device and assets notification loop
         task::spawn({
-            let asset_update_event_telemetry_receiver =
+            // clones
+            let shutdown_notifier_clone = shutdown_notifier.clone();
+            let device_update_notification_dispatcher_clone =
+                device_update_notification_dispatcher.clone();
+            let asset_update_notification_dispatcher_clone =
+                asset_update_notification_dispatcher.clone();
+
+            // telemetry receivers
+            let device_update_telemetry_receiver =
+                adr_name_gen::DeviceUpdateEventTelemetryReceiver::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &telemetry_options,
+                );
+            let asset_update_telemetry_receiver =
                 adr_name_gen::AssetUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
@@ -103,16 +124,19 @@ where
                 );
 
             async move {
-                Self::receive_update_event_telemetry_loop(
-                    asset_shutdown_notifier,
-                    asset_update_event_telemetry_receiver,
-                    asset_update_event_telemetry_dispatcher,
+                Self::receive_update_notification_loop(
+                    shutdown_notifier_clone,
+                    device_update_telemetry_receiver,
+                    device_update_notification_dispatcher_clone,
+                    asset_update_telemetry_receiver,
+                    asset_update_notification_dispatcher_clone,
                 )
                 .await;
             }
         });
 
         Ok(Self {
+            shutdown_notifier,
             get_device_command_invoker: Arc::new(adr_name_gen::GetDeviceCommandInvoker::new(
                 application_context.clone(),
                 client.clone(),
@@ -125,13 +149,14 @@ where
                     &command_options,
                 ),
             ),
-            _notify_on_device_update_command_invoker: Arc::new(
+            notify_on_device_update_command_invoker: Arc::new(
                 adr_name_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &command_options,
                 ),
             ),
+            device_update_notification_dispatcher,
             get_asset_command_invoker: Arc::new(adr_name_gen::GetAssetCommandInvoker::new(
                 application_context.clone(),
                 client.clone(),
@@ -151,7 +176,7 @@ where
                     &command_options,
                 ),
             ),
-            asset_update_event_telemetry_dispatcher: asset_update_event_telemetry_dispatcher_clone,
+            asset_update_notification_dispatcher,
         })
     }
 
@@ -166,7 +191,185 @@ where
     /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     #[allow(clippy::unused_async)]
     pub async fn shutdown(&self) -> Result<(), Error> {
-        Err(Error(ErrorKind::PlaceholderError))
+        // Notify the receiver loop to shutdown the telemetry receivers
+        self.shutdown_notifier.notify_one();
+
+        // TODO: shut down invokers
+
+        log::info!("Shutdown");
+        Ok(())
+    }
+
+    fn get_topic_tokens(
+        device_name: String,
+        inbound_endpoint_name: String,
+    ) -> HashMap<String, String> {
+        HashMap::from([
+            (DEVICE_NAME_TOPIC_TOKEN.to_string(), device_name),
+            (
+                INBOUND_ENDPOINT_NAME_TOPIC_TOKEN.to_string(),
+                inbound_endpoint_name,
+            ),
+        ])
+    }
+
+    async fn receive_update_notification_loop(
+        shutdown_notifier: Arc<Notify>,
+        mut device_update_telemetry_receiver: adr_name_gen::DeviceUpdateEventTelemetryReceiver<C>,
+        device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
+        mut asset_update_telemetry_receiver: adr_name_gen::AssetUpdateEventTelemetryReceiver<C>,
+        asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
+    ) {
+        let mut device_shutdown_attempt_count = 0;
+        let mut asset_shutdown_attempt_count = 0;
+
+        let device_shutdown_notifier = Arc::new(Notify::new());
+        let asset_shutdown_notifier = Arc::new(Notify::new());
+
+        let mut device_receiver_closed = false;
+        let mut asset_receiver_closed = false;
+
+        loop {
+            tokio::select! {
+                () = shutdown_notifier.notified() => {
+                    if device_shutdown_attempt_count < 3 {
+                        device_shutdown_attempt_count += 1;
+                        device_shutdown_notifier.notify_one();
+                    }
+                    if asset_shutdown_attempt_count < 3 {
+                        asset_shutdown_attempt_count += 1;
+                        asset_shutdown_notifier.notify_one();
+                    }
+                },
+                // AEP shutdown handler
+                () = device_shutdown_notifier.notified() => {
+                    match device_update_telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("DeviceUpdateEventTelemetryReceiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down DeviceUpdateEventTelemetryReceiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if device_shutdown_attempt_count < 3 {
+                                device_shutdown_attempt_count += 1;
+                                device_shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
+                },
+                // Asset shutdown handler
+                () = asset_shutdown_notifier.notified() => {
+                    match asset_update_telemetry_receiver.shutdown().await {
+                        Ok(()) => {
+                            log::info!("AssetUpdateEventTelemetryReceiver shutdown");
+                        }
+                        Err(e) => {
+                            log::error!("Error shutting down AssetUpdateEventTelemetryReceiver: {e}");
+                            // try shutdown again, but not indefinitely
+                            if asset_shutdown_attempt_count < 3 {
+                                asset_shutdown_attempt_count += 1;
+                                asset_shutdown_notifier.notify_one();
+                            }
+                        }
+                    }
+                },
+                device_update_message = device_update_telemetry_receiver.recv() => {
+                    match device_update_message {
+                        Some(Ok((device_update_telemetry, ack_token))) => {
+                            let Some(device_name) = device_update_telemetry.topic_tokens.get(DEVICE_NAME_RECEIVED_TOPIC_TOKEN) else {
+                                log::error!("Device Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                continue;
+                            };
+                            let Some(inbound_endpoint_name) = device_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
+                                log::error!("Device Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                continue;
+                            };
+
+                            // Try to send the notification to the associated receiver
+                            let receiver_id = Self::hash_device_endpoint(
+                                device_name,
+                                inbound_endpoint_name,
+                            );
+                            match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.into(), ack_token)) {
+                                Ok(()) => {
+                                    log::debug!("Device Update Notification dispatched for device '{device_name:?}' and inbound endpoint '{inbound_endpoint_name:?}'");
+                                }
+                                Err(DispatchError::SendError(payload)) => {
+                                    log::warn!("Device Update Observation has been dropped. Received Device Update Notification: {payload:?}");
+                                }
+                                Err(DispatchError::NotFound(payload)) => {
+                                    log::warn!("Device Endpoint is not being observed. Received Device Update Notification: {payload:?}");
+                                }
+                            }
+                        },
+                        Some(Err(e)) => {
+                            // This should only happen on errors subscribing, but it's likely not recoverable
+                            log::error!("Error receiving Device Update Notification Telemetry: {e}. Shutting down DeviceUpdateEventTelemetryReceiver.");
+                            // try to shutdown telemetry receiver, but not indefinitely
+                            if device_shutdown_attempt_count < 3 {
+                                device_shutdown_notifier.notify_one();
+                            }
+                        },
+                        None => {
+                            device_receiver_closed = true;
+                            log::info!("DeviceUpdateEventTelemetryReceiver closed, no more Device Update Notifications will be received");
+                            // Unregister all receivers, closing the associated channels
+                            device_update_notification_dispatcher.unregister_all();
+                            if device_receiver_closed && asset_receiver_closed {
+                                // only break if both telemetry receivers won't receive any more messages
+                                break;
+                            }
+                        }
+                    }
+                },
+                asset_update_message = asset_update_telemetry_receiver.recv() => {
+                    match asset_update_message {
+                        Some(Ok((asset_update_telemetry, ack_token))) => {
+                            let Some(device_name) = asset_update_telemetry.topic_tokens.get(DEVICE_NAME_RECEIVED_TOPIC_TOKEN) else {
+                                log::error!("Asset Update Notification missing {DEVICE_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                continue;
+                            };
+                            let Some(inbound_endpoint_name) = asset_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
+                                log::error!("AssetUpdateEventTelemetry missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                continue;
+                            };
+
+                            // Try to send the notification to the associated receiver
+                            let receiver_id = Self::hash_device_endpoint_asset(device_name, inbound_endpoint_name, &asset_update_telemetry.payload.asset_update_event.asset_name);
+                            match asset_update_notification_dispatcher.dispatch(&receiver_id, (asset_update_telemetry.payload.asset_update_event.asset.into(), ack_token)) {
+                                Ok(()) => {
+                                    log::debug!("Asset Update Notification dispatched for device '{device_name:?}', inbound endpoint '{inbound_endpoint_name:?}', and asset '{:?}'", asset_update_telemetry.payload.asset_update_event.asset_name);
+                                }
+                                Err(DispatchError::SendError(payload)) => {
+                                    log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification: {payload:?}",);
+                                }
+                                Err(DispatchError::NotFound(payload)) => {
+                                    log::warn!("Asset is not being observed. Received Asset Update Notification: {payload:?}",);
+                                }
+                            }
+                        },
+                        Some(Err(e))=> {
+                            // This should only happen on errors subscribing, but it's likely not recoverable
+                            log::error!("Error receiving Asset Update Notification Telemetry: {e}. Shutting down AssetUpdateEventTelemetryReceiver.");
+                            // try to shutdown telemetry receiver, but not indefinitely
+                            if asset_shutdown_attempt_count < 3 {
+                                asset_shutdown_notifier.notify_one();
+                            }
+                        },
+                        None => {
+                            asset_receiver_closed = true;
+                            log::info!("AssetUpdateEventTelemetryReceiver closed, no more Asset Update Notifications will be received");
+                            // Unregister all receivers, closing the associated channels
+                            asset_update_notification_dispatcher.unregister_all();
+                            if device_receiver_closed && asset_receiver_closed {
+                                // only break if both telemetry receivers won't receive any more messages
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~ Device APIs ~~~~~~~~~~~~~~~~~~~~~
@@ -188,11 +391,8 @@ where
         inbound_endpoint_name: String,
         timeout: Duration,
     ) -> Result<Device, Error> {
-        let get_device_request = GetDeviceRequestBuilder::default()
-            .topic_tokens(HashMap::from([
-                ("deviceName".to_string(), device_name),
-                ("inboundEndpointName".to_string(), inbound_endpoint_name),
-            ]))
+        let get_device_request = adr_name_gen::GetDeviceRequestBuilder::default()
+            .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -231,10 +431,7 @@ where
             adr_name_gen::UpdateDeviceStatusRequestBuilder::default()
                 .payload(status_payload)
                 .map_err(ErrorKind::from)?
-                .topic_tokens(HashMap::from([
-                    ("deviceName".to_string(), device_name),
-                    ("inboundEndpointName".to_string(), inbound_endpoint_name),
-                ]))
+                .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
                 .timeout(timeout)
                 .build()
                 .map_err(ErrorKind::from)?;
@@ -257,14 +454,72 @@ where
     ///
     /// # Errors
     /// TODO
-    #[allow(clippy::unused_async)]
     pub async fn observe_device_update_notifications(
         &self,
-        _device_name: String,
-        _inbound_endpoint_name: String,
-        _timeout: Duration,
+        device_name: String,
+        inbound_endpoint_name: String,
+        timeout: Duration,
     ) -> Result<DeviceUpdateObservation, Error> {
-        Err(Error(ErrorKind::PlaceholderError))
+        let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
+        let rx = self
+            .device_update_notification_dispatcher
+            .register_receiver(receiver_id.clone())
+            .map_err(ErrorKind::from)?;
+
+        let observe_payload =
+            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
+                notification_preference_request: adr_name_gen::NotificationPreference::On,
+            };
+
+        let observe_request =
+            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestBuilder::default()
+                .payload(observe_payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_topic_tokens(
+                    device_name.clone(),
+                    inbound_endpoint_name.clone(),
+                ))
+                .timeout(timeout)
+                .build()
+                .map_err(ErrorKind::from)?;
+
+        match self
+            .notify_on_device_update_command_invoker
+            .invoke(observe_request)
+            .await
+        {
+            Ok(response) => {
+                match response.payload.notification_preference_response {
+                    adr_name_gen::NotificationPreferenceResponse::Accepted => {
+                        Ok(DeviceUpdateObservation { receiver: rx })
+                    }
+                    adr_name_gen::NotificationPreferenceResponse::Failed => {
+                        // If the observe request wasn't successful, remove it from our dispatcher
+                        if self
+                            .device_update_notification_dispatcher
+                            .unregister_receiver(&receiver_id)
+                        {
+                            log::debug!("Device removed from observed list: {device_name:?}");
+                        } else {
+                            log::debug!("Device not in observed list: {device_name:?}");
+                        }
+                        Err(Error(ErrorKind::ObservationError))
+                    }
+                }
+            }
+            Err(e) => {
+                // If the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .device_update_notification_dispatcher
+                    .unregister_receiver(&receiver_id)
+                {
+                    log::debug!("Device removed from observed list: {device_name:?}");
+                } else {
+                    log::debug!("Device not in observed list: {device_name:?}");
+                }
+                Err(Error(ErrorKind::from(e)))
+            }
+        }
     }
 
     /// Stops observation of any Device updates from the Azure Device Registry service.
@@ -278,14 +533,56 @@ where
     ///
     /// # Errors
     /// TODO
-    #[allow(clippy::unused_async)]
     pub async fn unobserve_device_update_notifications(
         &self,
-        _device_name: String,
-        _inbound_endpoint_name: String,
-        _timeout: Duration,
+        device_name: String,
+        inbound_endpoint_name: String,
+        timeout: Duration,
     ) -> Result<(), Error> {
-        Err(Error(ErrorKind::PlaceholderError))
+        let unobserve_payload =
+            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
+                notification_preference_request: adr_name_gen::NotificationPreference::Off,
+            };
+
+        let unobserve_request =
+            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestBuilder::default()
+                .payload(unobserve_payload)
+                .map_err(ErrorKind::from)?
+                .topic_tokens(Self::get_topic_tokens(
+                    device_name.clone(),
+                    inbound_endpoint_name.clone(),
+                ))
+                .timeout(timeout)
+                .build()
+                .map_err(ErrorKind::from)?;
+        let response = self
+            .notify_on_device_update_command_invoker
+            .invoke(unobserve_request)
+            .await
+            .map_err(ErrorKind::from)?;
+        match response.payload.notification_preference_response {
+            adr_name_gen::NotificationPreferenceResponse::Accepted => {
+                let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
+                // Remove it from our dispatcher
+                if self
+                    .device_update_notification_dispatcher
+                    .unregister_receiver(&receiver_id)
+                {
+                    log::debug!("Device removed from observed list: {device_name:?}");
+                } else {
+                    log::debug!("Device not in observed list: {device_name:?}");
+                }
+                Ok(())
+            }
+            adr_name_gen::NotificationPreferenceResponse::Failed => {
+                Err(Error(ErrorKind::ObservationError))
+            }
+        }
+    }
+
+    fn hash_device_endpoint(device_name: &str, inbound_endpoint_name: &str) -> String {
+        // `~`` can't be in a topic token, so this will never collide with another device + inbound endpoint name combo
+        format!("{device_name}~{inbound_endpoint_name}")
     }
 
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
@@ -313,10 +610,7 @@ where
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(HashMap::from([
-                ("deviceName".to_string(), device_name),
-                ("inboundEndpointName".to_string(), inbound_endpoint_name),
-            ]))
+            .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -343,7 +637,6 @@ where
     ///
     /// # Errors
     /// TODO
-    #[allow(clippy::unused_async)]
     pub async fn update_asset_status(
         &self,
         device_name: String,
@@ -354,17 +647,14 @@ where
     ) -> Result<Asset, Error> {
         let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
             asset_status_update: adr_name_gen::UpdateAssetStatusRequestSchema {
-                asset_name: asset_name.clone(),
+                asset_name,
                 asset_status: status.into(),
             },
         };
         let command_request = adr_name_gen::UpdateAssetStatusRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(HashMap::from([
-                ("deviceName".to_string(), device_name),
-                ("inboundEndpointName".to_string(), inbound_endpoint_name),
-            ]))
+            .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -398,12 +688,13 @@ where
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
         // TODO Right now using aep_name + asset_name as the key for the dispatcher, consider using tuple
-        let receiver_id = format!("{device_name}~{inbound_endpoint_name}~{asset_name}");
+        let receiver_id =
+            Self::hash_device_endpoint_asset(&device_name, &inbound_endpoint_name, &asset_name);
 
         let rx = self
-            .asset_update_event_telemetry_dispatcher
+            .asset_update_notification_dispatcher
             .register_receiver(receiver_id.clone())
-            .map_err(|_| Error(ErrorKind::DuplicateObserve))?;
+            .map_err(ErrorKind::from)?;
 
         let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
             notification_preference_request:
@@ -417,10 +708,7 @@ where
             adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
                 .payload(payload)
                 .map_err(ErrorKind::from)?
-                .topic_tokens(HashMap::from([
-                    ("deviceName".to_string(), device_name),
-                    ("inboundEndpointName".to_string(), inbound_endpoint_name),
-                ]))
+                .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
                 .timeout(timeout)
                 .build()
                 .map_err(ErrorKind::from)?;
@@ -440,24 +728,37 @@ where
                         receiver: rx,
                     })
                 } else {
-                    Err(Error(ErrorKind::ObservationError(asset_name)))
+                    // If the observe request wasn't successful, remove it from our dispatcher
+                    if self
+                        .asset_update_notification_dispatcher
+                        .unregister_receiver(&receiver_id)
+                    {
+                        log::debug!(
+                            "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+                        );
+                    } else {
+                        log::debug!(
+                            "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
+                        );
+                    }
+                    Err(Error(ErrorKind::ObservationError))
                 }
             }
             Err(e) => {
                 // If the observe request wasn't successful, remove it from our dispatcher
                 if self
-                    .asset_update_event_telemetry_dispatcher
+                    .asset_update_notification_dispatcher
                     .unregister_receiver(&receiver_id)
                 {
                     log::debug!(
-                        "Device , Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+                        "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
                     );
                 } else {
                     log::debug!(
-                        "Device , Endpoint and Asset combination not in observed list: {receiver_id:?}"
+                        "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
                     );
                 }
-                Err(Error(ErrorKind::AIOProtocolError(e)))
+                Err(Error(ErrorKind::from(e)))
             }
         }
     }
@@ -485,78 +786,12 @@ where
         Err(Error(ErrorKind::PlaceholderError))
     }
 
-    #[allow(clippy::unused_async)]
-    async fn receive_update_event_telemetry_loop(
-        asset_shutdown_notifier: Arc<Notify>, // Separate notifier for Asset
-        mut asset_update_event_telemetry_receiver: adr_name_gen::AssetUpdateEventTelemetryReceiver<
-            C,
-        >,
-        asset_update_event_telemetry_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
-    ) {
-        let mut asset_shutdown_attempt_count = 0;
-
-        loop {
-            tokio::select! {
-                // Asset shutdown handler
-                () = asset_shutdown_notifier.notified() => {
-                    match asset_update_event_telemetry_receiver.shutdown().await {
-                        Ok(()) => {
-                            log::info!("AssetUpdateEventTelemetryReceiver shutdown");
-                        }
-                        Err(e) => {
-                            log::error!("Error shutting down AssetUpdateEventTelemetryReceiver: {e}");
-                            // try shutdown again, but not indefinitely
-                            if asset_shutdown_attempt_count < 3 {
-                                asset_shutdown_attempt_count += 1;
-                                asset_shutdown_notifier.notify_one();
-                            }
-                        }
-                    }
-                },
-                asset_msg = asset_update_event_telemetry_receiver.recv() => {
-                    if let Some(m) = asset_msg {
-                        match m {
-                            Ok((asset_update_event_telemetry, ack_token)) => {
-                                let Some(device_name) = asset_update_event_telemetry.topic_tokens.get("ex:deviceName") else {
-                                    log::error!("AssetUpdateEventTelemetry missing ex:aepName topic token.");
-                                    continue;
-                                };
-                                let Some(inbound_endpoint_name) = asset_update_event_telemetry.topic_tokens.get("ex:inboundEndpointName") else {
-                                    log::error!("AssetUpdateEventTelemetry missing ex:inboundEndpointName topic token.");
-                                    continue;
-                                };
-                                // TODO Consider making the receiver id a tuple in the dispatcher
-                                let dispatch_receiver_id = format!("{}~{}~{}", device_name, inbound_endpoint_name, asset_update_event_telemetry.payload.asset_update_event.asset_name);
-
-                                match asset_update_event_telemetry_dispatcher.dispatch(&dispatch_receiver_id, (asset_update_event_telemetry.payload.asset_update_event.asset.into(), ack_token)) {
-                                    Ok(()) => {
-                                        log::debug!("AssetUpdateEventTelemetry dispatched for aep and asset: {dispatch_receiver_id:?}");
-                                    }
-                                    Err(DispatchError::SendError(payload)) => {
-                                        log::warn!("AssetUpdateEventTelemetryReceiver has been dropped. Received Telemetry: {payload:?}",);
-                                    }
-                                    Err(DispatchError::NotFound(payload)) => {
-                                        log::warn!("Asset is not being observed. Received AssetUpdateEventTelemetry: {payload:?}",);
-                                    }
-                                }
-                            }
-                            Err(e) => {
-                                // This should only happen on errors subscribing, but it's likely not recoverable
-                                log::error!("Error receiving AssetUpdateEventTelemetry: {e}. Shutting down AssetUpdateEventTelemetryReceiver.");
-                                // try to shutdown telemetry receiver, but not indefinitely
-                                if asset_shutdown_attempt_count < 3 {
-                                    asset_shutdown_notifier.notify_one();
-                                }
-                            }
-                        }
-                    } else {
-                        log::info!("AssetUpdateEventTelemetryReceiver closed, no more AssetUpdateEventTelemetry will be received");
-                        // Unregister all receivers, closing the associated channels
-                        asset_update_event_telemetry_dispatcher.unregister_all();
-                        break;
-                    }
-                }
-            }
-        }
+    fn hash_device_endpoint_asset(
+        device_name: &str,
+        inbound_endpoint_name: &str,
+        asset_name: &str,
+    ) -> String {
+        // ~ can't be in a topic token, so this will never collide with another device + inbound endpoint + asset name combo
+        format!("{device_name}~{inbound_endpoint_name}~{asset_name}")
     }
 }

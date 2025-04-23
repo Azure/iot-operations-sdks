@@ -10,11 +10,13 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
-use device_name_gen::common_types::options::CommandInvokerOptionsBuilderError;
 use thiserror::Error;
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-use crate::common::dispatcher::Receiver;
+use crate::azure_device_registry::device_name_gen::common_types::options::{
+    CommandInvokerOptionsBuilderError, TelemetryReceiverOptionsBuilderError,
+};
+use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry Client implementation wrapper
 mod client;
@@ -51,23 +53,35 @@ pub enum ErrorKind {
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     // An argument provided for a request was invalid.
-    #[error(transparent)]
-    InvalidClientId(#[from] CommandInvokerOptionsBuilderError),
+    #[error("{0}")]
+    InvalidClientId(String),
     // /// An error was returned by the Azure Device Registry Service.
     // #[error("{0:?}")]
     // ServiceError(ServiceError),
-    // /// A aep or an asset may only have one observation at a time.
-    #[error("Aep or asset may only be observed once at a time")]
-    DuplicateObserve,
-    /// A device or an asset had an error during observation.
-    #[error("{0}")]
-    ObservationError(String),
+    /// A Device or an asset may only have one observation at a time.
+    #[error("Device or asset may only be observed once at a time")]
+    DuplicateObserve(#[from] dispatcher::RegisterError),
+    /// A Device or an asset had an error during observation or unobservation.
+    #[error("Observation/Unobservation not accepted by service")]
+    ObservationError,
     // /// An error occurred while shutting down the Azure Device Registry Client.
     // #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     // ShutdownError(Vec<AIOProtocolError>),
     /// error for api stubs, do not keep.
     #[error("error to use for api stubs")]
     PlaceholderError,
+}
+
+impl From<CommandInvokerOptionsBuilderError> for ErrorKind {
+    fn from(value: CommandInvokerOptionsBuilderError) -> Self {
+        ErrorKind::InvalidClientId(value.to_string())
+    }
+}
+
+impl From<TelemetryReceiverOptionsBuilderError> for ErrorKind {
+    fn from(value: TelemetryReceiverOptionsBuilderError) -> Self {
+        ErrorKind::InvalidClientId(value.to_string())
+    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
@@ -309,6 +323,20 @@ impl From<adr_name_gen::Device> for Device {
             name: value.name,
             specification: value.specification.into(),
             status: value.status.map(DeviceStatus::from),
+        }
+    }
+}
+
+impl From<adr_name_gen::DeviceUpdateEventTelemetry> for Device {
+    fn from(value: adr_name_gen::DeviceUpdateEventTelemetry) -> Self {
+        Device {
+            name: value.device_update_event.device.name,
+            specification: value.device_update_event.device.specification.into(),
+            status: value
+                .device_update_event
+                .device
+                .status
+                .map(DeviceStatus::from),
         }
     }
 }
