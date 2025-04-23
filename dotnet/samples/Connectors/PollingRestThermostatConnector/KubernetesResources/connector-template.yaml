@@ -23,4 +23,3 @@ spec:
         audience: aio-internal
     tls:
       mode: Enabled
-      trustedCaCertificateConfigMapRef: broker-tls-cacert-cm-volume
