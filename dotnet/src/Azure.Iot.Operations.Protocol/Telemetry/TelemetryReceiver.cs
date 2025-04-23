@@ -127,14 +127,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         {
                             await OnTelemetryReceived(sourceId, serializedPayload, metadata);
                         }
-                        catch (Exception innerEx)
+                        catch (Exception)
                         {
                             //Trace.TraceError($"Exception thrown while executing telemetry received callback: {innerEx.Message}");
                         }
                     }
                     await GetDispatcher()(TelemFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                 }
-                catch (Exception outerEx)
+                catch (Exception)
                 {
                     await GetDispatcher()(null, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     //Trace.TraceError($"Exception thrown while deserializing payload, callback skipped: {outerEx.Message}");
@@ -261,7 +261,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 {
                     await StopAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //Trace.TraceWarning("Failed to stop the telemetry receiver while disposing it: {0}", ex);
                 }

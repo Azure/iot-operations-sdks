@@ -751,7 +751,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Trace.TraceWarning("Encountered an error while unsubscribing during disposal {0}", e);
             }
