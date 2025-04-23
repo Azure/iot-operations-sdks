@@ -160,7 +160,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 _deviceDirectoryMonitor.Start();
 
                 // Treat any devices created before this call as newly created
-                IEnumerable<string>? currentDeviceNames = GetDeviceNames();
+                IEnumerable<string>? currentDeviceNames = GetCompositeDeviceNames();
                 if (currentDeviceNames != null)
                 {
                     Trace.WriteLine("AssetFileMonitor checking for initial device states");
@@ -248,6 +248,26 @@ namespace Azure.Iot.Operations.Connector.Assets
             }
 
             return deviceNames;
+        }
+
+        private IEnumerable<string> GetCompositeDeviceNames()
+        {
+            HashSet<string> compositeDeviceNames = new(); // A device name can appear more than once when searching files, so don't use a list here.
+
+            if (Directory.Exists(_adrResourcesNameMountPath))
+            {
+                string[] files = Directory.GetFiles(_adrResourcesNameMountPath);
+                foreach (string fileNameWithPath in files)
+                {
+                    string fileName = Path.GetFileName(fileNameWithPath);
+                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    {
+                        compositeDeviceNames.Add(fileName);
+                    }
+                }
+            }
+
+            return compositeDeviceNames;
         }
 
         /// <inheritdoc/>
