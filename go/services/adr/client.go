@@ -5,13 +5,15 @@ package adr
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"sync"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/services/adr/adrnamegen/adrbaseservice"
-	"github.com/Azure/iot-operations-sdks/go/services/adr/adrtypegen/aeptypeservice"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
+	"github.com/Azure/iot-operations-sdks/go/services/adr/internal/adrbaseservice"
+	"github.com/Azure/iot-operations-sdks/go/services/adr/internal/aeptypeservice"
 )
 
 const (
@@ -34,7 +36,7 @@ type Error struct {
 	Message       string
 	PropertyName  string
 	PropertyValue string
-	Condition     interface{}
+	Condition     any
 }
 
 func (e *Error) Error() string {
@@ -97,29 +99,53 @@ func New(
 	client protocol.MqttClient,
 	opts ...ClientOption,
 ) (*Client, error) {
-	notifyInvoker, err := adrbaseservice.NewNotifyOnAssetEndpointProfileUpdateCommandInvoker(
+	c := &Client{
+		logger:         slog.Default(),
+		protocol:       app,
+		mqtt:           client,
+		observedAeps:   map[string]struct{}{},
+		observedAssets: map[string]struct{}{},
+	}
+
+	for _, opt := range opts {
+		if opt != nil {
+			opt(c)
+		}
+	}
+	if c.logger == nil {
+		c.logger = slog.Default()
+	}
+
+	var telemetryHandlers adrbaseservice.AdrBaseServiceTelemetryHandlers
+
+	adrBase, err := adrbaseservice.NewAdrBaseServiceClient(
 		app,
 		client,
-		"adr/v1/assetendpointprofiles/{aepName}/update",
+		telemetryHandlers,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	c := &Client{
-		logger:         slog.Default(),
-		protocol:       app,
-		mqtt:           client,
-		observedAeps:   make(map[string]struct{}),
-		observedAssets: make(map[string]struct{}),
-		notifyOnAssetEndpointProfileUpdateInvoker: notifyInvoker,
+	aepTypes, err := aeptypeservice.NewAepTypeServiceClient(app, client)
+	if err != nil {
+		return nil, err
 	}
 
-	for _, opt := range opts {
-		opt(c)
-	}
+	c.notifyOnAssetEndpointProfileUpdateInvoker = adrBase.NotifyOnAssetEndpointProfileUpdateCommandInvoker
+	c.notifyOnAssetUpdateInvoker = adrBase.NotifyOnAssetUpdateCommandInvoker
+	c.getAssetEndpointProfileCommandInvoker = adrBase.GetAssetEndpointProfileCommandInvoker
+	c.updateAssetEndpointProfileStatusCommandInvoker = adrBase.UpdateAssetEndpointProfileStatusCommandInvoker
+	c.createDetectedAssetCommandInvoker = adrBase.CreateDetectedAssetCommandInvoker
+	c.getAssetCommandInvoker = adrBase.GetAssetCommandInvoker
+	c.updateAssetStatusCommandInvoker = adrBase.UpdateAssetStatusCommandInvoker
+	c.createDiscoveredAssetEndpointProfileCommandInvoker = aepTypes.CreateDiscoveredAssetEndpointProfileCommandInvoker
 
-	// Setup telemetry receivers
+	c.listeners = append(c.listeners,
+		adrBase,
+		aepTypes,
+	)
+
 	assetUpdateReceiver, err := protocol.NewTelemetryReceiver(
 		app,
 		client,
@@ -145,20 +171,6 @@ func New(
 	c.listeners = append(c.listeners, aepUpdateReceiver)
 
 	return c, nil
-}
-
-// Close releases resources associated with the client.
-func (c *Client) Close() error {
-	var err error
-	c.closeOnce.Do(func() {
-		c.listeners.Close()
-	})
-	return err
-}
-
-// Start begins listening for telemetry messages.
-func (c *Client) Start(ctx context.Context) error {
-	return c.listeners.Start(ctx)
 }
 
 // ObserveAssetEndpointProfileUpdates starts observation of asset endpoint profile updates.
@@ -348,14 +360,10 @@ func (c *Client) UpdateAssetEndpointProfileStatus(
 		AssetEndpointProfileStatusUpdate: *status,
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
 	resp, err := c.updateAssetEndpointProfileStatusCommandInvoker.UpdateAssetEndpointProfileStatus(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -533,7 +541,48 @@ func translateError(err error) error {
 		return nil
 	}
 
-	// Here we would have specific error translation logic
-	// based on the error types returned by the services
+	switch e := err.(type) {
+	case *errors.Remote:
+		switch k := e.Kind.(type) {
+		case errors.ConfigurationInvalid:
+			return &Error{
+				Message:       err.Error(),
+				PropertyName:  k.PropertyName,
+				PropertyValue: fmt.Sprint(k.PropertyValue),
+			}
+		case errors.UnknownError:
+			if k.PropertyName != "" {
+				return &Error{
+					Message:       err.Error(),
+					PropertyName:  k.PropertyName,
+					PropertyValue: fmt.Sprint(k.PropertyValue),
+				}
+			}
+		case errors.StateInvalid:
+			return &Error{
+				Message:      err.Error(),
+				PropertyName: k.PropertyName,
+			}
+		}
+
+	case *errors.Client:
+		switch k := e.Kind.(type) {
+		case errors.ConfigurationInvalid:
+			return &Error{
+				Message:       err.Error(),
+				PropertyName:  k.PropertyName,
+				PropertyValue: fmt.Sprint(k.PropertyValue),
+			}
+		case errors.UnknownError:
+			if k.PropertyName != "" {
+				return &Error{
+					Message:       err.Error(),
+					PropertyName:  k.PropertyName,
+					PropertyValue: fmt.Sprint(k.PropertyValue),
+				}
+			}
+		}
+	}
+
 	return err
 }
