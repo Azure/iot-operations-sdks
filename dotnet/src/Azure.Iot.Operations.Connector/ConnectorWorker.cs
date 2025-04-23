@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Connector
 
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
-            _logger.LogInformation("Connecting to MQTT broker with hostname {hostname} and port {port}", mqttConnectionSettings.HostName, mqttConnectionSettings.TcpPort);
+            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings.ToString()); //TODO revert
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
