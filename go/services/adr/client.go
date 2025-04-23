@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/services/adr/internal/adrbaseservice"
@@ -64,55 +65,82 @@ type Client struct {
 	updateAssetStatusCommandInvoker                    *adrbaseservice.UpdateAssetStatusCommandInvoker
 }
 
-// ClientOption allows setting optional parameters on the Client.
-type ClientOption func(*Client)
+// ClientOption represents a single option for the client.
+type ClientOption interface{ client(*ClientOptions) }
 
-// WithLogger sets a logger for the client.
-func WithLogger(logger *slog.Logger) ClientOption {
-	return func(c *Client) {
-		c.logger = logger
+// ClientOptions are the resolved options for the client.
+type ClientOptions struct {
+	Logger        *slog.Logger
+	OnAssetUpdate func(string, *Asset) error
+	OnAepUpdate   func(string, *AssetEndpointProfile) error
+}
+
+// Apply resolves the provided list of options.
+func (o *ClientOptions) Apply(
+	opts []ClientOption,
+	rest ...ClientOption,
+) {
+	for opt := range options.Apply[ClientOption](opts, rest...) {
+		opt.client(o)
 	}
+}
+
+type (
+	withLogger struct{ *slog.Logger }
+
+	withAssetUpdateHandler struct {
+		fn func(string, *Asset) error
+	}
+
+	withAepUpdateHandler struct {
+		fn func(string, *AssetEndpointProfile) error
+	}
+)
+
+func (o withLogger) client(opt *ClientOptions)             { opt.Logger = o.Logger }
+func (o withAssetUpdateHandler) client(opt *ClientOptions) { opt.OnAssetUpdate = o.fn }
+func (o withAepUpdateHandler) client(opt *ClientOptions)   { opt.OnAepUpdate = o.fn }
+
+// WithLogger enables logging with the provided slog logger.
+func WithLogger(logger *slog.Logger) ClientOption {
+	return withLogger{logger}
 }
 
 // WithAssetUpdateHandler sets a handler for asset update events.
 func WithAssetUpdateHandler(
 	handler func(aepName string, asset *Asset) error,
 ) ClientOption {
-	return func(c *Client) {
-		c.onAssetUpdate = handler
-	}
+	return withAssetUpdateHandler{handler}
 }
 
 // WithAepUpdateHandler sets a handler for asset endpoint profile update events.
 func WithAepUpdateHandler(
 	handler func(aepName string, profile *AssetEndpointProfile) error,
 ) ClientOption {
-	return func(c *Client) {
-		c.onAepUpdate = handler
-	}
+	return withAepUpdateHandler{handler}
 }
 
 // New creates a new ADR client.
 func New(
 	app *protocol.Application,
 	client protocol.MqttClient,
-	opts ...ClientOption,
+	opt ...ClientOption,
 ) (*Client, error) {
+	var opts ClientOptions
+	opts.Apply(opt)
+
 	c := &Client{
 		logger:         slog.Default(),
 		protocol:       app,
 		mqtt:           client,
 		observedAeps:   map[string]struct{}{},
 		observedAssets: map[string]struct{}{},
+		onAssetUpdate:  opts.OnAssetUpdate,
+		onAepUpdate:    opts.OnAepUpdate,
 	}
 
-	for _, opt := range opts {
-		if opt != nil {
-			opt(c)
-		}
-	}
-	if c.logger == nil {
-		c.logger = slog.Default()
+	if opts.Logger != nil {
+		c.logger = opts.Logger
 	}
 
 	var telemetryHandlers adrbaseservice.AdrBaseServiceTelemetryHandlers
