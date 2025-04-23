@@ -156,9 +156,9 @@ async fn run_program(
             // get the datasets from the obtained asset, dont update it
             let original_status = asset.status.unwrap();
             let datasets_schema = original_status.datasets_schema.unwrap_or_default();
-            for dataset in datasets_schema.iter() {
+            for dataset in &datasets_schema {
                 // Log the dataset details
-                log::info!("Processing dataset: {:?}", dataset);
+                log::info!("Processing dataset: {dataset:?}");
 
                 // Create an updated version of the dataset with "updated" appended to the name
                 let updated_dataset = azure_device_registry::AssetDatasetEventStream {
@@ -168,7 +168,7 @@ async fn run_program(
                 };
 
                 // Log the updated dataset details
-                log::info!("Updated dataset: {:?}", updated_dataset);
+                log::info!("Updated dataset: {updated_dataset:?}");
                 updated_datasets.push(updated_dataset);
             }
             // now we should update the status of the asset
