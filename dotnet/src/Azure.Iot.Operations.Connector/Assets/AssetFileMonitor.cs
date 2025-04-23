@@ -52,6 +52,8 @@ namespace Azure.Iot.Operations.Connector.Assets
             FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
             if (_assetFileMonitors.TryAdd(assetFileName, assetMonitor))
             {
+                Console.WriteLine("Now observing assets");
+
                 assetMonitor.OnFileChanged += (sender, args) =>
                 {
                     if (args.ChangeType == WatcherChangeTypes.Changed)
@@ -130,6 +132,8 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             if (_deviceDirectoryMonitor != null)
             {
+                Console.WriteLine("Now observing devices");
+
                 _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
