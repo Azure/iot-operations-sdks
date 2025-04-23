@@ -97,9 +97,23 @@ type (
 	}
 )
 
-func (o withLogger) client(opt *ClientOptions)             { opt.Logger = o.Logger }
-func (o withAssetUpdateHandler) client(opt *ClientOptions) { opt.OnAssetUpdate = o.fn }
-func (o withAepUpdateHandler) client(opt *ClientOptions)   { opt.OnAepUpdate = o.fn }
+func (o withLogger) client(
+	opt *ClientOptions,
+) {
+	opt.Logger = o.Logger
+}
+
+func (o withAssetUpdateHandler) client(
+	opt *ClientOptions,
+) {
+	opt.OnAssetUpdate = o.fn
+}
+
+func (o withAepUpdateHandler) client(
+	opt *ClientOptions,
+) {
+	opt.OnAepUpdate = o.fn
+}
 
 // WithLogger enables logging with the provided slog logger.
 func WithLogger(logger *slog.Logger) ClientOption {
