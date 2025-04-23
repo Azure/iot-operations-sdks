@@ -46,23 +46,17 @@ func (e *Error) Error() string {
 
 // Client manages interactions with the Azure Device Registry.
 type Client struct {
-	logger                                             *slog.Logger
-	protocol                                           *protocol.Application
-	mqtt                                               protocol.MqttClient
-	observedAeps                                       map[string]struct{}
-	observedAssets                                     map[string]struct{}
-	mu                                                 sync.RWMutex
-	listeners                                          protocol.Listeners
-	onAssetUpdate                                      func(aepName string, asset *Asset) error
-	onAepUpdate                                        func(aepName string, profile *AssetEndpointProfile) error
-	notifyOnAssetEndpointProfileUpdateInvoker          *adrbaseservice.NotifyOnAssetEndpointProfileUpdateCommandInvoker
-	notifyOnAssetUpdateInvoker                         *adrbaseservice.NotifyOnAssetUpdateCommandInvoker
-	getAssetEndpointProfileCommandInvoker              *adrbaseservice.GetAssetEndpointProfileCommandInvoker
-	updateAssetEndpointProfileStatusCommandInvoker     *adrbaseservice.UpdateAssetEndpointProfileStatusCommandInvoker
-	createDiscoveredAssetEndpointProfileCommandInvoker *aeptypeservice.CreateDiscoveredAssetEndpointProfileCommandInvoker
-	createDetectedAssetCommandInvoker                  *adrbaseservice.CreateDetectedAssetCommandInvoker
-	getAssetCommandInvoker                             *adrbaseservice.GetAssetCommandInvoker
-	updateAssetStatusCommandInvoker                    *adrbaseservice.UpdateAssetStatusCommandInvoker
+	logger         *slog.Logger
+	protocol       *protocol.Application
+	mqtt           protocol.MqttClient
+	adrBase        *adrbaseservice.AdrBaseServiceClient
+	aepTypes       *aeptypeservice.AepTypeServiceClient
+	observedAeps   map[string]struct{}
+	observedAssets map[string]struct{}
+	mu             sync.RWMutex
+	listeners      protocol.Listeners
+	onAssetUpdate  func(aepName string, asset *Asset) error
+	onAepUpdate    func(aepName string, profile *AssetEndpointProfile) error
 }
 
 // ClientOption represents a single option for the client.
@@ -92,11 +86,11 @@ func New(
 	app *protocol.Application,
 	client protocol.MqttClient,
 	opt ...ClientOption,
-) (*Client, error) {
+) (c *Client, err error) {
 	var opts ClientOptions
 	opts.Apply(opt)
 
-	c := &Client{
+	c = &Client{
 		logger:         slog.Default(),
 		protocol:       app,
 		mqtt:           client,
@@ -110,6 +104,13 @@ func New(
 		c.logger = opts.Logger
 	}
 
+	listeners := protocol.Listeners{}
+	defer func() {
+		if err != nil {
+			listeners.Close()
+		}
+	}()
+
 	var telemetryHandlers adrbaseservice.AdrBaseServiceTelemetryHandlers
 
 	adrBase, err := adrbaseservice.NewAdrBaseServiceClient(
@@ -120,25 +121,17 @@ func New(
 	if err != nil {
 		return nil, err
 	}
+	listeners = append(listeners, adrBase)
 
 	aepTypes, err := aeptypeservice.NewAepTypeServiceClient(app, client)
 	if err != nil {
 		return nil, err
 	}
+	listeners = append(listeners, aepTypes)
 
-	c.notifyOnAssetEndpointProfileUpdateInvoker = adrBase.NotifyOnAssetEndpointProfileUpdateCommandInvoker
-	c.notifyOnAssetUpdateInvoker = adrBase.NotifyOnAssetUpdateCommandInvoker
-	c.getAssetEndpointProfileCommandInvoker = adrBase.GetAssetEndpointProfileCommandInvoker
-	c.updateAssetEndpointProfileStatusCommandInvoker = adrBase.UpdateAssetEndpointProfileStatusCommandInvoker
-	c.createDetectedAssetCommandInvoker = adrBase.CreateDetectedAssetCommandInvoker
-	c.getAssetCommandInvoker = adrBase.GetAssetCommandInvoker
-	c.updateAssetStatusCommandInvoker = adrBase.UpdateAssetStatusCommandInvoker
-	c.createDiscoveredAssetEndpointProfileCommandInvoker = aepTypes.CreateDiscoveredAssetEndpointProfileCommandInvoker
-
-	c.listeners = append(c.listeners,
-		adrBase,
-		aepTypes,
-	)
+	c.adrBase = adrBase
+	c.aepTypes = aepTypes
+	c.listeners = listeners
 
 	assetUpdateReceiver, err := protocol.NewTelemetryReceiver(
 		app,
@@ -150,7 +143,7 @@ func New(
 	if err != nil {
 		return nil, err
 	}
-	c.listeners = append(c.listeners, assetUpdateReceiver)
+	listeners = append(c.listeners, assetUpdateReceiver)
 
 	aepUpdateReceiver, err := protocol.NewTelemetryReceiver(
 		app,
@@ -162,7 +155,7 @@ func New(
 	if err != nil {
 		return nil, err
 	}
-	c.listeners = append(c.listeners, aepUpdateReceiver)
+	listeners = append(c.listeners, aepUpdateReceiver)
 
 	return c, nil
 }
@@ -193,14 +186,10 @@ func (c *Client) ObserveAssetEndpointProfileUpdates(
 		NotificationRequest: adrbaseservice.On,
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
-	resp, err := c.notifyOnAssetEndpointProfileUpdateInvoker.NotifyOnAssetEndpointProfileUpdate(
+	resp, err := c.adrBase.NotifyOnAssetEndpointProfileUpdate(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -228,14 +217,10 @@ func (c *Client) UnobserveAssetEndpointProfileUpdates(
 		NotificationRequest: adrbaseservice.Off,
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
-	resp, err := c.notifyOnAssetEndpointProfileUpdateInvoker.NotifyOnAssetEndpointProfileUpdate(
+	resp, err := c.adrBase.NotifyOnAssetEndpointProfileUpdate(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -268,15 +253,11 @@ func (c *Client) ObserveAssetUpdates(
 		},
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
 	// Use the appropriate command invoker
-	resp, err := c.notifyOnAssetUpdateInvoker.NotifyOnAssetUpdate(
+	resp, err := c.adrBase.NotifyOnAssetUpdate(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -310,14 +291,10 @@ func (c *Client) UnobserveAssetUpdates(
 		},
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
-	resp, err := c.notifyOnAssetUpdateInvoker.NotifyOnAssetUpdate(
+	resp, err := c.adrBase.NotifyOnAssetUpdate(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -338,13 +315,9 @@ func (c *Client) GetAssetEndpointProfile(
 ) (*AssetEndpointProfile, error) {
 	c.logger.Debug("Getting asset endpoint profile", "aepName", aepName)
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
-	resp, err := c.getAssetEndpointProfileCommandInvoker.GetAssetEndpointProfile(
+	resp, err := c.adrBase.GetAssetEndpointProfile(
 		ctx,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -365,7 +338,7 @@ func (c *Client) UpdateAssetEndpointProfileStatus(
 		AssetEndpointProfileStatusUpdate: *status,
 	}
 
-	resp, err := c.updateAssetEndpointProfileStatusCommandInvoker.UpdateAssetEndpointProfileStatus(
+	resp, err := c.adrBase.UpdateAssetEndpointProfileStatus(
 		ctx,
 		req,
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
@@ -388,15 +361,10 @@ func (c *Client) GetAsset(
 		AssetName: assetName,
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-		"assetName":     assetName,
-	}
-
-	resp, err := c.getAssetCommandInvoker.GetAsset(
+	resp, err := c.adrBase.GetAsset(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -427,14 +395,10 @@ func (c *Client) UpdateAssetStatus(
 		},
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
-	resp, err := c.updateAssetStatusCommandInvoker.UpdateAssetStatus(
+	resp, err := c.adrBase.UpdateAssetStatus(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -452,13 +416,11 @@ func (c *Client) CreateDetectedAsset(
 	req := adrbaseservice.CreateDetectedAssetRequestPayload{
 		DetectedAsset: *asset,
 	}
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-	resp, err := c.createDetectedAssetCommandInvoker.CreateDetectedAsset(
+
+	resp, err := c.adrBase.CreateDetectedAsset(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -484,14 +446,10 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(
 		DiscoveredAssetEndpointProfile: *profile,
 	}
 
-	tokens := map[string]string{
-		aepNameTokenKey: aepName,
-	}
-
-	resp, err := c.createDiscoveredAssetEndpointProfileCommandInvoker.CreateDiscoveredAssetEndpointProfile(
+	resp, err := c.aepTypes.CreateDiscoveredAssetEndpointProfile(
 		ctx,
 		req,
-		protocol.WithTopicTokens(tokens),
+		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
 		return nil, translateError(err)
@@ -505,35 +463,47 @@ func (c *Client) handleAssetUpdateTelemetry(
 	ctx context.Context,
 	msg *protocol.TelemetryMessage[Asset],
 ) error {
-	if c.onAssetUpdate == nil {
+	aepName := msg.TopicTokens[aepNameTokenKey]
+
+	// Skip if we are not observing the asset.
+	assetKey := aepName + "~" + msg.Payload.Name
+	c.mu.RLock()
+	_, observed := c.observedAssets[assetKey]
+	c.mu.RUnlock()
+	if !observed {
 		msg.Ack()
 		return nil
 	}
 
-	aepName := msg.TopicTokens[aepNameTokenKey]
-	c.logger.Debug("Received asset update telemetry", "aepName", aepName)
+	if c.onAssetUpdate == nil {
+		msg.Ack()
+		return nil
+	}
 
 	err := c.onAssetUpdate(aepName, &msg.Payload)
 	msg.Ack()
 	return err
 }
 
-// handleAepUpdateTelemetry processes asset endpoint profile update telemetry messages.
 func (c *Client) handleAepUpdateTelemetry(
 	ctx context.Context,
 	msg *protocol.TelemetryMessage[AssetEndpointProfile],
 ) error {
-	if c.onAepUpdate == nil {
+	aepName := msg.TopicTokens[aepNameTokenKey]
+
+	// Skip if we are not observing the asset endpoint profile.
+	c.mu.RLock()
+	_, observed := c.observedAeps[aepName]
+	c.mu.RUnlock()
+	if !observed {
 		msg.Ack()
 		return nil
 	}
 
-	aepName := msg.TopicTokens[aepNameTokenKey]
-	c.logger.Debug(
-		"Received asset endpoint profile update telemetry",
-		"aepName",
-		aepName,
-	)
+	if c.onAepUpdate == nil {
+		msg.Ack()
+		return nil
+	}
 
 	err := c.onAepUpdate(aepName, &msg.Payload)
 	msg.Ack()
