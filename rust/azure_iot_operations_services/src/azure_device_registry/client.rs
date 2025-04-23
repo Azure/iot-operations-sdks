@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
-use tokio::{sync::Notify, task};
+use tokio::sync::Notify;
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
 use crate::azure_device_registry::{
@@ -101,7 +101,7 @@ where
         let asset_update_notification_dispatcher = Arc::new(Dispatcher::new());
 
         // Start the update device and assets notification loop
-        task::spawn({
+        tokio::task::spawn({
             // clones
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let device_update_notification_dispatcher_clone =
