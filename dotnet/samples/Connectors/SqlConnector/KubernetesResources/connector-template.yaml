@@ -23,4 +23,4 @@ spec:
         audience: aio-internal
     tls:
       mode: Enabled
-      trustedCaCertificateConfigMapRef: broker-tls-cacert-cm-volume
+      trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle
