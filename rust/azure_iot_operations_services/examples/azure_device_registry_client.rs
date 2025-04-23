@@ -54,12 +54,35 @@ async fn run_program(
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
+    let device_name = "my-thermostat".to_string();
+    let inbound_endpoint_name = "my-rest-endpoint".to_string();
+    let timeout = Duration::from_secs(5);
+
     match azure_device_registry_client
-        .get_device(
-            "my-thermostat".to_string(),
-            "my-rest-endpoint".to_string(),
-            Duration::from_secs(5),
+        .observe_device_update_notifications(
+            device_name.clone(),
+            inbound_endpoint_name.clone(),
+            timeout,
         )
+        .await
+    {
+        Ok(mut observation) => {
+            tokio::task::spawn({
+                async move {
+                    while let Some((notification, _)) = observation.recv_notification().await {
+                        log::info!("device updated! {notification:?}");
+                    }
+                    log::info!("device notification receiver closed");
+                }
+            });
+        }
+        Err(e) => {
+            log::error!("Observing for device updates failed: {e}");
+        }
+    };
+
+    match azure_device_registry_client
+        .get_device(device_name.clone(), inbound_endpoint_name.clone(), timeout)
         .await
     {
         Ok(device) => {
@@ -71,10 +94,10 @@ async fn run_program(
             };
             match azure_device_registry_client
                 .update_device_plus_endpoint_status(
-                    "my-thermostat".to_string(),
-                    "my-rest-endpoint".to_string(),
+                    device_name,
+                    inbound_endpoint_name,
                     status,
-                    Duration::from_secs(10),
+                    timeout,
                 )
                 .await
             {
@@ -90,6 +113,9 @@ async fn run_program(
             log::error!("Get device request failed: {e}");
         }
     };
+
+    // allow time to update Device in ADR service
+    // tokio::time::sleep(Duration::from_secs(20)).await;
 
     log::info!("Exiting session");
     match exit_handle.try_exit().await {

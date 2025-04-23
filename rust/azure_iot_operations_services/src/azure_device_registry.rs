@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// imports section (TODO: remove this comment)
-
 //! Types for Azure Device Registry operations.
+
+// Large TODOs for this client: docs, unit tests, validation
 
 use core::fmt::Debug;
 use std::collections::HashMap;
@@ -46,30 +46,31 @@ pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
-    // /// An error occurred during serialization of a request.
-    // #[error("{0}")]
-    // SerializationError(String),
     /// An argument provided for a request was invalid.
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     // An argument provided for a request was invalid.
     #[error("{0}")]
     InvalidClientId(String),
-    // /// An error was returned by the Azure Device Registry Service.
-    // #[error("{0:?}")]
-    // ServiceError(ServiceError),
+    /// An error was returned by the Azure Device Registry Service.
+    #[error("{0:?}")]
+    ServiceError(ServiceError),
     /// A Device or an asset may only have one observation at a time.
     #[error("Device or asset may only be observed once at a time")]
     DuplicateObserve(#[from] dispatcher::RegisterError),
     /// A Device or an asset had an error during observation or unobservation.
     #[error("Observation/Unobservation not accepted by service")]
     ObservationError,
-    // /// An error occurred while shutting down the Azure Device Registry Client.
-    // #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
-    // ShutdownError(Vec<AIOProtocolError>),
-    /// error for api stubs, do not keep.
-    #[error("error to use for api stubs")]
-    PlaceholderError,
+    /// An error occurred while shutting down the Azure Device Registry Client.
+    #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
+    ShutdownError(Vec<AIOProtocolError>),
+}
+
+/// An error returned by the Azure Device Registry Service.
+/// TODO placeholder until we get the format from the service
+#[derive(Debug)]
+pub struct ServiceError {
+    pub message: String,
 }
 
 impl From<CommandInvokerOptionsBuilderError> for ErrorKind {

@@ -187,17 +187,56 @@ where
     ///
     /// Returns Ok(()) on success, otherwise returns [`struct@Error`].
     /// # Errors
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
-    #[allow(clippy::unused_async)]
+    /// [`struct@Error`] of kind [`ShutdownError`](ErrorKind::ShutdownError)
+    /// if any of the invoker unsubscribes fail or if the unsuback reason code doesn't indicate success.
+    /// This will be a vector of any shutdown errors, all invokers will attempt to be shutdown.
     pub async fn shutdown(&self) -> Result<(), Error> {
         // Notify the receiver loop to shutdown the telemetry receivers
         self.shutdown_notifier.notify_one();
 
-        // TODO: shut down invokers
+        // Shut down invokers
+        let mut errors = Vec::new();
 
-        log::info!("Shutdown");
-        Ok(())
+        // device invokers
+        let _ = self
+            .get_device_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| errors.push(e));
+        let _ = self
+            .update_device_status_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| errors.push(e));
+        let _ = self
+            .notify_on_device_update_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| errors.push(e));
+
+        // asset invokers
+        let _ = self
+            .get_asset_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| errors.push(e));
+        let _ = self
+            .update_asset_status_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| errors.push(e));
+        let _ = self
+            .notify_on_asset_update_command_invoker
+            .shutdown()
+            .await
+            .map_err(|e| errors.push(e));
+
+        if errors.is_empty() {
+            log::info!("Shutdown");
+            Ok(())
+        } else {
+            Err(Error(ErrorKind::ShutdownError(errors)))
+        }
     }
 
     fn get_topic_tokens(
