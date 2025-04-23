@@ -309,6 +309,167 @@ public class AdrServiceClientIntegrationTests
             await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName, cancellationToken: cts.Token));
     }
 
+    [Fact]
+    public async Task AssetEventStreamDataValidation()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        var receivedEvents = new List<Asset>();
+        var eventReceived = new TaskCompletionSource<bool>();
+
+        // Set up event handler to capture and validate events
+        client.OnReceiveAssetUpdateEventTelemetry += (_, asset) =>
+        {
+            if (asset != null)
+            {
+                _output.WriteLine($"Received asset event: {asset.Name}");
+                receivedEvents.Add(asset);
+
+                // Verify events data is present and correctly structured
+                if (asset.Status?.Events != null && asset.Status.Events.Count > 0)
+                {
+                    _output.WriteLine($"Events count: {asset.Status.Events.Count}");
+                    foreach (var evt in asset.Status.Events)
+                    {
+                        _output.WriteLine($"Event: {evt.Name}, Schema: {evt.MessageSchemaReference?.SchemaName}");
+                    }
+                    eventReceived.TrySetResult(true);
+                }
+            }
+            return Task.CompletedTask;
+        };
+
+        // Start observing asset updates
+        await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+
+        // Act - Update asset with event data to trigger notification
+        var updateRequest = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
+        updateRequest.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
+        {
+            new AssetDatasetEventStreamStatus
+            {
+                Name = "temperature-event",
+                MessageSchemaReference = new MessageSchemaReference
+                {
+                    SchemaName = "temperature-schema",
+                    SchemaRegistryNamespace = "test-namespace",
+                    SchemaVersion = "1.0"
+                }
+            }
+        };
+
+        var updatedAsset = await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+
+        // Wait for event to be received or timeout
+        var receivedEventsTask = await Task.WhenAny(
+            eventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
+
+        // Cleanup
+        await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+
+        // Assert
+        Assert.True(receivedEventsTask.IsCompleted && !receivedEventsTask.IsFaulted,
+            "Did not receive asset event update within timeout");
+        Assert.NotEmpty(receivedEvents);
+
+        // Validate event content
+        var latestEvent = receivedEvents[^1];
+        Assert.NotNull(latestEvent.Status?.Events);
+        Assert.Contains(latestEvent.Status.Events, e => e.Name == "temperature-event");
+
+        var eventData = latestEvent.Status.Events.Find(e => e.Name == "temperature-event");
+        Assert.NotNull(eventData?.MessageSchemaReference);
+        Assert.Equal("temperature-schema", eventData.MessageSchemaReference.SchemaName);
+        Assert.Equal("test-namespace", eventData.MessageSchemaReference.SchemaRegistryNamespace);
+        Assert.Equal("1.0", eventData.MessageSchemaReference.SchemaVersion);
+    }
+
+    [Fact]
+    public async Task MultipleEventStreamsAndErrorHandling()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        // Start observing asset updates
+        var observeResponse = await client.ObserveAssetUpdatesAsync(
+            TestDeviceName, TestEndpointName, TestAssetName);
+        Assert.Equal(NotificationResponse.Accepted, observeResponse);
+
+        // Act - Update asset with multiple event streams including an error case
+        var updateRequest = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
+        updateRequest.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
+        {
+            new AssetDatasetEventStreamStatus
+            {
+                Name = "valid-event",
+                MessageSchemaReference = new MessageSchemaReference
+                {
+                    SchemaName = "valid-schema",
+                    SchemaRegistryNamespace = "test-namespace",
+                    SchemaVersion = "1.0"
+                }
+            },
+            new AssetDatasetEventStreamStatus
+            {
+                Name = "error-event",
+                Error = new ConfigError
+                {
+                    Code = "event-error-code",
+                    Message = "Event stream configuration error",
+                    Details = new List<DetailsSchemaElement>
+                    {
+                        new()
+                        {
+                            Code = "validation-error",
+                            Message = "Schema validation failed",
+                            CorrelationId = Guid.NewGuid().ToString()
+                        }
+                    }
+                }
+            }
+        };
+
+        var updatedAsset = await client.UpdateAssetStatusAsync(
+            TestDeviceName, TestEndpointName, updateRequest);
+
+        // Get asset to verify state after update
+        var asset = await client.GetAssetAsync(
+            TestDeviceName,
+            TestEndpointName,
+            new GetAssetRequest { AssetName = TestAssetName });
+
+        // Cleanup
+        await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+
+        // Assert
+        Assert.NotNull(updatedAsset);
+        Assert.NotNull(asset);
+        Assert.NotNull(asset.Status?.Events);
+        Assert.Equal(2, asset.Status.Events.Count);
+
+        // Verify valid event stream
+        var validEvent = asset.Status.Events.Find(e => e.Name == "valid-event");
+        Assert.NotNull(validEvent);
+        Assert.NotNull(validEvent.MessageSchemaReference);
+        Assert.Equal("valid-schema", validEvent.MessageSchemaReference.SchemaName);
+
+        // Verify error event stream
+        var errorEvent = asset.Status.Events.Find(e => e.Name == "error-event");
+        Assert.NotNull(errorEvent);
+        Assert.NotNull(errorEvent.Error);
+        Assert.Equal("event-error-code", errorEvent.Error.Code);
+        Assert.Equal("Event stream configuration error", errorEvent.Error.Message);
+        Assert.NotNull(errorEvent.Error.Details);
+        Assert.Single(errorEvent.Error.Details);
+        Assert.Equal("validation-error", errorEvent.Error.Details[0].Code);
+    }
+
     private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
     {
         return new CreateDetectedAssetRequest
