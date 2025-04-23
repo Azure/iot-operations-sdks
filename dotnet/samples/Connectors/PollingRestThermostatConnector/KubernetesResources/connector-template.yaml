@@ -16,7 +16,7 @@ spec:
         image: pollingrestthermostatconnector:latest
         imagePullPolicy: Never
   mqttConnectionConfiguration:
-    host: "aio-broker:1883"
+    host: "aio-broker:18883"
     authentication:
       method: ServiceAccountToken
       serviceAccountTokenSettings:
