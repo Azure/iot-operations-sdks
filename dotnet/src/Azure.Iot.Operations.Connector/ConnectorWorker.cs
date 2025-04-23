@@ -209,11 +209,13 @@ namespace Azure.Iot.Operations.Connector
                             deviceContext.Assets.TryAdd(args.AssetName, args.Asset);
                         }
 
+                        _logger.LogInformation("Asset with name {} created on endpoint with name {} on device with name {}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                         await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
                         _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
+                        _logger.LogInformation("Asset with name {} deleted from endpoint with name {} on device with name {}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                         AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
                         await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
                     }
@@ -226,6 +228,7 @@ namespace Azure.Iot.Operations.Connector
                             return;
                         }
 
+                        _logger.LogInformation("Asset with name {} updated on endpoint with name {} on device with name {}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                         AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
                         await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
                     }
