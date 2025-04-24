@@ -802,14 +802,11 @@ mod tests {
                 file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
                 file_mount_manager.add_device_endpoint(&device1_endpoint2, &device1_endpoint2_assets);
                 file_mount_manager.add_device_endpoint(&device2_endpoint3, &device2_endpoint3_assets);
-        
                 let mut device_endpoints = HashSet::from([
                     device1_endpoint1.clone(),
                     device1_endpoint2.clone(),
                     device2_endpoint3.clone(),
                 ]);
-            
-        
                 while !device_endpoints.is_empty() {
                     tokio::select! {
                         Some((device_endpoint, _)) = test_device_endpoint_create_observation.recv_notification() => {
@@ -892,9 +889,7 @@ mod tests {
                     device1_endpoint1,
                     device1_endpoint1_assets,
                 ) = device_with_assets!("device1", "endpoint1", "asset1", "asset2");
-        
                 file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
-        
                 let mut assets: HashSet<AssetRef> = HashSet::from_iter(device1_endpoint1_assets.clone());
 
                 tokio::select! {
