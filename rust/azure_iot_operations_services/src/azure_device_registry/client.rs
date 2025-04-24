@@ -367,7 +367,7 @@ where
                             );
                             match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.into(), ack_token)) {
                                 Ok(()) => {
-                                    log::debug!("Device Update Notification dispatched for device '{device_name:?}' and inbound endpoint '{inbound_endpoint_name:?}'");
+                                    log::debug!("Device Update Notification dispatched for device {device_name:?} and inbound endpoint {inbound_endpoint_name:?}");
                                 }
                                 Err(DispatchError::SendError(payload)) => {
                                     log::warn!("Device Update Observation has been dropped. Received Device Update Notification: {payload:#?}");
@@ -413,7 +413,7 @@ where
                             let receiver_id = Self::hash_device_endpoint_asset(device_name, inbound_endpoint_name, &asset_update_telemetry.payload.asset_update_event.asset_name);
                             match asset_update_notification_dispatcher.dispatch(&receiver_id, (asset_update_telemetry.payload.asset_update_event.asset.into(), ack_token)) {
                                 Ok(()) => {
-                                    log::debug!("Asset Update Notification dispatched for device '{device_name:?}', inbound endpoint '{inbound_endpoint_name:?}', and asset '{:?}'", asset_update_telemetry.payload.asset_update_event.asset_name);
+                                    log::debug!("Asset Update Notification dispatched for device {device_name:?}, inbound endpoint {inbound_endpoint_name:?}, and asset {:?}", asset_update_telemetry.payload.asset_update_event.asset_name);
                                 }
                                 Err(DispatchError::SendError(payload)) => {
                                     log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification: {payload:?}",);

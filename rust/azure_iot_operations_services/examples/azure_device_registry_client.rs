@@ -99,10 +99,11 @@ async fn azure_device_registry_operations(
         .await
     {
         Ok(mut observation) => {
+            log::info!("Asset observed successfully");
             tokio::task::spawn({
                 async move {
                     while let Some((notification, _)) = observation.recv_notification().await {
-                        log::info!("asset updated! {notification:?}");
+                        log::info!("asset updated: {notification:#?}");
                     }
                     log::info!("asset notification receiver closed");
                 }
@@ -180,22 +181,23 @@ async fn azure_device_registry_operations(
         .await
     {
         Ok(asset) => {
-            log::info!("Asset details: {asset:?}");
-            let mut updated_datasets = Vec::new();
-            for ds in asset.specification.datasets.unwrap() {
-                updated_datasets.push(azure_device_registry::AssetDatasetEventStream {
+            log::info!("Asset details: {asset:#?}");
+            // now we should update the status of the asset
+            let mut dataset_statuses = Vec::new();
+            for dataset in asset.specification.datasets {
+                dataset_statuses.push(azure_device_registry::AssetDatasetEventStreamStatus {
                     error: None,
                     message_schema_reference: None,
-                    name: format!("{}_updated", ds.name),
+                    name: dataset.name,
                 });
             }
-            // // now we should update the status of the asset
             let updated_status = azure_device_registry::AssetStatus {
-                config: None,
-                datasets_schema: Some(updated_datasets), // Use the updated datasets here
-                events_schema: None,
-                management_groups: None,
-                streams: None,
+                config: Some(azure_device_registry::StatusConfig {
+                    version: asset.specification.version,
+                    ..azure_device_registry::StatusConfig::default()
+                }),
+                datasets_schema: Some(dataset_statuses),
+                ..azure_device_registry::AssetStatus::default()
             };
             match azure_device_registry_client
                 .update_asset_status(
@@ -208,7 +210,7 @@ async fn azure_device_registry_operations(
                 .await
             {
                 Ok(updated_asset) => {
-                    log::info!("Updated Asset details: {updated_asset:?}");
+                    log::info!("Updated Asset details: {updated_asset:#?}");
                 }
                 Err(e) => {
                     log::error!("Update asset status request failed: {e}");
@@ -219,8 +221,6 @@ async fn azure_device_registry_operations(
             log::error!("Get asset request failed: {e}");
         }
     }
-    // allow time to update Device in ADR service
-    // tokio::time::sleep(Duration::from_secs(20)).await;
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
     match azure_device_registry_client
@@ -236,6 +236,24 @@ async fn azure_device_registry_operations(
         }
         Err(e) => {
             log::error!("Unobserving for device updates failed: {e}");
+        }
+    };
+
+    // Unobserve must be called on clean-up to prevent getting notifications for this in the future
+    match azure_device_registry_client
+        .unobserve_asset_update_notifications(
+            device_name.clone(),
+            inbound_endpoint_name.clone(),
+            asset_name.clone(),
+            timeout,
+        )
+        .await
+    {
+        Ok(()) => {
+            log::info!("Asset unobserved successfully");
+        }
+        Err(e) => {
+            log::error!("Unobserving for Asset updates failed: {e}");
         }
     };
 

@@ -708,24 +708,24 @@ pub struct DestinationConfiguration {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset Status DTDL Equivalent Structs~~~~~~~
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 /// Represents the observed status of an asset.
 pub struct AssetStatus {
     /// The configuration of the asset.
     pub config: Option<StatusConfig>,
     /// A collection of datasets associated with the asset.
-    pub datasets_schema: Option<Vec<AssetDatasetEventStream>>,
+    pub datasets_schema: Option<Vec<AssetDatasetEventStreamStatus>>,
     /// A collection of events associated with the asset.
-    pub events_schema: Option<Vec<AssetDatasetEventStream>>,
+    pub events_schema: Option<Vec<AssetDatasetEventStreamStatus>>,
     /// A collection of management groups associated with the asset.
     pub management_groups: Option<Vec<AssetManagementGroupStatus>>,
     /// A collection of schema references for streams associated with the asset.
-    pub streams: Option<Vec<AssetDatasetEventStream>>,
+    pub streams: Option<Vec<AssetDatasetEventStreamStatus>>,
 }
 
 #[derive(Clone, Debug)]
 /// Represents a schema to the dataset or event.
-pub struct AssetDatasetEventStream {
+pub struct AssetDatasetEventStreamStatus {
     /// The name of the dataset or the event.
     pub name: String,
     /// The message schema associated with the dataset or event.
@@ -771,19 +771,19 @@ impl From<AssetStatus> for adr_name_gen::AssetStatus {
     fn from(value: AssetStatus) -> Self {
         adr_name_gen::AssetStatus {
             config: value.config.map(StatusConfig::into),
-            datasets: option_vec_from(value.datasets_schema, AssetDatasetEventStream::into),
-            events: option_vec_from(value.events_schema, AssetDatasetEventStream::into),
+            datasets: option_vec_from(value.datasets_schema, AssetDatasetEventStreamStatus::into),
+            events: option_vec_from(value.events_schema, AssetDatasetEventStreamStatus::into),
             management_groups: option_vec_from(
                 value.management_groups,
                 AssetManagementGroupStatus::into,
             ),
-            streams: option_vec_from(value.streams, AssetDatasetEventStream::into),
+            streams: option_vec_from(value.streams, AssetDatasetEventStreamStatus::into),
         }
     }
 }
 
-impl From<AssetDatasetEventStream> for adr_name_gen::AssetDatasetEventStreamStatus {
-    fn from(value: AssetDatasetEventStream) -> Self {
+impl From<AssetDatasetEventStreamStatus> for adr_name_gen::AssetDatasetEventStreamStatus {
+    fn from(value: AssetDatasetEventStreamStatus) -> Self {
         adr_name_gen::AssetDatasetEventStreamStatus {
             name: value.name,
             message_schema_reference: value
@@ -972,13 +972,13 @@ impl From<adr_name_gen::AssetStatus> for AssetStatus {
     fn from(value: adr_name_gen::AssetStatus) -> Self {
         AssetStatus {
             config: value.config.map(StatusConfig::from),
-            datasets_schema: option_vec_from(value.datasets, AssetDatasetEventStream::from),
-            events_schema: option_vec_from(value.events, AssetDatasetEventStream::from),
+            datasets_schema: option_vec_from(value.datasets, AssetDatasetEventStreamStatus::from),
+            events_schema: option_vec_from(value.events, AssetDatasetEventStreamStatus::from),
             management_groups: option_vec_from(
                 value.management_groups,
                 AssetManagementGroupStatus::from,
             ),
-            streams: option_vec_from(value.streams, AssetDatasetEventStream::from),
+            streams: option_vec_from(value.streams, AssetDatasetEventStreamStatus::from),
         }
     }
 }
@@ -1011,9 +1011,9 @@ impl From<adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema>
     }
 }
 
-impl From<adr_name_gen::AssetDatasetEventStreamStatus> for AssetDatasetEventStream {
+impl From<adr_name_gen::AssetDatasetEventStreamStatus> for AssetDatasetEventStreamStatus {
     fn from(value: adr_name_gen::AssetDatasetEventStreamStatus) -> Self {
-        AssetDatasetEventStream {
+        AssetDatasetEventStreamStatus {
             name: value.name,
             message_schema_reference: value
                 .message_schema_reference
