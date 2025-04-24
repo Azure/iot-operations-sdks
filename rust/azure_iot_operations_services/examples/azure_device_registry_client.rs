@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("adr-client-app")
         .hostname("localhost")
-        .tcp_port(31883u16)
+        .tcp_port(1883u16)
         .use_tls(false)
         .build()?;
     let session_options = SessionOptionsBuilder::default()
