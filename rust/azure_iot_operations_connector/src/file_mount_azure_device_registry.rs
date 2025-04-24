@@ -136,6 +136,8 @@ fn get_asset_names(
 /// Each device endpoint is associated with a tuple containing an unbounded sender for asset creation
 /// notifications and a hash map of asset references to their associated deletion tokens.
 struct FileMountMap {
+    #[allow(clippy::type_complexity)]
+    // TODO: This is a complex type, need to simplify it later
     file_mount_map: HashMap<
         DeviceEndpointRef,
         (
@@ -198,16 +200,13 @@ impl FileMountMap {
     /// This function takes a device endpoint and a vector of assets, and updates the file mount map
     /// with the new assets. It also cleans up any assets that are no longer present. If the device
     /// endpoint does not exist in the file mount map, it does nothing.
-    pub fn update_assets(&mut self, device: &DeviceEndpointRef, assets: Vec<AssetRef>) {
+    pub fn update_assets(&mut self, device: &DeviceEndpointRef, assets: &Vec<AssetRef>) {
         // Get the asset creation channel and the tracked assets for this device
-        let (create_asset_tx, tracked_assets) = match self.file_mount_map.get_mut(device) {
-            Some((create_asset_tx, tracked_assets)) => (create_asset_tx, tracked_assets),
-            None => {
-                // If the device is non-existent we can't update the assets. Most likely a create
-                // notification has not been parsed yet but this function will be called again once
-                // the device is created.
-                return;
-            }
+        let Some((create_asset_tx, tracked_assets)) = self.file_mount_map.get_mut(device) else {
+            // If the device is non-existent we can't update the assets. Most likely a create
+            // notification has not been parsed yet but this function will be called again once
+            // the device is created.
+            return;
         };
 
         // Clean up the assets that are no longer in the file mount
@@ -217,7 +216,7 @@ impl FileMountMap {
         tracked_assets.retain(|tracked_asset, _| asset_set.contains(tracked_asset));
 
         // Iterate over the assets and check if they are already tracked, if not, add them
-        assets.iter().for_each(|asset| {
+        for asset in assets {
             if !tracked_assets.contains_key(asset) {
                 // Create a one shot channel for asset deletion
                 let (asset_deletion_tx, asset_deletion_rx) = oneshot::channel();
@@ -241,7 +240,7 @@ impl FileMountMap {
                     panic!("Failed to send device creation notification");
                 }
             }
-        });
+        }
     }
 
     /// Removes a device endpoint from the file mount map.
@@ -295,12 +294,12 @@ impl TryFrom<&PathBuf> for DeviceEndpointRef {
     fn try_from(value: &PathBuf) -> Result<Self, Self::Error> {
         // TODO: Handle case where file name is not a file but a directory
         // TODO: Handle case where file name has invalid UTF-8 characters (remove need for to_string_lossy)
-        Ok(value
+        value
             .file_name()
             .ok_or(ErrorKind::ParseError("File path ends in ..".to_string()))?
             .to_string_lossy()
             .to_string()
-            .try_into()?)
+            .try_into()
     }
 }
 
@@ -361,7 +360,7 @@ impl DeviceEndpointCreateObservation {
                 file_mount_map.insert_device_endpoint(device);
 
                 let assets = get_asset_names(&mount_path, device)?;
-                file_mount_map.update_assets(device, assets);
+                file_mount_map.update_assets(device, &assets);
 
                 Ok::<_, Error>(())
             })?;
@@ -377,23 +376,20 @@ impl DeviceEndpointCreateObservation {
                     Ok(events) => {
                         // TODO: There might be a case where we receive events out of order (i.e a modify before a create). The file mount map accounts for this but
                         // it might be better to just match on an Any.
-                        events.iter().for_each(|debounced_event| {
+                        for debounced_event in &events {
                             match debounced_event.event.kind {
                                 EventKind::Create(event::CreateKind::File) => { // Event signals the creation of a device endpoint
                                     debounced_event.paths.iter().for_each(|path| {
                                         // TODO: We could use an expect here since we are sure the path is valid
-                                        let mount_path = match path.parent() {
-                                            Some(path) => path,
-                                            None => {
-                                                log::warn!("Failed to get parent path from device endpoint");
-                                                return;
-                                            }
+                                        let Some(mount_path) = path.parent() else {
+                                            log::warn!("Failed to get parent path from device endpoint");
+                                            return;
                                         };
 
                                         let device = match DeviceEndpointRef::try_from(path) {
                                             Ok(device) => device,
                                             Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {:?}", err);
+                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
                                                 return;
                                             }
                                         };
@@ -406,30 +402,27 @@ impl DeviceEndpointCreateObservation {
                                             match get_asset_names(mount_path, &device) {
                                                 Ok(assets) => assets,
                                                 Err(err) => {
-                                                    log::warn!("Failed to get asset names: {:?}", err);
+                                                    log::warn!("Failed to get asset names: {err:?}");
                                                     return;
                                                 }
                                             };
 
                                         // Update the file mount map with the new assets
-                                        file_mount_map.update_assets(&device, assets);
+                                        file_mount_map.update_assets(&device, &assets);
                                     });
                                 }
                                 EventKind::Modify(_) => { // Event signals the creation or deletion of an asset
                                     debounced_event.paths.iter().for_each(|path| {
                                         // TODO: We could use an expect here since we are sure the path is valid
-                                        let mount_path = match path.parent() {
-                                            Some(path) => path,
-                                            None => {
-                                                log::warn!("Failed to get parent path from device endpoint");
-                                                return;
-                                            }
+                                        let Some(mount_path) = path.parent() else {
+                                            log::warn!("Failed to get parent path from device endpoint");
+                                            return;
                                         };
 
                                         let device = match DeviceEndpointRef::try_from(path) {
                                             Ok(device) => device,
                                             Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {:?}", err);
+                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
                                                 return;
                                             }
                                         };
@@ -439,13 +432,13 @@ impl DeviceEndpointCreateObservation {
                                             match get_asset_names(mount_path, &device) {
                                                 Ok(assets) => assets,
                                                 Err(err) => {
-                                                    log::warn!("Failed to get asset names: {:?}", err);
+                                                    log::warn!("Failed to get asset names: {err:?}");
                                                     return;
                                                 }
                                             };
 
                                         // Update the file mount map with the new assets
-                                        file_mount_map.update_assets(&device, assets);
+                                        file_mount_map.update_assets(&device, &assets);
                                     });
                                 }
                                 EventKind::Remove(event::RemoveKind::File) => { // Event signals the deletion of a device endpoint
@@ -453,7 +446,7 @@ impl DeviceEndpointCreateObservation {
                                         let device = match DeviceEndpointRef::try_from(path) {
                                             Ok(device) => device,
                                             Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {:?}", err);
+                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
                                                 return;
                                             }
                                         };
@@ -466,13 +459,13 @@ impl DeviceEndpointCreateObservation {
                                 }
                                 _ => { /* Ignore other events */ }
                             }
-                        });
+                        }
                     }
                     Err(err) => {
                         // TODO: There should be a way for us to surface this error to the user
-                        err.iter().for_each(|e| {
-                            log::error!("Error processing events from watcher: {:?}", e);
-                        });
+                        for e in &err {
+                            log::error!("Error processing events from watcher: {e:?}");
+                        }
                     }
                 }
             },
@@ -537,13 +530,9 @@ pub struct AssetDeletionToken(oneshot::Receiver<()>);
 impl std::future::Future for AssetDeletionToken {
     type Output = ();
 
-    fn poll(
-        self: std::pin::Pin<&mut Self>,
-        mut cx: &mut Context<'_>,
-    ) -> std::task::Poll<Self::Output> {
-        match std::pin::Pin::new(&mut self.get_mut().0).poll(&mut cx) {
-            std::task::Poll::Ready(Ok(())) => std::task::Poll::Ready(()),
-            std::task::Poll::Ready(Err(_)) => std::task::Poll::Ready(()),
+    fn poll(self: std::pin::Pin<&mut Self>, cx: &mut Context<'_>) -> std::task::Poll<Self::Output> {
+        match std::pin::Pin::new(&mut self.get_mut().0).poll(cx) {
+            std::task::Poll::Ready(Err(_) | Ok(())) => std::task::Poll::Ready(()),
             std::task::Poll::Pending => std::task::Poll::Pending,
         }
     }
@@ -673,7 +662,7 @@ mod tests {
                 assert!(device_endpoints.contains(&device1_endpoint2));
                 assert!(device_endpoints.contains(&device2_endpoint3));
             },
-        )
+        );
     }
 
     #[test]
@@ -719,7 +708,7 @@ mod tests {
                     ]
                 );
             },
-        )
+        );
     }
 
     #[tokio::test]
@@ -760,14 +749,14 @@ mod tests {
                         Some((device_endpoint, _)) = test_device_endpoint_create_observation.recv_notification() => {
                             assert!(device_endpoints.remove(&device_endpoint));
                         },
-                        _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                        () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                             panic!("Failed to receive device endpoint creation notification");
                         }
                     };
                 }
             },
         )
-        .await
+        .await;
     }
 
     #[tokio::test]
@@ -812,14 +801,14 @@ mod tests {
                         Some((device_endpoint, _)) = test_device_endpoint_create_observation.recv_notification() => {
                             assert!(device_endpoints.remove(&device_endpoint));
                         },
-                        _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                        () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                             panic!("Failed to receive device endpoint creation notification");
                         }
                     };
                 }
             },
         )
-        .await
+        .await;
     }
 
     #[tokio::test]
@@ -854,19 +843,19 @@ mod tests {
                                 Some((asset, _)) = asset_observation.recv_notification() => {
                                     assert!(assets.remove(&asset));
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     panic!("Failed to receive asset creation notification");
                                 }
                             };
                         }
                     },
-                    _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                    () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                         panic!("Failed to receive device endpoint creation notification");
                     }
                 }
             },
         )
-        .await
+        .await;
     }
 
     #[tokio::test]
@@ -901,19 +890,19 @@ mod tests {
                                 Some((asset, _)) = asset_observation.recv_notification() => {
                                     assert!(assets.remove(&asset));
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     panic!("Failed to receive asset creation notification");
                                 }
                             };
                         }
                     },
-                    _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                    () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                         panic!("Failed to receive device endpoint creation notification");
                     }
                 }
             },
         )
-        .await
+        .await;
     }
 
     #[tokio::test]
@@ -949,7 +938,7 @@ mod tests {
                                 Some((_, deletion_token)) = asset_observation.recv_notification() => {
                                     asset_deletion_tokens.push(deletion_token);
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     panic!("Failed to receive asset creation notification");
                                 }
                             };
@@ -963,12 +952,12 @@ mod tests {
                             res = asset_observation.recv_notification() => {
                                 assert!(res.is_none(), "Device endpoint create observation should return None after device endpoint removal");
                             },
-                            _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                            () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                 panic!("Failed to receive device endpoint deletion notification");
                             }
                         }
                     },
-                    _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                    () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                         panic!("Failed to receive device endpoint creation notification");
                     }
                 }
@@ -976,17 +965,17 @@ mod tests {
                 // Ensure all asset deletion tokens are triggered
                 for deletion_token in asset_deletion_tokens {
                     tokio::select! {
-                        _ = deletion_token => {
+                        () = deletion_token => {
                             // Token triggered successfully
                         },
-                        _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                        () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                             panic!("Asset deletion token was not triggered");
                         }
                     }
                 }
             },
         )
-        .await
+        .await;
     }
 
     #[tokio::test]
@@ -1022,7 +1011,7 @@ mod tests {
                                 Some((asset, deletion_token)) = asset_observation.recv_notification() => {
                                     asset_deletion_tokens.insert(asset, deletion_token);
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     panic!("Failed to receive asset creation notification");
                                 }
                             };
@@ -1035,10 +1024,10 @@ mod tests {
                         // Wait for the asset deletion token to be triggered
                         if let Some(deletion_token) = asset_deletion_tokens.remove(asset_to_remove) {
                             tokio::select! {
-                                _ = deletion_token => {
+                                () = deletion_token => {
                                     // Token triggered successfully
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     panic!("Asset deletion token was not triggered");
                                 }
                             }
@@ -1051,10 +1040,10 @@ mod tests {
 
                         if let Some(deletion_token) = asset_deletion_tokens.remove(remaining_asset) {
                             tokio::select! {
-                                _ = deletion_token => {
+                                () = deletion_token => {
                                     panic!("Asset deletion token was triggered for the remaining asset");
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     // Token not triggered, which is expected
                                 }
                             }
@@ -1062,13 +1051,13 @@ mod tests {
                             panic!("Asset deletion token not found for the remaining asset");
                         }
                     },
-                    _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                    () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                         panic!("Failed to receive device endpoint creation notification");
                     }
                 }
             },
         )
-        .await
+        .await;
     }
 
     #[tokio::test]
@@ -1102,7 +1091,7 @@ mod tests {
                                 Some((asset, _)) = asset_observation.recv_notification() => {
                                     assert!(device1_endpoint1_assets.contains(&asset));
                                 },
-                                _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                                () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                     panic!("Failed to receive initial asset creation notification");
                                 }
                             };
@@ -1121,17 +1110,17 @@ mod tests {
                             Some((asset, _)) = asset_observation.recv_notification() => {
                                 assert_eq!(asset, new_asset);
                             },
-                            _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                            () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                                 panic!("Failed to receive new asset creation notification");
                             }
                         }
                     },
-                    _ = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
+                    () = tokio::time::sleep(DEBOUNCE_DURATION * 2) => {
                         panic!("Failed to receive device endpoint creation notification");
                     }
                 }
             },
         )
-        .await
+        .await;
     }
 }
