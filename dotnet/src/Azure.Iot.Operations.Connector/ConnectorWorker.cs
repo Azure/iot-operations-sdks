@@ -137,63 +137,19 @@ namespace Azure.Iot.Operations.Connector
                     string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                     if (args.ChangeType == ChangeType.Created)
                     {
-                        if (args.Device == null)
-                        {
-                            // shouldn't ever happen
-                            _logger.LogError("Received notification that device was created, but no device was provided");
-                        }
-                        else
-                        {
-                            _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
-
-                            _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
-                            {
-                                Device = args.Device
-                            };
-                            _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-                        }
+                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
+                        DeviceAvailable(args, compoundDeviceName);
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
-                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
-
-                        if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
-                        {
-                            foreach (string assetName in deviceContext.Assets.Keys)
-                            {
-                                AssetUnavailable(args.DeviceName, args.InboundEndpointName, assetName, false);
-                            }
-                        }
+                        await DeviceUnavailableAsync(args, compoundDeviceName, false);
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-
-                        //TODO factor out? Its just the deleted->created snippets above
-                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
-
-                        if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
-                        {
-                            foreach (string assetName in deviceContext.Assets.Keys)
-                            {
-                                AssetUnavailable(args.DeviceName, args.InboundEndpointName, assetName, false);
-                            }
-                        }
-
-                        if (args.Device == null)
-                        {
-                            // shouldn't ever happen
-                            _logger.LogError("Received notification that device was created, but no device was provided");
-                        }
-                        else
-                        {
-                            _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
-                            {
-                                Device = args.Device
-                            };
-                            _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-                        }
+                        await DeviceUnavailableAsync(args, compoundDeviceName, true);
+                        DeviceAvailable(args, compoundDeviceName);
                     }
                 };
 
@@ -202,18 +158,6 @@ namespace Azure.Iot.Operations.Connector
                     string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                     if (args.ChangeType == ChangeType.Created)
                     {
-                        if (args.Asset == null)
-                        {
-                            // Should never happen
-                            _logger.LogError("Received notification that asset was created, but no asset was provided");
-                            return;
-                        }
-
-                        if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
-                        {
-                            deviceContext.Assets.TryAdd(args.AssetName, args.Asset);
-                        }
-
                         _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                         await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
                         _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
@@ -226,13 +170,6 @@ namespace Azure.Iot.Operations.Connector
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
-                        if (args.Asset == null)
-                        {
-                            // Should never happen
-                            _logger.LogError("Received notification that asset was updated, but no asset was provided");
-                            return;
-                        }
-
                         _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                         AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
                         await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
@@ -358,8 +295,7 @@ namespace Azure.Iot.Operations.Connector
 
             foreach (var destination in assetEvent.Destinations)
             {
-                //if (destination.Target == EventStreamTarget.Mqtt) //TODO not allowed for streams
-                if (new Random().Next() == 0)
+                if (destination.Target == EventStreamTarget.Mqtt)
                 {
                     string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
                     var mqttMessage = new MqttApplicationMessage(topic)
@@ -387,31 +323,6 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
                     }
                 }
-                /*else if (destination.Target == EventStreamTarget.) //TODO why is this only present for datasets?
-                {
-                    await using StateStoreClient stateStoreClient = new(_applicationContext, _mqttClient);
-
-                    string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish received event to state store as it has no configured key");
-
-                    ulong? ttl = destination.Configuration.Ttl;
-                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
-                    if (ttl != null)
-                    {
-                        //TODO ttl is in seconds? milliseconds?
-                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
-                    }
-
-                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
-
-                    if (response.Success)
-                    {
-                        _logger.LogInformation($"Message was accepted by the state store");
-                    }
-                    else
-                    {
-                        _logger.LogError($"Message was not accepted by the state store");
-                    }
-                }*/
                 else if (destination.Target == EventStreamTarget.Storage)
                 {
                     throw new NotImplementedException();
@@ -425,9 +336,52 @@ namespace Azure.Iot.Operations.Connector
             _isDisposed = true;
         }
 
-        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, CancellationToken cancellationToken = default)
+        private void DeviceAvailable(DeviceChangedEventArgs args, string compoundDeviceName)
+        {
+            if (args.Device == null)
+            {
+                // shouldn't ever happen
+                _logger.LogError("Received notification that device was created, but no device was provided");
+            }
+            else
+            {
+                _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
+                {
+                    Device = args.Device
+                };
+                _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+            }
+        }
+
+        private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
+        {
+            _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
+            await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+
+            if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
+            {
+                foreach (string assetName in deviceContext.Assets.Keys)
+                {
+                    AssetUnavailable(args.DeviceName, args.InboundEndpointName, assetName, isUpdating);
+                }
+            }
+        }
+
+        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName, CancellationToken cancellationToken = default)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
+
+            if (asset == null)
+            {
+                // Should never happen
+                _logger.LogError("Received notification that asset was created, but no asset was provided");
+                return;
+            }
+
+            if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
+            {
+                deviceContext.Assets.TryAdd(assetName, asset);
+            }
 
             Device? device = _devices[compoundDeviceName].Device;
 

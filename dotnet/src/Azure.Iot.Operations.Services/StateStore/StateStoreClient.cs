@@ -362,7 +362,7 @@ namespace Azure.Iot.Operations.Services.StateStore
                     {
                         // Not that big of a problem. Also a temporary responsibility of this layer while the code-gen for key notify pattern
                         // is unfinished. Once it is finished, this layer won't be responsible for managing MQTT topic subscriptions.
-                        Trace.TraceWarning("Failed to unsubscribe from key notifications MQTT topic.", e); //TODO re-enable
+                        Trace.TraceWarning("Failed to unsubscribe from key notifications MQTT topic.", e);
                     }
                 }
 
