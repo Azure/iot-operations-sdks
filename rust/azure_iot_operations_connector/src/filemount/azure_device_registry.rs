@@ -65,7 +65,7 @@ impl DeviceEndpointCreateObservation {
     ///
     /// # Arguments
     /// * `debounce_duration` - The duration to debounce incoming I/O events. Note that the value depends on the
-    ///  file system and the number of events being generated. A value of 1s is a good starting point.
+    ///   file system and the number of events being generated. A value of 1s is a good starting point.
     ///
     /// # Errors
     /// - [`struct@Error`] of kind [`ErrorKind::EnvironmentVariableError`] if the environment variable was not able to be read.
