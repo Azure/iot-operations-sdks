@@ -5,7 +5,6 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Connector.Assets;
-using System.Threading;
 using System.Collections.Concurrent;
 
 namespace Azure.Iot.Operations.Connector
