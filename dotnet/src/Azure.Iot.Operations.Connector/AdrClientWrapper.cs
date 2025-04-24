@@ -178,12 +178,15 @@ namespace Azure.Iot.Operations.Connector
 
                 if (notificationResponse == NotificationResponse.Accepted)
                 {
-                    if (_observedAssets[e.DeviceName] != null)
+                    if (!_observedAssets.ContainsKey(e.DeviceName))
                     {
-                        _observedAssets[e.DeviceName] = new();
+                        _observedAssets.TryAdd(e.DeviceName, new());
                     }
 
-                    _observedAssets[e.DeviceName].Add(e.AssetName);
+                    if (_observedAssets.TryGetValue(e.DeviceName, out var assets))
+                    {
+                        assets.Add(e.AssetName);
+                    }
 
                     var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, new GetAssetRequest() { AssetName = e.AssetName });
                     AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, null));
