@@ -158,7 +158,7 @@ impl FileMountMap {
     }
 
     /// Inserts a new [`DeviceEndpointRef`] into the file mount map.
-    /// 
+    ///
     /// This function creates a new channel for asset creation notifications and adds the device endpoint
     /// to the file mount map. If the device endpoint already exists, it does nothing. It will also
     /// notify the `create_device_tx` channel about the new device endpoint.
@@ -194,7 +194,7 @@ impl FileMountMap {
     }
 
     /// Updates the assets associated with a device endpoint.
-    /// 
+    ///
     /// This function takes a device endpoint and a vector of assets, and updates the file mount map
     /// with the new assets. It also cleans up any assets that are no longer present. If the device
     /// endpoint does not exist in the file mount map, it does nothing.
@@ -245,8 +245,8 @@ impl FileMountMap {
     }
 
     /// Removes a device endpoint from the file mount map.
-    /// 
-    /// When a device endpoint is removed, all the assets associated with it are also removed which 
+    ///
+    /// When a device endpoint is removed, all the assets associated with it are also removed which
     /// triggers the deletion token for each asset.
     pub fn remove_device_endpoint(&mut self, device: &DeviceEndpointRef) {
         // Remove entry from the file mount map
@@ -334,20 +334,18 @@ pub struct DeviceEndpointCreateObservation {
 
 impl DeviceEndpointCreateObservation {
     /// Creates an instance of [`DeviceEndpointCreateObservation`] to observe device endpoint creation events.
-    /// 
+    ///
     /// Returns Ok([`DeviceEndpointCreateObservation`]) if the observation is successfully created, otherwise returns an [`Error`].
-    /// 
+    ///
     /// # Arguments
     /// * `debounce_duration` - The duration to debounce incoming I/O events.
-    /// 
+    ///
     /// # Errors
     /// - [`Error`] of kind [`ErrorKind::EnvironmentVariableError`] if the environment variable was not able to be read.
     /// - [`Error`] of kind [`ErrorKind::WatcherError`] if the watcher could not be created.
     /// - [`Error`] of kind [`ErrorKind::IoError`] if there are issues accessing the file mount.
     /// - [`Error`] of kind [`ErrorKind::ParseError`] if there are issues parsing the file names and content.
-    pub fn new(
-        debounce_duration: Duration,
-    ) -> Result<DeviceEndpointCreateObservation, Error> {
+    pub fn new(debounce_duration: Duration) -> Result<DeviceEndpointCreateObservation, Error> {
         let mount_path = get_mount_path()?;
 
         // This channel is used to send notifications about device endpoint creation
@@ -492,11 +490,11 @@ impl DeviceEndpointCreateObservation {
     }
 
     /// Receives a notification for a newly created device endpoint.
-    /// 
-    /// Returns Some(([`DeviceEndpointRef`], [`AssetCreateObservation`])) if a notification is received or `None` 
+    ///
+    /// Returns Some(([`DeviceEndpointRef`], [`AssetCreateObservation`])) if a notification is received or `None`
     /// if there will be no more notifications (i.e. the channel is closed). This should not happen unless the
     /// [`DeviceEndpointCreateObservation`] is dropped.
-    /// 
+    ///
     /// The [`AssetCreateObservation`] should be used to receive notifications for asset creation events
     /// associated with the device endpoint.
     pub async fn recv_notification(
@@ -514,7 +512,7 @@ pub struct AssetCreateObservation {
 
 impl AssetCreateObservation {
     /// Creates an instance of [`AssetCreateObservation`] to observe asset creation events.
-    /// 
+    ///
     /// Returns a new [`AssetCreateObservation`] instance.
     pub(crate) fn new(
         asset_creation_rx: UnboundedReceiver<(AssetRef, AssetDeletionToken)>,
@@ -523,10 +521,10 @@ impl AssetCreateObservation {
     }
 
     /// Receives a notification for a newly created asset.
-    /// 
+    ///
     /// Returns Some(([`AssetRef`], [`AssetDeletionToken`])) if a notification is received or `None`
     /// if there will be no more notifications (i.e. the device endpoint was deleted).
-    /// 
+    ///
     /// The [`AssetDeletionToken`] can be used to wait for the deletion of the asset.
     pub async fn recv_notification(&mut self) -> Option<(AssetRef, AssetDeletionToken)> {
         self.asset_creation_rx.recv().await
@@ -651,9 +649,9 @@ mod tests {
 
         let (device1_endpoint1, device1_endpoint1_assets) =
             device_with_assets!("device1", "endpoint1", "asset1");
-        let (device1_endpoint2, device1_endpoint2_assets) = 
+        let (device1_endpoint2, device1_endpoint2_assets) =
             device_with_assets!("device1", "endpoint2", "asset2", "asset3");
-        let (device2_endpoint3, device2_endpoint3_assets) = 
+        let (device2_endpoint3, device2_endpoint3_assets) =
             device_with_assets!("device2", "endpoint3", "asset3");
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
@@ -831,10 +829,8 @@ mod tests {
     async fn test_asset_create_observation_pre_mounted_success() {
         let file_mount_manager = TempFileMountManager::new("test_mount");
 
-        let (
-            device1_endpoint1,
-            device1_endpoint1_assets,
-        ) = device_with_assets!("device1", "endpoint1", "asset1", "asset2");
+        let (device1_endpoint1, device1_endpoint1_assets) =
+            device_with_assets!("device1", "endpoint1", "asset1", "asset2");
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
@@ -929,10 +925,8 @@ mod tests {
     async fn test_device_endpoint_remove_triggers_asset_deletion_tokens_success() {
         let file_mount_manager = TempFileMountManager::new("test_mount");
 
-        let (
-            device1_endpoint1,
-            device1_endpoint1_assets,
-        ) = device_with_assets!("device1", "endpoint1", "asset1", "asset2");
+        let (device1_endpoint1, device1_endpoint1_assets) =
+            device_with_assets!("device1", "endpoint1", "asset1", "asset2");
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
@@ -1004,10 +998,8 @@ mod tests {
     async fn test_single_asset_removal_triggers_deletion_token_success() {
         let file_mount_manager = TempFileMountManager::new("test_mount");
 
-        let (
-            device1_endpoint1,
-            device1_endpoint1_assets,
-        ) = device_with_assets!("device1", "endpoint1", "asset1", "asset2");
+        let (device1_endpoint1, device1_endpoint1_assets) =
+            device_with_assets!("device1", "endpoint1", "asset1", "asset2");
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
@@ -1088,10 +1080,8 @@ mod tests {
     async fn test_single_asset_addition_triggers_creation_notification_success() {
         let file_mount_manager = TempFileMountManager::new("test_mount");
 
-        let (
-            device1_endpoint1,
-            device1_endpoint1_assets,
-        ) = device_with_assets!("device1", "endpoint1", "asset1");
+        let (device1_endpoint1, device1_endpoint1_assets) =
+            device_with_assets!("device1", "endpoint1", "asset1");
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
