@@ -182,6 +182,7 @@ where
 
     /// Convenience function to get all observed device endpoint device & inbound endpoint names to quickly unobserve all of them before cleaning up
     #[must_use]
+    #[allow(dead_code)]
     pub fn get_all_observed_device_endpoints(&self) -> Vec<(String, String)> {
         let mut device_endpoints = Vec::new();
         for device_receiver_id in self
@@ -200,6 +201,7 @@ where
 
     /// Convenience function to get all observed asset names to quickly unobserve all of them before cleaning up
     #[must_use]
+    #[allow(dead_code)]
     pub fn get_all_observed_assets(&self) -> Vec<(String, String, String)> {
         let mut assets = Vec::new();
         for receiver_id in self
