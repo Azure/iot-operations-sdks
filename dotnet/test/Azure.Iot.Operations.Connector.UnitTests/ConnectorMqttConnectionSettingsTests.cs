@@ -7,6 +7,8 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
+    // These tests rely on environment variables which may intefere with other similar tests
+    [Collection("Environment Variable Sequential")]
     public class ConnectorMqttConnectionSettingsTests
     {
         public ConnectorMqttConnectionSettingsTests()
