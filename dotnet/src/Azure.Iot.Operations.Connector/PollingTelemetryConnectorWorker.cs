@@ -4,7 +4,6 @@
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {

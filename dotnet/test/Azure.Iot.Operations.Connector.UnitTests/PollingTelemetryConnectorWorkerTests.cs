@@ -248,7 +248,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             string deviceName = Guid.NewGuid().ToString();
             string inboundEndpointName = Guid.NewGuid().ToString();
-            string assetName = Guid.NewGuid().ToString();
+            string assetNamePrefix = Guid.NewGuid().ToString();
             string datasetName = Guid.NewGuid().ToString();
 
             var device = new Device()
@@ -281,7 +281,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 expectedMqttTopics.Add("some/asset/telemetry/topic" + i);
                 assets.Add(new Asset()
                 {
-                    Name = assetName,
+                    Name = assetNamePrefix + i,
                     Specification = new()
                     {
                         DeviceRef = new()
@@ -339,8 +339,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, "", new List<MqttUserProperty>()));
             };
 
-            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, assets[0]));
-            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, assets[1]));
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetNamePrefix + 0, ChangeType.Created, assets[0]));
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetNamePrefix + 1, ChangeType.Created, assets[1]));
 
             await asset1TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
