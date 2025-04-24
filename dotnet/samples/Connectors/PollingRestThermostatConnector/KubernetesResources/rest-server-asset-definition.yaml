@@ -27,7 +27,6 @@ spec:
         - configuration:
             topic: /mqtt/machine/status
           target: Mqtt
-  defaultDatasetsConfiguration: ''
   deviceRef:
     deviceName: my-rest-thermostat-device-name
     endpointName: my-rest-thermostat-endpoint-name
