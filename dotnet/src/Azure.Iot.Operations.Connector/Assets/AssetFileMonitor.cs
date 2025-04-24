@@ -53,15 +53,10 @@ namespace Azure.Iot.Operations.Connector.Assets
             FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
             if (_assetFileMonitors.TryAdd(assetFileName, assetMonitor))
             {
-                Trace.WriteLine("Now observing assets");
-
                 assetMonitor.OnFileChanged += (sender, args) =>
                 {
                     if (args.ChangeType == WatcherChangeTypes.Changed)
                     {
-                        //TODO
-                        Trace.WriteLine("AssetFileMonitor notification asset changed: " + args.FileName + " was " + args.ChangeType);
-
                         // Asset names may have changed. Compare new asset names with last known asset names for this device + inbound endpoint
                         IEnumerable<string>? currentAssetNames = GetAssetNames(deviceName, inboundEndpointName);
 
@@ -112,7 +107,6 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string currentAssetName in currentAssetNames)
                     {
-                        Trace.WriteLine("AssetFileMonitor reporting initial asset as created with name " + currentAssetName + " and composite device name " + deviceName + "_" + inboundEndpointName);
                         AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
                     }
                 }
@@ -134,8 +128,6 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             if (_deviceDirectoryMonitor == null)
             {
-                Trace.WriteLine("Now observing devices in dir " + _adrResourcesNameMountPath);
-
                 _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
@@ -161,16 +153,10 @@ namespace Azure.Iot.Operations.Connector.Assets
                 IEnumerable<string>? currentDeviceNames = GetCompositeDeviceNames();
                 if (currentDeviceNames != null)
                 {
-                    Trace.WriteLine("AssetFileMonitor checking for initial device states");
                     foreach (string deviceName in currentDeviceNames)
                     {
                         DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
-                        Trace.WriteLine("AssetFileMonitor reporting initial device as created with composite name " + deviceName);
                     }
-                }
-                else
-                {
-                    Trace.WriteLine("AssetFileMonitor found no initial device states");
                 }
             }
         }
