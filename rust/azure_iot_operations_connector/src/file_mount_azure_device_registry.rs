@@ -10,6 +10,7 @@ use std::time::Duration;
 use notify::RecommendedWatcher;
 use tokio::sync::mpsc::UnboundedReceiver;
 use tokio::sync::oneshot;
+use azure_iot_operations_services::azure_device_registry;
 
 /// Environment variable name for the directory containing device and asset names.
 const ADR_RESOURCES_NAME_MOUNT_PATH: &str = "ADR_RESOURCES_NAME_MOUNT_PATH";
@@ -57,7 +58,7 @@ impl FileMountClient {
     pub fn get_device_endpoint_names(
         &self,
         _timeout: Duration,
-    ) -> Result<Vec<DeviceEndpointRef>, FileMountError> {
+    ) -> Result<Vec<azure_device_registry::DeviceRef>, FileMountError> {
         Ok(vec![])
     }
 
