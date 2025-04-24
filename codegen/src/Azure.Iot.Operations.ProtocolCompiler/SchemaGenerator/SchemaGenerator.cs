@@ -302,8 +302,8 @@
 
         private (CodeName?, bool) GetErrorMessageSchema(DTObjectInfo dtObject, int mqttVersion)
         {
-            Dtmi errorMessageAjduncTypeId = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorMessageAdjunctTypeFormat, mqttVersion));
-            DTFieldInfo? messageField = dtObject.Fields.FirstOrDefault(f => f.SupplementalTypes.Contains(errorMessageAjduncTypeId));
+            Dtmi errorMessageAjdunctTypeId = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorMessageAdjunctTypeFormat, mqttVersion));
+            DTFieldInfo? messageField = dtObject.Fields.FirstOrDefault(f => f.SupplementalTypes.Contains(errorMessageAjdunctTypeId));
             return messageField != null ? (new CodeName(messageField.Id), !IsRequired(messageField)) : (null, false);
         }
 

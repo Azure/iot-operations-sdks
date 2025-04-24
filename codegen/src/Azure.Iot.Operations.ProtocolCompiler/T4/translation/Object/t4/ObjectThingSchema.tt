@@ -26,5 +26,5 @@
 <#+
     private bool IsFieldRequired(DTFieldInfo dtField) => dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
 
-    private bool IsFieldMessage(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(this.errorMessageAjduncTypeId);
+    private bool IsFieldMessage(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(this.errorMessageAjdunctTypeId);
 #>

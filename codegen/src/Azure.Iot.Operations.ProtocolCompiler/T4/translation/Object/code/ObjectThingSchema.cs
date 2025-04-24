@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly int indent;
         private readonly int mqttVersion;
         private readonly ThingDescriber thingDescriber;
-        private readonly Dtmi errorMessageAjduncTypeId;
+        private readonly Dtmi errorMessageAjdunctTypeId;
 
         public ObjectThingSchema(DTObjectInfo dtObject, int indent, int mqttVersion, ThingDescriber thingDescriber)
         {
@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.indent = indent;
             this.mqttVersion = mqttVersion;
             this.thingDescriber = thingDescriber;
-            this.errorMessageAjduncTypeId = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorMessageAdjunctTypeFormat, mqttVersion));
+            this.errorMessageAjdunctTypeId = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorMessageAdjunctTypeFormat, mqttVersion));
         }
 
         public string FileName { get => string.Empty; }
