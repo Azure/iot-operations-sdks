@@ -22,7 +22,7 @@ namespace EventDrivenTcpThermostatConnector
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
 
-        private async void OnAssetAvailableAsync(object? sender, AssetAvailabileEventArgs args)
+        private async void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs args)
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
 
@@ -46,7 +46,7 @@ namespace EventDrivenTcpThermostatConnector
             await OpenTcpConnectionAsync(args, assetEvent, port);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailabileEventArgs args, AssetEventSchemaElement assetEvent, int port)
+        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEventSchemaElement assetEvent, int port)
         {
             _tcpConnectionCancellationToken = new();
             try

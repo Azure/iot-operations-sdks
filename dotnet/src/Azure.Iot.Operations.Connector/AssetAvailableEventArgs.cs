@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// The event args for when an asset becomes available to sample.
     /// </summary>
-    public class AssetAvailabileEventArgs : EventArgs
+    public class AssetAvailableEventArgs : EventArgs
     {
         public Device Device { get; }
 
@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public Asset Asset { get; }
 
-        internal AssetAvailabileEventArgs(Device device, string inboundEndpointName, string assetName, Asset asset)
+        internal AssetAvailableEventArgs(Device device, string inboundEndpointName, string assetName, Asset asset)
         {
             Device = device;
             InboundEndpointName = inboundEndpointName;

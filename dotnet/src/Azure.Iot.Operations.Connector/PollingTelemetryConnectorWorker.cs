@@ -32,7 +32,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        public async void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
+        public async void OnAssetSampleableAsync(object? sender, AssetAvailableEventArgs args)
         {
             if (args.Asset.Specification.Datasets == null)
             {

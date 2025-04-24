@@ -7,7 +7,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// EventArgs with context about which AssetEndpointProfile changed and what kind of change happened to it.
+    /// EventArgs with context about which device changed and what kind of change happened to it.
     /// </summary>
     public class DeviceChangedEventArgs : EventArgs
     {

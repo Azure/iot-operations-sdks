@@ -12,7 +12,6 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Data;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector
@@ -32,9 +31,19 @@ namespace Azure.Iot.Operations.Connector
         private bool _isDisposed = false;
 
         /// <summary>
+        /// Event handler for when an device becomes available.
+        /// </summary>
+        public EventHandler<DeviceAvailableEventArgs>? OnDeviceAvailable;
+
+        /// <summary>
+        /// Event handler for when an device becomes unavailable.
+        /// </summary>
+        public EventHandler<DeviceUnavailableEventArgs>? OnDeviceUnavailable;
+
+        /// <summary>
         /// Event handler for when an asset becomes available.
         /// </summary>
-        public EventHandler<AssetAvailabileEventArgs>? OnAssetAvailable;
+        public EventHandler<AssetAvailableEventArgs>? OnAssetAvailable;
 
         /// <summary>
         /// Event handler for when an asset becomes unavailable.
@@ -139,11 +148,16 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
                         DeviceAvailable(args, compoundDeviceName);
+                        if (args.Device != null)
+                        {
+                            OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
+                        }
                     }
                     else if (args.ChangeType == ChangeType.Deleted)
                     {
                         _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
                         await DeviceUnavailableAsync(args, compoundDeviceName, false);
+                        OnDeviceUnavailable?.Invoke(this, new(args.DeviceName, args.InboundEndpointName));
                     }
                     else if (args.ChangeType == ChangeType.Updated)
                     {
