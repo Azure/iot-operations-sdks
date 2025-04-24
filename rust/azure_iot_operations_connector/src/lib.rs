@@ -6,5 +6,6 @@
 #![warn(missing_docs)]
 pub mod base_connector;
 pub mod destination_endpoint;
+pub mod filemount;
 pub mod file_mount_azure_device_registry;
 pub mod source_endpoint;
