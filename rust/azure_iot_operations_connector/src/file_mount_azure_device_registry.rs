@@ -538,7 +538,6 @@ impl std::future::Future for AssetDeletionToken {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~ Tests ~~~~~~~~~~~~~~~~~~~~~
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -674,6 +673,9 @@ mod tests {
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
+        let device1_endpoint1_assets_set: HashSet<AssetRef> =
+            HashSet::from_iter(device1_endpoint1_assets.clone());
+
         temp_env::with_vars(
             [(
                 ADR_RESOURCES_NAME_MOUNT_PATH,
@@ -684,28 +686,13 @@ mod tests {
 
                 let device_endpoints = get_device_endpoint_names(mount_path.as_path()).unwrap();
 
-                let device1_endpoint1_assets =
-                    get_asset_names(mount_path.as_path(), &device_endpoints[0]).unwrap();
+                let mounted_device1_endpoint1_assets_set = HashSet::from_iter(
+                    get_asset_names(mount_path.as_path(), &device_endpoints[0]).unwrap(),
+                );
 
                 assert_eq!(
-                    device1_endpoint1_assets,
-                    vec![
-                        AssetRef {
-                            name: "asset1".to_string(),
-                            device_name: "device1".to_string(),
-                            endpoint_name: "endpoint1".to_string(),
-                        },
-                        AssetRef {
-                            name: "asset2".to_string(),
-                            device_name: "device1".to_string(),
-                            endpoint_name: "endpoint1".to_string(),
-                        },
-                        AssetRef {
-                            name: "asset3".to_string(),
-                            device_name: "device1".to_string(),
-                            endpoint_name: "endpoint1".to_string(),
-                        },
-                    ]
+                    mounted_device1_endpoint1_assets_set,
+                    device1_endpoint1_assets_set
                 );
             },
         );
@@ -726,11 +713,8 @@ mod tests {
         file_mount_manager.add_device_endpoint(&device1_endpoint2, &device1_endpoint2_assets);
         file_mount_manager.add_device_endpoint(&device2_endpoint3, &device2_endpoint3_assets);
 
-        let mut device_endpoints = HashSet::from([
-            device1_endpoint1.clone(),
-            device1_endpoint2.clone(),
-            device2_endpoint3.clone(),
-        ]);
+        let mut device_endpoints =
+            HashSet::from([device1_endpoint1, device1_endpoint2, device2_endpoint3]);
 
         temp_env::async_with_vars(
             [(
@@ -792,9 +776,9 @@ mod tests {
                 file_mount_manager.add_device_endpoint(&device1_endpoint2, &device1_endpoint2_assets);
                 file_mount_manager.add_device_endpoint(&device2_endpoint3, &device2_endpoint3_assets);
                 let mut device_endpoints = HashSet::from([
-                    device1_endpoint1.clone(),
-                    device1_endpoint2.clone(),
-                    device2_endpoint3.clone(),
+                    device1_endpoint1,
+                    device1_endpoint2,
+                    device2_endpoint3,
                 ]);
                 while !device_endpoints.is_empty() {
                     tokio::select! {
@@ -820,7 +804,7 @@ mod tests {
 
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
-        let mut assets: HashSet<AssetRef> = HashSet::from_iter(device1_endpoint1_assets.clone());
+        let mut assets: HashSet<AssetRef> = HashSet::from_iter(device1_endpoint1_assets);
 
         temp_env::async_with_vars(
             [(
@@ -879,7 +863,7 @@ mod tests {
                     device1_endpoint1_assets,
                 ) = device_with_assets!("device1", "endpoint1", "asset1", "asset2");
                 file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
-                let mut assets: HashSet<AssetRef> = HashSet::from_iter(device1_endpoint1_assets.clone());
+                let mut assets: HashSet<AssetRef> = HashSet::from_iter(device1_endpoint1_assets);
 
                 tokio::select! {
                     Some((device_endpoint, mut asset_observation)) = test_device_endpoint_create_observation.recv_notification() => {
