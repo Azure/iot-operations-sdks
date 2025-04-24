@@ -90,16 +90,6 @@ func New(
 	var opts ClientOptions
 	opts.Apply(opt)
 
-	c = &Client{
-		logger:         slog.Default(),
-		protocol:       app,
-		mqtt:           client,
-		observedAeps:   map[string]struct{}{},
-		observedAssets: map[string]struct{}{},
-		onAssetUpdate:  opts.OnAssetUpdate,
-		onAepUpdate:    opts.OnAepUpdate,
-	}
-
 	if opts.Logger != nil {
 		c.logger = opts.Logger
 	}
