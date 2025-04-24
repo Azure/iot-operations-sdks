@@ -1,14 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Azure.Iot.Operations.Connector
 {
+    /// <summary>
+    /// The different ways that an asset or a device can change
+    /// </summary>
     public enum ChangeType
     {
         Deleted,
