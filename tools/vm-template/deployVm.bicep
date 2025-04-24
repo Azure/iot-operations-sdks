@@ -18,22 +18,30 @@ param adminPasswordOrKey string
 @description('The size of the VM, at least 16GB RAM is required')
 param vmSize string = 'Standard_E2a_v4'
 
+// =========================
+// == VARIABLES ==
+// =========================
+
+// General
+var location = resourceGroup().location
+
+// Virtual network
+var addressPrefix = '10.1.0.0/16'
+var subnetAddressPrefix = '10.1.0.0/24'
+var dnsLabelPrefix = toLower('${name}-${uniqueString(resourceGroup().id)}')
+var subnetName = '${uniqueString(dnsLabelPrefix)}-subnet'
+
+// The resource id of the custom location
+var customLocationId = resourceId('Microsoft.ManagedIdentity/systemAssignedIdentities', 'bc313c14-388c-4e7d-a58e-70017303ee3b')
+
+// Virtual machine
 var ubuntuOSVersion = {
     publisher: 'Canonical'
     offer: 'ubuntu-24_04-lts'
     sku: 'server'
     version: 'latest'
 }
-var location = resourceGroup().location
-var dnsLabelPrefix = toLower('${name}-${uniqueString(resourceGroup().id)}')
-var publicIPAddressName = '${name}-ip'
-var networkInterfaceName = '${name}-nic'
-var networkSecurityGroupName = '${name}-nsg'
-var virtualNetworkName = '${name}-vnet'
 var osDiskType = 'Standard_LRS'
-var subnetName = '${uniqueString(dnsLabelPrefix)}-subnet'
-var subnetAddressPrefix = '10.1.0.0/24'
-var addressPrefix = '10.1.0.0/16'
 var linuxConfiguration = {
   disablePasswordAuthentication: true
   ssh: {
@@ -48,12 +56,32 @@ var linuxConfiguration = {
 var cloudInitReplacements = [
   { key: '{{{location}}}',       value: location }
   { key: '{{{resource_group}}}', value: resourceGroup().name }
-  { key: '{{{resource_name}}}',  value: name }
+  { key: '{{{cluster_name}}}',   value: name }
+  { key: '{{{custom_location_id}}}',   value: customLocationId }
 ]
 var cloudInit = reduce(cloudInitReplacements, loadTextContent('cloud-init.yml'), (cur, next) => replace(string(cur), next.key, next.value))
 
+// =========================
+// == RESOURCES ==
+// =========================
+resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
+  name: '${name}-ip'
+  location: location
+  sku: {
+    name: 'Basic'
+  }
+  properties: {
+    publicIPAllocationMethod: 'Dynamic'
+    publicIPAddressVersion: 'IPv4'
+    dnsSettings: {
+      domainNameLabel: name
+    }
+    idleTimeoutInMinutes: 4
+  }
+}
+
 resource networkInterface 'Microsoft.Network/networkInterfaces@2023-09-01' = {
-  name: networkInterfaceName
+  name: '${name}-nic'
   location: location
   properties: {
     ipConfigurations: [
@@ -77,7 +105,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2023-09-01' = {
 }
 
 resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2023-09-01' = {
-  name: networkSecurityGroupName
+  name: '${name}-nsg'
   location: location
   properties: {
     securityRules: [
@@ -99,7 +127,7 @@ resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2023-09-0
 }
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-09-01' = {
-  name: virtualNetworkName
+  name: '${name}-vnet'
   location: location
   properties: {
     addressSpace: {
@@ -120,22 +148,6 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-09-01' = {
         }
       }
     ]
-  }
-}
-
-resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2023-09-01' = {
-  name: publicIPAddressName
-  location: location
-  sku: {
-    name: 'Basic'
-  }
-  properties: {
-    publicIPAllocationMethod: 'Dynamic'
-    publicIPAddressVersion: 'IPv4'
-    dnsSettings: {
-      domainNameLabel: name
-    }
-    idleTimeoutInMinutes: 4
   }
 }
 
@@ -175,16 +187,39 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
   }
 }
 
+// Create storage for the schema registry
+// resource schemaStorage 'Microsoft.Storage/storageAccounts@2024-01-01' = {
+//   name: '${name}storage'
+//   location: location
+//   kind: 'StorageV2'
+//   sku: {
+//     name: 'Standard_LRS'
+//   }
+//   properties:{
+//     isHnsEnabled: true
+//   }
+// }
+
+// // Create the schema registry
+// resource schemaRegistry 'Microsoft.DeviceRegistry/schemaRegistries@2024-09-01-preview' = {
+//   name: '${name}-schema'
+//   location: location
+//   properties: {
+//     namespace: '${name}-schema-ns'
+//     storageAccountContainerUrl: schemaStorage.properties.primaryEndpoints.blob
+//   }
+// }
+
 // Give the VM Contributor access to the group has it can create the Arc resource
 resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  scope: subscription()
   name: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  scope: subscription()
 }
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: resourceGroup()
-  // ISSUE: I dont think the vm.id is unique?
+  // ISSUE: I don't think the vm.id is unique?
   name: guid(resourceGroup().id, vm.id, contributorRoleDefinition.id)
+  scope: resourceGroup()
   properties: {
     roleDefinitionId: contributorRoleDefinition.id
     principalId: vm.identity.principalId
@@ -206,6 +241,26 @@ resource vmShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
     }
   }  
 }
+
+// var customLocationId = resourceId('Microsoft.ExtendedLocation/customLocations', 'bc313c14-388c-4e7d-a58e-70017303ee3b')
+// var connectedClusterId = resourceId('Microsoft.Kubernetes/connectedClusters', name)
+
+
+// resource connectedCluster 'Microsoft.Kubernetes/ConnectedClusters@2024-01-01' = {
+//   location: location
+//   name: connectedClusterName
+//   identity: {
+//     type: 'SystemAssigned'
+//   }
+//   kind: 'ProvisionedCluster'
+//   properties: {
+//     // agentPublicKeyCertificate must be empty for provisioned clusters that will be created next.
+//     agentPublicKeyCertificate: ''
+//     aadProfile: {
+//       enableAzureRBAC: false
+//     }
+//   }
+// }
 
 output adminUsername string = adminUsername
 output hostname string = publicIPAddress.properties.dnsSettings.fqdn

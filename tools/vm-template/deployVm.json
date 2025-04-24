@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "3580121551071281028"
+      "templateHash": "7827420625015077433"
     }
   },
   "parameters": {
@@ -49,23 +49,20 @@
     }
   },
   "variables": {
-    "$fxv#0": "#cloud-config\n\npackage_update: true\npackage_upgrade: true\napt:\n  preserve_sources_list: true\n  sources:\n    msft.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/ubuntu/24.04/prod noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    azurecli.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/repos/azure-cli noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    kubernetes.list:\n      source: 'deb [signed-by=$KEY_FILE] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /'\n      keyid: DE15B14486CD377B9E876E1A234654DA9A296436\n\npackages:\n  - azure-cli\n  - kubectl\n  - git\n  - moby-cli\n  - moby-engine\n\nruncmd:\n  - MYUSER=`id -un 1000`\n  - MYHOME=`eval echo ~$MYUSER`\n  - MYWORK=/workspaces\n  - LOCATION={{{location}}}\n  - RESOURCE_GROUP={{{resource_group}}}\n  - RESOURCE_NAME={{{resource_name}}}\n  - |\n    mkdir $MYWORK\n    cd $MYWORK\n    git clone https://github.com/azure/iot-operations-sdks\n    ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n    az login --identity\n    az connectedk8s connect --name $RESOURCE_NAME --location $LOCATION --resource-group $RESOURCE_GROUP --kube-config .kube/config\n  - |\n    install -D -o $MYUSER -g $MYUSER -m 600 $MYWORK/.kube/config $MYHOME/.kube/config\n    chown -R $MYUSER:$MYUSER $MYWORK\n",
+    "$fxv#0": "#cloud-config\n\npackage_update: true\npackage_upgrade: true\napt:\n  preserve_sources_list: true\n  sources:\n    msft.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/ubuntu/24.04/prod noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    azurecli.list:\n      source: 'deb [signed-by=$KEY_FILE] https://packages.microsoft.com/repos/azure-cli noble main'\n      keyid: BC528686B50D79E339D3721CEB3E94ADBE1229CF\n    kubernetes.list:\n      source: 'deb [signed-by=$KEY_FILE] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /'\n      keyid: DE15B14486CD377B9E876E1A234654DA9A296436\n\npackages:\n  - azure-cli\n  - kubectl\n  - git\n  - moby-cli\n  - moby-engine\n\nruncmd:\n  - MYUSER=`id -un 1000`\n  - MYHOME=`eval echo ~$MYUSER`\n  - MYWORK=/workspaces\n  - LOCATION={{{location}}}\n  - RESOURCE_GROUP={{{resource_group}}}\n  - CLUSTER_NAME={{{cluster_name}}}\n  - CUSTOM_LOCATION_ID={{{custom_location_id}}}\n  - |\n    set -o errexit # fail if any command fails\n\n    mkdir $MYWORK\n    cd $MYWORK\n\n    STORAGE_ACCOUNT=${CLUSTER_NAME}storage\n    SCHEMA_REGISTRY=${CLUSTER_NAME}-schema\n    SCHEMA_REGISTRY_NAMESPACE=${CLUSTER_NAME}-schema-ns\n\n    echo \"\\n===============================================================\"\n    echo \"Setting up the environment with the following parameters:\"\n    echo \"  Location           = ${LOCATION}\"\n    echo \"  Resource Group     = ${RESOURCE_GROUP}\"\n    echo \"  Cluster Name       = ${CLUSTER_NAME}\"\n    echo \"  Custom Location ID = ${CUSTOM_LOCATION_ID}\"\n    echo \"===============================================================\"\n    echo\n    \n    echo\n    echo \"=== Cloning repository ===\"\n    git clone https://github.com/azure/iot-operations-sdks\n    \n    echo\n    echo \"=== Installing dependencies and creating cluster ===\"\n    ./iot-operations-sdks/tools/deployment/initialize-cluster.sh\n    \n    echo\n    echo \"=== Logging in to Azure ===\"\n    az login --identity\n\n    echo\n    echo \"=== Registering Azure providers ===\"\n    # Issue #1: Cant register provideers with system identity\n    # az provider register -n \"Microsoft.ExtendedLocation\"\n    # az provider register -n \"Microsoft.Kubernetes\"\n    # az provider register -n \"Microsoft.KubernetesConfiguration\"\n    # az provider register -n \"Microsoft.IoTOperations\"\n    # az provider register -n \"Microsoft.DeviceRegistry\"\n    # az provider register -n \"Microsoft.SecretSyncController\"\n\n    echo\n    echo \"=== Arc connecting the cluster ===\"\n    az connectedk8s connect --name $CLUSTER_NAME --location $LOCATION -g $RESOURCE_GROUP --kube-config .kube/config\n\n    echo\n    echo \"=== Enabling custom locations ===\"\n    # Issue #1: Cant get the custom location with system identity\n    # export OBJECT_ID=$(az ad sp show --id bc313c14-388c-4e7d-a58e-70017303ee3b --query id -o tsv)\n    # az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --custom-locations-oid $OBJECT_ID --features cluster-connect custom-locations\n    az connectedk8s enable-features -n $CLUSTER_NAME -g $RESOURCE_GROUP --custom-locations-oid $CUSTOM_LOCATION_ID --kube-config .kube/config --features cluster-connect custom-locations\n    \n    echo\n    echo \"=== Creating Schema Registry resource ===\"\n    az storage account create --name $STORAGE_ACCOUNT --location $LOCATION -g $RESOURCE_GROUP --enable-hierarchical-namespace\n    az iot ops schema registry create --name $SCHEMA_REGISTRY -g $RESOURCE_GROUP --registry-namespace $SCHEMA_REGISTRY_NAMESPACE --sa-resource-id $(az storage account show --name $STORAGE_ACCOUNT -o tsv --query id)\n\n    echo\n    echo \"=== Installing IoT Operations ===\"\n    az iot ops init --cluster $CLUSTER_NAME -g $RESOURCE_GROUP\n    az iot ops create --cluster $CLUSTER_NAME -g $RESOURCE_GROUP --name ${CLUSTER_NAME}-instance --sr-resource-id $(az iot ops schema registry show --name $SCHEMA_REGISTRY -g $RESOURCE_GROUP -o tsv --query id) --broker-frontend-replicas 1 --broker-frontend-workers 1  --broker-backend-part 1  --broker-backend-workers 1 --broker-backend-rf 2 --broker-mem-profile Low\n  - |\n    install -D -o $MYUSER -g $MYUSER -m 600 $MYWORK/.kube/config $MYHOME/.kube/config\n    chown -R $MYUSER:$MYUSER $MYWORK\n",
+    "location": "[resourceGroup().location]",
+    "addressPrefix": "10.1.0.0/16",
+    "subnetAddressPrefix": "10.1.0.0/24",
+    "dnsLabelPrefix": "[toLower(format('{0}-{1}', parameters('name'), uniqueString(resourceGroup().id)))]",
+    "subnetName": "[format('{0}-subnet', uniqueString(variables('dnsLabelPrefix')))]",
+    "customLocationId": "[resourceId('Microsoft.ManagedIdentity/systemAssignedIdentities', 'bc313c14-388c-4e7d-a58e-70017303ee3b')]",
     "ubuntuOSVersion": {
       "publisher": "Canonical",
       "offer": "ubuntu-24_04-lts",
       "sku": "server",
       "version": "latest"
     },
-    "location": "[resourceGroup().location]",
-    "dnsLabelPrefix": "[toLower(format('{0}-{1}', parameters('name'), uniqueString(resourceGroup().id)))]",
-    "publicIPAddressName": "[format('{0}-ip', parameters('name'))]",
-    "networkInterfaceName": "[format('{0}-nic', parameters('name'))]",
-    "networkSecurityGroupName": "[format('{0}-nsg', parameters('name'))]",
-    "virtualNetworkName": "[format('{0}-vnet', parameters('name'))]",
     "osDiskType": "Standard_LRS",
-    "subnetName": "[format('{0}-subnet', uniqueString(variables('dnsLabelPrefix')))]",
-    "subnetAddressPrefix": "10.1.0.0/24",
-    "addressPrefix": "10.1.0.0/16",
     "linuxConfiguration": {
       "disablePasswordAuthentication": true,
       "ssh": {
@@ -87,17 +84,38 @@
         "value": "[resourceGroup().name]"
       },
       {
-        "key": "{{{resource_name}}}",
+        "key": "{{{cluster_name}}}",
         "value": "[parameters('name')]"
+      },
+      {
+        "key": "{{{custom_location_id}}}",
+        "value": "[variables('customLocationId')]"
       }
     ],
     "cloudInit": "[reduce(variables('cloudInitReplacements'), variables('$fxv#0'), lambda('cur', 'next', replace(string(lambdaVariables('cur')), lambdaVariables('next').key, lambdaVariables('next').value)))]"
   },
   "resources": [
     {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2023-09-01",
+      "name": "[format('{0}-ip', parameters('name'))]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Basic"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "publicIPAddressVersion": "IPv4",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('name')]"
+        },
+        "idleTimeoutInMinutes": 4
+      }
+    },
+    {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2023-09-01",
-      "name": "[variables('networkInterfaceName')]",
+      "name": "[format('{0}-nic', parameters('name'))]",
       "location": "[variables('location')]",
       "properties": {
         "ipConfigurations": [
@@ -105,29 +123,29 @@
             "name": "ipconfig1",
             "properties": {
               "subnet": {
-                "id": "[reference(resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName')), '2023-09-01').subnets[0].id]"
+                "id": "[reference(resourceId('Microsoft.Network/virtualNetworks', format('{0}-vnet', parameters('name'))), '2023-09-01').subnets[0].id]"
               },
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-ip', parameters('name')))]"
               }
             }
           }
         ],
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', format('{0}-nsg', parameters('name')))]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', format('{0}-nsg', parameters('name')))]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-ip', parameters('name')))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', format('{0}-vnet', parameters('name')))]"
       ]
     },
     {
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2023-09-01",
-      "name": "[variables('networkSecurityGroupName')]",
+      "name": "[format('{0}-nsg', parameters('name'))]",
       "location": "[variables('location')]",
       "properties": {
         "securityRules": [
@@ -150,7 +168,7 @@
     {
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2023-09-01",
-      "name": "[variables('virtualNetworkName')]",
+      "name": "[format('{0}-vnet', parameters('name'))]",
       "location": "[variables('location')]",
       "properties": {
         "addressSpace": {
@@ -163,7 +181,7 @@
             "name": "[variables('subnetName')]",
             "properties": {
               "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', format('{0}-nsg', parameters('name')))]"
               },
               "addressPrefix": "[variables('subnetAddressPrefix')]",
               "privateEndpointNetworkPolicies": "Enabled",
@@ -173,25 +191,8 @@
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups', format('{0}-nsg', parameters('name')))]"
       ]
-    },
-    {
-      "type": "Microsoft.Network/publicIPAddresses",
-      "apiVersion": "2023-09-01",
-      "name": "[variables('publicIPAddressName')]",
-      "location": "[variables('location')]",
-      "sku": {
-        "name": "Basic"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "publicIPAddressVersion": "IPv4",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('name')]"
-        },
-        "idleTimeoutInMinutes": 4
-      }
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
@@ -217,7 +218,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('name')))]"
             }
           ]
         },
@@ -230,7 +231,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', format('{0}-nic', parameters('name')))]"
       ]
     },
     {
@@ -272,11 +273,11 @@
     },
     "hostname": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')), '2023-09-01').dnsSettings.fqdn]"
+      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', format('{0}-ip', parameters('name'))), '2023-09-01').dnsSettings.fqdn]"
     },
     "sshCommand": {
       "type": "string",
-      "value": "[format('ssh {0}@{1}', parameters('adminUsername'), reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')), '2023-09-01').dnsSettings.fqdn)]"
+      "value": "[format('ssh {0}@{1}', parameters('adminUsername'), reference(resourceId('Microsoft.Network/publicIPAddresses', format('{0}-ip', parameters('name'))), '2023-09-01').dnsSettings.fqdn)]"
     }
   }
 }
