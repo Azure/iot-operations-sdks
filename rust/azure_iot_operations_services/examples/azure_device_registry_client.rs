@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("adr-client-app")
         .hostname("localhost")
-        .tcp_port(1883u16)
+        .tcp_port(31883u16)
         .use_tls(false)
         .build()?;
     let session_options = SessionOptionsBuilder::default()
@@ -152,32 +152,20 @@ async fn run_program(
         Ok(asset) => {
             log::info!("Asset details: {asset:?}");
             let mut updated_datasets = Vec::new();
-
-            // get the datasets from the obtained asset, dont update it
-            let original_status = asset.status.unwrap();
-            let datasets_schema = original_status.datasets_schema.unwrap_or_default();
-            for dataset in &datasets_schema {
-                // Log the dataset details
-                log::info!("Processing dataset: {dataset:?}");
-
-                // Create an updated version of the dataset with "updated" appended to the name
-                let updated_dataset = azure_device_registry::AssetDatasetEventStream {
-                    error: dataset.error.clone(),
-                    message_schema_reference: dataset.message_schema_reference.clone(),
-                    name: format!("{} updated", dataset.name),
-                };
-
-                // Log the updated dataset details
-                log::info!("Updated dataset: {updated_dataset:?}");
-                updated_datasets.push(updated_dataset);
+            for ds in asset.specification.datasets.unwrap() {
+                updated_datasets.push(azure_device_registry::AssetDatasetEventStream {
+                    error: None,
+                    message_schema_reference: None,
+                    name: format!("{}_updated", ds.name),
+                });
             }
-            // now we should update the status of the asset
+            // // now we should update the status of the asset
             let updated_status = azure_device_registry::AssetStatus {
-                config: original_status.config.clone(),
+                config: None,
                 datasets_schema: Some(updated_datasets), // Use the updated datasets here
-                events_schema: original_status.events_schema.clone(),
-                management_groups: original_status.management_groups.clone(),
-                streams: original_status.streams.clone(),
+                events_schema: None,
+                management_groups: None,
+                streams: None,
             };
             match azure_device_registry_client
                 .update_asset_status(
@@ -201,7 +189,6 @@ async fn run_program(
             log::error!("Get asset request failed: {e}");
         }
     }
-
     // allow time to update Device in ADR service
     // tokio::time::sleep(Duration::from_secs(20)).await;
 
