@@ -27,6 +27,8 @@ notify-debouncer-full.workspace = true
 # tokio-stream = "0.1"
 thiserror.workspace = true
 log.workspace = true
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
 [dev-dependencies]
 env_logger.workspace = true

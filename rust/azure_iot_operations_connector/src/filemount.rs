@@ -7,3 +7,6 @@
 pub mod azure_device_registry;
 
 // TODO: Add the file mount structs and functions here.
+//! Utilities for extracting data from filemounts deployed by the Akri Operator
+
+pub mod connector_config;
