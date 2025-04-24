@@ -50,9 +50,9 @@ pub enum ErrorKind {
 // ~~~~~~~~~~~~~~~~~ Observations ~~~~~~~~~~~~~~~~~~~~~
 
 /// Represents an observation for device endpoint creation events.
-#[allow(dead_code)]
 pub struct DeviceEndpointCreateObservation {
     /// A file watcher used to monitor changes in the file mount.
+    #[allow(dead_code)]
     debouncer: notify_debouncer_full::Debouncer<RecommendedWatcher, RecommendedCache>,
     /// A channel for receiving notifications about device endpoint creation events.
     create_device_rx: UnboundedReceiver<(DeviceEndpointRef, AssetCreateObservation)>,
@@ -339,7 +339,7 @@ fn get_asset_names(
         return Ok(HashSet::new());
     }
 
-    // Split the file content by ';' and create a vector of AssetRef
+    // Split the file content by ';' and create a HashSet of AssetRef
     Ok(file_content
         .split(';')
         .map(|asset_name| AssetRef {
