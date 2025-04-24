@@ -11,6 +11,6 @@
     },
     "sessionExpirySeconds": 20,
     "tls": {
-        "mode": "automatic"
+        "mode": "enabled"
     }
 }
