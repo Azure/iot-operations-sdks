@@ -766,7 +766,7 @@ where
     }
 
     /// Starts observation of any Asset updates from the Azure Device Registry service.
-    /// 
+    ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
     ///
     /// # Arguments
@@ -822,9 +822,7 @@ where
                 if let adr_name_gen::NotificationPreferenceResponse::Accepted =
                     response.payload.notification_preference_response
                 {
-                    Ok(AssetUpdateObservation {
-                        receiver: rx,
-                    })
+                    Ok(AssetUpdateObservation { receiver: rx })
                 } else {
                     // If the observe request wasn't successful, remove it from our dispatcher
                     if self
