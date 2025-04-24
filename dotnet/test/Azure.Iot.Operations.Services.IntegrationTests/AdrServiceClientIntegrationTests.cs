@@ -19,7 +19,8 @@ public class AdrServiceClientIntegrationTests
 {
     private readonly ITestOutputHelper _output;
     private const string ConnectorClientId = "test-connector-client";
-    private const string TestDeviceName = "my-thermostat";
+    private const string TestDevice_1_Name = "my-thermostat";
+    private const string TestDevice_2_Name = "test-thermostat";
     private const string TestEndpointName = "my-rest-endpoint";
     private const string TestAssetName = "my-rest-thermostat-asset";
 
@@ -71,11 +72,11 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act
-        Device updatedDevice = await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
+        Device updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
         // Assert
         Assert.NotNull(updatedDevice);
-        Assert.Equal(TestDeviceName, updatedDevice.Name);
+        Assert.Equal(TestDevice_1_Name, updatedDevice.Name);
         _output.WriteLine($"Updated device: {updatedDevice.Name}");
     }
 
@@ -87,26 +88,29 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        int notificationReceivedCount = 0;
+        var eventReceived = new TaskCompletionSource<bool>();
         client.OnReceiveDeviceUpdateEventTelemetry += (source, device) =>
         {
             _output.WriteLine($"Device update received from: {source}");
-            notificationReceivedCount++;
+            eventReceived.TrySetResult(true);
             return Task.CompletedTask;
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Trigger an update so we can observe it
         var status = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
+        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
-        // Wait a short time for the notification to arrive
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        // Wait for the notification to arrive
+        var receivedEventTask = await Task.WhenAny(
+            eventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Assert
-        Assert.Equal(1, notificationReceivedCount);
+        Assert.True(receivedEventTask.IsCompleted && !receivedEventTask.IsFaulted,
+            "Did not receive device update event within timeout");
     }
 
     [Fact]
@@ -117,35 +121,56 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        int notificationReceivedCount = 0;
+        var firstEventReceived = new TaskCompletionSource<bool>();
+        var secondEventReceived = new TaskCompletionSource<bool>();
+        var eventCounter = 0;
+
         client.OnReceiveDeviceUpdateEventTelemetry += (source, device) =>
         {
             _output.WriteLine($"Device update received from: {source}");
-            notificationReceivedCount++;
+            eventCounter++;
+
+            if (eventCounter == 1)
+            {
+                firstEventReceived.TrySetResult(true);
+            }
+            else
+            {
+                secondEventReceived.TrySetResult(true);
+            }
+
             return Task.CompletedTask;
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Trigger an update so we can observe it
         var status = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
+        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
-        // Wait a short time for the notification to arrive
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        // Wait for the first notification to arrive
+        var firstEventTask = await Task.WhenAny(
+            firstEventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
+
+        Assert.True(firstEventTask.IsCompleted && !firstEventTask.IsFaulted,
+            "Did not receive first device update event within timeout");
 
         // Act - Unobserve
-        var unobserveResponse = await client.UnobserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+        var unobserveResponse = await client.UnobserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         status = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, status);
+        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
-        // Wait a short time for the notification to arrive
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        // Wait to see if we get another notification (which we shouldn't)
+        var secondEventTask = await Task.WhenAny(
+            secondEventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Assert
-        Assert.Equal(1, notificationReceivedCount);
+        Assert.True(secondEventTask != secondEventReceived.Task,
+            "Should not receive device update event after unobserving");
     }
 
     [Fact]
@@ -161,7 +186,7 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act
-        var asset = await client.GetAssetAsync(TestDeviceName, TestEndpointName, request);
+        var asset = await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
         _output.WriteLine($"Asset: {asset?.Name}");
@@ -180,7 +205,7 @@ public class AdrServiceClientIntegrationTests
         UpdateAssetStatusRequest request = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
 
         // Act
-        var updatedAsset = await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, request);
+        var updatedAsset = await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
         Assert.NotNull(updatedAsset);
@@ -195,26 +220,29 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        int notificationReceivedCount = 0;
+        var eventReceived = new TaskCompletionSource<bool>();
         client.OnReceiveAssetUpdateEventTelemetry += (source, asset) =>
         {
             _output.WriteLine($"Asset update received from: {source}");
-            notificationReceivedCount++;
+            eventReceived.TrySetResult(true);
             return Task.CompletedTask;
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
-        await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
-        // Wait a short time for the notification to arrive
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        // Wait for the notification to arrive
+        var receivedEventTask = await Task.WhenAny(
+            eventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Assert
-        Assert.Equal(1, notificationReceivedCount);
+        Assert.True(receivedEventTask.IsCompleted && !receivedEventTask.IsFaulted,
+            "Did not receive asset update event within timeout");
     }
 
     [Fact]
@@ -225,36 +253,57 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        int notificationReceivedCount = 0;
+        var firstEventReceived = new TaskCompletionSource<bool>();
+        var secondEventReceived = new TaskCompletionSource<bool>();
+        var eventCounter = 0;
+
         client.OnReceiveAssetUpdateEventTelemetry += (source, asset) =>
         {
             _output.WriteLine($"Asset update received from: {source}");
-            notificationReceivedCount++;
+            eventCounter++;
+
+            if (eventCounter == 1)
+            {
+                firstEventReceived.TrySetResult(true);
+            }
+            else
+            {
+                secondEventReceived.TrySetResult(true);
+            }
+
             return Task.CompletedTask;
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
-        await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
-        // Wait a short time for the notification to arrive
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        // Wait for the first notification to arrive
+        var firstEventTask = await Task.WhenAny(
+            firstEventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
+
+        Assert.True(firstEventTask.IsCompleted && !firstEventTask.IsFaulted,
+            "Did not receive first asset update event within timeout");
 
         // Act - Unobserve
-        var unobserveResponse = await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        var unobserveResponse = await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
         updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
-        await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
-        // Wait a short time for the notification to arrive
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        // Wait to see if we get another notification (which we shouldn't)
+        var secondEventTask = await Task.WhenAny(
+            secondEventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Assert
-        Assert.Equal(1, notificationReceivedCount);
+        Assert.True(secondEventTask != secondEventReceived.Task,
+            "Should not receive asset update event after unobserving");
     }
 
     [Fact(Skip = "Requires ADR service changes")]
@@ -268,7 +317,7 @@ public class AdrServiceClientIntegrationTests
         CreateDetectedAssetRequest request = CreateCreateDetectedAssetRequest();
 
         // Act
-        var response = await client.CreateDetectedAssetAsync(TestDeviceName, TestEndpointName, request);
+        var response = await client.CreateDetectedAssetAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
     }
@@ -286,9 +335,9 @@ public class AdrServiceClientIntegrationTests
 
         // Assert - Methods should throw ObjectDisposedException
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await client.GetDeviceAsync(TestDeviceName, TestEndpointName));
+            await client.GetDeviceAsync(TestDevice_1_Name, TestEndpointName));
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName));
+            await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName));
     }
 
     [Fact]
@@ -304,9 +353,9 @@ public class AdrServiceClientIntegrationTests
 
         // Assert - Methods should throw OperationCanceledException
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await client.GetDeviceAsync(TestDeviceName, TestEndpointName, cancellationToken: cts.Token));
+            await client.GetDeviceAsync(TestDevice_1_Name, TestEndpointName, cancellationToken: cts.Token));
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName, cancellationToken: cts.Token));
+            await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName, cancellationToken: cts.Token));
     }
 
     [Fact]
@@ -343,7 +392,7 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Start observing asset updates
-        await client.ObserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Act - Update asset with event data to trigger notification
         var updateRequest = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
@@ -361,7 +410,7 @@ public class AdrServiceClientIntegrationTests
             }
         };
 
-        var updatedAsset = await client.UpdateAssetStatusAsync(TestDeviceName, TestEndpointName, updateRequest);
+        var updatedAsset = await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait for event to be received or timeout
         var receivedEventsTask = await Task.WhenAny(
@@ -369,7 +418,7 @@ public class AdrServiceClientIntegrationTests
             Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Cleanup
-        await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
         Assert.True(receivedEventsTask.IsCompleted && !receivedEventsTask.IsFaulted,
@@ -398,7 +447,7 @@ public class AdrServiceClientIntegrationTests
 
         // Start observing asset updates
         var observeResponse = await client.ObserveAssetUpdatesAsync(
-            TestDeviceName, TestEndpointName, TestAssetName);
+            TestDevice_1_Name, TestEndpointName, TestAssetName);
         Assert.Equal(NotificationResponse.Accepted, observeResponse);
 
         // Act - Update asset with multiple event streams including an error case
@@ -436,16 +485,16 @@ public class AdrServiceClientIntegrationTests
         };
 
         var updatedAsset = await client.UpdateAssetStatusAsync(
-            TestDeviceName, TestEndpointName, updateRequest);
+            TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Get asset to verify state after update
         var asset = await client.GetAssetAsync(
-            TestDeviceName,
+            TestDevice_1_Name,
             TestEndpointName,
             new GetAssetRequest { AssetName = TestAssetName });
 
         // Cleanup
-        await client.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
         Assert.NotNull(updatedAsset);
@@ -507,7 +556,7 @@ public class AdrServiceClientIntegrationTests
 
         // Start observing asset updates
         var observeResponse = await client.ObserveAssetUpdatesAsync(
-            TestDeviceName, TestEndpointName, TestAssetName);
+            TestDevice_1_Name, TestEndpointName, TestAssetName);
         Assert.Equal(NotificationResponse.Accepted, observeResponse);
 
         // Act - Phase 1: Send an update and verify it's received
@@ -527,7 +576,7 @@ public class AdrServiceClientIntegrationTests
         };
 
         await client.UpdateAssetStatusAsync(
-            TestDeviceName, TestEndpointName, updateRequest1);
+            TestDevice_1_Name, TestEndpointName, updateRequest1);
 
         // Wait for the first event
         var firstEventReceived1 = await Task.WhenAny(
@@ -561,7 +610,7 @@ public class AdrServiceClientIntegrationTests
 
         // Re-establish the observation after reconnection
         var observeResponseAfterReconnect = await reconnectedClient.ObserveAssetUpdatesAsync(
-            "test-thermostat", TestEndpointName, TestAssetName);
+            TestDevice_2_Name, TestEndpointName, TestAssetName);
         Assert.Equal(NotificationResponse.Accepted, observeResponseAfterReconnect);
 
         // Act - Phase 3: Send another update after reconnection
@@ -581,7 +630,7 @@ public class AdrServiceClientIntegrationTests
         };
 
         await reconnectedClient.UpdateAssetStatusAsync(
-            TestDeviceName, TestEndpointName, updateRequest2);
+            TestDevice_1_Name, TestEndpointName, updateRequest2);
 
         // Wait for the post-reconnection event
         var reconnectionEventTask = await Task.WhenAny(
@@ -589,7 +638,7 @@ public class AdrServiceClientIntegrationTests
             Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Cleanup
-        await reconnectedClient.UnobserveAssetUpdatesAsync(TestDeviceName, TestEndpointName, TestAssetName);
+        await reconnectedClient.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
         Assert.True(reconnectionEventTask.IsCompleted && !reconnectionEventTask.IsFaulted,
@@ -612,7 +661,7 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
-    public async Task ReceiveTelemetryForProperDeviceUpdateWhenMutipleDevicesUpdated()
+    public async Task ReceiveTelemetryForProperDeviceUpdateWhenMultipleDevicesUpdated()
     {
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
@@ -635,14 +684,14 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Start observing device updates
-        await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+        await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Act - Update multiple devices to trigger notifications
         var updateRequest1 = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, updateRequest1);
+        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest1);
 
         var updateRequest2 = CreateDeviceStatus(DateTime.UtcNow.AddMinutes(1));
-        await client.UpdateDeviceStatusAsync("test-thermostat", TestEndpointName, updateRequest2);
+        await client.UpdateDeviceStatusAsync(TestDevice_2_Name, TestEndpointName, updateRequest2);
 
         // Wait for the event to be received or timeout
         var receivedEventsTask = await Task.WhenAny(
@@ -650,13 +699,13 @@ public class AdrServiceClientIntegrationTests
             Task.Delay(TimeSpan.FromSeconds(5)));
 
         // Cleanup
-        await client.UnobserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+        await client.UnobserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Assert
         Assert.True(receivedEventsTask.IsCompleted && !receivedEventsTask.IsFaulted, "Did not receive device event update within timeout");
         Assert.NotEmpty(receivedEvents);
-        Assert.True(receivedEvents.Any(d => d.Name == TestDeviceName), $"Expected device event for {TestDeviceName} not received");
-        Assert.True(!receivedEvents.Any(d => d.Name == "test-thermostat"), $"Unexpected device event for test-thermostat received");
+        Assert.True(receivedEvents.Any(d => d.Name == TestDevice_1_Name), $"Expected device event for {TestDevice_1_Name} not received");
+        Assert.True(receivedEvents.All(d => d.Name != TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
     private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
@@ -706,3 +755,4 @@ public class AdrServiceClientIntegrationTests
     }
 
 }
+
