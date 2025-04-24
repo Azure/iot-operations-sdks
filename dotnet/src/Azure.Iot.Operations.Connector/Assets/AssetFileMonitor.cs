@@ -175,7 +175,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         public IEnumerable<string> GetAssetNames(string deviceName, string inboundEndpointName)
         {
             string devicePath = Path.Combine(_adrResourcesNameMountPath, $"{deviceName}_{inboundEndpointName}");
-            if (Directory.Exists(devicePath))
+            if (File.Exists(devicePath))
             {
                 string? contents = GetMountedConfigurationValueAsString(devicePath);
                 if (contents != null)
