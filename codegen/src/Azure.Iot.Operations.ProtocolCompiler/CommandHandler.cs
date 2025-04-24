@@ -111,7 +111,14 @@
                         genNamespace = new(contextualizedInterface.InterfaceId);
                     }
 
-                    var modelParser = new ModelParser();
+                    ThingGenerator thingGenerator = new ThingGenerator(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion);
+
+                    if (options.ThingOnly)
+                    {
+                        return thingGenerator.GenerateThing(options.OutDir) ? 0 : 1;
+                    }
+
+                    thingGenerator.GenerateThing(workingDir);
 
                     if (!SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace, sharedPrefix))
                     {

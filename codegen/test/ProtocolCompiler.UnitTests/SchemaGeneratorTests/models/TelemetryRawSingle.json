@@ -1,0 +1,17 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "raw/0",
+  "telemetryTopic": "sample/{modelId}/{senderId}/telemetry",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "data",
+      "schema": "bytes"
+    }
+  ]
+}

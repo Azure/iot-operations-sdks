@@ -19,6 +19,7 @@
         private readonly Option<string?> sdkPath;
 #endif
         private readonly Option<string> lang;
+        private readonly Option<bool> thingOnly;
         private readonly Option<bool> clientOnly;
         private readonly Option<bool> serverOnly;
         private readonly Option<bool> noProj;
@@ -37,6 +38,7 @@
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
 #endif
         /// <param name="lang">Programming language for generated code.</param>
+        /// <param name="thingOnly">Generate only Thing Description.</param>
         /// <param name="clientOnly">Generate only client-side code.</param>
         /// <param name="serverOnly">Generate only server-side code.</param>
         public ArgBinder(
@@ -50,6 +52,7 @@
             Option<string?> sdkPath,
 #endif
             Option<string> lang,
+            Option<bool> thingOnly,
             Option<bool> clientOnly,
             Option<bool> serverOnly,
             Option<bool> noProj,
@@ -65,6 +68,7 @@
             this.sdkPath = sdkPath;
 #endif
             this.lang = lang;
+            this.thingOnly = thingOnly;
             this.clientOnly = clientOnly;
             this.serverOnly = serverOnly;
             this.noProj = noProj;
@@ -88,6 +92,7 @@
                 SdkPath = null,
 #endif
                 Lang = bindingContext.ParseResult.GetValueForOption(this.lang)!,
+                ThingOnly = bindingContext.ParseResult.GetValueForOption(this.thingOnly),
                 ClientOnly = bindingContext.ParseResult.GetValueForOption(this.clientOnly),
                 ServerOnly = bindingContext.ParseResult.GetValueForOption(this.serverOnly),
                 NoProj = bindingContext.ParseResult.GetValueForOption(this.noProj),

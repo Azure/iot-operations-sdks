@@ -31,6 +31,9 @@
         /// <summary>Gets or sets the programming language for generated code.</summary>
         public required string Lang { get; set; }
 
+        /// <summary>Gets or sets an indication of whether to generate only a Thing Description.</summary>
+        public bool ThingOnly { get; set; }
+
         /// <summary>Gets or sets an indication of whether to generate only client-side code.</summary>
         public bool ClientOnly { get; set; }
 
