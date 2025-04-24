@@ -137,7 +137,7 @@ fn vec_from_option_vec<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -
 }
 
 // ~~~~~~~~~~~~~~~~~~~Common DTDL Equivalent Structs~~~~~~~~~~~~~
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct StatusConfig {
     /// Error code for classification of errors.
     pub error: Option<ConfigError>,
@@ -147,7 +147,7 @@ pub struct StatusConfig {
     pub version: Option<u64>,
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
     /// The code of the error.
@@ -160,7 +160,7 @@ pub struct ConfigError {
     pub message: Option<String>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Default)]
 /// Represents the details of an error.
 pub struct Details {
     /// The multi part error code for root cause analysis.
@@ -491,7 +491,7 @@ impl From<adr_name_gen::AuthenticationSchema> for Authentication {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint Status DTDL Equivalent Structs~~~~
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the status of a Device in the ADR Service.
 pub struct DeviceStatus {
     /// The 'config' Field.
