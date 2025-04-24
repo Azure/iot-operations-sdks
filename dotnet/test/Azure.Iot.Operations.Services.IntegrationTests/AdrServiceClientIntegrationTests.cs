@@ -561,7 +561,7 @@ public class AdrServiceClientIntegrationTests
 
         // Re-establish the observation after reconnection
         var observeResponseAfterReconnect = await reconnectedClient.ObserveAssetUpdatesAsync(
-            TestDeviceName, TestEndpointName, TestAssetName);
+            "test-thermostat", TestEndpointName, TestAssetName);
         Assert.Equal(NotificationResponse.Accepted, observeResponseAfterReconnect);
 
         // Act - Phase 3: Send another update after reconnection
@@ -610,6 +610,55 @@ public class AdrServiceClientIntegrationTests
         Assert.Equal("test-namespace", eventData.MessageSchemaReference.SchemaRegistryNamespace);
         Assert.Equal("2.0", eventData.MessageSchemaReference.SchemaVersion);
     }
+
+    [Fact]
+    public async Task ReceiveTelemetryForProperDeviceUpdateWhenMutipleDevicesUpdated()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        var receivedEvents = new List<Device>();
+        var eventReceived = new TaskCompletionSource<bool>();
+
+        // Set up event handler to capture and validate events
+        client.OnReceiveDeviceUpdateEventTelemetry += (_, device) =>
+        {
+            if (device != null)
+            {
+                _output.WriteLine($"Received device event: {device.Name}");
+                receivedEvents.Add(device);
+                eventReceived.TrySetResult(true);
+            }
+            return Task.CompletedTask;
+        };
+
+        // Start observing device updates
+        await client.ObserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+
+        // Act - Update multiple devices to trigger notifications
+        var updateRequest1 = CreateDeviceStatus(DateTime.UtcNow);
+        await client.UpdateDeviceStatusAsync(TestDeviceName, TestEndpointName, updateRequest1);
+
+        var updateRequest2 = CreateDeviceStatus(DateTime.UtcNow.AddMinutes(1));
+        await client.UpdateDeviceStatusAsync("test-thermostat", TestEndpointName, updateRequest2);
+
+        // Wait for the event to be received or timeout
+        var receivedEventsTask = await Task.WhenAny(
+            eventReceived.Task,
+            Task.Delay(TimeSpan.FromSeconds(5)));
+
+        // Cleanup
+        await client.UnobserveDeviceEndpointUpdatesAsync(TestDeviceName, TestEndpointName);
+
+        // Assert
+        Assert.True(receivedEventsTask.IsCompleted && !receivedEventsTask.IsFaulted, "Did not receive device event update within timeout");
+        Assert.NotEmpty(receivedEvents);
+        Assert.True(receivedEvents.Any(d => d.Name == TestDeviceName), $"Expected device event for {TestDeviceName} not received");
+        Assert.True(!receivedEvents.Any(d => d.Name == "test-thermostat"), $"Unexpected device event for test-thermostat received");
+    }
+
     private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
     {
         return new CreateDetectedAssetRequest
