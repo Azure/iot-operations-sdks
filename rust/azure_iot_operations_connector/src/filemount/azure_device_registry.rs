@@ -111,6 +111,8 @@ impl DeviceEndpointCreateObservation {
                         for debounced_event in &events {
                             match debounced_event.event.kind {
                                 _ => {
+                                    log::info!("Event: {debounced_event:?}");
+
                                     let device_endpoints =
                                         match get_device_endpoint_names(&mount_path_clone) {
                                             Ok(device_endpoints) => device_endpoints,
