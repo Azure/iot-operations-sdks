@@ -16,17 +16,22 @@ publish = true
 # azure_iot_operations_services = { version = "0.8", path = "../azure_iot_operations_services", registry = "aio-sdks", features = ["state_store", "schema_registry", "azure_device_registry"]  }
 # azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 # derive_builder.workspace = true
-# log.workspace = true
-tokio.workspace = true
-# tokio-util.workspace = true
+# tokio.workspace = true
+tokio = { version = "1.41", features = ["full"] } # TODO: If I use the workspace version of tokio I run into errors with tokio in the tests, will investigate later
+tokio-util.workspace = true
 notify.workspace = true
+notify-debouncer-full.workspace = true
 # futures = "0.3"
 # tokio-stream = "0.1"
 thiserror.workspace = true
+log.workspace = true
 
 [dev-dependencies]
-# env_logger.workspace = true
-# test-case.workspace = true
+env_logger.workspace = true
+temp-env = { version = "0.3.6", features = ["async_closure"]}
+tempfile.workspace = true
+test-case.workspace = true
+tokio-test.workspace = true
 
 [lints]
 workspace = true

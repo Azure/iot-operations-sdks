@@ -19,7 +19,7 @@ derive_builder.workspace = true
 futures = "0.3.31"
 log.workspace = true
 notify.workspace = true
-notify-debouncer-full = "0.4.0"
+notify-debouncer-full.workspace = true
 openssl = "0.10.66"                                                                 # only used with rumqttc to set up TLS settings
 rand = "0.8.5"
 rumqttc = { version = "0.24.0-fork.4", registry = 'aio-sdks', default-features = false, features = ["use-native-tls"]}
@@ -30,8 +30,8 @@ tokio-util.workspace = true
 [dev-dependencies]
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
-temp-env = "0.3.6"
-tempfile = "3.19.1"
+temp-env.workspace = true
+tempfile.workspace = true
 test-case.workspace = true
 tokio-test.workspace = true
 
