@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Contains structs and functions for interacting with a file mount and modules for utilities that
-//! use the file mount.
+//! Utilities for extracting data from filemounts in an Akri deployment
 
 pub mod azure_device_registry;
+pub mod connector_config;
 
-// TODO: Add the file mount structs and functions here.
+// TODO: Add common artifact structs and helpers here once implementation is unified
