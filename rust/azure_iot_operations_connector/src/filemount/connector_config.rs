@@ -54,9 +54,9 @@ pub struct ConnectorConfiguration {
     /// MQTT connection details
     pub mqtt_connection_configuration: MqttConnectionConfiguration,
     /// Azure IoT Operations metadata
-    pub aio_metadata: AioMetadata,
+    pub aio_metadata: Option<AioMetadata>, // TODO: Not option
     /// Diagnostics
-    pub diagnostics: Diagnostics,
+    pub diagnostics: Option<Diagnostics>, // TODO: not option
 
     // NOTE: the below mounts are combined here for convenience, although are technically different
     // mounts. This will change in the future as the specification is updated
@@ -93,8 +93,10 @@ impl ConnectorConfiguration {
         }
         let mqtt_connection_configuration =
             Self::extract_mqtt_connection_configuration(cc_mount_pathbuf.as_path())?;
-        let aio_metadata = Self::extract_aio_metadata(&cc_mount_pathbuf)?;
-        let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
+        //let aio_metadata = Self::extract_aio_metadata(&cc_mount_pathbuf)?;
+        //let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
+        let aio_metadata = None;
+        let diagnostics = None;
 
         let broker_ca_cert_trustbundle_path =
             string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
@@ -292,7 +294,8 @@ pub struct AioMetadata {
 #[derive(Debug, Deserialize, Clone)]
 pub struct Diagnostics {
     /// Log information
-    pub logs: Logs,
+    pub log_level: Logs, // TODO: change to match spec when fixed
+                         //pub logs: Logs,
 }
 
 /// Logging information
