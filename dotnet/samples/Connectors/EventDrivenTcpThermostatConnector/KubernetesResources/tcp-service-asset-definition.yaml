@@ -13,15 +13,11 @@ spec:
         - dataSource: /api/thermostat/current
           name: currentTemperature
           dataPointConfiguration: ''
-      dataSource: /thermostat
       destinations:
-        # TODO: currently unsupported by CRDs, but will add support for it soon?
-        #- configuration:
-        #    topic: /mqtt/machine/status/change_event
-        #  target: Mqtt
         - configuration:
-            key: thermostat_current_temperature
-          target: BrokerStateStore
+            topic: /mqtt/machine/status/change_event
+          target: Mqtt
+      eventNotifier: todo
   defaultDatasetsConfiguration: ''
   deviceRef:
     deviceName: my-tcp-thermostat
