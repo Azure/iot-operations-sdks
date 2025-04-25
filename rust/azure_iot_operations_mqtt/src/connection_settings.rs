@@ -4,7 +4,6 @@
 //! Generic MQTT connection settings implementations
 
 use std::env::{self, VarError};
-use std::path::{Path, PathBuf};
 use std::time::Duration;
 
 // TODO: Split up this struct to avoid weird combinations and separate concern.
@@ -237,8 +236,6 @@ fn string_from_environment(key: &str) -> Result<Option<String>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::fs;
-    use std::path::Path;
     use test_case::test_case;
 
     #[test]
