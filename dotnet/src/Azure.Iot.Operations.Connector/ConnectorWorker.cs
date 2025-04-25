@@ -12,6 +12,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector
@@ -79,17 +80,38 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // Create MQTT client from credentials provided by the operator
-            MqttConnectionSettings mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
+            bool readMqttConnectionSettings = false;
+            MqttConnectionSettings mqttConnectionSettings;
+            int maxRetryCount = 10;
+            int currentRetryCount = 0;
+            while (!readMqttConnectionSettings)
+            {
+                try
+                {
+                    // Create MQTT client from credentials provided by the operator
+                    mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
+                    readMqttConnectionSettings = true;
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError(ex.StackTrace);
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+
+                    if (++currentRetryCount >= maxRetryCount)
+                    {
+                        throw;
+                    }
+                }
+            }
 
             if (_leaderElectionConfiguration != null)
             {
                 // Connector client id prefix is provided as environment variable, but it is the same prefix for all replicated pods.
                 // To avoid collision, add a suffix when replicating pods.
-                mqttConnectionSettings.ClientId += Guid.NewGuid().ToString();
+                mqttConnectionSettings!.ClientId += Guid.NewGuid().ToString();
             }
 
-            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings.ToString()); //TODO revert
+            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings!.ToString()); //TODO revert
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
