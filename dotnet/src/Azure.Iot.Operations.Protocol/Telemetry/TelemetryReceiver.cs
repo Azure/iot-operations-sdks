@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            Trace.TraceInformation($"Telemetry received from {args.ApplicationMessage.Topic}");
+            //Trace.TraceInformation($"Telemetry received from {args.ApplicationMessage.Topic}");
             string telemTopicFilter = GetTelemetryTopic();
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, telemTopicFilter))
@@ -80,13 +80,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 if (!ProtocolVersion.TryParseProtocolVersion(requestProtocolVersion, out ProtocolVersion? protocolVersion))
                 {
-                    Trace.TraceError($"Telemetry with CorrelationId {args.ApplicationMessage.CorrelationData} provided a malformed protocol version {requestProtocolVersion}. The telemetry will be ignored by this receiver.");
+                    //Trace.TraceError($"Telemetry with CorrelationId {args.ApplicationMessage.CorrelationData} provided a malformed protocol version {requestProtocolVersion}. The telemetry will be ignored by this receiver.");
                     return;
                 }
 
                 if (!_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
                 {
-                    Trace.TraceError($"Telemetry with CorrelationId {args.ApplicationMessage.CorrelationData} requested an unsupported protocol version {requestProtocolVersion}. This telemetry reciever supports versions {ProtocolVersion.ToString(_supportedMajorProtocolVersions)}. The telemetry will be ignored by this receiver.");
+                    //Trace.TraceError($"Telemetry with CorrelationId {args.ApplicationMessage.CorrelationData} requested an unsupported protocol version {requestProtocolVersion}. This telemetry reciever supports versions {ProtocolVersion.ToString(_supportedMajorProtocolVersions)}. The telemetry will be ignored by this receiver.");
                     return;
                 }
 
@@ -118,7 +118,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     }
                     else
                     {
-                        Trace.TraceInformation($"No timestamp present in telemetry received metadata.");
+                        //Trace.TraceInformation($"No timestamp present in telemetry received metadata.");
                     }
 
                     async Task TelemFunc()
@@ -127,17 +127,17 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         {
                             await OnTelemetryReceived(sourceId, serializedPayload, metadata);
                         }
-                        catch (Exception innerEx)
+                        catch (Exception)
                         {
-                            Trace.TraceError($"Exception thrown while executing telemetry received callback: {innerEx.Message}");
+                            //Trace.TraceError($"Exception thrown while executing telemetry received callback: {innerEx.Message}");
                         }
                     }
                     await GetDispatcher()(TelemFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                 }
-                catch (Exception outerEx)
+                catch (Exception)
                 {
                     await GetDispatcher()(null, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
-                    Trace.TraceError($"Exception thrown while deserializing payload, callback skipped: {outerEx.Message}");
+                    //Trace.TraceError($"Exception thrown while deserializing payload, callback skipped: {outerEx.Message}");
                 }
             }
         }
@@ -193,7 +193,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 MqttClientSubscribeResult subAck = await _mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
                 subAck.ThrowIfNotSuccessSubAck(topicFilter.QualityOfServiceLevel);
                 _isRunning = true;
-                Trace.TraceInformation($"Telemetry receiver subscribed for topic {telemTopicFilter}.");
+                //Trace.TraceInformation($"Telemetry receiver subscribed for topic {telemTopicFilter}.");
             }
         }
 
@@ -211,7 +211,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
                 unsubAck.ThrowIfNotSuccessUnsubAck();
                 _isRunning = false;
-                Trace.TraceInformation($"Telemetry receiver unsubscribed for topic {telemTopicFilter}.");
+                //Trace.TraceInformation($"Telemetry receiver unsubscribed for topic {telemTopicFilter}.");
             }
         }
 
@@ -261,9 +261,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 {
                     await StopAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Trace.TraceWarning("Failed to stop the telemetry receiver while disposing it: {0}", ex);
+                    //Trace.TraceWarning("Failed to stop the telemetry receiver while disposing it: {0}", ex);
                 }
 
                 _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
