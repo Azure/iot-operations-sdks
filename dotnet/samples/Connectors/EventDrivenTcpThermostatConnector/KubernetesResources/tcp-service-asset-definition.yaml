@@ -17,7 +17,7 @@ spec:
         - configuration:
             topic: /mqtt/machine/status/change_event
           target: Mqtt
-      eventNotifier: 80
+      eventNotifier: "80"
   defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-tcp-thermostat
