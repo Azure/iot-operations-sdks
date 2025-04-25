@@ -110,85 +110,117 @@ impl DeviceEndpointCreateObservation {
                         // it might be better to just match on an Any.
                         for debounced_event in &events {
                             match debounced_event.event.kind {
-                                EventKind::Create(event::CreateKind::File) => { // Event signals the creation of a device endpoint
-                                    debounced_event.paths.iter().for_each(|path| {
-                                        // TODO: We could use an expect here since we are sure the path is valid
-                                        // let Some(mount_path) = path.parent() else {
-                                        //     log::warn!("Failed to get parent path from device endpoint");
-                                        //     return;
-                                        // };
-
-                                        let device = match DeviceEndpointRef::try_from(path) {
-                                            Ok(device) => device,
+                                _ => {
+                                    let device_endpoints =
+                                        match get_device_endpoint_names(&mount_path_clone) {
+                                            Ok(device_endpoints) => device_endpoints,
                                             Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
+                                                log::warn!(
+                                                    "Failed to get device endpoint names: {err:?}"
+                                                );
                                                 return;
                                             }
                                         };
 
-                                        // Insert the device endpoint into the file mount map
-                                        file_mount_map.insert_device_endpoint(&device);
-
-                                        // The create event is for a new file, so we need to get the assets
-                                        let assets =
-                                            match get_asset_names(&mount_path_clone, &device) {
-                                                Ok(assets) => assets,
-                                                Err(err) => {
-                                                    log::warn!("Failed to get asset names: {err:?}");
-                                                    return;
-                                                }
-                                            };
-
-                                        // Update the file mount map with the new assets
-                                        file_mount_map.update_assets(&device, assets);
-                                    });
-                                }
-                                EventKind::Modify(_) => { // Event signals the creation or deletion of an asset
-                                    debounced_event.paths.iter().for_each(|path| {
-                                        // TODO: We could use an expect here since we are sure the path is valid
-                                        // let Some(mount_path) = path.parent() else {
-                                        //     log::warn!("Failed to get parent path from device endpoint");
-                                        //     return;
-                                        // };
-
-                                        let device = match DeviceEndpointRef::try_from(path) {
-                                            Ok(device) => device,
-                                            Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
-                                                return;
-                                            }
-                                        };
+                                    // Iterate over the device endpoints and update the file mount map
+                                    for device in &device_endpoints {
+                                        file_mount_map.insert_device_endpoint(device);
 
                                         // Get assets in the file mount
                                         let assets =
-                                            match get_asset_names(&mount_path_clone, &device) {
+                                            match get_asset_names(&mount_path_clone, device) {
                                                 Ok(assets) => assets,
                                                 Err(err) => {
-                                                    log::warn!("Failed to get asset names: {err:?}");
+                                                    log::warn!(
+                                                        "Failed to get asset names: {err:?}"
+                                                    );
                                                     return;
                                                 }
                                             };
 
                                         // Update the file mount map with the new assets
-                                        file_mount_map.update_assets(&device, assets);
-                                    });
+                                        file_mount_map.update_assets(device, assets);
+                                    }
                                 }
-                                EventKind::Remove(event::RemoveKind::File) => { // Event signals the deletion of a device endpoint
-                                    debounced_event.paths.iter().for_each(|path| {
-                                        let device = match DeviceEndpointRef::try_from(path) {
-                                            Ok(device) => device,
-                                            Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
-                                                return;
-                                            }
-                                        };
+                                // EventKind::Create(event::CreateKind::File) => { // Event signals the creation of a device endpoint
+                                //     debounced_event.paths.iter().for_each(|path| {
+                                //         // TODO: We could use an expect here since we are sure the path is valid
+                                //         // let Some(mount_path) = path.parent() else {
+                                //         //     log::warn!("Failed to get parent path from device endpoint");
+                                //         //     return;
+                                //         // };
 
-                                        // Remove the device endpoint from the file mount map
-                                        // When the device endpoint is removed, all the assets are 
-                                        // removed as well triggering the deletion token for each asset
-                                        file_mount_map.remove_device_endpoint(&device);
-                                    });
-                                }
+                                //         let device = match DeviceEndpointRef::try_from(path) {
+                                //             Ok(device) => device,
+                                //             Err(err) => {
+                                //                 log::warn!("Failed to parse device endpoint from path: {err:?}");
+                                //                 return;
+                                //             }
+                                //         };
+
+                                //         // Insert the device endpoint into the file mount map
+                                //         file_mount_map.insert_device_endpoint(&device);
+
+                                //         // The create event is for a new file, so we need to get the assets
+                                //         let assets =
+                                //             match get_asset_names(&mount_path_clone, &device) {
+                                //                 Ok(assets) => assets,
+                                //                 Err(err) => {
+                                //                     log::warn!("Failed to get asset names: {err:?}");
+                                //                     return;
+                                //                 }
+                                //             };
+
+                                //         // Update the file mount map with the new assets
+                                //         file_mount_map.update_assets(&device, assets);
+                                //     });
+                                // }
+                                // EventKind::Modify(_) => { // Event signals the creation or deletion of an asset
+                                //     debounced_event.paths.iter().for_each(|path| {
+                                //         // TODO: We could use an expect here since we are sure the path is valid
+                                //         // let Some(mount_path) = path.parent() else {
+                                //         //     log::warn!("Failed to get parent path from device endpoint");
+                                //         //     return;
+                                //         // };
+
+                                //         let device = match DeviceEndpointRef::try_from(path) {
+                                //             Ok(device) => device,
+                                //             Err(err) => {
+                                //                 log::warn!("Failed to parse device endpoint from path: {err:?}");
+                                //                 return;
+                                //             }
+                                //         };
+
+                                //         // Get assets in the file mount
+                                //         let assets =
+                                //             match get_asset_names(&mount_path_clone, &device) {
+                                //                 Ok(assets) => assets,
+                                //                 Err(err) => {
+                                //                     log::warn!("Failed to get asset names: {err:?}");
+                                //                     return;
+                                //                 }
+                                //             };
+
+                                //         // Update the file mount map with the new assets
+                                //         file_mount_map.update_assets(&device, assets);
+                                //     });
+                                // }
+                                // EventKind::Remove(event::RemoveKind::File) => { // Event signals the deletion of a device endpoint
+                                //     debounced_event.paths.iter().for_each(|path| {
+                                //         let device = match DeviceEndpointRef::try_from(path) {
+                                //             Ok(device) => device,
+                                //             Err(err) => {
+                                //                 log::warn!("Failed to parse device endpoint from path: {err:?}");
+                                //                 return;
+                                //             }
+                                //         };
+
+                                //         // Remove the device endpoint from the file mount map
+                                //         // When the device endpoint is removed, all the assets are
+                                //         // removed as well triggering the deletion token for each asset
+                                //         file_mount_map.remove_device_endpoint(&device);
+                                //     });
+                                // }
                                 _ => { /* Ignore other events */ }
                             }
                         }
@@ -201,7 +233,8 @@ impl DeviceEndpointCreateObservation {
                     }
                 }
             },
-        ).map_err(ErrorKind::from)?;
+        )
+        .map_err(ErrorKind::from)?;
 
         // Start watching the file mount path for create, modify and remove events
         debouncer
@@ -313,7 +346,6 @@ pub fn get_device_endpoint_names(mount_path: &Path) -> Result<Vec<DeviceEndpoint
                         continue;
                     }
                 }
-                
             }
             None => {
                 // TODO: Happens when the path ends with "..", skip it and log a warning for now
@@ -509,7 +541,9 @@ impl TryFrom<String> for DeviceEndpointRef {
         match value.split_once('_') {
             Some((device_name, inbound_endpoint_name)) => {
                 if inbound_endpoint_name.contains('_') {
-                    log::warn!("DeviceEndpointRef contains an underscore in the endpoint name: {value}");
+                    log::warn!(
+                        "DeviceEndpointRef contains an underscore in the endpoint name: {value}"
+                    );
                     return Err(Error(ErrorKind::ParseError(
                         "DeviceEndpointRef contains an underscore in the endpoint name".to_string(),
                     )));
@@ -565,7 +599,7 @@ mod tests {
     use std::collections::HashSet;
     use std::fs;
 
-    const DEBOUNCE_DURATION: Duration = Duration::from_millis(500);
+    const DEBOUNCE_DURATION: Duration = Duration::from_secs(1);
 
     // Macro to create a device endpoint reference and associated asset references
     macro_rules! device_with_assets {
