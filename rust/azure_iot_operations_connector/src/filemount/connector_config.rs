@@ -219,6 +219,7 @@ impl ConnectorConfiguration {
                 aio_metadata_pathbuf.into_os_string(),
             ))?;
         }
+        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
         let a: AioMetadata =
             serde_json::from_str(&std::fs::read_to_string(&aio_metadata_pathbuf)?)?;
         Ok(a)
@@ -231,6 +232,7 @@ impl ConnectorConfiguration {
                 diagnostics_pathbuf.into_os_string(),
             ))?;
         }
+        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
         let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(&diagnostics_pathbuf)?)?;
         Ok(d)
     }
