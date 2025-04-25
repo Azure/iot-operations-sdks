@@ -93,6 +93,7 @@ impl ConnectorConfiguration {
         }
         let mqtt_connection_configuration =
             Self::extract_mqtt_connection_configuration(cc_mount_pathbuf.as_path())?;
+        // TODO: re-enable this functionality when spec is finalized
         //let aio_metadata = Self::extract_aio_metadata(&cc_mount_pathbuf)?;
         //let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
         let aio_metadata = None;
