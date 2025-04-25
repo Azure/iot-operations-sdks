@@ -216,7 +216,6 @@ namespace Azure.Iot.Operations.Connector
                     else if (linkedToken.IsCancellationRequested)
                     {
                         _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
-                        // Don't propagate the user-provided cancellation token since 
                         await _assetMonitor.UnobserveAllAsync(cancellationToken);
                     }
                 }
