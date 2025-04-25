@@ -212,7 +212,6 @@ impl ConnectorConfiguration {
         Ok(m)
     }
 
-    // TODO: is this optional?
     fn extract_aio_metadata(mount_path: &Path) -> Result<AioMetadata, DeploymentArtifactErrorRepr> {
         let aio_metadata_pathbuf = mount_path.join("AIO_METADATA");
         if !aio_metadata_pathbuf.as_path().exists() {
