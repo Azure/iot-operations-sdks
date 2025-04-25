@@ -25,7 +25,7 @@ spec:
         - configuration:
             topic: /mqtt/machine/status
           target: Mqtt
-  defaultDatasetsConfiguration: ''
+  defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-sql-qualityanalyzer-profile
     endpointName: my-sql-endpoint
