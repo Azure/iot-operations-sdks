@@ -79,10 +79,16 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            string candidateName = Guid.NewGuid().ToString(); //TODO configurable?
-
             // Create MQTT client from credentials provided by the operator
             MqttConnectionSettings mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
+
+            if (_leaderElectionConfiguration != null)
+            {
+                // Connector client id prefix is provided as environment variable, but it is the same prefix for all replicated pods.
+                // To avoid collision, add a suffix when replicating pods.
+                mqttConnectionSettings.ClientId += Guid.NewGuid().ToString();
+            }
+
             _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings.ToString()); //TODO revert
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
@@ -106,7 +112,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, candidateName)
+                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings.ClientId)
                         {
                             AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -118,7 +124,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
                         {
-                            isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(candidateName);
+                            isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(mqttConnectionSettings.ClientId);
                             if (isLeader)
                             {
                                 _logger.LogInformation("Received notification that this pod is the leader");
