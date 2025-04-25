@@ -14,7 +14,7 @@ publish = true
 [dependencies]
 # azure_iot_operations_protocol = { version = "0.9", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
 # azure_iot_operations_services = { version = "0.8", path = "../azure_iot_operations_services", registry = "aio-sdks", features = ["state_store", "schema_registry", "azure_device_registry"]  }
-# azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
+azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 # derive_builder.workspace = true
 # log.workspace = true
 tokio.workspace = true
@@ -29,7 +29,7 @@ serde_json = "1.0"
 [dev-dependencies]
 temp-env = "0.3.6"
 # env_logger.workspace = true
-# test-case.workspace = true
+test-case.workspace = true
 
 [lints]
 workspace = true
