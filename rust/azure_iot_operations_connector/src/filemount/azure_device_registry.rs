@@ -74,7 +74,7 @@ impl DeviceEndpointCreateObservation {
     /// - [`struct@Error`] of kind [`ErrorKind::ParseError`] if there are issues parsing the file names and content.
     pub fn new(debounce_duration: Duration) -> Result<DeviceEndpointCreateObservation, Error> {
         let mount_path = get_mount_path()?;
-
+        log::warn!("Mount path: {mount_path:?}");
         // This channel is used to send notifications about device endpoint creation
         let (create_device_tx, create_device_rx) = mpsc::unbounded_channel();
 
@@ -297,12 +297,23 @@ pub fn get_device_endpoint_names(mount_path: &Path) -> Result<Vec<DeviceEndpoint
     // TODO: There is probably a way to do this without needing the below for loop.
     let mut device_endpoint_refs = Vec::new();
     for entry in std::fs::read_dir(mount_path).map_err(ErrorKind::from)? {
+        log::warn!("Entry: {entry:?}");
         match entry.map_err(ErrorKind::from)?.path().file_name() {
             Some(file_name) => {
+                log::warn!("filename: {file_name:?}");
                 // TODO: Handle case where file name has invalid UTF-8 characters (remove need for to_string_lossy)
                 // TODO: Handle case where file name is not a file but a directory
                 let device_endpoint_string = file_name.to_string_lossy().to_string();
-                device_endpoint_refs.push(device_endpoint_string.try_into()?);
+                match device_endpoint_string.try_into() {
+                    Ok(device_endpoint) => {
+                        device_endpoint_refs.push(device_endpoint);
+                    }
+                    Err(err) => {
+                        log::warn!("Failed to parse device endpoint from file name: {err:?}");
+                        continue;
+                    }
+                }
+                
             }
             None => {
                 // TODO: Happens when the path ends with "..", skip it and log a warning for now
@@ -329,6 +340,7 @@ fn get_asset_names(
 ) -> Result<HashSet<AssetRef>, Error> {
     // Create the file path for the device endpoint
     let file_path = mount_path.join(device_endpoint.to_string());
+    log::warn!("get asset names File path: {file_path:?}");
 
     // Get the content of the file
     let file_content = String::from_utf8(std::fs::read(file_path).map_err(ErrorKind::from)?)
@@ -497,7 +509,10 @@ impl TryFrom<String> for DeviceEndpointRef {
         match value.split_once('_') {
             Some((device_name, inbound_endpoint_name)) => {
                 if inbound_endpoint_name.contains('_') {
-                    log::warn!("DeviceEndpointRef contains an underscore in the endpoint name");
+                    log::warn!("DeviceEndpointRef contains an underscore in the endpoint name: {value}");
+                    return Err(Error(ErrorKind::ParseError(
+                        "DeviceEndpointRef contains an underscore in the endpoint name".to_string(),
+                    )));
                 }
                 Ok(Self {
                     device_name: device_name.to_string(),
