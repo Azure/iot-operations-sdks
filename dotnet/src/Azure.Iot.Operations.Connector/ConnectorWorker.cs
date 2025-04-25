@@ -212,14 +212,12 @@ namespace Azure.Iot.Operations.Connector
 
                         // Don't propagate the user-provided cancellation token since it has already been cancelled.
                         await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
-                        await _mqttClient.DisconnectAsync(null, CancellationToken.None);
                     }
                     else if (linkedToken.IsCancellationRequested)
                     {
                         _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
                         // Don't propagate the user-provided cancellation token since 
                         await _assetMonitor.UnobserveAllAsync(cancellationToken);
-                        await _mqttClient.DisconnectAsync(null, cancellationToken);
                     }
                 }
             }
@@ -227,6 +225,7 @@ namespace Azure.Iot.Operations.Connector
             _logger.LogInformation("Shutting down connector...");
 
             _leaderElectionClient?.DisposeAsync();
+            await _mqttClient.DisconnectAsync(null, CancellationToken.None);
         }
 
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
