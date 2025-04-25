@@ -6,13 +6,8 @@ k3d image import sqlqualityanalyzerconnectorapp:latest -c k3s-default
 kubectl apply -f ./KubernetesResources/sql-server.yaml
 
 # Deploy connector config
-kubectl apply -f ./KubernetesResources/connector-config.yaml
+kubectl apply -f ./KubernetesResources/connector-template.yaml
 
-# Deploy asset and AEP
-kubectl apply -f ./KubernetesResources/sql-server-asset-endpoint-profile-definition.yaml
+# Deploy device and its lone asset
+kubectl apply -f ./KubernetesResources/sql-server-device-definition.yaml
 kubectl apply -f ./KubernetesResources/sql-server-asset-definition.yaml
- 
-# Delete SQL server asset and AEP
-# kubectl delete -f ./KubernetesResources/connector-config.yaml
-# kubectl delete -f ./KubernetesResources/sql-server-asset-endpoint-profile-definition.yaml
-# kubectl delete -f ./KubernetesResources/sql-server-asset-definition.yaml

@@ -161,11 +161,11 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// Event triggered when a device update telemetry event is received.
     /// NOTE: This event starts triggering after the call to ObserveDeviceEndpointUpdatesAsync.
     /// </summary>
-    event Func<string, Device?, Task>? OnReceiveDeviceUpdateEventTelemetry;
+    event Func<string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
 
     /// <summary>
     /// Event triggered when an asset update telemetry event is received.
     /// NOTE: This event starts triggering after the call to ObserveAssetUpdatesAsync.
     /// </summary>
-    event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry;
+    event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 }

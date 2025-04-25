@@ -206,7 +206,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                                     Name = "datapoint1",
                                     DataSource = "dp-source",
                                     TypeRef = "dp-type",
-                                    DataPointConfiguration = "datapoint-conf-value"
+                                    DataPointConfiguration = "{\"someKey\":\"someValue\"}"
                                 }
                             ],
                             Destinations =
@@ -233,14 +233,14 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                         {
                             Name = "event1",
                             EventNotifier = "event-notifier",
-                            EventConfiguration = "event-config-value",
+                            EventConfiguration = "{\"someKey\":\"someValue\"}",
                             DataPoints =
                             [
                                 new AdrBaseService.AssetEventDataPointSchemaElementSchema
                                 {
                                     Name = "event-datapoint1",
                                     DataSource = "event-dp-source",
-                                    DataPointConfiguration = "event-datapoint-conf-value"
+                                    DataPointConfiguration = "{\"someKey\":\"someValue\"}"
                                 }
                             ],
                             Destinations =

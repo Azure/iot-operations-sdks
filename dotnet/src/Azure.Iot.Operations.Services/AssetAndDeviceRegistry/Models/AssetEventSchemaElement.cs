@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Text.Json;
+
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetEventSchemaElement
 {
-    public string? EventConfiguration { get; set; }
+    public JsonDocument? EventConfiguration { get; set; }
 
     public required string EventNotifier { get; set; }
 

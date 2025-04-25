@@ -7,11 +7,11 @@ dotnet publish /t:PublishContainer
 k3d image import eventdriventcpthermostatconnector:latest -c k3s-default
 
 # Deploy connector config
-kubectl apply -f ./KubernetesResources/connector-config.yaml
+kubectl apply -f ./KubernetesResources/connector-template.yaml
 
 # Deploy TCP server (as an asset)
 kubectl apply -f ./KubernetesResources/tcp-service.yaml
 
-# Deploy TCP server asset and AEP
-kubectl apply -f ./KubernetesResources/tcp-service-asset-endpoint-profile-definition.yaml
+# Deploy TCP server device and its lone asset
+kubectl apply -f ./KubernetesResources/tcp-service-device-definition.yaml
 kubectl apply -f ./KubernetesResources/tcp-service-asset-definition.yaml
