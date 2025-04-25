@@ -11,12 +11,10 @@
 //!
 //! NOTE: Make sure that the environment variable folder exists and is empty before running the example.
 
-use std::{collections::HashMap, fs, path::PathBuf, time::Duration};
+use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_connector::filemount::{
-    azure_device_registry::{
-        AssetRef, DeviceEndpointCreateObservation, DeviceEndpointRef, get_mount_path,
-    },
+    azure_device_registry::DeviceEndpointCreateObservation,
     connector_config::ConnectorConfiguration,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
@@ -43,14 +41,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Get Connector Configuration
     let connector_config = ConnectorConfiguration::new_from_deployment()?;
     let mqtt_connection_settings = connector_config.to_mqtt_connection_settings("0")?;
-    // let mqtt_connection_settings =
-    //     azure_iot_operations_mqtt::MqttConnectionSettings::try_from(connector_config.clone())?;
-    // let mqtt_connection_settings = MqttConnectionSettingsBuilder::default()
-    //     .client_id("mounted-connector-template-2-instance-statefulset")
-    //     .hostname("localhost")
-    //     .tcp_port(1883u16)
-    //     .use_tls(false)
-    //     .build()?;
 
     // Create Session
     let session_options = SessionOptionsBuilder::default()
@@ -74,38 +64,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Run the Session and the Azure Device Registry operations concurrently
     let r = tokio::join!(
-        // adr_client_tasks(azure_device_registry_client, session.create_exit_handle()),
-        // observation_runner(device_creation_observation),
         run_program(device_creation_observation, azure_device_registry_client),
-        // operator_simulator(), // TODO: remove once using real mounted config
         session.run(),
     );
     r.1?;
     Ok(())
-
-    // Creating tasks to run the observation runner and the operator simulator
-    // let observation_runner_task = tokio::spawn(async {
-    //     observation_runner(device_creation_observation).await;
-    // });
-    // let operator_simulator_task = tokio::spawn(async {
-    //     operator_simulator().await;
-    // });
-
-    // // Wait for the tasks to finish
-    // // The operator simulator task will finish when all device endpoints and assets
-    // // have been added and removed.
-    // tokio::select! {
-    //     _ = operator_simulator_task => {
-    //         log::info!("Operator simulator task finished");
-    //     }
-    //     _ = observation_runner_task => {
-    //         panic!("Observation runner task failed");
-    //     }
-    // }
-
-    // log::info!("ADR file mount observation example finished");
-
-    // Ok(())
 }
 
 // This function runs in a loop, waiting for device creation notifications.
@@ -379,152 +342,3 @@ async fn run_program(
     }
     // this loop never ends, so no cleanup is necessary (otherwise we'd call adr client shutdown and session exit)
 }
-
-// ~~~~~~~~~~~~~~~~~ Operator Simulation Helper Structs and Functions ~~~~~~~~~~~~~~~~~~~~~
-
-// This is a simulation of the operator's actions. It creates and removes device endpoints
-// and assets in the file mount.
-// async fn operator_simulator() {
-//     let file_mount_manager = FileMountManager::new(get_mount_path().unwrap().to_str().unwrap());
-
-//     // ADDING DEVICE 1 ENDPOINT 1 WITH ASSETS 1 AND 2
-
-//     let (device1_endpoint1, device1_endpoint1_assets) = (
-//         DeviceEndpointRef {
-//             device_name: "my-thermostat".to_string(),
-//             inbound_endpoint_name: "my-rest-endpoint".to_string(),
-//         },
-//         vec![
-//             AssetRef {
-//                 name: "my-rest-thermostat-asset".to_string(),
-//                 device_name: "my-thermostat".to_string(),
-//                 inbound_endpoint_name: "my-rest-endpoint".to_string(),
-//             },
-//             AssetRef {
-//                 name: "my-rest-smart-thermostat-asset".to_string(),
-//                 device_name: "my-thermostat".to_string(),
-//                 inbound_endpoint_name: "my-rest-endpoint".to_string(),
-//             },
-//         ],
-//     );
-
-//     file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
-
-//     tokio::time::sleep(DEBOUNCE_DURATION).await;
-
-//     // ADDING DEVICE 2 ENDPOINT 2 WITH ASSETS 3 AND 4
-
-//     let (device2_endpoint2, device2_endpoint2_assets) = (
-//         DeviceEndpointRef {
-//             device_name: "my-thermostat".to_string(),
-//             inbound_endpoint_name: "my-coap-endpoint".to_string(),
-//         },
-//         vec![
-//             AssetRef {
-//                 name: "my-coap-thermostat-asset".to_string(),
-//                 device_name: "my-thermostat".to_string(),
-//                 inbound_endpoint_name: "my-coap-endpoint".to_string(),
-//             },
-//             AssetRef {
-//                 name: "my-coap-smart-thermostat-asset".to_string(),
-//                 device_name: "my-thermostat".to_string(),
-//                 inbound_endpoint_name: "my-coap-endpoint".to_string(),
-//             },
-//         ],
-//     );
-
-//     file_mount_manager.add_device_endpoint(&device2_endpoint2, &device2_endpoint2_assets);
-
-//     tokio::time::sleep(DEBOUNCE_DURATION).await;
-
-//     // REMOVING ALL ASSETS FROM DEVICE 1 ENDPOINT 1
-
-//     for asset in &device1_endpoint1_assets {
-//         file_mount_manager.remove_asset(&device1_endpoint1, asset);
-//     }
-
-//     tokio::time::sleep(DEBOUNCE_DURATION).await;
-
-//     // ADDING ASSET 5 TO DEVICE 2 ENDPOINT 2
-
-//     let asset5 = AssetRef {
-//         name: "my-coap-simple-thermostat-asset".to_string(),
-//         device_name: "my-thermostat".to_string(),
-//         inbound_endpoint_name: "my-coap-endpoint".to_string(),
-//     };
-
-//     file_mount_manager.add_asset(&device2_endpoint2, &asset5);
-
-//     tokio::time::sleep(DEBOUNCE_DURATION).await;
-
-//     // REMOVING DEVICE 2 ENDPOINT 2
-
-//     file_mount_manager.remove_device_endpoint(&device2_endpoint2);
-
-//     tokio::time::sleep(DEBOUNCE_DURATION).await;
-
-//     // REMOVIUNG DEVICE 1 ENDPOINT 1
-
-//     file_mount_manager.remove_device_endpoint(&device1_endpoint1);
-
-//     // Wait for the observation runner to process the removal and exit
-//     tokio::time::sleep(DEBOUNCE_DURATION * 2).await;
-// }
-
-// This struct manages the file mount directory and provides methods to add and remove
-// device endpoints and assets. It creates a file for each device endpoint, and stores
-// the asset names in the file. The file is created in the directory specified by
-// the ADR_RESOURCES_NAME_MOUNT_PATH environment variable.
-// struct FileMountManager {
-//     dir: PathBuf,
-// }
-
-// impl FileMountManager {
-//     fn new(dir_name: &str) -> Self {
-//         Self {
-//             dir: PathBuf::from(dir_name),
-//         }
-//     }
-
-//     fn add_device_endpoint(&self, device_endpoint: &DeviceEndpointRef, asset_names: &[AssetRef]) {
-//         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-//         let content: Vec<_> = asset_names.iter().map(|asset| asset.name.clone()).collect();
-//         let content = content.join(";");
-//         fs::write(file_path, content).unwrap();
-//     }
-
-//     fn remove_device_endpoint(&self, device_endpoint: &DeviceEndpointRef) {
-//         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-//         fs::remove_file(file_path).unwrap();
-//     }
-
-//     fn add_asset(&self, device_endpoint: &DeviceEndpointRef, asset: &AssetRef) {
-//         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-//         let mut content = fs::read_to_string(&file_path).unwrap();
-
-//         // Make sure the asset name is not already present
-//         if content.contains(asset.name.as_str()) {
-//             return;
-//         }
-//         // Append the asset name to the file
-//         if !content.is_empty() {
-//             content.push(';');
-//         }
-//         content.push_str(asset.name.as_str());
-//         fs::write(file_path, content).unwrap();
-//     }
-
-//     fn remove_asset(&self, device_endpoint: &DeviceEndpointRef, asset: &AssetRef) {
-//         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-//         let mut content = fs::read_to_string(&file_path).unwrap();
-
-//         // Remove the asset name from the file
-//         content = content
-//             .split(';')
-//             .filter(|&name| name != asset.name.as_str())
-//             .collect::<Vec<_>>()
-//             .join(";");
-
-//         fs::write(file_path, content).unwrap();
-//     }
-// }
