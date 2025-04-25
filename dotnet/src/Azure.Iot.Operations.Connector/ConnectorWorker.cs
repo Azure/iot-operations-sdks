@@ -81,7 +81,7 @@ namespace Azure.Iot.Operations.Connector
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             bool readMqttConnectionSettings = false;
-            MqttConnectionSettings mqttConnectionSettings;
+            MqttConnectionSettings? mqttConnectionSettings = null;
             int maxRetryCount = 10;
             int currentRetryCount = 0;
             while (!readMqttConnectionSettings)
