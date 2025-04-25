@@ -37,12 +37,12 @@ namespace SqlQualityAnalyzerConnectorApp
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 
-                if (_credentials != null)
+                if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
                 {
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
-                    string sqlServerUsername = _credentials!.Username!;
-                    byte[] sqlServerPassword = _credentials!.Password!;
+                    string sqlServerUsername = _credentials.Username;
+                    byte[] sqlServerPassword = _credentials.Password;
                     _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
                 }
 
