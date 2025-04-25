@@ -37,7 +37,7 @@ public class ProtocolConverterTests
             AssetName = "test-asset",
             AssetStatus = new AssetStatus
             {
-                Config = new AssetStatusConfig
+                Config = new AssetConfigStatus
                 {
                     LastTransitionTime = "2023-01-01T00:00:00Z",
                     Version = 1,
@@ -228,8 +228,9 @@ public class ProtocolConverterTests
             DocumentationUri = "https://docs.example.com",
             Events =
             [
-                new()
+                new ()
                 {
+                    EventNotifier = "event-notifier",
                     Name = "event1",
                     EventConfiguration = "event-config",
                     Topic = new Topic
@@ -296,6 +297,7 @@ public class ProtocolConverterTests
         // Verify Events
         Assert.NotNull(result.DetectedAsset.Events);
         Assert.Single(result.DetectedAsset.Events);
+        Assert.Equal("event-notifier", result.DetectedAsset.Events[0].EventNotifier);
         Assert.Equal("event1", result.DetectedAsset.Events[0].Name);
         Assert.Equal("event-config", result.DetectedAsset.Events[0].EventConfiguration);
 

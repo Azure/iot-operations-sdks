@@ -1,0 +1,26 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorTemplate
+metadata:
+  name: rest-ctemplate
+  namespace: azure-iot-operations
+spec:
+  version: "0.0.1"
+  deviceInboundEndpointTypes:
+  - endpointType: qualityanalyzer-profile-sql-server
+    version: "0.0.1"
+  runtimeConfiguration:
+    runtimeConfigurationType: managedConfiguration
+    managedConfigurationSettings:
+      managedConfigurationType: imageConfiguration
+      imageConfigurationSettings:
+        image: sqlqualityanalyzerconnectorapp:latest
+        imagePullPolicy: Never
+  mqttConnectionConfiguration:
+    host: "aio-broker:18883"
+    authentication:
+      method: ServiceAccountToken
+      serviceAccountTokenSettings:
+        audience: aio-internal
+    tls:
+      mode: Enabled
+      trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle

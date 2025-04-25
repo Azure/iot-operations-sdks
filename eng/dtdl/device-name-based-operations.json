@@ -322,7 +322,10 @@
                                 }
                               },
                               {
-                                "@type": [ "Field", "Required" ],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
                                 "name": "endpointType",
                                 "schema": "string"
@@ -363,7 +366,10 @@
                         "@type": "Object",
                         "fields": [
                           {
-                            "@type": ["Field", "Required"],
+                            "@type": [
+                              "Field",
+                              "Required"
+                            ],
                             "name": "assigned",
                             "schema": {
                               "@type": "Map",
@@ -827,7 +833,10 @@
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "@id": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1",
                                 "name": "actionType",
                                 "schema": {
@@ -850,12 +859,18 @@
                                 }
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "name",
                                 "schema": "string"
                               },
                               {
-                                "@type": ["Field", "Required"],
+                                "@type": [
+                                  "Field",
+                                  "Required"
+                                ],
                                 "name": "targetUri",
                                 "schema": "string"
                               },
@@ -1013,7 +1028,10 @@
       "@type": "Object",
       "fields": [
         {
-          "@type": ["Field", "Required"],
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "address",
           "schema": "string"
         },

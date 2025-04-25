@@ -1,21 +1,14 @@
-apiVersion: deviceregistry.microsoft.com/v1
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
 kind: Asset
 metadata:
   name: my-sql-qualityanalyzer-asset
   namespace: azure-iot-operations
 spec:
-  displayName: My SQL Quality Analyzer Asset
-  description: A sample for an Asset modeling a device with SQL endpoint
-  assetEndpointProfileRef: azure-iot-operations/my-sql-qualityanalyzer-profile # <namespace>/<assetEndpointProfile.metadata.name>
-  defaultDatasetsConfiguration: |-
-    {
-       "samplingInterval": 10000,
-    }
-  defaultTopic:
-    path: /mqtt/machine/data
-    retain: Keep
+  #attributes:# This part of the spec is currently broken in the operator. Re-enable later
+    #assetId: my-sql-qualityanalyzer-asset-id
+    #assetType: sql-qualityanalyzer
   datasets:
-    - name: qualityanalyzer_data
+    - name: thermostat_status
       dataPoints:
         - dataSource: CountryMeasurements
           name: Country
@@ -27,3 +20,13 @@ spec:
           name: ParticleSize
         - dataSource: CountryMeasurements
           name: Overall
+      dataSource: /thermostat
+      destinations:
+        - configuration:
+            topic: /mqtt/machine/status
+          target: Mqtt
+  defaultDatasetsConfiguration: '{}'
+  deviceRef:
+    deviceName: my-sql-qualityanalyzer-profile
+    endpointName: my-sql-endpoint
+  version: 1

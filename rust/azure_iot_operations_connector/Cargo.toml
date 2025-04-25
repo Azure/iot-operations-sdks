@@ -14,7 +14,7 @@ publish = true
 [dependencies]
 # azure_iot_operations_protocol = { version = "0.9", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
 # azure_iot_operations_services = { version = "0.8", path = "../azure_iot_operations_services", registry = "aio-sdks", features = ["state_store", "schema_registry", "azure_device_registry"]  }
-# azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
+azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 # derive_builder.workspace = true
 # tokio.workspace = true
 tokio = { version = "1.41", features = ["full"] } # TODO: If I use the workspace version of tokio I run into errors with tokio in the tests, will investigate later
@@ -25,6 +25,9 @@ notify-debouncer-full.workspace = true
 # tokio-stream = "0.1"
 thiserror.workspace = true
 log.workspace = true
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
 
 [dev-dependencies]
 env_logger.workspace = true
