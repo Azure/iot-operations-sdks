@@ -224,6 +224,8 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
+            _logger.LogInformation("Shutting down connector...");
+
             _leaderElectionClient?.DisposeAsync();
         }
 
