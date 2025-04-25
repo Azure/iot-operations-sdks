@@ -12,13 +12,13 @@ spec:
       dataPoints:
         - dataSource: /api/thermostat/current
           name: currentTemperature
-          dataPointConfiguration: ''
+          dataPointConfiguration: '{}'
       destinations:
         - configuration:
             topic: /mqtt/machine/status/change_event
           target: Mqtt
-      eventNotifier: todo
-  defaultDatasetsConfiguration: ''
+      eventNotifier: 80
+  defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-tcp-thermostat
     endpointName: my-tcp-endpoint
