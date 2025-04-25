@@ -180,7 +180,7 @@ namespace Azure.Iot.Operations.Connector.Assets
             if (File.Exists(devicePath))
             {
                 string? contents = GetMountedConfigurationValueAsString(devicePath);
-                if (contents != null)
+                if (!string.IsNullOrWhiteSpace(contents))
                 {
                     string[] delimitedContents = contents.Split(";");
                     return [.. delimitedContents];
