@@ -7,12 +7,13 @@
 use std::env::{self, VarError};
 use std::ffi::OsString;
 use std::path::{Path, PathBuf};
+use std::time::Duration;
 
 use serde::Deserialize;
 use serde_json;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt;
+use azure_iot_operations_mqtt as aio_mqtt;
 
 /// Indicates an error ocurred while parsing the artifacts in an Akri deployment
 #[derive(Error, Debug)]
@@ -28,8 +29,8 @@ enum DeploymentArtifactErrorRepr {
     /// The value contained in an environment variable was malformed
     #[error("Environment variable value malformed: {0}")]
     EnvVarValueMalformed(String),
-    /// A required mount path could not be found in the filesystem
-    #[error("Required mount path not found: {0:?}")]
+    /// A specified mount path could not be found in the filesystem
+    #[error("Specified mount path not found in filesystem: {0:?}")]
     MountPathMissing(OsString),
     /// A required file path could not be found in the filesystem
     #[error("Required file path not found: {0:?}")]
@@ -60,8 +61,9 @@ pub struct ConnectorConfiguration {
     // NOTE: the below mounts are combined here for convenience, although are technically different
     // mounts. This will change in the future as the specification is updated
     /// Path to directory containing CA cert trust bundle
-    pub broker_ca_cert_trustbundle_path: Option<String>,
+    pub broker_ca_cert_trustbundle_path: Option<PathBuf>,
     /// Path to file containing SAT token
+    // TODO: Should be PathBuf but this will have testing implications
     pub broker_sat_path: Option<String>,
 }
 
@@ -95,7 +97,17 @@ impl ConnectorConfiguration {
         let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
 
         let broker_ca_cert_trustbundle_path =
-            string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?;
+            string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
+                .map(PathBuf::from);
+        if let Some(tb_path) = &broker_ca_cert_trustbundle_path {
+            if !tb_path.as_path().exists() {
+                return Err(DeploymentArtifactErrorRepr::MountPathMissing(
+                    // TODO: This clone is almost certainly unnecessary. Fix.
+                    tb_path.clone().into_os_string(),
+                ))?;
+            }
+        }
+
         let broker_sat_path = string_from_environment("BROKER_SAT_MOUNT_PATH")?;
 
         Ok(ConnectorConfiguration {
@@ -106,6 +118,80 @@ impl ConnectorConfiguration {
             broker_ca_cert_trustbundle_path,
             broker_sat_path,
         })
+    }
+
+    // TODO: Need a wrapper function that will make the suffix automatic
+    /// Converts the value to an [`azure_iot_operations_mqtt::MqttConnectionSettings`] struct,
+    /// given a suffix for the client ID.
+    ///
+    /// # Errors
+    /// Returns a string indicating the cause of the error
+    pub fn to_mqtt_connection_settings(
+        &self,
+        client_id_suffix: &str,
+    ) -> Result<aio_mqtt::MqttConnectionSettings, String> {
+        let client_id = self.client_id_prefix.clone() + client_id_suffix;
+        let host_c = self.mqtt_connection_configuration.host.clone();
+        let (hostname, tcp_port) = host_c.split_once(':').ok_or(format!(
+            "'host' malformed. Expected format <hostname>:<port>. Found: {host_c}"
+        ))?;
+        let tcp_port = tcp_port
+            .parse::<u16>()
+            .map_err(|_| format!("Cannot parse 'tcp_port' into u16. Value: {tcp_port}"))?;
+        let keep_alive =
+            Duration::from_secs(self.mqtt_connection_configuration.keep_alive_seconds.into());
+        let receive_max = self.mqtt_connection_configuration.max_inflight_messages;
+        let session_expiry = Duration::from_secs(
+            self.mqtt_connection_configuration
+                .session_expiry_seconds
+                .into(),
+        );
+        let use_tls = matches!(
+            self.mqtt_connection_configuration.tls.mode,
+            TlsMode::Enabled
+        );
+        let sat_file = self.broker_sat_path.clone();
+
+        // NOTE: MQTT SDK only accepts a single cert, while the Akri deployment can have multiple.
+        // Verify there is only a single CA cert in the path, and then we will pass the path to
+        // that FILE into the MqttConnectionSettings
+        let ca_file = {
+            if let Some(ca_trustbundle_path) = &self.broker_ca_cert_trustbundle_path {
+                let mut d = std::fs::read_dir(ca_trustbundle_path)
+                    .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
+                let entry = d
+                    .next()
+                    .ok_or("No CA cert found in trustbundle directory".to_string())?
+                    .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
+                if d.next().is_some() {
+                    Err("MQTTConnectionSettings only supports a single CA cert".to_string())?
+                } else {
+                    // Convert filepath to string for MqttConnectionSettings
+                    let path_s = entry
+                        .path()
+                        .to_str()
+                        .ok_or("Could not convert Path to String".to_string())?
+                        .to_string();
+                    Some(path_s)
+                }
+            } else {
+                None
+            }
+        };
+
+        let c = aio_mqtt::MqttConnectionSettingsBuilder::default()
+            .client_id(client_id)
+            .hostname(hostname)
+            .tcp_port(tcp_port)
+            .keep_alive(keep_alive)
+            .receive_max(receive_max)
+            .session_expiry(session_expiry)
+            .use_tls(use_tls)
+            .ca_file(ca_file)
+            .sat_file(sat_file)
+            .build()
+            .map_err(|e| format!("{e}"))?;
+        Ok(c)
     }
 
     fn extract_mqtt_connection_configuration(
@@ -145,14 +231,6 @@ impl ConnectorConfiguration {
         }
         let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(&diagnostics_pathbuf)?)?;
         Ok(d)
-    }
-}
-
-impl TryFrom<ConnectorConfiguration> for azure_iot_operations_mqtt::MqttConnectionSettings {
-    type Error = String;
-
-    fn try_from(_value: ConnectorConfiguration) -> Result<Self, Self::Error> {
-        unimplemented!()
     }
 }
 
@@ -250,96 +328,3 @@ fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifa
         ))?,
     }
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use test_case::test_case;
-
-//     const FAKE_SAT_FILE: &str = "/path/to/sat/file";
-
-//     fn get_dummy_file_directory() -> PathBuf {
-//         let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-//         // TODO: make this platform independent
-//         path.push("../../eng/test/test-connector-mount-files");
-//         path
-//     }
-
-//     fn get_connector_config_mount_path() -> PathBuf {
-//         let mut path = get_dummy_file_directory();
-//         path.push("connector-config");
-//         path
-//     }
-
-//     fn get_trust_bundle_mount_path() -> PathBuf {
-//         let mut path = get_dummy_file_directory();
-//         path.push("trust-bundle");
-//         path
-//     }
-
-//     #[test]
-//     fn all_artifacts() {
-//         let cc_mount_path = get_connector_config_mount_path();
-//         let trust_bundle_mount_path = get_trust_bundle_mount_path();
-//         temp_env::with_vars(
-//             [
-//                 ("CONNECTOR_CLIENT_ID_PREFIX", Some("test-client-id")),
-//                 (
-//                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
-//                     Some(cc_mount_path.to_str().unwrap()),
-//                 ),
-//                 (
-//                     "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
-//                     Some(trust_bundle_mount_path.to_str().unwrap()),
-//                 ),
-//                 ("BROKER_SAT_MOUNT_PATH", Some(FAKE_SAT_FILE)),
-//             ],
-//             || {
-//                 let cc = ConnectorConfiguration::new_from_deployment();
-//                 assert!(cc.is_ok());
-//             },
-//         )
-//     }
-
-//     #[test]
-//     fn only_required_artifacts() {
-//         let cc_mount_path = get_connector_config_mount_path();
-//         temp_env::with_vars(
-//             [
-//                 ("CONNECTOR_CLIENT_ID_PREFIX", Some("test-client-id")),
-//                 (
-//                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
-//                     Some(cc_mount_path.to_str().unwrap()),
-//                 ),
-//                 ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
-//                 ("BROKER_SAT_MOUNT_PATH", None),
-//             ],
-//             || {
-//                 let cc = ConnectorConfiguration::new_from_deployment();
-//                 assert!(cc.is_ok());
-//             },
-//         )
-//     }
-
-//     #[test_case(("CONNECTOR_CLIENT_ID_PREFIX", None); "CONNECTOR_CLIENT_ID_PREFIX")]
-//     #[test_case(("CONNECTOR_CONFIGURATION_MOUNT_PATH", None); "CONNECTOR_CONFIGURATION_MOUNT_PATH")]
-//     fn missing_required_env_var(env_var_kv: (&str, Option<&str>)) {
-//         let cc_mount_path = get_connector_config_mount_path();
-//         temp_env::with_vars(
-//             [
-//                 ("CONNECTOR_CLIENT_ID_PREFIX", Some("test-client-id")),
-//                 (
-//                     "CONNECTOR_CONFIGURATION_MOUNT_PATH",
-//                     Some(cc_mount_path.to_str().unwrap()),
-//                 ),
-//                 ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
-//                 ("BROKER_SAT_MOUNT_PATH", None),
-//                 env_var_kv,
-//             ],
-//             || {
-//                 let cc = ConnectorConfiguration::new_from_deployment();
-//                 assert!(cc.is_err());
-//             },
-//         )
-//     }
-// }
