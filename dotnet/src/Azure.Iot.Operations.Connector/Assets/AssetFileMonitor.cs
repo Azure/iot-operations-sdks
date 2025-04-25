@@ -87,7 +87,6 @@ namespace Azure.Iot.Operations.Connector.Assets
 
                         foreach (string addedAssetName in newAssetNames)
                         {
-                            Trace.TraceInformation("Asset created during observation");
                             _lastKnownAssetNames[assetFileName].Add(addedAssetName);
                             AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, AssetFileMonitorChangeType.Created));
                         }
@@ -108,7 +107,6 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string currentAssetName in currentAssetNames)
                     {
-                        Trace.TraceInformation("Asset created by initial state");
                         AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
                     }
                 }

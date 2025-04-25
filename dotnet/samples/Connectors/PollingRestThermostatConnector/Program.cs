@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Diagnostics;
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Protocol;
 using RestThermostatConnector;
 
 string connectorClientId = Environment.GetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar) ?? "todo";
-
-Trace.Listeners.Add(new ConsoleTraceListener());
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
