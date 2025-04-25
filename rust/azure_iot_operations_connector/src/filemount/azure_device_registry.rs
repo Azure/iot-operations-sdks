@@ -345,7 +345,7 @@ fn get_asset_names(
         .map(|asset_name| AssetRef {
             name: asset_name.to_string(),
             device_name: device_endpoint.device_name.clone(),
-            endpoint_name: device_endpoint.endpoint_name.clone(),
+            inbound_endpoint_name: device_endpoint.inbound_endpoint_name.clone(),
         })
         .collect())
 }
@@ -481,27 +481,27 @@ pub struct DeviceEndpointRef {
     // TODO: This structure should be DeviceRef from the services crate
     /// The name of the device
     pub device_name: String,
-    /// The name of the endpoint
-    pub endpoint_name: String,
+    /// The name of the inbound endpoint
+    pub inbound_endpoint_name: String,
 }
 
 impl TryFrom<String> for DeviceEndpointRef {
     type Error = Error;
 
     fn try_from(value: String) -> Result<Self, Self::Error> {
-        // The below assumes the format is always {device_name}_{endpoint_name} with no additional
+        // The below assumes the format is always {device_name}_{inbound_endpoint_name} with no additional
         // `_` in the names.
         // Kubernetes does not allow `_` in the names so this should be safe.
 
         // TODO: Add a warning in case the format is not as expected
         match value.split_once('_') {
-            Some((device_name, endpoint_name)) => {
-                if endpoint_name.contains('_') {
+            Some((device_name, inbound_endpoint_name)) => {
+                if inbound_endpoint_name.contains('_') {
                     log::warn!("DeviceEndpointRef contains an underscore in the endpoint name");
                 }
                 Ok(Self {
                     device_name: device_name.to_string(),
-                    endpoint_name: endpoint_name.to_string(),
+                    inbound_endpoint_name: inbound_endpoint_name.to_string(),
                 })
             }
             None => Err(Error(ErrorKind::ParseError(
@@ -528,7 +528,7 @@ impl TryFrom<&PathBuf> for DeviceEndpointRef {
 
 impl Display for DeviceEndpointRef {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}_{}", self.device_name, self.endpoint_name)
+        write!(f, "{}_{}", self.device_name, self.inbound_endpoint_name)
     }
 }
 
@@ -541,7 +541,7 @@ pub struct AssetRef {
     /// The name of the device
     pub device_name: String,
     /// The name of the endpoint
-    pub endpoint_name: String,
+    pub inbound_endpoint_name: String,
 }
 #[cfg(test)]
 mod tests {
@@ -554,18 +554,18 @@ mod tests {
 
     // Macro to create a device endpoint reference and associated asset references
     macro_rules! device_with_assets {
-        ($device_name:expr, $endpoint_name:expr $(, $asset_name:expr)*) => {
+        ($device_name:expr, $inbound_endpoint_name:expr $(, $asset_name:expr)*) => {
             {
                 let device_endpoint = DeviceEndpointRef {
                     device_name: $device_name.to_string(),
-                    endpoint_name: $endpoint_name.to_string(),
+                    inbound_endpoint_name: $inbound_endpoint_name.to_string(),
                 };
                 let assets = vec![
                     $(
                         AssetRef {
                             name: $asset_name.to_string(),
                             device_name: $device_name.to_string(),
-                            endpoint_name: $endpoint_name.to_string(),
+                            inbound_endpoint_name: $inbound_endpoint_name.to_string(),
                         }
                     ),*
                 ];
@@ -1089,7 +1089,7 @@ mod tests {
                         let new_asset = AssetRef {
                             name: "asset2".to_string(),
                             device_name: device1_endpoint1.device_name.clone(),
-                            endpoint_name: device1_endpoint1.endpoint_name.clone(),
+                            inbound_endpoint_name: device1_endpoint1.inbound_endpoint_name.clone(),
                         };
                         file_mount_manager.add_asset(&device1_endpoint1, &new_asset);
 

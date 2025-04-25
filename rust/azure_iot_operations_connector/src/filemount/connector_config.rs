@@ -43,7 +43,7 @@ enum DeploymentArtifactErrorRepr {
 }
 
 /// Struct representing the Connector Configuration extracted from the Akir deployment
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ConnectorConfiguration {
     /// Prefix of an MQTT client ID
     pub client_id_prefix: String,
@@ -157,7 +157,7 @@ impl TryFrom<ConnectorConfiguration> for azure_iot_operations_mqtt::MqttConnecti
 }
 
 /// Configuration details related to an MQTT connection
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct MqttConnectionConfiguration {
     /// Broker host in the format <hostname>:<port>
@@ -175,7 +175,7 @@ pub struct MqttConnectionConfiguration {
 }
 
 /// Enum representing the type of MQTT connection
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
 pub enum Protocol {
     /// Regular MQTT
@@ -183,7 +183,7 @@ pub enum Protocol {
 }
 
 /// TLS configuration information
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Tls {
     /// Indicates if TLS is enabled or not
@@ -191,7 +191,7 @@ pub struct Tls {
 }
 
 /// Enum representing whether TLS is enabled or disabled
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub enum TlsMode {
     /// TLS is enabled
     Enabled,
@@ -200,7 +200,7 @@ pub enum TlsMode {
 }
 
 /// Metadata regaridng Azure IoT Operations
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct AioMetadata {
     // TODO: implement regex parsing
@@ -211,21 +211,21 @@ pub struct AioMetadata {
 }
 
 /// Diagnostic information
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct Diagnostics {
     /// Log information
     pub logs: Logs,
 }
 
 /// Logging information
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct Logs {
     /// Level to log at
     pub level: LogLevel,
 }
 
 /// Represents the logging level
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
 pub enum LogLevel {
     /// Info logging
