@@ -44,7 +44,7 @@ enum DeploymentArtifactErrorRepr {
 }
 
 /// Struct representing the Connector Configuration extracted from the Akir deployment
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct ConnectorConfiguration {
     /// Prefix of an MQTT client ID
     pub client_id_prefix: String,
@@ -93,6 +93,7 @@ impl ConnectorConfiguration {
         }
         let mqtt_connection_configuration =
             Self::extract_mqtt_connection_configuration(cc_mount_pathbuf.as_path())?;
+        // TODO: re-enable this functionality when spec is finalized
         //let aio_metadata = Self::extract_aio_metadata(&cc_mount_pathbuf)?;
         //let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
         let aio_metadata = None;
@@ -211,7 +212,6 @@ impl ConnectorConfiguration {
         Ok(m)
     }
 
-    // TODO: is this optional?
     fn extract_aio_metadata(mount_path: &Path) -> Result<AioMetadata, DeploymentArtifactErrorRepr> {
         let aio_metadata_pathbuf = mount_path.join("AIO_METADATA");
         if !aio_metadata_pathbuf.as_path().exists() {
@@ -219,6 +219,7 @@ impl ConnectorConfiguration {
                 aio_metadata_pathbuf.into_os_string(),
             ))?;
         }
+        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
         let a: AioMetadata =
             serde_json::from_str(&std::fs::read_to_string(&aio_metadata_pathbuf)?)?;
         Ok(a)
@@ -231,13 +232,14 @@ impl ConnectorConfiguration {
                 diagnostics_pathbuf.into_os_string(),
             ))?;
         }
+        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
         let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(&diagnostics_pathbuf)?)?;
         Ok(d)
     }
 }
 
 /// Configuration details related to an MQTT connection
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MqttConnectionConfiguration {
     /// Broker host in the format <hostname>:<port>
@@ -255,7 +257,7 @@ pub struct MqttConnectionConfiguration {
 }
 
 /// Enum representing the type of MQTT connection
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Protocol {
     /// Regular MQTT
@@ -263,7 +265,7 @@ pub enum Protocol {
 }
 
 /// TLS configuration information
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Tls {
     /// Indicates if TLS is enabled or not
@@ -271,7 +273,7 @@ pub struct Tls {
 }
 
 /// Enum representing whether TLS is enabled or disabled
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 pub enum TlsMode {
     /// TLS is enabled
     Enabled,
@@ -280,7 +282,7 @@ pub enum TlsMode {
 }
 
 /// Metadata regaridng Azure IoT Operations
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AioMetadata {
     // TODO: implement regex parsing
@@ -291,7 +293,7 @@ pub struct AioMetadata {
 }
 
 /// Diagnostic information
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 pub struct Diagnostics {
     /// Log information
     pub log_level: Logs, // TODO: change to match spec when fixed
@@ -299,14 +301,14 @@ pub struct Diagnostics {
 }
 
 /// Logging information
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 pub struct Logs {
     /// Level to log at
     pub level: LogLevel,
 }
 
 /// Represents the logging level
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum LogLevel {
     /// Info logging

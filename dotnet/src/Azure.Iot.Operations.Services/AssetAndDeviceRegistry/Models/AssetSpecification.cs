@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Text.Json;
+
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetSpecification
@@ -11,11 +13,11 @@ public record AssetSpecification
 
     public List<AssetDatasetSchemaElement>? Datasets { get; set; }
 
-    public string? DefaultDatasetsConfiguration { get; set; }
+    public JsonDocument? DefaultDatasetsConfiguration { get; set; }
 
     public List<DefaultDatasetsDestinationsSchemaElement>? DefaultDatasetsDestinations { get; set; }
 
-    public string? DefaultEventsConfiguration { get; set; }
+    public JsonDocument? DefaultEventsConfiguration { get; set; }
 
     public string? Description { get; set; }
 

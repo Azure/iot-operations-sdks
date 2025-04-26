@@ -14,11 +14,15 @@ use super::asset_management_group_action_type_schema::AssetManagementGroupAction
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetManagementGroupActionSchemaElementSchema {
-    /// The 'managementActionConfiguration' Field.
-    #[serde(rename = "managementActionConfiguration")]
+    /// The 'actionConfiguration' Field.
+    #[serde(rename = "actionConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub management_action_configuration: Option<String>,
+    pub action_configuration: Option<String>,
+
+    /// The 'actionType' Field.
+    #[serde(rename = "actionType")]
+    pub action_type: AssetManagementGroupActionTypeSchema,
 
     /// The 'name' Field.
     pub name: String,
@@ -37,10 +41,6 @@ pub struct AssetManagementGroupActionSchemaElementSchema {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub topic: Option<String>,
-
-    /// The 'type' Field.
-    #[serde(rename = "type")]
-    pub r#type: AssetManagementGroupActionTypeSchema,
 
     /// The 'typeRef' Field.
     #[serde(rename = "typeRef")]

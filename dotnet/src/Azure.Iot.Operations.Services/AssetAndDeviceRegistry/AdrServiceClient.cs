@@ -313,14 +313,14 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public event Func<string, Device?, Task>? OnReceiveDeviceUpdateEventTelemetry
+    public event Func<string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry
     {
         add => _assetServiceClient.OnReceiveDeviceUpdateEventTelemetry += value;
         remove => _assetServiceClient.OnReceiveDeviceUpdateEventTelemetry -= value;
     }
 
     /// <inheritdoc />
-    public event Func<string, Asset?, Task>? OnReceiveAssetUpdateEventTelemetry
+    public event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry
     {
         add => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
         remove => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry -= value;

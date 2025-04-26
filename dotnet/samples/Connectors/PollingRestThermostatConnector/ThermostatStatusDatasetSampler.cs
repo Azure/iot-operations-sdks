@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Services.Assets;
+using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -13,9 +14,9 @@ namespace RestThermostatConnector
     {
         private readonly HttpClient _httpClient;
         private readonly string _assetName;
-        private readonly AssetEndpointProfileCredentials? _credentials;
+        private readonly DeviceCredentials? _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, AssetEndpointProfileCredentials? credentials)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, DeviceCredentials? credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;
@@ -26,27 +27,26 @@ namespace RestThermostatConnector
         /// Sample the datapoints from the HTTP thermostat and return the full serialized dataset.
         /// </summary>
         /// <param name="dataset">The dataset of an asset to sample.</param>
-        /// <param name="assetEndpointProfileCredentials">The credentials to use when sampling the asset. May be null if no credentials are required.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The serialized payload containing the sampled dataset.</returns>
-        public async Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
         {
             try
             {
-                DataPoint httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
+                AssetDatasetDataPointSchemaElement httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
                 HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
 
-                DataPoint httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
+                AssetDatasetDataPointSchemaElement httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
                 HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(httpServerCurrentTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerCurrentTemperatureRequestPath = httpServerCurrentTemperatureDataPoint.DataSource!;
 
-                if (_credentials != null)
+                if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
                 {
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
-                    string httpServerUsername = _credentials.Username!;
-                    byte[] httpServerPassword = _credentials.Password!;
+                    string httpServerUsername = _credentials.Username;
+                    byte[] httpServerPassword = _credentials.Password;
                     var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 }
@@ -68,6 +68,11 @@ namespace RestThermostatConnector
             {
                 throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
+        }
+
+        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(TimeSpan.FromSeconds(1));
         }
 
         public ValueTask DisposeAsync()
