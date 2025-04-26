@@ -1,0 +1,31 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorTemplate
+metadata:
+  name: mounted-connector-template-2
+  namespace: azure-iot-operations
+spec:
+  version: "1.0"
+  aioMetadata:
+    aioMaxVersion: "3.0"
+    aioMinVersion: "0.0"
+  diagnostics:
+    logs:
+      level: "info"
+  deviceInboundEndpointTypes:
+  - endpointType: rest-thermostat
+    version: "0.0.1"
+  runtimeConfiguration:
+    runtimeConfigurationType: managedConfiguration
+    managedConfigurationSettings:
+      allocation:
+        policy: "Bucketized"
+        bucketSize: 1
+      managedConfigurationType: imageConfiguration
+      imageConfigurationSettings:
+        image: "deployedadrtestconnector:latest"
+        imagePullPolicy: Never
+  mqttConnectionConfiguration:
+    host: "aio-broker:1883"
+    tls:
+      mode: Disabled
+ 
