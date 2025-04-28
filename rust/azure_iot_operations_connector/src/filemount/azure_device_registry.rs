@@ -10,10 +10,7 @@ use std::path::{Path, PathBuf};
 use std::task::Context;
 use std::time::Duration;
 
-use notify::{
-    RecommendedWatcher,
-    event::{self, EventKind},
-};
+use notify::{RecommendedWatcher, event::EventKind};
 use notify_debouncer_full::{RecommendedCache, new_debouncer};
 use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
@@ -79,20 +76,13 @@ impl DeviceEndpointCreateObservation {
         let (create_device_tx, create_device_rx) = mpsc::unbounded_channel();
 
         // Tracks devices and assets in the file mount.
-        let mut file_mount_map = FileMountMap::new(create_device_tx.clone());
+        let mut file_mount_map = FileMountMap::new(create_device_tx.clone(), mount_path.clone());
 
-        // Add the already existing device endpoints and their assets to the file mount map
-        get_device_endpoint_names(&mount_path)?
-            .iter()
-            .try_for_each(|device| {
-                file_mount_map.insert_device_endpoint(device);
+        // Get all the current devices
+        let device_endpoints = get_device_endpoint_names(&mount_path)?;
 
-                // TODO: Do we want to return a list of errors instead of just the first one?
-                let assets = get_asset_names(&mount_path, device)?;
-                file_mount_map.update_assets(device, assets);
-
-                Ok::<_, Error>(())
-            })?;
+        // Create the file mount map with the current devices
+        file_mount_map.update_device_endpoints(&device_endpoints);
 
         // Copy the mount path to the closure so we can use it in the watcher
         let mount_path_clone = mount_path.clone();
@@ -106,90 +96,26 @@ impl DeviceEndpointCreateObservation {
             move |res: Result<Vec<notify_debouncer_full::DebouncedEvent>, Vec<notify::Error>>| {
                 match res {
                     Ok(events) => {
-                        // TODO: There might be a case where we receive events out of order (i.e a modify before a create). The file mount map accounts for this but
-                        // it might be better to just match on an Any.
-                        for debounced_event in &events {
-                            match debounced_event.event.kind {
-                                EventKind::Create(event::CreateKind::File) => { // Event signals the creation of a device endpoint
-                                    debounced_event.paths.iter().for_each(|path| {
-                                        // TODO: We could use an expect here since we are sure the path is valid
-                                        // let Some(mount_path) = path.parent() else {
-                                        //     log::warn!("Failed to get parent path from device endpoint");
-                                        //     return;
-                                        // };
-
-                                        let device = match DeviceEndpointRef::try_from(path) {
-                                            Ok(device) => device,
-                                            Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
-                                                return;
-                                            }
-                                        };
-
-                                        // Insert the device endpoint into the file mount map
-                                        file_mount_map.insert_device_endpoint(&device);
-
-                                        // The create event is for a new file, so we need to get the assets
-                                        let assets =
-                                            match get_asset_names(&mount_path_clone, &device) {
-                                                Ok(assets) => assets,
-                                                Err(err) => {
-                                                    log::warn!("Failed to get asset names: {err:?}");
-                                                    return;
-                                                }
-                                            };
-
-                                        // Update the file mount map with the new assets
-                                        file_mount_map.update_assets(&device, assets);
-                                    });
+                        // When an asset is added or removed, kubernetes does a series of events:
+                        // Create Folder, Create File and Remove Folder
+                        // If any of those events are triggered we need to update the file mount map
+                        // with the new device endpoints and assets since none of those events
+                        // point to a specific file.
+                        if events.iter().any(|e| {
+                            matches!(
+                                e.kind,
+                                EventKind::Remove(_) | EventKind::Create(_) | EventKind::Modify(_) // Keep this for now in case it is needed
+                            )
+                        }) {
+                            match get_device_endpoint_names(&mount_path_clone) {
+                                Ok(device_endpoints) => {
+                                    // Check if the device endpoints have changed and update the file mount map
+                                    // accordingly
+                                    file_mount_map.update_device_endpoints(&device_endpoints);
                                 }
-                                EventKind::Modify(_) => { // Event signals the creation or deletion of an asset
-                                    debounced_event.paths.iter().for_each(|path| {
-                                        // TODO: We could use an expect here since we are sure the path is valid
-                                        // let Some(mount_path) = path.parent() else {
-                                        //     log::warn!("Failed to get parent path from device endpoint");
-                                        //     return;
-                                        // };
-
-                                        let device = match DeviceEndpointRef::try_from(path) {
-                                            Ok(device) => device,
-                                            Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
-                                                return;
-                                            }
-                                        };
-
-                                        // Get assets in the file mount
-                                        let assets =
-                                            match get_asset_names(&mount_path_clone, &device) {
-                                                Ok(assets) => assets,
-                                                Err(err) => {
-                                                    log::warn!("Failed to get asset names: {err:?}");
-                                                    return;
-                                                }
-                                            };
-
-                                        // Update the file mount map with the new assets
-                                        file_mount_map.update_assets(&device, assets);
-                                    });
+                                Err(err) => {
+                                    log::warn!("Failed to get device endpoint names: {err:?}");
                                 }
-                                EventKind::Remove(event::RemoveKind::File) => { // Event signals the deletion of a device endpoint
-                                    debounced_event.paths.iter().for_each(|path| {
-                                        let device = match DeviceEndpointRef::try_from(path) {
-                                            Ok(device) => device,
-                                            Err(err) => {
-                                                log::warn!("Failed to parse device endpoint from path: {err:?}");
-                                                return;
-                                            }
-                                        };
-
-                                        // Remove the device endpoint from the file mount map
-                                        // When the device endpoint is removed, all the assets are 
-                                        // removed as well triggering the deletion token for each asset
-                                        file_mount_map.remove_device_endpoint(&device);
-                                    });
-                                }
-                                _ => { /* Ignore other events */ }
                             }
                         }
                     }
@@ -201,7 +127,8 @@ impl DeviceEndpointCreateObservation {
                     }
                 }
             },
-        ).map_err(ErrorKind::from)?;
+        )
+        .map_err(ErrorKind::from)?;
 
         // Start watching the file mount path for create, modify and remove events
         debouncer
@@ -287,22 +214,36 @@ pub fn get_mount_path() -> Result<PathBuf, Error> {
 
 /// Get names of all available device endpoints from the file mount.
 ///
-/// Returns Ok([`Vec<DeviceEndpointRef>`]) if the device endpoint names are successfully retrieved, otherwise returns an [`struct@Error`].
+/// Returns Ok([`HashSet<DeviceEndpointRef>`]) if the device endpoint names are successfully retrieved, otherwise returns an [`struct@Error`].
 ///
 /// # Errors
 ///
 /// - [`struct@Error`] of kind [`ErrorKind::IoError`] if there are issues accessing the file mount.
 /// - [`struct@Error`] of kind [`ErrorKind::ParseError`] if the file names cannot be parsed into [`DeviceEndpointRef`].
-pub fn get_device_endpoint_names(mount_path: &Path) -> Result<Vec<DeviceEndpointRef>, Error> {
+pub fn get_device_endpoint_names(mount_path: &Path) -> Result<HashSet<DeviceEndpointRef>, Error> {
     // TODO: There is probably a way to do this without needing the below for loop.
-    let mut device_endpoint_refs = Vec::new();
+    let mut device_endpoint_refs = HashSet::new();
     for entry in std::fs::read_dir(mount_path).map_err(ErrorKind::from)? {
         match entry.map_err(ErrorKind::from)?.path().file_name() {
             Some(file_name) => {
                 // TODO: Handle case where file name has invalid UTF-8 characters (remove need for to_string_lossy)
                 // TODO: Handle case where file name is not a file but a directory
                 let device_endpoint_string = file_name.to_string_lossy().to_string();
-                device_endpoint_refs.push(device_endpoint_string.try_into()?);
+                if device_endpoint_string.starts_with("..") {
+                    // There are files with the path starting in .. that are not device endpoints.
+                    // This is never a valid device endpoint name due to kubernetes enforcing resources
+                    // needing to start with alphanumeric characters so it can be safely ignored.
+                    continue;
+                }
+                match device_endpoint_string.try_into() {
+                    Ok(device_endpoint) => {
+                        device_endpoint_refs.insert(device_endpoint);
+                    }
+                    Err(err) => {
+                        log::warn!("Failed to parse device endpoint from file name: {err:?}");
+                        continue;
+                    }
+                }
             }
             None => {
                 // TODO: Happens when the path ends with "..", skip it and log a warning for now
@@ -345,7 +286,7 @@ fn get_asset_names(
         .map(|asset_name| AssetRef {
             name: asset_name.to_string(),
             device_name: device_endpoint.device_name.clone(),
-            endpoint_name: device_endpoint.endpoint_name.clone(),
+            inbound_endpoint_name: device_endpoint.inbound_endpoint_name.clone(),
         })
         .collect())
 }
@@ -358,9 +299,10 @@ fn get_asset_names(
 /// Each device endpoint is associated with a tuple containing an unbounded sender for asset creation
 /// notifications and a hash map of asset references to their associated deletion tokens.
 struct FileMountMap {
-    #[allow(clippy::type_complexity)]
     // TODO: This is a complex type, need to simplify it later
-    file_mount_map: HashMap<
+    file_mount_path: PathBuf,
+    #[allow(clippy::type_complexity)]
+    file_mount_hashmap: HashMap<
         DeviceEndpointRef,
         (
             UnboundedSender<(AssetRef, AssetDeletionToken)>,
@@ -374,58 +316,82 @@ impl FileMountMap {
     /// Creates a new instance of [`FileMountMap`].
     pub fn new(
         create_device_tx: UnboundedSender<(DeviceEndpointRef, AssetCreateObservation)>,
+        file_mount_path: PathBuf,
     ) -> FileMountMap {
         FileMountMap {
-            file_mount_map: HashMap::new(),
+            file_mount_hashmap: HashMap::new(),
             create_device_tx,
+            file_mount_path,
         }
     }
 
-    /// Inserts a new [`DeviceEndpointRef`] into the file mount map.
+    /// Updates the device endpoints in the file mount map.
     ///
-    /// This function creates a new channel for asset creation notifications and adds the device endpoint
-    /// to the file mount map. If the device endpoint already exists, it does nothing. It will also
-    /// notify the `create_device_tx` channel about the new device endpoint.
-    pub fn insert_device_endpoint(&mut self, device: &DeviceEndpointRef) {
-        // Check if the device already exists already
-        if self.file_mount_map.contains_key(device) {
-            return;
-        }
+    /// This function takes a set of device endpoints and updates the file mount map with the new
+    /// device endpoints. It also cleans up any device endpoints that are no longer present.
+    ///
+    /// If a device endpoint is not already in the file mount map, it creates a new entry for it.
+    /// It also retrieves the assets associated with the device endpoint and updates them in the map
+    /// for all the devices.
+    pub fn update_device_endpoints(&mut self, devices: &HashSet<DeviceEndpointRef>) {
+        // Remove devices that are no longer present in the file mount
+        self.file_mount_hashmap
+            .retain(|device_ref, _| devices.contains(device_ref));
 
-        // Create a new channel for asset creation notifications for this device
-        let (asset_creation_tx, asset_creation_rx) = mpsc::unbounded_channel();
+        // Iterate over the devices and add them to the file mount map
+        for device in devices {
+            // If the device is not already in the file mount map, create a new entry
+            if !self.file_mount_hashmap.contains_key(device) {
+                // Create a new channel for asset creation notifications for this device
+                let (asset_creation_tx, asset_creation_rx) = mpsc::unbounded_channel();
 
-        // Create a new entry in the file mount map for the device
-        self.file_mount_map
-            .insert(device.clone(), (asset_creation_tx, HashMap::new()));
+                // Create a new entry in the file mount map for the device
+                log::info!("New device: {device:?}");
+                self.file_mount_hashmap
+                    .insert(device.clone(), (asset_creation_tx, HashMap::new()));
 
-        // Notify on device creation
-        if self
-            .create_device_tx
-            .send((
-                device.clone(),
-                AssetCreateObservation::new(asset_creation_rx),
-            ))
-            .is_err()
-        {
-            // TODO: Decide if this error should be returned.
-            // TODO: The cases in which this fails are:
-            // 1. The receiver is closed which means the `FileMountMap` is dropped, this should not happen.
-            // 2. The receiver is full which means we are not receiving notifications fast enough or
-            //    are out of space, this should be handled by the caller via a retry.
-            log::warn!("Failed to send device creation notification");
-            panic!("Failed to send device creation notification");
+                // Notify on device creation
+                if self
+                    .create_device_tx
+                    .send((
+                        device.clone(),
+                        AssetCreateObservation::new(asset_creation_rx),
+                    ))
+                    .is_err()
+                {
+                    // TODO: Decide if this error should be returned.
+                    // TODO: The cases in which this fails are:
+                    // 1. The receiver is closed which means the `FileMountMap` is dropped, this should not happen.
+                    // 2. The receiver is full which means we are not receiving notifications fast enough or
+                    //    are out of space, this should be handled by the caller via a retry.
+                    log::warn!("Failed to send device creation notification");
+                    panic!("Failed to send device creation notification");
+                }
+            }
+
+            // Get the assets in the file mount for this device
+            let assets = match get_asset_names(&self.file_mount_path, device) {
+                Ok(assets) => assets,
+                Err(err) => {
+                    log::warn!("Failed to get asset names: {err:?}");
+                    continue;
+                }
+            };
+
+            // Add the assets
+            self.update_assets(device, assets);
         }
     }
 
     /// Updates the assets associated with a device endpoint.
     ///
-    /// This function takes a device endpoint and a vector of assets, and updates the file mount map
+    /// This function takes a device endpoint and a set of assets, and updates the file mount map
     /// with the new assets. It also cleans up any assets that are no longer present. If the device
     /// endpoint does not exist in the file mount map, it does nothing.
     pub fn update_assets(&mut self, device: &DeviceEndpointRef, mut assets: HashSet<AssetRef>) {
         // Get the asset creation channel and the tracked assets for this device
-        let Some((create_asset_tx, tracked_assets)) = self.file_mount_map.get_mut(device) else {
+        let Some((create_asset_tx, tracked_assets)) = self.file_mount_hashmap.get_mut(device)
+        else {
             // If the device is non-existent we can't update the assets. Most likely a create
             // notification has not been parsed yet but this function will be called again once
             // the device is created.
@@ -445,6 +411,7 @@ impl FileMountMap {
 
                 // Add the new asset to the tracked assets with the one shot sender so when the asset is
                 // deleted the channel is closed and the receiver is notified.
+                log::warn!("New asset: {asset:?}");
                 tracked_assets.insert(asset.clone(), asset_deletion_tx);
 
                 // Notify that an asset has been created
@@ -462,15 +429,6 @@ impl FileMountMap {
             }
         }
     }
-
-    /// Removes a device endpoint from the file mount map.
-    ///
-    /// When a device endpoint is removed, all the assets associated with it are also removed which
-    /// triggers the deletion token for each asset.
-    pub fn remove_device_endpoint(&mut self, device: &DeviceEndpointRef) {
-        // Remove entry from the file mount map
-        self.file_mount_map.remove(device);
-    }
 }
 
 // ~~~~~~~~~~~~~~~~~ Device and Asset References ~~~~~~~~~~~~~~~~~~~~~
@@ -481,27 +439,32 @@ pub struct DeviceEndpointRef {
     // TODO: This structure should be DeviceRef from the services crate
     /// The name of the device
     pub device_name: String,
-    /// The name of the endpoint
-    pub endpoint_name: String,
+    /// The name of the inbound endpoint
+    pub inbound_endpoint_name: String,
 }
 
 impl TryFrom<String> for DeviceEndpointRef {
     type Error = Error;
 
     fn try_from(value: String) -> Result<Self, Self::Error> {
-        // The below assumes the format is always {device_name}_{endpoint_name} with no additional
+        // The below assumes the format is always {device_name}_{inbound_endpoint_name} with no additional
         // `_` in the names.
         // Kubernetes does not allow `_` in the names so this should be safe.
 
         // TODO: Add a warning in case the format is not as expected
         match value.split_once('_') {
-            Some((device_name, endpoint_name)) => {
-                if endpoint_name.contains('_') {
-                    log::warn!("DeviceEndpointRef contains an underscore in the endpoint name");
+            Some((device_name, inbound_endpoint_name)) => {
+                if inbound_endpoint_name.contains('_') {
+                    log::warn!(
+                        "DeviceEndpointRef contains an underscore in the endpoint name: {value}"
+                    );
+                    return Err(Error(ErrorKind::ParseError(
+                        "DeviceEndpointRef contains an underscore in the endpoint name".to_string(),
+                    )));
                 }
                 Ok(Self {
                     device_name: device_name.to_string(),
-                    endpoint_name: endpoint_name.to_string(),
+                    inbound_endpoint_name: inbound_endpoint_name.to_string(),
                 })
             }
             None => Err(Error(ErrorKind::ParseError(
@@ -528,7 +491,7 @@ impl TryFrom<&PathBuf> for DeviceEndpointRef {
 
 impl Display for DeviceEndpointRef {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}_{}", self.device_name, self.endpoint_name)
+        write!(f, "{}_{}", self.device_name, self.inbound_endpoint_name)
     }
 }
 
@@ -541,7 +504,7 @@ pub struct AssetRef {
     /// The name of the device
     pub device_name: String,
     /// The name of the endpoint
-    pub endpoint_name: String,
+    pub inbound_endpoint_name: String,
 }
 #[cfg(test)]
 mod tests {
@@ -554,18 +517,18 @@ mod tests {
 
     // Macro to create a device endpoint reference and associated asset references
     macro_rules! device_with_assets {
-        ($device_name:expr, $endpoint_name:expr $(, $asset_name:expr)*) => {
+        ($device_name:expr, $inbound_endpoint_name:expr $(, $asset_name:expr)*) => {
             {
                 let device_endpoint = DeviceEndpointRef {
                     device_name: $device_name.to_string(),
-                    endpoint_name: $endpoint_name.to_string(),
+                    inbound_endpoint_name: $inbound_endpoint_name.to_string(),
                 };
                 let assets = vec![
                     $(
                         AssetRef {
                             name: $asset_name.to_string(),
                             device_name: $device_name.to_string(),
-                            endpoint_name: $endpoint_name.to_string(),
+                            inbound_endpoint_name: $inbound_endpoint_name.to_string(),
                         }
                     ),*
                 ];
@@ -689,10 +652,8 @@ mod tests {
             || {
                 let mount_path = get_mount_path().unwrap();
 
-                let device_endpoints = get_device_endpoint_names(mount_path.as_path()).unwrap();
-
                 let mounted_device1_endpoint1_assets_set =
-                    get_asset_names(mount_path.as_path(), &device_endpoints[0]).unwrap();
+                    get_asset_names(mount_path.as_path(), &device1_endpoint1).unwrap();
 
                 assert_eq!(
                     mounted_device1_endpoint1_assets_set,
@@ -1089,7 +1050,7 @@ mod tests {
                         let new_asset = AssetRef {
                             name: "asset2".to_string(),
                             device_name: device1_endpoint1.device_name.clone(),
-                            endpoint_name: device1_endpoint1.endpoint_name.clone(),
+                            inbound_endpoint_name: device1_endpoint1.inbound_endpoint_name.clone(),
                         };
                         file_mount_manager.add_asset(&device1_endpoint1, &new_asset);
 

@@ -106,18 +106,18 @@ async fn operator_simulator() {
     let (device1_endpoint1, device1_endpoint1_assets) = (
         DeviceEndpointRef {
             device_name: "device1".to_string(),
-            endpoint_name: "endpoint1".to_string(),
+            inbound_endpoint_name: "endpoint1".to_string(),
         },
         vec![
             AssetRef {
                 name: "asset1".to_string(),
                 device_name: "device1".to_string(),
-                endpoint_name: "endpoint1".to_string(),
+                inbound_endpoint_name: "endpoint1".to_string(),
             },
             AssetRef {
                 name: "asset2".to_string(),
                 device_name: "device1".to_string(),
-                endpoint_name: "endpoint1".to_string(),
+                inbound_endpoint_name: "endpoint1".to_string(),
             },
         ],
     );
@@ -131,18 +131,18 @@ async fn operator_simulator() {
     let (device2_endpoint2, device2_endpoint2_assets) = (
         DeviceEndpointRef {
             device_name: "device2".to_string(),
-            endpoint_name: "endpoint2".to_string(),
+            inbound_endpoint_name: "endpoint2".to_string(),
         },
         vec![
             AssetRef {
                 name: "asset3".to_string(),
                 device_name: "device2".to_string(),
-                endpoint_name: "endpoint2".to_string(),
+                inbound_endpoint_name: "endpoint2".to_string(),
             },
             AssetRef {
                 name: "asset4".to_string(),
                 device_name: "device2".to_string(),
-                endpoint_name: "endpoint2".to_string(),
+                inbound_endpoint_name: "endpoint2".to_string(),
             },
         ],
     );
@@ -164,7 +164,7 @@ async fn operator_simulator() {
     let asset5 = AssetRef {
         name: "asset5".to_string(),
         device_name: "device2".to_string(),
-        endpoint_name: "endpoint2".to_string(),
+        inbound_endpoint_name: "endpoint2".to_string(),
     };
 
     file_mount_manager.add_asset(&device2_endpoint2, &asset5);
