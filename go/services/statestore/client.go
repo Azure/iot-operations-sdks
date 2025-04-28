@@ -225,7 +225,7 @@ func parseOK(data []byte) (bool, error) {
 	}
 }
 
-func (c *Client[K, V]) logK(
+func (c *Client[K, V]) logOp(
 	ctx context.Context,
 	operation string,
 	key K,
@@ -234,25 +234,6 @@ func (c *Client[K, V]) logK(
 	if c.log.Enabled(ctx, slog.LevelDebug) {
 		all := []slog.Attr{
 			slog.String("key", string(key)),
-		}
-		if len(attrs) > 0 {
-			all = append(all, attrs...)
-		}
-		c.log.Debug(ctx, operation, all...)
-	}
-}
-
-func (c *Client[K, V]) logKV(
-	ctx context.Context,
-	operation string,
-	key K,
-	value V,
-	attrs ...slog.Attr,
-) {
-	if c.log.Enabled(ctx, slog.LevelDebug) {
-		all := []slog.Attr{
-			slog.String("key", string(key)),
-			slog.String("value", string(value)),
 		}
 		if len(attrs) > 0 {
 			all = append(all, attrs...)

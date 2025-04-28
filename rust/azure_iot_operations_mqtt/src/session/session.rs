@@ -196,7 +196,7 @@ where
                             // (current) loose matching of received disconnects on account of an rumqttc bug.
                             // See the error cases below in this match statement for more information.
                             log::debug!(
-                                "Session-initiated exit triggered when User-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
+                                "Session-initiated exit triggered when user-initiated exit was already in-progress. There may be two disconnects, both attributed to Session"
                             );
                         }
                         self.trigger_session_exit().await;

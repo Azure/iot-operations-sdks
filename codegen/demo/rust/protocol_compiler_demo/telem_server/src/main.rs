@@ -122,7 +122,7 @@ async fn avro_telemetry_loop(
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
-        avro_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        avro_comm::common_types::options::TelemetrySenderOptionsBuilder::default()
             .build()
             .unwrap();
 
@@ -179,7 +179,7 @@ async fn json_telemetry_loop(
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
-        json_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        json_comm::common_types::options::TelemetrySenderOptionsBuilder::default()
             .build()
             .unwrap();
 
@@ -242,7 +242,7 @@ async fn raw_telemetry_loop(
 ) {
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
-    let sender_options = raw_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+    let sender_options = raw_comm::common_types::options::TelemetrySenderOptionsBuilder::default()
         .build()
         .unwrap();
 
@@ -285,7 +285,7 @@ async fn custom_telemetry_loop(
     let application_context = ApplicationContextBuilder::default().build().unwrap();
 
     let sender_options =
-        custom_comm::common_types::common_options::TelemetryOptionsBuilder::default()
+        custom_comm::common_types::options::TelemetrySenderOptionsBuilder::default()
             .build()
             .unwrap();
 
