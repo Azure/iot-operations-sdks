@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Types for Leased Lock operations.
+//! Types for Key Lease operations.
 
 use core::fmt::Debug;
 
@@ -12,17 +12,19 @@ use crate::state_store::{self, KeyObservation, ServiceError as StateStoreService
 pub use crate::state_store::{Response, SetCondition, SetOptions};
 
 /// A struct to manage receiving notifications for a lock
-pub type LockObservation = KeyObservation;
+pub type LeaseObservation = KeyObservation;
 
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
 pub type ServiceError = StateStoreServiceError;
 
 /// Leased Lock Client implementation
 mod client;
+/// Key Lease Client implementation
+pub mod lease;
 
 pub use client::Client;
 
-/// Represents an error that occurred in the Azure IoT Operations Leased Lock implementation.
+/// Represents an error that occurred in the Azure IoT Operations Key Lease implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct Error(#[from] ErrorKind);
@@ -42,13 +44,13 @@ impl From<state_store::Error> for Error {
     }
 }
 
-/// Represents the kinds of errors that occur in the Azure IoT Operations Leased Lock implementation.
+/// Represents the kinds of errors that occur in the Azure IoT Operations Key Lease implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
     /// The lock is already in use by another holder.
     #[error("lock is already held by another holder")]
-    LockAlreadyHeld,
+    KeyAlreadyLeased,
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
@@ -63,7 +65,7 @@ pub enum ErrorKind {
     LockNameLengthZero,
     /// The lock holder name length must not be zero.
     #[error("lock holder name length must not be zero")]
-    LockHolderNameLengthZero,
+    LeaseHolderNameLengthZero,
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
@@ -73,7 +75,7 @@ pub enum ErrorKind {
     /// The payload of the response does not match the expected type for the request.
     #[error("Unexpected response payload for the request type: {0}")]
     UnexpectedPayload(String),
-    /// A lock may only have one [`LockObservation`] at a time.
+    /// A lock may only have one [`LeaseObservation`] at a time.
     #[error("lock may only be observed once at a time")]
     DuplicateObserve,
 }
@@ -102,7 +104,7 @@ impl From<state_store::ErrorKind> for ErrorKind {
     }
 }
 
-/// Enumeration used as a response for `leased_lock::Client::acquire_lock_and_update_value`.
+/// Enumeration used as a response for `leased_lock::Client::lock_and_update_value`.
 pub enum AcquireAndUpdateKeyOption {
     /// Indicates a State Store key shall be updated.
     /// The first argument is new value for the State Store key.
