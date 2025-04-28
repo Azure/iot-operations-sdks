@@ -23,7 +23,6 @@ use azure_iot_operations_connector::filemount::{
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
-
 use env_logger::Builder;
 
 // This example uses a 5-second debounce duration for the file mount observation.
