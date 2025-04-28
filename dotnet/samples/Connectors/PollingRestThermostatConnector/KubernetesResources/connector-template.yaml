@@ -14,7 +14,8 @@ spec:
       managedConfigurationType: imageConfiguration
       imageConfigurationSettings:
         image: pollingrestthermostatconnector:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Never # This sample image is built locally, so no need to pull
+        replicas: 1
   mqttConnectionConfiguration:
     host: "aio-broker:18883"
     authentication:

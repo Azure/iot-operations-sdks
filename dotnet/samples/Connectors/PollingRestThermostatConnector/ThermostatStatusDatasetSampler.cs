@@ -55,6 +55,9 @@ namespace RestThermostatConnector
                 var currentTemperatureHttpResponse = await _httpClient.GetAsync(httpServerCurrentTemperatureRequestPath);
                 var desiredTemperatureHttpResponse = await _httpClient.GetAsync(httpServerDesiredTemperatureRequestPath);
 
+                currentTemperatureHttpResponse.EnsureSuccessStatusCode();
+                desiredTemperatureHttpResponse.EnsureSuccessStatusCode();
+
                 ThermostatStatus thermostatStatus = new()
                 {
                     CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync())!).CurrentTemperature,
