@@ -55,6 +55,15 @@ namespace RestThermostatConnector
                 var currentTemperatureHttpResponse = await _httpClient.GetAsync(httpServerCurrentTemperatureRequestPath);
                 var desiredTemperatureHttpResponse = await _httpClient.GetAsync(httpServerDesiredTemperatureRequestPath);
 
+                if (currentTemperatureHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized
+                    || desiredTemperatureHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw new Exception("Failed to authorize request to HTTP server. Check credentials configured in rest-server-device-definition.yaml.");
+                }
+
+                currentTemperatureHttpResponse.EnsureSuccessStatusCode();
+                desiredTemperatureHttpResponse.EnsureSuccessStatusCode();
+
                 ThermostatStatus thermostatStatus = new()
                 {
                     CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync())!).CurrentTemperature,
