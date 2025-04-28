@@ -115,6 +115,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 string expectedCreatedAssetName = Guid.NewGuid().ToString();
                 assetFileMonitor.ObserveAssets(expectedDeviceName, expectedEndpointName);
 
+                // Create a new asset
                 File.WriteAllText(devicePath, expectedCreatedAssetName);
                 var assetChangedEventArgs = await assetChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
 
@@ -122,6 +123,25 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Equal(expectedEndpointName, assetChangedEventArgs.InboundEndpointName);
                 Assert.Equal(expectedCreatedAssetName, assetChangedEventArgs.AssetName);
                 Assert.Equal(AssetFileMonitorChangeType.Created, assetChangedEventArgs.ChangeType);
+
+                // Delete the asset
+                assetChangedEventArgsTcs = new();
+                File.WriteAllText(devicePath, "");
+                var assetDeletedEventArgs = await assetChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                Assert.Equal(expectedDeviceName, assetDeletedEventArgs.DeviceName);
+                Assert.Equal(expectedEndpointName, assetDeletedEventArgs.InboundEndpointName);
+                Assert.Equal(expectedCreatedAssetName, assetDeletedEventArgs.AssetName);
+                Assert.Equal(AssetFileMonitorChangeType.Deleted, assetDeletedEventArgs.ChangeType);
+
+                deviceChangedEventArgsTcs = new();
+                File.Delete(devicePath);
+
+                var deviceDeletedArgs = await deviceChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                Assert.Equal(expectedDeviceName, deviceDeletedArgs.DeviceName);
+                Assert.Equal(expectedEndpointName, deviceDeletedArgs.InboundEndpointName);
+                Assert.Equal(AssetFileMonitorChangeType.Deleted, deviceDeletedArgs.ChangeType);
             }
             finally
             {
