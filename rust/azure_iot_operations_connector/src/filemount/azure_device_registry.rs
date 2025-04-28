@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 use std::task::Context;
 use std::time::Duration;
 
-use notify::RecommendedWatcher;
+use notify::{RecommendedWatcher, event::EventKind};
 use notify_debouncer_full::{RecommendedCache, new_debouncer};
 use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
@@ -94,14 +94,27 @@ impl DeviceEndpointCreateObservation {
             None,
             move |res: Result<Vec<notify_debouncer_full::DebouncedEvent>, Vec<notify::Error>>| {
                 match res {
-                    Ok(_) => {
-                        // TODO: Find which events the akri operator triggers and only process those
-                        match get_device_endpoint_names(&mount_path_clone) {
-                            Ok(device_endpoints) => {
-                                file_mount_map.update_device_endpoints(&device_endpoints);
-                            }
-                            Err(err) => {
-                                log::warn!("Failed to get device endpoint names: {err:?}");
+                    Ok(events) => {
+                        // When an asset is added or removed, kubernetes does a series of events:
+                        // Create Folder, Create File and Remove Folder
+                        // If any of those events are triggered we need to update the file mount map
+                        // with the new device endpoints and assets since none of those events
+                        // point to a specific file.
+                        if events.iter().any(|e| {
+                            matches!(
+                                e.kind,
+                                EventKind::Remove(_) | EventKind::Create(_) | EventKind::Modify(_) // Keep this for now in case it is needed
+                            )
+                        }) {
+                            match get_device_endpoint_names(&mount_path_clone) {
+                                Ok(device_endpoints) => {
+                                    // Check if the device endpoints have changed and update the file mount map
+                                    // accordingly
+                                    file_mount_map.update_device_endpoints(&device_endpoints);
+                                }
+                                Err(err) => {
+                                    log::warn!("Failed to get device endpoint names: {err:?}");
+                                }
                             }
                         }
                     }
@@ -218,7 +231,9 @@ pub fn get_device_endpoint_names(mount_path: &Path) -> Result<HashSet<DeviceEndp
                 // TODO: Handle case where file name is not a file but a directory
                 let device_endpoint_string = file_name.to_string_lossy().to_string();
                 if device_endpoint_string.starts_with("..") {
-                    // TODO: There are files with the path starting in .. that are not device endpoints.
+                    // There are files with the path starting in .. that are not device endpoints.
+                    // This is never a valid device endpoint name due to kubernetes enforcing resources
+                    // needing to start with alphanumeric characters so it can be safely ignored.
                     continue;
                 }
                 match device_endpoint_string.try_into() {
