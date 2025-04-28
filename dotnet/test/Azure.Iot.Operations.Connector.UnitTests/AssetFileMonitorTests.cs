@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             assetFileMonitor.UnobserveAll();
         }
 
-        [Fact] //TODO linux only?
+        [Fact]
         public async Task TestObservingDevicesEndpointsAndAssets()
         {
             string expectedDeviceName = Guid.NewGuid().ToString();
