@@ -7,7 +7,7 @@
 //! deployed connector config artifacts), get Device and Asset names (from the
 //! deployed ADR file mounted artifacts), and then get the full definitions
 //! for these Devices and Assets from the ADR service (using the ADR client).
-//! 
+//!
 //! This sample simply logs the device and asset information received - a real
 //! connector would then use these to connect to the device/inbound endpoints
 //! and start operations defined in the assets.
@@ -131,7 +131,9 @@ async fn run_program(
                         // now we should update the status of the device
                         let mut endpoint_statuses = HashMap::new();
                         let mut any_errors = false;
-                        for (inbound_endpoint_name, endpoint) in device.specification.endpoints.inbound {
+                        for (inbound_endpoint_name, endpoint) in
+                            device.specification.endpoints.inbound
+                        {
                             if endpoint.endpoint_type == "rest-thermostat"
                                 || endpoint.endpoint_type == "coap-thermostat"
                             {
