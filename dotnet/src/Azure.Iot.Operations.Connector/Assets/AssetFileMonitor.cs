@@ -63,14 +63,13 @@ namespace Azure.Iot.Operations.Connector.Assets
                         List<string> newAssetNames = new();
                         List<string> removedAssetNames = new();
 
-                        if (_lastKnownAssetNames.TryGetValue(assetFileName, out List<string>? lastKnownAssetNames) && currentAssetNames != null)
+                        _lastKnownAssetNames.TryGetValue(assetFileName, out List<string>? lastKnownAssetNames);
+
+                        foreach (string currentAssetName in currentAssetNames)
                         {
-                            foreach (string currentAssetName in currentAssetNames)
+                            if (lastKnownAssetNames == null || !lastKnownAssetNames.Contains(currentAssetName))
                             {
-                                if (!lastKnownAssetNames.Contains(currentAssetName))
-                                {
-                                    newAssetNames.Add(currentAssetName);
-                                }
+                                newAssetNames.Add(currentAssetName);
                             }
                         }
 
@@ -87,14 +86,22 @@ namespace Azure.Iot.Operations.Connector.Assets
 
                         foreach (string addedAssetName in newAssetNames)
                         {
+                            if (!_lastKnownAssetNames.ContainsKey(assetFileName))
+                            {
+                                _lastKnownAssetNames[assetFileName] = new();
+                            }
+
                             _lastKnownAssetNames[assetFileName].Add(addedAssetName);
                             AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, AssetFileMonitorChangeType.Created));
                         }
 
                         foreach (string removedAssetName in removedAssetNames)
                         {
-                            _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
-                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, AssetFileMonitorChangeType.Deleted));
+                            if (_lastKnownAssetNames.ContainsKey(assetFileName))
+                            {
+                                _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
+                                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, AssetFileMonitorChangeType.Deleted));
+                            }
                         }
                     }
                 };
@@ -107,6 +114,13 @@ namespace Azure.Iot.Operations.Connector.Assets
                 {
                     foreach (string currentAssetName in currentAssetNames)
                     {
+                        if (!_lastKnownAssetNames.ContainsKey(assetFileName))
+                        {
+                            _lastKnownAssetNames[assetFileName] = new();
+                        }
+
+                        _lastKnownAssetNames[assetFileName].Add(currentAssetName);
+
                         AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
                     }
                 }

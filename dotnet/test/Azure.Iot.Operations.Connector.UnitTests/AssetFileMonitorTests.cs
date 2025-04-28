@@ -15,11 +15,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
     [Collection("Environment Variable Sequential")]
     public class AssetFileMonitorTests
     {
+        private const string AdrResourcesPath = "./adr-resources";
 
         [Fact]
         public void TestListingDevicesEndpointsAndAssets()
         {
-            Environment.SetEnvironmentVariable(AssetFileMonitor.AdrResourcesNameMountPathEnvVar, "./adr-resources");
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AdrResourcesNameMountPathEnvVar, AdrResourcesPath);
 
             AssetFileMonitor assetFileMonitor = new AssetFileMonitor();
 
@@ -36,84 +37,105 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Assert.Equal(2, assetNames.Count());
             Assert.Contains("SomeAssetName1", assetNames);
             Assert.Contains("SomeAssetName2", assetNames);
+
+            assetFileMonitor.UnobserveAll();
         }
 
         [Fact] //TODO linux only?
         public async Task TestObservingDevicesEndpointsAndAssets()
         {
-            Environment.SetEnvironmentVariable(AssetFileMonitor.AdrResourcesNameMountPathEnvVar, "./adr-resources");
+            string expectedDeviceName = Guid.NewGuid().ToString();
+            string expectedEndpointName = Guid.NewGuid().ToString();
+            string devicePath = AdrResourcesPath + "/" + expectedDeviceName + "_" + expectedEndpointName;
+
+            Environment.SetEnvironmentVariable(AssetFileMonitor.AdrResourcesNameMountPathEnvVar, AdrResourcesPath);
 
             AssetFileMonitor assetFileMonitor = new AssetFileMonitor();
 
-            TaskCompletionSource<Assets.DeviceChangedEventArgs> deviceChangedEventArgsTcs = new();
-            assetFileMonitor.DeviceFileChanged += (sender, args) =>
+            try
             {
-                deviceChangedEventArgsTcs.TrySetResult(args);
-            };
+                TaskCompletionSource<Assets.DeviceChangedEventArgs> deviceChangedEventArgsTcs = new();
+                assetFileMonitor.DeviceFileChanged += (sender, args) =>
+                {
+                    deviceChangedEventArgsTcs.TrySetResult(args);
+                };
 
-            assetFileMonitor.ObserveDevices();
+                assetFileMonitor.ObserveDevices();
 
-            // The initial state of the devices should be reported even before any changes happen
-            var deviceChangeArgs = await deviceChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            Assert.Equal("SomeDeviceName", deviceChangeArgs.DeviceName);
-            Assert.Equal("SomeInboundEndpointName", deviceChangeArgs.InboundEndpointName);
-            Assert.Equal(AssetFileMonitorChangeType.Created, deviceChangeArgs.ChangeType);
+                // The initial state of the devices should be reported even before any changes happen
+                var deviceChangeArgs = await deviceChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                Assert.Equal("SomeDeviceName", deviceChangeArgs.DeviceName);
+                Assert.Equal("SomeInboundEndpointName", deviceChangeArgs.InboundEndpointName);
+                Assert.Equal(AssetFileMonitorChangeType.Created, deviceChangeArgs.ChangeType);
 
-            TaskCompletionSource<Assets.AssetChangedEventArgs> asset1ChangedEventArgsTcs = new();
-            TaskCompletionSource<Assets.AssetChangedEventArgs> asset2ChangedEventArgsTcs = new();
-            TaskCompletionSource<Assets.AssetChangedEventArgs> assetChangedEventArgsTcs = new();
-            assetFileMonitor.AssetFileChanged += (sender, args) =>
+                TaskCompletionSource<Assets.AssetChangedEventArgs> asset1ChangedEventArgsTcs = new();
+                TaskCompletionSource<Assets.AssetChangedEventArgs> asset2ChangedEventArgsTcs = new();
+                TaskCompletionSource<Assets.AssetChangedEventArgs> assetChangedEventArgsTcs = new();
+                assetFileMonitor.AssetFileChanged += (sender, args) =>
+                {
+                    if (args.AssetName.Equals("SomeAssetName1"))
+                    {
+                        asset1ChangedEventArgsTcs.TrySetResult(args);
+                    }
+                    else if (args.AssetName.Equals("SomeAssetName2"))
+                    {
+                        asset2ChangedEventArgsTcs.TrySetResult(args);
+                    }
+                    else
+                    {
+                        assetChangedEventArgsTcs.TrySetResult(args);
+                    }
+                };
+
+                assetFileMonitor.ObserveAssets(deviceChangeArgs.DeviceName, deviceChangeArgs.InboundEndpointName);
+
+                // The initial state of the assets should be reported even before any changes happen
+                var asset1ChangeArgs = await asset1ChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                Assert.Equal("SomeDeviceName", asset1ChangeArgs.DeviceName);
+                Assert.Equal("SomeInboundEndpointName", asset1ChangeArgs.InboundEndpointName);
+                Assert.Equal("SomeAssetName1", asset1ChangeArgs.AssetName);
+                Assert.Equal(AssetFileMonitorChangeType.Created, asset1ChangeArgs.ChangeType);
+
+                var asset2ChangeArgs = await asset2ChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                Assert.Equal("SomeDeviceName", asset2ChangeArgs.DeviceName);
+                Assert.Equal("SomeInboundEndpointName", asset2ChangeArgs.InboundEndpointName);
+                Assert.Equal("SomeAssetName2", asset2ChangeArgs.AssetName);
+                Assert.Equal(AssetFileMonitorChangeType.Created, asset2ChangeArgs.ChangeType);
+
+                // Add a new device + endpoint
+                deviceChangedEventArgsTcs = new();
+                File.Create(devicePath).Close();
+
+                var deviceCreatedArgs = await deviceChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                Assert.Equal(expectedDeviceName, deviceCreatedArgs.DeviceName);
+                Assert.Equal(expectedEndpointName, deviceCreatedArgs.InboundEndpointName);
+                Assert.Equal(AssetFileMonitorChangeType.Created, deviceCreatedArgs.ChangeType);
+
+                string expectedCreatedAssetName = Guid.NewGuid().ToString();
+                assetFileMonitor.ObserveAssets(expectedDeviceName, expectedEndpointName);
+
+                File.WriteAllText(devicePath, expectedCreatedAssetName);
+                var assetChangedEventArgs = await assetChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                Assert.Equal(expectedDeviceName, assetChangedEventArgs.DeviceName);
+                Assert.Equal(expectedEndpointName, assetChangedEventArgs.InboundEndpointName);
+                Assert.Equal(expectedCreatedAssetName, assetChangedEventArgs.AssetName);
+                Assert.Equal(AssetFileMonitorChangeType.Created, assetChangedEventArgs.ChangeType);
+            }
+            finally
             {
-                if (args.AssetName.Equals("SomeAssetName1"))
+                assetFileMonitor.UnobserveAll();
+
+                try
                 {
-                    asset1ChangedEventArgsTcs.TrySetResult(args);
+                    File.Delete(devicePath);
                 }
-                else if (args.AssetName.Equals("SomeAssetName2"))
+                catch (Exception e)
                 {
-                    asset2ChangedEventArgsTcs.TrySetResult(args);
+                    Console.WriteLine(e);
                 }
-                else
-                {
-                    assetChangedEventArgsTcs.TrySetResult(args);
-                }
-            };
-
-            assetFileMonitor.ObserveAssets(deviceChangeArgs.DeviceName, deviceChangeArgs.InboundEndpointName);
-
-            // The initial state of the assets should be reported even before any changes happen
-            var asset1ChangeArgs = await asset1ChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            Assert.Equal("SomeDeviceName", asset1ChangeArgs.DeviceName);
-            Assert.Equal("SomeInboundEndpointName", asset1ChangeArgs.InboundEndpointName);
-            Assert.Equal("SomeAssetName1", asset1ChangeArgs.AssetName);
-            Assert.Equal(AssetFileMonitorChangeType.Created, asset1ChangeArgs.ChangeType);
-
-            var asset2ChangeArgs = await asset2ChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            Assert.Equal("SomeDeviceName", asset2ChangeArgs.DeviceName);
-            Assert.Equal("SomeInboundEndpointName", asset2ChangeArgs.InboundEndpointName);
-            Assert.Equal("SomeAssetName2", asset2ChangeArgs.AssetName);
-            Assert.Equal(AssetFileMonitorChangeType.Created, asset2ChangeArgs.ChangeType);
-
-            // Add a new device + endpoint
-            string expectedDeviceName = Guid.NewGuid().ToString();
-            string expectedEndpointName = Guid.NewGuid().ToString();
-            deviceChangedEventArgsTcs = new();
-            string devicePath = "./" + expectedDeviceName + "_" + expectedEndpointName;
-            File.Create(devicePath);
-
-            var deviceCreatedArgs = await deviceChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
-
-            Assert.Equal(expectedDeviceName, deviceCreatedArgs.DeviceName);
-            Assert.Equal(expectedEndpointName, deviceCreatedArgs.InboundEndpointName);
-            Assert.Equal(AssetFileMonitorChangeType.Created, deviceCreatedArgs.ChangeType);
-
-            string expectedCreatedAssetName = Guid.NewGuid().ToString();
-            File.WriteAllText(devicePath, expectedCreatedAssetName);
-            await assetChangedEventArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
-
-            Assert.Equal(expectedDeviceName, asset2ChangeArgs.DeviceName);
-            Assert.Equal(expectedEndpointName, asset2ChangeArgs.InboundEndpointName);
-            Assert.Equal(expectedCreatedAssetName, asset2ChangeArgs.AssetName);
-            Assert.Equal(AssetFileMonitorChangeType.Created, asset2ChangeArgs.ChangeType);
+            }
         }
     }
 }
