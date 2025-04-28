@@ -455,24 +455,18 @@ func (c *Client) handleAssetUpdateTelemetry(
 ) error {
 	aepName := msg.TopicTokens[aepNameTokenKey]
 
+	defer msg.Ack()
+
 	// Skip if we are not observing the asset.
 	assetKey := aepName + "~" + msg.Payload.Name
 	c.mu.RLock()
 	_, observed := c.observedAssets[assetKey]
 	c.mu.RUnlock()
-	if !observed {
-		msg.Ack()
+	if !observed || c.onAssetUpdate == nil {
 		return nil
 	}
 
-	if c.onAssetUpdate == nil {
-		msg.Ack()
-		return nil
-	}
-
-	err := c.onAssetUpdate(aepName, &msg.Payload)
-	msg.Ack()
-	return err
+	return c.onAssetUpdate(aepName, &msg.Payload)
 }
 
 func (c *Client) handleAepUpdateTelemetry(
@@ -481,23 +475,17 @@ func (c *Client) handleAepUpdateTelemetry(
 ) error {
 	aepName := msg.TopicTokens[aepNameTokenKey]
 
+	defer msg.Ack()
+
 	// Skip if we are not observing the asset endpoint profile.
 	c.mu.RLock()
 	_, observed := c.observedAeps[aepName]
 	c.mu.RUnlock()
-	if !observed {
-		msg.Ack()
+	if !observed || c.onAssetUpdate == nil {
 		return nil
 	}
 
-	if c.onAepUpdate == nil {
-		msg.Ack()
-		return nil
-	}
-
-	err := c.onAepUpdate(aepName, &msg.Payload)
-	msg.Ack()
-	return err
+	return c.onAepUpdate(aepName, &msg.Payload)
 }
 
 // translateError converts protocol errors to client errors.
