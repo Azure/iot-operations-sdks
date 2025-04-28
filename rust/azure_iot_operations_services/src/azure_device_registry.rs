@@ -506,11 +506,11 @@ impl From<adr_name_gen::AuthenticationSchema> for Authentication {
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint Status DTDL Equivalent Structs~~~~
 #[derive(Clone, Debug, Default, PartialEq)]
-/// Represents the status of a Device in the ADR Service.
+/// Represents the observed status of a Device in the ADR Service.
 pub struct DeviceStatus {
-    /// The 'config' Field.
+    ///  Defines the status config properties.
     pub config: Option<StatusConfig>,
-    /// The 'endpoints' Field.
+    /// Defines the device status for inbound/outbound endpoints.
     pub endpoints: HashMap<String, Option<ConfigError>>,
 }
 
