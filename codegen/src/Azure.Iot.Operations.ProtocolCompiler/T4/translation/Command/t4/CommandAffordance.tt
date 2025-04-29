@@ -1,0 +1,78 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser" #>
+<#@ import namespace="DTDLParser.Models" #>
+    "<#=this.dtCommand.Name#>": {
+<# if (this.dtCommand.Description.Any()) { #>
+      "descriptions": {
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.dtCommand.Description) { #>
+        "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix < this.dtCommand.Description.Count ? "," : ""#>
+<# ix++; } #>
+      },
+<# } #>
+<# if (this.dtCommand.Request != null) { #>
+<# if (this.usesTypes) { #>
+      "input": {
+<# if (this.isRequestTransparent) { #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Request.Schema, 8)#>
+<# } else { #>
+        "type": "object",
+        "additionalProperties": false,
+<# if (!this.dtCommand.Request.Nullable) { #>
+        "required": [ "<#=this.dtCommand.Request.Name#>" ],
+<# } #>
+        "properties": {
+          "<#=this.dtCommand.Request.Name#>": {
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Request.Schema, 12)#>
+          }
+        }
+<# } #>
+      },
+<# } else { #>
+      "input": {},
+<# } #>
+<# } #>
+<# if (this.dtCommand.Response != null) { #>
+<# if (this.usesTypes) { #>
+      "output": {
+<# if (this.isResponseTransparent) { #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Response.Schema, 8)#>
+<# } else { #>
+        "type": "object",
+        "additionalProperties": false,
+<# if (!this.dtCommand.Response.Nullable) { #>
+        "required": [ "<#=this.responseName#>" ],
+<# } #>
+        "properties": {
+          "<#=this.responseName#>": {
+<#=this.thingDescriber.GetTypeAndAddenda(this.responseSchema, 12)#>
+          }
+        }
+<# } #>
+      },
+<# } else { #>
+      "output": {},
+<# } #>
+<# } #>
+<# if (this.isCommandIdempotent) { #>
+      "idempotent": true,
+<# } #>
+      "forms": [
+        {
+          "href": "<#=this.dtCommand.Id#>",
+          "contentType": "<#=this.contentType#>",
+<# if (this.isResponseSchemaResult) { #>
+          "additionalResponses": [
+            {
+              "success": false,
+              "contentType": "<#=this.contentType#>",
+              "schema": "<#=this.errorSchemaName#>"
+            }
+          ],
+<# } #>
+<# if (this.serviceGroupId != null) { #>
+          "x-serviceGroupId": "<#=this.serviceGroupId#>",
+<# } #>
+          "x-topic": "<#=this.commandTopic#>"
+        }
+      ]
+    }

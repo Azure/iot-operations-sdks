@@ -30,6 +30,7 @@
 		<PackAsTool>True</PackAsTool>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<TransformOnBuild>true</TransformOnBuild>
+		<TransformOutOfDateOnly>false</TransformOutOfDateOnly>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -799,6 +800,46 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>TelemetryProto3.tt</DependentUpon>
 		</Compile>
+		<Compile Update="T4\translation\Array\t4\ArrayThingSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ArrayThingSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Command\t4\CommandAffordance.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>CommandAffordance.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Enum\t4\EnumThingSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>EnumThingSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Interface\t4\InterfaceThing.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>InterfaceThing.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Map\t4\MapThingSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>MapThingSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Object\t4\ObjectThingSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ObjectThingSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Telemetry\t4\TelemetriesAffordance.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>TelemetriesAffordance.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\translation\Telemetry\t4\TelemetryAffordance.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>TelemetryAffordance.tt</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -819,6 +860,46 @@
 	<ItemGroup>
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="T4\translation\Array\t4\ArrayThingSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>ArrayThingSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Command\t4\CommandAffordance.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>CommandAffordance.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Enum\t4\EnumThingSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>EnumThingSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Interface\t4\InterfaceThing.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>InterfaceThing.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Map\t4\MapThingSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>MapThingSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Object\t4\ObjectThingSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>ObjectThingSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Telemetry\t4\TelemetriesAffordance.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>TelemetriesAffordance.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\translation\Telemetry\t4\TelemetryAffordance.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>TelemetryAffordance.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
 	</ItemGroup>
 

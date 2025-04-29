@@ -1,0 +1,30 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+<# if (this.dtObject.Description.Any()) { #>
+"descriptions": {
+<# int ix1 = 1; foreach (KeyValuePair<string, string> kvp in this.dtObject.Description) { #>
+  "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix1 < this.dtObject.Description.Count ? "," : ""#>
+<# ix1++; } #>
+},
+<# } #>
+"type": "object",
+"additionalProperties": false,
+<# if (this.dtObject.Fields.Any(f => IsFieldRequired(f))) { #>
+"required": [ <#=string.Join(", ", this.dtObject.Fields.Where(f => IsFieldRequired(f)).Select(f => $"\"{f.Name}\""))#> ],
+<# } #>
+<# if (this.dtObject.Fields.Any(f => IsFieldMessage(f))) { #>
+"x-message": "<#=this.dtObject.Fields.First(f => IsFieldMessage(f)).Name#>",
+<# } #>
+"properties": {
+<# int ix2 = 1; foreach (var dtField in this.dtObject.Fields) { #>
+  "<#=dtField.Name#>": {
+<#=this.thingDescriber.GetTypeAndAddenda(dtField.Schema, 4)#>
+  }<#=ix2 < this.dtObject.Fields.Count ? "," : ""#>
+<# ix2++; } #>
+}<# this.PopIndent(); #>
+<#+
+    private bool IsFieldRequired(DTFieldInfo dtField) => dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+
+    private bool IsFieldMessage(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(this.errorMessageAdjunctTypeId);
+#>
