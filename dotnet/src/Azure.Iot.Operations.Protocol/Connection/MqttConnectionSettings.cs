@@ -53,6 +53,8 @@ namespace Azure.Iot.Operations.Protocol.Connection
 
         public string? SatAuthFile { get; set; }
 
+        public ushort? ReceiveMaximum { get; set; }
+
         public MqttConnectionSettings(string hostname, string clientId)
             : this(new Dictionary<string, string> { { nameof(HostName), hostname }, {nameof(ClientId), clientId} }, false)
         {

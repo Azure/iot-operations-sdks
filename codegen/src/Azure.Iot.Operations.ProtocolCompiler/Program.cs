@@ -1,6 +1,4 @@
 ﻿using System.CommandLine;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Azure.Iot.Operations.ProtocolCompiler;
 
@@ -21,11 +19,6 @@ internal class Program
             description: "DTMI of Interface to use for codegen (not needed when model has only one Mqtt Interface)")
             { ArgumentHelpName = "DTMI" };
 
-        var dmrRootOption = new Option<string?>(
-            name: "--dmrRoot",
-            description: "Directory or URL from which to retrieve referenced models")
-            { ArgumentHelpName = "DIRPATH | URL" };
-
         var workingDirOption = new Option<string?>(
             name: "--workingDir",
             description: "Directory for storing temporary files (relative to outDir unless path is rooted)")
@@ -34,16 +27,12 @@ internal class Program
         var outDirOption = new Option<DirectoryInfo>(
             name: "--outDir",
             getDefaultValue: () => new DirectoryInfo(DefaultOutDir),
-            description: "Directory for receiving generated code")
+            description: "Directory for receiving generated code (or TD file if --thingOnly is specified)")
             { ArgumentHelpName = "DIRPATH" };
 
         var namespaceOption = new Option<string?>(
             name: "--namespace",
-#if DEBUG
             description: "Namespace for generated code (overrides namespace from model or annex file; required if no model)")
-#else
-            description: "Namespace for generated code (overrides namespace from model)")
-#endif
             { ArgumentHelpName = "NAMESPACE" };
 
 #if DEBUG
@@ -63,6 +52,10 @@ internal class Program
             getDefaultValue: () => DefaultLanguage,
             description: "Programming language for generated code")
             { ArgumentHelpName = string.Join('|', CommandHandler.SupportedLanguages) };
+
+        var thingOnlyOption = new Option<bool>(
+            name: "--thingOnly",
+            description: "Stop after generating Thing Description from DTDL model");
 
         var clientOnlyOption = new Option<bool>(
             name: "--clientOnly",
@@ -84,7 +77,6 @@ internal class Program
         {
             modelFileOption,
             modelIdOption,
-            dmrRootOption,
             workingDirOption,
             outDirOption,
             namespaceOption,
@@ -93,6 +85,7 @@ internal class Program
             sdkPathOption,
 #endif
             langOption,
+            thingOnlyOption,
             clientOnlyOption,
             serverOnlyOption,
             noProjOption,
@@ -102,7 +95,6 @@ internal class Program
         ArgBinder argBinder = new ArgBinder(
             modelFileOption,
             modelIdOption,
-            dmrRootOption,
             workingDirOption,
             outDirOption,
             namespaceOption,
@@ -111,6 +103,7 @@ internal class Program
             sdkPathOption,
 #endif
             langOption,
+            thingOnlyOption,
             clientOnlyOption,
             serverOnlyOption,
             noProjOption,

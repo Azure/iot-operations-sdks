@@ -1,0 +1,37 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "cmdServiceGroupId": "TestServiceGroup",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "signal",
+      "request": {
+        "name": "info",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "type",
+              "schema": "integer"
+            },
+            {
+              "name": "value",
+              "schema": "double"
+            },
+            {
+              "name": "notes",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

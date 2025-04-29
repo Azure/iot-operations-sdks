@@ -1,0 +1,77 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "commandTopic": "rpc/samples/{modelId}/{executorId}/{commandName}",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "getConfig",
+      "response": {
+        "name": "getConfigResponse",
+        "schema": {
+          "@type": [ "Object", "Result" ],
+          "fields": [
+            {
+              "@type": [ "Field", "NormalResult" ],
+              "name": "currentConfiguration",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "version",
+                    "schema": "double"
+                  },
+                  {
+                    "name": "releaseNotes",
+                    "schema": "string"
+                  },
+                  {
+                    "name": "lastUpdated",
+                    "schema": "dateTime"
+                  }
+                ]
+              }
+            },
+            {
+              "@type": [ "Field", "ErrorResult" ],
+              "name": "incrementError",
+              "schema": {
+                "@type": [ "Object", "Error" ],
+                "description": "The requested operation could not be completed.",
+                "fields": [
+                  {
+                    "@type": [ "Field", "ErrorMessage" ],
+                    "name": "explanation",
+                    "schema": "string"
+                  },
+                  {
+                    "name": "condition",
+                    "schema": {
+                      "@type": "Enum",
+                      "valueSchema": "integer",
+                      "enumValues": [
+                        {
+                          "name": "configTemporarilyAvailable",
+                          "enumValue": 1
+                        },
+                        {
+                          "name": "configCorrupt",
+                          "enumValue": 2
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

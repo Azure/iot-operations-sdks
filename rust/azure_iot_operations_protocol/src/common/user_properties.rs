@@ -12,7 +12,7 @@ use std::{
 pub(crate) const PARTITION_KEY: &str = "$partition";
 
 /// Enum representing the system properties.
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum UserProperty {
     /// A [`HybridLogicalClock`](super::hybrid_logical_clock::HybridLogicalClock) timestamp associated with the request or response.
     Timestamp,

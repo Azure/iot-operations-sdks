@@ -1,0 +1,14 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+<# if (this.dtArray.Description.Any()) { #>
+"descriptions": {
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.dtArray.Description) { #>
+  "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix < this.dtArray.Description.Count ? "," : ""#>
+<# ix++; } #>
+},
+<# } #>
+"type": "array",
+"items": {
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtArray.ElementSchema, 2)#>
+}<# this.PopIndent(); #>
