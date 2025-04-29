@@ -587,7 +587,7 @@ pub struct AssetSpecification {
     pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// A set of key-value pairs that contain custom attributes
     pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
-    /// Array of data sets that are part of the asset.
+    /// Array of datasets that are part of the asset.
     pub datasets: Vec<AssetDataset>, // if None, we can represent as empty vec
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
