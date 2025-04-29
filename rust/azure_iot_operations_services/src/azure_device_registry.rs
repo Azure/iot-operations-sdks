@@ -49,7 +49,7 @@ pub enum ErrorKind {
     /// An argument provided for a request was invalid.
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
-    /// An argument provided for a request was invalid.
+    /// Client Id used for the ADR Client was invalid.
     #[error("{0}")]
     InvalidClientId(String),
     /// An error was returned by the Azure Device Registry Service.
