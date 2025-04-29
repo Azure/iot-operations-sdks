@@ -279,7 +279,7 @@ pub struct DeviceSpecification {
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
-    pub last_transition_time: Option<String>, // DateTime?
+    pub last_transition_time: Option<String>, // TODO DateTime?
     /// The 'manufacturer' Field.
     pub manufacturer: Option<String>,
     /// The 'model' Field.
