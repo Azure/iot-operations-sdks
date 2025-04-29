@@ -19,7 +19,7 @@ use azure_iot_operations_services::state_store::{self};
 
 // API:
 // try_acquire
-// acquire
+// acquire (with and without auto-renewal)
 // release
 // observe/unobserve
 // get_holder
@@ -34,6 +34,8 @@ use azure_iot_operations_services::state_store::{self};
 // second holder observes until lease expires
 // single holder attempts to release a lease twice
 // attempt to observe lease that does not exist
+// single holder acquires a lease with auto-renewal
+// single holder acquires a lease with auto-renewal and then again without auto-renewal.
 
 fn setup_test(test_name: &str) -> bool {
     let _ = Builder::new()
@@ -108,18 +110,24 @@ async fn lease_basic_try_acquire_network_tests() {
         return;
     }
 
-    let (session, state_store_client, lease_client, exit_handle) =
-        initialize_client(test_id, &format!("{test_id}-lock"));
+    let (session, state_store_client, mut lease_client, exit_handle) =
+        initialize_client(test_id, &format!("{test_id}-leased-key"));
 
     let test_task = tokio::task::spawn({
         async move {
             let lock_expiry = Duration::from_secs(3);
             let request_timeout = Duration::from_secs(5);
 
-            let _ = lease_client
+            let fencing_token = lease_client
                 .try_acquire(lock_expiry, request_timeout)
                 .await
                 .unwrap();
+
+            // Let's verify if the fencing token was stored internally.
+            let saved_fencing_token = lease_client.get_current_lease_fencing_token().await;
+
+            assert!(saved_fencing_token.is_some());
+            assert_eq!(fencing_token, saved_fencing_token.unwrap());
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
@@ -140,16 +148,16 @@ async fn lease_basic_try_acquire_network_tests() {
 }
 
 #[tokio::test]
-async fn lease_single_holder_acquires_a_lock_network_tests() {
-    let test_id = "lease_single_holder_acquires_a_lock_network_tests";
+async fn lease_single_holder_acquires_a_lease_network_tests() {
+    let test_id = "lease_single_holder_acquires_a_lease_network_tests";
     if !setup_test(test_id) {
         return;
     }
 
     let holder_name1 = format!("{test_id}1");
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
 
-    let (session, state_store_client, lease_client, exit_handle) =
+    let (session, state_store_client, mut lease_client, exit_handle) =
         initialize_client(&holder_name1, &key_name1);
 
     let test_task = tokio::task::spawn({
@@ -157,11 +165,18 @@ async fn lease_single_holder_acquires_a_lock_network_tests() {
             let lock_expiry = Duration::from_secs(3);
             let request_timeout = Duration::from_secs(5);
 
-            let _ = lease_client
-                .acquire(lock_expiry, request_timeout)
+            let fencing_token = lease_client
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
+            // Let's verify if the fencing token was stored internally.
+            let saved_fencing_token = lease_client.get_current_lease_fencing_token().await;
+
+            assert!(saved_fencing_token.is_some());
+            assert_eq!(fencing_token, saved_fencing_token.unwrap());
+
+            // Verify holder.
             let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
             assert_eq!(
                 get_holder_response.response.unwrap(),
@@ -193,14 +208,14 @@ async fn lease_two_holders_attempt_to_acquire_simultaneously_with_release_networ
         return;
     }
 
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, exit_handle1) =
+    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
-    let (session2, state_store_client2, lease_client2, exit_handle2) =
+    let (session2, state_store_client2, mut lease_client2, exit_handle2) =
         initialize_client(&holder_name2, &key_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -213,7 +228,7 @@ async fn lease_two_holders_attempt_to_acquire_simultaneously_with_release_networ
             let request_timeout = Duration::from_secs(50);
 
             let _ = lease_client1
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -222,6 +237,14 @@ async fn lease_two_holders_attempt_to_acquire_simultaneously_with_release_networ
 
             let release_result = lease_client1.release(request_timeout).await;
             assert!(release_result.is_ok());
+
+            // Verify if the fencing token was cleared internally after release.
+            assert!(
+                lease_client1
+                    .get_current_lease_fencing_token()
+                    .await
+                    .is_none()
+            );
 
             sleep(Duration::from_secs(1)).await; // Wait task2 acquire.
 
@@ -253,7 +276,7 @@ async fn lease_two_holders_attempt_to_acquire_simultaneously_with_release_networ
             );
 
             let _ = lease_client2
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -286,14 +309,14 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
         return;
     }
 
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, exit_handle1) =
+    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
-    let (session2, state_store_client2, lease_client2, exit_handle2) =
+    let (session2, state_store_client2, mut lease_client2, exit_handle2) =
         initialize_client(&holder_name2, &key_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -306,7 +329,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
             let request_timeout = Duration::from_secs(50);
 
             let _ = lease_client1
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -314,7 +337,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
             task1_notify.notify_one(); // [A] Tell task2 lock was acquired by task1.
 
             let _ = lease_client1
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -363,7 +386,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
             task2_notify.notify_one(); // [B] Tell task1 to releasee lock.
 
             let _ = lease_client2
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -390,20 +413,20 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
 }
 
 #[tokio::test]
-async fn lease_second_holder_acquires_non_released_expired_lock_network_tests() {
-    let test_id = "lease_second_holder_acquires_non_released_expired_lock_network_tests";
+async fn lease_second_holder_acquires_non_released_expired_lease_network_tests() {
+    let test_id = "lease_second_holder_acquires_non_released_expired_lease_network_tests";
     if !setup_test(test_id) {
         return;
     }
 
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, exit_handle1) =
+    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
-    let (session2, state_store_client2, lease_client2, exit_handle2) =
+    let (session2, state_store_client2, mut lease_client2, exit_handle2) =
         initialize_client(&holder_name2, &key_name1);
 
     let test_task1 = tokio::task::spawn({
@@ -412,7 +435,7 @@ async fn lease_second_holder_acquires_non_released_expired_lock_network_tests() 
             let request_timeout = Duration::from_secs(50);
 
             let _ = lease_client1
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -433,7 +456,7 @@ async fn lease_second_holder_acquires_non_released_expired_lock_network_tests() 
             sleep(Duration::from_secs(5)).await;
 
             let _ = lease_client2
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -458,17 +481,17 @@ async fn lease_second_holder_acquires_non_released_expired_lock_network_tests() 
 }
 
 #[tokio::test]
-async fn lease_second_holder_observes_until_lock_is_released_network_tests() {
-    let test_id = "lease_second_holder_observes_until_lock_is_released_network_tests";
+async fn lease_second_holder_observes_until_lease_is_released_network_tests() {
+    let test_id = "lease_second_holder_observes_until_lease_is_released_network_tests";
     if !setup_test(test_id) {
         return;
     }
 
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, exit_handle1) =
+    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
     let (session2, state_store_client2, lease_client2, exit_handle2) =
@@ -483,7 +506,7 @@ async fn lease_second_holder_observes_until_lock_is_released_network_tests() {
             let request_timeout = Duration::from_secs(50);
 
             let _ = lease_client1
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -551,13 +574,13 @@ async fn lease_second_holder_observes_until_lock_is_released_network_tests() {
 }
 
 #[tokio::test]
-async fn lease_shutdown_state_store_while_observing_lock_network_tests() {
-    let test_id = "lease_shutdown_state_store_while_observing_lock_network_tests";
+async fn lease_shutdown_state_store_while_observing_lease_network_tests() {
+    let test_id = "lease_shutdown_state_store_while_observing_lease_network_tests";
     if !setup_test(test_id) {
         return;
     }
 
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
     let holder_name1 = format!("{test_id}1");
 
     let (session1, state_store_client1, lease_client1, exit_handle1) =
@@ -595,17 +618,17 @@ async fn lease_shutdown_state_store_while_observing_lock_network_tests() {
 }
 
 #[tokio::test]
-async fn lease_second_holder_observes_until_lock_expires_network_tests() {
-    let test_id = "lease_second_holder_observes_until_lock_expires_network_tests";
+async fn lease_second_holder_observes_until_lease_expires_network_tests() {
+    let test_id = "lease_second_holder_observes_until_lease_expires_network_tests";
     if !setup_test(test_id) {
         return;
     }
 
-    let key_name1 = format!("{test_id}-lock");
+    let key_name1 = format!("{test_id}-leased-key");
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, exit_handle1) =
+    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
     let (session2, state_store_client2, lease_client2, exit_handle2) =
@@ -617,7 +640,7 @@ async fn lease_second_holder_observes_until_lock_expires_network_tests() {
             let request_timeout = Duration::from_secs(50);
 
             let _ = lease_client1
-                .acquire(lock_expiry, request_timeout)
+                .acquire(lock_expiry, request_timeout, None)
                 .await
                 .unwrap();
 
@@ -683,8 +706,8 @@ async fn lease_attempt_to_release_twice_network_tests() {
         return;
     }
 
-    let (session, state_store_client, lease_client, exit_handle) =
-        initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
+    let (session, state_store_client, mut lease_client, exit_handle) =
+        initialize_client(&format!("{test_id}1"), &format!("{test_id}-leased-key"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -699,8 +722,24 @@ async fn lease_attempt_to_release_twice_network_tests() {
             let release_result = lease_client.release(request_timeout).await;
             assert!(release_result.is_ok());
 
+            // Verify if the fencing token was cleared internally after release.
+            assert!(
+                lease_client
+                    .get_current_lease_fencing_token()
+                    .await
+                    .is_none()
+            );
+
             let release_result2 = lease_client.release(request_timeout).await;
             assert!(release_result2.is_ok());
+
+            // Verify if the fencing token is still cleared.
+            assert!(
+                lease_client
+                    .get_current_lease_fencing_token()
+                    .await
+                    .is_none()
+            );
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
@@ -728,7 +767,7 @@ async fn lease_attempt_to_observe_that_does_not_exist_network_tests() {
     }
 
     let (session, state_store_client, lease_client, exit_handle) =
-        initialize_client(&format!("{test_id}1"), &format!("{test_id}-lock"));
+        initialize_client(&format!("{test_id}1"), &format!("{test_id}-leased-key"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -739,6 +778,180 @@ async fn lease_attempt_to_observe_that_does_not_exist_network_tests() {
             // vaavva: "Since a key being deleted doesn't end your observation,
             // it makes sense that if you observe a key that doesn't exist,
             // you might expect it to exist in the future and want notifications"
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+#[tokio::test]
+async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() {
+    let test_id = "lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests";
+    if !setup_test(test_id) {
+        return;
+    }
+
+    let holder_name1 = format!("{test_id}1");
+    let key_name1 = format!("{test_id}-leased-key");
+
+    let (session, state_store_client, mut lease_client, exit_handle) =
+        initialize_client(&holder_name1, &key_name1);
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(3);
+            let request_timeout = Duration::from_secs(5);
+            let renewal_period = Duration::from_secs(2);
+
+            let fencing_token1 = lease_client
+                .acquire(lock_expiry, request_timeout, Some(renewal_period))
+                .await
+                .unwrap();
+
+            // Wait for renewal at 2 seconds even if expiry time has passed.
+            sleep(Duration::from_secs(3)).await;
+
+            // Expect to have a new token now (updated timestamp, but same counter and node id).
+            let fencing_token2_option = lease_client.get_current_lease_fencing_token().await;
+
+            assert!(fencing_token2_option.is_some());
+            let fencing_token2 = fencing_token2_option.unwrap();
+            assert!(fencing_token1 != fencing_token2);
+            assert!(fencing_token1.timestamp < fencing_token2.timestamp);
+            assert_eq!(fencing_token1.counter, fencing_token2.counter);
+            assert_eq!(fencing_token1.node_id, fencing_token2.node_id);
+
+            // Verify holder.
+            let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
+            assert_eq!(
+                get_holder_response.response.unwrap(),
+                holder_name1.as_bytes().to_vec()
+            );
+
+            // Wait for another renewal.
+            sleep(Duration::from_secs(3)).await;
+
+            let fencing_token3_option = lease_client.get_current_lease_fencing_token().await;
+
+            assert!(fencing_token3_option.is_some());
+            let fencing_token3 = fencing_token3_option.unwrap();
+            assert!(fencing_token2 != fencing_token3);
+            assert!(fencing_token2.timestamp < fencing_token3.timestamp);
+            assert_eq!(fencing_token2.counter, fencing_token3.counter);
+            assert_eq!(fencing_token2.node_id, fencing_token3.node_id);
+
+            assert!(lease_client.release(request_timeout).await.is_ok());
+
+            // Verify stored fencing token is cleared because of release.
+            assert!(
+                lease_client
+                    .get_current_lease_fencing_token()
+                    .await
+                    .is_none()
+            );
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+#[tokio::test]
+async fn lease_single_holder_acquires_with_auto_renewal_and_without_network_tests() {
+    let test_id = "lease_single_holder_acquires_with_auto_renewal_and_without_network_tests";
+    if !setup_test(test_id) {
+        return;
+    }
+
+    let holder_name1 = format!("{test_id}1");
+    let key_name1 = format!("{test_id}-leased-key");
+
+    let (session, state_store_client, mut lease_client, exit_handle) =
+        initialize_client(&holder_name1, &key_name1);
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(3);
+            let request_timeout = Duration::from_secs(5);
+            let renewal_period = Duration::from_secs(2);
+
+            let fencing_token1 = lease_client
+                .acquire(lock_expiry, request_timeout, Some(renewal_period))
+                .await
+                .unwrap();
+
+            // Wait for renewal at 2 seconds even if expiry time has passed.
+            sleep(Duration::from_secs(3)).await;
+
+            // Expect to have a new token now (updated timestamp, but same counter and node id).
+            let fencing_token2_option = lease_client.get_current_lease_fencing_token().await;
+
+            assert!(fencing_token2_option.is_some());
+            let fencing_token2 = fencing_token2_option.unwrap();
+            assert!(fencing_token1 != fencing_token2);
+            assert!(fencing_token1.timestamp < fencing_token2.timestamp);
+            assert_eq!(fencing_token1.counter, fencing_token2.counter);
+            assert_eq!(fencing_token1.node_id, fencing_token2.node_id);
+
+            // Verify holder.
+            let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
+            assert_eq!(
+                get_holder_response.response.unwrap(),
+                holder_name1.as_bytes().to_vec()
+            );
+
+            let fencing_token3 = lease_client
+                .acquire(lock_expiry, request_timeout, None) // Note: None for renewal period.
+                .await
+                .unwrap();
+
+            assert!(fencing_token2 != fencing_token3);
+            assert!(fencing_token2.timestamp < fencing_token3.timestamp);
+            assert_eq!(fencing_token2.counter, fencing_token3.counter);
+            assert_eq!(fencing_token2.node_id, fencing_token3.node_id);
+
+            // Wait for the renewal period previously used, but expect no renewal.
+            sleep(Duration::from_secs(3)).await;
+
+            let fencing_token4_option = lease_client.get_current_lease_fencing_token().await;
+
+            assert!(fencing_token4_option.is_some()); // On expiration, this is not updated. User app should know when renewal was used or not.
+            assert_eq!(fencing_token3, fencing_token4_option.unwrap());
+
+            assert!(lease_client.release(request_timeout).await.is_ok());
+
+            // Verify stored fencing token is cleared because of release.
+            assert!(
+                lease_client
+                    .get_current_lease_fencing_token()
+                    .await
+                    .is_none()
+            );
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());

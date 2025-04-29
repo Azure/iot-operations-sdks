@@ -5,6 +5,8 @@
 
 use std::{sync::Arc, time::Duration};
 
+use tokio::{sync::Mutex, task::JoinHandle};
+
 use crate::leased_lock::{Error, ErrorKind, LeaseObservation, Response, SetCondition, SetOptions};
 use crate::state_store::{self};
 use azure_iot_operations_mqtt::interface::ManagedClient;
@@ -19,6 +21,8 @@ where
     state_store: Arc<state_store::Client<C>>,
     key_name: Vec<u8>,
     lease_holder_name: Vec<u8>,
+    current_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
+    auto_renewal_task: JoinHandle<()>,
 }
 
 /// Key Lease client implementation
@@ -58,7 +62,58 @@ where
             state_store,
             key_name,
             lease_holder_name,
+            current_fencing_token: Arc::new(Mutex::new(None)),
+            auto_renewal_task: tokio::task::spawn(async move {}), // Completes immediately, creating a finished JoinHandle.
         })
+    }
+
+    /// Gets the latest fencing token related to the most recent lease.
+    ///
+    /// Returns either None or an actual Fencing Token (`HybridLogicalClock`).
+    /// None means that either a lease has not been acquired previously with this client, or
+    /// if a lease renewal has failed (if lease auto-renewal is used). The presence of a `HybridLogicalClock`
+    /// does not mean that it is the most recent (and thus valid) Fencing Token - in case
+    /// auto-renewal has not been used and the lease has already expired.
+    #[must_use]
+    pub async fn get_current_lease_fencing_token(&self) -> Option<HybridLogicalClock> {
+        self.current_fencing_token.clone().lock().await.clone()
+    }
+
+    async fn internal_try_acquire(
+        state_store: Arc<state_store::Client<C>>,
+        key_name: Vec<u8>,
+        lease_holder_name: Vec<u8>,
+        lease_expiration: Duration,
+        request_timeout: Duration,
+        current_lease_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
+    ) -> Result<HybridLogicalClock, Error> {
+        let state_store_response = state_store
+            .set(
+                key_name,
+                lease_holder_name,
+                request_timeout,
+                None,
+                SetOptions {
+                    set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                    expires: Some(lease_expiration),
+                },
+            )
+            .await?;
+
+        if state_store_response.response {
+            current_lease_fencing_token
+                .lock()
+                .await
+                .clone_from(&state_store_response.version);
+
+            Ok(state_store_response.version.expect(
+                "Got None for fencing token. A lease without a fencing token is of no use.",
+            ))
+        } else {
+            *current_lease_fencing_token.lock().await = None;
+
+            Err(Error(ErrorKind::KeyAlreadyLeased))
+        }
     }
 
     /// Attempts to acquire a lease, returning if it cannot be acquired after one attempt.
@@ -80,34 +135,91 @@ where
     /// # Panics
     /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lease is None.
     pub async fn try_acquire(
-        &self,
+        &mut self,
         lease_expiration: Duration,
         request_timeout: Duration,
     ) -> Result<HybridLogicalClock, Error> {
-        let state_store_response = self
-            .state_store
-            .set(
-                self.key_name.clone(),
-                self.lease_holder_name.clone(),
-                request_timeout,
-                None,
-                SetOptions {
-                    set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
-                    expires: Some(lease_expiration),
-                },
-            )
-            .await?;
+        let acquire_result = Self::internal_try_acquire(
+            self.state_store.clone(),
+            self.key_name.clone(),
+            self.lease_holder_name.clone(),
+            lease_expiration,
+            request_timeout,
+            self.current_fencing_token.clone(),
+        )
+        .await;
 
-        if state_store_response.response {
-            Ok(state_store_response.version.expect(
-                "Got None for fencing token. A lease without a fencing token is of no use.",
-            ))
-        } else {
-            Err(Error(ErrorKind::KeyAlreadyLeased))
+        match acquire_result {
+            Ok(ref version) => {
+                *self.current_fencing_token.clone().lock().await = Some(version.clone());
+            }
+            Err(_) => {
+                *self.current_fencing_token.clone().lock().await = None;
+            }
+        }
+
+        acquire_result
+    }
+
+    fn start_lease_auto_renewal(
+        state_store: Arc<state_store::Client<C>>,
+        key_name: Vec<u8>,
+        lease_holder_name: Vec<u8>,
+        lease_expiration: Duration,
+        request_timeout: Duration,
+        renewal_period: Option<Duration>,
+        current_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
+    ) -> JoinHandle<()> {
+        match renewal_period {
+            Some(period) => {
+                tokio::task::spawn({
+                    async move {
+                        let mut renewal_interval = tokio::time::interval(period);
+
+                        loop {
+                            renewal_interval.tick().await;
+
+                            match Self::internal_try_acquire(
+                                state_store.clone(),
+                                key_name.clone(),
+                                lease_holder_name.clone(),
+                                lease_expiration,
+                                request_timeout,
+                                current_fencing_token.clone(),
+                            )
+                            .await
+                            {
+                                Ok(_) => {
+                                    // new fencing token is already saved by `internal_try_acquire()`.
+                                }
+                                Err(_) => {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+            None => {
+                tokio::task::spawn(async move {}) // i.e., a finished task.
+            }
+        }
+    }
+
+    async fn stop_lease_auto_renewal(&mut self) {
+        *self.current_fencing_token.clone().lock().await = None;
+
+        if !self.auto_renewal_task.is_finished() {
+            self.auto_renewal_task.abort();
         }
     }
 
     /// Waits until a lease is available (if not already) and attempts to acquire it.
+    ///
+    /// If a non-zero `Duration` is provided as `renewal_period`, the lease is automatically renewed
+    /// after every consecutive elapse of `renewal_period` until the lease is released or a re-acquire failure occurs.
+    /// If automatic lease renewal is used, `get_current_lease_fencing_token()` must be used to access the most up-to-date
+    /// fencing token (see function documentation).
     ///
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
@@ -123,9 +235,10 @@ where
     /// # Panics
     /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lease is None.
     pub async fn acquire(
-        &self,
+        &mut self,
         lease_expiration: Duration,
         request_timeout: Duration,
+        renewal_period: Option<Duration>,
     ) -> Result<HybridLogicalClock, Error> {
         // Logic:
         // a. Start observing lease within this function.
@@ -133,6 +246,8 @@ where
         // c. If got `KeyAlreadyLeased`, wait until `Del` notification for the lease. If notification is None, re-observe (start from a. again).
         // d. Loop back starting from b. above.
         // e. Unobserve lease before exiting.
+
+        self.stop_lease_auto_renewal().await;
 
         let mut observe_response = self.observe(request_timeout).await?;
         let mut acquire_result;
@@ -169,7 +284,21 @@ where
         }
 
         match self.unobserve(request_timeout).await {
-            Ok(_) => acquire_result,
+            Ok(_) => {
+                if acquire_result.is_ok() {
+                    self.auto_renewal_task = Self::start_lease_auto_renewal(
+                        self.state_store.clone(),
+                        self.key_name.clone(),
+                        self.lease_holder_name.clone(),
+                        lease_expiration,
+                        request_timeout,
+                        renewal_period,
+                        self.current_fencing_token.clone(),
+                    );
+                }
+
+                acquire_result
+            }
             Err(unobserve_error) => Err(unobserve_error),
         }
     }
@@ -187,7 +316,9 @@ where
     /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
-    pub async fn release(&self, request_timeout: Duration) -> Result<(), Error> {
+    pub async fn release(&mut self, request_timeout: Duration) -> Result<(), Error> {
+        self.stop_lease_auto_renewal().await;
+
         match self
             .state_store
             .vdel(

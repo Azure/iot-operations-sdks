@@ -65,7 +65,13 @@ where
 
     /// Waits until a lock is available (if not already) and attempts to acquire it.
     ///
+    /// If a non-zero `Duration` is provided as `renewal_period`, the lock is automatically renewed
+    /// after every consecutive elapse of `renewal_period` until the lock is released or a re-acquire failure occurs.
+    /// If automatic lock renewal is used, `get_current_lock_fencing_token()` must be used to access the most up-to-date
+    /// fencing token (see function documentation).
+    ///
     /// Note: `request_timeout` is rounded up to the nearest second.
+    ///
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an Error if any failure occurs.
     /// # Errors
@@ -79,12 +85,13 @@ where
     /// # Panics
     /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lease is None.
     pub async fn lock(
-        &self,
+        &mut self,
         lock_expiration: Duration,
         request_timeout: Duration,
+        renewal_period: Option<Duration>,
     ) -> Result<HybridLogicalClock, Error> {
         self.lease_client
-            .acquire(lock_expiration, request_timeout)
+            .acquire(lock_expiration, request_timeout, renewal_period)
             .await
     }
 
@@ -101,7 +108,7 @@ where
     /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
-    pub async fn unlock(&self, request_timeout: Duration) -> Result<(), Error> {
+    pub async fn unlock(&mut self, request_timeout: Duration) -> Result<(), Error> {
         self.lease_client.release(request_timeout).await
     }
 
@@ -128,7 +135,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     pub async fn lock_and_update_value(
-        &self,
+        &mut self,
         lock_expiration: Duration,
         request_timeout: Duration,
         key: Vec<u8>,
@@ -136,7 +143,7 @@ where
     ) -> Result<Response<bool>, Error> {
         let fencing_token = self
             .lease_client
-            .acquire(lock_expiration, request_timeout)
+            .acquire(lock_expiration, request_timeout, None)
             .await?;
 
         /* lock acquired, let's proceed. */
@@ -186,5 +193,17 @@ where
                 }
             }
         }
+    }
+
+    /// Gets the latest fencing token related to the most recent lock.
+    ///
+    /// Returns either None or an actual Fencing Token (`HybridLogicalClock`).
+    /// None means that either a lock has not been acquired previously with this client, or
+    /// if a lock renewal has failed (if lock auto-renewal is used). The presence of a `HybridLogicalClock`
+    /// does not mean that it is the most recent (and thus valid) Fencing Token - in case
+    /// auto-renewal has not been used and the lock has already expired.
+    #[must_use]
+    pub async fn get_current_lock_fencing_token(&self) -> Option<HybridLogicalClock> {
+        self.lease_client.get_current_lease_fencing_token().await
     }
 }

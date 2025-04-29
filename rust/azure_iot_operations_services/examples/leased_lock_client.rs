@@ -117,7 +117,7 @@ fn create_clients(
 /// 4. Releases a lock.
 async fn leased_lock_client_1_operations(
     state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
-    leased_lock_client: leased_lock::Client<SessionManagedClient>,
+    mut leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let lock_expiry = Duration::from_secs(10);
@@ -131,7 +131,10 @@ async fn leased_lock_client_1_operations(
     };
 
     // 1.
-    let fencing_token = match leased_lock_client.lock(lock_expiry, request_timeout).await {
+    let fencing_token = match leased_lock_client
+        .lock(lock_expiry, request_timeout, None)
+        .await
+    {
         Ok(acquire_result) => {
             log::info!("Lock acquired successfully");
             acquire_result // a.k.a., the fencing token.
@@ -193,7 +196,7 @@ async fn leased_lock_client_1_operations(
 /// 8. Make a call to `lock_and_update_value()` to delete a key.
 async fn leased_lock_client_2_operations(
     state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
-    leased_lock_client: leased_lock::Client<SessionManagedClient>,
+    mut leased_lock_client: leased_lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let lock_expiry = Duration::from_secs(10);
