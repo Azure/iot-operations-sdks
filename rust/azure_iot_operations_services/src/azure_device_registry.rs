@@ -129,6 +129,7 @@ impl AssetUpdateObservation {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Helper fns ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/// Helper fn to convert `Option<Vec<T>>` to `Option<Vec<U>>`
 fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Option<Vec<U>> {
     source.map(|vec| vec.into_iter().map(into_fn).collect())
 }
