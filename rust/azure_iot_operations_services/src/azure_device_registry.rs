@@ -856,7 +856,7 @@ pub struct AssetManagementGroupActionStatus {
     pub error: Option<ConfigError>,
     /// The name of the management group action.
     pub name: String,
-    /// The request message schema references for the management group action.
+    /// The request message schema reference for the management group action.
     pub request_message_schema_reference: Option<MessageSchemaReference>,
     /// The response message schema references for the management group action.
     pub response_message_schema_reference: Option<MessageSchemaReference>,
