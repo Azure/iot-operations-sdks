@@ -60,6 +60,7 @@ var cloudInitReplacements = [
   { key: '{{{custom_location_id}}}',   value: customLocationId }
 ]
 var cloudInit = reduce(cloudInitReplacements, loadTextContent('cloud-init.yml'), (cur, next) => replace(string(cur), next.key, next.value))
+var installScript = reduce(cloudInitReplacements, loadTextContent('install.sh'), (cur, next) => replace(string(cur), next.key, next.value))
 
 // =========================
 // == RESOURCES ==
@@ -183,6 +184,21 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-09-01' = {
       adminPassword: adminPasswordOrKey
       linuxConfiguration: ((authenticationType == 'password') ? null : linuxConfiguration)
       customData: base64(cloudInit)
+    }
+  }
+}
+
+resource vmSetup 'Microsoft.Compute/virtualMachines/extensions@2019-03-01' = {
+  name: name
+  location: location
+  parent: vm
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.1'
+    autoUpgradeMinorVersion: true
+    settings: {
+      script: base64(installScript)
     }
   }
 }

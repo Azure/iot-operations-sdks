@@ -12,3 +12,20 @@ az bicep build -f deployVm.bicep
 
 1. Paste in the contents of deployVm.json
 
+
+## Debug
+
+1. Cloud init output:
+
+    ```shell
+    cat /var/log/cloud-init-output.log
+    cat /var/log/cloud-init.log
+    ```
+
+1. Cloud init status:
+
+1. Custom extension:
+
+    ```shell
+    /var/lib/waagent/custom-script/download/0
+    ```
