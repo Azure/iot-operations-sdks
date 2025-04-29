@@ -771,7 +771,7 @@ pub struct AssetManagementGroupAction {
     pub type_ref: Option<String>,
 }
 
-/// Represnts the stream of the asset.
+/// Represents a stream for an asset.
 #[derive(Clone, Debug)]
 pub struct AssetStream {
     /// Destinations for a stream.
