@@ -712,7 +712,7 @@ pub struct DeviceRef {
 
 /// Represents an event in an asset.
 #[derive(Clone, Debug)]
-pub struct AssetEvent {
+pub struct Event {
     /// Array of data points that are part of the event.
     pub data_points: Vec<EventDataPoint>, // if None, we can represent as empty vec
     /// The destination for the event.
