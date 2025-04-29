@@ -735,7 +735,7 @@ pub struct AssetEvent {
     pub type_ref: Option<String>,
 }
 
-/// Represents the management group
+/// Represents a management group
 #[derive(Clone, Debug)]
 pub struct AssetManagementGroup {
     /// Actions for this management group
