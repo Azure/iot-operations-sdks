@@ -660,7 +660,7 @@ pub struct AssetDataset {
     pub type_ref: Option<String>,
 }
 
-/// Represents a data point in the dataset.
+/// Represents a data point in a dataset.
 #[derive(Clone, Debug)]
 pub struct AssetDatasetDataPoint {
     /// Configuration for the data point
