@@ -3,8 +3,6 @@
 
 //! Types for Azure Device Registry operations.
 
-// Large TODOs for this client: docs, unit tests, validation
-
 use core::fmt::Debug;
 use std::collections::HashMap;
 
@@ -141,7 +139,7 @@ fn vec_from_option_vec<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the configuration status.
 pub struct StatusConfig {
-    /// Error code for classification of errors.
+    /// Error details for status.
     pub error: Option<ConfigError>,
     /// The last time the configuration has been modified.
     pub last_transition_time: Option<String>,
@@ -478,25 +476,31 @@ impl From<adr_name_gen::AuthenticationSchema> for Authentication {
     fn from(value: adr_name_gen::AuthenticationSchema) -> Self {
         match value.method {
             adr_name_gen::MethodSchema::Anonymous => Authentication::Anonymous,
-            adr_name_gen::MethodSchema::Certificate => {
-                Authentication::Certificate {
-                    certificate_secret_name: match value.x509credentials {
-                        Some(x509credentials) => x509credentials.certificate_secret_name,
-                        None => String::new(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
-                    },
-                }
-            }
+            adr_name_gen::MethodSchema::Certificate => Authentication::Certificate {
+                certificate_secret_name: if let Some(x509credentials) = value.x509credentials {
+                    x509credentials.certificate_secret_name
+                } else {
+                    log::error!(
+                        "Authentication method 'Certificate', but no 'x509Credentials' provided"
+                    );
+                    String::new()
+                },
+            },
+
             adr_name_gen::MethodSchema::UsernamePassword => {
-                match value.username_password_credentials {
-                    Some(username_password_credentials) => Authentication::UsernamePassword {
+                if let Some(username_password_credentials) = value.username_password_credentials {
+                    Authentication::UsernamePassword {
                         password_secret_name: username_password_credentials.password_secret_name,
                         username_secret_name: username_password_credentials.username_secret_name,
-                    },
-                    None => {
-                        Authentication::UsernamePassword {
-                            password_secret_name: String::new(), // TODO: might want to log an error or handle this differently in the future. Shouldn't be possible though
-                            username_secret_name: String::new(),
-                        }
+                    }
+                } else {
+                    log::error!(
+                        "Authentication method 'UsernamePassword', but no 'usernamePasswordCredentials' provided"
+                    );
+
+                    Authentication::UsernamePassword {
+                        password_secret_name: String::new(),
+                        username_secret_name: String::new(),
                     }
                 }
             }
