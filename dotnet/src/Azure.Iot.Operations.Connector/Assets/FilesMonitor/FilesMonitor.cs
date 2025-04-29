@@ -60,6 +60,13 @@ namespace Azure.Iot.Operations.Connector.Assets.FileMonitor
 
         internal void Stop()
         {
+            if (_watcher != null)
+            {
+                _watcher.Created -= OnChanged;
+                _watcher.Changed -= OnChanged;
+                _watcher.Deleted -= OnChanged;
+            }
+
             _watcher?.Dispose();
             _startedObserving = false;
         }
