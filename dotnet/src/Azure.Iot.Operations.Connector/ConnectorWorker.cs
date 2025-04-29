@@ -12,6 +12,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector
@@ -79,17 +80,38 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            // Create MQTT client from credentials provided by the operator
-            MqttConnectionSettings mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
+            bool readMqttConnectionSettings = false;
+            MqttConnectionSettings? mqttConnectionSettings = null;
+            int maxRetryCount = 10;
+            int currentRetryCount = 0;
+            while (!readMqttConnectionSettings)
+            {
+                try
+                {
+                    // Create MQTT client from credentials provided by the operator
+                    mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
+                    readMqttConnectionSettings = true;
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+
+                    if (++currentRetryCount >= maxRetryCount)
+                    {
+                        throw;
+                    }
+                }
+            }
 
             if (_leaderElectionConfiguration != null)
             {
                 // Connector client id prefix is provided as environment variable, but it is the same prefix for all replicated pods.
                 // To avoid collision, add a suffix when replicating pods.
-                mqttConnectionSettings.ClientId += Guid.NewGuid().ToString();
+                mqttConnectionSettings!.ClientId += Guid.NewGuid().ToString();
             }
 
-            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings.ToString()); //TODO revert
+            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings!.ToString()); //TODO revert
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
@@ -212,19 +234,19 @@ namespace Azure.Iot.Operations.Connector
 
                         // Don't propagate the user-provided cancellation token since it has already been cancelled.
                         await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
-                        await _mqttClient.DisconnectAsync(null, CancellationToken.None);
                     }
                     else if (linkedToken.IsCancellationRequested)
                     {
                         _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
-                        // Don't propagate the user-provided cancellation token since 
                         await _assetMonitor.UnobserveAllAsync(cancellationToken);
-                        await _mqttClient.DisconnectAsync(null, cancellationToken);
                     }
                 }
             }
 
+            _logger.LogInformation("Shutting down connector...");
+
             _leaderElectionClient?.DisposeAsync();
+            await _mqttClient.DisconnectAsync(null, CancellationToken.None);
         }
 
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
