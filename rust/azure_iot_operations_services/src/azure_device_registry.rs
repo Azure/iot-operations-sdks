@@ -580,7 +580,7 @@ pub struct Asset {
     pub status: Option<AssetStatus>,
 }
 
-/// Represents the desired state of Asset.
+/// Represents the specification of an Asset in the Azure Device Registry service.
 #[derive(Clone, Debug)]
 pub struct AssetSpecification {
     /// URI or type definition ids.
