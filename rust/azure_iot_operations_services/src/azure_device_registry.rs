@@ -407,7 +407,7 @@ impl From<adr_name_gen::DeviceEndpointSchema> for DeviceEndpoints {
             None => HashMap::new(),
         };
         let mut outbound_assigned = HashMap::new();
-        let mut outbound_unassigned_map = HashMap::new();
+        let mut outbound_unassigned = HashMap::new();
 
         if let Some(outbound) = value.outbound {
             for (k, v) in outbound.assigned {
@@ -416,14 +416,14 @@ impl From<adr_name_gen::DeviceEndpointSchema> for DeviceEndpoints {
 
             if let Some(map) = outbound.unassigned {
                 for (k, v) in map {
-                    outbound_unassigned_map.insert(k, OutboundEndpoint::from(v));
+                    outbound_unassigned.insert(k, OutboundEndpoint::from(v));
                 }
             }
         }
         DeviceEndpoints {
             inbound,
             outbound_assigned,
-            outbound_unassigned: outbound_unassigned_map,
+            outbound_unassigned,
         }
     }
 }
