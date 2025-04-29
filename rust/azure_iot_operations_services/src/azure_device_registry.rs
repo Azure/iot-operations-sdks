@@ -849,7 +849,7 @@ pub struct AssetManagementGroupStatus {
 }
 
 #[derive(Clone, Debug)]
-/// Represents an action associated with an asset management group.
+/// Represents the status for an action associated with a management group.
 pub struct AssetManagementGroupActionStatus {
     /// The configuration error of the management group action.
     pub error: Option<ConfigError>,
