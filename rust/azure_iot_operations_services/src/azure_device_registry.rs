@@ -744,7 +744,7 @@ pub struct AssetManagementGroup {
     pub default_time_out_in_seconds: Option<u32>,
     /// The default MQTT topic for the management group.
     pub default_topic: Option<String>,
-    /// Configuration for the mangement group.
+    /// Configuration for the management group.
     pub management_group_configuration: Option<String>,
     /// The name of the management group.
     pub name: String,
