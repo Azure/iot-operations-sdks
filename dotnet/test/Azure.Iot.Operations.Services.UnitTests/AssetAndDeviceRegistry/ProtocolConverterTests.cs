@@ -237,7 +237,8 @@ public class ProtocolConverterTests
                     {
                         Path = "event/topic",
                         Retain = Retain.Keep
-                    }
+                    },
+                    LastUpdatedOn = "2023-01-01T00:00:00Z"
                 }
             ],
             HardwareRevision = "hw-rev-1.0",
@@ -300,6 +301,7 @@ public class ProtocolConverterTests
         Assert.Equal("event-notifier", result.DetectedAsset.Events[0].EventNotifier);
         Assert.Equal("event1", result.DetectedAsset.Events[0].Name);
         Assert.Equal("event-config", result.DetectedAsset.Events[0].EventConfiguration);
+        Assert.Equal("2023-01-01T00:00:00Z", result.DetectedAsset.Events[0].LastUpdatedOn);
 
         // Verify Event Topic
         Assert.NotNull(result.DetectedAsset.Events[0].Topic);

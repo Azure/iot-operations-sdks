@@ -223,10 +223,8 @@ pub fn get_device_endpoint_names(mount_path: &Path) -> Result<HashSet<DeviceEndp
     // TODO: There is probably a way to do this without needing the below for loop.
     let mut device_endpoint_refs = HashSet::new();
     for entry in std::fs::read_dir(mount_path).map_err(ErrorKind::from)? {
-        // log::warn!("Entry: {entry:?}");
         match entry.map_err(ErrorKind::from)?.path().file_name() {
             Some(file_name) => {
-                // log::warn!("filename: {file_name:?}");
                 // TODO: Handle case where file name has invalid UTF-8 characters (remove need for to_string_lossy)
                 // TODO: Handle case where file name is not a file but a directory
                 let device_endpoint_string = file_name.to_string_lossy().to_string();
@@ -271,7 +269,6 @@ fn get_asset_names(
 ) -> Result<HashSet<AssetRef>, Error> {
     // Create the file path for the device endpoint
     let file_path = mount_path.join(device_endpoint.to_string());
-    // log::warn!("get asset names File path: {file_path:?}");
 
     // Get the content of the file
     let file_content = String::from_utf8(std::fs::read(file_path).map_err(ErrorKind::from)?)

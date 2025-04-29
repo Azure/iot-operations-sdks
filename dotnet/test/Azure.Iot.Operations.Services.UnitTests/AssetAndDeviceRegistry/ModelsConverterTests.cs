@@ -1,4 +1,5 @@
-﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+﻿using System.Text.Json;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
 using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
@@ -267,7 +268,10 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                             {
                                 Key = "default-config-key",
                                 Path = "default-config-path",
-                                Topic = "default-config-topic"
+                                Topic = "default-config-topic",
+                                Qos = AdrBaseService.Qos.Qos1,
+                                Retain = AdrBaseService.Retain.Keep,
+                                Ttl = 60
                             }
                         }
                     ],
@@ -275,7 +279,10 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                     {
                         DeviceName = "device-name",
                         EndpointName = "endpoint-name"
-                    }
+                    },
+                    DefaultDatasetsConfiguration = "{\"defaultKey\":\"defaultValue\"}",
+                    DefaultEventsConfiguration = "{\"defaultEventKey\":\"defaultEventValue\"}",
+                    DiscoveredAssetRefs = ["discovered-asset-ref"]
                 },
                 Status = new AdrBaseService.AssetStatus
                 {
@@ -409,6 +416,11 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal("device-name", result.Specification.DeviceRef.DeviceName);
             Assert.Equal("endpoint-name", result.Specification.DeviceRef.EndpointName);
 
+            // Verify AssetTypeRefs
+            Assert.NotNull(result.Specification.AssetTypeRefs);
+            Assert.Single(result.Specification.AssetTypeRefs);
+            Assert.Equal("test-asset-type", result.Specification.AssetTypeRefs[0]);
+
             // Verify Attributes
             Assert.NotNull(result.Specification.Attributes);
             Assert.Equal(2, result.Specification.Attributes.Count);
@@ -428,6 +440,9 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal("datapoint1", result.Specification.Datasets[0].DataPoints![0].Name);
             Assert.Equal("dp-source", result.Specification.Datasets[0].DataPoints![0].DataSource);
             Assert.Equal("dp-type", result.Specification.Datasets[0].DataPoints![0].TypeRef);
+            string actualJson = JsonSerializer.Serialize(result.Specification.Datasets[0].DataPoints![0].DataPointConfiguration);
+            string expectedJson = JsonSerializer.Serialize(JsonDocument.Parse("{\"someKey\":\"someValue\"}"));
+            Assert.Equal(expectedJson, actualJson);
 
             // Verify Dataset Destinations
             Assert.NotNull(result.Specification.Datasets[0].Destinations);
@@ -469,6 +484,94 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.NotNull(result.Status.Config);
             Assert.Equal("error-code", result.Status.Config.Error!.Code);
             Assert.Equal("error-message", result.Status.Config.Error.Message);
+            Assert.Equal("2023-01-01T00:00:00Z", result.Status.Config.LastTransitionTime);
+            Assert.Equal((ulong)1, result.Status.Config.Version);
+            Assert.NotNull(result.Status.Config.Error.InnerError);
+            Assert.Equal("inner-error-message", result.Status.Config.Error.InnerError["inner-error"]);
+            Assert.NotNull(result.Status.Config.Error.Details);
+            Assert.Single(result.Status.Config.Error.Details);
+            Assert.Equal("detail-code", result.Status.Config.Error.Details[0].Code);
+            Assert.Equal("detail-message", result.Status.Config.Error.Details[0].Message);
+            Assert.Equal("info", result.Status.Config.Error.Details[0].Info);
+            Assert.Equal("correlation-id", result.Status.Config.Error.Details[0].CorrelationId);
+
+            // Verify Datasets in Status
+            Assert.NotNull(result.Status.Datasets);
+            Assert.Single(result.Status.Datasets);
+            Assert.Equal("dataset1", result.Status.Datasets[0].Name);
+            Assert.NotNull(result.Status.Datasets[0].Error);
+            Assert.Equal("dataset-error", result.Status.Datasets[0].Error!.Code);
+            Assert.Equal("dataset-error-message", result.Status.Datasets[0].Error!.Message);
+            Assert.NotNull(result.Status.Datasets[0].MessageSchemaReference);
+            Assert.Equal("schema1", result.Status.Datasets[0].MessageSchemaReference!.SchemaName);
+            Assert.Equal("namespace1", result.Status.Datasets[0].MessageSchemaReference!.SchemaRegistryNamespace);
+            Assert.Equal("1.0", result.Status.Datasets[0].MessageSchemaReference!.SchemaVersion);
+
+            // Verify Events in Status
+            Assert.NotNull(result.Status.Events);
+            Assert.Single(result.Status.Events);
+            Assert.Equal("event1", result.Status.Events[0].Name);
+            Assert.NotNull(result.Status.Events[0].MessageSchemaReference);
+            Assert.Equal("event-schema", result.Status.Events[0].MessageSchemaReference!.SchemaName);
+            Assert.Equal("event-namespace", result.Status.Events[0].MessageSchemaReference!.SchemaRegistryNamespace);
+            Assert.Equal("2.0", result.Status.Events[0].MessageSchemaReference!.SchemaVersion);
+            // Verify ManagementGroups in Status
+            Assert.NotNull(result.Status.ManagementGroups);
+            Assert.Single(result.Status.ManagementGroups);
+            Assert.Equal("mgmt-group1", result.Status.ManagementGroups[0].Name);
+            Assert.NotNull(result.Status.ManagementGroups[0].Actions);
+            Assert.Single(result.Status.ManagementGroups[0].Actions!);
+            Assert.Equal("action1", result.Status.ManagementGroups[0].Actions?[0].Name);
+            Assert.NotNull(result.Status.ManagementGroups[0].Actions?[0].Error);
+            Assert.Equal("action-error", result.Status.ManagementGroups[0].Actions?[0].Error?.Code);
+            Assert.Equal("action-error-message", result.Status.ManagementGroups[0].Actions?[0].Error?.Message);
+            Assert.NotNull(result.Status.ManagementGroups[0].Actions?[0].RequestMessageSchemaReference);
+            Assert.Equal("req-schema", result.Status.ManagementGroups[0].Actions?[0].RequestMessageSchemaReference?.SchemaName);
+            Assert.Equal("req-namespace", result.Status.ManagementGroups[0].Actions?[0].RequestMessageSchemaReference?.SchemaRegistryNamespace);
+            Assert.Equal("1.0", result.Status.ManagementGroups[0].Actions?[0].RequestMessageSchemaReference?.SchemaVersion);
+            Assert.NotNull(result.Status.ManagementGroups[0].Actions?[0].ResponseMessageSchemaReference);
+            Assert.Equal("resp-schema", result.Status.ManagementGroups[0].Actions?[0].ResponseMessageSchemaReference?.SchemaName);
+            Assert.Equal("resp-namespace", result.Status.ManagementGroups[0].Actions?[0].ResponseMessageSchemaReference?.SchemaRegistryNamespace);
+            Assert.Equal("1.0", result.Status.ManagementGroups[0].Actions?[0].ResponseMessageSchemaReference?.SchemaVersion);
+            // Verify Streams in Status
+            Assert.NotNull(result.Status.Streams);
+            Assert.Single(result.Status.Streams);
+            Assert.Equal("stream1", result.Status.Streams[0].Name);
+            Assert.NotNull(result.Status.Streams[0].Error);
+            Assert.Equal("stream-error", result.Status.Streams[0].Error?.Code);
+            Assert.Equal("stream-error-message", result.Status.Streams[0].Error?.Message);
+            Assert.NotNull(result.Status.Streams[0].MessageSchemaReference);
+            Assert.Equal("stream-schema", result.Status.Streams[0].MessageSchemaReference?.SchemaName);
+            Assert.Equal("stream-namespace", result.Status.Streams[0].MessageSchemaReference?.SchemaRegistryNamespace);
+            Assert.Equal("3.0", result.Status.Streams[0].MessageSchemaReference?.SchemaVersion);
+
+            // Verify DiscoveredAssetRefs
+            Assert.NotNull(result.Specification.DiscoveredAssetRefs);
+            Assert.Single(result.Specification.DiscoveredAssetRefs);
+            Assert.Equal("discovered-asset-ref", result.Specification.DiscoveredAssetRefs[0]);
+
+            // Verify DefaultDatasetsConfiguration
+            Assert.NotNull(result.Specification.DefaultDatasetsConfiguration);
+            actualJson = JsonSerializer.Serialize(result.Specification.DefaultDatasetsConfiguration);
+            expectedJson = JsonSerializer.Serialize(JsonDocument.Parse("{\"defaultKey\":\"defaultValue\"}"));
+            Assert.Equal(expectedJson, actualJson);
+            // Verify DefaultEventsConfiguration
+            Assert.NotNull(result.Specification.DefaultEventsConfiguration);
+            actualJson = JsonSerializer.Serialize(result.Specification.DefaultEventsConfiguration);
+            expectedJson = JsonSerializer.Serialize(JsonDocument.Parse("{\"defaultEventKey\":\"defaultEventValue\"}"));
+            Assert.Equal(expectedJson, actualJson);
+
+            // Verify DefaultDatasetsDestinations
+            Assert.NotNull(result.Specification.DefaultDatasetsDestinations);
+            Assert.Single(result.Specification.DefaultDatasetsDestinations);
+            Assert.Equal(DatasetTarget.Mqtt, result.Specification.DefaultDatasetsDestinations[0].Target);
+            Assert.NotNull(result.Specification.DefaultDatasetsDestinations[0].Configuration);
+            Assert.Equal("default-config-key", result.Specification.DefaultDatasetsDestinations[0].Configuration.Key);
+            Assert.Equal("default-config-path", result.Specification.DefaultDatasetsDestinations[0].Configuration.Path);
+            Assert.Equal("default-config-topic", result.Specification.DefaultDatasetsDestinations[0].Configuration.Topic);
+            Assert.Equal(QoS.Qos1, result.Specification.DefaultDatasetsDestinations[0].Configuration.Qos);
+            Assert.Equal(Retain.Keep, result.Specification.DefaultDatasetsDestinations[0].Configuration.Retain);
+            Assert.Equal((ulong)60, result.Specification.DefaultDatasetsDestinations[0].Configuration.Ttl);
         }
 
         [Fact]
@@ -566,6 +669,24 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                                         UsernameSecretName = "username-secret",
                                         PasswordSecretName = "password-secret"
                                     }
+                                }
+                            }
+                        },
+                        Outbound = new AdrBaseService.OutboundSchema
+                        {
+                            Assigned = new Dictionary<string, AdrBaseService.DeviceOutboundEndpoint>{
+                                ["mqtt-endpoint"] = new()
+                                {
+                                    Address = "mqtt://device:1883",
+                                    EndpointType = "mqtt"
+                                }
+                            },
+                            Unassigned = new Dictionary<string, AdrBaseService.DeviceOutboundEndpoint>
+                            {
+                                ["http-endpoint"] = new()
+                                {
+                                    Address = "http://device:8080",
+                                    EndpointType = "http"
                                 }
                             }
                         }
@@ -689,6 +810,25 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.NotNull(httpEndpoint.Authentication.UsernamePasswordCredentials);
             Assert.Equal("username-secret", httpEndpoint.Authentication.UsernamePasswordCredentials.UsernameSecretName);
             Assert.Equal("password-secret", httpEndpoint.Authentication.UsernamePasswordCredentials.PasswordSecretName);
+
+            // Verify Outbound endpoints
+            Assert.NotNull(result.Specification.Endpoints.Outbound);
+            Assert.NotNull(result.Specification.Endpoints.Outbound.Assigned);
+            Assert.NotNull(result.Specification.Endpoints.Outbound.Unassigned);
+
+            // Verify Assigned outbound endpoints
+            Assert.Single(result.Specification.Endpoints.Outbound.Assigned);
+            Assert.True(result.Specification.Endpoints.Outbound.Assigned.ContainsKey("mqtt-endpoint"));
+            var mqttOutbound = result.Specification.Endpoints.Outbound.Assigned["mqtt-endpoint"];
+            Assert.Equal("mqtt://device:1883", mqttOutbound.Address);
+            Assert.Equal("mqtt", mqttOutbound.EndpointType);
+
+            // Verify Unassigned outbound endpoints
+            Assert.Single(result.Specification.Endpoints.Outbound.Unassigned);
+            Assert.True(result.Specification.Endpoints.Outbound.Unassigned.ContainsKey("http-endpoint"));
+            var httpOutbound = result.Specification.Endpoints.Outbound.Unassigned["http-endpoint"];
+            Assert.Equal("http://device:8080", httpOutbound.Address);
+            Assert.Equal("http", httpOutbound.EndpointType);
 
             // Verify DeviceStatus
             Assert.NotNull(result.Status);

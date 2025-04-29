@@ -1,0 +1,37 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Asset
+metadata:
+  name: my-rest-thermostat-asset
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    assetId: my-rest-thermostat-asset
+    assetType: thermostat
+  datasets:
+    - name: thermostat_status
+      dataPoints:
+        - dataSource: /api/thermostat/current
+          name: currentTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+        - dataSource: /api/thermostat/desired
+          name: desiredTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+      dataSource: /thermostat
+      destinations:
+        - configuration:
+            topic: /mqtt/machine/status
+          target: Mqtt
+  defaultDatasetsConfiguration: |-
+   {
+      "samplingInterval": 4000,
+   }
+  deviceRef:
+    deviceName: my-thermostat
+    endpointName: my-rest-endpoint
+  version: 1
