@@ -954,7 +954,7 @@ pub enum EventStreamTarget {
 pub enum Qos {
     /// Represents `QoS` level 0.
     Qos0,
-    /// The MQTT `QoS` setting.
+    /// Represents `QoS` level 1.
     Qos1,
 }
 
