@@ -154,7 +154,7 @@ pub struct StatusConfig {
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
-    /// The code of the error.
+    /// Error code for classification of errors (ex: ''400'', ''404'', ''500'', etc.).
     pub code: Option<String>,
     /// Array of event statuses that describe the status of each event.
     pub details: Option<Vec<Details>>,
