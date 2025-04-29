@@ -111,7 +111,7 @@ impl DeviceUpdateObservation {
 /// A struct to manage receiving notifications for a asset
 #[derive(Debug)]
 pub struct AssetUpdateObservation {
-    /// The internal channel for receiving update telemetry for this asset
+    /// The internal channel for receiving update notifications for this asset
     receiver: Receiver<(Asset, Option<AckToken>)>,
 }
 
