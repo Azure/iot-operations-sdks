@@ -830,7 +830,7 @@ pub struct AssetStatus {
 }
 
 #[derive(Clone, Debug)]
-/// Represents a schema to the dataset or event.
+/// Represents the status for a dataset, event, or stream.
 pub struct AssetDatasetEventStreamStatus {
     /// The name of the dataset or the event.
     pub name: String,
