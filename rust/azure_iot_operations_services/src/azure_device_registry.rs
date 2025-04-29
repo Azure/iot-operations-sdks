@@ -765,7 +765,7 @@ pub struct ManagementGroupAction {
 
 /// Represents a stream for an asset.
 #[derive(Clone, Debug)]
-pub struct AssetStream {
+pub struct Stream {
     /// Destinations for a stream.
     pub destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The name of the stream.
