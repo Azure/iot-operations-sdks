@@ -305,7 +305,7 @@ pub struct DeviceEndpoints {
     pub outbound_unassigned: HashMap<String, OutboundEndpoint>,
 }
 
-/// Represents the outbound endpoint of a device in the Azure Device Registry service.
+/// Represents an outbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct OutboundEndpoint {
     /// The 'address' Field.
