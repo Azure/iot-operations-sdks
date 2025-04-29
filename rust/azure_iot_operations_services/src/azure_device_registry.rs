@@ -341,7 +341,7 @@ pub struct TrustSettings {
 }
 
 #[derive(Debug, Clone, Default)]
-/// Represents the authentication methods for an endpoint.
+/// Represents the authentication method for an endpoint.
 pub enum Authentication {
     #[default]
     /// Represents anonymous authentication.
