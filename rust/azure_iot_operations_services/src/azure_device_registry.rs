@@ -133,6 +133,7 @@ fn option_vec_from<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Op
     source.map(|vec| vec.into_iter().map(into_fn).collect())
 }
 
+/// Helper fn to convert `Option<Vec<T>>` to `Vec<U>`, where `Vec<U>` will be an empty Vec if source was `None`
 fn vec_from_option_vec<T, U>(source: Option<Vec<T>>, into_fn: impl Fn(T) -> U) -> Vec<U> {
     source.map_or(vec![], |vec| vec.into_iter().map(into_fn).collect())
 }
