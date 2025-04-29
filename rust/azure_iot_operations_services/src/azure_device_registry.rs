@@ -584,7 +584,7 @@ pub struct AssetSpecification {
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
-    pub default_datasets_destinations: Vec<DatasetsDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_datasets_destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
@@ -645,7 +645,7 @@ pub struct Dataset {
     /// The address of the source of the data in the dataset
     pub data_source: Option<String>,
     /// Destinations for a dataset.
-    pub destinations: Vec<DatasetsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The name of the dataset.
     pub name: String,
     /// Type definition id or URI of the dataset
@@ -667,7 +667,7 @@ pub struct DatasetDataPoint {
 
 /// Represents the destination for a dataset.
 #[derive(Clone, Debug)]
-pub struct DatasetsDestination {
+pub struct DatasetDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
     /// The target for the destination
@@ -1066,7 +1066,7 @@ impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
             default_datasets_configuration: value.default_datasets_configuration,
             default_datasets_destinations: vec_from_option_vec(
                 value.default_datasets_destinations,
-                DatasetsDestination::from,
+                DatasetDestination::from,
             ),
             default_events_configuration: value.default_events_configuration,
             default_events_destinations: vec_from_option_vec(
@@ -1108,7 +1108,7 @@ impl From<adr_name_gen::AssetDatasetSchemaElementSchema> for Dataset {
         Dataset {
             data_points: vec_from_option_vec(value.data_points, DatasetDataPoint::from),
             data_source: value.data_source,
-            destinations: vec_from_option_vec(value.destinations, DatasetsDestination::from),
+            destinations: vec_from_option_vec(value.destinations, DatasetDestination::from),
             name: value.name,
             type_ref: value.type_ref,
         }
@@ -1126,18 +1126,18 @@ impl From<adr_name_gen::AssetDatasetDataPointSchemaElementSchema> for DatasetDat
     }
 }
 
-impl From<adr_name_gen::AssetDatasetDestinationSchemaElementSchema> for DatasetsDestination {
+impl From<adr_name_gen::AssetDatasetDestinationSchemaElementSchema> for DatasetDestination {
     fn from(value: adr_name_gen::AssetDatasetDestinationSchemaElementSchema) -> Self {
-        DatasetsDestination {
+        DatasetDestination {
             configuration: value.configuration.into(),
             target: value.target.into(),
         }
     }
 }
 
-impl From<adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema> for DatasetsDestination {
+impl From<adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema> for DatasetDestination {
     fn from(value: adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema) -> Self {
-        DatasetsDestination {
+        DatasetDestination {
             configuration: value.configuration.into(),
             target: value.target.into(),
         }
