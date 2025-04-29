@@ -90,7 +90,7 @@ impl From<TelemetryReceiverOptionsBuilderError> for ErrorKind {
 /// A struct to manage receiving notifications for a device
 #[derive(Debug)]
 pub struct DeviceUpdateObservation {
-    /// The internal channel for receiving update telemetry for this device
+    /// The internal channel for receiving update notifications for this device
     receiver: Receiver<(Device, Option<AckToken>)>,
 }
 
