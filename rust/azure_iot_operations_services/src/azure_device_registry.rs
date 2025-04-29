@@ -591,7 +591,7 @@ pub struct AssetSpecification {
     pub datasets: Vec<AssetDataset>, // if None, we can represent as empty vec
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
-    /// Default destinations for a dataset.
+    /// Default destinations for datasets.
     pub default_datasets_destinations: Vec<AssetDatasetsDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
