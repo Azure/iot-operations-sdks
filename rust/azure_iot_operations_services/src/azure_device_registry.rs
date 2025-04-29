@@ -836,7 +836,7 @@ pub struct AssetDatasetEventStreamStatus {
     pub name: String,
     /// The message schema associated with the dataset, event, or stream.
     pub message_schema_reference: Option<MessageSchemaReference>,
-    /// An error associated with the dataset or event.
+    /// An error associated with the dataset, event, or stream.
     pub error: Option<ConfigError>,
 }
 
