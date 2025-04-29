@@ -16,7 +16,7 @@ On the command invoker side, we will add APIs for checking if a response was an 
 
 Other than these two new user properties, the over-the-wire behavior of our protocol won't change as a result of this decision.
 
-In order to provide a strongly-typed experience, we will also add codegen support for modeling the error codes in DTDL. This modeling will be detailed in a separate ADR, though. We will not provide modeling of the application error payload types in DTDL, though.
+In order to provide a strongly-typed experience, we will also add codegen support for modeling the error codes in DTDL. This modeling will be detailed in a separate ADR.
 
 ## Code Example
 
