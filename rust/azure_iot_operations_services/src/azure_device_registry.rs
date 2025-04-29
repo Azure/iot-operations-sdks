@@ -314,7 +314,7 @@ pub struct OutboundEndpoint {
     pub endpoint_type: Option<String>,
 }
 
-/// Represents the inbound endpoint of a device in the Azure Device Registry service.
+/// Represents an inbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct InboundEndpoint {
     /// The 'additionalConfiguration' Field.
