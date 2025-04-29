@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! This example demonstrates how to use the Azure Device Registry (ADR) file mount
-//! observation feature of the Azure IoT Operations Connector.
+//! This example demonstrates how to use the combination of the file mounted
+//! connector config, the Azure Device Registry (ADR) file mount observation
+//! feature, and the ADR Client to initialize a deployed Connector (from the
+//! deployed connector config artifacts), get Device and Asset names (from the
+//! deployed ADR file mounted artifacts), and then get the full definitions
+//! for these Devices and Assets from the ADR service (using the ADR client).
 //!
-//! To use the example, set the `ADR_RESOURCES_NAME_MOUNT_PATH` environment variable to the
-//! directory where the file mount will be created. The example will create
-//! a directory structure in that location, and simulate the addition and removal
-//! of device endpoints and assets.
+//! This sample simply logs the device and asset information received - a real
+//! connector would then use these to connect to the device/inbound endpoints
+//! and start operations defined in the assets.
 //!
-//! NOTE: Make sure that the environment variable folder exists and is empty before running the example.
+//! To deploy and test this example, see instructions in `rust/azure_iot_operations_connector/README.md`
 
 use std::{collections::HashMap, time::Duration};
 
@@ -20,7 +23,6 @@ use azure_iot_operations_connector::filemount::{
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
-
 use env_logger::Builder;
 
 // This example uses a 5-second debounce duration for the file mount observation.
@@ -128,22 +130,24 @@ async fn run_program(
                         // now we should update the status of the device
                         let mut endpoint_statuses = HashMap::new();
                         let mut any_errors = false;
-                        for (endpoint_name, endpoint) in device.specification.endpoints.inbound {
+                        for (inbound_endpoint_name, endpoint) in
+                            device.specification.endpoints.inbound
+                        {
                             if endpoint.endpoint_type == "rest-thermostat"
                                 || endpoint.endpoint_type == "coap-thermostat"
                             {
-                                log::info!("Endpoint '{endpoint_name}' accepted");
+                                log::info!("Endpoint '{inbound_endpoint_name}' accepted");
                                 // adding endpoint to status hashmap with None ConfigError to show that we accept the endpoint with no errors
-                                endpoint_statuses.insert(endpoint_name, None);
+                                endpoint_statuses.insert(inbound_endpoint_name, None);
                             } else {
                                 any_errors = true;
                                 // if we don't support the endpoint type, then we can report that error
                                 log::warn!(
-                                    "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
+                                    "Endpoint '{inbound_endpoint_name}' not accepted. Endpoint type '{}' not supported.",
                                     endpoint.endpoint_type
                                 );
                                 endpoint_statuses.insert(
-                                    endpoint_name,
+                                    inbound_endpoint_name,
                                     Some(azure_device_registry::ConfigError {
                                         message: Some("endpoint type is not supported".to_string()),
                                         ..azure_device_registry::ConfigError::default()
