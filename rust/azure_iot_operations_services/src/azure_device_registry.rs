@@ -834,7 +834,7 @@ pub struct AssetDatasetEventStreamStatus {
 
 #[derive(Clone, Debug)]
 /// Represents the status for a management group
-pub struct AssetManagementGroupStatus {
+pub struct ManagementGroupStatus {
     /// A collection of actions associated with the management group.
     pub actions: Option<Vec<AssetManagementGroupActionStatus>>,
     /// The name of the management group.
