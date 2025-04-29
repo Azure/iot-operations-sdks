@@ -784,7 +784,7 @@ pub struct AssetStream {
     pub type_ref: Option<String>,
 }
 
-/// The data point in the event.
+/// A data point in an event.
 #[derive(Clone, Debug)]
 pub struct AssetEventDataPoint {
     /// The configuration for the data point in the event.
