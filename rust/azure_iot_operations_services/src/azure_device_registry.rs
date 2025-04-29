@@ -740,7 +740,7 @@ pub struct AssetEvent {
 pub struct AssetManagementGroup {
     /// Actions for this management group
     pub actions: Vec<AssetManagementGroupAction>, // if None, we can represent as empty vec
-    /// Default timeout in seconds for this managmement group
+    /// Default timeout in seconds for this management group
     pub default_time_out_in_seconds: Option<u32>,
     /// The default MQTT topic for the management group.
     pub default_topic: Option<String>,
