@@ -752,7 +752,7 @@ pub struct AssetManagementGroup {
     pub type_ref: Option<String>,
 }
 
-/// Represents action management group
+/// Represents a management group action
 #[derive(Clone, Debug)]
 pub struct AssetManagementGroupAction {
     /// Configuration for the action.
