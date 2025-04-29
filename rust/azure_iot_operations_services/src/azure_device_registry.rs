@@ -691,7 +691,7 @@ pub struct AssetDatasetsDestination {
 //     Storage {path: String},
 // }
 
-/// Represents the destination for an event and/or stream.
+/// Represents the destination for an event or stream.
 #[derive(Clone, Debug)]
 pub struct EventsAndStreamsDestination {
     /// The configuration for the destination
