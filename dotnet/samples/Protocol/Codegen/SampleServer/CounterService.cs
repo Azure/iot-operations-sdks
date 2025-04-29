@@ -29,7 +29,7 @@ public class CounterService : Counter.Service
                 }
                 .WithApplicationError(
                     "negativeValue",
-                    JsonNode.Parse(JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue })));
+                    JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue }));
 
             return Task.FromResult(response);
         }

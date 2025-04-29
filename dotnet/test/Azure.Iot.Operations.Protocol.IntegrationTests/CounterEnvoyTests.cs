@@ -145,11 +145,11 @@ public class CounterEnvoyTests
         var resp = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp.Response.CounterResponse);
         Assert.NotNull(resp.ResponseMetadata);
-        Assert.True(resp.TryGetApplicationError(out string? errorCode, out JsonNode? errorPayload));
+        Assert.True(resp.TryGetApplicationError(out string? errorCode, out string? errorPayload));
         Assert.NotNull(errorCode);
         Assert.Equal(CounterService.NegativeValueArgumentErrorCode, errorCode);
         Assert.NotNull(errorPayload);
-        CounterServiceApplicationError? deserializedErrorPayload = errorPayload.Deserialize<CounterServiceApplicationError>();
+        CounterServiceApplicationError? deserializedErrorPayload = JsonSerializer.Deserialize<CounterServiceApplicationError>(errorPayload);
         Assert.NotNull(deserializedErrorPayload);
         Assert.Equal(expectedNegativeValue, deserializedErrorPayload.InvalidRequestArgumentValue);
     }

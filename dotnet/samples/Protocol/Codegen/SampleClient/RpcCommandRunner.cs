@@ -166,10 +166,10 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             ExtendedResponse<IncrementResponsePayload> responseWithApplicationError = await counterClient.IncrementAsync(executorId, invalidPayload).WithMetadata();
 
             // Upon receiving a response, you should check for any application level errors like this. Only the above Increment request should trigger an application error in this sample, though.
-            if (responseWithApplicationError.TryGetApplicationError(out string? errorCode, out JsonNode? errorPayloadJson))
+            if (responseWithApplicationError.TryGetApplicationError(out string? errorCode, out string? errorPayloadJson) && errorPayloadJson != null)
             {
                 var applicationErrorPayload = JsonSerializer.Deserialize<CounterServiceApplicationError>(errorPayloadJson);
-                logger.LogInformation("counter {c} with id {id} responded to an invalid request with application level error code {code} and payload {payload}", responseWithApplicationError!.Response.CounterResponse, responseWithApplicationError.ResponseMetadata!.CorrelationId, errorCode, errorPayloadJson?.ToJsonString());
+                logger.LogInformation("counter {c} with id {id} responded to an invalid request with application level error code {code} and payload {payload}", responseWithApplicationError!.Response.CounterResponse, responseWithApplicationError.ResponseMetadata!.CorrelationId, errorCode, errorPayloadJson);
             }
         }
         catch (Exception ex)

@@ -25,14 +25,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return this;
         }
 
-        public ExtendedResponse<TResp> WithApplicationError(string errorCode, JsonNode? errorPayload)
-        {
+        public ExtendedResponse<TResp> WithApplicationError(string errorCode, string? errorPayload)
+        {           
             ResponseMetadata ??= new();
             SetApplicationError(errorCode, errorPayload);
             return this;
         }
 
-        public bool TryGetApplicationError(out string? errorCode, out JsonNode? errorPayload)
+        public bool TryGetApplicationError(out string? errorCode, out string? errorPayload)
         {
             errorCode = null;
             errorPayload = null;
@@ -46,7 +46,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (ResponseMetadata != null && ResponseMetadata.UserData != null && ResponseMetadata.UserData.TryGetValue(ApplicationErrorPayloadUserDataKey, out string? errorPayloadString) && errorPayloadString != null)
             {
-                errorPayload = errorPayloadString != null ? JsonNode.Parse(errorPayloadString) : null;
+                errorPayload = errorPayloadString;
             }
 
             return true;
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return ResponseMetadata?.UserData != null && ResponseMetadata != null && ResponseMetadata.UserData.ContainsKey(ApplicationErrorCodeUserDataKey);
         }
 
-        private void SetApplicationError(string applicationErrorCode, JsonNode? errorPayload)
+        private void SetApplicationError(string applicationErrorCode, string? errorPayload)
         {
             ResponseMetadata ??= new();
             ResponseMetadata.UserData ??= new();
@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 try
                 {
-                    ResponseMetadata.UserData[ApplicationErrorPayloadUserDataKey] = errorPayload.ToJsonString();
+                    ResponseMetadata.UserData[ApplicationErrorPayloadUserDataKey] = errorPayload;
                 }
                 catch (Exception e)
                 {

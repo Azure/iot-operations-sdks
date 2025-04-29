@@ -31,7 +31,7 @@ public class CounterService : Counter.Service
                     Response = new IncrementResponsePayload { CounterResponse = _counter },
                 }.WithApplicationError(
                     NegativeValueArgumentErrorCode,
-                    JsonNode.Parse(JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue })));
+                    JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue }));
 
             return Task.FromResult(response);
         }

@@ -8,7 +8,7 @@ This feedback is, in part, because some applications must route RPC responses wi
 
 ## Decision
 
-Our SDKs will add APIs on the command executor side that mark an RPC response as an "application error" by attaching two new MQTT user properties ("AppErrCode" and "AppErrPayload") whose values are a user-defined string and a user-defined JSON object/value/array respectively. When a user wants to indicate that an RPC call failed with an application error they must provide the "AppErrCode" value, but "AppErrPayload" is optional.
+Our SDKs will add APIs on the command executor side that mark an RPC response as an "application error" by attaching two new MQTT user properties ("AppErrCode" and "AppErrPayload") whose values are a user-defined string and a user-defined string (that is conventionally, but not necessarily, a stringified JSON object/value/array) respectively. When a user wants to indicate that an RPC call failed with an application error they must provide the "AppErrCode" value, but "AppErrPayload" is optional.
 
 In addition, users must be able to include arbitrary user properties in their command response to support this error reporting in case our standard fields are insufficient. This feature is likely in place already for all languages.
 
@@ -40,7 +40,7 @@ public ExtendedResponse<IncrementResponsePayload> Increment(IncrementRequestPayl
         jsonPayload = JsonObject.Parse("{\"key\":\"value\"}");
         jsonPayload = JsonValue.Create(false);
         jsonPayload = JsonValue.Create(10);
-        response.WithApplicationError("negativeValue", jsonPayload);
+        response.WithApplicationError("negativeValue", jsonPayload.toString());
 
         return response;
     }
@@ -65,9 +65,10 @@ public void main()
     var response = counterClient.Increment(executorId, payload).WithMetadata();
     
     // Check the RPC response for an application error
-    if (response.TryGetApplicationError(out string? errorCode, out JsonNode? errorPayload))
+    if (response.TryGetApplicationError(out string? errorCode, out string? errorPayload))
     {
         // use the error code and strongly typed custom error payload type as wanted.
+        JsonObject errorPayloadObject = JsonObject.Parse(errorPayload);
     }
 
     // Alternatively just fetch the error code if you don't want to deserialize the payload yet.
@@ -91,6 +92,7 @@ For the sake of demonstrating this in all languages similarly, we will make the 
 ## Extra considerations
 
 - This ADR does not change the decision made in (ADR 19)[./0019-codegen-user-errs.md] which allows users to model errors in payloads.
+   - For applications where users could model errors in either headers or the payload, we should encourage them to model them in the payload.
 
 ## Open Questions
 
