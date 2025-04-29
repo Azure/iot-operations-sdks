@@ -964,7 +964,7 @@ pub enum DatasetTarget {
 
 #[derive(Clone, Debug)]
 /// Represents the type of action that can be performed in an asset management group.
-pub enum ManagementGroupActionType {
+pub enum ActionType {
     /// Represents a call action type.
     Call,
     /// Represents a read action type.
