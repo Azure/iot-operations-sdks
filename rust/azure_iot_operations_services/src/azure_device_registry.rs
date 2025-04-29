@@ -147,7 +147,7 @@ pub struct StatusConfig {
     pub error: Option<ConfigError>,
     /// The last time the configuration has been modified.
     pub last_transition_time: Option<String>,
-    /// The version of the asset configuration.
+    /// The version of the Device or Asset configuration.
     pub version: Option<u64>,
 }
 
