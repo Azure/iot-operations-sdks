@@ -718,7 +718,7 @@ pub struct DeviceRef {
     pub endpoint_name: String,
 }
 
-/// Represents the event in the asset.
+/// Represents an event in an asset.
 #[derive(Clone, Debug)]
 pub struct AssetEvent {
     /// Array of data points that are part of the event.
