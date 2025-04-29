@@ -645,7 +645,7 @@ pub struct AssetSpecification {
     pub version: Option<u64>,
 }
 
-/// Represents the dataset.
+/// Represents a dataset.
 #[derive(Clone, Debug)]
 pub struct AssetDataset {
     /// Array of data points that are part of the dataset.
