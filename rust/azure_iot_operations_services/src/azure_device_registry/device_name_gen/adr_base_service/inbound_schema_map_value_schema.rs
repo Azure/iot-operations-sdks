@@ -10,38 +10,37 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::qos::Qos;
-use super::retain::Retain;
+use super::authentication_schema::AuthenticationSchema;
+use super::trust_settings_schema::TrustSettingsSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DestinationConfiguration {
-    /// The 'key' Field.
+pub struct InboundSchemaMapValueSchema {
+    /// The 'additionalConfiguration' Field.
+    #[serde(rename = "additionalConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub key: Option<String>,
+    pub additional_configuration: Option<String>,
 
-    /// The 'path' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub path: Option<String>,
+    /// The 'address' Field.
+    pub address: String,
 
-    /// The 'qos' Field.
+    /// The 'authentication' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub qos: Option<Qos>,
+    pub authentication: Option<AuthenticationSchema>,
 
-    /// The 'retain' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub retain: Option<Retain>,
+    /// The 'endpointType' Field.
+    #[serde(rename = "endpointType")]
+    pub endpoint_type: String,
 
-    /// The 'topic' Field.
+    /// The 'trustSettings' Field.
+    #[serde(rename = "trustSettings")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub topic: Option<String>,
+    pub trust_settings: Option<TrustSettingsSchema>,
 
-    /// The 'ttl' Field.
+    /// The 'version' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub ttl: Option<u64>,
+    pub version: Option<String>,
 }

@@ -24,8 +24,4 @@ pub struct TrustSettingsSchema {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub trust_list: Option<String>,
-
-    /// The 'trustMode' Field.
-    #[serde(rename = "trustMode")]
-    pub trust_mode: String,
 }

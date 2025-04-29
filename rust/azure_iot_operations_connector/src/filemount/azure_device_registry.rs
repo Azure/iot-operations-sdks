@@ -71,7 +71,6 @@ impl DeviceEndpointCreateObservation {
     /// - [`struct@Error`] of kind [`ErrorKind::ParseError`] if there are issues parsing the file names and content.
     pub fn new(debounce_duration: Duration) -> Result<DeviceEndpointCreateObservation, Error> {
         let mount_path = get_mount_path()?;
-
         // This channel is used to send notifications about device endpoint creation
         let (create_device_tx, create_device_rx) = mpsc::unbounded_channel();
 
