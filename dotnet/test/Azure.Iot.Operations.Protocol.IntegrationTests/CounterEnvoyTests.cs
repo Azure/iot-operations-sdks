@@ -7,6 +7,8 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
@@ -121,4 +123,34 @@ public class CounterEnvoyTests
         Assert.Equal("Correlation Data", userProps.Where(p => p.Name == "__propName").First().Value);
     }
 
+    [Fact]
+    public async Task CanReceiveApplicationErrorResponseInHeaders()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
+
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        int expectedNegativeValue = -1;
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = expectedNegativeValue
+        };
+
+        var resp = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+        Assert.Equal(0, resp.Response.CounterResponse);
+        Assert.NotNull(resp.ResponseMetadata);
+        Assert.True(resp.TryGetApplicationError(out string? errorCode, out string? errorPayload));
+        Assert.NotNull(errorCode);
+        Assert.Equal(CounterService.NegativeValueArgumentErrorCode, errorCode);
+        Assert.NotNull(errorPayload);
+        CounterServiceApplicationError? deserializedErrorPayload = JsonSerializer.Deserialize<CounterServiceApplicationError>(errorPayload);
+        Assert.NotNull(deserializedErrorPayload);
+        Assert.Equal(expectedNegativeValue, deserializedErrorPayload.InvalidRequestArgumentValue);
+    }
 }
