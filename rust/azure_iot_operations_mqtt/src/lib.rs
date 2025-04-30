@@ -28,6 +28,8 @@ pub mod interface_mocks;
 
 #[macro_use]
 extern crate derive_builder;
+#[macro_use]
+extern crate derive_getters;
 
 //----------------------------------------------------------------------
 

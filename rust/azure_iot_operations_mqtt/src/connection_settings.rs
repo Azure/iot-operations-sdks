@@ -12,7 +12,7 @@ use std::time::Duration;
 // nor frankly does combining MQTT and TLS settings.
 
 /// All the settings required to establish an MQTT connection.
-#[derive(Builder, Clone)]
+#[derive(Builder, Clone, Debug, Getters)]
 #[builder(pattern = "owned", setter(into), build_fn(validate = "Self::validate"))]
 pub struct MqttConnectionSettings {
     /// Client identifier
@@ -393,6 +393,13 @@ mod tests {
             .hostname("test_host".to_string())
             .build();
         assert!(connection_settings_builder_result.is_ok());
+
+        let connection_settings = connection_settings_builder_result.unwrap();
+        assert_eq!(connection_settings.client_id().as_str(), "test_client_id");
+        assert_eq!(connection_settings.hostname().as_str(), "test_host");
+        assert_eq!(connection_settings.tcp_port(), 8883);
+        assert_eq!(connection_settings.clean_start(), false);
+        assert_eq!(connection_settings.receive_packet_size_max().as_ref(), None)
     }
 
     #[test]
