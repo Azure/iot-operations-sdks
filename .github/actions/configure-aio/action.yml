@@ -41,7 +41,7 @@ runs:
         token: ${{ inputs.action-token }}
 
     - name: Install AIO
-      uses: ./action-deply
+      uses: ./action-deploy
       with:
         akri: false
 
