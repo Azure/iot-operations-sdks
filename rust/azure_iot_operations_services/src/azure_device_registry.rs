@@ -22,6 +22,8 @@ mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
 
+pub use client::{Client, ClientOptions, ClientOptionsBuilder};
+
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 /// Represents an error that occurred in the Azure Device Registry Client implementation.
 #[derive(Debug, Error)]

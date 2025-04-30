@@ -33,8 +33,8 @@ pub mod dispatcher {
         #[error(transparent)]
         SendError(#[from] SendError<T>),
         /// Error when trying to find a receiver by ID
-        #[error("receiver with id {0} not found")]
-        NotFound(String),
+        #[error("receiver with id {:?} not found", 0.0)]
+        NotFound((String, T)),
     }
 
     /// Dispatches messages to receivers based on ID
@@ -84,8 +84,15 @@ pub mod dispatcher {
             if let Some(tx) = self.tx_map.lock().unwrap().get(receiver_id) {
                 Ok(tx.send(message)?)
             } else {
-                Err(DispatchError::NotFound(receiver_id.to_string()))
+                Err(DispatchError::NotFound((receiver_id.to_string(), message)))
             }
+        }
+
+        /// Returns all currently tracked receiver ids
+        #[allow(dead_code)]
+        pub fn get_all_receiver_ids(&self) -> Vec<String> {
+            let tx_map = self.tx_map.lock().unwrap();
+            tx_map.keys().cloned().collect()
         }
     }
 }
