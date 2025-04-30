@@ -1212,6 +1212,46 @@ mod tests {
     }
 
     #[test]
+    fn test_client_options_builder_default_auto_ack() {
+        let options = ClientOptionsBuilder::default().build().unwrap();
+        assert!(options.notification_auto_ack);
+    }
+
+    #[test]
+    fn test_client_options_builder_custom_auto_ack() {
+        let options = ClientOptionsBuilder::default()
+            .notification_auto_ack(false)
+            .build()
+            .unwrap();
+
+        assert!(!options.notification_auto_ack);
+    }
+
+    #[test]
+    fn test_get_topic_tokens() {
+        let device_name = "test-device".to_string();
+        let inbound_endpoint_name = "test-endpoint".to_string();
+
+        let topic_tokens = Client::<SessionManagedClient>::get_topic_tokens(
+            device_name.clone(),
+            inbound_endpoint_name.clone(),
+        );
+
+        assert_eq!(topic_tokens.len(), 2);
+        assert_eq!(
+            topic_tokens.get(DEVICE_NAME_TOPIC_TOKEN),
+            Some(&device_name)
+        );
+        assert_eq!(
+            topic_tokens.get(INBOUND_ENDPOINT_NAME_TOPIC_TOKEN),
+            Some(&inbound_endpoint_name)
+        );
+        assert!(topic_tokens.keys().all(|key| {
+            key == DEVICE_NAME_TOPIC_TOKEN || key == INBOUND_ENDPOINT_NAME_TOPIC_TOKEN
+        }));
+    }
+
+    #[test]
     fn test_hash_and_unhash_device_endpoint() {
         let device_name = "device1";
         let endpoint_name = "endpoint1";
