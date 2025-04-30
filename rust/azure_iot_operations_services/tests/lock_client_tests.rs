@@ -4,7 +4,6 @@
 #![cfg(feature = "leased_lock")]
 
 use std::assert_eq;
-use std::time::SystemTime;
 use std::{env, sync::Arc, time::Duration};
 
 use env_logger::Builder;
