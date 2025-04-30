@@ -755,8 +755,8 @@ where
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
             .timeout(timeout)
+            .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
             .build()
             .map_err(ErrorKind::from)?;
 
@@ -1069,15 +1069,14 @@ mod tests {
         timeout: Duration,
         adr_client: Client<SessionManagedClient>,
     ) -> Result<Asset, Error> {
-        let result = adr_client
+        adr_client
             .get_asset(
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 asset_name.to_string(),
                 timeout,
             )
-            .await;
-        result
+            .await
     }
 
     async fn call_get_device(
@@ -1086,10 +1085,9 @@ mod tests {
         timeout: Duration,
         adr_client: Client<SessionManagedClient>,
     ) -> Result<Device, Error> {
-        let result = adr_client
+        adr_client
             .get_device(device_name.to_string(), endpoint_name.to_string(), timeout)
-            .await;
-        result
+            .await
     }
 
     #[tokio::test]
@@ -1123,14 +1121,14 @@ mod tests {
         .await;
         assert!(result.is_err());
 
-        // match result {
-        //     Ok(_) => {
-        //         panic!("Expected error for empty device name, but got success");
-        //     }
-        //     Err(e) => {
-        //         assert!(matches!(e.kind(), ErrorKind::InvalidRequestArgument(_)));
-        //     }
-        // }
+        match result {
+            Ok(_) => {
+                panic!("Expected error for empty device name, but got success");
+            }
+            Err(e) => {
+                assert!(matches!(e.kind(), ErrorKind::InvalidRequestArgument(_)));
+            }
+        }
         // assert!(result.is_err());
         // assert!(matches!(
         //     result.unwrap_err().kind(),
