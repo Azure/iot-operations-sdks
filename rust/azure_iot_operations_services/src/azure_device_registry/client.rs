@@ -71,6 +71,18 @@ where
 {
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
     /// Create a new Azure Device Registry Client.
+    ///
+    /// # Arguments
+    /// * `application_context` - The application context.
+    /// * `client` - The [`ManagedClient`] to use for communication.
+    /// * `options` - The options for the client.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
+    /// if there is error building command invoker options.
+    ///
+    /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
+    /// if there is error building telemetry receiver options.
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
