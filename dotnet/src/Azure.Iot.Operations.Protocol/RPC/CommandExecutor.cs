@@ -8,7 +8,6 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,6 +28,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly IMqttPubSubClient _mqttClient;
         private readonly string _commandName;
+
         private readonly IPayloadSerializer _serializer;
 
         private readonly ApplicationContext _applicationContext;
