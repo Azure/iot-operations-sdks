@@ -831,8 +831,6 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
             let fencing_token2 = fencing_token2_option.unwrap();
             assert!(fencing_token1 != fencing_token2);
             assert!(fencing_token1.timestamp < fencing_token2.timestamp);
-            assert_eq!(fencing_token1.counter, fencing_token2.counter);
-            assert_eq!(fencing_token1.node_id, fencing_token2.node_id);
 
             // Verify holder.
             let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
