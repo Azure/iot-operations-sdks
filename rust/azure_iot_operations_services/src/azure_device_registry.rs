@@ -1312,3 +1312,36 @@ impl From<adr_name_gen::Retain> for Retain {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use test_case::test_case;
+
+    #[test_case(
+        MessageSchemaReference {
+            name: "temperature".to_string(),
+            version: "1.0.0".to_string(),
+            registry_namespace: "contoso".to_string(),
+        };
+        "full schema reference with all fields"
+    )]
+    #[test_case(
+        MessageSchemaReference {
+            name: "".to_string(),
+            version: "".to_string(),
+            registry_namespace: "".to_string(),
+        };
+        "empty fields schema reference"
+    )]
+    fn test_message_schema_reference_from(input: MessageSchemaReference) {
+        let converted: adr_name_gen::MessageSchemaReference = input.clone().into();
+
+        assert_eq!(converted.schema_name, input.name);
+        assert_eq!(converted.schema_version, input.version);
+        assert_eq!(
+            converted.schema_registry_namespace,
+            input.registry_namespace
+        );
+    }
+}
