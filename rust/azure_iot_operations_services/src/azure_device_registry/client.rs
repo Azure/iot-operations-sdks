@@ -1053,13 +1053,12 @@ mod tests {
         let session = create_session();
         let managed_client = session.create_managed_client();
 
-        let adr_client = super::Client::new(
+        super::Client::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
-        .unwrap();
-        adr_client
+        .unwrap()
     }
 
     async fn call_get_asset(
