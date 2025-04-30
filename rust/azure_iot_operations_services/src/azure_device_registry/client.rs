@@ -1015,3 +1015,50 @@ where
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Test hash and unhash functions
+    use azure_iot_operations_mqtt::session::SessionManagedClient;
+
+    #[test]
+    fn test_get_asset_request_build_error() {
+        let asset_name = "test-asset".to_string();
+        let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
+
+        let result = adr_name_gen::GetAssetRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)
+            .and_then(|builder| builder.build().map_err(ErrorKind::from));
+
+        assert!(result.is_err());
+
+        let error = Error(result.unwrap_err());
+        assert!(matches!(error.0, ErrorKind::InvalidRequestArgument(_)));
+    }
+
+    #[test]
+    fn test_hash_and_unhash_device_endpoint() {
+        let device_name = "device1";
+        let endpoint_name = "endpoint1";
+
+        let hashed =
+            Client::<SessionManagedClient>::hash_device_endpoint(device_name, endpoint_name);
+        assert_eq!(hashed, "device1~endpoint1");
+
+        let unhashed = Client::<SessionManagedClient>::un_hash_device_endpoint(&hashed);
+        assert!(unhashed.is_some());
+
+        let (unhashed_device, unhashed_endpoint) = unhashed.unwrap();
+        assert_eq!(unhashed_device, device_name);
+        assert_eq!(unhashed_endpoint, endpoint_name);
+
+        // Test unhashing with invalid input
+        let invalid_hash = "device1";
+        let unhashed_invalid =
+            Client::<SessionManagedClient>::un_hash_device_endpoint(invalid_hash);
+        assert!(unhashed_invalid.is_none());
+    }
+}
