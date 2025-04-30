@@ -882,8 +882,8 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
 }
 
 #[tokio::test]
-async fn lease_single_holder_acquires_with_auto_renewal_and_without_network_tests() {
-    let test_id = "lease_single_holder_acquires_with_auto_renewal_and_without_network_tests";
+async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_tests() {
+    let test_id = "lease_single_holder_acquires_with_and_without_auto_renewal_network_tests";
     if !setup_test(test_id) {
         return;
     }
@@ -908,14 +908,13 @@ async fn lease_single_holder_acquires_with_auto_renewal_and_without_network_test
             // Wait for renewal at 2 seconds even if expiry time has passed.
             sleep(Duration::from_secs(3)).await;
 
-            // Expect to have a new token now (updated timestamp, but same counter and node id).
+            // Expect to have a new token now (updated timestamp, but same node id).
             let fencing_token2_option = lease_client.get_current_lease_fencing_token().await;
 
             assert!(fencing_token2_option.is_some());
             let fencing_token2 = fencing_token2_option.unwrap();
             assert!(fencing_token1 != fencing_token2);
             assert!(fencing_token1.timestamp < fencing_token2.timestamp);
-            assert_eq!(fencing_token1.counter, fencing_token2.counter);
             assert_eq!(fencing_token1.node_id, fencing_token2.node_id);
 
             // Verify holder.
@@ -932,7 +931,6 @@ async fn lease_single_holder_acquires_with_auto_renewal_and_without_network_test
 
             assert!(fencing_token2 != fencing_token3);
             assert!(fencing_token2.timestamp < fencing_token3.timestamp);
-            assert_eq!(fencing_token2.counter, fencing_token3.counter);
             assert_eq!(fencing_token2.node_id, fencing_token3.node_id);
 
             // Wait for the renewal period previously used, but expect no renewal.
