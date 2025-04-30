@@ -1,0 +1,24 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "raw/0",
+  "commandTopic": "samples/command/{commandName}/{executorId}",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "post",
+      "request": {
+        "name": "postData",
+        "schema": "bytes"
+      },
+      "response": {
+        "name": "replyData",
+        "schema": "bytes"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "telemetryTopic": "rpc/samples/{modelId}/{senderId}/{telemetryName}",
+  "telemServiceGroupId": "TestServiceGroup",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "coordinates",
+      "schema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "latitude",
+            "schema": "double"
+          },
+          {
+            "name": "longitude",
+            "schema": "double"
+          }
+        ]
+      }
+    }
+  ]
+}

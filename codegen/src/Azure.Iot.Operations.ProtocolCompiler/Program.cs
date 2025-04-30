@@ -27,7 +27,7 @@ internal class Program
         var outDirOption = new Option<DirectoryInfo>(
             name: "--outDir",
             getDefaultValue: () => new DirectoryInfo(DefaultOutDir),
-            description: "Directory for receiving generated code")
+            description: "Directory for receiving generated code (or TD file if --thingOnly is specified)")
             { ArgumentHelpName = "DIRPATH" };
 
         var namespaceOption = new Option<string?>(
@@ -52,6 +52,10 @@ internal class Program
             getDefaultValue: () => DefaultLanguage,
             description: "Programming language for generated code")
             { ArgumentHelpName = string.Join('|', CommandHandler.SupportedLanguages) };
+
+        var thingOnlyOption = new Option<bool>(
+            name: "--thingOnly",
+            description: "Stop after generating Thing Description from DTDL model");
 
         var clientOnlyOption = new Option<bool>(
             name: "--clientOnly",
@@ -81,6 +85,7 @@ internal class Program
             sdkPathOption,
 #endif
             langOption,
+            thingOnlyOption,
             clientOnlyOption,
             serverOnlyOption,
             noProjOption,
@@ -98,6 +103,7 @@ internal class Program
             sdkPathOption,
 #endif
             langOption,
+            thingOnlyOption,
             clientOnlyOption,
             serverOnlyOption,
             noProjOption,

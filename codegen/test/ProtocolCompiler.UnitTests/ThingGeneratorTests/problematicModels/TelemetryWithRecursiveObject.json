@@ -1,0 +1,29 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3"
+  ],
+  "@id": "dtmi:akri:DTDL:SchemaGenerator:testInterface;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "<[FORMAT]>",
+  "telemetryTopic": "rpc/samples/{modelId}/{senderId}/{telemetryName}",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "coordinates",
+      "schema": {
+        "@id": "dtmi:akri:DTDL:ThingGenerator:recursiveObject;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "children",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:akri:DTDL:ThingGenerator:recursiveObject;1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

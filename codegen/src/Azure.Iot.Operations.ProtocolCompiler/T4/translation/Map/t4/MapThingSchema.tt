@@ -1,0 +1,14 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+<# if (this.dtMap.Description.Any()) { #>
+"descriptions": {
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.dtMap.Description) { #>
+  "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix < this.dtMap.Description.Count ? "," : ""#>
+<# ix++; } #>
+},
+<# } #>
+"type": "object",
+"additionalProperties": {
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 2)#>
+}<# this.PopIndent(); #>
