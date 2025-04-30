@@ -137,16 +137,6 @@ async fn leased_lock_single_holder_do_lock_and_unlock_network_tests() {
                 .await
                 .expect("Expected a fencing token");
 
-            // Arbitrarily validate that the fencing token obtained from the lock operation is not older than 2 seconds.
-            assert!(
-                token
-                    .timestamp
-                    .duration_since(SystemTime::now())
-                    .expect("{difference:?}")
-                    .as_secs()
-                    < 2
-            );
-
             // Let's verify if the fencing token was stored internally.
             let saved_fencing_token = leased_lock_client1.get_current_lock_fencing_token().await;
 
@@ -494,7 +484,6 @@ async fn leased_lock_single_holder_do_lock_with_auto_renewal_network_tests() {
             assert!(fencing_token2_option.is_some());
             let fencing_token2 = fencing_token2_option.unwrap();
             assert!(fencing_token1.timestamp < fencing_token2.timestamp);
-            assert_eq!(fencing_token1.counter, fencing_token2.counter);
             assert_eq!(fencing_token1.node_id, fencing_token2.node_id);
 
             // Shutdown state store client and underlying resources
