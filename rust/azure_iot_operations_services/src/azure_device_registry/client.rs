@@ -182,7 +182,7 @@ where
         })
     }
 
-    /// Convenience function to get all observed device endpoint device & inbound endpoint names to quickly unobserve all of them before cleaning up
+    /// Convenience function to get all observed device & inbound endpoint names to quickly unobserve all of them before cleaning up
     #[must_use]
     #[allow(dead_code)]
     pub fn get_all_observed_device_endpoints(&self) -> Vec<(String, String)> {
