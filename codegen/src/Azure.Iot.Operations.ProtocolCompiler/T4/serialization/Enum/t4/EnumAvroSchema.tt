@@ -1,11 +1,13 @@
 <#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="DTDLParser.Models" #>
+{
 <# this.PushIndent(new string(' ', this.indent)); #>
 <# if (this.schema != null) { #>
-"name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+  "name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# if (this.sharedNamespace != null) { #>
-"namespace": "<#=this.sharedNamespace.AsGiven#>",
+  "namespace": "<#=this.sharedNamespace.AsGiven#>",
 <# } #>
 <# } #>
-"type": "enum",
-"symbols": [ <#= string.Join(", ", this.names.Select(n => $"\"{n}\"")) #> ]<# this.PopIndent(); #>
+  "type": "enum",
+  "symbols": [ <#= string.Join(", ", this.names.Select(n => $"\"{n}\"")) #> ]
+}<# this.PopIndent(); #>
