@@ -79,7 +79,7 @@
                 case "array":
                     return new ArrayType(GetSchemaType(schemaElt.GetProperty("items"), schemaTypes, genNamespace));
                 default:
-                    throw new Exception("unrecognized schema");
+                    throw new Exception($"Unrecognized schema type: {typeElt.GetString()}");
             }
         }
 
