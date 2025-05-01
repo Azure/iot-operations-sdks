@@ -519,6 +519,9 @@ where
     /// if there is error building the request.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn update_device_plus_endpoint_status(
         &self,
@@ -566,6 +569,9 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
@@ -661,6 +667,9 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
+    ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
     pub async fn unobserve_device_update_notifications(
@@ -749,6 +758,9 @@ where
     /// if topic tokens are not found.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get_asset(
         &self,
@@ -789,6 +801,9 @@ where
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
     /// if there is error building the request.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
@@ -844,6 +859,9 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
@@ -943,6 +961,9 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
+    /// if topic tokens are not found.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
