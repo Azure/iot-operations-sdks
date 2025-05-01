@@ -34,7 +34,6 @@ const INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN: &str = "ex:inboundEndpointName
 pub struct ClientOptions {
     /// If true, update notifications are auto-acknowledged
     #[builder(default = "true")]
-    #[allow(dead_code)]
     notification_auto_ack: bool,
 }
 
