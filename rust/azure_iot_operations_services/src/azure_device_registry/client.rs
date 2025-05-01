@@ -71,10 +71,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
-    /// if there is error building command invoker options.
-    ///
-    /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
-    /// if there is error building telemetry receiver options.
+    /// if the Client Id of the [`ManagedClient`] isn't valid as a topic token.
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
