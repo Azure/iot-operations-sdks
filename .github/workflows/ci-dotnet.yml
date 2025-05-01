@@ -39,15 +39,9 @@ jobs:
     - name: Install AIO
       uses: ./.github/actions/configure-aio
       with:
-        akri: '2504'
         wait-for-broker: 'true'
         install-dotnet: 'true'
         action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
-
-    - name: asdf
-      run: |
-        helm uninstall adr-crds-namespace --ignore-not-found
-        helm install adr-crds-namespace oci://azureadr.azurecr.io/helm/adr/common/adr-crds-prp --version 0.20.0-alpha.1
 
     - name: dotnet info
       run: dotnet --info

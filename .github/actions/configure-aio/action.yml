@@ -43,6 +43,8 @@ runs:
     - name: Install AIO 
       run: ./action_root/install.sh
       shell: bash
+      with:
+        akri: '2504'
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
