@@ -11,25 +11,29 @@ use azure_iot_operations_services::azure_device_registry::{AssetDataset, Message
 use crate::Data;
 
 pub struct Forwarder {
-  message_schema_uri: Option<MessageSchemaReference>
+    message_schema_uri: Option<MessageSchemaReference>,
 }
 impl Forwarder {
-  #[must_use] pub fn new(_dataset_definition: AssetDataset) -> Self {
-    // Create a new forwarder
-    Self {
-      message_schema_uri: None,
+    #[must_use]
+    pub fn new(_dataset_definition: AssetDataset) -> Self {
+        // Create a new forwarder
+        Self {
+            message_schema_uri: None,
+        }
     }
-  }
 
-  /// # Errors
-  /// TODO
-  #[allow(clippy::unused_async)]
-  pub async fn send_data(&self, _data: Data) -> Result<CompletionToken, String> {
-    // Forward the data to the destination
-    Err("Not implemented".to_string())
-  }
-  pub fn update_message_schema_uri(&mut self, message_schema_uri: Option<MessageSchemaReference>) {
-    // Add the message schema URI to the forwarder
-    self.message_schema_uri = message_schema_uri;
-  }
+    /// # Errors
+    /// TODO
+    #[allow(clippy::unused_async)]
+    pub async fn send_data(&self, _data: Data) -> Result<CompletionToken, String> {
+        // Forward the data to the destination
+        Err("Not implemented".to_string())
+    }
+    pub fn update_message_schema_uri(
+        &mut self,
+        message_schema_uri: Option<MessageSchemaReference>,
+    ) {
+        // Add the message schema URI to the forwarder
+        self.message_schema_uri = message_schema_uri;
+    }
 }
