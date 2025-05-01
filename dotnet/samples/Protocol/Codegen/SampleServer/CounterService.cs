@@ -5,6 +5,8 @@ using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Mqtt.Session;
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace SampleServer;
 
@@ -17,6 +19,21 @@ public class CounterService : Counter.Service
     public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
+
+        if (request.IncrementValue < 0)
+        {
+            var response =
+                new ExtendedResponse<IncrementResponsePayload>()
+                {
+                    Response = new IncrementResponsePayload { CounterResponse = _counter },
+                }
+                .WithApplicationError(
+                    "negativeValue",
+                    JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue }));
+
+            return Task.FromResult(response);
+        }
+
         Interlocked.Add(ref _counter, request.IncrementValue);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>

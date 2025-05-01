@@ -1,0 +1,37 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser" #>
+<#@ import namespace="DTDLParser.Models" #>
+    "telemetry": {
+<# if (this.usesTypes) { #>
+      "data": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+<# int ix1 = 1; foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in this.dtTelemetries) { #>
+          "<#=dtTelemetry.Key#>": {
+<# if (dtTelemetry.Value.Description.Any()) { #>
+            "descriptions": {
+<# int ix2 = 1; foreach (KeyValuePair<string, string> kvp in dtTelemetry.Value.Description) { #>
+              "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix2 < dtTelemetry.Value.Description.Count ? "," : ""#>
+<# ix2++; } #>
+            },
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(dtTelemetry.Value.Schema, 12)#>
+          }<#=ix1 < dtTelemetries.Count ? "," : ""#>
+<# ix1++; } #>
+        }
+      },
+<# } else { #>
+      "data": {},
+<# } #>
+      "forms": [
+        {
+          "href": "<#=this.telemetryId#>",
+          "contentType": "<#=this.contentType#>",
+<# if (this.serviceGroupId != null) { #>
+          "x-serviceGroupId": "<#=this.serviceGroupId#>",
+<# } #>
+          "x-topic": "<#=this.telemetryTopic#>"
+        }
+      ]
+    }

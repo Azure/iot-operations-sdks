@@ -3,12 +3,16 @@
 
 using TestEnvoys.Counter;
 using Azure.Iot.Operations.Protocol.RPC;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class CounterService : Counter.Service
 {
     private int _counter = 0;
+
+    public const string NegativeValueArgumentErrorCode = "NegativeValue";
 
     public CounterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {
@@ -19,6 +23,19 @@ public class CounterService : Counter.Service
 
     public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
+        if (request.IncrementValue < 0)
+        {
+            var response =
+                new ExtendedResponse<IncrementResponsePayload>()
+                {
+                    Response = new IncrementResponsePayload { CounterResponse = _counter },
+                }.WithApplicationError(
+                    NegativeValueArgumentErrorCode,
+                    JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue }));
+
+            return Task.FromResult(response);
+        }
+
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Interlocked.Increment(ref _counter);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");

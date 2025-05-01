@@ -14,7 +14,7 @@ use super::authentication_schema::AuthenticationSchema;
 use super::trust_settings_schema::TrustSettingsSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeviceInboundEndpointSchemaMapValueSchema {
+pub struct InboundSchemaMapValueSchema {
     /// The 'additionalConfiguration' Field.
     #[serde(rename = "additionalConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -29,15 +29,15 @@ pub struct DeviceInboundEndpointSchemaMapValueSchema {
     #[builder(default = "None")]
     pub authentication: Option<AuthenticationSchema>,
 
+    /// The 'endpointType' Field.
+    #[serde(rename = "endpointType")]
+    pub endpoint_type: String,
+
     /// The 'trustSettings' Field.
     #[serde(rename = "trustSettings")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub trust_settings: Option<TrustSettingsSchema>,
-
-    /// The 'type' Field.
-    #[serde(rename = "type")]
-    pub r#type: String,
 
     /// The 'version' Field.
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -11,7 +11,6 @@
     {
         private readonly Option<FileInfo[]> modelFile;
         private readonly Option<string?> modelId;
-        private readonly Option<string?> dmrRoot;
         private readonly Option<string?> workingDir;
         private readonly Option<DirectoryInfo> outDir;
         private readonly Option<string?> genNamespace;
@@ -20,6 +19,7 @@
         private readonly Option<string?> sdkPath;
 #endif
         private readonly Option<string> lang;
+        private readonly Option<bool> thingOnly;
         private readonly Option<bool> clientOnly;
         private readonly Option<bool> serverOnly;
         private readonly Option<bool> noProj;
@@ -30,7 +30,6 @@
         /// </summary>
         /// <param name="modelFile">File(s) containing DTDL model(s) to process.</param>
         /// <param name="modelId">DTMI of Interface to use for codegen (not needed when model has only one Mqtt Interface).</param>
-        /// <param name="dmrRoot">Directory or URL from which to retrieve referenced models.</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
         /// <param name="outDir">Directory for receiving generated code.</param>
         /// <param name="genNamespace">Namespace for generated code.</param>
@@ -39,12 +38,12 @@
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
 #endif
         /// <param name="lang">Programming language for generated code.</param>
+        /// <param name="thingOnly">Generate only Thing Description.</param>
         /// <param name="clientOnly">Generate only client-side code.</param>
         /// <param name="serverOnly">Generate only server-side code.</param>
         public ArgBinder(
             Option<FileInfo[]> modelFile,
             Option<string?> modelId,
-            Option<string?> dmrRoot,
             Option<string?> workingDir,
             Option<DirectoryInfo> outDir,
             Option<string?> genNamespace,
@@ -53,6 +52,7 @@
             Option<string?> sdkPath,
 #endif
             Option<string> lang,
+            Option<bool> thingOnly,
             Option<bool> clientOnly,
             Option<bool> serverOnly,
             Option<bool> noProj,
@@ -60,7 +60,6 @@
         {
             this.modelFile = modelFile;
             this.modelId = modelId;
-            this.dmrRoot = dmrRoot;
             this.workingDir = workingDir;
             this.outDir = outDir;
             this.genNamespace = genNamespace;
@@ -69,6 +68,7 @@
             this.sdkPath = sdkPath;
 #endif
             this.lang = lang;
+            this.thingOnly = thingOnly;
             this.clientOnly = clientOnly;
             this.serverOnly = serverOnly;
             this.noProj = noProj;
@@ -81,7 +81,6 @@
             {
                 ModelFiles = bindingContext.ParseResult.GetValueForOption(this.modelFile)!,
                 ModelId = bindingContext.ParseResult.GetValueForOption(this.modelId),
-                DmrRoot = bindingContext.ParseResult.GetValueForOption(this.dmrRoot),
                 WorkingDir = bindingContext.ParseResult.GetValueForOption(this.workingDir),
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
@@ -93,6 +92,7 @@
                 SdkPath = null,
 #endif
                 Lang = bindingContext.ParseResult.GetValueForOption(this.lang)!,
+                ThingOnly = bindingContext.ParseResult.GetValueForOption(this.thingOnly),
                 ClientOnly = bindingContext.ParseResult.GetValueForOption(this.clientOnly),
                 ServerOnly = bindingContext.ParseResult.GetValueForOption(this.serverOnly),
                 NoProj = bindingContext.ParseResult.GetValueForOption(this.noProj),

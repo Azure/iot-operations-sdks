@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::qo_s::QoS;
+use super::qos::Qos;
 use super::retain::Retain;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -28,7 +28,7 @@ pub struct DestinationConfiguration {
     /// The 'qos' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub qos: Option<QoS>,
+    pub qos: Option<Qos>,
 
     /// The 'retain' Field.
     #[serde(skip_serializing_if = "Option::is_none")]

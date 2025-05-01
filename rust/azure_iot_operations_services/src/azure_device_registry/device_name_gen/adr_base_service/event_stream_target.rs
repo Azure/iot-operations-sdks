@@ -4,8 +4,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum EventStreamTarget {
-    #[serde(rename = "BrokerStateStore")]
-    BrokerStateStore,
+    #[serde(rename = "Mqtt")]
+    Mqtt,
     #[serde(rename = "Storage")]
     Storage,
 }

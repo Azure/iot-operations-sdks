@@ -13,9 +13,6 @@
         /// <summary>Gets or sets the DTMI of the Interface to use for codegen.</summary>
         public string? ModelId { get; set; }
 
-        /// <summary>Gets or sets a directory or URL from which to retrieve referenced models.</summary>
-        public string? DmrRoot { get; set; }
-
         /// <summary>Gets or sets the directory for storing temporary files.</summary>
         public string? WorkingDir { get; set; }
 
@@ -33,6 +30,9 @@
 
         /// <summary>Gets or sets the programming language for generated code.</summary>
         public required string Lang { get; set; }
+
+        /// <summary>Gets or sets an indication of whether to generate only a Thing Description.</summary>
+        public bool ThingOnly { get; set; }
 
         /// <summary>Gets or sets an indication of whether to generate only client-side code.</summary>
         public bool ClientOnly { get; set; }

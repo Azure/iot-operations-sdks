@@ -3,7 +3,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub enum QoS {
+pub enum Qos {
     #[serde(rename = "Qos0")]
     Qos0,
     #[serde(rename = "Qos1")]

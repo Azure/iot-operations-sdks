@@ -3,71 +3,26 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
-    using System.Runtime.CompilerServices;
     using System.Text;
-    using Azure;
-    using Azure.IoT.ModelsRepository;
     using DTDLParser;
     using DTDLParser.Models;
 
     internal static class ModelSelector
     {
-        public static async Task<ContextualizedInterface> GetInterfaceAndModelContext(string[] modelTexts, string[] modelNames, Dtmi? modelDtmi, Uri? dmrUri, Action<string?> acceptHelpMessage)
+        public static async Task<ContextualizedInterface> GetInterfaceAndModelContext(string[] modelTexts, string[] modelNames, Dtmi? modelDtmi, Action<string?> acceptHelpMessage)
         {
             ContextualizedInterface contextualizedInterface = new();
 
-            ModelsRepositoryClient? dmrClient = null;
             ParsingOptions parsingOptions = new();
 
             parsingOptions.ExtensionLimitContexts = new List<Dtmi> { new Dtmi("dtmi:dtdl:limits:onvif") };
 
-            if (dmrUri != null)
+            DtdlParseLocator parseLocator = (int parseIndex, int parseLine, out string sourceName, out int sourceLine) =>
             {
-                dmrClient = new ModelsRepositoryClient(dmrUri);
-                parsingOptions.DtmiResolverAsync = dmrClient.ResolveAsync;
-                parsingOptions.DtdlResolveLocator = (Dtmi resolveDtmi, int resolveLine, out string sourceName, out int sourceLine) =>
-                {
-                    sourceName = $"the definition of {resolveDtmi} retrieved from {dmrUri}";
-                    sourceLine = resolveLine;
-                    return true;
-                };
-            }
-
-            DtdlParseLocator? parseLocator = null;
-
-            if (modelTexts.Any())
-            {
-                parseLocator = (int parseIndex, int parseLine, out string sourceName, out int sourceLine) =>
-                {
-                    sourceName = modelNames[parseIndex];
-                    sourceLine = parseLine;
-                    return true;
-                };
-            }
-            else
-            {
-                ModelResult? modelDtdl = null;
-                try
-                {
-                    modelDtdl = await dmrClient!.GetModelAsync(modelDtmi!.AbsoluteUri, ModelDependencyResolution.Disabled);
-                }
-                catch (RequestFailedException ex)
-                {
-                    acceptHelpMessage(ex.Status == 0 || ex.Status == (int)HttpStatusCode.NotFound ? $"{modelDtmi} not found in repository {dmrUri}" : $"Unable to access repository {dmrUri}");
-                    return contextualizedInterface;
-                }
-
-                modelTexts = modelDtdl.Content.Values.ToArray();
-                string[] modelIds = modelDtdl.Content.Keys.ToArray();
-
-                parseLocator = (int parseIndex, int parseLine, out string sourceName, out int sourceLine) =>
-                {
-                    sourceName = $"The definition of {modelIds[parseIndex]} retrieved from {dmrUri}";
-                    sourceLine = parseLine;
-                    return true;
-                };
-            }
+                sourceName = modelNames[parseIndex];
+                sourceLine = parseLine;
+                return true;
+            };
 
             var modelParser = new ModelParser(parsingOptions);
 
@@ -153,29 +108,6 @@
             }
         }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-
-        private static async IAsyncEnumerable<string> ResolveAsync(
-            this ModelsRepositoryClient dmrClient,
-            IReadOnlyCollection<Dtmi> dtmis,
-            [EnumeratorCancellation] CancellationToken ct)
-        {
-            foreach (var dtmi in dtmis.Select(s => s.AbsoluteUri))
-            {
-                ModelResult? modelResult = null;
-                try
-                {
-                    modelResult = await dmrClient.GetModelAsync(dtmi, ModelDependencyResolution.Disabled, ct);
-                }
-                catch (Exception)
-                {
-                }
-
-                if (modelResult != null)
-                {
-                    yield return modelResult.Content[dtmi];
-                }
-            }
-        }
 
         public class ContextualizedInterface
         {
