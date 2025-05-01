@@ -424,8 +424,8 @@ where
                                 Err(DispatchError::SendError(payload)) => {
                                     log::warn!("Asset Update Observation has been dropped. Received Asset Update Notification: {payload:?}",);
                                 }
-                                Err(DispatchError::NotFound(payload)) => {
-                                    log::warn!("Asset is not being observed. Received Asset Update Notification: {payload:?}",);
+                                Err(DispatchError::NotFound((receiver_id, (payload, _)))) => {
+                                    log::warn!("Asset is not being observed. Received Asset Update Notification: {payload:#?} for {receiver_id:?}",);
                                 }
                             }
                         },
