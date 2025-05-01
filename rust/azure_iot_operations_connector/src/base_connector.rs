@@ -110,7 +110,7 @@ fn operation_with_retries<T, E: std::fmt::Debug>(operation: impl Fn() -> Result<
         match operation() {
             Ok(result) => return result,
             Err(e) => {
-                log::error!("Operation failed, retrying: {:?}", e);
+                log::error!("Operation failed, retrying: {e:?}");
                 retry_duration = retry_duration.saturating_mul(2);
                 std::thread::sleep(retry_duration);
             }
