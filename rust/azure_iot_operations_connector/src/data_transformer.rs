@@ -14,7 +14,7 @@ use crate::destination_endpoint::Forwarder;
 use crate::{Data, base_connector::managed_azure_device_registry::Reporter};
 
 pub trait DataTransformer {
-  // TODO: rename
+    // TODO: rename
     type MyDatasetDataTransformer: DatasetDataTransformer;
     fn new_dataset_data_transformer(
         &self,

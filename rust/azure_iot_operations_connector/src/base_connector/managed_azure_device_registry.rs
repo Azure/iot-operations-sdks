@@ -11,6 +11,7 @@ use azure_iot_operations_services::azure_device_registry::{
     DeviceUpdateObservation, MessageSchemaReference,
 };
 
+use super::ConnectorContext;
 use crate::{
     Data, MessageSchema,
     data_transformer::{DataTransformer, DatasetDataTransformer},
@@ -20,20 +21,18 @@ use crate::{
     },
 };
 
-use super::ConnectorContext;
-
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedDeviceCreateObservation<T: DataTransformer> {
+pub struct ManagedDeviceCreationObservation<T: DataTransformer> {
     _connector_context: ConnectorContext<T>,
     _device_endpoint_create_observation: DeviceEndpointCreateObservation,
 }
-impl<T> ManagedDeviceCreateObservation<T>
+impl<T> ManagedDeviceCreationObservation<T>
 where
     T: DataTransformer,
 {
-    /// Creates a new [`ManagedDeviceCreateObservation`] that uses the given [`ConnectorContext`]
+    /// Creates a new [`ManagedDeviceCreationObservation`] that uses the given [`ConnectorContext`]
     pub(crate) fn new(connector_context: ConnectorContext<T>) -> Self {
         let device_endpoint_create_observation =
             DeviceEndpointCreateObservation::new(connector_context.debounce_duration).unwrap();

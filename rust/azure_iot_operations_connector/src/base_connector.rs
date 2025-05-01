@@ -10,7 +10,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::azure_device_registry;
-use managed_azure_device_registry::ManagedDeviceCreateObservation;
+use managed_azure_device_registry::ManagedDeviceCreationObservation;
 
 use crate::{
     data_transformer::DataTransformer, filemount::connector_config::ConnectorConfiguration,
@@ -127,10 +127,10 @@ where
         self.session.run().await
     }
 
-    /// Creates a new `ManagedDeviceCreateObservation` to allow for all Azure Device Registry operations
+    /// Creates a new `ManagedDeviceCreationObservation` to allow for all Azure Device Registry operations
     /// TODO: restrict to only be able to call once for now
-    pub fn create_managed_device_create_observation(&self) -> ManagedDeviceCreateObservation<T> {
-        ManagedDeviceCreateObservation::new(self.connector_context.clone())
+    pub fn create_managed_device_create_observation(&self) -> ManagedDeviceCreationObservation<T> {
+        ManagedDeviceCreationObservation::new(self.connector_context.clone())
     }
 }
 
