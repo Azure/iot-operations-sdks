@@ -3,7 +3,7 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::time::Duration;
+use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
     Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
@@ -12,14 +12,15 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::azure_device_registry;
 use managed_azure_device_registry::ManagedDeviceCreateObservation;
 
-use crate::filemount::connector_config::ConnectorConfiguration;
+use crate::{
+    data_transformer::DataTransformer, filemount::connector_config::ConnectorConfiguration,
+};
 
 pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations
-#[derive(Clone)]
 #[allow(dead_code)]
-pub(crate) struct ConnectorContext {
+pub(crate) struct ConnectorContext<T: DataTransformer> {
     /// Application context used for creating new clients and envoys
     application_context: ApplicationContext,
     /// Connector configuration if needed by any dependent operations
@@ -28,26 +29,53 @@ pub(crate) struct ConnectorContext {
     debounce_duration: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
+    data_transformer: Arc<T>,
     // state_store_client: Arc<state_store::Client<SessionManagedClient>>,
     // schema_registry_client: schema_registry::Client<SessionManagedClient>,
     // etc
 }
 
+// manual clone implementation needed because the compiler thinks Arc<T> must have T: Clone for Arc<T> to be Clone
+impl<T> Clone for ConnectorContext<T>
+where
+    T: DataTransformer,
+{
+    fn clone(&self) -> Self {
+        Self {
+            application_context: self.application_context.clone(),
+            connector_config: self.connector_config.clone(),
+            debounce_duration: self.debounce_duration,
+            azure_device_registry_client: self.azure_device_registry_client.clone(),
+            data_transformer: self.data_transformer.clone(),
+        }
+    }
+}
+
 /// Base Connector for Azure IoT Operations
-pub struct BaseConnector {
-    connector_context: ConnectorContext,
+pub struct BaseConnector<T: DataTransformer> {
+    connector_context: ConnectorContext<T>,
     session: Session,
 }
 
-impl BaseConnector {
+impl<T> BaseConnector<T>
+where
+    T: DataTransformer,
+{
     /// Creates a new [`BaseConnector`] and all required clients/etc needed to run connector operations.
     /// On any failures, will log the error and then retry getting the connector configuration
     /// with exponential backoff. This allows for new configuration to be deployed to fix any
     /// errors without needing to restart the connector.
     #[must_use]
-    pub fn new(application_context: &ApplicationContext) -> Self {
+    pub fn new(application_context: ApplicationContext, data_transformer: T) -> Self {
         // if any of these operations fail, wait and try again in case connector configuration has changed
-        operation_with_retries::<Self, String>(|| {
+        let (connector_config, azure_device_registry_client, session) = operation_with_retries::<
+            (
+                ConnectorConfiguration,
+                azure_device_registry::Client<SessionManagedClient>,
+                Session,
+            ),
+            String,
+        >(|| {
             // Get Connector Configuration
             let connector_config =
                 ConnectorConfiguration::new_from_deployment().map_err(|e| e.to_string())?;
@@ -74,16 +102,18 @@ impl BaseConnector {
             )
             .map_err(|e| e.to_string())?;
 
-            Ok(Self {
-                connector_context: ConnectorContext {
-                    debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
-                    application_context: application_context.clone(),
-                    connector_config,
-                    azure_device_registry_client,
-                },
-                session,
-            })
-        })
+            Ok((connector_config, azure_device_registry_client, session))
+        });
+        Self {
+            connector_context: ConnectorContext {
+                debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
+                application_context,
+                connector_config,
+                azure_device_registry_client,
+                data_transformer: Arc::new(data_transformer),
+            },
+            session,
+        }
     }
 
     /// Runs the MQTT Session that allows all Connector Operations to be performed
@@ -98,7 +128,8 @@ impl BaseConnector {
     }
 
     /// Creates a new `ManagedDeviceCreateObservation` to allow for all Azure Device Registry operations
-    pub fn create_managed_device_create_observation(&self) -> ManagedDeviceCreateObservation {
+    /// TODO: restrict to only be able to call once for now
+    pub fn create_managed_device_create_observation(&self) -> ManagedDeviceCreateObservation<T> {
         ManagedDeviceCreateObservation::new(self.connector_context.clone())
     }
 }

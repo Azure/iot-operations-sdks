@@ -14,9 +14,17 @@ use crate::destination_endpoint::Forwarder;
 use crate::{Data, base_connector::managed_azure_device_registry::Reporter};
 
 pub trait DataTransformer {
-    fn new(dataset_definition: AssetDataset, forwarder: Forwarder, reporter: Arc<Reporter>)
-    -> Self;
+  // TODO: rename
+    type MyDatasetDataTransformer: DatasetDataTransformer;
+    fn new_dataset_data_transformer(
+        &self,
+        dataset_definition: AssetDataset,
+        forwarder: Forwarder,
+        reporter: Arc<Reporter>,
+    ) -> Self::MyDatasetDataTransformer;
+}
 
+pub trait DatasetDataTransformer {
     // optionally include specific datapoint that this data is for
     fn add_sampled_data(
         &self,

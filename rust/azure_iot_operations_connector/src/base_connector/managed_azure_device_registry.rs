@@ -13,7 +13,7 @@ use azure_iot_operations_services::azure_device_registry::{
 
 use crate::{
     Data, MessageSchema,
-    data_transformer::DataTransformer,
+    data_transformer::{DataTransformer, DatasetDataTransformer},
     destination_endpoint::Forwarder,
     filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, DeviceEndpointCreateObservation,
@@ -25,13 +25,16 @@ use super::ConnectorContext;
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedDeviceCreateObservation {
-    _connector_context: ConnectorContext,
+pub struct ManagedDeviceCreateObservation<T: DataTransformer> {
+    _connector_context: ConnectorContext<T>,
     _device_endpoint_create_observation: DeviceEndpointCreateObservation,
 }
-impl ManagedDeviceCreateObservation {
+impl<T> ManagedDeviceCreateObservation<T>
+where
+    T: DataTransformer,
+{
     /// Creates a new [`ManagedDeviceCreateObservation`] that uses the given [`ConnectorContext`]
-    pub(crate) fn new(connector_context: ConnectorContext) -> Self {
+    pub(crate) fn new(connector_context: ConnectorContext<T>) -> Self {
         let device_endpoint_create_observation =
             DeviceEndpointCreateObservation::new(connector_context.debounce_duration).unwrap();
 
@@ -49,9 +52,9 @@ impl ManagedDeviceCreateObservation {
     pub async fn recv_notification(
         &self,
     ) -> Option<(
-        ManagedDeviceEndpoint,
-        ManagedDeviceEndpointUpdateObservation,
-        /*DeviceDeleteToken,*/ ManagedAssetCreateObservation,
+        ManagedDeviceEndpoint<T>,
+        ManagedDeviceEndpointUpdateObservation<T>,
+        /*DeviceDeleteToken,*/ ManagedAssetCreateObservation<T>,
     )> {
         // Handle the notification
         // self.device_endpoint_create_observation.recv_notification().await;
@@ -62,12 +65,16 @@ impl ManagedDeviceCreateObservation {
 }
 
 /// Azure Device Registry Device that includes additional functionality to report status
-pub struct ManagedDeviceEndpoint {
+pub struct ManagedDeviceEndpoint<T: DataTransformer> {
     /// Device definition TODO: derive getter?
     pub device: Device, // TODO: create new struct that only has one endpoint
     _endpoint_name: String, // needed for easy status reporting?
+    _data_transformer: Arc<T>,
 }
-impl ManagedDeviceEndpoint {
+impl<T> ManagedDeviceEndpoint<T>
+where
+    T: DataTransformer,
+{
     /// Used to report the status of a device endpoint
     /// Can report both success or failures for the device and the endpoint separately
     pub fn report_status(
@@ -80,10 +87,14 @@ impl ManagedDeviceEndpoint {
 /// An Observation for device endpoint update events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedDeviceEndpointUpdateObservation {
+pub struct ManagedDeviceEndpointUpdateObservation<T: DataTransformer> {
     _device_update_observation: DeviceUpdateObservation,
+    _data_transformer: Arc<T>,
 }
-impl ManagedDeviceEndpointUpdateObservation {
+impl<T> ManagedDeviceEndpointUpdateObservation<T>
+where
+    T: DataTransformer,
+{
     /// Receives an updated [`ManagedDeviceEndpoint`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
@@ -92,7 +103,7 @@ impl ManagedDeviceEndpointUpdateObservation {
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(ManagedDeviceEndpoint, Option<AckToken>)> {
+    pub async fn recv_notification(&self) -> Option<(ManagedDeviceEndpoint<T>, Option<AckToken>)> {
         // handle the notification
         // convert into ManagedDeviceEndpoint
         None
@@ -102,10 +113,14 @@ impl ManagedDeviceEndpointUpdateObservation {
 /// An Observation for asset creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedAssetCreateObservation {
+pub struct ManagedAssetCreateObservation<T: DataTransformer> {
     _asset_create_observation: AssetCreateObservation,
+    _data_transformer: Arc<T>,
 }
-impl ManagedAssetCreateObservation {
+impl<T> ManagedAssetCreateObservation<T>
+where
+    T: DataTransformer,
+{
     /// Receives a notification for a newly created asset. This notification includes
     /// the [`ManagedAsset`], a [`ManagedAssetUpdateObservation`] to observe for updates on
     /// the new Asset, and a [`AssetDeletionToken`] to observe for deletion of this Asset
@@ -113,8 +128,8 @@ impl ManagedAssetCreateObservation {
     pub async fn recv_notification(
         &self,
     ) -> Option<(
-        ManagedAsset,
-        ManagedAssetUpdateObservation,
+        ManagedAsset<T>,
+        ManagedAssetUpdateObservation<T>,
         AssetDeletionToken,
     )> {
         // handle the notification
@@ -127,10 +142,14 @@ impl ManagedAssetCreateObservation {
 /// An Observation for asset update events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedAssetUpdateObservation {
+pub struct ManagedAssetUpdateObservation<T: DataTransformer> {
     _asset_update_observation: AssetUpdateObservation,
+    _data_transformer: Arc<T>,
 }
-impl ManagedAssetUpdateObservation {
+impl<T> ManagedAssetUpdateObservation<T>
+where
+    T: DataTransformer,
+{
     /// Receives an updated [`ManagedAsset`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
@@ -139,7 +158,7 @@ impl ManagedAssetUpdateObservation {
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(ManagedAsset, Option<AckToken>)> {
+    pub async fn recv_notification(&self) -> Option<(ManagedAsset<T>, Option<AckToken>)> {
         // handle the notification
         None
     }
@@ -147,12 +166,19 @@ impl ManagedAssetUpdateObservation {
 
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status, translate data, and send data to the destination
-pub struct ManagedAsset {
+#[allow(dead_code)]
+pub struct ManagedAsset<T: DataTransformer> {
     // re-export of adr::Asset, but Dataset/Event/etc structs are of type ConnectorDataset/etc
     /// Asset Definition
     pub asset_definition: Asset,
+    data_transformer: Arc<T>,
+    /// datasets associated with the asset. Will be part of [`ManagedAsset`] struct in future, but for now this creates the right dependencies
+    pub datasets: Vec<ManagedDataset<T>>,
 }
-impl ManagedAsset {
+impl<T> ManagedAsset<T>
+where
+    T: DataTransformer,
+{
     /// Used to report the status of an Asset
     pub fn report_status(_status: Result<(), ConfigError>) {}
 }
@@ -162,7 +188,7 @@ impl ManagedAsset {
 pub struct ManagedDataset<T: DataTransformer> {
     /// Dataset Definition
     pub dataset_definition: AssetDataset,
-    data_transformer: T,
+    dataset_data_transformer: T::MyDatasetDataTransformer,
     reporter: Arc<Reporter>,
 }
 #[allow(dead_code)]
@@ -170,14 +196,18 @@ impl<T> ManagedDataset<T>
 where
     T: DataTransformer,
 {
-    pub(crate) fn new(dataset_definition: AssetDataset) -> Self {
+    pub(crate) fn new(dataset_definition: AssetDataset, data_transformer: &T) -> Self {
         // Create a new dataset
         let forwarder = Forwarder::new(dataset_definition.clone());
         let reporter = Arc::new(Reporter::new(dataset_definition.clone()));
-        let data_transformer = T::new(dataset_definition.clone(), forwarder, reporter.clone());
+        let dataset_data_transformer = data_transformer.new_dataset_data_transformer(
+            dataset_definition.clone(),
+            forwarder,
+            reporter.clone(),
+        );
         Self {
             dataset_definition,
-            data_transformer,
+            dataset_data_transformer,
             reporter,
         }
     }
@@ -202,7 +232,7 @@ where
         datapoint: Option<AssetDatasetDataPoint>,
     ) -> Result<CompletionToken, String> {
         // Add sampled data to the dataset
-        self.data_transformer
+        self.dataset_data_transformer
             .add_sampled_data(data, datapoint)
             .await
     }
