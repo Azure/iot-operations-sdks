@@ -3,7 +3,7 @@
 use std::{collections::HashMap, fmt::Display, marker::PhantomData, str::FromStr, sync::Arc};
 
 use azure_iot_operations_mqtt::{
-    control_packet::QoS,
+    control_packet::{Publish, QoS},
     interface::{AckToken, ManagedClient, PubReceiver},
 };
 use chrono::{DateTime, Utc};
@@ -218,6 +218,108 @@ pub struct Message<T: PayloadSerialize> {
     pub timestamp: Option<HybridLogicalClock>,
     /// Resolved static and dynamic topic tokens from the incoming message's topic.
     pub topic_tokens: HashMap<String, String>,
+    /// Incoming message topic
+    pub topic: String,
+}
+
+impl<T> TryFrom<Publish> for Message<T>
+where
+    T: PayloadSerialize,
+{
+    type Error = String;
+
+    fn try_from(value: Publish) -> Result<Message<T>, Self::Error> {
+        // NOTE: User properties are parsed out into a new HashMap because:
+        // 1) It makes the code more readable/maintanable to do HashMap lookups
+        // 2) When this logic is extracted to a ChunkBuffer, it will be more memory efficient as
+        //  we won't want to keep entire copies of all Publishes, so we will just copy the
+        //  properties once.
+
+        let publish_properties = value.properties.ok_or("Publish contains no properties")?;
+
+        // Parse user properties
+        let expected_aio_properties = [
+            UserProperty::Timestamp,
+            UserProperty::ProtocolVersion,
+            UserProperty::SourceId,
+        ];
+        let mut telemetry_custom_user_data = vec![];
+        let mut telemetry_aio_data = HashMap::new();
+        for (key, value) in publish_properties.user_properties {
+            match UserProperty::from_str(&key) {
+                Ok(p) if expected_aio_properties.contains(&p) => {
+                    telemetry_aio_data.insert(p, value);
+                }
+                Ok(_) => {
+                    log::warn!(
+                        "Telemetry should not contain MQTT user property '{key}'. Value is '{value}'"
+                    );
+                    telemetry_custom_user_data.push((key, value));
+                }
+                Err(()) => {
+                    telemetry_custom_user_data.push((key, value));
+                }
+            }
+        }
+
+        // Check the protocol version.
+        // If the protocol version is not supported, or cannot be parsed, all bets are off
+        // regarding what anything else even means, so this *must* be done first
+        let protocol_version = {
+            match telemetry_aio_data.get(&UserProperty::ProtocolVersion) {
+                Some(protocol_version) => {
+                    if let Some(version) = ProtocolVersion::parse_protocol_version(protocol_version)
+                    {
+                        version
+                    } else {
+                        return Err(format!(
+                            "Received a telemetry with an unparsable protocol version number: {protocol_version}"
+                        ));
+                    }
+                }
+                None => DEFAULT_TELEMETRY_PROTOCOL_VERSION,
+            }
+        };
+        if !protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
+            return Err(format!(
+                "Unsupported protocol version '{protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported"
+            ));
+        }
+
+        // Format HLC timestamp
+        let timestamp = telemetry_aio_data
+            .get(&UserProperty::Timestamp)
+            .map(|s| HybridLogicalClock::from_str(s))
+            .transpose()
+            .map_err(|e| e.to_string())?;
+
+        // Parse topic
+        let topic = std::str::from_utf8(&value.topic)
+            .map_err(|e| e.to_string())?
+            .to_string();
+
+        // Deserialize payload
+        let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
+            log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
+            FormatIndicator::default()
+        });
+        let content_type = publish_properties.content_type;
+        let payload = T::deserialize(&value.payload, content_type.as_ref(), &format_indicator)
+            .map_err(|e| format!("{e:?}"))?;
+
+        let telemetry_message = Message {
+            payload,
+            content_type,
+            format_indicator,
+            custom_user_data: telemetry_custom_user_data,
+            sender_id: telemetry_aio_data.remove(&UserProperty::SourceId),
+            timestamp,
+            // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
+            topic_tokens: HashMap::default(),
+            topic,
+        };
+        Ok(telemetry_message)
+    }
 }
 
 /// Telemetry Receiver Options struct
@@ -486,171 +588,55 @@ where
                         ack_token.take();
                     }
 
+                    // Get pkid for logging
+                    let pkid = m.pkid;
+
                     // Process the received message
-                    log::info!("[pkid: {}] Received message", m.pkid);
+                    log::info!("[pkid: {pkid}] Received message");
 
-                    'process_message: {
-                        // Clone properties
+                    match TryInto::<Message<T>>::try_into(m) {
+                        Ok(mut message) => {
+                            // Update the topic tokens
+                            // NOTE: Tokens can't be added as part of the try_into conversion, as
+                            // it requires knowledge from the Receiver.
+                            message
+                                .topic_tokens
+                                .extend(self.topic_pattern.parse_tokens(&message.topic));
 
-                        let properties = m.properties.clone();
-
-                        let mut custom_user_data = Vec::new();
-                        let mut timestamp = None;
-                        let mut sender_id = None;
-                        let mut content_type = None;
-                        let mut format_indicator = FormatIndicator::UnspecifiedBytes;
-
-                        if let Some(properties) = properties {
-                            // Get content type
-                            content_type = properties.content_type;
-                            // Get format indicator
-                            format_indicator = match properties.payload_format_indicator.try_into()
-                            {
-                                Ok(format_indicator) => format_indicator,
-                                Err(e) => {
+                            // Update application HLC
+                            if let Some(hlc) = &message.timestamp {
+                                if let Err(e) = self.application_hlc.update(hlc) {
                                     log::error!(
-                                        "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
-                                        m.pkid
+                                        "[pkid: {pkid}]: Failure updating application HLC against {hlc}: {e}"
                                     );
-                                    // Use default format indicator
-                                    FormatIndicator::default()
-                                }
-                            };
-
-                            // unused beyond validation, but may be used in the future to determine how to handle other fields.
-                            let mut message_protocol_version = DEFAULT_TELEMETRY_PROTOCOL_VERSION; // assume default version if none is provided
-                            if let Some((_, protocol_version)) =
-                                properties.user_properties.iter().find(|(key, _)| {
-                                    UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
-                                })
-                            {
-                                if let Some(message_version) =
-                                    ProtocolVersion::parse_protocol_version(protocol_version)
-                                {
-                                    message_protocol_version = message_version;
-                                } else {
-                                    log::error!(
-                                        "[pkid: {}] Unparsable protocol version value provided: {protocol_version}.",
-                                        m.pkid
-                                    );
-                                    break 'process_message;
                                 }
                             }
-                            // Check that the version (or the default version if one isn't provided) is supported
-                            if !message_protocol_version.is_supported(SUPPORTED_PROTOCOL_VERSIONS) {
-                                log::error!(
-                                    "[pkid: {}] Unsupported Protocol Version '{message_protocol_version}'. Only major protocol versions '{SUPPORTED_PROTOCOL_VERSIONS:?}' are supported.",
-                                    m.pkid
-                                );
-                                break 'process_message;
-                            }
+                            return Some(Ok((message, ack_token)));
+                        }
+                        Err(e_string) => {
+                            log::error!("[pkid: {pkid}] {e_string}");
 
-                            for (key, value) in properties.user_properties {
-                                match UserProperty::from_str(&key) {
-                                    Ok(UserProperty::Timestamp) => {
-                                        match HybridLogicalClock::from_str(&value) {
-                                            Ok(ts) => {
-                                                // Update application HLC against received __ts
-                                                if let Err(e) = self.application_hlc.update(&ts) {
-                                                    log::error!(
-                                                        "[pkid: {}] Failure updating application HLC against {value}: {e}",
-                                                        m.pkid
-                                                    );
-                                                    break 'process_message;
+                            // Ack on error to prevent redelivery
+                            if let Some(ack_token) = ack_token {
+                                tokio::spawn({
+                                    let receiver_cancellation_token_clone =
+                                        self.receiver_cancellation_token.clone();
+                                    async move {
+                                        tokio::select! {
+                                            () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
+                                            ack_res = ack_token.ack() => {
+                                                match ack_res {
+                                                    Ok(_) => { /* Success */ }
+                                                    Err(e) => {
+                                                        log::error!("[pkid: {pkid}] Ack error {e}");
+                                                    }
                                                 }
-                                                timestamp = Some(ts);
-                                            }
-                                            Err(e) => {
-                                                log::error!(
-                                                    "[pkid: {}] Invalid timestamp {value}: {e}",
-                                                    m.pkid
-                                                );
-                                                break 'process_message;
                                             }
                                         }
                                     }
-                                    Ok(UserProperty::ProtocolVersion) => {
-                                        // skip, already processed
-                                    }
-                                    Ok(UserProperty::SourceId) => {
-                                        sender_id = Some(value);
-                                    }
-                                    Err(()) => {
-                                        custom_user_data.push((key, value));
-                                    }
-                                    _ => {
-                                        log::warn!(
-                                            "[pkid: {}] Telemetry message should not contain MQTT user property {key}. Value is {value}",
-                                            m.pkid
-                                        );
-                                        custom_user_data.push((key, value));
-                                    }
-                                }
+                                });
                             }
                         }
-
-                        let topic = match std::str::from_utf8(&m.topic) {
-                            Ok(topic) => topic,
-                            Err(e) => {
-                                // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                                log::error!(
-                                    "[pkid: {}] Topic deserialization error: {e:?}",
-                                    m.pkid
-                                );
-                                break 'process_message;
-                            }
-                        };
-
-                        let topic_tokens = self.topic_pattern.parse_tokens(topic);
-
-                        // Deserialize payload
-                        let payload = match T::deserialize(
-                            &m.payload,
-                            content_type.as_ref(),
-                            &format_indicator,
-                        ) {
-                            Ok(p) => p,
-                            Err(e) => {
-                                log::error!(
-                                    "[pkid: {}] Payload deserialization error: {e:?}",
-                                    m.pkid
-                                );
-                                break 'process_message;
-                            }
-                        };
-
-                        let telemetry_message = Message {
-                            payload,
-                            content_type,
-                            format_indicator,
-                            custom_user_data,
-                            sender_id,
-                            timestamp,
-                            topic_tokens,
-                        };
-
-                        return Some(Ok((telemetry_message, ack_token)));
-                    }
-
-                    // Occurs on an error processing the message, ack to prevent redelivery
-                    if let Some(ack_token) = ack_token {
-                        tokio::spawn({
-                            let receiver_cancellation_token_clone =
-                                self.receiver_cancellation_token.clone();
-                            async move {
-                                tokio::select! {
-                                    () = receiver_cancellation_token_clone.cancelled() => { /* Received loop cancelled */ },
-                                    ack_res = ack_token.ack() => {
-                                        match ack_res {
-                                            Ok(_) => { /* Success */ }
-                                            Err(e) => {
-                                                log::error!("[pkid: {}] Ack error {e}", m.pkid);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
                     }
                 }
                 _ => {
