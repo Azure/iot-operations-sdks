@@ -12,7 +12,7 @@ use std::time::Duration;
 // nor frankly does combining MQTT and TLS settings.
 
 /// All the settings required to establish an MQTT connection.
-#[derive(Builder, Clone)]
+#[derive(Builder, Clone, Debug, Getters)]
 #[builder(pattern = "owned", setter(into), build_fn(validate = "Self::validate"))]
 pub struct MqttConnectionSettings {
     /// Client identifier
