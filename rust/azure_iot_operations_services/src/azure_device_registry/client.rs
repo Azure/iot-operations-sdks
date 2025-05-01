@@ -1140,6 +1140,23 @@ mod tests {
             .await
     }
 
+    async fn call_unobserve_asset_update(
+        device_name: &str,
+        endpoint_name: &str,
+        asset_name: &str,
+        timeout: Duration,
+        adr_client: Client<SessionManagedClient>,
+    ) -> Result<(), Error> {
+        adr_client
+            .unobserve_asset_update_notifications(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                asset_name.to_string(),
+                timeout,
+            )
+            .await
+    }
+
     async fn call_get_device(
         device_name: &str,
         endpoint_name: &str,
@@ -1175,6 +1192,21 @@ mod tests {
     ) -> Result<DeviceUpdateObservation, Error> {
         adr_client
             .observe_device_update_notifications(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                timeout,
+            )
+            .await
+    }
+
+    async fn call_unobserve_device_update(
+        device_name: &str,
+        endpoint_name: &str,
+        timeout: Duration,
+        adr_client: Client<SessionManagedClient>,
+    ) -> Result<(), Error> {
+        adr_client
+            .unobserve_device_update_notifications(
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 timeout,
@@ -1393,6 +1425,76 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_unobserve_asset_update_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = call_unobserve_asset_update(
+            "test-device",
+            "test-endpoint",
+            "",
+            Duration::from_secs(10),
+            adr_client,
+        )
+        .await;
+
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::AIOProtocolError(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_asset_update_empty_device_name() {
+        let adr_client = create_adr_client();
+        let result = call_unobserve_asset_update(
+            "",
+            "test-endpoint",
+            "test-asset",
+            Duration::from_secs(10),
+            adr_client,
+        )
+        .await;
+
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::AIOProtocolError(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_asset_update_empty_endpoint_name() {
+        let adr_client = create_adr_client();
+        let result = call_unobserve_asset_update(
+            "test-device",
+            "",
+            "test-asset",
+            Duration::from_secs(10),
+            adr_client,
+        )
+        .await;
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::AIOProtocolError(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_asset_update_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = call_unobserve_asset_update(
+            "test-device",
+            "test-endpoint",
+            "test-asset",
+            Duration::from_secs(0),
+            adr_client,
+        )
+        .await;
+        assert!(matches!(
+            result.unwrap_err().kind(),
+            ErrorKind::InvalidRequestArgument(_)
+        ));
+    }
+
+    #[tokio::test]
     async fn test_get_device_empty_device_name() {
         let adr_client = create_adr_client();
         let result =
@@ -1511,6 +1613,46 @@ mod tests {
     async fn test_observe_device_update_zero_timeout() {
         let adr_client = create_adr_client();
         let result = call_observe_device_update(
+            "test-device",
+            "test-endpoint",
+            Duration::from_secs(0),
+            adr_client,
+        )
+        .await;
+        assert!(matches!(
+            result.unwrap_err().kind(),
+            ErrorKind::InvalidRequestArgument(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_device_update_empty_device_name() {
+        let adr_client = create_adr_client();
+        let result =
+            call_unobserve_device_update("", "test-endpoint", Duration::from_secs(10), adr_client)
+                .await;
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::AIOProtocolError(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_device_update_empty_endpoint_name() {
+        let adr_client = create_adr_client();
+        let result =
+            call_unobserve_device_update("test-device", "", Duration::from_secs(10), adr_client)
+                .await;
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::AIOProtocolError(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_unobserve_device_update_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = call_unobserve_device_update(
             "test-device",
             "test-endpoint",
             Duration::from_secs(0),
