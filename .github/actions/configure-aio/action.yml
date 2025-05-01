@@ -43,7 +43,7 @@ runs:
     - name: Install AIO
       uses: ./action-deploy
       with:
-        akri: 2501
+        akri: 2504
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
