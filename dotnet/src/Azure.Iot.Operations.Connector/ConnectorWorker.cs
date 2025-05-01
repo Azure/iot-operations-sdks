@@ -457,9 +457,35 @@ namespace Azure.Iot.Operations.Connector
                                 datasetMessageSchema.Tags,
                                 null,
                                 cancellationToken);
+                            // report matching version, for all or every???
                         }
                         catch (Exception ex)
                         {
+                            await _assetMonitor.UpdateAssetStatusAsync(
+                                deviceName,
+                                inboundEndpointName,
+                                new UpdateAssetStatusRequest
+                                {
+                                    AssetName = assetName,
+                                    AssetStatus = new AssetStatus
+                                    {
+                                        Config = null,
+                                        Datasets =
+                                        [
+                                            new AssetDatasetEventStreamStatus
+                                            {
+                                                Name = dataset.Name,
+                                                Error = new ConfigError
+                                                {
+                                                    Code = "SchemaRegistrationFailed",
+                                                    Message = ex.Message
+                                                }
+                                            }
+                                        ],
+                                    }
+                                },
+                                commandTimeout: null,
+                                cancellationToken);
                             _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
@@ -497,6 +523,31 @@ namespace Azure.Iot.Operations.Connector
                         }
                         catch (Exception ex)
                         {
+                            await _assetMonitor.UpdateAssetStatusAsync(
+                                deviceName,
+                                inboundEndpointName,
+                                new UpdateAssetStatusRequest
+                                {
+                                    AssetName = assetName,
+                                    AssetStatus = new AssetStatus
+                                    {
+                                        Config = null,
+                                        Events =
+                                        [
+                                            new AssetDatasetEventStreamStatus
+                                            {
+                                                Name = assetEvent.Name,
+                                                Error = new ConfigError
+                                                {
+                                                    Code = "SchemaRegistrationFailed",
+                                                    Message = ex.Message
+                                                }
+                                            }
+                                        ],
+                                    }
+                                },
+                                commandTimeout: null,
+                                cancellationToken);
                             _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
