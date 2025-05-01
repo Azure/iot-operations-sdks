@@ -466,10 +466,10 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint are invalid.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
@@ -505,10 +505,10 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint are invalid.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
@@ -554,13 +554,13 @@ where
     /// if the receiver is already registered.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint are invalid.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
@@ -651,13 +651,13 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint are invalid.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
@@ -741,10 +741,10 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if device, inbound_endpoint, or asset names are invalid.
+    /// if device, inbound endpoint, or asset names are invalid.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
@@ -786,10 +786,10 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint, or asset names are invalid.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
@@ -841,13 +841,13 @@ where
     /// if the receiver is already registered.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint, or asset names are invalid.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
@@ -943,13 +943,13 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if there is error building the request.
+    /// if timeout is 0.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound endpoint, or asset names are invalid.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not successful.
