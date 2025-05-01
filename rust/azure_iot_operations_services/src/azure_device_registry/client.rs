@@ -411,7 +411,7 @@ where
                                 continue;
                             };
                             let Some(inbound_endpoint_name) = asset_update_telemetry.topic_tokens.get(INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN) else {
-                                log::error!("AssetUpdateEventTelemetry missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
+                                log::error!("Asset Update Notification missing {INBOUND_ENDPOINT_NAME_RECEIVED_TOPIC_TOKEN} topic token.");
                                 continue;
                             };
 
