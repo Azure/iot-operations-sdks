@@ -184,7 +184,6 @@ where
 
     /// Convenience function to get all observed device & inbound endpoint names to quickly unobserve all of them before cleaning up
     #[must_use]
-    #[allow(dead_code)]
     pub fn get_all_observed_device_endpoints(&self) -> Vec<(String, String)> {
         let mut device_endpoints = Vec::new();
         for device_receiver_id in self
@@ -203,7 +202,6 @@ where
 
     /// Convenience function to get all observed asset names to quickly unobserve all of them before cleaning up
     #[must_use]
-    #[allow(dead_code)]
     pub fn get_all_observed_assets(&self) -> Vec<(String, String, String)> {
         let mut assets = Vec::new();
         for receiver_id in self
@@ -516,7 +514,7 @@ where
         &self,
         device_name: String,
         inbound_endpoint_name: String,
-        status: DeviceStatus, // TODO: should this be DeviceEndpointStatus that doesn't have hashmap of endpoints?
+        status: DeviceStatus,
         timeout: Duration,
     ) -> Result<Device, Error> {
         let status_payload = adr_name_gen::UpdateDeviceStatusRequestPayload {
@@ -1231,8 +1229,8 @@ mod tests {
         .await;
 
         assert!(matches!(
-            result.unwrap_err(),
-            Error(ErrorKind::AIOProtocolError(_))
+            result.unwrap_err().kind(),
+            ErrorKind::AIOProtocolError(_)
         ));
     }
 

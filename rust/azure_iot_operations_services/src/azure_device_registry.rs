@@ -18,7 +18,7 @@ use crate::azure_device_registry::device_name_gen::common_types::options::{
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry Client implementation wrapper
-mod client;
+pub mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
 
