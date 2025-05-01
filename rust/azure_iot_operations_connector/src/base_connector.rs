@@ -5,7 +5,7 @@
 
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::session::{Session, SessionError, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::azure_device_registry;
 use managed_azure_device_registry::ManagedDeviceCreateObservation;
@@ -16,7 +16,8 @@ pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations
 #[derive(Clone)]
-struct ConnectorContext {
+#[allow(dead_code)]
+pub(crate) struct ConnectorContext {
     /// Application context used for creating new clients and envoys
     application_context: ApplicationContext,
     /// Connector configuration if needed by any dependent operations
@@ -30,13 +31,19 @@ struct ConnectorContext {
     // etc
 }
 
+/// Base Connector for Azure IoT Operations
 pub struct BaseConnector {
   connector_context: ConnectorContext,
   session: Session
 }
 
 impl BaseConnector {
-  pub fn new(application_context: ApplicationContext) -> Self {
+  /// Creates a new [`BaseConnector`] and all required clients/etc needed to run connector operations.
+  /// On any failures, will log the error and then retry getting the connector configuration
+  /// with exponential backoff. This allows for new configuration to be deployed to fix any
+  /// errors without needing to restart the connector.
+  #[must_use]
+  pub fn new(application_context: &ApplicationContext) -> Self {
     // if any of these operations fail, wait and try again in case connector configuration has changed
     operation_with_retries::<Self, String>(|| {
         // Get Connector Configuration
@@ -77,22 +84,21 @@ impl BaseConnector {
     })
   }
 
-  pub async fn run(self) {
+  /// Runs the MQTT Session that allows all Connector Operations to be performed
+  /// Returns if the session ends. If this happens, the base connector will need to be recreated
+  /// 
+  /// # Errors
+  /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
+  pub async fn run(self) -> Result<(), SessionError> {
     // Run the Session and Connector Operations
     // TODO: make this a part of operation_with_retries to restart the connector if anything fails?
-    self.session.run().await.unwrap();
+    self.session.run().await
   }
 
-  pub fn create_managed_azure_device_registry_client(&self) -> ManagedDeviceCreateObservation {
+  /// Creates a new `ManagedDeviceCreateObservation` to allow for all Azure Device Registry operations
+  pub fn create_managed_device_create_observation(&self) -> ManagedDeviceCreateObservation {
     ManagedDeviceCreateObservation::new(self.connector_context.clone())
   }
-}
-
-
-#[allow(clippy::unused_async)]
-async fn connector_tasks(connector_context: ConnectorContext) -> Result<(), String> {
-    log::info!("Starting connector tasks with context: {:?}", connector_context.connector_config);
-    Ok(())
 }
 
 /// Helper function to perform any operation with retries.

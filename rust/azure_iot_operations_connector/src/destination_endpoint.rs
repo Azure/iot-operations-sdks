@@ -3,6 +3,8 @@
 
 //! Traits, types, and implementations for Azure IoT Operations Connector Destination Endpoints.
 
+#![allow(missing_docs)]
+
 use azure_iot_operations_mqtt::interface::CompletionToken;
 use azure_iot_operations_services::azure_device_registry::{AssetDataset, MessageSchemaReference};
 
@@ -12,13 +14,17 @@ pub struct Forwarder {
   message_schema_uri: Option<MessageSchemaReference>
 }
 impl Forwarder {
-  pub fn new(dataset_definition: AssetDataset) -> Self {
+  #[must_use] pub fn new(_dataset_definition: AssetDataset) -> Self {
     // Create a new forwarder
     Self {
       message_schema_uri: None,
     }
   }
-  pub async fn send_data(&self, data: Data) -> Result<CompletionToken, String> {
+
+  /// # Errors
+  /// TODO
+  #[allow(clippy::unused_async)]
+  pub async fn send_data(&self, _data: Data) -> Result<CompletionToken, String> {
     // Forward the data to the destination
     Err("Not implemented".to_string())
   }
