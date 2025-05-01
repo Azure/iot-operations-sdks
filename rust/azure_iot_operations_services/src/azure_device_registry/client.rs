@@ -7,8 +7,7 @@
 
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::interface::AckToken;
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
