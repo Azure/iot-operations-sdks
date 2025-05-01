@@ -747,10 +747,7 @@ where
     /// if there is error building the request.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
-    ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if topic tokens are not found.
+    /// if device, inbound_endpoint, or asset names are invalid.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
