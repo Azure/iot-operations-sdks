@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 
 //! Client for Azure Device Registry operations.
 //!
@@ -283,7 +281,7 @@ where
             .map_err(|e| errors.push(e));
 
         if errors.is_empty() {
-            log::info!("Shutdown");
+            log::info!("Shutdown done gracefully");
             Ok(())
         } else {
             Err(Error(ErrorKind::ShutdownError(errors)))
@@ -333,7 +331,7 @@ where
                         asset_shutdown_notifier.notify_one();
                     }
                 },
-                // AEP shutdown handler
+                // Device shutdown handler
                 () = device_shutdown_notifier.notified() => {
                     match device_update_telemetry_receiver.shutdown().await {
                         Ok(()) => {
@@ -1725,6 +1723,34 @@ mod tests {
         let invalid_hash = "device1";
         let unhashed_invalid =
             Client::<SessionManagedClient>::un_hash_device_endpoint(invalid_hash);
+        assert!(unhashed_invalid.is_none());
+    }
+
+    #[test]
+    fn test_hash_and_unhash_device_endpoint_asset() {
+        let device_name = "device1";
+        let endpoint_name = "endpoint1";
+        let asset_name = "asset1";
+
+        let hashed = Client::<SessionManagedClient>::hash_device_endpoint_asset(
+            device_name,
+            endpoint_name,
+            asset_name,
+        );
+        assert_eq!(hashed, "device1~endpoint1~asset1");
+
+        let unhashed = Client::<SessionManagedClient>::un_hash_device_endpoint_asset(&hashed);
+        assert!(unhashed.is_some());
+
+        let (unhashed_device, unhashed_endpoint, unhashed_asset) = unhashed.unwrap();
+        assert_eq!(unhashed_device, device_name);
+        assert_eq!(unhashed_endpoint, endpoint_name);
+        assert_eq!(unhashed_asset, asset_name);
+
+        // Test unhashing with invalid input
+        let invalid_hash = "device1";
+        let unhashed_invalid =
+            Client::<SessionManagedClient>::un_hash_device_endpoint_asset(invalid_hash);
         assert!(unhashed_invalid.is_none());
     }
 }
