@@ -70,10 +70,6 @@ where
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
     /// Create a new Azure Device Registry Client.
     ///
-    /// # Arguments
-    /// * `application_context` - The application context.
-    /// * `client` - The [`ManagedClient`] to use for communication.
-    /// * `options` - The options for the client.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
