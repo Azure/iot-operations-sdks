@@ -932,7 +932,7 @@ where
     /// * `asset_name` - The name of the asset.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns `Ok(())` if the Device Updates are no longer being observed.
+    /// Returns `Ok(())` if the Asset Updates are no longer being observed.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
