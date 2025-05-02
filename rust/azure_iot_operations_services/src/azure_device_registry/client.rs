@@ -191,7 +191,7 @@ where
         {
             // best effort, if the id can't be parsed, then skip it
             if let Some((device_name, inbound_endpoint_name)) =
-                Self::un_hash_device_endpoint(&device_receiver_id)
+                Self::unhash_device_endpoint(&device_receiver_id)
             {
                 device_endpoints.push((device_name, inbound_endpoint_name));
             }
@@ -209,7 +209,7 @@ where
         {
             // best effort, if the id can't be parsed, then skip it
             if let Some((device_name, inbound_endpoint_name, asset_name)) =
-                Self::un_hash_device_endpoint_asset(&receiver_id)
+                Self::unhash_device_endpoint_asset(&receiver_id)
             {
                 assets.push((device_name, inbound_endpoint_name, asset_name));
             }
@@ -706,7 +706,7 @@ where
     }
 
     /// Unhashes the device name and inbound endpoint name from a single string.
-    fn un_hash_device_endpoint(hashed_device_endpoint: &str) -> Option<(String, String)> {
+    fn unhash_device_endpoint(hashed_device_endpoint: &str) -> Option<(String, String)> {
         hashed_device_endpoint
             .split_once('~')
             .map(|(device_name, inbound_endpoint_name)| {
@@ -740,6 +740,11 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<Asset, Error> {
+        if asset_name.trim().is_empty() {
+            return Err(
+                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
+            );
+        }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
             .payload(payload)
@@ -784,6 +789,12 @@ where
         status: AssetStatus,
         timeout: Duration,
     ) -> Result<Asset, Error> {
+        if asset_name.trim().is_empty() {
+            return Err(
+                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
+            );
+        }
+
         let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
             asset_status_update: adr_name_gen::UpdateAssetStatusRequestSchema {
                 asset_name,
@@ -839,6 +850,12 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
+        if asset_name.trim().is_empty() {
+            return Err(
+                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
+            );
+        }
+
         // TODO Right now using device name + asset_name as the key for the dispatcher, consider using tuple
         let receiver_id =
             Self::hash_device_endpoint_asset(&device_name, &inbound_endpoint_name, &asset_name);
@@ -939,6 +956,12 @@ where
         asset_name: String,
         timeout: Duration,
     ) -> Result<(), Error> {
+        if asset_name.trim().is_empty() {
+            return Err(
+                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
+            );
+        }
+
         let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
             notification_preference_request:
                 adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
@@ -1004,7 +1027,7 @@ where
     }
 
     /// Unhashes the device name, inbound endpoint name, and asset name from a single string.
-    fn un_hash_device_endpoint_asset(
+    fn unhash_device_endpoint_asset(
         hashed_device_endpoint_asset: &str,
     ) -> Option<(String, String, String)> {
         let pieces: Vec<&str> = hashed_device_endpoint_asset.split('~').collect();
@@ -1073,8 +1096,8 @@ mod tests {
             .await;
 
         assert!(matches!(
-            result.unwrap_err().0,
-            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ClientError)
+            result.unwrap_err(),
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1130,7 +1153,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::AIOProtocolError(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1187,7 +1210,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::AIOProtocolError(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1245,7 +1268,7 @@ mod tests {
 
         assert!(matches!(
             result.unwrap_err(),
-            Error(ErrorKind::AIOProtocolError(_))
+            Error(ErrorKind::ValidationError(_))
         ));
     }
 
@@ -1481,7 +1504,7 @@ mod tests {
             Client::<SessionManagedClient>::hash_device_endpoint(device_name, endpoint_name);
         assert_eq!(hashed, "device1~endpoint1");
 
-        let unhashed = Client::<SessionManagedClient>::un_hash_device_endpoint(&hashed);
+        let unhashed = Client::<SessionManagedClient>::unhash_device_endpoint(&hashed);
         assert!(unhashed.is_some());
 
         let (unhashed_device, unhashed_endpoint) = unhashed.unwrap();
@@ -1502,7 +1525,7 @@ mod tests {
         );
         assert_eq!(hashed, "device1~endpoint1~asset1");
 
-        let unhashed = Client::<SessionManagedClient>::un_hash_device_endpoint_asset(&hashed);
+        let unhashed = Client::<SessionManagedClient>::unhash_device_endpoint_asset(&hashed);
         assert!(unhashed.is_some());
 
         let (unhashed_device, unhashed_endpoint, unhashed_asset) = unhashed.unwrap();
@@ -1515,15 +1538,14 @@ mod tests {
     fn test_hash_and_unhash_invalid_device_endpoint_asset() {
         let invalid_hash = "device1";
         let unhashed_invalid =
-            Client::<SessionManagedClient>::un_hash_device_endpoint_asset(invalid_hash);
+            Client::<SessionManagedClient>::unhash_device_endpoint_asset(invalid_hash);
         assert!(unhashed_invalid.is_none());
     }
     #[test]
     fn test_hash_and_unhash_invalid_device_endpoint() {
         // Test unhashing with invalid input
         let invalid_hash = "device1";
-        let unhashed_invalid =
-            Client::<SessionManagedClient>::un_hash_device_endpoint(invalid_hash);
+        let unhashed_invalid = Client::<SessionManagedClient>::unhash_device_endpoint(invalid_hash);
         assert!(unhashed_invalid.is_none());
     }
 }
