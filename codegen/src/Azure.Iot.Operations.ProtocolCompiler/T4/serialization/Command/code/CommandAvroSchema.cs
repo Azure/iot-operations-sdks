@@ -1,5 +1,6 @@
 namespace Azure.Iot.Operations.ProtocolCompiler
 {
+    using DTDLParser;
     using DTDLParser.Models;
 
     public partial class CommandAvroSchema : ITemplateTransform
@@ -13,6 +14,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly DTSchemaInfo paramSchema;
         private readonly CodeName? sharedPrefix;
         private readonly bool isNullable;
+        private readonly HashSet<Dtmi> definedIds;
 
         public CommandAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, CodeName? sharedPrefix, bool isNullable)
         {
@@ -25,6 +27,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.paramSchema = paramSchema;
             this.sharedPrefix = sharedPrefix;
             this.isNullable = isNullable;
+            this.definedIds = new HashSet<Dtmi>();
         }
 
         public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.avsc"; }
