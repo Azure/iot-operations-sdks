@@ -103,6 +103,15 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.GetAsync("irrelevant", cancellationToken: cts.Token));
     }
 
+    [Fact]
+    public async Task DummyTest()
+    {
+        // This test is a placeholder to ensure that the test suite runs without any issues.
+        // It does not perform any actual assertions or checks.
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
     private static readonly string jsonSchema1 = """
     {
         "$schema": "https://json-schema.org/draft-07/schema#",

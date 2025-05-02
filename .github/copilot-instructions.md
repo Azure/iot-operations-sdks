@@ -7,3 +7,5 @@ The .NET NuGet packages are available in https://pkgs.dev.azure.com/azure-iot-sd
 The Rust crates are available in https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/Cargo/index/.
 
 Kubectl is used to deploy to Kubernetes
+
+Fake change to trigger all workflows.
