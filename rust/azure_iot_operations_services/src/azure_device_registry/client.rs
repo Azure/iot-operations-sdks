@@ -463,11 +463,9 @@ where
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
     /// if timeout is 0 or > `u32::max`.
     ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if device, inbound endpoint are invalid.
-    ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
-    /// if there are any underlying errors from the AIO RPC protocol.
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO RPC protocol.
     pub async fn get_device(
         &self,
         device_name: String,
