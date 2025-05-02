@@ -20,6 +20,9 @@ spec:
           registrySettingsType: containerRegistry
           containerRegistrySettings:
             registry: "none.azurecr.io"
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "latest"
   mqttConnectionConfiguration:
     host: "aio-broker:18883"
     authentication:
