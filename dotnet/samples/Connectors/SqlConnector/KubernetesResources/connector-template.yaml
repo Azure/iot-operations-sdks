@@ -16,6 +16,10 @@ spec:
         imageName: sqlqualityanalyzerconnectorapp:latest
         imagePullPolicy: Never # This sample image is built locally, so no need to pull
         replicas: 1
+        registrySettings:
+          registrySettingsType: containerRegistry
+          containerRegistrySettings:
+            registry: "none.azurecr.io"
   mqttConnectionConfiguration:
     host: "aio-broker:18883"
     authentication:
