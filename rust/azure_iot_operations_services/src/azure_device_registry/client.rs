@@ -498,7 +498,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -545,7 +545,7 @@ where
     /// if the device is already being observed.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -640,7 +640,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -728,7 +728,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -771,7 +771,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -824,7 +824,7 @@ where
     /// if the receiver is already registered.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
@@ -924,7 +924,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
-    /// if timeout is 0.
+    /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
