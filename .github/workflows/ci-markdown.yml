@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run linkspector
-        uses: umbrelladocs/action-linkspector@v1.2.5
+        uses: umbrelladocs/action-linkspector@v1.2.5 # https://github.com/UmbrellaDocs/action-linkspector/issues/30
         with:
           config_file: .github/.linkspector.yml
           fail_level: warning
