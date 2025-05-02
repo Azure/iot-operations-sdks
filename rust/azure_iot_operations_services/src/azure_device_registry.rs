@@ -6,7 +6,7 @@
 use core::fmt::Debug;
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::control_packet::QoS as rumqttc_qos;
+use azure_iot_operations_mqtt::control_packet::QoS as mqtt_qos;
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
 use thiserror::Error;
@@ -798,7 +798,7 @@ pub struct DestinationConfiguration {
     /// The description of the destination configuration.
     pub path: Option<String>,
     /// The MQTT `QoS` setting for the destination configuration.
-    pub qos: Option<rumqttc_qos>,
+    pub qos: Option<mqtt_qos>,
     /// The MQTT retain setting for the destination configuration.
     pub retain: Option<Retain>,
     /// The MQTT topic for the destination configuration.
@@ -1268,7 +1268,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
         DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(rumqttc_qos::from),
+            qos: value.qos.map(mqtt_qos::from),
             retain: value.retain.map(Retain::from),
             topic: value.topic,
             ttl: value.ttl,
@@ -1298,8 +1298,8 @@ impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
 impl From<adr_name_gen::Qos> for azure_iot_operations_mqtt::control_packet::QoS {
     fn from(value: adr_name_gen::Qos) -> Self {
         match value {
-            adr_name_gen::Qos::Qos0 => rumqttc_qos::AtMostOnce,
-            adr_name_gen::Qos::Qos1 => rumqttc_qos::AtLeastOnce,
+            adr_name_gen::Qos::Qos0 => mqtt_qos::AtMostOnce,
+            adr_name_gen::Qos::Qos1 => mqtt_qos::AtLeastOnce,
         }
     }
 }
