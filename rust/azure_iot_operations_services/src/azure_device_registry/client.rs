@@ -1249,8 +1249,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_unobserve_asset_update_invalid_topic_tokens(
         device_name: &str,
@@ -1289,8 +1289,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_get_device_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
         let adr_client = create_adr_client();
@@ -1325,8 +1325,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_update_device_plus_endpoint_invalid_topic_tokens(
         device_name: &str,
@@ -1366,8 +1366,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_observe_device_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
         let adr_client = create_adr_client();
@@ -1401,8 +1401,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_unobserve_device_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
         let adr_client = create_adr_client();
