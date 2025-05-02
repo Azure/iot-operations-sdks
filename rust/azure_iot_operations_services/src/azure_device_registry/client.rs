@@ -546,7 +546,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
-    /// if the receiver is already registered.
+    /// if the device is already being observed.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
     /// if timeout is 0.
