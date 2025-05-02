@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector.Assets.FileMonitor;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
@@ -269,21 +270,33 @@ namespace Azure.Iot.Operations.Connector.Assets
         }
 
         /// <inheritdoc/>
-        public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
+        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
         {
-            string fileName = $"{deviceName}_{inboundEndpointName}";
-            string? username = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_username")) : null;
-            byte[]? password = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValue(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_password")) : null;
-            string? clientCertificate = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, fileName + "_certificate")) : null;
-            string? caCert = _deviceEndpointTlsTrustBundleCertMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, fileName)) : null;
+            EndpointCredentials deviceCredentials = new();
 
-            return new DeviceCredentials()
+            if (inboundEndpoint.Authentication != null && inboundEndpoint.Authentication.UsernamePasswordCredentials != null)
             {
-                Username = username,
-                Password = password,
-                ClientCertificate = clientCertificate,
-                CaCertificate = caCert
-            };
+                if (inboundEndpoint.Authentication.UsernamePasswordCredentials.UsernameSecretName != null)
+                {
+                    deviceCredentials.Username = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, inboundEndpoint.Authentication.UsernamePasswordCredentials.UsernameSecretName)) : null;
+                }
+
+                if (inboundEndpoint.Authentication.UsernamePasswordCredentials.PasswordSecretName != null)
+                {
+                    deviceCredentials.Password = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, inboundEndpoint.Authentication.UsernamePasswordCredentials.PasswordSecretName)) : null;
+                }
+            }
+
+            if (inboundEndpoint.Authentication != null
+                && inboundEndpoint.Authentication.X509Credentials != null
+                && inboundEndpoint.Authentication.X509Credentials.CertificateSecretName != null)
+            {
+                deviceCredentials.ClientCertificate = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, inboundEndpoint.Authentication.X509Credentials.CertificateSecretName)) : null;
+            }
+
+            //TODO CA certificate retrieval has not been set in stone yet
+
+            return deviceCredentials;
         }
 
         /// <inheritdoc/>

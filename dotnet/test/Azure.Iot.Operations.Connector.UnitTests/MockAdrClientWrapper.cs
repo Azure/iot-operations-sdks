@@ -34,9 +34,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return mockClientWrapper.Object.GetAssetNames(deviceName, inboundEndpointName);
         }
 
-        public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
+        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
         {
-            return mockClientWrapper.Object.GetDeviceCredentials(deviceName, inboundEndpointName);
+            return mockClientWrapper.Object.GetEndpointCredentials(inboundEndpoint);
         }
 
         public IEnumerable<string> GetDeviceNames()
