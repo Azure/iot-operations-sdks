@@ -829,7 +829,7 @@ where
     /// * `asset_name` - The name of the asset.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns a [`AssetUpdateObservation`].
+    /// Returns an [`AssetUpdateObservation`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
