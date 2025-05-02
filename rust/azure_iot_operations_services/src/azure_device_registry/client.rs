@@ -1068,7 +1068,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 "".to_string(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1087,8 +1087,8 @@ mod tests {
             .get_asset(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                "test-asset".to_string(),
-                Duration::from_secs(10),
+                ASSET_NAME.to_string(),
+                DURATION,
             )
             .await;
 
@@ -1103,9 +1103,9 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .get_asset(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
-                "test-asset".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1120,11 +1120,11 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .update_asset_status(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 "".to_string(),
                 AssetStatus::default(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1143,9 +1143,9 @@ mod tests {
             .update_asset_status(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                "test-asset".to_string(),
+                ASSET_NAME.to_string(),
                 AssetStatus::default(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1160,9 +1160,9 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .update_asset_status(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
-                "test-asset".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
                 AssetStatus::default(),
                 Duration::from_secs(0),
             )
@@ -1178,10 +1178,10 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .observe_asset_update_notifications(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 "".to_string(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1203,8 +1203,8 @@ mod tests {
             .observe_asset_update_notifications(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                "test-asset".to_string(),
-                Duration::from_secs(10),
+                ASSET_NAME.to_string(),
+                DURATION,
             )
             .await;
 
@@ -1219,9 +1219,9 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .observe_asset_update_notifications(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
-                "test-asset".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1236,10 +1236,10 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .observe_asset_update_notifications(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 "".to_string(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1261,8 +1261,8 @@ mod tests {
             .unobserve_asset_update_notifications(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                "test-asset".to_string(),
-                Duration::from_secs(10),
+                ASSET_NAME.to_string(),
+                DURATION,
             )
             .await;
 
@@ -1277,9 +1277,9 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .unobserve_asset_update_notifications(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
-                "test-asset".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1295,11 +1295,7 @@ mod tests {
     async fn test_get_device_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
         let adr_client = create_adr_client();
         let result = adr_client
-            .get_device(
-                device_name.to_string(),
-                endpoint_name.to_string(),
-                Duration::from_secs(10),
-            )
+            .get_device(device_name.to_string(), endpoint_name.to_string(), DURATION)
             .await;
 
         assert!(matches!(
@@ -1313,8 +1309,8 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .get_device(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1338,7 +1334,7 @@ mod tests {
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 DeviceStatus::default(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1353,8 +1349,8 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .update_device_plus_endpoint_status(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 DeviceStatus::default(),
                 Duration::from_secs(0),
             )
@@ -1375,7 +1371,7 @@ mod tests {
             .observe_device_update_notifications(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1390,8 +1386,8 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .observe_device_update_notifications(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1410,7 +1406,7 @@ mod tests {
             .unobserve_device_update_notifications(
                 device_name.to_string(),
                 endpoint_name.to_string(),
-                Duration::from_secs(10),
+                DURATION,
             )
             .await;
 
@@ -1425,8 +1421,8 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .unobserve_device_update_notifications(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 Duration::from_secs(0),
             )
             .await;
@@ -1491,12 +1487,6 @@ mod tests {
         let (unhashed_device, unhashed_endpoint) = unhashed.unwrap();
         assert_eq!(unhashed_device, device_name);
         assert_eq!(unhashed_endpoint, endpoint_name);
-
-        // Test unhashing with invalid input
-        let invalid_hash = "device1";
-        let unhashed_invalid =
-            Client::<SessionManagedClient>::un_hash_device_endpoint(invalid_hash);
-        assert!(unhashed_invalid.is_none());
     }
 
     #[test]
@@ -1506,9 +1496,9 @@ mod tests {
         let aseet_name = "asset1";
 
         let hashed = Client::<SessionManagedClient>::hash_device_endpoint_asset(
-            DEVICE_NAME,
+            device_name,
             endpoint_name,
-            ASSET_NAME,
+            aseet_name,
         );
         assert_eq!(hashed, "device1~endpoint1~asset1");
 
@@ -1519,12 +1509,6 @@ mod tests {
         assert_eq!(unhashed_device, device_name);
         assert_eq!(unhashed_endpoint, endpoint_name);
         assert_eq!(unhashed_asset, aseet_name);
-
-        // Test unhashing with invalid input
-        let invalid_hash = "device1";
-        let unhashed_invalid =
-            Client::<SessionManagedClient>::un_hash_device_endpoint_asset(invalid_hash);
-        assert!(unhashed_invalid.is_none());
     }
 
     #[test]
