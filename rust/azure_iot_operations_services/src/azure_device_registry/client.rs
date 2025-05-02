@@ -558,7 +558,7 @@ where
     /// if device, inbound endpoint are invalid.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the observation was not successful.
+    /// if the observation was not accepted by the service.
     pub async fn observe_device_update_notifications(
         &self,
         device_name: String,
