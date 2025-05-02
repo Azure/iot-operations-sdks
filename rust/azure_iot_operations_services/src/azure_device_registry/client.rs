@@ -312,11 +312,9 @@ where
             tokio::select! {
                 () = shutdown_notifier.notified() => {
                     if device_shutdown_attempt_count < 3 {
-                        device_shutdown_attempt_count += 1;
                         device_shutdown_notifier.notify_one();
                     }
                     if asset_shutdown_attempt_count < 3 {
-                        asset_shutdown_attempt_count += 1;
                         asset_shutdown_notifier.notify_one();
                     }
                 },
@@ -1049,6 +1047,11 @@ mod tests {
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind;
     use test_case::test_case;
 
+    const DEVICE_NAME: &str = "test-device";
+    const INBOUND_ENDPOINT_NAME: &str = "test-endpoint";
+    const ASSET_NAME: &str = "test-asset";
+    const DURATION: Duration = Duration::from_secs(10);
+
     fn create_session() -> Session {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .hostname("localhost")
@@ -1074,122 +1077,13 @@ mod tests {
         .unwrap()
     }
 
-    // async fn call_update_asset_status(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     asset_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<Asset, Error> {
-    //     adr_client
-    //         .update_asset_status(
-    //             device_name.to_string(),
-    //             endpoint_name.to_string(),
-    //             asset_name.to_string(),
-    //             AssetStatus::default(),
-    //             timeout,
-    //         )
-    //         .await
-    // }
-
-    // async fn call_observe_asset_update(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     asset_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<AssetUpdateObservation, Error> {
-    //     adr_client
-    //         .observe_asset_update_notifications(
-    //             device_name.to_string(),
-    //             endpoint_name.to_string(),
-    //             asset_name.to_string(),
-    //             timeout,
-    //         )
-    //         .await
-    // }
-
-    // async fn call_unobserve_asset_update(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     asset_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<(), Error> {
-    //     adr_client
-    //         .unobserve_asset_update_notifications(
-    //             device_name.to_string(),
-    //             endpoint_name.to_string(),
-    //             asset_name.to_string(),
-    //             timeout,
-    //         )
-    //         .await
-    // }
-
-    // async fn call_get_device(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<Device, Error> {
-    //     adr_client
-    //         .get_device(device_name.to_string(), endpoint_name.to_string(), timeout)
-    //         .await
-    // }
-
-    // async fn call_update_device_plus_endpoint(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<Device, Error> {
-    //     adr_client
-    //         .update_device_plus_endpoint_status(
-    //             device_name.to_string(),
-    //             endpoint_name.to_string(),
-    //             DeviceStatus::default(),
-    //             timeout,
-    //         )
-    //         .await
-    // }
-
-    // async fn call_observe_device_update(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<DeviceUpdateObservation, Error> {
-    //     adr_client
-    //         .observe_device_update_notifications(
-    //             device_name.to_string(),
-    //             endpoint_name.to_string(),
-    //             timeout,
-    //         )
-    //         .await
-    // }
-
-    // async fn call_unobserve_device_update(
-    //     device_name: &str,
-    //     endpoint_name: &str,
-    //     timeout: Duration,
-    //     adr_client: Client<SessionManagedClient>,
-    // ) -> Result<(), Error> {
-    //     adr_client
-    //         .unobserve_device_update_notifications(
-    //             device_name.to_string(),
-    //             endpoint_name.to_string(),
-    //             timeout,
-    //         )
-    //         .await
-    // }
-
     #[tokio::test]
     async fn test_get_asset_empty_asset_name() {
         let adr_client = create_adr_client();
         let result = adr_client
             .get_asset(
-                "test-device".to_string(),
-                "test-endpoint".to_string(),
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
                 "".to_string(),
                 Duration::from_secs(10),
             )
@@ -1201,8 +1095,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_get_asset_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
         let adr_client: Client<SessionManagedClient> = create_adr_client();
@@ -1257,8 +1151,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_update_asset_status_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
         let adr_client = create_adr_client();
@@ -1314,8 +1208,8 @@ mod tests {
         ));
     }
 
-    #[test_case("", "test-endpoint")]
-    #[test_case("test-device", "")]
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
     async fn test_observe_asset_update_invalid_topic_tokens(
         device_name: &str,
@@ -1626,12 +1520,12 @@ mod tests {
     fn test_hash_and_unhash_device_endpoint_asset() {
         let device_name = "device1";
         let endpoint_name = "endpoint1";
-        let asset_name = "asset1";
+        let aseet_name = "asset1";
 
         let hashed = Client::<SessionManagedClient>::hash_device_endpoint_asset(
-            device_name,
+            DEVICE_NAME,
             endpoint_name,
-            asset_name,
+            ASSET_NAME,
         );
         assert_eq!(hashed, "device1~endpoint1~asset1");
 
@@ -1641,12 +1535,28 @@ mod tests {
         let (unhashed_device, unhashed_endpoint, unhashed_asset) = unhashed.unwrap();
         assert_eq!(unhashed_device, device_name);
         assert_eq!(unhashed_endpoint, endpoint_name);
-        assert_eq!(unhashed_asset, asset_name);
+        assert_eq!(unhashed_asset, aseet_name);
 
         // Test unhashing with invalid input
         let invalid_hash = "device1";
         let unhashed_invalid =
             Client::<SessionManagedClient>::un_hash_device_endpoint_asset(invalid_hash);
+        assert!(unhashed_invalid.is_none());
+    }
+
+    #[test]
+    fn test_hash_and_unhash_invalid_device_endpoint_asset() {
+        let invalid_hash = "device1";
+        let unhashed_invalid =
+            Client::<SessionManagedClient>::un_hash_device_endpoint_asset(invalid_hash);
+        assert!(unhashed_invalid.is_none());
+    }
+    #[test]
+    fn test_hash_and_unhash_invalid_device_endpoint() {
+        // Test unhashing with invalid input
+        let invalid_hash = "device1";
+        let unhashed_invalid =
+            Client::<SessionManagedClient>::un_hash_device_endpoint(invalid_hash);
         assert!(unhashed_invalid.is_none());
     }
 }
