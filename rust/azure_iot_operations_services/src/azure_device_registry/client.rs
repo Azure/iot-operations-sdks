@@ -730,7 +730,7 @@ where
     /// * `asset_name` - The name of the asset.
     /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns a [`Asset`] if the the asset was found.
+    /// Returns an [`Asset`] if the the asset was found.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
