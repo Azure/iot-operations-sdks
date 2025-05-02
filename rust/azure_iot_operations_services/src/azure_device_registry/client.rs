@@ -68,7 +68,6 @@ where
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
     /// Create a new Azure Device Registry Client.
     ///
-    ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
     /// if the Client Id of the [`ManagedClient`] isn't valid as a topic token.
