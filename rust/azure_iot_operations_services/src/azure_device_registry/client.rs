@@ -450,12 +450,12 @@ where
 
     // ~~~~~~~~~~~~~~~~~ Device APIs ~~~~~~~~~~~~~~~~~~~~~
 
-    /// Retrieves a Device from a Azure Device Registry service.
+    /// Retrieves a device from a Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns a [`Device`] if the device was found.
     ///
@@ -486,13 +486,13 @@ where
         Ok(response.payload.device.into())
     }
 
-    /// Updates a Device's status in the Azure Device Registry service.
+    /// Updates a device's status in the Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * [`DeviceStatus`] - All status information for the device.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`Device`] once updated.
     ///
@@ -529,20 +529,20 @@ where
         Ok(response.payload.updated_device.into())
     }
 
-    /// Starts observation of a Device's updates from the Azure Device Registry service.
+    /// Starts observation of a device's updates from the Azure Device Registry service.
     ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the [`DeviceUpdateObservation`] if the observation was started successfully or [`Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
-    /// if the device is already being observed.
+    /// if the Device is already being observed.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
     /// if timeout is 0 or > `u32::max`.
@@ -629,14 +629,14 @@ where
         }
     }
 
-    /// Stops observation of a Device's updates from the Azure Device Registry service.
+    /// Stops observation of a device's updates from the Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns `Ok(())` if the Device Updates are no longer being observed.
+    /// Returns `Ok(())` if the device updates are no longer being observed.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -719,10 +719,10 @@ where
     /// Retrieves an asset from a Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns an [`Asset`] if the the asset was found.
     ///
@@ -761,11 +761,11 @@ where
     /// Updates the status of an asset in the Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
     /// * [`AssetStatus`] - The status of an asset for the update.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`Asset`] once updated.
     ///
@@ -807,21 +807,21 @@ where
         Ok(response.payload.updated_asset.into())
     }
 
-    /// Starts observation of any Asset updates from the Azure Device Registry service.
+    /// Starts observation of a asset's updates from the Azure Device Registry service.
     ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns an [`AssetUpdateObservation`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
-    /// if the receiver is already registered.
+    /// if the asset is already being observed.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
     /// if timeout is 0 or > `u32::max`.
@@ -912,15 +912,15 @@ where
         }
     }
 
-    /// Stops observation of any Asset updates from the Azure Device Registry service.
+    /// Stops observation of an asset's updates from the Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `device_name` - The name of the Device.
+    /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * `timeout` - The duration until the Client stops waiting for a response to the request, it is rounded up to the nearest second.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns `Ok(())` if the Asset Updates are no longer being observed.
+    /// Returns `Ok(())` if the asset updates are no longer being observed.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
