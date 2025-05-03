@@ -281,6 +281,7 @@ where
         mut asset_update_telemetry_receiver: adr_name_gen::AssetUpdateEventTelemetryReceiver<C>,
         asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
     ) {
+        let max_attempt = 3;
         let mut device_shutdown_attempt_count = 0;
         let mut asset_shutdown_attempt_count = 0;
 
@@ -291,12 +292,20 @@ where
         let mut asset_receiver_closed = false;
 
         loop {
+            if device_shutdown_attempt_count >= max_attempt
+                && asset_shutdown_attempt_count >= max_attempt
+            {
+                log::warn!(
+                    "Maximum shutdown attempts reached for both receivers. Forcing loop exit."
+                );
+                break;
+            }
             tokio::select! {
                 () = shutdown_notifier.notified() => {
-                    if device_shutdown_attempt_count < 3 {
+                    if device_shutdown_attempt_count < max_attempt {
                         device_shutdown_notifier.notify_one();
                     }
-                    if asset_shutdown_attempt_count < 3 {
+                    if asset_shutdown_attempt_count < max_attempt {
                         asset_shutdown_notifier.notify_one();
                     }
                 },
@@ -309,7 +318,7 @@ where
                         Err(e) => {
                             log::error!("Error shutting down DeviceUpdateEventTelemetryReceiver: {e}");
                             // try shutdown again, but not indefinitely
-                            if device_shutdown_attempt_count < 3 {
+                            if device_shutdown_attempt_count < max_attempt {
                                 device_shutdown_attempt_count += 1;
                                 device_shutdown_notifier.notify_one();
                             }
@@ -325,7 +334,7 @@ where
                         Err(e) => {
                             log::error!("Error shutting down AssetUpdateEventTelemetryReceiver: {e}");
                             // try shutdown again, but not indefinitely
-                            if asset_shutdown_attempt_count < 3 {
+                            if asset_shutdown_attempt_count < max_attempt {
                                 asset_shutdown_attempt_count += 1;
                                 asset_shutdown_notifier.notify_one();
                             }
@@ -365,7 +374,7 @@ where
                             // This should only happen on errors subscribing, but it's likely not recoverable
                             log::error!("Error receiving Device Update Notification Telemetry: {e}. Shutting down DeviceUpdateEventTelemetryReceiver.");
                             // try to shutdown telemetry receiver, but not indefinitely
-                            if device_shutdown_attempt_count < 3 {
+                            if device_shutdown_attempt_count < max_attempt {
                                 device_shutdown_notifier.notify_one();
                             }
                         },
@@ -411,7 +420,7 @@ where
                             // This should only happen on errors subscribing, but it's likely not recoverable
                             log::error!("Error receiving Asset Update Notification Telemetry: {e}. Shutting down AssetUpdateEventTelemetryReceiver.");
                             // try to shutdown telemetry receiver, but not indefinitely
-                            if asset_shutdown_attempt_count < 3 {
+                            if asset_shutdown_attempt_count < max_attempt {
                                 asset_shutdown_notifier.notify_one();
                             }
                         },
