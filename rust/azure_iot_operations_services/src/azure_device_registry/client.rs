@@ -1082,7 +1082,7 @@ mod tests {
             .get_asset(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
-                "".to_string(),
+                String::new(),
                 DURATION,
             )
             .await;
@@ -1137,7 +1137,7 @@ mod tests {
             .update_asset_status(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
-                "".to_string(),
+                String::new(),
                 AssetStatus::default(),
                 DURATION,
             )
@@ -1195,7 +1195,7 @@ mod tests {
             .observe_asset_update_notifications(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
-                "".to_string(),
+                String::new(),
                 DURATION,
             )
             .await;
@@ -1253,7 +1253,7 @@ mod tests {
             .observe_asset_update_notifications(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
-                "".to_string(),
+                String::new(),
                 DURATION,
             )
             .await;
