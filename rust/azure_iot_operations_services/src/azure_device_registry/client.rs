@@ -752,7 +752,7 @@ where
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the asset.
-    /// * [`AssetStatus`] - The status of an asset for the update.
+    /// * status - An [`AssetStatus`] containing the status of an asset for the update.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`Asset`] once updated.
