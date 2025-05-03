@@ -115,7 +115,7 @@ The following DTDL model enhances the above model with error header information 
 }
 ```
 
-The exant `Result` adjunct type indicates that the `Object` that is modeled as the "schema" of the "response" is treated specially by the ProtocolCompiler, and each `Field` therein has a special meaning identified by its co-type.
+The extant `Result` adjunct type indicates that the `Object` that is modeled as the "schema" of the "response" is treated specially by the ProtocolCompiler, and each `Field` therein has a special meaning identified by its co-type.
 
 As described in ADR 19, the `Field` co-typed `NormalResult` defines the result returned under normal (non-error) conditions.
 If the above model were to include a `Field` co-typed `ErrorResult`, this would define the result returned under error conditions.
