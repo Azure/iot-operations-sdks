@@ -234,39 +234,22 @@ where
         // Shut down invokers
         let mut errors = Vec::new();
 
-        // device invokers
-        let _ = self
-            .get_device_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| errors.push(e));
-        let _ = self
-            .update_device_status_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| errors.push(e));
-        let _ = self
-            .notify_on_device_update_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| errors.push(e));
+        let (result1, result2, result3, result4, result5, result6) = tokio::join!(
+            self.get_device_command_invoker.shutdown(),
+            self.update_device_status_command_invoker.shutdown(),
+            self.notify_on_device_update_command_invoker.shutdown(),
+            self.get_asset_command_invoker.shutdown(),
+            self.update_asset_status_command_invoker.shutdown(),
+            self.notify_on_asset_update_command_invoker.shutdown()
+        );
 
-        // asset invokers
-        let _ = self
-            .get_asset_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| errors.push(e));
-        let _ = self
-            .update_asset_status_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| errors.push(e));
-        let _ = self
-            .notify_on_asset_update_command_invoker
-            .shutdown()
-            .await
-            .map_err(|e| errors.push(e));
+        for result in [result1, result2, result3, result4, result5, result6] {
+            if let Err(e) = result {
+                errors.push(e);
+            }
+        }
+        // TODO Should futures be used joined instead of tokio?
+        // let results = futures::future::join_all(shutdown_futures).await;
 
         if errors.is_empty() {
             log::info!("Shutdown done gracefully");
@@ -1548,4 +1531,35 @@ mod tests {
         let unhashed_invalid = Client::<SessionManagedClient>::unhash_device_endpoint(invalid_hash);
         assert!(unhashed_invalid.is_none());
     }
+
+    // #[tokio::test]
+    // async fn test_shutdown_attempts_all_components() {
+    //     let adr_client = create_adr_client();
+
+    //     let result = adr_client.shutdown().await;
+
+    //     match result {
+    //         Ok(_) => {
+    //             // If it succeeded, that means all invokers were shut down
+    //             // So the test passes
+    //         }
+    //         Err(e) => {
+    //             // If there was an error, check that it was a ShutdownError
+    //             // which means shutdown was attempted on all invokers
+    //             if let ErrorKind::ShutdownError(errors) = &e.0 {
+    //                 // Success - the shutdown method was called on all components
+    //                 // You could optionally check the number of errors to ensure
+    //                 // all 6 invokers were attempted
+    //                 assert!(
+    //                     errors.len() > 0,
+    //                     "Expected at least one error from shutdown attempts"
+    //                 );
+    //             } else {
+    //                 // If it's not a ShutdownError, the test should fail
+    //                 // because that means shutdown wasn't properly attempted
+    //                 panic!("Expected ShutdownError, got {:?}", e.0);
+    //             }
+    //         }
+    //     }
+    // }
 }
