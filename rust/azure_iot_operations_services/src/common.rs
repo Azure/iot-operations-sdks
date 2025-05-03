@@ -6,7 +6,7 @@
 // NOTE: submodules should be behind the feature flags of the clients that use them to ensure they
 // are only compiled when necessary.
 
-#[cfg(feature = "state_store")]
+#[cfg(any(feature = "state_store", feature = "azure_device_registry"))]
 pub mod dispatcher {
     //! Provides a convenience for dispatching to a receiver based on an ID.
 
