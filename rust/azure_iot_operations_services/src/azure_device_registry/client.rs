@@ -474,7 +474,7 @@ where
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
-    /// * [`DeviceStatus`] - All status information for the device.
+    /// * status - A [`DeviceStatus`] containing all status information for the device.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the updated [`Device`] once updated.
