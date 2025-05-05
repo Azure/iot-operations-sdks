@@ -27,7 +27,6 @@ jobs:
           suggestions: true
           incremental_files_only: true
 
-  # https://github.com/UmbrellaDocs/action-linkspector
   linkcheck:
     name: CI-links
     runs-on: ubuntu-latest
@@ -45,6 +44,7 @@ jobs:
       - name: Install linkspector
         run: |
           npm install -g @umbrelladocs/linkspector
+          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
 
       - name: Run linkspector
         run: |
