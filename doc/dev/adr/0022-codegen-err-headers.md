@@ -139,7 +139,7 @@ Each "name" will be code-generated into a language-appropriate enum name, and th
 The `Field`'s "name" value ("appErrCode" in the above example) has no relevance to the communication, but it may affect the name of a code-generated type.
 
 The specific usage of the generated enum type will vary according to programming language.
-For the C# code described in ADR 21, the `WithAWithApplicationError` method on `ExtendedResponse` will have a code-generated form that accepts the enum type instead of a raw string for the error code.
+For the C# code described in ADR 21, the `WithApplicationError` method on `ExtendedResponse` will have a code-generated form that accepts the enum type instead of a raw string for the error code.
 
 If a modeled `Command` does not include an `ErrorCode` definition, user code is expected to provide a string value directly (as illustrated in ADR 21) instead of an enumerated value.
 
