@@ -33,10 +33,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-
       - uses: reviewdog/action-setup@v1
         with:
           reviewdog_version: latest
@@ -53,21 +49,6 @@ jobs:
           linkspector check -c .github/.linkspector.yml -j |
             reviewdog -f=rdjson \
               -name=Linkspector \
-              -reporter=github-pr-check \
-              -fail-level=warning \
-              -filter-mode=nofilter
-
-      # -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }} \
-
-      # - name: Linkspector report
-      #   run: |
-      #     linkspector check -c .github/.linkspector.yml -s || true
-
-      # - name: Run linkspector
-      #   uses: umbrelladocs/action-linkspector@v1
-      #   with:
-      #     config_file: .github/.linkspector.yml
-      #     # fail_level: error
-      #     filter_mode: nofilter
-      #     # filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
-      #     # show_stats: true
+              -reporter=github-check \
+              -fail-level=error \
+              -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
