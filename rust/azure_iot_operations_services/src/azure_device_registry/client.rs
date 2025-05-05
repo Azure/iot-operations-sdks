@@ -521,7 +521,7 @@ where
         Ok(response.payload.updated_device.into())
     }
 
-    /// Starts observation of a device's updates from the Azure Device Registry service.
+    /// Starts observation of a [`Device`]'s updates from the Azure Device Registry service.
     ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
     ///
