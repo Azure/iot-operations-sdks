@@ -16,6 +16,7 @@ anyhow = "1.0.86"                                                               
 async-trait = "0.1.81"
 bytes.workspace = true
 derive_builder.workspace = true
+derive-getters = { version = "0.5.0", features = ["auto_copy_getters"] }
 futures = "0.3.31"
 log.workspace = true
 notify.workspace = true

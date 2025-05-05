@@ -25,6 +25,11 @@
 
         private SchemaType GetSchemaType(JsonElement schemaElt, List<SchemaType> schemaTypes, CodeName parentNamespace)
         {
+            if (schemaElt.ValueKind == JsonValueKind.String)
+            {
+                return this.TryGetPrimitiveType(schemaElt.GetString(), out SchemaType schemaType) ? schemaType : new ReferenceType(new CodeName(schemaElt.GetString()!), parentNamespace);
+            }
+
             JsonElement typeElt = schemaElt.GetProperty("type");
 
             if (typeElt.ValueKind == JsonValueKind.Object)
@@ -48,6 +53,11 @@
             CodeName? schemaName = schemaElt.TryGetProperty("name", out JsonElement nameElt) ? new CodeName(nameElt.GetString()!) : null;
             CodeName genNamespace = schemaElt.TryGetProperty("namespace", out JsonElement namespaceElt) && !namespaceElt.GetString()!.Contains('.') ? new CodeName(namespaceElt.GetString()!) : parentNamespace;
 
+            if (this.TryGetPrimitiveType(typeElt.GetString(), out SchemaType primitiveType))
+            {
+                return primitiveType;
+            }
+
             switch (typeElt.GetString())
             {
                 case "record":
@@ -68,22 +78,39 @@
                     return new MapType(GetSchemaType(schemaElt.GetProperty("values"), schemaTypes, genNamespace));
                 case "array":
                     return new ArrayType(GetSchemaType(schemaElt.GetProperty("items"), schemaTypes, genNamespace));
-                case "boolean":
-                    return new BooleanType();
-                case "double":
-                    return new DoubleType();
-                case "float":
-                    return new FloatType();
-                case "int":
-                    return new IntegerType();
-                case "long":
-                    return new LongType();
-                case "string":
-                    return new StringType();
-                case "bytes":
-                    return new BytesType();
                 default:
-                    throw new Exception("unrecognized schema");
+                    throw new Exception($"Unrecognized schema type: {typeElt.GetString()}");
+            }
+        }
+
+        private bool TryGetPrimitiveType(string? typeName, out SchemaType schemaType)
+        {
+            switch (typeName)
+            {
+                case "boolean":
+                    schemaType = new BooleanType();
+                    return true;
+                case "double":
+                    schemaType = new DoubleType();
+                    return true;
+                case "float":
+                    schemaType = new FloatType();
+                    return true;
+                case "int":
+                    schemaType = new IntegerType();
+                    return true;
+                case "long":
+                    schemaType = new LongType();
+                    return true;
+                case "string":
+                    schemaType = new StringType();
+                    return true;
+                case "bytes":
+                    schemaType = new BytesType();
+                    return true;
+                default:
+                    schemaType = null!;
+                    return false;
             }
         }
 

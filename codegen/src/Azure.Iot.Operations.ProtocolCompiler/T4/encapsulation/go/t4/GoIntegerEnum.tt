@@ -13,14 +13,14 @@ type <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#> int32
 
 const (
 <# foreach (var enumValue in this.enumType.EnumValues) { #>
-	<#=enumValue.Name.GetTypeName(TargetLanguage.Go)#> <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#> = <#=enumValue.IntValue#>
+	<#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#><#=enumValue.Name.GetTypeName(TargetLanguage.Go)#> <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#> = <#=enumValue.IntValue#>
 <# } #>
 )
 
 func (v <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#>) String() string {
 	switch v {
 <# foreach (var enumValue in this.enumType.EnumValues) { #>
-	case <#=enumValue.Name.GetTypeName(TargetLanguage.Go)#>:
+	case <#=this.enumType.SchemaName.GetTypeName(TargetLanguage.Go)#><#=enumValue.Name.GetTypeName(TargetLanguage.Go)#>:
 		return "<#=enumValue.Name.GetTypeName(TargetLanguage.Go)#>"
 <# } #>
 	default:
