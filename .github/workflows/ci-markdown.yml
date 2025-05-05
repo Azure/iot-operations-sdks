@@ -33,11 +33,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
         with:
           config_file: .github/.linkspector.yml
-          fail_level: warning
+          fail_on_error: true
           filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
-          show_stats: true
