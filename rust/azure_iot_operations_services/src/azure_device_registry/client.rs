@@ -755,7 +755,7 @@ where
         Ok(response.payload.asset.into())
     }
 
-    /// Updates the status of an asset in the Azure Device Registry service.
+    /// Updates the status of an [`Asset`] in the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
