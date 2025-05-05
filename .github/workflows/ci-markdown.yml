@@ -49,6 +49,6 @@ jobs:
           linkspector check -c .github/.linkspector.yml -j |
             reviewdog -f=rdjson \
               -name=Linkspector \
-              -reporter=github-check \
+              -reporter=github-pr-check \
               -fail-level=error \
               -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
