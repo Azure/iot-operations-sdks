@@ -192,12 +192,7 @@ namespace Azure.Iot.Operations.Connector.Assets
             string devicePath = Path.Combine(_adrResourcesNameMountPath, $"{deviceName}_{inboundEndpointName}");
             if (File.Exists(devicePath))
             {
-                string? contents = GetMountedConfigurationValueAsString(devicePath);
-                if (!string.IsNullOrWhiteSpace(contents))
-                {
-                    string[] delimitedContents = contents.Split("\n");
-                    return [.. delimitedContents];
-                }
+                GetMountedConfigurationValueAsLines(devicePath);
             }
 
             return new List<string>();
@@ -307,6 +302,16 @@ namespace Azure.Iot.Operations.Connector.Assets
             {
                 assetMonitor.Stop();
             }
+        }
+
+        private static IEnumerable<string> GetMountedConfigurationValueAsLines(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return new List<string>();
+            }
+
+            return FileUtilities.ReadFileLinesWithRetry(path);
         }
 
         private static string? GetMountedConfigurationValueAsString(string path)
