@@ -156,7 +156,7 @@ To ensure that header values are legal UTF8 strings, JSON serialization is alway
 The `Field`'s "name" value ("appErrPayload" in the above example) has no relevance to the communication, but it may affect the name of a code-generated type.
 
 The specific usage of the generated type will vary according to programming language.
-For the C# code described in ADR 21, the `WithAWithApplicationError` method on `ExtendedResponse` will have a code-generated form that accepts the generated type instead of a serialized JSON string for the error info.
+For the C# code described in ADR 21, the `WithApplicationError` method on `ExtendedResponse` will have a code-generated form that accepts the generated type instead of a serialized JSON string for the error info.
 
 If a modeled `Command` does not include an `ErrorInfo` definition, user code is expected to provide a JSON-encoded string value directly (as illustrated in ADR 21) instead of a strongly typed value conformant to an `ErrorInfo` schema.
 
