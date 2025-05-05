@@ -58,12 +58,18 @@ pub enum ErrorKind {
     /// The key length must not be zero.
     #[error("key length must not be zero")]
     KeyLengthZero,
+    /// The lease name length must not be zero.
+    #[error("lease name length must not be zero")]
+    LeaseNameLengthZero,
     /// The lock name length must not be zero.
     #[error("lock name length must not be zero")]
     LockNameLengthZero,
+    /// The lease holder name length must not be zero.
+    #[error("lease holder name length must not be zero")]
+    LeaseHolderNameLengthZero,
     /// The lock holder name length must not be zero.
     #[error("lock holder name length must not be zero")]
-    LeaseHolderNameLengthZero,
+    LockHolderNameLengthZero,
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),

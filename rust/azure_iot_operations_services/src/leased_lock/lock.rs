@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Client for Lease Lock operations.
-
-// TODO: move client.rs to lock.rs; pub mod for both and no import ... (see comment in leased_lock.rs)
+//! Client for Lock operations.
 
 use std::{sync::Arc, time::Duration};
 
@@ -12,7 +10,7 @@ use crate::state_store::{self};
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
-/// Key Lease client struct.
+/// Lock client struct.
 pub struct Client<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -35,12 +33,12 @@ where
     ///
     /// Notes:
     /// - `lock_holder_name` is expected to be the client ID used in the underlying MQTT connection settings.
-    /// - There must be one instance of `leased_lock::Client` per lock.
+    /// - There must be one instance of `lock::Client` per lock.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
     ///
-    /// [`struct@Error`] of kind [`LeaseHolderNameLengthZero`](ErrorKind::LeaseHolderNameLengthZero) if the `lock_holder_name` is empty
+    /// [`struct@Error`] of kind [`LockHolderNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
     pub fn new(
         state_store: Arc<state_store::Client<C>>,
         lock_name: Vec<u8>,
@@ -51,7 +49,7 @@ where
         }
 
         if lock_holder_name.is_empty() {
-            return Err(Error(ErrorKind::LeaseHolderNameLengthZero));
+            return Err(Error(ErrorKind::LockHolderNameLengthZero));
         }
 
         let lease_client = LeaseClient::new(state_store, lock_name, lock_holder_name)?;
@@ -78,7 +76,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     /// # Panics
-    /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lease is None.
+    /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lock is None.
     pub async fn lock(
         &mut self,
         lock_expiration: Duration,
@@ -138,7 +136,7 @@ where
     ///
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
-    /// Returns `Ok()` if lease is no longer held by this `lock holder`, or `Error` otherwise.
+    /// Returns `Ok()` if lock is no longer held by this `lock holder`, or `Error` otherwise.
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///

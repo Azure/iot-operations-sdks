@@ -56,7 +56,7 @@ where
     /// - There must be one instance of `leased_lock::Client` per lease.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `lease_name` is empty
+    /// [`struct@Error`] of kind [`LeaseNameLengthZero`](ErrorKind::LeaseNameLengthZero) if the `lease_name` is empty
     ///
     /// [`struct@Error`] of kind [`LeaseHolderNameLengthZero`](ErrorKind::LeaseHolderNameLengthZero) if the `lease_holder_name` is empty
     pub fn new(
@@ -65,7 +65,7 @@ where
         lease_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
         if lease_name.is_empty() {
-            return Err(Error(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::LeaseNameLengthZero));
         }
 
         if lease_holder_name.is_empty() {
