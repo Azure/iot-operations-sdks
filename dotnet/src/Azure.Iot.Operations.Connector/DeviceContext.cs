@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Azure.Iot.Operations.Connector
 
         public Device? Device { get; set; }
 
-        public Dictionary<string, Asset> Assets { get; set; } = new();
+        public ConcurrentDictionary<string, Asset> Assets { get; set; } = new();
 
         public DeviceContext(string deviceName, string inboundEndpointName)
         {
