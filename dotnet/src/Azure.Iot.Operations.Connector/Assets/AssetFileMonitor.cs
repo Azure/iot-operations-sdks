@@ -196,13 +196,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 if (!string.IsNullOrWhiteSpace(contents))
                 {
                     string[] delimitedContents = contents.Split("\n");
-                    IEnumerable<string> a =  [.. delimitedContents];
-                    foreach (string line in a)
-                    {
-                        Console.WriteLine("Detected Asset with name: " + line);
-                    }
-
-                    return delimitedContents;
+                    return [.. delimitedContents];
                 }
             }
 
