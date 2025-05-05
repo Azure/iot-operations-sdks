@@ -42,15 +42,17 @@ jobs:
 
       - name: Run linkspector
         run: |
-          linkspector check -c .github/.linkspector.yml -j
-  #         |
-  # reviewdog -f=rdjson \
-  #   -name="${INPUT_TOOL_NAME}" \
-  #   -reporter="${INPUT_REPORTER}" \
-  #   -filter-mode="${INPUT_FILTER_MODE}" \
-  #   -fail-level="${INPUT_FAIL_LEVEL}" \
-  #   -level="${INPUT_LEVEL}" \
-  #   "${INPUT_REVIEWDOG_FLAGS}"
+          linkspector check -c .github/.linkspector.yml -j |
+            reviewdog -f=rdjson \
+              -name="Linkspector" \
+              -reporter="github-check" \
+              -filter-mode="${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}" \
+              -fail-level="warning" \
+              -level="error"
+
+      - name: Linkspector report
+        run: |
+          linkspector check -c .github/.linkspector.yml -s || true
 
       # - name: Run linkspector
       #   uses: umbrelladocs/action-linkspector@v1
