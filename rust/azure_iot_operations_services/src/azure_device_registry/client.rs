@@ -478,7 +478,7 @@ where
         Ok(response.payload.device.into())
     }
 
-    /// Updates a device's status in the Azure Device Registry service.
+    /// Updates a [`Device`]'s status in the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
