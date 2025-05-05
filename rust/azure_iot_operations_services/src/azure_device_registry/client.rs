@@ -824,7 +824,7 @@ where
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
-    /// if the asset is already being observed.
+    /// if the [`Asset`] is already being observed.
     ///
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
     /// if timeout is 0 or > `u32::max`.
