@@ -195,7 +195,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 string? contents = GetMountedConfigurationValueAsString(devicePath);
                 if (!string.IsNullOrWhiteSpace(contents))
                 {
-                    string[] delimitedContents = contents.Split("\r\n"); //TODO newline
+                    string[] delimitedContents = contents.Split("\n"); //TODO newline
                     IEnumerable<string> a =  [.. delimitedContents];
                     foreach (string line in a)
                     {

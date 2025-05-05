@@ -197,7 +197,6 @@ namespace Azure.Iot.Operations.Connector
                     {
                         throw new Exception("Asset name: " + e.AssetName, ex);
                     }
-
                 }
 
                 //TODO what if response is negative?
