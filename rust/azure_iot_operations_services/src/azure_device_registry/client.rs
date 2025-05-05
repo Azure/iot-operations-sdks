@@ -810,7 +810,7 @@ where
         Ok(response.payload.updated_asset.into())
     }
 
-    /// Starts observation of a asset's updates from the Azure Device Registry service.
+    /// Starts observation of an [`Asset`]'s updates from the Azure Device Registry service.
     ///
     /// Note: On cleanup, unobserve should always be called so that the service knows to stop sending notifications.
     ///
