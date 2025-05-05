@@ -249,7 +249,7 @@ Also, the `Field`s with new adjunct types have been relocated from the `Object/R
 
 As described in ADR 19, the error processing path may differ from the normal processing path.
 For instance, in C#, the server indicates an error by throwing an exception type that is generated from the `Object` co-typed `Error`.
-The use of an exception prevents the server code from calling the `WithAWithApplicationError` method because the `ExtendedResponse` is instantiated within the generated exception handler.
+The use of an exception prevents the server code from calling the `WithApplicationError` method because the `ExtendedResponse` is instantiated within the generated exception handler.
 Similarly, on the client side, exception-handling code has no access to the `ExtendedResponse`, so it is unable to call the `TryGetApplicationError` method thereon.
 
 With the addition of `Field`s with co-types `ErrorCode` and `ErrorInfo` to the `Object/Error`, the exception type is generated with properties for setting and extracting values of the error headers.
