@@ -639,7 +639,7 @@ where
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the observation was not successful.
+    /// if the unobservation was not accepted by the service.
     pub async fn unobserve_device_update_notifications(
         &self,
         device_name: String,
