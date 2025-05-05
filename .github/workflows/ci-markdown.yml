@@ -37,5 +37,5 @@ jobs:
         uses: umbrelladocs/action-linkspector@v1
         with:
           config_file: .github/.linkspector.yml
-          fail_level: error
+          fail_on_error: true
           filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
