@@ -1,21 +1,23 @@
 <#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="DTDLParser.Models" #>
+{
 <# this.PushIndent(new string(' ', this.indent)); #>
 <# if (this.schema != null) { #>
-"name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+  "name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# if (this.sharedNamespace != null) { #>
-"namespace": "<#=this.sharedNamespace.AsGiven#>",
+  "namespace": "<#=this.sharedNamespace.AsGiven#>",
 <# } #>
 <# } #>
-"type": "record",
-"fields": [
+  "type": "record",
+  "fields": [
 <# foreach (var nameSchemaRequired in this.nameSchemaRequireds) { #>
-  {
-    "name": "<#=nameSchemaRequired.Item1#>",
-<#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, 4, this.sharedPrefix, nullable: !nameSchemaRequired.Item3, nestNamedType: true)#>
-  }<#=this.IsLast(nameSchemaRequired) ? "" : ","#>
+    {
+      "name": "<#=nameSchemaRequired.Item1#>",
+      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, 6, this.sharedPrefix, nullable: !nameSchemaRequired.Item3, this.definedIds)#>
+    }<#=this.IsLast(nameSchemaRequired) ? "" : ","#>
 <# } #>
-]<# this.PopIndent(); #>
+  ]
+}<# this.PopIndent(); #>
 <#+
     private bool IsLast((string, DTSchemaInfo, bool) nameSchemaRequired) => nameSchemaRequired.Item1 == this.nameSchemaRequireds.Last().Item1;
 #>

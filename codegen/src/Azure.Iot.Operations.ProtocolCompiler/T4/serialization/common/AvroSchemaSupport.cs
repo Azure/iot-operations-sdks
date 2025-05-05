@@ -5,75 +5,76 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public static class AvroSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, bool nestNamedType)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, HashSet<Dtmi> definedIds)
         {
+            CodeName schemaId = new CodeName(dtSchema.Id);
+
             CodeName? sharedNamespace = CommonSchemaSupport.GetNamespace(dtSchema.Id, sharedPrefix);
 
             if (nullable)
             {
-                var templateTransform = new NullableAvroSchema(dtSchema, indent, sharedPrefix);
+                var templateTransform = new NullableAvroSchema(dtSchema, indent, sharedPrefix, definedIds);
                 return templateTransform.TransformText();
+            }
+
+            if (definedIds.Contains(dtSchema.Id))
+            {
+                return $"\"{schemaId.GetTypeName(TargetLanguage.Independent)}\"";
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
-                var templateTransform = new ObjectAvroSchema(new CodeName(dtSchema.Id), sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent + (nestNamedType ? 2 : 0), sharedPrefix);
-                string code = templateTransform.TransformText();
-                return nestNamedType ? NestCode(code, indent) : code;
+                definedIds.Add(dtSchema.Id);
+                var templateTransform = new ObjectAvroSchema(schemaId, sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent, sharedPrefix, definedIds);
+                return templateTransform.TransformText();
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Enum)
             {
-                var templateTransform = new EnumAvroSchema(new CodeName(dtSchema.Id), sharedNamespace, ((DTEnumInfo)dtSchema).EnumValues.Select(v => v.Name).ToList(), indent + (nestNamedType ? 2 : 0));
-                string code = templateTransform.TransformText();
-                return nestNamedType ? NestCode(code, indent) : code;
+                definedIds.Add(dtSchema.Id);
+                var templateTransform = new EnumAvroSchema(schemaId, sharedNamespace, ((DTEnumInfo)dtSchema).EnumValues.Select(v => v.Name).ToList(), indent);
+                return templateTransform.TransformText();
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
-                var templateTransform = new ArrayAvroSchema(((DTArrayInfo)dtSchema).ElementSchema, indent + (nestNamedType ? 2 : 0), sharedPrefix);
-                string code = templateTransform.TransformText();
-                return nestNamedType ? NestCode(code, indent) : code;
+                definedIds.Add(dtSchema.Id);
+                var templateTransform = new ArrayAvroSchema(schemaId, ((DTArrayInfo)dtSchema).ElementSchema, indent, sharedPrefix, definedIds);
+                return templateTransform.TransformText();
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
-                var templateTransform = new MapAvroSchema(((DTMapInfo)dtSchema).MapValue.Schema, indent + (nestNamedType ? 2 : 0), sharedPrefix);
-                string code = templateTransform.TransformText();
-                return nestNamedType ? NestCode(code, indent) : code;
+                definedIds.Add(dtSchema.Id);
+                var templateTransform = new MapAvroSchema(schemaId, ((DTMapInfo)dtSchema).MapValue.Schema, indent, sharedPrefix, definedIds);
+                return templateTransform.TransformText();
             }
 
             string it = new string(' ', indent);
 
             return dtSchema.Id.AbsoluteUri switch
             {
-                "dtmi:dtdl:instance:Schema:boolean;2" => $"{it}\"type\": \"boolean\"",
-                "dtmi:dtdl:instance:Schema:double;2" => $"{it}\"type\": \"double\"",
-                "dtmi:dtdl:instance:Schema:float;2" => $"{it}\"type\": \"float\"",
-                "dtmi:dtdl:instance:Schema:integer;2" => $"{it}\"type\": \"int\"",
-                "dtmi:dtdl:instance:Schema:long;2" => $"{it}\"type\": \"long\"",
-                "dtmi:dtdl:instance:Schema:byte;4" => $"{it}\"type\": \"int\"",
-                "dtmi:dtdl:instance:Schema:short;4" => $"{it}\"type\": \"int\"",
-                "dtmi:dtdl:instance:Schema:unsignedInteger;4" => $"{it}\"type\": \"int\"",
-                "dtmi:dtdl:instance:Schema:unsignedLong;4" => $"{it}\"type\": \"long\"",
-                "dtmi:dtdl:instance:Schema:unsignedByte;4" => $"{it}\"type\": \"int\"",
-                "dtmi:dtdl:instance:Schema:unsignedShort;4" => $"{it}\"type\": \"int\"",
-                "dtmi:dtdl:instance:Schema:date;2" => $"{it}\"type\": \"int\",\r\n{it}\"logicalType\": \"date\"",
-                "dtmi:dtdl:instance:Schema:dateTime;2" => $"{it}\"type\": \"long\",\r\n{it}\"logicalType\": \"timestamp-millis\"",
-                "dtmi:dtdl:instance:Schema:time;2" => $"{it}\"type\": \"int\",\r\n{it}\"logicalType\": \"time-millis\"",
-                "dtmi:dtdl:instance:Schema:duration;2" => $"{it}\"type\": \"string\"",
-                "dtmi:dtdl:instance:Schema:string;2" => $"{it}\"type\": \"string\"",
-                "dtmi:dtdl:instance:Schema:uuid;4" => $"{it}\"type\": \"string\"",
-                "dtmi:dtdl:instance:Schema:bytes;4" => $"{it}\"type\": \"bytes\"",
-                "dtmi:dtdl:instance:Schema:decimal;4" => $"{it}\"type\": \"string\"",
+                "dtmi:dtdl:instance:Schema:boolean;2" => "\"boolean\"",
+                "dtmi:dtdl:instance:Schema:double;2" => "\"double\"",
+                "dtmi:dtdl:instance:Schema:float;2" => "\"float\"",
+                "dtmi:dtdl:instance:Schema:integer;2" => "\"int\"",
+                "dtmi:dtdl:instance:Schema:long;2" => "\"long\"",
+                "dtmi:dtdl:instance:Schema:byte;4" => "\"int\"",
+                "dtmi:dtdl:instance:Schema:short;4" => "\"int\"",
+                "dtmi:dtdl:instance:Schema:unsignedInteger;4" => "\"int\"",
+                "dtmi:dtdl:instance:Schema:unsignedLong;4" => "\"long\"",
+                "dtmi:dtdl:instance:Schema:unsignedByte;4" => "\"int\"",
+                "dtmi:dtdl:instance:Schema:unsignedShort;4" => "\"int\"",
+                "dtmi:dtdl:instance:Schema:date;2" => $"{{\r\n{it}  \"type\": \"int\",\r\n{it}  \"logicalType\": \"date\"\r\n{it}}}",
+                "dtmi:dtdl:instance:Schema:dateTime;2" => $"{{\r\n{it}  \"type\": \"long\",\r\n{it}  \"logicalType\": \"timestamp-millis\"\r\n{it}}}",
+                "dtmi:dtdl:instance:Schema:time;2" => $"{{\r\n{it}  \"type\": \"int\",\r\n{it}  \"logicalType\": \"time-millis\"\r\n{it}}}",
+                "dtmi:dtdl:instance:Schema:duration;2" => "\"string\"",
+                "dtmi:dtdl:instance:Schema:string;2" => "\"string\"",
+                "dtmi:dtdl:instance:Schema:uuid;4" => "\"string\"",
+                "dtmi:dtdl:instance:Schema:bytes;4" => "\"bytes\"",
+                "dtmi:dtdl:instance:Schema:decimal;4" => "\"string\"",
                 _ => string.Empty,
             };
-        }
-
-        private static string NestCode(string code, int indent)
-        {
-            string indentation = new string(' ', indent);
-            return $"{indentation}\"type\": {{\r\n{code}\r\n{indentation}}}";
         }
 
         private static bool IsRequired(DTFieldInfo dtField)
