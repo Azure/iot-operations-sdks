@@ -63,7 +63,6 @@ fn initialize_client(
 ) {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
-        .hostname("52.156.154.189")
         .hostname("localhost")
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
@@ -188,8 +187,8 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
                 .await
                 .unwrap();
 
-            task1_notify.notify_one(); // Let task2 get holder name.
-            task1_notify.notified().await; // Wait task2 get holder name.
+            task1_notify.notify_one(); // Let task2 know task1 has acquired.
+            task1_notify.notified().await; // Wait task2 get holder name and try to acquire.
 
             let release_result = lease_client1.release(request_timeout).await;
             assert!(release_result.is_ok());
@@ -234,6 +233,7 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
                     .is_err()
             ); // Error(KeyAlreadyLeased)
 
+            task2_notify.notify_one(); // Tell task1 we checked holder name, tried to acquire.
             task2_notify.notified().await; // Wait task1 release.
 
             let _ = lease_client2
@@ -307,6 +307,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
             let release_result = lease_client1.release(request_timeout).await;
             assert!(release_result.is_ok());
 
+            task1_notify.notify_one(); // [C] Tell task2 it can acquire.
             task1_notify.notified().await; // [C] Wait task2 acquire.
 
             let get_holder_response = lease_client1.get_holder(request_timeout).await.unwrap();
@@ -314,6 +315,8 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
                 get_holder_response.response.unwrap(),
                 test_task1_holder_name2.into_bytes()
             );
+
+            task1_notify.notify_one(); // [D] Tell task2 it can shutdown.
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
@@ -344,7 +347,8 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
                 test_task1_holder_name1.into_bytes()
             );
 
-            task2_notify.notify_one(); // [B] Tell task1 to releasee lock.
+            task2_notify.notify_one(); // [B] Tell task1 to release lock.
+            task2_notify.notified().await; // [B] Wait task1 release.
 
             let _ = lease_client2
                 .acquire(lock_expiry, request_timeout, None)
@@ -352,6 +356,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
                 .unwrap();
 
             task2_notify.notify_one(); // [C] Tell task1 lock is acquired.
+            task2_notify.notified().await; // [D] Wait task1 verify lock holder.
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client2.shutdown().await.is_ok());
@@ -411,7 +416,7 @@ async fn lease_second_holder_acquires_non_released_expired_lease_network_tests()
 
     let test_task2 = tokio::task::spawn({
         async move {
-            let lock_expiry = Duration::from_secs(30);
+            let lock_expiry = Duration::from_secs(3);
             let request_timeout = Duration::from_secs(50);
 
             sleep(Duration::from_secs(5)).await;

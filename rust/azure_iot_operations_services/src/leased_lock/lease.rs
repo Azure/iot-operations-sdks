@@ -3,7 +3,7 @@
 
 //! Client for Key Lease operations.
 
-use std::{sync::Arc, time::Duration};
+use std::{sync::Arc, sync::Mutex, time::Duration};
 
 use tokio::select;
 use tokio_util::sync::CancellationToken;
@@ -23,8 +23,20 @@ where
     state_store: Arc<state_store::Client<C>>,
     lease_name: Vec<u8>,
     lease_holder_name: Vec<u8>,
-    current_fencing_token: Option<HybridLogicalClock>,
+    current_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
     auto_renewal_cancellation_token: CancellationToken,
+}
+
+impl<C> Drop for Client<C>
+where
+    C: ManagedClient + Clone + Send + Sync,
+    C::PubReceiver: Send + Sync,
+{
+    fn drop(&mut self) {
+        if !self.auto_renewal_cancellation_token.is_cancelled() {
+            self.auto_renewal_cancellation_token.cancel();
+        }
+    }
 }
 
 /// Key Lease client implementation
@@ -64,7 +76,7 @@ where
             state_store,
             lease_name,
             lease_holder_name,
-            current_fencing_token: None,
+            current_fencing_token: Arc::new(Mutex::new(None)),
             auto_renewal_cancellation_token: CancellationToken::new(),
         })
     }
@@ -76,9 +88,15 @@ where
     /// if a lease renewal has failed (if lease auto-renewal is used). The presence of a `HybridLogicalClock`
     /// does not mean that it is the most recent (and thus valid) Fencing Token - in case
     /// auto-renewal has not been used and the lease has already expired.
+    ///
+    /// # Panics
+    /// Possible panic if `std::Lock::lock()` fails.
     #[must_use]
     pub fn get_current_lease_fencing_token(&self) -> Option<HybridLogicalClock> {
-        self.current_fencing_token.clone()
+        self.current_fencing_token
+            .lock()
+            .expect("Could not lock mutex")
+            .clone()
     }
 
     async fn internal_acquire(
@@ -86,7 +104,7 @@ where
         lease_expiration: Duration,
         request_timeout: Duration,
     ) -> Result<HybridLogicalClock, Error> {
-        let state_store_response = self
+        let a = self
             .state_store
             .set(
                 self.lease_name.clone(),
@@ -98,17 +116,24 @@ where
                     expires: Some(lease_expiration),
                 },
             )
-            .await?;
+            .await;
+
+        let state_store_response = a?;
 
         if state_store_response.response {
             self.current_fencing_token
+                .lock()
+                .expect("Could not lock mutex")
                 .clone_from(&state_store_response.version);
 
             Ok(state_store_response.version.expect(
                 "Got None for fencing token. A lease without a fencing token is of no use.",
             ))
         } else {
-            self.current_fencing_token = None;
+            *self
+                .current_fencing_token
+                .lock()
+                .expect("Could not lock mutex") = None;
 
             Err(Error(ErrorKind::KeyAlreadyLeased))
         }
@@ -149,19 +174,19 @@ where
 
         if renewal_period.is_some() {
             self.auto_renewal_cancellation_token = CancellationToken::new();
-            let child_cancellation_token = self.auto_renewal_cancellation_token.child_token();
+            let mut self_clone = self.clone();
 
             tokio::task::spawn({
                 async move {
                     loop {
                         select! {
-                            () = child_cancellation_token.cancelled() => {
+                            () = self_clone.auto_renewal_cancellation_token.cancelled() => {
                                 break; // Auto-renewal is cancelled.
                             }
                             () = tokio::time::sleep(renewal_period.unwrap()) => {}
                         }
 
-                        if self
+                        if self_clone
                             .internal_acquire(lease_expiration, request_timeout)
                             .await
                             .is_err()
@@ -190,13 +215,19 @@ where
     /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
+    ///
+    /// # Panics
+    /// Possible panic if `std::Lock::lock()` fails.
     pub async fn release(&mut self, request_timeout: Duration) -> Result<(), Error> {
         // Stop auto-renewal.
         if !self.auto_renewal_cancellation_token.is_cancelled() {
             self.auto_renewal_cancellation_token.cancel();
         }
 
-        self.current_fencing_token = None;
+        *self
+            .current_fencing_token
+            .lock()
+            .expect("Could not lock mutex") = None;
 
         match self
             .state_store
