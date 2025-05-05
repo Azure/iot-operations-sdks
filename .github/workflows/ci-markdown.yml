@@ -30,12 +30,12 @@ jobs:
   # https://github.com/UmbrellaDocs/action-linkspector
   linkcheck:
     name: CI-links
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       
       - name: Run linkspector
-        uses: umbrelladocs/action-linkspector@v1.2.5 # https://github.com/UmbrellaDocs/action-linkspector/issues/30
+        uses: umbrelladocs/action-linkspector
         with:
           config_file: .github/.linkspector.yml
           fail_level: warning
