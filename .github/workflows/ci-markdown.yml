@@ -34,11 +34,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: v0.20.3
+
       - name: Install linkspector
         run: |
           npm install -g @umbrelladocs/linkspector
-          linkspector --version
-          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
 
       - name: Run linkspector
         run: |
