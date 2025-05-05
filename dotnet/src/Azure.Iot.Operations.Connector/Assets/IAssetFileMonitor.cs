@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
 namespace Azure.Iot.Operations.Connector.Assets
 {
     internal interface IAssetFileMonitor
@@ -68,12 +70,11 @@ namespace Azure.Iot.Operations.Connector.Assets
         IEnumerable<string> GetDeviceNames();
 
         /// <summary>
-        /// Get the file-mounted credentials for the provided device and inbound endpoint.
+        /// Get the file-mounted credentials for the provided inbound endpoint.
         /// </summary>
-        /// <param name="deviceName">The device whose credentials should be returned.</param>
-        /// <param name="inboundEndpointName">The name of the inbound endpoint within the device whose credentials should be returned.</param>
-        /// <returns>The credentials for the device</returns>
-        DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName);
+        /// <param name="inboundEndpoint">The endpoint whose credentials should be returned.</param>
+        /// <returns>The credentials for the endpoint</returns>
+        EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint);
 
         /// <summary>
         /// Stop all observation of assets and/or devices.

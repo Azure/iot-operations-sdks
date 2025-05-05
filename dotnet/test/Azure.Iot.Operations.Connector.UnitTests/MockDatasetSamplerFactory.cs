@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             _isFaulty = isFaulty;
         }
 
-        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, DeviceCredentials deviceCredentials)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, EndpointCredentials? deviceCredentials)
         {
             return new MockDatasetSampler(_isFaulty);
         }

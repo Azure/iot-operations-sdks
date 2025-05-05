@@ -15,9 +15,9 @@ namespace SqlQualityAnalyzerConnectorApp
         private readonly string _connectionString;
         private string _fullConnectionString = "";
         private readonly string _assetName;
-        private readonly DeviceCredentials? _credentials;
+        private readonly EndpointCredentials? _credentials;
 
-        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, DeviceCredentials? deviceCredentials)
+        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, EndpointCredentials? deviceCredentials)
         {
             _connectionString = connectionString;
             _assetName = assetName;
@@ -42,8 +42,8 @@ namespace SqlQualityAnalyzerConnectorApp
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
                     string sqlServerUsername = _credentials.Username;
-                    byte[] sqlServerPassword = _credentials.Password;
-                    _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
+                    string sqlServerPassword = _credentials.Password;
+                    _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={sqlServerPassword};TrustServerCertificate=true;";
                 }
 
                 // In this sample, the datapoints have the different datasource, there are 2 options to get the data

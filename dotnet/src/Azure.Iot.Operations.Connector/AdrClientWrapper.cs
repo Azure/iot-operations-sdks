@@ -106,9 +106,9 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// </inheritdoc>
-        public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
+        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
         {
-            return _monitor.GetDeviceCredentials(deviceName, inboundEndpointName);
+            return _monitor.GetEndpointCredentials(inboundEndpoint);
         }
 
         /// </inheritdoc>
@@ -190,7 +190,6 @@ namespace Azure.Iot.Operations.Connector
 
                     var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, new GetAssetRequest() { AssetName = e.AssetName });
                     AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
-
                 }
 
                 //TODO what if response is negative?

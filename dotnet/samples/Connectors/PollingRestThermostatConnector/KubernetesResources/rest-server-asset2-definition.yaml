@@ -1,11 +1,11 @@
 apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
 kind: Asset
 metadata:
-  name: my-rest-thermostat-asset
+  name: my-rest-thermostat-asset2
   namespace: azure-iot-operations
 spec:
   #attributes: # This part of the spec is currently broken in the operator. Re-enable later
-    #assetId: my-rest-thermostat-asset
+    #assetId: my-rest-thermostat-asset2
     #assetType: rest-thermostat-asset
   datasets:
     - name: thermostat_status
@@ -25,7 +25,7 @@ spec:
       dataSource: /thermostat
       destinations:
         - configuration:
-            topic: /mqtt/machine/status
+            topic: /mqtt/machine/asset2/status
           target: Mqtt
   deviceRef:
     deviceName: my-rest-thermostat-device-name
