@@ -68,7 +68,6 @@ where
     ///
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
-    ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an Error if any failure occurs.
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
@@ -86,9 +85,53 @@ where
         request_timeout: Duration,
         renewal_period: Option<Duration>,
     ) -> Result<HybridLogicalClock, Error> {
-        self.lease_client
-            .acquire(lock_expiration, request_timeout, renewal_period)
-            .await
+        // Logic:
+        // a. Start observing lease within this function.
+        // b. Try acquiring the lease and return if acquired or got an error other than `KeyAlreadyLeased`.
+        // c. If got `KeyAlreadyLeased`, wait until `Del` notification for the lease. If notification is None, re-observe (start from a. again).
+        // d. Loop back starting from b. above.
+        // e. Unobserve lease before exiting.
+
+        let mut observe_response = self.lease_client.observe(request_timeout).await?;
+        let mut acquire_result;
+
+        loop {
+            acquire_result = self
+                .lease_client
+                .acquire(lock_expiration, request_timeout, renewal_period)
+                .await;
+
+            match acquire_result {
+                Ok(_) => {
+                    break; /* lease acquired */
+                }
+                Err(ref acquire_error) => match acquire_error.kind() {
+                    ErrorKind::KeyAlreadyLeased => { /* Must wait for lease to be released. */ }
+                    _ => {
+                        break;
+                    }
+                },
+            };
+
+            // Lease being held by another client. Wait for delete notification.
+            loop {
+                let Some((notification, _)) = observe_response.response.recv_notification().await
+                else {
+                    // If the state_store client gets disconnected (or shutdown), all the observation channels receive a None.
+                    // In such case, as per design, we must re-observe the lease.
+                    observe_response = self.lease_client.observe(request_timeout).await?;
+                    break;
+                };
+
+                if notification.operation == state_store::Operation::Del {
+                    break;
+                };
+            }
+        }
+
+        _ = self.lease_client.unobserve(request_timeout).await?;
+
+        acquire_result
     }
 
     /// Releases a lock.
