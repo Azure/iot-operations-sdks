@@ -52,11 +52,10 @@ jobs:
         run: |
           linkspector check -c .github/.linkspector.yml -j |
             reviewdog -f=rdjson \
-              -name="Linkspector" \
-              -reporter="github-check" \
-              -filter-mode="${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}" \
-              -fail-level="warning" \
-              -level="error"
+              -name=Linkspector \
+              -reporter=github-pr-check \
+              -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }} \
+              -fail-level=warning
 
       - name: Linkspector report
         run: |
