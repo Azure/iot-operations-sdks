@@ -59,9 +59,9 @@ jobs:
 
       # -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }} \
 
-      - name: Linkspector report
-        run: |
-          linkspector check -c .github/.linkspector.yml -s || true
+      # - name: Linkspector report
+      #   run: |
+      #     linkspector check -c .github/.linkspector.yml -s || true
 
       # - name: Run linkspector
       #   uses: umbrelladocs/action-linkspector@v1
