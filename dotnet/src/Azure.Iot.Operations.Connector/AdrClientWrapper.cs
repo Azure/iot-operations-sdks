@@ -188,8 +188,15 @@ namespace Azure.Iot.Operations.Connector
                         assets.Add(e.AssetName);
                     }
 
-                    var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, new GetAssetRequest() { AssetName = e.AssetName });
-                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
+                    try
+                    {
+                        var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, new GetAssetRequest() { AssetName = e.AssetName });
+                        AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Asset name: " + e.AssetName, ex);
+                    }
 
                 }
 
