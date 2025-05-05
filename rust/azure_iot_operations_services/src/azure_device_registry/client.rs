@@ -561,7 +561,7 @@ where
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`DeviceUpdateObservation`] if the observation was started successfully or [`Error`].
+    /// Returns the [`DeviceUpdateObservation`] if the observation was started successfully or [`struct@Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
@@ -756,6 +756,9 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset name is empty.
     pub async fn get_asset(
         &self,
         device_name: String,
@@ -802,6 +805,9 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset name is empty.
     pub async fn update_asset_status(
         &self,
         device_name: String,
@@ -849,7 +855,7 @@ where
     /// * `asset_name` - The name of the asset.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns an [`AssetUpdateObservation`] if the observation was started successfully or [`Error`].
+    /// Returns an [`AssetUpdateObservation`] if the observation was started successfully or [`struct@Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve)
@@ -864,6 +870,9 @@ where
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the observation was not accepted by the service.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset name is empty.
     pub async fn observe_asset_update_notifications(
         &self,
         device_name: String,
@@ -968,6 +977,9 @@ where
     ///
     /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
     /// if the unobservation was not accepted by the service.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset name is empty.
     pub async fn unobserve_asset_update_notifications(
         &self,
         device_name: String,
