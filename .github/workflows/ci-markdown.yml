@@ -39,5 +39,6 @@ jobs:
         with:
           config_file: .github/.linkspector.yml
           fail_level: warning
-          filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
-          show_stats: true
+          filter_mode: nofilter
+          # filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
+          # show_stats: true
