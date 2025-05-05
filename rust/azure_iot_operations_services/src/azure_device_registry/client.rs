@@ -77,6 +77,9 @@ where
         client: C,
         options: ClientOptions,
     ) -> Result<Self, Error> {
+        if !Self::is_valid_replacement(client.client_id()) {
+            return Err(ErrorKind::InvalidClientId(client.client_id().to_string()).into());
+        }
         let command_options = CommandInvokerOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
@@ -248,8 +251,6 @@ where
                 errors.push(e);
             }
         }
-        // TODO Should futures be used joined instead of tokio?
-        // let results = futures::future::join_all(shutdown_futures).await;
 
         if errors.is_empty() {
             log::info!("Shutdown done gracefully");
@@ -273,6 +274,44 @@ where
         ])
     }
 
+    /// Determine whether a string is valid for use as a replacement string in a custom replacement map
+    /// or a topic namespace based on [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
+    ///
+    /// Returns true if the string is not empty, does not contain invalid characters, does not start or
+    /// end with '/', and does not contain "//"
+    ///
+    /// # Arguments
+    /// * `s` - A string slice to check for validity
+    #[must_use]
+    fn is_valid_replacement(s: &str) -> bool {
+        !(s.is_empty()
+            || Self::contains_invalid_char(s)
+            || s.starts_with('/')
+            || s.ends_with('/')
+            || s.contains("//"))
+    }
+
+    /// Check if a string contains invalid characters specified in [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
+    ///
+    /// Returns true if the string contains any of the following:
+    /// - Non-ASCII characters
+    /// - Characters outside the range of '!' to '~'
+    /// - Characters '+', '#', '{', '}'
+    ///
+    /// # Arguments
+    /// * `s` - A string slice to check for invalid characters
+    #[must_use]
+    fn contains_invalid_char(s: &str) -> bool {
+        s.chars().any(|c| {
+            !c.is_ascii()
+                || !('!'..='~').contains(&c)
+                || c == '+'
+                || c == '#'
+                || c == '{'
+                || c == '}'
+        })
+    }
+
     /// It receives update notifications from the Azure Device Registry service.
     async fn receive_update_notification_loop(
         shutdown_notifier: Arc<Notify>,
@@ -292,14 +331,6 @@ where
         let mut asset_receiver_closed = false;
 
         loop {
-            if device_shutdown_attempt_count >= max_attempt
-                && asset_shutdown_attempt_count >= max_attempt
-            {
-                log::warn!(
-                    "Maximum shutdown attempts reached for both receivers. Forcing loop exit."
-                );
-                break;
-            }
             tokio::select! {
                 () = shutdown_notifier.notified() => {
                     if device_shutdown_attempt_count < max_attempt {
@@ -733,7 +764,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            Err(Error(ErrorKind::ValidationError("Asset name must be present".to_string()))
+            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
@@ -841,9 +872,7 @@ where
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
-            return Err(
-                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
-            );
+            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
         }
 
         // TODO Right now using device name + asset_name as the key for the dispatcher, consider using tuple
@@ -1071,6 +1100,32 @@ mod tests {
             super::ClientOptionsBuilder::default().build().unwrap(),
         )
         .unwrap()
+    }
+
+    #[test]
+    fn test_new_client() {
+        let connection_settings = MqttConnectionSettingsBuilder::default()
+            .hostname("localhost")
+            .client_id("+++")
+            .build()
+            .unwrap();
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(connection_settings)
+            .build()
+            .unwrap();
+        let session = Session::new(session_options).unwrap();
+        let managed_client = session.create_managed_client();
+        let result = Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        );
+
+        assert!(result.is_err());
+        assert!(matches!(
+            result,
+            Err(e) if matches!(&e.0, ErrorKind::InvalidClientId(_))
+        ));
     }
 
     #[tokio::test]
@@ -1538,35 +1593,4 @@ mod tests {
         let unhashed_invalid = Client::<SessionManagedClient>::unhash_device_endpoint(invalid_hash);
         assert!(unhashed_invalid.is_none());
     }
-
-    // #[tokio::test]
-    // async fn test_shutdown_attempts_all_components() {
-    //     let adr_client = create_adr_client();
-
-    //     let result = adr_client.shutdown().await;
-
-    //     match result {
-    //         Ok(_) => {
-    //             // If it succeeded, that means all invokers were shut down
-    //             // So the test passes
-    //         }
-    //         Err(e) => {
-    //             // If there was an error, check that it was a ShutdownError
-    //             // which means shutdown was attempted on all invokers
-    //             if let ErrorKind::ShutdownError(errors) = &e.0 {
-    //                 // Success - the shutdown method was called on all components
-    //                 // You could optionally check the number of errors to ensure
-    //                 // all 6 invokers were attempted
-    //                 assert!(
-    //                     errors.len() > 0,
-    //                     "Expected at least one error from shutdown attempts"
-    //                 );
-    //             } else {
-    //                 // If it's not a ShutdownError, the test should fail
-    //                 // because that means shutdown wasn't properly attempted
-    //                 panic!("Expected ShutdownError, got {:?}", e.0);
-    //             }
-    //         }
-    //     }
-    // }
 }

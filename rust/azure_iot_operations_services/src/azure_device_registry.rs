@@ -64,7 +64,7 @@ pub enum ErrorKind {
     #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     ShutdownError(Vec<AIOProtocolError>),
     /// An error occured while validating the inputs.
-    #[error("{0}")]
+    #[error("{0} must not be empty")]
     ValidationError(String),
 }
 
