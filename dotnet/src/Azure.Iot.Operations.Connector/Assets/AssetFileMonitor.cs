@@ -192,7 +192,7 @@ namespace Azure.Iot.Operations.Connector.Assets
             string devicePath = Path.Combine(_adrResourcesNameMountPath, $"{deviceName}_{inboundEndpointName}");
             if (File.Exists(devicePath))
             {
-                GetMountedConfigurationValueAsLines(devicePath);
+                return GetMountedConfigurationValueAsLines(devicePath);
             }
 
             return new List<string>();
