@@ -15,6 +15,7 @@ spec:
       imageConfigurationSettings:
         imageName: "pollingrestthermostatconnector"
         imagePullPolicy: Never # This sample image is built locally, so no need to pull
+        replicas: 2
         tagDigestSettings:
           tagDigestType: tag
           tag: "latest"
