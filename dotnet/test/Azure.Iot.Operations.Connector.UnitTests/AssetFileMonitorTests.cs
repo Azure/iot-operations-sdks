@@ -166,6 +166,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             foreach (string filePath in Directory.EnumerateFiles(AdrResourcesPath))
             {
+                // The above tests create files that fit the format <guid>_<guid>, but there are some pre-existing files
+                // with a shorter file name that should not be deleted
                 if (Path.GetFileName(filePath).Length > 2 * Guid.NewGuid().ToString().Length)
                 {
                     File.Delete(filePath);
