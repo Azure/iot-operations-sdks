@@ -1,5 +1,5 @@
 dirs:
-  - ./
+  - ./doc
 useGitIgnore: true
 excludedFiles:
   - SECURITY.md # Ignore this as the aka links see to keep breaking
