@@ -621,7 +621,7 @@ where
         }
     }
 
-    /// Stops observation of a device's updates from the Azure Device Registry service.
+    /// Stops observation of a [`Device`]'s updates from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
