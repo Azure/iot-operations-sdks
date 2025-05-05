@@ -733,9 +733,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            return Err(
-                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
-            );
+            Err(Error(ErrorKind::ValidationError("Asset name must be present".to_string()))
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
