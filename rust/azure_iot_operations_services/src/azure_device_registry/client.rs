@@ -708,7 +708,7 @@ where
 
     // ~~~~~~~~~~~~~~~~~ Asset APIs ~~~~~~~~~~~~~~~~~~~~~
 
-    /// Retrieves an asset from a Azure Device Registry service.
+    /// Retrieves an [`Asset`] from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
