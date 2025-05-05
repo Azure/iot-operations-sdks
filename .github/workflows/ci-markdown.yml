@@ -47,6 +47,8 @@ jobs:
           echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
 
       - name: Run linkspector
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ inputs.github_token }}
         run: |
           linkspector check -c .github/.linkspector.yml -j |
             reviewdog -f=rdjson \
