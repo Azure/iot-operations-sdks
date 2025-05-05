@@ -33,22 +33,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: reviewdog/action-setup@v1
-        with:
-          reviewdog_version: latest
-
-      - name: Install linkspector
-        run: |
-          npm install -g @umbrelladocs/linkspector
-          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
-
       - name: Run linkspector
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
-        run: |
-          linkspector check -c .github/.linkspector.yml -j #|
-            # reviewdog -f=rdjson \
-            #   -name=Linkspector \
-            #   -reporter=github-pr-check \
-            #   -fail-level=error \
-            #   -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
+        uses: umbrelladocs/action-linkspector@v1
+        with:
+          config_file: .github/.linkspector.yml
+          fail_level: error
+          filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
+          show_stats: true

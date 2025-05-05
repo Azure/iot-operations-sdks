@@ -17,8 +17,6 @@ See [the Azure IoT Operations Learn](https://learn.microsoft.com/azure/iot-opera
 
 ## Why use an SDK?
 
-[bad link](https://somerandomurlthatdoesntexist.com)
-
 The *Azure IoT Operations SDKs* are a suite of tools and libraries across multiple languages designed to aid the development of applications for Azure IoT Operations.
 
 The focus of the SDKs it to assist customers in developing applications by providing the following features:
