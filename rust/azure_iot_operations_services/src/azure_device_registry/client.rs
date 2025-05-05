@@ -442,7 +442,7 @@ where
 
     // ~~~~~~~~~~~~~~~~~ Device APIs ~~~~~~~~~~~~~~~~~~~~~
 
-    /// Retrieves a device from a Azure Device Registry service.
+    /// Retrieves a [`Device`] from the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
