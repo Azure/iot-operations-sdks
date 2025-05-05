@@ -54,7 +54,7 @@ jobs:
             reviewdog -f=rdjson \
               -name=Linkspector \
               -reporter=github-pr-check \
-              -fail-level=warning
+              -fail-level=warning \
               -filter-mode=nofilter
 
       # -filter-mode=${{ github.event_name == 'schedule' && 'nofilter' || 'added' }} \
