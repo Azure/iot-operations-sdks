@@ -17,12 +17,10 @@ pub type LeaseObservation = KeyObservation;
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
 pub type ServiceError = StateStoreServiceError;
 
-/// Leased Lock Client implementation
-mod client;
-/// Key Lease Client implementation
+/// Lease Client implementation
 pub mod lease;
-
-pub use client::Client;
+/// Lock Client implementation
+pub mod lock;
 
 /// Represents an error that occurred in the Azure IoT Operations Key Lease implementation.
 #[derive(Debug, Error)]
@@ -102,15 +100,4 @@ impl From<state_store::ErrorKind> for ErrorKind {
             state_store::ErrorKind::DuplicateObserve => ErrorKind::DuplicateObserve,
         }
     }
-}
-
-/// Enumeration used as a response for `leased_lock::Client::lock_and_update_value`.
-pub enum AcquireAndUpdateKeyOption {
-    /// Indicates a State Store key shall be updated.
-    /// The first argument is new value for the State Store key.
-    Update(Vec<u8>, SetOptions),
-    /// Indicates the State Store key shall not be updated nor deleted.
-    DoNotUpdate,
-    /// Indicates the State Store key shall be deleted.
-    Delete,
 }
