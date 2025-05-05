@@ -39,4 +39,3 @@ jobs:
           config_file: .github/.linkspector.yml
           fail_level: error
           filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
-          show_stats: true
