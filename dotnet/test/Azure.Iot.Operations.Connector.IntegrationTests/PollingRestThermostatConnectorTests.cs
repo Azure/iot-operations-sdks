@@ -1,12 +1,5 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Buffers;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Azure.Iot.Operations.Protocol.IntegrationTests;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
