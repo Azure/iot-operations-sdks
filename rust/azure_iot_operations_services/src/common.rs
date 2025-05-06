@@ -88,6 +88,7 @@ pub mod dispatcher {
             }
         }
 
+        #[allow(dead_code)]
         /// Returns all currently tracked receiver ids
         pub fn get_all_receiver_ids(&self) -> Vec<String> {
             let tx_map = self.tx_map.lock().unwrap();
