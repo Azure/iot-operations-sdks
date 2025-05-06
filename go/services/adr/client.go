@@ -154,7 +154,7 @@ func (c *Client) Start(ctx context.Context) error {
 }
 
 // Close all underlying resources.
-func (c *Client) Close(ctx context.Context) error {
+func (c *Client) Close(_ context.Context) error {
 	c.listeners.Close()
 	return nil
 }
@@ -447,7 +447,7 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(
 
 // handleAssetUpdateTelemetry processes asset update telemetry messages.
 func (c *Client) handleAssetUpdateTelemetry(
-	ctx context.Context,
+	_ context.Context,
 	msg *protocol.TelemetryMessage[Asset],
 ) error {
 	aepName := msg.TopicTokens[aepNameTokenKey]
@@ -467,7 +467,7 @@ func (c *Client) handleAssetUpdateTelemetry(
 }
 
 func (c *Client) handleAepUpdateTelemetry(
-	ctx context.Context,
+	_ context.Context,
 	msg *protocol.TelemetryMessage[DeviceEndpointSchema],
 ) error {
 	aepName := msg.TopicTokens[aepNameTokenKey]
@@ -486,6 +486,8 @@ func (c *Client) handleAepUpdateTelemetry(
 }
 
 // translateError converts protocol errors to client errors.
+//
+//nolint:staticcheck // adr compat.
 func translateError(err error) error {
 	if err == nil {
 		return nil

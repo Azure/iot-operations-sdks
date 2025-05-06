@@ -14,6 +14,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/fsnotify/fsnotify"
 )
 
 const ADRResourcesNameMountPath = "ADR_RESOURCES_NAME_MOUNT_PATH"
@@ -186,9 +188,12 @@ type DeviceEndpointCreateObservation struct {
 	fileMountMap *FileMountMap
 	ctx          context.Context
 	cancel       context.CancelFunc
-	pollInterval time.Duration
+	pollInterval time.Duration // retained for API compatibility; not used
 	connMonitor  *ConnectionMonitor
 	logger       *slog.Logger
+
+	watcher     *fsnotify.Watcher
+	lastDevices map[string]DeviceEndpointRef
 }
 
 // DeviceNotification contains information about a device endpoint notification.
@@ -357,6 +362,29 @@ func NewDeviceEndpointCreateObservation(
 	connMonitor := NewConnectionMonitor()
 	observeCtx, cancel := context.WithCancel(ctx)
 
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		cancel()
+		return nil, fmt.Errorf("failed to create watcher: %w", err)
+	}
+
+	// Always watch the parent directory so that we can detect the mount point being created/removed.
+	parentDir := filepath.Dir(mountPath)
+	if err := watcher.Add(parentDir); err != nil {
+		watcher.Close()
+		cancel()
+		return nil, fmt.Errorf("failed to watch parent directory: %w", err)
+	}
+
+	// If the mount currently exists, start watching it.
+	if _, err := os.Stat(mountPath); err == nil {
+		if err := watcher.Add(mountPath); err != nil {
+			watcher.Close()
+			cancel()
+			return nil, fmt.Errorf("failed to watch mount path: %w", err)
+		}
+	}
+
 	observation := &DeviceEndpointCreateObservation{
 		mountPath:    mountPath,
 		deviceChan:   fileMountMap.createDeviceTx,
@@ -366,6 +394,7 @@ func NewDeviceEndpointCreateObservation(
 		pollInterval: pollInterval,
 		connMonitor:  connMonitor,
 		logger:       logger,
+		watcher:      watcher,
 	}
 
 	// Initialize with existing devices
@@ -376,6 +405,7 @@ func NewDeviceEndpointCreateObservation(
 		devices, err := getDeviceEndpointNames(mountPath)
 		if err != nil {
 			cancel()
+			watcher.Close()
 			return nil, err
 		}
 
@@ -386,56 +416,78 @@ func NewDeviceEndpointCreateObservation(
 		connMonitor.SetDisconnected()
 	default:
 		cancel()
+		watcher.Close()
 		return nil, &Error{Message: "Failed to access mount path", Cause: err}
 	}
 
-	// Start polling loop
-	go observation.pollLoop()
+	// Start watcher loop
+	go observation.watchLoop()
 
 	return observation, nil
 }
 
-// pollLoop periodically checks for file system changes and updates the file mount map.
-func (o *DeviceEndpointCreateObservation) pollLoop() {
-	ticker := time.NewTicker(o.pollInterval)
-	defer ticker.Stop()
-
-	var lastDevices map[string]DeviceEndpointRef
+// watchLoop processes fsnotify events and updates the file mount map.
+func (o *DeviceEndpointCreateObservation) watchLoop() {
+	defer o.watcher.Close()
 
 	for {
 		select {
 		case <-o.ctx.Done():
 			return
-		case <-ticker.C:
-			// Check if mount path exists
-			_, err := os.Stat(o.mountPath)
-			mountExists := err == nil
+		case event, ok := <-o.watcher.Events:
+			if !ok {
+				return
+			}
 
-			// Handle state changes
-			if !mountExists {
+			// Handle creation or removal of the mount path itself.
+			if event.Name == o.mountPath && (event.Op&fsnotify.Create) != 0 {
+				// Mount appeared – start watching it.
+				_ = o.watcher.Add(o.mountPath)
+				o.connMonitor.SetConnected()
+			}
+			if event.Name == o.mountPath &&
+				(event.Op&(fsnotify.Remove|fsnotify.Rename)) != 0 {
+				// Mount disappeared
+				_ = o.watcher.Remove(o.mountPath)
 				o.connMonitor.SetDisconnected()
-				lastDevices = nil
-				continue
-			}
-			o.connMonitor.SetConnected()
-
-			// Get current device endpoints
-			devices, err := getDeviceEndpointNames(o.mountPath)
-			if err != nil {
-				o.logger.Warn(
-					"Failed to get device endpoint names",
-					"error",
-					err,
-				)
+				o.lastDevices = nil
 				continue
 			}
 
-			// If devices changed, update file mount map
-			if !reflect.DeepEqual(devices, lastDevices) {
-				o.fileMountMap.UpdateDeviceEndpoints(devices)
-				lastDevices = devices
+			// Only process events within the mount directory when connected.
+			if !o.connMonitor.IsConnected() {
+				continue
+			}
+
+			// For any relevant operation inside mount path, reconcile.
+			if strings.HasPrefix(event.Name, o.mountPath) &&
+				(event.Op&(fsnotify.Create|fsnotify.Write|fsnotify.Remove|fsnotify.Rename)) != 0 {
+				o.reconcile()
+			}
+
+		case err, ok := <-o.watcher.Errors:
+			if ok {
+				o.logger.Warn("watcher error", "error", err)
 			}
 		}
+	}
+}
+
+// reconcile reads current state and updates the FileMountMap.
+func (o *DeviceEndpointCreateObservation) reconcile() {
+	devices, err := getDeviceEndpointNames(o.mountPath)
+	if err != nil {
+		o.logger.Warn(
+			"Failed to get device endpoint names",
+			"error",
+			err,
+		)
+		return
+	}
+
+	if !reflect.DeepEqual(devices, o.lastDevices) {
+		o.fileMountMap.UpdateDeviceEndpoints(devices)
+		o.lastDevices = devices
 	}
 }
 
@@ -457,6 +509,7 @@ func (o *DeviceEndpointCreateObservation) RecvNotification(
 // Close stops the observation and releases resources.
 func (o *DeviceEndpointCreateObservation) Close() {
 	o.cancel()
+	_ = o.watcher.Close()
 }
 
 // GetConnectionMonitor returns the connection monitor for this observation.
