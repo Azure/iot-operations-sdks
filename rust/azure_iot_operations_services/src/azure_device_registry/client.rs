@@ -71,6 +71,8 @@ where
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
     /// if the Client Id of the [`ManagedClient`] isn't valid as a topic token.
+    /// # Panics
+    /// Panics if the command options or telemetry options can't be built.
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
@@ -80,13 +82,26 @@ where
         if !Self::is_valid_replacement(client.client_id()) {
             return Err(ErrorKind::InvalidClientId(client.client_id().to_string()).into());
         }
+
+        // let Ok(options) = CommandInvokerOptionsBuilder::default()
+        //     .topic_token_map(HashMap::from([(
+        //         "connectorClientId".to_string(),
+        //         client.client_id().to_string(),
+        //     )]))
+        //     .build()
+        // else {
+        //     return Err(Error::from(ErrorKind::ValidationError(
+        //         "Failed to build command options".to_string(),
+        //     )));
+        // };
+
         let command_options = CommandInvokerOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
             )]))
             .build()
-            .map_err(ErrorKind::from)?;
+            .expect("Failed to build command options");
 
         let telemetry_options = TelemetryReceiverOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
@@ -95,7 +110,7 @@ where
             )]))
             .auto_ack(options.notification_auto_ack)
             .build()
-            .map_err(ErrorKind::from)?;
+            .expect("Failed to build telemetry options");
 
         // Create the shutdown notifier for the receiver loop
         let shutdown_notifier = Arc::new(Notify::new());
@@ -767,7 +782,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
+            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
@@ -817,7 +832,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
+            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
         }
 
         let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
@@ -879,7 +894,7 @@ where
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
-            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
+            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
         }
 
         // TODO Right now using device name + asset_name as the key for the dispatcher, consider using tuple
@@ -986,7 +1001,7 @@ where
         timeout: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
-            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
+            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
         }
 
         let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
