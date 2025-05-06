@@ -44,8 +44,15 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 }
             });
 
-            await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
-            await asset2TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            try
+            {
+                await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                await asset2TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for polling telemetry connector telemetry to reach MQTT broker. This likely means the connector did not deploy successfully");
+            }
         }
 
         [Fact]
@@ -76,11 +83,18 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 }
             });
 
-            await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            try
+            {
+                await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for TCP connector telemetry to reach MQTT broker. This likely means the connector did not deploy successfully");
+            }
         }
 
 
-        [Fact]
+        [Fact (Skip = "Operator CRD bug doesn't allow for dataset destination to be DSS")]
         public async Task TestDeployedSqlConnector()
         {
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
@@ -100,7 +114,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             await stateStoreClient.ObserveAsync(expectedStateStoreKey);
 
-            await stateStoreUpdatedByConnectorTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            try
+            {
+                await stateStoreUpdatedByConnectorTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for SQL connector to push expected data to DSS. This likely means the connector did not deploy successfully");
+            }
         }
 
         private bool isValidPayload(ReadOnlySequence<byte> payload)
