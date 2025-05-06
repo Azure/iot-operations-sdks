@@ -7,8 +7,7 @@
 
 use std::sync::Arc;
 
-use azure_iot_operations_mqtt::interface::CompletionToken;
-use azure_iot_operations_services::azure_device_registry::{AssetDataset, AssetDatasetDataPoint};
+use azure_iot_operations_services::azure_device_registry::AssetDataset;
 
 use crate::destination_endpoint::Forwarder;
 use crate::{Data, base_connector::managed_azure_device_registry::Reporter};
@@ -29,30 +28,30 @@ pub trait DatasetDataTransformer {
     fn add_sampled_data(
         &self,
         data: Data,
-        datapoint: Option<AssetDatasetDataPoint>,
-    ) -> impl std::future::Future<Output = Result<CompletionToken, String>> + Send;
+    ) -> impl std::future::Future<Output = Result<(), String>> + Send;
 }
 
-pub struct DefaultDataTransformer {
-    forwarder: Forwarder,
-}
-impl DefaultDataTransformer {
+pub struct PassthroughDataTransformer {}
+impl DataTransformer for PassthroughDataTransformer {
+    type MyDatasetDataTransformer = PassthroughDatasetDataTransformer;
     #[must_use]
-    pub fn new(
+    fn new_dataset_data_transformer(
+        &self,
         _dataset_definition: AssetDataset,
         forwarder: Forwarder,
         _reporter: Arc<Reporter>,
-    ) -> Self {
-        Self { forwarder }
+    ) -> Self::MyDatasetDataTransformer {
+        Self::MyDatasetDataTransformer { forwarder }
     }
+}
 
+pub struct PassthroughDatasetDataTransformer {
+    forwarder: Forwarder,
+}
+impl DatasetDataTransformer for PassthroughDatasetDataTransformer {
     /// # Errors
     /// TODO
-    pub async fn add_sampled_data(
-        &self,
-        data: Data,
-        _datapoint: Option<AssetDatasetDataPoint>,
-    ) -> Result<CompletionToken, String> {
+    async fn add_sampled_data(&self, data: Data) -> Result<(), String> {
         // immediately forward data without any processing
         self.forwarder.send_data(data).await
     }

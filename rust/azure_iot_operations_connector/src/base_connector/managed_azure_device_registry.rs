@@ -5,10 +5,10 @@
 
 use std::sync::Arc;
 
-use azure_iot_operations_mqtt::interface::{AckToken, CompletionToken};
+use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::azure_device_registry::{
-    Asset, AssetDataset, AssetDatasetDataPoint, AssetUpdateObservation, ConfigError, Device,
-    DeviceUpdateObservation, MessageSchemaReference,
+    Asset, AssetDataset, AssetUpdateObservation, ConfigError, Device, DeviceUpdateObservation,
+    MessageSchemaReference,
 };
 
 use super::ConnectorContext;
@@ -25,7 +25,7 @@ use crate::{
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
 pub struct ManagedDeviceCreationObservation<T: DataTransformer> {
-    _connector_context: ConnectorContext<T>,
+    _connector_context: Arc<ConnectorContext<T>>,
     _device_endpoint_create_observation: DeviceEndpointCreateObservation,
 }
 impl<T> ManagedDeviceCreationObservation<T>
@@ -33,7 +33,7 @@ where
     T: DataTransformer,
 {
     /// Creates a new [`ManagedDeviceCreationObservation`] that uses the given [`ConnectorContext`]
-    pub(crate) fn new(connector_context: ConnectorContext<T>) -> Self {
+    pub(crate) fn new(connector_context: Arc<ConnectorContext<T>>) -> Self {
         let device_endpoint_create_observation =
             DeviceEndpointCreateObservation::new(connector_context.debounce_duration).unwrap();
 
@@ -225,15 +225,9 @@ where
     /// the transformed data to the destination
     /// # Errors
     /// TODO
-    pub async fn add_sampled_data(
-        &self,
-        data: Data,
-        datapoint: Option<AssetDatasetDataPoint>,
-    ) -> Result<CompletionToken, String> {
+    pub async fn add_sampled_data(&self, data: Data) -> Result<(), String> {
         // Add sampled data to the dataset
-        self.dataset_data_transformer
-            .add_sampled_data(data, datapoint)
-            .await
+        self.dataset_data_transformer.add_sampled_data(data).await
     }
 }
 

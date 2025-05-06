@@ -5,7 +5,6 @@
 
 #![allow(missing_docs)]
 
-use azure_iot_operations_mqtt::interface::CompletionToken;
 use azure_iot_operations_services::azure_device_registry::{AssetDataset, MessageSchemaReference};
 
 use crate::Data;
@@ -25,7 +24,7 @@ impl Forwarder {
     /// # Errors
     /// TODO
     #[allow(clippy::unused_async)]
-    pub async fn send_data(&self, _data: Data) -> Result<CompletionToken, String> {
+    pub async fn send_data(&self, _data: Data) -> Result<(), String> {
         // Forward the data to the destination
         Err("Not implemented".to_string())
     }

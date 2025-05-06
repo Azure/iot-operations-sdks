@@ -29,31 +29,14 @@ pub(crate) struct ConnectorContext<T: DataTransformer> {
     debounce_duration: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
-    data_transformer: Arc<T>,
+    data_transformer: T,
     // state_store_client: Arc<state_store::Client<SessionManagedClient>>,
     // schema_registry_client: schema_registry::Client<SessionManagedClient>,
     // etc
 }
-
-// manual clone implementation needed because the compiler thinks Arc<T> must have T: Clone for Arc<T> to be Clone
-impl<T> Clone for ConnectorContext<T>
-where
-    T: DataTransformer,
-{
-    fn clone(&self) -> Self {
-        Self {
-            application_context: self.application_context.clone(),
-            connector_config: self.connector_config.clone(),
-            debounce_duration: self.debounce_duration,
-            azure_device_registry_client: self.azure_device_registry_client.clone(),
-            data_transformer: self.data_transformer.clone(),
-        }
-    }
-}
-
 /// Base Connector for Azure IoT Operations
 pub struct BaseConnector<T: DataTransformer> {
-    connector_context: ConnectorContext<T>,
+    connector_context: Arc<ConnectorContext<T>>,
     session: Session,
 }
 
@@ -105,13 +88,13 @@ where
             Ok((connector_config, azure_device_registry_client, session))
         });
         Self {
-            connector_context: ConnectorContext {
+            connector_context: Arc::new(ConnectorContext {
                 debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
                 application_context,
                 connector_config,
                 azure_device_registry_client,
-                data_transformer: Arc::new(data_transformer),
-            },
+                data_transformer,
+            }),
             session,
         }
     }
@@ -128,7 +111,6 @@ where
     }
 
     /// Creates a new `ManagedDeviceCreationObservation` to allow for all Azure Device Registry operations
-    /// TODO: restrict to only be able to call once for now
     pub fn create_managed_device_create_observation(&self) -> ManagedDeviceCreationObservation<T> {
         ManagedDeviceCreationObservation::new(self.connector_context.clone())
     }
