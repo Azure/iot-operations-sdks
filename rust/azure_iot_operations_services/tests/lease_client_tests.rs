@@ -126,7 +126,7 @@ async fn lease_single_holder_acquires_a_lease_network_tests() {
                 .unwrap();
 
             // Let's verify if the fencing token was stored internally.
-            let saved_fencing_token = lease_client.get_current_lease_fencing_token();
+            let saved_fencing_token = lease_client.current_lease_fencing_token();
 
             assert!(saved_fencing_token.is_some());
             assert_eq!(fencing_token, saved_fencing_token.unwrap());
@@ -134,7 +134,7 @@ async fn lease_single_holder_acquires_a_lease_network_tests() {
             // Verify holder.
             let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
 
@@ -194,14 +194,14 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
             assert!(release_result.is_ok());
 
             // Verify if the fencing token was cleared internally after release.
-            assert!(lease_client1.get_current_lease_fencing_token().is_none());
+            assert!(lease_client1.current_lease_fencing_token().is_none());
 
             task1_notify.notify_one(); // Let task2 acquire.
             task1_notify.notified().await; // Wait task2 acquire.
 
             let get_holder_response = lease_client1.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 test_task1_holder_name2.into_bytes()
             );
 
@@ -222,7 +222,7 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
 
             let get_holder_response = lease_client2.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 test_task1_holder_name1.into_bytes()
             );
 
@@ -312,7 +312,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
 
             let get_holder_response = lease_client1.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 test_task1_holder_name2.into_bytes()
             );
 
@@ -335,7 +335,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
 
             let get_holder_response = lease_client2.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 test_task1_holder_name1.clone().into_bytes()
             );
 
@@ -343,7 +343,7 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
 
             let get_holder_response2 = lease_client2.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response2.response.unwrap(),
+                get_holder_response2.unwrap(),
                 test_task1_holder_name1.into_bytes()
             );
 
@@ -501,9 +501,7 @@ async fn lease_second_holder_observes_until_lease_is_released_network_tests() {
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
-                    let Some((notification, _)) =
-                        observe_response.response.recv_notification().await
-                    else {
+                    let Some((notification, _)) = observe_response.recv_notification().await else {
                         panic!("Received unexpected None for notification");
                     };
 
@@ -558,9 +556,8 @@ async fn lease_shutdown_state_store_while_observing_lease_network_tests() {
 
             let mut observe_response = lease_client1.observe(request_timeout).await.unwrap();
 
-            let receive_notifications_task = tokio::task::spawn({
-                async move { observe_response.response.recv_notification().await }
-            });
+            let receive_notifications_task =
+                tokio::task::spawn({ async move { observe_response.recv_notification().await } });
 
             assert!(state_store_client1.shutdown().await.is_ok());
 
@@ -628,9 +625,7 @@ async fn lease_second_holder_observes_until_lease_expires_network_tests() {
 
             let receive_notifications_task = tokio::task::spawn({
                 async move {
-                    let Some((notification, _)) =
-                        observe_response.response.recv_notification().await
-                    else {
+                    let Some((notification, _)) = observe_response.recv_notification().await else {
                         panic!("Received unexpected None for notification.");
                     };
 
@@ -689,13 +684,13 @@ async fn lease_attempt_to_release_twice_network_tests() {
             assert!(release_result.is_ok());
 
             // Verify if the fencing token was cleared internally after release.
-            assert!(lease_client.get_current_lease_fencing_token().is_none());
+            assert!(lease_client.current_lease_fencing_token().is_none());
 
             let release_result2 = lease_client.release(request_timeout).await;
             assert!(release_result2.is_ok());
 
             // Verify if the fencing token is still cleared.
-            assert!(lease_client.get_current_lease_fencing_token().is_none());
+            assert!(lease_client.current_lease_fencing_token().is_none());
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
@@ -781,7 +776,7 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
             sleep(Duration::from_secs(3)).await;
 
             // Expect to have a new token now (updated timestamp, but same counter and node id).
-            let fencing_token2_option = lease_client.get_current_lease_fencing_token();
+            let fencing_token2_option = lease_client.current_lease_fencing_token();
 
             assert!(fencing_token2_option.is_some());
             let fencing_token2 = fencing_token2_option.unwrap();
@@ -791,14 +786,14 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
             // Verify holder.
             let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
 
             // Wait for another renewal.
             sleep(Duration::from_secs(3)).await;
 
-            let fencing_token3_option = lease_client.get_current_lease_fencing_token();
+            let fencing_token3_option = lease_client.current_lease_fencing_token();
 
             assert!(fencing_token3_option.is_some());
             let fencing_token3 = fencing_token3_option.unwrap();
@@ -810,7 +805,7 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
             assert!(lease_client.release(request_timeout).await.is_ok());
 
             // Verify stored fencing token is cleared because of release.
-            assert!(lease_client.get_current_lease_fencing_token().is_none());
+            assert!(lease_client.current_lease_fencing_token().is_none());
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());
@@ -858,7 +853,7 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
             sleep(Duration::from_secs(3)).await;
 
             // Expect to have a new token now (updated timestamp, but same node id).
-            let fencing_token2_option = lease_client.get_current_lease_fencing_token();
+            let fencing_token2_option = lease_client.current_lease_fencing_token();
 
             assert!(fencing_token2_option.is_some());
             let fencing_token2 = fencing_token2_option.unwrap();
@@ -869,7 +864,7 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
             // Verify holder.
             let get_holder_response = lease_client.get_holder(request_timeout).await.unwrap();
             assert_eq!(
-                get_holder_response.response.unwrap(),
+                get_holder_response.unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
 
@@ -885,7 +880,7 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
             // Wait for the renewal period previously used, but expect no renewal.
             sleep(Duration::from_secs(3)).await;
 
-            let fencing_token4_option = lease_client.get_current_lease_fencing_token();
+            let fencing_token4_option = lease_client.current_lease_fencing_token();
 
             assert!(fencing_token4_option.is_some()); // On expiration, this is not updated. User app should know when renewal was used or not.
             assert_eq!(fencing_token3, fencing_token4_option.unwrap());
@@ -893,7 +888,7 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
             assert!(lease_client.release(request_timeout).await.is_ok());
 
             // Verify stored fencing token is cleared because of release.
-            assert!(lease_client.get_current_lease_fencing_token().is_none());
+            assert!(lease_client.current_lease_fencing_token().is_none());
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client.shutdown().await.is_ok());

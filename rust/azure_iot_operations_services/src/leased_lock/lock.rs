@@ -61,12 +61,12 @@ where
     ///
     /// If a non-zero `Duration` is provided as `renewal_period`, the lock is automatically renewed
     /// after every consecutive elapse of `renewal_period` until the lock is released or a re-acquire failure occurs.
-    /// If automatic lock renewal is used, `get_current_lock_fencing_token()` must be used to access the most up-to-date
+    /// If automatic lock renewal is used, `current_lock_fencing_token()` must be used to access the most up-to-date
     /// fencing token (see function documentation).
     ///
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
-    /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an Error if any failure occurs.
+    /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an `Error` if any failure occurs.
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
@@ -113,8 +113,7 @@ where
 
             // Lease being held by another client. Wait for delete notification.
             loop {
-                let Some((notification, _)) = observe_response.response.recv_notification().await
-                else {
+                let Some((notification, _)) = observe_response.recv_notification().await else {
                     // If the state_store client gets disconnected (or shutdown), all the observation channels receive a None.
                     // In such case, as per design, we must re-observe the lease.
                     observe_response = self.lease_client.observe(request_timeout).await?;
@@ -153,11 +152,11 @@ where
     ///
     /// Returns either None or an actual Fencing Token (`HybridLogicalClock`).
     /// None means that either a lock has not been acquired previously with this client, or
-    /// if a lock renewal has failed (if lock auto-renewal is used). The presence of a `HybridLogicalClock`
-    /// does not mean that it is the most recent (and thus valid) Fencing Token - in case
-    /// auto-renewal has not been used and the lock has already expired.
+    /// a lock renewal has failed (if lock auto-renewal is used). The presence of a `HybridLogicalClock`
+    /// does not mean that it is the most recent (and thus valid) Fencing Token - this can
+    /// happen in the scenario where auto-renewal has not been used and the lease has already expired.
     #[must_use]
-    pub fn get_current_lock_fencing_token(&self) -> Option<HybridLogicalClock> {
-        self.lease_client.get_current_lease_fencing_token()
+    pub fn current_lock_fencing_token(&self) -> Option<HybridLogicalClock> {
+        self.lease_client.current_lease_fencing_token()
     }
 }

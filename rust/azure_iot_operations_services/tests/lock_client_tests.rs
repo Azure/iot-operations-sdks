@@ -133,7 +133,7 @@ async fn lock_single_holder_do_lock_and_unlock_network_tests() {
                 .expect("Expected a fencing token");
 
             // Let's verify if the fencing token was stored internally.
-            let saved_fencing_token = lock_client1.get_current_lock_fencing_token();
+            let saved_fencing_token = lock_client1.current_lock_fencing_token();
 
             assert!(saved_fencing_token.is_some());
             assert_eq!(token, saved_fencing_token.unwrap());
@@ -144,7 +144,6 @@ async fn lock_single_holder_do_lock_and_unlock_network_tests() {
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name1.into_bytes()
             );
@@ -161,7 +160,7 @@ async fn lock_single_holder_do_lock_and_unlock_network_tests() {
             );
 
             // Let's verify if the fencing token was cleared internally.
-            assert!(lock_client1.get_current_lock_fencing_token().is_none());
+            assert!(lock_client1.current_lock_fencing_token().is_none());
 
             // Shutdown state store client and underlying resources
             assert!(state_store_client1.shutdown().await.is_ok());
@@ -209,7 +208,7 @@ async fn lock_single_holder_do_lock_with_auto_renewal_network_tests() {
             sleep(Duration::from_secs(3)).await;
 
             // Expect to have a new token now (updated timestamp, but same counter and node id).
-            let fencing_token2_option = lock_client1.get_current_lock_fencing_token();
+            let fencing_token2_option = lock_client1.current_lock_fencing_token();
 
             assert!(fencing_token2_option.is_some());
             let fencing_token2 = fencing_token2_option.unwrap();
@@ -270,7 +269,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_ne
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
@@ -283,7 +281,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_ne
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
@@ -315,7 +312,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_ne
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name2.as_bytes().to_vec()
             );
@@ -328,7 +324,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_ne
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name2.as_bytes().to_vec()
             );
@@ -391,7 +386,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_expiration
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
@@ -404,7 +398,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_expiration
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name1.as_bytes().to_vec()
             );
@@ -436,7 +429,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_expiration
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name2.as_bytes().to_vec()
             );
@@ -449,7 +441,6 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_expiration
                     .get_holder(request_timeout)
                     .await
                     .unwrap()
-                    .response
                     .unwrap(),
                 holder_name2.as_bytes().to_vec()
             );

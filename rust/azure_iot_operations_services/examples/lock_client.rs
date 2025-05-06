@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/// This example shows the how to use lock::Client for locking/unlocking operations.
 use std::{sync::Arc, time::Duration};
 
 use env_logger::Builder;
@@ -17,7 +18,7 @@ use azure_iot_operations_services::state_store;
 async fn main() {
     let client_id1 = "someClientId1";
     let client_id2 = "someClientId2";
-    let key_name = "someLock";
+    let lock_name = "someLock";
 
     Builder::new()
         .filter_level(log::LevelFilter::Info)
@@ -26,10 +27,10 @@ async fn main() {
         .init();
 
     let (session1, exit_handle1, state_store_client_arc1, lock_client1) =
-        create_clients(client_id1, key_name);
+        create_clients(client_id1, lock_name);
 
     let (session2, exit_handle2, state_store_client_arc2, lock_client2) =
-        create_clients(client_id2, key_name);
+        create_clients(client_id2, lock_name);
 
     let client_1_task = tokio::task::spawn(async move {
         lock_client_1_operations(state_store_client_arc1, lock_client1, exit_handle1).await;
@@ -49,7 +50,7 @@ async fn main() {
 
 fn create_clients(
     client_id: &str,
-    key_name: &str,
+    lock_name: &str,
 ) -> (
     Session,
     SessionExitHandle,
@@ -89,7 +90,7 @@ fn create_clients(
 
     let lock_client = lock::Client::new(
         state_store_client_arc.clone(),
-        key_name.as_bytes().to_vec(),
+        lock_name.as_bytes().to_vec(),
         client_id.as_bytes().to_vec(),
     )
     .unwrap();
@@ -113,7 +114,7 @@ async fn lock_client_1_operations(
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(120);
 
-    let shared_resource_key_name = b"someKey";
+    let shared_resource_lock_name = b"someKey";
     let shared_resource_key_value1 = b"someValue1";
     let shared_resource_key_set_options = SetOptions {
         set_condition: SetCondition::Unconditional,
@@ -136,7 +137,7 @@ async fn lock_client_1_operations(
     // 2.
     match state_store_client_arc
         .set(
-            shared_resource_key_name.to_vec(),
+            shared_resource_lock_name.to_vec(),
             shared_resource_key_value1.to_vec(),
             request_timeout,
             Some(fencing_token),
@@ -188,7 +189,7 @@ async fn lock_client_2_operations(
     let lock_expiry = Duration::from_secs(10);
     let request_timeout = Duration::from_secs(120);
 
-    let shared_resource_key_name = b"someKey";
+    let shared_resource_lock_name = b"someKey";
     let shared_resource_key_value2 = b"someValue2";
     let shared_resource_key_set_options = SetOptions {
         set_condition: SetCondition::Unconditional,
@@ -211,7 +212,7 @@ async fn lock_client_2_operations(
     // 5.
     match state_store_client_arc
         .set(
-            shared_resource_key_name.to_vec(),
+            shared_resource_lock_name.to_vec(),
             shared_resource_key_value2.to_vec(),
             request_timeout,
             Some(fencing_token),

@@ -70,6 +70,9 @@ pub enum ErrorKind {
     /// The lock holder name length must not be zero.
     #[error("lock holder name length must not be zero")]
     LockHolderNameLengthZero,
+    /// Fencing token not received from service.
+    #[error("Fencing token not received from service")]
+    MissingFencingToken,
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
