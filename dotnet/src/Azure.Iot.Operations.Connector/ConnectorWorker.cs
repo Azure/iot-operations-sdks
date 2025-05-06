@@ -223,7 +223,7 @@ namespace Azure.Iot.Operations.Connector
 
         private EventHandler<AssetChangedEventArgs>? assetMonitorOnAssetChanged(CancellationToken linkedToken)
         {
-            return async (sender, args) =>
+            return async void (sender, args) =>
             {
                 string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                 if (args.ChangeType == ChangeType.Created)
@@ -249,31 +249,44 @@ namespace Azure.Iot.Operations.Connector
 
         private EventHandler<DeviceChangedEventArgs>? assetMonitorOnDeviceChanged()
         {
-            return async (sender, args) =>
+            return async void (sender, args) =>
             {
                 string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
                 if (args.ChangeType == ChangeType.Created)
                 {
-                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {1} was created", args.DeviceName, args.InboundEndpointName);
                     await DeviceAvailableAsync(args, compoundDeviceName);
                     if (args.Device != null)
                     {
+                        ReportDeviceSuccess(args.Device, args.InboundEndpointName);
                         OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
                     }
                 }
                 else if (args.ChangeType == ChangeType.Deleted)
                 {
-                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {1} was deleted", args.DeviceName, args.InboundEndpointName);
                     await DeviceUnavailableAsync(args, compoundDeviceName, false);
                     OnDeviceUnavailable?.Invoke(this, new(args.DeviceName, args.InboundEndpointName));
                 }
                 else if (args.ChangeType == ChangeType.Updated)
                 {
-                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {1} was updated", args.DeviceName, args.InboundEndpointName);
                     await DeviceUnavailableAsync(args, compoundDeviceName, true);
                     await DeviceAvailableAsync(args, compoundDeviceName);
                 }
             };
+        }
+
+        public void ReportDeviceSuccess(Device device, string inboundEndpointName)
+        {
+            var status = new DeviceStatus
+            {
+                Config = new DeviceConfigStatus
+                {
+                    Version = device.Specification?.Version
+                },
+            };
+            _assetMonitor.UpdateDeviceStatusAsync(device.Name, inboundEndpointName, status);
         }
 
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
