@@ -7,6 +7,7 @@
 // are only compiled when necessary.
 
 #[cfg(any(feature = "state_store", feature = "azure_device_registry"))]
+#[allow(dead_code)]
 pub mod dispatcher {
     //! Provides a convenience for dispatching to a receiver based on an ID.
 
@@ -88,7 +89,6 @@ pub mod dispatcher {
             }
         }
 
-        #[allow(dead_code)]
         /// Returns all currently tracked receiver ids
         pub fn get_all_receiver_ids(&self) -> Vec<String> {
             let tx_map = self.tx_map.lock().unwrap();
