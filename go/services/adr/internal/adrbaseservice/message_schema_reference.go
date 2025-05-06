@@ -6,8 +6,8 @@ type MessageSchemaReference struct {
 	// The 'schemaName' Field.
 	SchemaName string `json:"schemaName"`
 
-	// The 'schemaNamespace' Field.
-	SchemaNamespace string `json:"schemaNamespace"`
+	// The 'schemaRegistryNamespace' Field.
+	SchemaRegistryNamespace string `json:"schemaRegistryNamespace"`
 
 	// The 'schemaVersion' Field.
 	SchemaVersion string `json:"schemaVersion"`
