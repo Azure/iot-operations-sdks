@@ -27,12 +27,6 @@ spec:
         - configuration:
             topic: /mqtt/machine/asset1/status
           target: Mqtt
-        - configuration:
-            topic: /mqtt/machine/asset2/status
-          target: Mqtt
-        - configuration:
-            Key: MyFavoriteDSSKey
-          target: BrokerStateStore
   deviceRef:
     deviceName: my-rest-thermostat-device-name
     endpointName: my-rest-thermostat-endpoint-name

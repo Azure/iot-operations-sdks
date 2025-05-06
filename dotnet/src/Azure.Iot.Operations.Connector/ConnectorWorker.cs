@@ -319,16 +319,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     throw new NotImplementedException();
                 }
-                else
-                {
-                    // Asset is red, unknown destination configured
-                }
             }
-        }
-
-        public void ReportStatus()
-        {
-            _assetMonitor.Upd
         }
 
         public async Task ForwardReceivedEventAsync(Asset asset, AssetEventSchemaElement assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
@@ -400,8 +391,6 @@ namespace Azure.Iot.Operations.Connector
                     Device = args.Device
                 };
                 _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-
-                // Report device status green
             }
         }
 
@@ -516,8 +505,6 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
             }
-
-            // Asset is green (for each asset)
 
             OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset));
         }
