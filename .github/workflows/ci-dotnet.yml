@@ -238,6 +238,14 @@ jobs:
         path: 'dotnet/**/test-results.trx,tools/**/test-results.trx'
         reporter: dotnet-trx  
 
+    - name: Display logs from all kubernetes pods
+      run: |
+        for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
+          echo "Logs for pod: $pod"
+          kubectl logs $pod
+          echo "-----------------------------------"
+        done
+
     - name: Annotate Test Report
       if: always()
       run: echo Test Report ${{ steps.test-reporter.outputs.url_html }} >> $GITHUB_STEP_SUMMARY
