@@ -3,6 +3,7 @@ dirs:
 useGitIgnore: true
 excludedFiles:
   - SECURITY.md # Ignore this as the aka links see to keep breaking
+  - API.md # auto generated and contains too many links
 ignorePatterns:
   # There are some dummy links, ignore these
   - pattern: "^http://link_to_"

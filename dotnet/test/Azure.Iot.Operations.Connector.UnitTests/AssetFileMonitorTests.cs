@@ -20,6 +20,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public void TestListingDevicesEndpointsAndAssets()
         {
+            DeleteTemporaryFiles();
+
             Environment.SetEnvironmentVariable(AssetFileMonitor.AdrResourcesNameMountPathEnvVar, AdrResourcesPath);
 
             AssetFileMonitor assetFileMonitor = new AssetFileMonitor();
@@ -44,6 +46,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         [Fact]
         public async Task TestObservingDevicesEndpointsAndAssets()
         {
+            DeleteTemporaryFiles();
+
             string expectedDeviceName = Guid.NewGuid().ToString();
             string expectedEndpointName = Guid.NewGuid().ToString();
             string devicePath = AdrResourcesPath + "/" + expectedDeviceName + "_" + expectedEndpointName;
@@ -154,6 +158,19 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
+                }
+            }
+        }
+
+        private void DeleteTemporaryFiles()
+        {
+            foreach (string filePath in Directory.EnumerateFiles(AdrResourcesPath))
+            {
+                // The above tests create files that fit the format <guid>_<guid>, but there are some pre-existing files
+                // with a shorter file name that should not be deleted
+                if (Path.GetFileName(filePath).Length > 2 * Guid.NewGuid().ToString().Length)
+                {
+                    File.Delete(filePath);
                 }
             }
         }

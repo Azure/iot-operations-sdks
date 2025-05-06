@@ -22,7 +22,7 @@ namespace RestThermostatConnector
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <param name="authentication">The authentication to use when connecting to the device with this asset.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, DeviceCredentials credentials)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, EndpointCredentials? credentials)
         {
             if (dataset.Name.Equals("thermostat_status"))
             {

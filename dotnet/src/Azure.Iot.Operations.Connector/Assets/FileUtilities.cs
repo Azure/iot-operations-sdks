@@ -32,5 +32,30 @@ namespace Azure.Iot.Operations.Connector.Assets
                 }
             }
         }
+
+        internal static IEnumerable<string> ReadFileLinesWithRetry(string path, int maxRetryCount = 10, TimeSpan? delayBetweenAttempts = null)
+        {
+            TimeSpan delay = delayBetweenAttempts ?? TimeSpan.FromMilliseconds(100);
+
+            int retryCount = 0;
+            while (true)
+            {
+                retryCount++;
+
+                try
+                {
+                    return File.ReadLines(path);
+                }
+                catch (IOException)
+                {
+                    if (retryCount > maxRetryCount)
+                    {
+                        throw;
+                    }
+
+                    Task.Delay(delay).RunSynchronously();
+                }
+            }
+        }
     }
 }

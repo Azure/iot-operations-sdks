@@ -1,6 +1,7 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Connector.Assets;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,15 @@ namespace Azure.Iot.Operations.Connector
             _assetsSamplingTimers[args.AssetName] = new Dictionary<string, Timer>();
             foreach (AssetDatasetSchemaElement dataset in args.Asset.Specification.Datasets)
             {
-                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.Asset, dataset, _assetMonitor.GetDeviceCredentials(args.Device.Name, args.InboundEndpointName));
+                EndpointCredentials? credentials = null;
+                if (args.Device.Specification.Endpoints != null
+                    && args.Device.Specification.Endpoints.Inbound != null
+                    && args.Device.Specification.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
+                {
+                    credentials = _assetMonitor.GetEndpointCredentials(inboundEndpoint);
+                }
+
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.Asset, dataset, credentials);
 
                 TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 

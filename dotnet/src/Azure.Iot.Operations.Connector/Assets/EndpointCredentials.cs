@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
 namespace Azure.Iot.Operations.Connector.Assets
 {
-    public class DeviceCredentials
+    public class EndpointCredentials
     {
         /// <summary>
         /// The username to use when connecting to this device with username/password authorization. May be null if no username/password authorization should be used.
@@ -13,7 +15,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         /// <summary>
         /// The password to use when connecting to this device with username/password authorization. May be null if no username/password authorization should be used.
         /// </summary>
-        public byte[]? Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// The client certificate to use when connecting to this device with x509 authorization. May be null if no x509 authorization should be used.
@@ -24,5 +26,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         /// The device's CA certificate to use when connecting to this device with TLS authentication.
         /// </summary>
         public string? CaCertificate { get; set; }
+
+        public Method AuthenticationMethod { get; set; }
     }
 }

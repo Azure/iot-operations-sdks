@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
@@ -92,11 +93,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return deviceNames;
         }
 
-        public DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ObserveDevices()
         {
             _isObservingDevices = true;
@@ -116,6 +112,11 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         private string ToComposite(string deviceName, string inboundEndpointName)
         {
             return $"{deviceName}_{inboundEndpointName}";
+        }
+
+        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        {
+            throw new NotImplementedException();
         }
     }
 }

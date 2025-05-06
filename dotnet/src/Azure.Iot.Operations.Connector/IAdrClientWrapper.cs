@@ -58,12 +58,11 @@ namespace Azure.Iot.Operations.Connector
         Task UnobserveAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get the credentials to use when connecting to the provided endpoint on the provided device.
+        /// Get the credentials to use when connecting to the provided endpoint.
         /// </summary>
-        /// <param name="deviceName">The name of the device whose credentials will be retrieved.</param>
-        /// <param name="inboundEndpointName">The name of the endpoint on the device whose credentials will be retrieved.</param>
-        /// <returns>The credentials to use when connecting to the provided endpoint on the provided device.</returns>
-        DeviceCredentials GetDeviceCredentials(string deviceName, string inboundEndpointName);
+        /// <param name="inboundEndpoint">The endpoint whose credentials should be returned.</param>
+        /// <returns>The credentials for the endpoint</returns>
+        EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint);
 
         /// <summary>
         /// List the names of all available assets within the provided endpoint within the provided device.
