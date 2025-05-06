@@ -767,7 +767,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
+            Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
