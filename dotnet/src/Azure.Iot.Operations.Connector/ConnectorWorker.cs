@@ -277,6 +277,13 @@ namespace Azure.Iot.Operations.Connector
                         mqttMessage.Retain = retain == Retain.Keep;
                     }
 
+                    ulong? ttl = destination.Configuration.Ttl;
+                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
+                    if (ttl != null)
+                    {
+                        mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
+                    }
+
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
                     if (puback.ReasonCode == MqttClientPublishReasonCode.Success
@@ -297,15 +304,7 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    ulong? ttl = destination.Configuration.Ttl;
-                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
-                    if (ttl != null)
-                    {
-                        //TODO ttl is in seconds? milliseconds?
-                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
-                    }
-
-                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
+                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
 
                     if (response.Success)
                     {
