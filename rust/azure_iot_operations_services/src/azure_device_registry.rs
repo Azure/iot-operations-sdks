@@ -9,12 +9,13 @@ use std::collections::HashMap;
 use azure_iot_operations_mqtt::control_packet::QoS as mqtt_qos;
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
+
 use thiserror::Error;
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-use crate::azure_device_registry::device_name_gen::common_types::options::{
-    CommandInvokerOptionsBuilderError, TelemetryReceiverOptionsBuilderError,
-};
+// use crate::azure_device_registry::device_name_gen::common_types::options::{
+//     CommandInvokerOptionsBuilderError, TelemetryReceiverOptionsBuilderError,
+// };
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry Client implementation wrapper
@@ -49,7 +50,7 @@ pub enum ErrorKind {
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// Client Id used for the ADR Client was invalid.
-    #[error("{0} is invalid as the identifier for the client")]
+    #[error("{0} is invalid as client id")]
     InvalidClientId(String),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
@@ -76,17 +77,17 @@ pub struct ServiceError {
     pub message: String,
 }
 
-impl From<CommandInvokerOptionsBuilderError> for ErrorKind {
-    fn from(value: CommandInvokerOptionsBuilderError) -> Self {
-        ErrorKind::InvalidClientId(value.to_string())
-    }
-}
+// impl From<CommandInvokerOptionsBuilderError> for ErrorKind {
+//     fn from(value: CommandInvokerOptionsBuilderError) -> Self {
+//         ErrorKind::InvalidClientId(value.to_string())
+//     }
+// }
 
-impl From<TelemetryReceiverOptionsBuilderError> for ErrorKind {
-    fn from(value: TelemetryReceiverOptionsBuilderError) -> Self {
-        ErrorKind::InvalidClientId(value.to_string())
-    }
-}
+// impl From<TelemetryReceiverOptionsBuilderError> for ErrorKind {
+//     fn from(value: TelemetryReceiverOptionsBuilderError) -> Self {
+//         ErrorKind::InvalidClientId(value.to_string())
+//     }
+// }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
 /// A struct to manage receiving notifications for a device
