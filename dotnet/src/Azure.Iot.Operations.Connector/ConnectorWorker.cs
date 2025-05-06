@@ -80,6 +80,59 @@ namespace Azure.Iot.Operations.Connector
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            var mqttConnectionSettings = await ConnectToMqttBrokerAsync(cancellationToken);
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                using CancellationTokenSource leadershipPositionRevokedOrUserCancelledCancellationToken
+                    = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+                CancellationToken linkedToken = leadershipPositionRevokedOrUserCancelledCancellationToken.Token;
+
+                await RunLeaderCompain(cancellationToken, mqttConnectionSettings!, leadershipPositionRevokedOrUserCancelledCancellationToken);
+
+                _assetMonitor.DeviceChanged += assetMonitorOnDeviceChanged();
+
+                _assetMonitor.AssetChanged += assetMonitorOnAssetChanged(linkedToken);
+
+                _logger.LogInformation("Starting to observe devices...");
+                _assetMonitor.ObserveDevices();
+
+                await WaitForCancellationOrLeadershipLossAsync(cancellationToken, linkedToken);
+            }
+
+            _logger.LogInformation("Shutting down connector...");
+
+            _leaderElectionClient?.DisposeAsync();
+            await _mqttClient.DisconnectAsync(null, CancellationToken.None);
+        }
+
+        private async Task WaitForCancellationOrLeadershipLossAsync(CancellationToken cancellationToken, CancellationToken linkedToken)
+        {
+            try
+            {
+                // Wait until the background service is cancelled or the pod is no longer leader
+                await Task.Delay(-1, linkedToken);
+            }
+            catch (OperationCanceledException)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.LogInformation("Connector app was cancelled. Shutting down now.");
+
+                    // Don't propagate the user-provided cancellation token since it has already been cancelled.
+                    await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
+                }
+                else if (linkedToken.IsCancellationRequested)
+                {
+                    _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
+                    await _assetMonitor.UnobserveAllAsync(cancellationToken);
+                }
+            }
+        }
+
+        private async Task<MqttConnectionSettings?> ConnectToMqttBrokerAsync(CancellationToken cancellationToken)
+        {
             bool readMqttConnectionSettings = false;
             MqttConnectionSettings? mqttConnectionSettings = null;
             int maxRetryCount = 10;
@@ -116,137 +169,111 @@ namespace Azure.Iot.Operations.Connector
             await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
+            return mqttConnectionSettings;
+        }
 
-            while (!cancellationToken.IsCancellationRequested)
+        private async Task RunLeaderCompain(CancellationToken cancellationToken, MqttConnectionSettings mqttConnectionSettings,
+            CancellationTokenSource leadershipPositionRevokedOrUserCancelledCancellationToken)
+        {
+            bool isLeader;
+            if (_leaderElectionConfiguration != null)
             {
-                bool isLeader = true;
-                using CancellationTokenSource leadershipPositionRevokedOrUserCancelledCancellationToken
-                    = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-
-                CancellationToken linkedToken = leadershipPositionRevokedOrUserCancelledCancellationToken.Token;
-
-                if (_leaderElectionConfiguration != null)
+                isLeader = false;
+                while (!isLeader && !cancellationToken.IsCancellationRequested)
                 {
-                    isLeader = false;
-                    while (!isLeader && !cancellationToken.IsCancellationRequested)
+                    string leadershipPositionId = _leaderElectionConfiguration.LeadershipPositionId;
+
+                    _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
+
+                    _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings.ClientId)
                     {
-                        string leadershipPositionId = _leaderElectionConfiguration.LeadershipPositionId;
-
-                        _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
-
-                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings.ClientId)
+                        AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                         {
-                            AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
-                            {
-                                AutomaticRenewal = true,
-                                ElectionTerm = _leaderElectionConfiguration.LeadershipPositionTermLength,
-                                RenewalPeriod = _leaderElectionConfiguration.LeadershipPositionRenewalRate
-                            }
-                        };
-
-                        _leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
-                        {
-                            isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(mqttConnectionSettings.ClientId);
-                            if (isLeader)
-                            {
-                                _logger.LogInformation("Received notification that this pod is the leader");
-                            }
-                            else
-                            {
-                                _logger.LogInformation("Received notification that this pod is not the leader");
-                                leadershipPositionRevokedOrUserCancelledCancellationToken.Cancel();
-                            }
-
-                            return Task.CompletedTask;
-                        };
-
-                        _logger.LogInformation("This pod is waiting to be elected leader.");
-                        // Waits until elected leader
-                        await _leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength, null, cancellationToken);
-
-                        isLeader = true;
-                        _logger.LogInformation("This pod was elected leader.");
-                    }
-                }
-
-                _assetMonitor.DeviceChanged += async (sender, args) =>
-                {
-                    string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
-                    if (args.ChangeType == ChangeType.Created)
-                    {
-                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
-                        DeviceAvailable(args, compoundDeviceName);
-                        if (args.Device != null)
-                        {
-                            OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
+                            AutomaticRenewal = true,
+                            ElectionTerm = _leaderElectionConfiguration.LeadershipPositionTermLength,
+                            RenewalPeriod = _leaderElectionConfiguration.LeadershipPositionRenewalRate
                         }
-                    }
-                    else if (args.ChangeType == ChangeType.Deleted)
-                    {
-                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
-                        await DeviceUnavailableAsync(args, compoundDeviceName, false);
-                        OnDeviceUnavailable?.Invoke(this, new(args.DeviceName, args.InboundEndpointName));
-                    }
-                    else if (args.ChangeType == ChangeType.Updated)
-                    {
-                        _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                        await DeviceUnavailableAsync(args, compoundDeviceName, true);
-                        DeviceAvailable(args, compoundDeviceName);
-                    }
-                };
+                    };
 
-                _assetMonitor.AssetChanged += async (sender, args) =>
-                {
-                    string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
-                    if (args.ChangeType == ChangeType.Created)
+                    _leaderElectionClient.LeadershipChangeEventReceivedAsync += (sender, args) =>
                     {
-                        _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
-                        _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-                    }
-                    else if (args.ChangeType == ChangeType.Deleted)
-                    {
-                        _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                        AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
-                        await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
-                    }
-                    else if (args.ChangeType == ChangeType.Updated)
-                    {
-                        _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                        AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
-                        await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
-                    }
-                };
+                        isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(mqttConnectionSettings.ClientId);
+                        if (isLeader)
+                        {
+                            _logger.LogInformation("Received notification that this pod is the leader");
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Received notification that this pod is not the leader");
+                            leadershipPositionRevokedOrUserCancelledCancellationToken.Cancel();
+                        }
 
-                _logger.LogInformation("Starting to observe devices...");
-                _assetMonitor.ObserveDevices();
+                        return Task.CompletedTask;
+                    };
 
-                try
-                {
-                    // Wait until the background service is cancelled or the pod is no longer leader
-                    await Task.Delay(-1, linkedToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        _logger.LogInformation("Connector app was cancelled. Shutting down now.");
+                    _logger.LogInformation("This pod is waiting to be elected leader.");
+                    // Waits until elected leader
+                    await _leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength, null, cancellationToken);
 
-                        // Don't propagate the user-provided cancellation token since it has already been cancelled.
-                        await _assetMonitor.UnobserveAllAsync(CancellationToken.None);
-                    }
-                    else if (linkedToken.IsCancellationRequested)
-                    {
-                        _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
-                        await _assetMonitor.UnobserveAllAsync(cancellationToken);
-                    }
+                    isLeader = true;
+                    _logger.LogInformation("This pod was elected leader.");
                 }
             }
+        }
 
-            _logger.LogInformation("Shutting down connector...");
+        private EventHandler<AssetChangedEventArgs>? assetMonitorOnAssetChanged(CancellationToken linkedToken)
+        {
+            return async (sender, args) =>
+            {
+                string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
+                if (args.ChangeType == ChangeType.Created)
+                {
+                    _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                    await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
+                    _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                }
+                else if (args.ChangeType == ChangeType.Deleted)
+                {
+                    _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                    AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
+                    await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
+                }
+                else if (args.ChangeType == ChangeType.Updated)
+                {
+                    _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                    AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
+                    await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, linkedToken);
+                }
+            };
+        }
 
-            _leaderElectionClient?.DisposeAsync();
-            await _mqttClient.DisconnectAsync(null, CancellationToken.None);
+        private EventHandler<DeviceChangedEventArgs>? assetMonitorOnDeviceChanged()
+        {
+            return async (sender, args) =>
+            {
+                string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
+                if (args.ChangeType == ChangeType.Created)
+                {
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
+                    await DeviceAvailableAsync(args, compoundDeviceName);
+                    if (args.Device != null)
+                    {
+                        OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
+                    }
+                }
+                else if (args.ChangeType == ChangeType.Deleted)
+                {
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
+                    await DeviceUnavailableAsync(args, compoundDeviceName, false);
+                    OnDeviceUnavailable?.Invoke(this, new(args.DeviceName, args.InboundEndpointName));
+                }
+                else if (args.ChangeType == ChangeType.Updated)
+                {
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
+                    await DeviceUnavailableAsync(args, compoundDeviceName, true);
+                    await DeviceAvailableAsync(args, compoundDeviceName);
+                }
+            };
         }
 
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
@@ -378,11 +405,20 @@ namespace Azure.Iot.Operations.Connector
             _isDisposed = true;
         }
 
-        private void DeviceAvailable(DeviceChangedEventArgs args, string compoundDeviceName)
+        private async Task DeviceAvailableAsync(DeviceChangedEventArgs args, string compoundDeviceName)
         {
             if (args.Device == null)
             {
                 // shouldn't ever happen
+                await _assetMonitor.UpdateDeviceStatusAsync(
+                    args.DeviceName,
+                    args.InboundEndpointName,
+                    DeviceStatusBuilder.CreateDeviceConfigurationError(new ConfigError
+                    {
+                        Code = "503",
+                        Message = "Device was created, but no device was provided"
+                    })
+                );
                 _logger.LogError("Received notification that device was created, but no device was provided");
             }
             else
@@ -570,6 +606,132 @@ namespace Azure.Iot.Operations.Connector
             {
                 OnAssetUnavailable?.Invoke(this, new(assetName));
             }
+        }
+    }
+
+    internal static class DeviceStatusBuilder
+    {
+        public static DeviceStatus CreateDeviceConfigurationError(ConfigError configError)
+        {
+            return new DeviceStatus
+            {
+                Config = new DeviceConfigStatus
+                {
+                    Error = configError
+                }
+            };
+        }
+
+        public static DeviceStatus CreateDeviceEndpointsErrors(DeviceEndpointsStatus deviceEndpointsErrors)
+        {
+            return new DeviceStatus
+            {
+                Endpoints = deviceEndpointsErrors
+            };
+        }
+    }
+
+    internal static class AssetStatusBuilder
+    {
+        public static AssetStatus CreateAssetConfigurationError(ConfigError configError)
+        {
+            return new AssetStatus
+            {
+                Config = new AssetConfigStatus
+                {
+                    Error = configError
+                }
+            };
+        }
+
+        public static AssetStatus CreateAssetDataSetsError(ConfigError configError, string dataSetName)
+        {
+            return new AssetStatus
+            {
+                Datasets =
+                [
+                    new AssetDatasetEventStreamStatus
+                    {
+                        Name = dataSetName,
+                        Error = configError
+                    }
+                ]
+            };
+        }
+
+        public static AssetStatus CreateAssetEventsError(ConfigError configError, string eventName)
+        {
+            return new AssetStatus
+            {
+                Events =
+                [
+                    new AssetDatasetEventStreamStatus
+                    {
+                        Name = eventName,
+                        Error = configError
+                    }
+                ]
+            };
+        }
+
+        public static AssetStatus CreateAssetStreamsError(ConfigError configError, string streamName)
+        {
+            return new AssetStatus
+            {
+                Streams =
+                [
+                    new AssetDatasetEventStreamStatus
+                    {
+                        Name = streamName,
+                        Error = configError
+                    }
+                ]
+            };
+        }
+
+        public static AssetStatus CreateAssetDatasetMessageSchemaStatus(string datasetName, MessageSchemaReference messageSchema)
+        {
+            return new AssetStatus
+            {
+                Datasets =
+                [
+                    new AssetDatasetEventStreamStatus
+                    {
+                        Name = datasetName,
+                        MessageSchemaReference = messageSchema
+                    }
+                ]
+            };
+        }
+
+        public static AssetStatus CreateAssetEventMessageSchemaStatus(string eventName, MessageSchemaReference messageSchema)
+        {
+            return new AssetStatus
+            {
+                Events =
+                [
+                    new AssetDatasetEventStreamStatus
+                    {
+                        Name = eventName,
+                        MessageSchemaReference = messageSchema
+                    }
+                ]
+            };
+        }
+
+        public static AssetStatus CreateAssetStreamMessageSchemaStatus(string streamName, MessageSchemaReference messageSchema)
+        {
+            return new AssetStatus
+            {
+                Streams =
+                [
+                    new AssetDatasetEventStreamStatus
+                    {
+                        Name = streamName,
+                        MessageSchemaReference = messageSchema
+                    }
+                ]
+            };
         }
     }
 }

@@ -357,7 +357,7 @@ public class ProtocolConverterTests
         // Arrange - Create a complete DeviceStatus with all nested properties
         var source = new DeviceStatus
         {
-            Config = new DeviceStatusConfig
+            Config = new DeviceConfigStatus
             {
                 LastTransitionTime = "2023-01-01T00:00:00Z",
                 Version = 5,
@@ -378,7 +378,7 @@ public class ProtocolConverterTests
                     ]
                 }
             },
-            Endpoints = new DeviceStatusEndpoint
+            Endpoints = new DeviceEndpointsStatus
             {
                 Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
                 {

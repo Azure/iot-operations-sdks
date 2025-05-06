@@ -192,7 +192,7 @@ internal static class ProtocolConverter
         return (SupportedAuthenticationMethodsSchemaElementSchema)(int)source;
     }
 
-    internal static DeviceStatusConfigSchema ToProtocol(this DeviceStatusConfig source)
+    internal static DeviceStatusConfigSchema ToProtocol(this DeviceConfigStatus source)
     {
         return new DeviceStatusConfigSchema
         {
@@ -202,7 +202,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
+    internal static DeviceStatusEndpointSchema ToProtocol(this DeviceEndpointsStatus source)
     {
         return new DeviceStatusEndpointSchema
         {

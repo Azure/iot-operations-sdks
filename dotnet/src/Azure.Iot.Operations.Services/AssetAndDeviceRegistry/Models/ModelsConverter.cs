@@ -305,9 +305,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceStatusConfig ToModel(this DeviceStatusConfigSchema source)
+    internal static DeviceConfigStatus ToModel(this DeviceStatusConfigSchema source)
     {
-        return new DeviceStatusConfig
+        return new DeviceConfigStatus
         {
             Error = source.Error?.ToModel(),
             Version = source.Version,
@@ -315,9 +315,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceStatusEndpoint ToModel(this DeviceStatusEndpointSchema source)
+    internal static DeviceEndpointsStatus ToModel(this DeviceStatusEndpointSchema source)
     {
-        return new DeviceStatusEndpoint
+        return new DeviceEndpointsStatus
         {
             Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>(
                 source.Inbound?.Select(x => new KeyValuePair<string, DeviceStatusInboundEndpointSchemaMapValue>(x.Key, x.Value.ToModel())) ??
