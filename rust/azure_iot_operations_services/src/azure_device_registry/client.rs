@@ -767,7 +767,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
+            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
@@ -817,7 +817,7 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
+            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
         }
 
         let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
@@ -879,7 +879,7 @@ where
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
-            Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
+            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
         }
 
         // TODO Right now using device name + asset_name as the key for the dispatcher, consider using tuple
@@ -986,7 +986,7 @@ where
         timeout: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
-           Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
+            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
         }
 
         let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
