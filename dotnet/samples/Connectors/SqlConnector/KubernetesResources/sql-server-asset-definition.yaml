@@ -24,7 +24,7 @@ spec:
       destinations:
         - configuration:
             key: SqlServerSampleKey
-          target: BrokerStateStore
+          target: brokerstatestore
   defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-sql-qualityanalyzer-profile
