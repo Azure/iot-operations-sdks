@@ -599,6 +599,11 @@
                       },
                       {
                         "@type": "Field",
+                        "name": "datasetConfiguration",
+                        "schema": "string"
+                      },
+                      {
+                        "@type": "Field",
                         "@id": "dtmi:com:microsoft:akri:AssetDatasetDestination;1",
                         "name": "destinations",
                         "schema": {
