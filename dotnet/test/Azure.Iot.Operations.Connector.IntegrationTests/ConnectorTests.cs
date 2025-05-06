@@ -5,8 +5,8 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
 {
-    // Note that these tests can only be run once the polling rest thermostat connector has been deployed. These tests check that
-    // the connector's output is directed to the right MQTT topic.
+    // Note that these tests can only be run once the sample connectors have been deployed. These tests check that
+    // the connector's output is directed to the expected MQTT topic/the expected DSS key.
     public class ConnectorTests
     {
         [Fact]
