@@ -1,5 +1,6 @@
 ﻿using System.Buffers;
 using System.Text.Json;
+using Azure.Iot.Operations.Services.StateStore;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
@@ -11,7 +12,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         [Fact]
         public async Task TestDeployedPollingRestThermostatConnector()
         {
-            var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             string asset1TelemetryTopic = "/mqtt/machine/asset1/status";
             string asset2TelemetryTopic = "/mqtt/machine/asset2/status";
@@ -50,7 +51,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         [Fact]
         public async Task TestDeployedEventDrivenTcpThermostatConnector()
         {
-            var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             string assetTelemetryTopic = "/mqtt/machine/status/change_event";
             TaskCompletionSource assetTelemetryReceived = new();
@@ -76,6 +77,30 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             });
 
             await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+
+
+        [Fact]
+        public async Task TestDeployedSqlConnector()
+        {
+            await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using StateStoreClient stateStoreClient = new(new(), mqttClient);
+
+
+            string expectedStateStoreKey = "SqlServerSampleKey";
+            TaskCompletionSource stateStoreUpdatedByConnectorTcs = new();
+            stateStoreClient.KeyChangeMessageReceivedAsync += (sender, args) =>
+            {
+                if (args.ChangedKey.ToString().Equals(expectedStateStoreKey))
+                {
+                    stateStoreUpdatedByConnectorTcs.TrySetResult();
+                }
+                return Task.CompletedTask;
+            };
+
+            await stateStoreClient.ObserveAsync(expectedStateStoreKey);
+
+            await stateStoreUpdatedByConnectorTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
         }
 
         private bool isValidPayload(ReadOnlySequence<byte> payload)
