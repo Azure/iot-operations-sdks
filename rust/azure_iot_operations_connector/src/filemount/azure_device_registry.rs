@@ -280,9 +280,9 @@ fn get_asset_names(
         return Ok(HashSet::new());
     }
 
-    // Split the file content by ';' and create a HashSet of AssetRef
+    // Split the file content by '\n' and create a HashSet of AssetRef
     Ok(file_content
-        .split(';')
+        .lines()
         .map(|asset_name| AssetRef {
             name: asset_name.to_string(),
             device_name: device_endpoint.device_name.clone(),
@@ -555,7 +555,7 @@ mod tests {
         ) {
             let file_path = self.dir.path().join(device_endpoint.to_string());
             let content: Vec<_> = asset_names.iter().map(|asset| asset.name.clone()).collect();
-            let content = content.join(";");
+            let content = content.join("\n");
             fs::write(file_path, content).unwrap();
         }
 
@@ -574,7 +574,7 @@ mod tests {
             }
             // Append the asset name to the file
             if !content.is_empty() {
-                content.push(';');
+                content.push('\n');
             }
             content.push_str(asset.name.as_str());
             fs::write(file_path, content).unwrap();
@@ -586,10 +586,10 @@ mod tests {
 
             // Remove the asset name from the file
             content = content
-                .split(';')
+                .lines()
                 .filter(|&name| name != asset.name.as_str())
                 .collect::<Vec<_>>()
-                .join(";");
+                .join("\n");
 
             fs::write(file_path, content).unwrap();
         }

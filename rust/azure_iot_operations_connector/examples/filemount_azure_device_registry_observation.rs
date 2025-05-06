@@ -203,7 +203,7 @@ impl FileMountManager {
     fn add_device_endpoint(&self, device_endpoint: &DeviceEndpointRef, asset_names: &[AssetRef]) {
         let file_path = self.dir.as_path().join(device_endpoint.to_string());
         let content: Vec<_> = asset_names.iter().map(|asset| asset.name.clone()).collect();
-        let content = content.join(";");
+        let content = content.join("\n");
         fs::write(file_path, content).unwrap();
     }
 
@@ -222,7 +222,7 @@ impl FileMountManager {
         }
         // Append the asset name to the file
         if !content.is_empty() {
-            content.push(';');
+            content.push('\n');
         }
         content.push_str(asset.name.as_str());
         fs::write(file_path, content).unwrap();
@@ -234,10 +234,10 @@ impl FileMountManager {
 
         // Remove the asset name from the file
         content = content
-            .split(';')
+            .lines()
             .filter(|&name| name != asset.name.as_str())
             .collect::<Vec<_>>()
-            .join(";");
+            .join("\n");
 
         fs::write(file_path, content).unwrap();
     }
