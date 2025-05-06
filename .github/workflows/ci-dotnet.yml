@@ -240,6 +240,7 @@ jobs:
 
     - name: Display logs from all kubernetes pods
       run: |
+        kubectl get pods
         for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
           echo "Logs for pod: $pod"
           kubectl logs $pod
