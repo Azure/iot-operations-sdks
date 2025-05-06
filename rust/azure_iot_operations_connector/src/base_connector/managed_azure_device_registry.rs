@@ -24,15 +24,15 @@ use crate::{
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedDeviceCreationObservation<T: DataTransformer> {
+pub struct DeviceEndpointClientCreationObservation<T: DataTransformer> {
     _connector_context: Arc<ConnectorContext<T>>,
     _device_endpoint_create_observation: DeviceEndpointCreateObservation,
 }
-impl<T> ManagedDeviceCreationObservation<T>
+impl<T> DeviceEndpointClientCreationObservation<T>
 where
     T: DataTransformer,
 {
-    /// Creates a new [`ManagedDeviceCreationObservation`] that uses the given [`ConnectorContext`]
+    /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
     pub(crate) fn new(connector_context: Arc<ConnectorContext<T>>) -> Self {
         let device_endpoint_create_observation =
             DeviceEndpointCreateObservation::new(connector_context.debounce_duration).unwrap();
@@ -44,16 +44,16 @@ where
     }
 
     /// Receives a notification for a newly created device endpoint. This notification includes
-    /// the [`ManagedDeviceEndpoint`], a [`ManagedDeviceEndpointUpdateObservation`] to observe for updates on
-    /// the new Device, and a [`ManagedAssetCreateObservation`] to observe for newly created
+    /// the [`DeviceEndpointClient`], a [`DeviceEndpointClientUpdateObservation`] to observe for updates on
+    /// the new Device, and a [`AssetClientCreationObservation`] to observe for newly created
     /// Assets related to this Device
     #[allow(clippy::unused_async)]
     pub async fn recv_notification(
         &self,
     ) -> Option<(
-        ManagedDeviceEndpoint<T>,
-        ManagedDeviceEndpointUpdateObservation<T>,
-        /*DeviceDeleteToken,*/ ManagedAssetCreateObservation<T>,
+        DeviceEndpointClient<T>,
+        DeviceEndpointClientUpdateObservation<T>,
+        /*DeviceDeleteToken,*/ AssetClientCreationObservation<T>,
     )> {
         // Handle the notification
         // self.device_endpoint_create_observation.recv_notification().await;
@@ -63,14 +63,14 @@ where
     }
 }
 
-/// Azure Device Registry Device that includes additional functionality to report status
-pub struct ManagedDeviceEndpoint<T: DataTransformer> {
+/// Azure Device Registry Device Endpoint that includes additional functionality to report status
+pub struct DeviceEndpointClient<T: DataTransformer> {
     /// Device definition TODO: derive getter?
     pub device: Device, // TODO: create new struct that only has one endpoint
     _endpoint_name: String, // needed for easy status reporting?
-    _data_transformer: Arc<T>,
+    _connector_context: Arc<ConnectorContext<T>>,
 }
-impl<T> ManagedDeviceEndpoint<T>
+impl<T> DeviceEndpointClient<T>
 where
     T: DataTransformer,
 {
@@ -86,25 +86,25 @@ where
 /// An Observation for device endpoint update events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedDeviceEndpointUpdateObservation<T: DataTransformer> {
+pub struct DeviceEndpointClientUpdateObservation<T: DataTransformer> {
     _device_update_observation: DeviceUpdateObservation,
-    _data_transformer: Arc<T>,
+    _connector_context: Arc<ConnectorContext<T>>,
 }
-impl<T> ManagedDeviceEndpointUpdateObservation<T>
+impl<T> DeviceEndpointClientUpdateObservation<T>
 where
     T: DataTransformer,
 {
-    /// Receives an updated [`ManagedDeviceEndpoint`] or [`None`] if there will be no more notifications.
+    /// Receives an updated [`DeviceEndpointClient`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
-    /// - Returns Some([`ManagedDeviceEndpoint`], [`Option<AckToken>`]) on success
-    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`ManagedDeviceEndpoint`], _) to ignore the [`AckToken`].
+    /// - Returns Some([`DeviceEndpointClient`], [`Option<AckToken>`]) on success
+    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`DeviceEndpointClient`], _) to ignore the [`AckToken`].
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(ManagedDeviceEndpoint<T>, Option<AckToken>)> {
+    pub async fn recv_notification(&self) -> Option<(DeviceEndpointClient<T>, Option<AckToken>)> {
         // handle the notification
-        // convert into ManagedDeviceEndpoint
+        // convert into DeviceEndpointClient
         None
     }
 }
@@ -112,23 +112,23 @@ where
 /// An Observation for asset creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedAssetCreateObservation<T: DataTransformer> {
+pub struct AssetClientCreationObservation<T: DataTransformer> {
     _asset_create_observation: AssetCreateObservation,
-    _data_transformer: Arc<T>,
+    _connector_context: Arc<ConnectorContext<T>>,
 }
-impl<T> ManagedAssetCreateObservation<T>
+impl<T> AssetClientCreationObservation<T>
 where
     T: DataTransformer,
 {
     /// Receives a notification for a newly created asset. This notification includes
-    /// the [`ManagedAsset`], a [`ManagedAssetUpdateObservation`] to observe for updates on
+    /// the [`AssetClient`], a [`AssetClientUpdateObservation`] to observe for updates on
     /// the new Asset, and a [`AssetDeletionToken`] to observe for deletion of this Asset
     #[allow(clippy::unused_async)]
     pub async fn recv_notification(
         &self,
     ) -> Option<(
-        ManagedAsset<T>,
-        ManagedAssetUpdateObservation<T>,
+        AssetClient<T>,
+        AssetClientUpdateObservation<T>,
         AssetDeletionToken,
     )> {
         // handle the notification
@@ -141,23 +141,23 @@ where
 /// An Observation for asset update events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct ManagedAssetUpdateObservation<T: DataTransformer> {
+pub struct AssetClientUpdateObservation<T: DataTransformer> {
     _asset_update_observation: AssetUpdateObservation,
     _data_transformer: Arc<T>,
 }
-impl<T> ManagedAssetUpdateObservation<T>
+impl<T> AssetClientUpdateObservation<T>
 where
     T: DataTransformer,
 {
-    /// Receives an updated [`ManagedAsset`] or [`None`] if there will be no more notifications.
+    /// Receives an updated [`AssetClient`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
-    /// - Returns Some([`ManagedAsset`], [`Option<AckToken>`]) on success
-    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`ManagedAsset`], _) to ignore the [`AckToken`].
+    /// - Returns Some([`AssetClient`], [`Option<AckToken>`]) on success
+    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetClient`], _) to ignore the [`AckToken`].
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(ManagedAsset<T>, Option<AckToken>)> {
+    pub async fn recv_notification(&self) -> Option<(AssetClient<T>, Option<AckToken>)> {
         // handle the notification
         None
     }
@@ -166,15 +166,15 @@ where
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status, translate data, and send data to the destination
 #[allow(dead_code)]
-pub struct ManagedAsset<T: DataTransformer> {
+pub struct AssetClient<T: DataTransformer> {
     // re-export of adr::Asset, but Dataset/Event/etc structs are of type ConnectorDataset/etc
     /// Asset Definition
     pub asset_definition: Asset,
     data_transformer: Arc<T>,
-    /// datasets associated with the asset. Will be part of [`ManagedAsset`] struct in future, but for now this creates the right dependencies
-    pub datasets: Vec<ManagedDataset<T>>,
+    /// datasets associated with the asset. Will be part of [`AssetClient`] struct in future, but for now this creates the right dependencies
+    pub datasets: Vec<DatasetClient<T>>,
 }
-impl<T> ManagedAsset<T>
+impl<T> AssetClient<T>
 where
     T: DataTransformer,
 {
@@ -184,14 +184,14 @@ where
 
 /// Azure Device Registry Dataset that includes additional functionality
 /// to report status, translate data, and send data to the destination
-pub struct ManagedDataset<T: DataTransformer> {
+pub struct DatasetClient<T: DataTransformer> {
     /// Dataset Definition
     pub dataset_definition: AssetDataset,
     dataset_data_transformer: T::MyDatasetDataTransformer,
     reporter: Arc<Reporter>,
 }
 #[allow(dead_code)]
-impl<T> ManagedDataset<T>
+impl<T> DatasetClient<T>
 where
     T: DataTransformer,
 {
