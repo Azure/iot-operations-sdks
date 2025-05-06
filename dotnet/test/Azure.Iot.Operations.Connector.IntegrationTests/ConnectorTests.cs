@@ -4,10 +4,12 @@ using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
 {
-    public class PollingRestThermostatConnectorTests
+    // Note that these tests can only be run once the polling rest thermostat connector has been deployed. These tests check that
+    // the connector's output is directed to the right MQTT topic.
+    public class ConnectorTests
     {
         [Fact]
-        public async Task Connector()
+        public async Task TestDeployedPollingRestThermostatConnector()
         {
             var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
@@ -45,13 +47,52 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await asset2TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
         }
 
+        [Fact]
+        public async Task TestDeployedEventDrivenTcpThermostatConnector()
+        {
+            var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+            string assetTelemetryTopic = "/mqtt/machine/status/change_event";
+            TaskCompletionSource assetTelemetryReceived = new();
+            mqttClient.ApplicationMessageReceivedAsync += (args) =>
+            {
+                if (isValidPayload(args.ApplicationMessage.Payload))
+                {
+                    if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
+                    {
+                        assetTelemetryReceived.TrySetResult();
+                    }
+                }
+
+                return Task.CompletedTask;
+            };
+
+            await mqttClient.SubscribeAsync(new Protocol.Models.MqttClientSubscribeOptions()
+            {
+                TopicFilters = new()
+                {
+                    new(assetTelemetryTopic),
+                }
+            });
+
+            await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+
         private bool isValidPayload(ReadOnlySequence<byte> payload)
         {
             try
             {
                 ThermostatStatus? status = JsonSerializer.Deserialize<ThermostatStatus>(payload.ToArray());
 
-                return status != null;
+                if (status == null)
+                {
+                    return false;
+                }
+
+                return status.CurrentTemperature >= 67
+                    && status.CurrentTemperature <= 78
+                    && status.DesiredTemperature >= 67
+                    && status.DesiredTemperature <= 78;
             }
             catch (Exception)
             {
