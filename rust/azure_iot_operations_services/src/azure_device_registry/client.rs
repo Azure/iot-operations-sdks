@@ -988,9 +988,7 @@ where
         timeout: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
-            return Err(
-                ErrorKind::ValidationError("Asset name must be present".to_string()).into(),
-            );
+           Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
         }
 
         let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
