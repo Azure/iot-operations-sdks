@@ -881,7 +881,7 @@ where
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
-            return Err(ErrorKind::ValidationError("asset_name".to_string()).into());
+            Err(Error(ErrorKind::ValidationError("asset_name".to_string()))
         }
 
         // TODO Right now using device name + asset_name as the key for the dispatcher, consider using tuple
