@@ -14,9 +14,9 @@ namespace RestThermostatConnector
     {
         private readonly HttpClient _httpClient;
         private readonly string _assetName;
-        private readonly DeviceCredentials? _credentials;
+        private readonly EndpointCredentials? _credentials;
 
-        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, DeviceCredentials? credentials)
+        public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, EndpointCredentials? credentials)
         {
             _httpClient = httpClient;
             _assetName = assetName;
@@ -46,8 +46,8 @@ namespace RestThermostatConnector
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
                     string httpServerUsername = _credentials.Username;
-                    byte[] httpServerPassword = _credentials.Password;
-                    var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{Encoding.UTF8.GetString(httpServerPassword)}");
+                    string httpServerPassword = _credentials.Password;
+                    var byteArray = Encoding.ASCII.GetBytes($"{httpServerUsername}:{httpServerPassword}");
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 }
 

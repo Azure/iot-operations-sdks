@@ -14,7 +14,7 @@ namespace SqlQualityAnalyzerConnectorApp
             return new SqlQualityAnalyzerDatasetSamplerFactory();
         };
 
-        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, DeviceCredentials? deviceCredentials)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, EndpointCredentials? deviceCredentials)
         {
             if (dataset.Name.Equals("qualityanalyzer_data"))
             {

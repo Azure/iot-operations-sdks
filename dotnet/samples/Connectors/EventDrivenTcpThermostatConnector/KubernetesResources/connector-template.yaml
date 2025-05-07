@@ -13,9 +13,12 @@ spec:
     managedConfigurationSettings:
       managedConfigurationType: imageConfiguration
       imageConfigurationSettings:
-        image: eventdriventcpthermostatconnector:latest
+        imageName: "eventdriventcpthermostatconnector"
         imagePullPolicy: Never # This sample image is built locally, so no need to pull
         replicas: 1
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "latest"
   mqttConnectionConfiguration:
     host: "aio-broker:18883"
     authentication:
