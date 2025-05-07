@@ -45,9 +45,6 @@ pub enum ErrorKind {
     /// An argument provided for a request was invalid.
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
-    /// Client Id used for the ADR Client was invalid.
-    #[error("{0} is invalid as client id")]
-    InvalidClientId(String),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(ServiceError),
@@ -61,7 +58,7 @@ pub enum ErrorKind {
     #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     ShutdownError(Vec<AIOProtocolError>),
     /// An error occured while validating the inputs.
-    #[error("{0} must not be empty")]
+    #[error("{0}")]
     ValidationError(String),
 }
 

@@ -83,7 +83,11 @@ where
         // THIS IS A TEMPORARY FIX. WORKAROUND FOR THE FACT THAT CODEGEN PANICS ON INVALID CLIENT ID
         // INSTEAD OF RETURNING AN ERROR
         if !Self::is_valid_replacement(client.client_id()) {
-            return Err(ErrorKind::InvalidClientId(client.client_id().to_string()).into());
+            return Err(ErrorKind::ValidationError(format!(
+                "Client id {} is invalid",
+                client.client_id()
+            ))
+            .into());
         }
 
         let command_options = CommandInvokerOptionsBuilder::default()
@@ -773,7 +777,9 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
+            return Err(Error(ErrorKind::ValidationError(
+                "{asset_name} is empty".to_string(),
+            )));
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
         let command_request = adr_name_gen::GetAssetRequestBuilder::default()
@@ -823,7 +829,9 @@ where
         timeout: Duration,
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
+            return Err(Error(ErrorKind::ValidationError(
+                "{asset_name} is empty".to_string(),
+            )));
         }
 
         let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
@@ -885,7 +893,9 @@ where
         timeout: Duration,
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
+            return Err(Error(ErrorKind::ValidationError(
+                "{asset_name} is empty".to_string(),
+            )));
         }
 
         // TODO Right now using device name + asset_name as the key for the dispatcher, consider using tuple
@@ -992,7 +1002,9 @@ where
         timeout: Duration,
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
-            return Err(Error(ErrorKind::ValidationError("asset_name".to_string())));
+            return Err(Error(ErrorKind::ValidationError(
+                "{asset_name} is empty".to_string(),
+            )));
         }
 
         let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
@@ -1138,7 +1150,7 @@ mod tests {
         assert!(result.is_err());
         assert!(matches!(
             result,
-            Err(e) if matches!(&e.0, ErrorKind::InvalidClientId(_))
+            Err(e) if matches!(&e.0, ErrorKind::ValidationError(_))
         ));
     }
 
