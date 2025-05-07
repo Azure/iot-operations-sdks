@@ -72,28 +72,19 @@ where
     /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
     /// if the Client Id of the [`ManagedClient`] isn't valid as a topic token.
     /// # Panics
-    /// Panics if the command options or telemetry options can't be built.
+    /// Panics if the options for the underlying command invokers or receivers cannot be built. Not possible since
+    /// the options are statically generated.
     #[allow(clippy::needless_pass_by_value)]
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         options: ClientOptions,
     ) -> Result<Self, Error> {
+        // THIS IS A TEMPORARY FIX. WORKAROUND FOR THE FACT THAT CODEGEN PANICS ON INVALID CLIENT ID
+        // INSTEAD OF RETURNING AN ERROR
         if !Self::is_valid_replacement(client.client_id()) {
             return Err(ErrorKind::InvalidClientId(client.client_id().to_string()).into());
         }
-
-        // let Ok(options) = CommandInvokerOptionsBuilder::default()
-        //     .topic_token_map(HashMap::from([(
-        //         "connectorClientId".to_string(),
-        //         client.client_id().to_string(),
-        //     )]))
-        //     .build()
-        // else {
-        //     return Err(Error::from(ErrorKind::ValidationError(
-        //         "Failed to build command options".to_string(),
-        //     )));
-        // };
 
         let command_options = CommandInvokerOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
@@ -101,7 +92,7 @@ where
                 client.client_id().to_string(),
             )]))
             .build()
-            .expect("Failed to build command options");
+            .expect("Builder cannot fail as there is no validation function");
 
         let telemetry_options = TelemetryReceiverOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
@@ -110,7 +101,7 @@ where
             )]))
             .auto_ack(options.notification_auto_ack)
             .build()
-            .expect("Failed to build telemetry options");
+            .expect("Builder cannot fail as there is no validation function");
 
         // Create the shutdown notifier for the receiver loop
         let shutdown_notifier = Arc::new(Notify::new());

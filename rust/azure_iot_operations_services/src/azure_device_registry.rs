@@ -6,16 +6,12 @@
 use core::fmt::Debug;
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::control_packet::QoS as mqtt_qos;
+use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
-
 use thiserror::Error;
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-// use crate::azure_device_registry::device_name_gen::common_types::options::{
-//     CommandInvokerOptionsBuilderError, TelemetryReceiverOptionsBuilderError,
-// };
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry Client implementation wrapper
@@ -76,18 +72,6 @@ pub struct ServiceError {
     /// A message describing the error returned by the Azure Device Registry Service.
     pub message: String,
 }
-
-// impl From<CommandInvokerOptionsBuilderError> for ErrorKind {
-//     fn from(value: CommandInvokerOptionsBuilderError) -> Self {
-//         ErrorKind::InvalidClientId(value.to_string())
-//     }
-// }
-
-// impl From<TelemetryReceiverOptionsBuilderError> for ErrorKind {
-//     fn from(value: TelemetryReceiverOptionsBuilderError) -> Self {
-//         ErrorKind::InvalidClientId(value.to_string())
-//     }
-// }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
 /// A struct to manage receiving notifications for a device
@@ -802,7 +786,7 @@ pub struct DestinationConfiguration {
     /// The description of the destination configuration.
     pub path: Option<String>,
     /// The MQTT `QoS` setting for the destination configuration.
-    pub qos: Option<mqtt_qos>,
+    pub qos: Option<MqttQoS>,
     /// The MQTT retain setting for the destination configuration.
     pub retain: Option<Retain>,
     /// The MQTT topic for the destination configuration.
@@ -1272,7 +1256,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
         DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(mqtt_qos::from),
+            qos: value.qos.map(MqttQoS::from),
             retain: value.retain.map(Retain::from),
             topic: value.topic,
             ttl: value.ttl,
@@ -1302,8 +1286,8 @@ impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
 impl From<adr_name_gen::Qos> for azure_iot_operations_mqtt::control_packet::QoS {
     fn from(value: adr_name_gen::Qos) -> Self {
         match value {
-            adr_name_gen::Qos::Qos0 => mqtt_qos::AtMostOnce,
-            adr_name_gen::Qos::Qos1 => mqtt_qos::AtLeastOnce,
+            adr_name_gen::Qos::Qos0 => MqttQoS::AtMostOnce,
+            adr_name_gen::Qos::Qos1 => MqttQoS::AtLeastOnce,
         }
     }
 }
