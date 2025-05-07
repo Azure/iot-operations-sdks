@@ -239,6 +239,7 @@ jobs:
         reporter: dotnet-trx  
 
     - name: Display logs from all kubernetes pods
+      if: always()
       run: |
         kubectl get pods
         for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
