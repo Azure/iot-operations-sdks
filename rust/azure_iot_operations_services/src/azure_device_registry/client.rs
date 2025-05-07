@@ -777,7 +777,7 @@ where
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} must not be empty".to_string(),
+                "asset_name must not be empty".to_string(),
             )));
         }
         let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
@@ -829,7 +829,7 @@ where
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} must not be empty".to_string(),
+                "asset_name must not be empty".to_string(),
             )));
         }
 
@@ -893,7 +893,7 @@ where
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} must not be empty".to_string(),
+                "asset_name must not be empty".to_string(),
             )));
         }
 
@@ -1002,7 +1002,7 @@ where
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} must not be empty".to_string(),
+                "asset_name must not be empty".to_string(),
             )));
         }
 
