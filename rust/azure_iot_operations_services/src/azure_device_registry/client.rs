@@ -83,11 +83,10 @@ where
         // THIS IS A TEMPORARY FIX. WORKAROUND FOR THE FACT THAT CODEGEN PANICS ON INVALID CLIENT ID
         // INSTEAD OF RETURNING AN ERROR
         if !Self::is_valid_replacement(client.client_id()) {
-            return Err(ErrorKind::ValidationError(format!(
+            return Err(Error(ErrorKind::ValidationError(format!(
                 "Client id {} is invalid",
                 client.client_id()
-            ))
-            .into());
+            ))));
         }
 
         let command_options = CommandInvokerOptionsBuilder::default()
