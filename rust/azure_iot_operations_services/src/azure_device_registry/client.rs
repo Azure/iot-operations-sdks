@@ -69,7 +69,7 @@ where
     /// Create a new Azure Device Registry Client.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidClientId`](ErrorKind::InvalidClientId)
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the Client Id of the [`ManagedClient`] isn't valid as a topic token.
     /// # Panics
     /// Panics if the options for the underlying command invokers or receivers cannot be built. Not possible since
@@ -829,7 +829,7 @@ where
     ) -> Result<Asset, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} is empty".to_string(),
+                "{asset_name} must not be empty".to_string(),
             )));
         }
 
@@ -893,7 +893,7 @@ where
     ) -> Result<AssetUpdateObservation, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} is empty".to_string(),
+                "{asset_name} must not be empty".to_string(),
             )));
         }
 
@@ -1002,7 +1002,7 @@ where
     ) -> Result<(), Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
-                "{asset_name} is empty".to_string(),
+                "{asset_name} must not be empty".to_string(),
             )));
         }
 
