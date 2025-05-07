@@ -640,6 +640,8 @@ pub struct AssetSpecification {
 /// Represents a dataset.
 #[derive(Clone, Debug)]
 pub struct Dataset {
+    /// Configuration for the dataset.
+    pub dataset_configuration: Option<String>,
     /// Array of data points that are part of the dataset.
     pub data_points: Vec<DatasetDataPoint>, // if None, we can represent as empty vec
     /// The address of the source of the data in the dataset
@@ -1098,6 +1100,7 @@ impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
 impl From<adr_name_gen::AssetDatasetSchemaElementSchema> for Dataset {
     fn from(value: adr_name_gen::AssetDatasetSchemaElementSchema) -> Self {
         Dataset {
+            dataset_configuration: value.dataset_configuration,
             data_points: vec_from_option_vec(value.data_points, DatasetDataPoint::from),
             data_source: value.data_source,
             destinations: vec_from_option_vec(value.destinations, DatasetDestination::from),

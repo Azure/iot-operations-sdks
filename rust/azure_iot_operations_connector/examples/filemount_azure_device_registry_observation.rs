@@ -11,7 +11,7 @@
 //!
 //! NOTE: Make sure that the environment variable folder exists and is empty before running the example.
 
-use std::{fs, path::PathBuf, time::Duration};
+use std::{fs, io::Write, path::PathBuf, time::Duration};
 
 use azure_iot_operations_connector::filemount::azure_device_registry::{
     AssetRef, DeviceEndpointCreateObservation, DeviceEndpointRef, get_mount_path,
@@ -202,9 +202,15 @@ impl FileMountManager {
 
     fn add_device_endpoint(&self, device_endpoint: &DeviceEndpointRef, asset_names: &[AssetRef]) {
         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-        let content: Vec<_> = asset_names.iter().map(|asset| asset.name.clone()).collect();
-        let content = content.join(";");
-        fs::write(file_path, content).unwrap();
+        let mut file = fs::File::options()
+            .append(true)
+            .create(true)
+            .open(file_path)
+            .unwrap();
+        for asset in asset_names {
+            // Write the asset name to the file
+            writeln!(&mut file, "{}", asset.name).unwrap();
+        }
     }
 
     fn remove_device_endpoint(&self, device_endpoint: &DeviceEndpointRef) {
@@ -214,31 +220,36 @@ impl FileMountManager {
 
     fn add_asset(&self, device_endpoint: &DeviceEndpointRef, asset: &AssetRef) {
         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-        let mut content = fs::read_to_string(&file_path).unwrap();
 
         // Make sure the asset name is not already present
-        if content.contains(asset.name.as_str()) {
+        if fs::read_to_string(&file_path)
+            .unwrap()
+            .contains(asset.name.as_str())
+        {
             return;
         }
+
+        let mut file = fs::File::options().append(true).open(file_path).unwrap();
         // Append the asset name to the file
-        if !content.is_empty() {
-            content.push(';');
-        }
-        content.push_str(asset.name.as_str());
-        fs::write(file_path, content).unwrap();
+        writeln!(&mut file, "{}", asset.name).unwrap();
     }
 
     fn remove_asset(&self, device_endpoint: &DeviceEndpointRef, asset: &AssetRef) {
         let file_path = self.dir.as_path().join(device_endpoint.to_string());
-        let mut content = fs::read_to_string(&file_path).unwrap();
+        let content = fs::read_to_string(&file_path).unwrap();
 
-        // Remove the asset name from the file
-        content = content
-            .split(';')
-            .filter(|&name| name != asset.name.as_str())
-            .collect::<Vec<_>>()
-            .join(";");
+        // Write the assets back to the file
+        let mut file = fs::File::options()
+            .write(true)
+            .truncate(true)
+            .open(file_path)
+            .unwrap();
 
-        fs::write(file_path, content).unwrap();
+        for line in content.lines() {
+            // If the line is not the asset name, write it back to the file
+            if line != asset.name.as_str() {
+                writeln!(&mut file, "{line}").unwrap();
+            }
+        }
     }
 }
