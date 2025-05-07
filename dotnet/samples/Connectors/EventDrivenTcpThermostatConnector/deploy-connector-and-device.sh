@@ -5,6 +5,7 @@ set -e
 # Build TCP thermostat client app
 dotnet publish ../SampleTcpServiceApp /t:PublishContainer
 k3d image import sampletcpserviceapp:latest -c k3s-default
+sleep 10
 
 # Build connector sample image
 dotnet publish /t:PublishContainer
