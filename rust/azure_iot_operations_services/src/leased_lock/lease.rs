@@ -51,23 +51,25 @@ where
     ///
     /// Notes:
     /// - `lease_holder_name` is expected to be the client ID used in the underlying MQTT connection settings.
-    /// - There must be only one instance of `leased_lock::Client` per lease.
+    /// - There must be only one instance of `lease::Client` per lease.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`LeaseNameLengthZero`](ErrorKind::LeaseNameLengthZero) if the `lease_name` is empty
-    ///
-    /// [`struct@Error`] of kind [`LeaseHolderNameLengthZero`](ErrorKind::LeaseHolderNameLengthZero) if the `lease_holder_name` is empty
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the either `lease_name` or `lease_holder_name` is empty.
     pub fn new(
         state_store: Arc<state_store::Client<C>>,
         lease_name: Vec<u8>,
         lease_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
         if lease_name.is_empty() {
-            return Err(Error(ErrorKind::LeaseNameLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "lease_name is empty".to_string(),
+            )));
         }
 
         if lease_holder_name.is_empty() {
-            return Err(Error(ErrorKind::LeaseHolderNameLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "lease_holder_name is empty".to_string(),
+            )));
         }
 
         Ok(Self {
@@ -125,7 +127,7 @@ where
         } else {
             *self.current_fencing_token.lock().unwrap() = None;
 
-            Err(Error(ErrorKind::KeyAlreadyLeased))
+            Err(Error(ErrorKind::LeaseAlreadyHeld))
         }
     }
 
@@ -133,7 +135,7 @@ where
     ///
     /// `lease_expiration` is how long the lease will remain held in the State Store after acquired, if not released before then.
     /// `request_timeout` is the maximum time the function will wait for receiving a response from the State Store service, it is rounded up to the nearest second.
-    /// `renewal_period` is the frequency with which the lease will be auto-renewed by the lease client if acquired succesfully. `None` indicates the lease should not be auto-renewed.
+    /// `renewal_period` is the frequency with which the lease will be auto-renewed by the lease client if acquired successfully. `None` (or zero) indicates the lease should not be auto-renewed.
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or `Error` if lease is not acquired.
     /// # Errors
@@ -145,18 +147,21 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     ///
-    /// [`struct@Error`] of kind [`KeyAlreadyLeased`](ErrorKind::KeyAlreadyLeased) if the `lease` is already in use by another holder
+    /// [`struct@Error`] of kind [`LeaseAlreadyHeld`](ErrorKind::LeaseAlreadyHeld) if the `lease` is already in use by another holder
     ///
     /// [`struct@Error`] of kind [`MissingFencingToken`](ErrorKind::MissingFencingToken) if the fencing token in the service response is empty.
-    ///
-    /// # Panics
-    /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lease is None.
     pub async fn acquire(
         &mut self,
         lease_expiration: Duration,
         request_timeout: Duration,
         renewal_period: Option<Duration>,
     ) -> Result<HybridLogicalClock, Error> {
+        if renewal_period.is_some_and(|rp| rp >= lease_expiration) {
+            return Err(Error(ErrorKind::InvalidArgument(
+                "renewal_period must be less than lease_expiration".to_string(),
+            )));
+        }
+
         // Stop auto-renewal.
         self.auto_renewal_cancellation_token.cancel();
 
@@ -165,30 +170,32 @@ where
             .await;
 
         if let Some(renewal_period) = renewal_period {
-            self.auto_renewal_cancellation_token = CancellationToken::new();
-            let self_clone = self.clone();
+            if renewal_period > Duration::ZERO {
+                self.auto_renewal_cancellation_token = CancellationToken::new();
+                let self_clone = self.clone();
 
-            tokio::task::spawn({
-                async move {
-                    loop {
-                        select! {
-                            () = self_clone.auto_renewal_cancellation_token.cancelled() => {
-                                break; // Auto-renewal is cancelled.
-                            }
-                            () = tokio::time::sleep(renewal_period) => {
-                                if self_clone
-                                    .internal_acquire(lease_expiration, request_timeout)
-                                    .await
-                                    .is_err()
-                                {
-                                    // Acquire failed. Stopping Auto-renewal.
-                                    break;
+                tokio::task::spawn({
+                    async move {
+                        loop {
+                            select! {
+                                () = self_clone.auto_renewal_cancellation_token.cancelled() => {
+                                    break; // Auto-renewal is cancelled.
+                                }
+                                () = tokio::time::sleep(renewal_period) => {
+                                    if self_clone
+                                        .internal_acquire(lease_expiration, request_timeout)
+                                        .await
+                                        .is_err()
+                                    {
+                                        // Acquire failed. Stopping Auto-renewal.
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         acquire_result
@@ -199,6 +206,10 @@ where
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
     /// Returns `Ok()` if lease is no longer held by this `lease_holder`, or `Error` otherwise.
+    ///
+    /// Even if this method fails the current fencing token (obtained by calling `current_lease_fencing_token()`) is cleared
+    /// and the auto-renewal task is cancelled (if the lease was acquired using auto-renewal).
+    ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
@@ -209,8 +220,8 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     ///
     /// # Panics
-    /// Possible panic if `std::Lock::lock()` fails.
-    pub async fn release(&mut self, request_timeout: Duration) -> Result<(), Error> {
+    /// If the lock on the `current_fencing_token` is poisoned, which should not be possible.
+    pub async fn release(&self, request_timeout: Duration) -> Result<(), Error> {
         // Stop auto-renewal.
         self.auto_renewal_cancellation_token.cancel();
 
@@ -232,7 +243,7 @@ where
     ///
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
-    /// Returns OK([`Response<LeaseObservation>`]) if the lease is now being observed.
+    /// Returns OK([`LeaseObservation`]) if the lease is now being observed.
     /// The [`LeaseObservation`] can be used to receive lease notifications for this lease
     ///
     /// <div class="warning">

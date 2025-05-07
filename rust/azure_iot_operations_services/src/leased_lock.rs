@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Types for Key Lease operations.
+//! Types for Lease and Lock operations.
 
 use core::fmt::Debug;
 
@@ -11,7 +11,7 @@ use thiserror::Error;
 use crate::state_store::{self, KeyObservation, ServiceError as StateStoreServiceError};
 pub use crate::state_store::{Response, SetCondition, SetOptions};
 
-/// A struct to manage receiving notifications for a lock
+/// A struct to manage receiving notifications for a lease
 pub type LeaseObservation = KeyObservation;
 
 /// Represents the errors that occur in the Azure IoT Operations State Store Service.
@@ -22,7 +22,7 @@ pub mod lease;
 /// Lock Client implementation
 pub mod lock;
 
-/// Represents an error that occurred in the Azure IoT Operations Key Lease implementation.
+/// Represents an error that occurred in the Azure IoT Operations Lease and Lock implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
 pub struct Error(#[from] ErrorKind);
@@ -42,13 +42,13 @@ impl From<state_store::Error> for Error {
     }
 }
 
-/// Represents the kinds of errors that occur in the Azure IoT Operations Key Lease implementation.
+/// Represents the kinds of errors that occur in the Azure IoT Operations Lease and Lock implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
-    /// The lock is already in use by another holder.
-    #[error("lock is already held by another holder")]
-    KeyAlreadyLeased,
+    /// The lease is already in use by another holder.
+    #[error("lease is already held by another holder")]
+    LeaseAlreadyHeld,
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
@@ -58,18 +58,6 @@ pub enum ErrorKind {
     /// The key length must not be zero.
     #[error("key length must not be zero")]
     KeyLengthZero,
-    /// The lease name length must not be zero.
-    #[error("lease name length must not be zero")]
-    LeaseNameLengthZero,
-    /// The lock name length must not be zero.
-    #[error("lock name length must not be zero")]
-    LockNameLengthZero,
-    /// The lease holder name length must not be zero.
-    #[error("lease holder name length must not be zero")]
-    LeaseHolderNameLengthZero,
-    /// The lock holder name length must not be zero.
-    #[error("lock holder name length must not be zero")]
-    LockHolderNameLengthZero,
     /// Fencing token not received from service.
     #[error("Fencing token not received from service")]
     MissingFencingToken,

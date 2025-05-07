@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// This example shows the how to use lock::Client for locking/unlocking operations.
+/// This example shows the how to use `lock::Client` for locking/unlocking operations.
 use std::{sync::Arc, time::Duration};
 
 use env_logger::Builder;

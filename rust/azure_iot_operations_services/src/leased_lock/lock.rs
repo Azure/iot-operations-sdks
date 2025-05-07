@@ -5,8 +5,8 @@
 
 use std::{sync::Arc, time::Duration};
 
-use crate::leased_lock::{Error, ErrorKind, lease::Client as LeaseClient};
-use crate::state_store::{self};
+use crate::leased_lock::{Error, ErrorKind, lease};
+use crate::state_store;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
@@ -16,7 +16,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    lease_client: LeaseClient<C>,
+    lease_client: lease::Client<C>,
 }
 
 /// Lock client implementation
@@ -24,6 +24,7 @@ where
 /// Notes:
 /// Do not call any of the methods of this client after the `state_store` parameter is shutdown.
 /// Calling any of the methods in this implementation after the `state_store` is shutdown results in undefined behavior.
+/// There must be only one instance of `lock::Client` per lock.
 impl<C> Client<C>
 where
     C: ManagedClient + Clone + Send + Sync,
@@ -36,23 +37,25 @@ where
     /// - There must be one instance of `lock::Client` per lock.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`LockNameLengthZero`](ErrorKind::LockNameLengthZero) if the `lock_name` is empty
-    ///
-    /// [`struct@Error`] of kind [`LockHolderNameLengthZero`](ErrorKind::LockHolderNameLengthZero) if the `lock_holder_name` is empty
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the either `lock_name` or `lock_holder_name` is empty.
     pub fn new(
         state_store: Arc<state_store::Client<C>>,
         lock_name: Vec<u8>,
         lock_holder_name: Vec<u8>,
     ) -> Result<Self, Error> {
         if lock_name.is_empty() {
-            return Err(Error(ErrorKind::LockNameLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "lock_name is empty".to_string(),
+            )));
         }
 
         if lock_holder_name.is_empty() {
-            return Err(Error(ErrorKind::LockHolderNameLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "lock_holder_name is empty".to_string(),
+            )));
         }
 
-        let lease_client = LeaseClient::new(state_store, lock_name, lock_holder_name)?;
+        let lease_client = lease::Client::new(state_store, lock_name, lock_holder_name)?;
 
         Ok(Self { lease_client })
     }
@@ -75,8 +78,6 @@ where
     /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for the request
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
-    /// # Panics
-    /// Possible panic if, for some error, the fencing token (a.k.a. `version`) of the acquired lock is None.
     pub async fn lock(
         &mut self,
         lock_expiration: Duration,
@@ -85,8 +86,8 @@ where
     ) -> Result<HybridLogicalClock, Error> {
         // Logic:
         // a. Start observing lease within this function.
-        // b. Try acquiring the lease and return if acquired or got an error other than `KeyAlreadyLeased`.
-        // c. If got `KeyAlreadyLeased`, wait until `Del` notification for the lease. If notification is None, re-observe (start from a. again).
+        // b. Try acquiring the lease and return if acquired or got an error other than `LeaseAlreadyHeld`.
+        // c. If got `LeaseAlreadyHeld`, wait until `Del` notification for the lease. If notification is None, re-observe (start from a. again).
         // d. Loop back starting from b. above.
         // e. Unobserve lease before exiting.
 
@@ -104,7 +105,7 @@ where
                     break; /* lease acquired */
                 }
                 Err(ref acquire_error) => match acquire_error.kind() {
-                    ErrorKind::KeyAlreadyLeased => { /* Must wait for lease to be released. */ }
+                    ErrorKind::LeaseAlreadyHeld => { /* Must wait for lease to be released. */ }
                     _ => {
                         break;
                     }
@@ -136,6 +137,10 @@ where
     /// Note: `request_timeout` is rounded up to the nearest second.
     ///
     /// Returns `Ok()` if lock is no longer held by this `lock holder`, or `Error` otherwise.
+    ///
+    /// Even if this method fails the current fencing token (obtained by calling `current_lock_fencing_token()`) is cleared
+    /// and the auto-renewal task is cancelled (if the lock was acquired using auto-renewal).
+    ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
     ///
@@ -144,7 +149,7 @@ where
     /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `V Delete` request
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
-    pub async fn unlock(&mut self, request_timeout: Duration) -> Result<(), Error> {
+    pub async fn unlock(&self, request_timeout: Duration) -> Result<(), Error> {
         self.lease_client.release(request_timeout).await
     }
 

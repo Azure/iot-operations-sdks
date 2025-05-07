@@ -231,7 +231,7 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
                     .acquire(lock_expiry, request_timeout, None)
                     .await
                     .is_err()
-            ); // Error(KeyAlreadyLeased)
+            ); // Error(LeaseAlreadyHeld)
 
             task2_notify.notify_one(); // Tell task1 we checked holder name, tried to acquire.
             task2_notify.notified().await; // Wait task1 release.
@@ -557,7 +557,7 @@ async fn lease_shutdown_state_store_while_observing_lease_network_tests() {
             let mut observe_response = lease_client1.observe(request_timeout).await.unwrap();
 
             let receive_notifications_task =
-                tokio::task::spawn({ async move { observe_response.recv_notification().await } });
+                tokio::task::spawn(async move { observe_response.recv_notification().await });
 
             assert!(state_store_client1.shutdown().await.is_ok());
 
