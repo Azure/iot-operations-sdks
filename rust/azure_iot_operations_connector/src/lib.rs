@@ -10,6 +10,7 @@ use azure_iot_operations_services::schema_registry::PutRequest;
 
 pub mod base_connector;
 pub mod data_transformer;
+pub mod data_transformer2;
 pub mod destination_endpoint;
 pub mod filemount;
 pub mod source_endpoint;
