@@ -258,7 +258,6 @@ namespace Azure.Iot.Operations.Connector
                     await DeviceAvailableAsync(args, compoundDeviceName);
                     if (args.Device != null)
                     {
-                        ReportDeviceSuccess(args.Device, args.InboundEndpointName);
                         OnDeviceAvailable?.Invoke(this, new(args.Device, args.InboundEndpointName));
                     }
                 }
@@ -423,15 +422,11 @@ namespace Azure.Iot.Operations.Connector
             if (args.Device == null)
             {
                 // shouldn't ever happen
-                await _assetMonitor.UpdateDeviceStatusAsync(
-                    args.DeviceName,
-                    args.InboundEndpointName,
-                    DeviceStatusBuilder.CreateDeviceConfigurationError(new ConfigError
-                    {
-                        Code = "503",
-                        Message = "Device was created, but no device was provided"
-                    })
-                );
+                await UpdateDeviceStatus(args.DeviceName, args.InboundEndpointName, new ConfigError
+                {
+                    Code = "503",
+                    Message = "Device was created, but no device was provided"
+                });
                 _logger.LogError("Received notification that device was created, but no device was provided");
             }
             else
@@ -441,7 +436,39 @@ namespace Azure.Iot.Operations.Connector
                     Device = args.Device
                 };
                 _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+
+                await UpdateDeviceStatus(args.DeviceName, args.InboundEndpointName, args.Device.Specification?.Version);
             }
+        }
+
+        public async Task UpdateDeviceStatus(string deviceName, string inboundEndpointName, ConfigError configError)
+        {
+            await _assetMonitor.UpdateDeviceStatusAsync(
+                deviceName,
+                inboundEndpointName,
+                new DeviceStatus
+                {
+                    Config = new DeviceConfigStatus
+                    {
+                        Error = configError
+                    }
+                }
+            );
+        }
+
+        public async Task UpdateDeviceStatus(string deviceName, string inboundEndpointName, ulong? specificationVersion)
+        {
+            await _assetMonitor.UpdateDeviceStatusAsync(
+                deviceName,
+                inboundEndpointName,
+                new DeviceStatus
+                {
+                    Config = new DeviceConfigStatus
+                    {
+                        Version = specificationVersion
+                    },
+                }
+            );
         }
 
         private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
@@ -465,6 +492,11 @@ namespace Azure.Iot.Operations.Connector
             if (asset == null)
             {
                 // Should never happen
+                UpdateAssetStatus(assetName, deviceName, inboundEndpointName, new ConfigError
+                {
+                    Code = "500",
+                    Message = "Asset was created, but no asset was provided"
+                });
                 _logger.LogError("Received notification that asset was created, but no asset was provided");
                 return;
             }
@@ -478,6 +510,11 @@ namespace Azure.Iot.Operations.Connector
 
             if (device == null)
             {
+                UpdateAssetStatus(assetName, deviceName, inboundEndpointName, new ConfigError
+                {
+                    Code = "503",
+                    Message = "Device was created, but no device was provided"
+                });
                 _logger.LogWarning("Failed to correlate a newly available asset to its device");
                 return;
             }
@@ -510,31 +547,11 @@ namespace Azure.Iot.Operations.Connector
                         }
                         catch (Exception ex)
                         {
-                            await _assetMonitor.UpdateAssetStatusAsync(
-                                deviceName,
-                                inboundEndpointName,
-                                new UpdateAssetStatusRequest
-                                {
-                                    AssetName = assetName,
-                                    AssetStatus = new AssetStatus
-                                    {
-                                        Config = null,
-                                        Datasets =
-                                        [
-                                            new AssetDatasetEventStreamStatus
-                                            {
-                                                Name = dataset.Name,
-                                                Error = new ConfigError
-                                                {
-                                                    Code = "SchemaRegistrationFailed",
-                                                    Message = ex.Message
-                                                }
-                                            }
-                                        ],
-                                    }
-                                },
-                                commandTimeout: null,
-                                cancellationToken);
+                            await UpdateAssetDatasetStatus(deviceName, inboundEndpointName, assetName, dataset.Name, new ConfigError
+                            {
+                                Code = "500",
+                                Message = ex.Message
+                            });
                             _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
@@ -572,31 +589,11 @@ namespace Azure.Iot.Operations.Connector
                         }
                         catch (Exception ex)
                         {
-                            await _assetMonitor.UpdateAssetStatusAsync(
-                                deviceName,
-                                inboundEndpointName,
-                                new UpdateAssetStatusRequest
-                                {
-                                    AssetName = assetName,
-                                    AssetStatus = new AssetStatus
-                                    {
-                                        Config = null,
-                                        Events =
-                                        [
-                                            new AssetDatasetEventStreamStatus
-                                            {
-                                                Name = assetEvent.Name,
-                                                Error = new ConfigError
-                                                {
-                                                    Code = "SchemaRegistrationFailed",
-                                                    Message = ex.Message
-                                                }
-                                            }
-                                        ],
-                                    }
-                                },
-                                commandTimeout: null,
-                                cancellationToken);
+                            await UpdateAssetEventStatus(deviceName, inboundEndpointName, assetName, assetEvent.Name!, new ConfigError
+                            {
+                                Code = "500",
+                                Message = ex.Message
+                            });
                             _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
@@ -607,7 +604,90 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
+            UpdateAssetStatus(assetName, deviceName, inboundEndpointName);
             OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset));
+        }
+
+        public void UpdateAssetStatus(string assetName, string deviceName, string inboundEndpointName)
+        {
+            _assetMonitor.UpdateAssetStatusAsync(
+                deviceName,
+                inboundEndpointName,
+                new UpdateAssetStatusRequest
+                {
+                    AssetName = assetName,
+                    AssetStatus = new AssetStatus()
+                    {
+                        Config = null,
+                        Datasets = null,
+                        Events = null,
+                        Streams = null
+                    }
+                });
+        }
+
+        private async Task UpdateAssetEventStatus(string deviceName, string inboundEndpointName, string assetName, string assetEventName, ConfigError configError)
+        {
+            await _assetMonitor.UpdateAssetStatusAsync(
+                deviceName,
+                inboundEndpointName,
+                new UpdateAssetStatusRequest
+                {
+                    AssetName = assetName,
+                    AssetStatus = new AssetStatus
+                    {
+                        Events =
+                        [
+                            new AssetDatasetEventStreamStatus
+                            {
+                                Name = assetEventName,
+                                Error = configError
+                            }
+                        ],
+                    }
+                });
+        }
+
+        public async Task UpdateAssetDatasetStatus(string deviceName, string inboundEndpointName, string assetName,
+            string datasetName, ConfigError configError)
+        {
+            await _assetMonitor.UpdateAssetStatusAsync(
+                deviceName,
+                inboundEndpointName,
+                new UpdateAssetStatusRequest
+                {
+                    AssetName = assetName,
+                    AssetStatus = new AssetStatus
+                    {
+                        Config = null,
+                        Datasets =
+                        [
+                            new AssetDatasetEventStreamStatus
+                            {
+                                Name = datasetName,
+                                Error = configError
+                            }
+                        ],
+                    }
+                });
+        }
+
+        public void UpdateAssetStatus(string assetName, string deviceName, string inboundEndpointName, ConfigError configError)
+        {
+            _assetMonitor.UpdateAssetStatusAsync(
+                deviceName,
+                inboundEndpointName,
+                new UpdateAssetStatusRequest
+                {
+                    AssetName = assetName,
+                    AssetStatus = new AssetStatus
+                    {
+                        Config = new AssetConfigStatus
+                        {
+                            Error = configError
+                        }
+                    }
+                });
         }
 
         private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
@@ -619,132 +699,6 @@ namespace Azure.Iot.Operations.Connector
             {
                 OnAssetUnavailable?.Invoke(this, new(assetName));
             }
-        }
-    }
-
-    internal static class DeviceStatusBuilder
-    {
-        public static DeviceStatus CreateDeviceConfigurationError(ConfigError configError)
-        {
-            return new DeviceStatus
-            {
-                Config = new DeviceConfigStatus
-                {
-                    Error = configError
-                }
-            };
-        }
-
-        public static DeviceStatus CreateDeviceEndpointsErrors(DeviceEndpointsStatus deviceEndpointsErrors)
-        {
-            return new DeviceStatus
-            {
-                Endpoints = deviceEndpointsErrors
-            };
-        }
-    }
-
-    internal static class AssetStatusBuilder
-    {
-        public static AssetStatus CreateAssetConfigurationError(ConfigError configError)
-        {
-            return new AssetStatus
-            {
-                Config = new AssetConfigStatus
-                {
-                    Error = configError
-                }
-            };
-        }
-
-        public static AssetStatus CreateAssetDataSetsError(ConfigError configError, string dataSetName)
-        {
-            return new AssetStatus
-            {
-                Datasets =
-                [
-                    new AssetDatasetEventStreamStatus
-                    {
-                        Name = dataSetName,
-                        Error = configError
-                    }
-                ]
-            };
-        }
-
-        public static AssetStatus CreateAssetEventsError(ConfigError configError, string eventName)
-        {
-            return new AssetStatus
-            {
-                Events =
-                [
-                    new AssetDatasetEventStreamStatus
-                    {
-                        Name = eventName,
-                        Error = configError
-                    }
-                ]
-            };
-        }
-
-        public static AssetStatus CreateAssetStreamsError(ConfigError configError, string streamName)
-        {
-            return new AssetStatus
-            {
-                Streams =
-                [
-                    new AssetDatasetEventStreamStatus
-                    {
-                        Name = streamName,
-                        Error = configError
-                    }
-                ]
-            };
-        }
-
-        public static AssetStatus CreateAssetDatasetMessageSchemaStatus(string datasetName, MessageSchemaReference messageSchema)
-        {
-            return new AssetStatus
-            {
-                Datasets =
-                [
-                    new AssetDatasetEventStreamStatus
-                    {
-                        Name = datasetName,
-                        MessageSchemaReference = messageSchema
-                    }
-                ]
-            };
-        }
-
-        public static AssetStatus CreateAssetEventMessageSchemaStatus(string eventName, MessageSchemaReference messageSchema)
-        {
-            return new AssetStatus
-            {
-                Events =
-                [
-                    new AssetDatasetEventStreamStatus
-                    {
-                        Name = eventName,
-                        MessageSchemaReference = messageSchema
-                    }
-                ]
-            };
-        }
-
-        public static AssetStatus CreateAssetStreamMessageSchemaStatus(string streamName, MessageSchemaReference messageSchema)
-        {
-            return new AssetStatus
-            {
-                Streams =
-                [
-                    new AssetDatasetEventStreamStatus
-                    {
-                        Name = streamName,
-                        MessageSchemaReference = messageSchema
-                    }
-                ]
-            };
         }
     }
 }
