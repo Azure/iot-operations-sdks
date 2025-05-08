@@ -14,18 +14,12 @@ spec:
         additionalConfiguration: '{"key1": "value1", "nested": {"key2": 2}}'
         address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
         authentication:
-          method: UsernamePassword
-          usernamePasswordCredentials:
-            usernameSecretName: rest-server-auth-creds/username
-            passwordSecretName: rest-server-auth-creds/password
+          method: Anonymous
         endpointType: rest-thermostat
       my-coap-endpoint:
         address: coap://thermostat.local/temp
         authentication:
-          method: UsernamePassword
-          usernamePasswordCredentials:
-            usernameSecretName: coap-auth-creds/username
-            passwordSecretName: coap-auth-creds/password
+          method: Anonymous
         endpointType: coap-thermostat
   uuid: 1234-5678-9012-3456
   version: 2
