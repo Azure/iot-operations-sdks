@@ -46,11 +46,11 @@ namespace SqlQualityAnalyzerConnectorApp
                     _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={sqlServerPassword};TrustServerCertificate=true;";
                 }
 
-                    // In this sample, the datapoints have the different datasource, there are 2 options to get the data
+                // In this sample, the datapoints have the different datasource, there are 2 options to get the data
 
-                    // Option 1: Get the data joining tables
-                    // Option 2: Get the data from each table by doing multiple queries and join them in the code
-                    List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
+                // Option 1: Get the data joining tables
+                // Option 2: Get the data from each table by doing multiple queries and join them in the code
+                List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
                 using (SqlConnection connection = new SqlConnection(_fullConnectionString))
                 {
                     await connection.OpenAsync();
