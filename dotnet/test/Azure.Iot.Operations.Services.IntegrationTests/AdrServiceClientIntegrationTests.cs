@@ -546,7 +546,7 @@ public class AdrServiceClientIntegrationTests
         var updateRequest1 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
         updateRequest1.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
         {
-            new AssetDatasetEventStreamStatus
+            new()
             {
                 Name = "pre-disconnect-event",
                 MessageSchemaReference = new MessageSchemaReference
@@ -571,38 +571,17 @@ public class AdrServiceClientIntegrationTests
             Assert.Fail("Did not receive first asset event update within timeout");
         }
 
-        // Act - Phase 2: Simulate reconnection by disposing and recreating the client
-        _output.WriteLine("Simulating disconnection by disposing client...");
-        await client.DisposeAsync();
-
-        // Create a new client to simulate reconnection
-        _output.WriteLine("Creating new client to simulate reconnection...");
-        await using var reconnectedClient = new AdrServiceClient(applicationContext,
-            await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(),
-            ConnectorClientId);
-
-        // Set up event handler for the reconnected client
-        reconnectedClient.OnReceiveAssetUpdateEventTelemetry += (_, asset) =>
-        {
-            if (asset != null)
-            {
-                _output.WriteLine($"Received asset event after reconnection: {asset.Name}");
-                receivedEvents.Add(asset);
-                reconnectionEventReceived.TrySetResult(true);
-            }
-            return Task.CompletedTask;
-        };
-
-        // Re-establish the observation after reconnection
-        var observeResponseAfterReconnect = await reconnectedClient.ObserveAssetUpdatesAsync(
-            TestDevice_2_Name, TestEndpointName, TestAssetName);
-        Assert.Equal(NotificationResponse.Accepted, observeResponseAfterReconnect);
+        // Act - Phase 2: Simulate reconnection by disconnecting and recreating the mqtt client
+        _output.WriteLine("Simulating disconnection by disconnecting client...");
+        await mqttClient.DisconnectAsync();
+        await mqttClient.ConnectAsync(ClientFactory.CreateMqttConnectionSettings(), CancellationToken.None);
+        _output.WriteLine("Client reconnected.");
 
         // Act - Phase 3: Send another update after reconnection
         var updateRequest2 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
         updateRequest2.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
         {
-            new AssetDatasetEventStreamStatus
+            new()
             {
                 Name = "post-reconnect-event",
                 MessageSchemaReference = new MessageSchemaReference
@@ -614,7 +593,7 @@ public class AdrServiceClientIntegrationTests
             }
         };
 
-        await reconnectedClient.UpdateAssetStatusAsync(
+        await client.UpdateAssetStatusAsync(
             TestDevice_1_Name, TestEndpointName, updateRequest2);
 
         // Wait for the post-reconnection event
@@ -628,7 +607,7 @@ public class AdrServiceClientIntegrationTests
         }
 
         // Cleanup
-        await reconnectedClient.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
+        await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
         var postReconnectEvents = receivedEvents.Where(e =>
