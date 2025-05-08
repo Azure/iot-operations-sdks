@@ -41,7 +41,7 @@ public class AdrServiceClientIntegrationTests
         var device = await client.GetDeviceAsync("my-thermostat", "my-rest-endpoint");
 
         // Assert
-        _output.WriteLine($"Device: {device?.Name}");
+        _output.WriteLine($"Device: {device.Name}");
         Assert.NotNull(device);
         Assert.Equal("my-thermostat", device.Name);
     }
@@ -89,7 +89,7 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
         var eventReceived = new TaskCompletionSource<bool>();
-        client.OnReceiveDeviceUpdateEventTelemetry += (source, device) =>
+        client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
         {
             _output.WriteLine($"Device update received from: {source}");
             eventReceived.TrySetResult(true);
@@ -126,7 +126,7 @@ public class AdrServiceClientIntegrationTests
         var secondEventReceived = new TaskCompletionSource<bool>();
         var eventCounter = 0;
 
-        client.OnReceiveDeviceUpdateEventTelemetry += (source, device) =>
+        client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
         {
             _output.WriteLine($"Device update received from: {source}");
             eventCounter++;
@@ -197,7 +197,7 @@ public class AdrServiceClientIntegrationTests
         var asset = await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
-        _output.WriteLine($"Asset: {asset?.Name}");
+        _output.WriteLine($"Asset: {asset.Name}");
         Assert.NotNull(asset);
         Assert.Equal(TestAssetName, asset.Name);
     }
@@ -229,7 +229,7 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
         var eventReceived = new TaskCompletionSource<bool>();
-        client.OnReceiveAssetUpdateEventTelemetry += (source, asset) =>
+        client.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
         {
             _output.WriteLine($"Asset update received from: {source}");
             eventReceived.TrySetResult(true);
@@ -266,7 +266,7 @@ public class AdrServiceClientIntegrationTests
         var secondEventReceived = new TaskCompletionSource<bool>();
         var eventCounter = 0;
 
-        client.OnReceiveAssetUpdateEventTelemetry += (source, asset) =>
+        client.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
         {
             _output.WriteLine($"Asset update received from: {source}");
             eventCounter++;
@@ -352,21 +352,18 @@ public class AdrServiceClientIntegrationTests
         // Set up event handler to capture and validate events
         client.OnReceiveAssetUpdateEventTelemetry += (_, asset) =>
         {
-            if (asset != null)
-            {
-                _output.WriteLine($"Received asset event: {asset.Name}");
-                receivedEvents.Add(asset);
+            _output.WriteLine($"Received asset event: {asset.Name}");
+            receivedEvents.Add(asset);
 
-                // Verify events data is present and correctly structured
-                if (asset.Status?.Events != null && asset.Status.Events.Count > 0)
+            // Verify events data is present and correctly structured
+            if (asset.Status?.Events is { Count: > 0 })
+            {
+                _output.WriteLine($"Events count: {asset.Status.Events.Count}");
+                foreach (var evt in asset.Status.Events)
                 {
-                    _output.WriteLine($"Events count: {asset.Status.Events.Count}");
-                    foreach (var evt in asset.Status.Events)
-                    {
-                        _output.WriteLine($"Event: {evt.Name}, Schema: {evt.MessageSchemaReference?.SchemaName}");
-                    }
-                    eventReceived.TrySetResult(true);
+                    _output.WriteLine($"Event: {evt.Name}, Schema: {evt.MessageSchemaReference?.SchemaName}");
                 }
+                eventReceived.TrySetResult(true);
             }
             return Task.CompletedTask;
         };
@@ -376,8 +373,8 @@ public class AdrServiceClientIntegrationTests
 
         // Act - Update asset with event data to trigger notification
         var updateRequest = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
-        updateRequest.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
-        {
+        updateRequest.AssetStatus.Events =
+        [
             new AssetDatasetEventStreamStatus
             {
                 Name = "temperature-event",
@@ -388,7 +385,7 @@ public class AdrServiceClientIntegrationTests
                     SchemaVersion = "1.0"
                 }
             }
-        };
+        ];
 
         await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
@@ -435,8 +432,8 @@ public class AdrServiceClientIntegrationTests
 
         // Act - Update asset with multiple event streams including an error case
         var updateRequest = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
-        updateRequest.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
-        {
+        updateRequest.AssetStatus.Events =
+        [
             new AssetDatasetEventStreamStatus
             {
                 Name = "valid-event",
@@ -454,18 +451,18 @@ public class AdrServiceClientIntegrationTests
                 {
                     Code = "event-error-code",
                     Message = "Event stream configuration error",
-                    Details = new List<DetailsSchemaElement>
-                    {
-                        new()
+                    Details =
+                    [
+                        new DetailsSchemaElement
                         {
                             Code = "validation-error",
                             Message = "Schema validation failed",
                             CorrelationId = Guid.NewGuid().ToString()
                         }
-                    }
+                    ]
                 }
             }
-        };
+        ];
 
         var updatedAsset = await client.UpdateAssetStatusAsync(
             TestDevice_1_Name, TestEndpointName, updateRequest);
@@ -519,20 +516,17 @@ public class AdrServiceClientIntegrationTests
         // Set up event handler to track events
         client.OnReceiveAssetUpdateEventTelemetry += (_, asset) =>
         {
-            if (asset != null)
-            {
-                _output.WriteLine($"Received asset event: {asset.Name}, count: {++eventCounter}");
-                receivedEvents.Add(asset);
+            _output.WriteLine($"Received asset event: {asset.Name}, count: {++eventCounter}");
+            receivedEvents.Add(asset);
 
-                // Signal based on which event we're processing
-                if (eventCounter == 1)
-                {
-                    firstEventReceived.TrySetResult(true);
-                }
-                else if (eventCounter > 1)
-                {
-                    reconnectionEventReceived.TrySetResult(true);
-                }
+            // Signal based on which event we're processing
+            if (eventCounter == 1)
+            {
+                firstEventReceived.TrySetResult(true);
+            }
+            else if (eventCounter > 1)
+            {
+                reconnectionEventReceived.TrySetResult(true);
             }
             return Task.CompletedTask;
         };
@@ -544,9 +538,9 @@ public class AdrServiceClientIntegrationTests
 
         // Act - Phase 1: Send an update and verify it's received
         var updateRequest1 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
-        updateRequest1.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
-        {
-            new()
+        updateRequest1.AssetStatus.Events =
+        [
+            new AssetDatasetEventStreamStatus
             {
                 Name = "pre-disconnect-event",
                 MessageSchemaReference = new MessageSchemaReference
@@ -556,7 +550,7 @@ public class AdrServiceClientIntegrationTests
                     SchemaVersion = "1.0"
                 }
             }
-        };
+        ];
 
         await client.UpdateAssetStatusAsync(
             TestDevice_1_Name, TestEndpointName, updateRequest1);
@@ -583,9 +577,9 @@ public class AdrServiceClientIntegrationTests
 
         // Act - Phase 3: Send another update after reconnection
         var updateRequest2 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
-        updateRequest2.AssetStatus.Events = new List<AssetDatasetEventStreamStatus>
-        {
-            new()
+        updateRequest2.AssetStatus.Events =
+        [
+            new AssetDatasetEventStreamStatus
             {
                 Name = "post-reconnect-event",
                 MessageSchemaReference = new MessageSchemaReference
@@ -595,7 +589,7 @@ public class AdrServiceClientIntegrationTests
                     SchemaVersion = "2.0"
                 }
             }
-        };
+        ];
 
         await client.UpdateAssetStatusAsync(
             TestDevice_1_Name, TestEndpointName, updateRequest2);
@@ -643,12 +637,9 @@ public class AdrServiceClientIntegrationTests
         // Set up event handler to capture and validate events
         client.OnReceiveDeviceUpdateEventTelemetry += (_, device) =>
         {
-            if (device != null)
-            {
-                _output.WriteLine($"Received device event: {device.Name}");
-                receivedEvents.Add(device);
-                eventReceived.TrySetResult(true);
-            }
+            _output.WriteLine($"Received device event: {device.Name}");
+            receivedEvents.Add(device);
+            eventReceived.TrySetResult(true);
             return Task.CompletedTask;
         };
 
