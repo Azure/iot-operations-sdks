@@ -21,6 +21,12 @@ pub struct AssetDatasetSchemaElementSchema {
     #[builder(default = "None")]
     pub data_points: Option<Vec<AssetDatasetDataPointSchemaElementSchema>>,
 
+    /// The 'datasetConfiguration' Field.
+    #[serde(rename = "datasetConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub dataset_configuration: Option<String>,
+
     /// The 'dataSource' Field.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]

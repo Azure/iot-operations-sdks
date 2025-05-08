@@ -17,13 +17,14 @@ spec:
   runtimeConfiguration:
     runtimeConfigurationType: managedConfiguration
     managedConfigurationSettings:
-      allocation:
-        policy: "Bucketized"
-        bucketSize: 1
       managedConfigurationType: imageConfiguration
       imageConfigurationSettings:
-        image: "connectorgetadrdefinitions:latest"
-        imagePullPolicy: Never
+        imageName: "connectorgetadrdefinitions"
+        imagePullPolicy: Never # This sample image is built locally, so no need to pull
+        replicas: 1
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "latest"
   mqttConnectionConfiguration:
     host: "aio-broker:1883"
     tls:
