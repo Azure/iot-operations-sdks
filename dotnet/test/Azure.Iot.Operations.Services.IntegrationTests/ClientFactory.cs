@@ -12,9 +12,7 @@ public class ClientFactory
 {
     public static async Task<MqttSessionClient> CreateAndConnectClientAsyncFromEnvAsync()
     {
-        Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
-        string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
-        MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+        var mcs = CreateMqttConnectionSettings();
         mcs.ClientId += Guid.NewGuid();
         MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
         {
@@ -29,4 +27,11 @@ public class ClientFactory
         return mqttSessionClient;
     }
 
+    public static MqttConnectionSettings CreateMqttConnectionSettings()
+    {
+        Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
+        string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
+        MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+        return mcs;
+    }
 }
