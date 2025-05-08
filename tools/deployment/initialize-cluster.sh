@@ -3,6 +3,32 @@
 set -o errexit
 set -o pipefail
 
+Help()
+{
+   echo "Initialize cluster will install pre-requisites and create a k3s cluster."
+   echo
+   echo "Usage: initialize-cluster.sh [OPTION]"
+   echo
+   echo "Options:"
+   echo "-h    Print this Help."
+   echo "-s    Skip the installation of prerequisites."
+   echo "-y    Automatically assume "yes" to all questions."
+   echo
+}
+
+# Get the options
+while getopts ":h" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+      s) # skip installation of prerequisites
+         SKIP_INSTALL=true;;
+      y) # assume yes to all questions
+         AUTO_YES=true;;
+   esac
+done
+
 script_dir=$(dirname $(readlink -f $0))
 
 echo =========================
@@ -60,6 +86,11 @@ fi
 echo =========================
 echo Creating cluster
 echo =========================
+
+if [[ $AUTO_YES != "true" ]]
+    echo An existing cluster was detected, are you sure you want to delete it? [y/N]
+    read response
+fi
 
 # Create k3d cluster and forwarded ports (MQTT/MQTTS)
 k3d cluster delete
