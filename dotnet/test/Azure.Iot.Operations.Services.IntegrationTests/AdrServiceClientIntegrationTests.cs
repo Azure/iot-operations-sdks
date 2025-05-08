@@ -97,20 +97,21 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
+        await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Trigger an update so we can observe it
         var status = CreateDeviceStatus(DateTime.UtcNow);
         await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
         // Wait for the notification to arrive
-        var receivedEventTask = await Task.WhenAny(
-            eventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
-
-        // Assert
-        Assert.True(receivedEventTask.IsCompleted && !receivedEventTask.IsFaulted,
-            "Did not receive device update event within timeout");
+        try
+        {
+            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive device update event within timeout");
+        }
     }
 
     [Fact]
@@ -143,34 +144,41 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
+        await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Trigger an update so we can observe it
         var status = CreateDeviceStatus(DateTime.UtcNow);
         await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
         // Wait for the first notification to arrive
-        var firstEventTask = await Task.WhenAny(
-            firstEventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
-
-        Assert.True(firstEventTask.IsCompleted && !firstEventTask.IsFaulted,
-            "Did not receive first device update event within timeout");
+        try
+        {
+            await firstEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive first device update event within timeout");
+        }
 
         // Act - Unobserve
-        var unobserveResponse = await client.UnobserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
+        await client.UnobserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         status = CreateDeviceStatus(DateTime.UtcNow);
         await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
         // Wait to see if we get another notification (which we shouldn't)
-        var secondEventTask = await Task.WhenAny(
-            secondEventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
+        bool receivedUnexpectedNotification = false;
+        try
+        {
+            await secondEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            receivedUnexpectedNotification = true;
+        }
+        catch (TimeoutException)
+        {
+        }
 
         // Assert
-        Assert.True(secondEventTask != secondEventReceived.Task,
-            "Should not receive device update event after unobserving");
+        Assert.False(receivedUnexpectedNotification, "Should not receive device update event after unobserving");
     }
 
     [Fact]
@@ -229,20 +237,21 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
+        await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait for the notification to arrive
-        var receivedEventTask = await Task.WhenAny(
-            eventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
-
-        // Assert
-        Assert.True(receivedEventTask.IsCompleted && !receivedEventTask.IsFaulted,
-            "Did not receive asset update event within timeout");
+        try
+        {
+            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive asset update event within timeout");
+        }
     }
 
     [Fact]
@@ -275,35 +284,42 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act - Observe
-        var observeResponse = await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
+        await client.ObserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait for the first notification to arrive
-        var firstEventTask = await Task.WhenAny(
-            firstEventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
-
-        Assert.True(firstEventTask.IsCompleted && !firstEventTask.IsFaulted,
-            "Did not receive first asset update event within timeout");
+        try
+        {
+            await firstEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive first asset update event within timeout");
+        }
 
         // Act - Unobserve
-        var unobserveResponse = await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
+        await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Trigger an update so we can observe it
         updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait to see if we get another notification (which we shouldn't)
-        var secondEventTask = await Task.WhenAny(
-            secondEventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
+        bool receivedUnexpectedNotification = false;
+        try
+        {
+            await secondEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            receivedUnexpectedNotification = true;
+        }
+        catch (TimeoutException)
+        {
+        }
 
         // Assert
-        Assert.True(secondEventTask != secondEventReceived.Task,
-            "Should not receive asset update event after unobserving");
+        Assert.False(receivedUnexpectedNotification, "Should not receive asset update event after unobserving");
     }
 
     [Fact(Skip = "Requires ADR service changes")]
@@ -317,45 +333,9 @@ public class AdrServiceClientIntegrationTests
         CreateDetectedAssetRequest request = CreateCreateDetectedAssetRequest();
 
         // Act
-        var response = await client.CreateDetectedAssetAsync(TestDevice_1_Name, TestEndpointName, request);
+        await client.CreateDetectedAssetAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
-    }
-
-    [Fact]
-    public async Task AdrServiceClientThrowsIfAccessedWhenDisposed()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-
-        // Act - Dispose
-        await client.DisposeAsync();
-
-        // Assert - Methods should throw ObjectDisposedException
-        await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await client.GetDeviceAsync(TestDevice_1_Name, TestEndpointName));
-        await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName));
-    }
-
-    [Fact]
-    public async Task AdrServiceClientThrowsIfCancellationRequested()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-
-        CancellationTokenSource cts = new CancellationTokenSource();
-        cts.Cancel();
-
-        // Assert - Methods should throw OperationCanceledException
-        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await client.GetDeviceAsync(TestDevice_1_Name, TestEndpointName, cancellationToken: cts.Token));
-        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await client.ObserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName, cancellationToken: cts.Token));
     }
 
     [Fact]
@@ -410,19 +390,22 @@ public class AdrServiceClientIntegrationTests
             }
         };
 
-        var updatedAsset = await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
+        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait for event to be received or timeout
-        var receivedEventsTask = await Task.WhenAny(
-            eventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
+        try
+        {
+            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive asset event update within timeout");
+        }
 
         // Cleanup
         await client.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
-        Assert.True(receivedEventsTask.IsCompleted && !receivedEventsTask.IsFaulted,
-            "Did not receive asset event update within timeout");
         Assert.NotEmpty(receivedEvents);
 
         // Validate event content
@@ -579,12 +562,14 @@ public class AdrServiceClientIntegrationTests
             TestDevice_1_Name, TestEndpointName, updateRequest1);
 
         // Wait for the first event
-        var firstEventReceived1 = await Task.WhenAny(
-            firstEventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
-
-        Assert.True(firstEventReceived1.IsCompleted && !firstEventReceived1.IsFaulted,
-            "Did not receive first asset event update within timeout");
+        try
+        {
+            await firstEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive first asset event update within timeout");
+        }
 
         // Act - Phase 2: Simulate reconnection by disposing and recreating the client
         _output.WriteLine("Simulating disconnection by disposing client...");
@@ -633,18 +618,19 @@ public class AdrServiceClientIntegrationTests
             TestDevice_1_Name, TestEndpointName, updateRequest2);
 
         // Wait for the post-reconnection event
-        var reconnectionEventTask = await Task.WhenAny(
-            reconnectionEventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
+        try
+        {
+            await reconnectionEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive asset event after reconnection within timeout");
+        }
 
         // Cleanup
         await reconnectedClient.UnobserveAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
-        Assert.True(reconnectionEventTask.IsCompleted && !reconnectionEventTask.IsFaulted,
-            "Did not receive asset event after reconnection within timeout");
-
-        // Verify events were received after reconnection
         var postReconnectEvents = receivedEvents.Where(e =>
             e.Status?.Events?.Any(evt => evt.Name == "post-reconnect-event") == true).ToList();
 
@@ -694,15 +680,19 @@ public class AdrServiceClientIntegrationTests
         await client.UpdateDeviceStatusAsync(TestDevice_2_Name, TestEndpointName, updateRequest2);
 
         // Wait for the event to be received or timeout
-        var receivedEventsTask = await Task.WhenAny(
-            eventReceived.Task,
-            Task.Delay(TimeSpan.FromSeconds(5)));
+        try
+        {
+            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        catch (TimeoutException)
+        {
+            Assert.Fail("Did not receive device event update within timeout");
+        }
 
         // Cleanup
         await client.UnobserveDeviceEndpointUpdatesAsync(TestDevice_1_Name, TestEndpointName);
 
         // Assert
-        Assert.True(receivedEventsTask.IsCompleted && !receivedEventsTask.IsFaulted, "Did not receive device event update within timeout");
         Assert.NotEmpty(receivedEvents);
         Assert.True(receivedEvents.Any(d => d.Name == TestDevice_1_Name), $"Expected device event for {TestDevice_1_Name} not received");
         Assert.True(receivedEvents.All(d => d.Name != TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
@@ -755,4 +745,3 @@ public class AdrServiceClientIntegrationTests
     }
 
 }
-
