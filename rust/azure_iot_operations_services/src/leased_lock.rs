@@ -55,9 +55,6 @@ pub enum ErrorKind {
     /// An error occurred from the State Store Service. See [`ServiceError`] for more information.
     #[error(transparent)]
     ServiceError(#[from] ServiceError),
-    /// The key length must not be zero.
-    #[error("key length must not be zero")]
-    KeyLengthZero,
     /// Fencing token not received from service.
     #[error("Fencing token not received from service")]
     MissingFencingToken,
@@ -84,7 +81,6 @@ impl From<state_store::ErrorKind> for ErrorKind {
             state_store::ErrorKind::ServiceError(service_error) => {
                 ErrorKind::ServiceError(service_error)
             }
-            state_store::ErrorKind::KeyLengthZero => ErrorKind::KeyLengthZero,
             state_store::ErrorKind::SerializationError(error_string) => {
                 ErrorKind::SerializationError(error_string)
             }

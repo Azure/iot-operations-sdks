@@ -192,7 +192,7 @@ where
     ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
     ///
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
@@ -210,7 +210,7 @@ where
         options: SetOptions,
     ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
         }
         let mut request_builder = rpc_command::invoker::RequestBuilder::default();
         request_builder
@@ -251,7 +251,7 @@ where
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
     ///
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
@@ -266,7 +266,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<Option<Vec<u8>>>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
         }
         let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
@@ -295,7 +295,7 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
     ///
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
@@ -311,7 +311,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
         }
         self.del_internal(
             state_store::resp3::Request::Del { key },
@@ -329,7 +329,7 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if the `key` is empty
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
     ///
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
     ///
@@ -346,7 +346,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
         }
         self.del_internal(
             state_store::resp3::Request::VDel { key, value },
@@ -438,7 +438,7 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `key` is empty
     ///
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
@@ -459,7 +459,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<KeyObservation>, Error> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
         }
 
         // add to observed keys before sending command to prevent missing any notifications.
@@ -498,7 +498,7 @@ where
     ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
-    /// [`struct@Error`] of kind [`KeyLengthZero`](ErrorKind::KeyLengthZero) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `key` is empty
     ///
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
@@ -516,7 +516,7 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(std::convert::Into::into(ErrorKind::KeyLengthZero));
+            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
         }
         // Send invoke request for unobserve
         let request = rpc_command::invoker::RequestBuilder::default()
@@ -709,7 +709,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            Error(ErrorKind::KeyLengthZero)
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -728,7 +728,7 @@ mod tests {
         let response = state_store_client.get(vec![], Duration::from_secs(1)).await;
         assert!(matches!(
             response.unwrap_err(),
-            Error(ErrorKind::KeyLengthZero)
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -749,7 +749,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            Error(ErrorKind::KeyLengthZero)
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -770,7 +770,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            Error(ErrorKind::KeyLengthZero)
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -791,7 +791,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            Error(ErrorKind::KeyLengthZero)
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
@@ -812,7 +812,7 @@ mod tests {
             .await;
         assert!(matches!(
             response.unwrap_err(),
-            Error(ErrorKind::KeyLengthZero)
+            Error(ErrorKind::InvalidArgument(_))
         ));
     }
 
