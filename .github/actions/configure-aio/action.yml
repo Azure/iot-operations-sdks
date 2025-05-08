@@ -30,7 +30,7 @@ runs:
   using: composite
   steps:
     - name: Create k3s cluster
-      run: tools/deployment/initialize-cluster.sh
+      run: tools/deployment/initialize-cluster.sh -y
       shell: bash
 
     - name: Checkout deploy action
