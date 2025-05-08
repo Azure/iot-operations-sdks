@@ -574,7 +574,11 @@ public class AdrServiceClientIntegrationTests
         // Act - Phase 2: Simulate reconnection by disconnecting and recreating the mqtt client
         _output.WriteLine("Simulating disconnection by disconnecting client...");
         await mqttClient.DisconnectAsync();
-        await mqttClient.ConnectAsync(ClientFactory.CreateMqttConnectionSettings(), CancellationToken.None);
+        var savedClientId = mqttClient.ClientId;
+        var mcs = ClientFactory.CreateMqttConnectionSettings();
+        mcs.ClientId = savedClientId!;
+        _output.WriteLine("Reconnecting client...");
+        await mqttClient.ConnectAsync(mcs, CancellationToken.None);
         _output.WriteLine("Client reconnected.");
 
         // Act - Phase 3: Send another update after reconnection
