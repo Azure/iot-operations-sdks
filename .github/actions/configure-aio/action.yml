@@ -67,5 +67,5 @@ runs:
 
     - name: Wait for Mqtt Broker
       if: inputs.wait-for-broker == 'true'
-      run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
+      run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=120s
       shell: bash
