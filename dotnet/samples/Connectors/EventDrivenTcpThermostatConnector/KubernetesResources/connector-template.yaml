@@ -15,7 +15,7 @@ spec:
       imageConfigurationSettings:
         imageName: "eventdriventcpthermostatconnector"
         imagePullPolicy: Never # This sample image is built locally, so no need to pull
-        replicas: 1
+        replicas: 3
         tagDigestSettings:
           tagDigestType: tag
           tag: "latest"
