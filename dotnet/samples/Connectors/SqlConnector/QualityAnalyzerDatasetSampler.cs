@@ -39,16 +39,11 @@ namespace SqlQualityAnalyzerConnectorApp
 
                 if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
                 {
-                    Console.WriteLine("CREDENTIALS");
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
                     string sqlServerUsername = _credentials.Username;
                     string sqlServerPassword = _credentials.Password;
                     _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={sqlServerPassword};TrustServerCertificate=true;";
-                }
-                else
-                {
-                    Console.WriteLine("NO CREDENTIALS");
                 }
 
                     // In this sample, the datapoints have the different datasource, there are 2 options to get the data
