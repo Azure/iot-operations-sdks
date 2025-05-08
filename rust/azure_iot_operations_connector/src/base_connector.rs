@@ -36,6 +36,21 @@ pub(crate) struct ConnectorContext<T: DataTransformer> {
     // schema_registry_client: schema_registry::Client<SessionManagedClient>,
     // etc
 }
+
+#[allow(clippy::missing_fields_in_debug)]
+impl<T> std::fmt::Debug for ConnectorContext<T>
+where
+    T: DataTransformer,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ConnectorContext")
+            .field("connector_config", &self.connector_config)
+            .field("debounce_duration", &self.debounce_duration)
+            .field("default_timeout", &self.default_timeout)
+            .finish()
+    }
+}
+
 /// Base Connector for Azure IoT Operations
 pub struct BaseConnector<T: DataTransformer> {
     connector_context: Arc<ConnectorContext<T>>,

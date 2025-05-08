@@ -66,7 +66,6 @@ async fn run_program(
                 log::info!("Device created: {device_endpoint_client:?}");
 
                 // now we should update the status of the device
-                // let inbound_endpoint = device_endpoint_client.specification.endpoints.inbound;
                 let mut endpoint_status = Ok(());
                 if !(device_endpoint_client
                     .specification
@@ -104,5 +103,5 @@ async fn run_program(
             None => panic!("device_creation_observer has been dropped"),
         }
     }
-    // this loop never ends, so no cleanup is necessary (otherwise we'd call adr client shutdown and session exit)
+    // this loop never ends, so no cleanup is necessary
 }

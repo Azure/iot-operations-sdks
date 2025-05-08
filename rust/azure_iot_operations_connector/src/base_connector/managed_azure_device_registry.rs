@@ -7,36 +7,20 @@ use std::{collections::HashMap, sync::Arc};
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::azure_device_registry::{
-    self, Asset,  AssetUpdateObservation, ConfigError, Dataset, Device, DeviceUpdateObservation,
+    self, Asset, AssetUpdateObservation, ConfigError, Dataset, Device, DeviceUpdateObservation,
     MessageSchemaReference,
 };
 use tokio_retry2::{Retry, RetryError, strategy::ExponentialBackoff};
 
-use super::ConnectorContext;
 use crate::{
     Data, MessageSchema,
+    base_connector::ConnectorContext,
     data_transformer::{DataTransformer, DatasetDataTransformer},
     destination_endpoint::Forwarder,
     filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, DeviceEndpointCreateObservation,
     },
 };
-
-macro_rules! async_operation_with_retries {
-    ($operation:expr) => {{
-        let mut retry_duration = std::time::Duration::from_secs(1);
-        loop {
-            match $operation().await {
-                Ok(result) => break result,
-                Err(e) => {
-                    log::error!("Operation failed, retrying: {:?}", e);
-                    retry_duration = retry_duration.saturating_mul(2);
-                    std::thread::sleep(retry_duration);
-                }
-            }
-        }
-    }};
-}
 
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full information for a
@@ -72,7 +56,7 @@ where
         /*DeviceDeleteToken,*/ AssetClientCreationObservation<T>,
     )> {
         loop {
-            // Handle the notification
+            // Get the notification
             let (device_endpoint_ref, asset_create_observation) = self
                 .device_endpoint_create_observation
                 .recv_notification()
@@ -235,8 +219,10 @@ where
     ) -> Result<Self, String> {
         Ok(DeviceEndpointClient {
             device_name: device.name,
+            // TODO: get device_endpoint_credentials_mount_path from connector config
             specification: DeviceSpecification::try_from(
                 device.specification,
+                "/etc/akri/secrets/device_endpoint_auth",
                 &inbound_endpoint_name,
             )?,
             status: device.status.map(|recvd_status| {
@@ -247,9 +233,8 @@ where
         })
     }
 
-    /// Used to report the status of a device endpoint
-    /// Can report both success or failures for the device and the endpoint separately
-    /// TODO: might need to have these report separately for convenience
+    /// Used to report the status of a device and endpoint together,
+    /// and then updates the [`Device`] with the new status returned
     pub async fn report_status(
         &mut self,
         device_status: Result<(), ConfigError>,
@@ -267,30 +252,92 @@ where
         };
 
         // send status update to the service
-        let updated_device = async_operation_with_retries!(async || {
-            self.connector_context
+        self.internal_report_status(status).await;
+    }
+
+    /// Used to report the status of just the device,
+    /// and then updates the [`Device`] with the new status returned
+    pub async fn report_device_status(&mut self, device_status: Result<(), ConfigError>) {
+        // Create status with empty endpoint status
+        let status = azure_device_registry::DeviceStatus {
+            config: Some(azure_device_registry::StatusConfig {
+                version: self.specification.version,
+                error: device_status.err(),
+                last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
+            }),
+            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            endpoints: HashMap::new(),
+        };
+
+        // send status update to the service
+        self.internal_report_status(status).await;
+    }
+
+    /// Used to report the status of just the endpoint,
+    /// and then updates the [`Device`] with the new status returned
+    pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), ConfigError>) {
+        // Create status with empty device status
+        let status = azure_device_registry::DeviceStatus {
+            config: None,
+            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            endpoints: HashMap::from([(self.inbound_endpoint_name.clone(), endpoint_status.err())]),
+        };
+
+        // send status update to the service
+        self.internal_report_status(status).await;
+    }
+
+    /// Reports an already built status to the service, with retries, and then updates the device with the new status returned
+    async fn internal_report_status(
+        &mut self,
+        adr_device_status: azure_device_registry::DeviceStatus,
+    ) {
+        // send status update to the service
+        match Retry::spawn(ExponentialBackoff::from_millis(100), async || -> Result<Device, RetryError<azure_device_registry::Error>> {
+            match self.connector_context
                 .azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     self.device_name.clone(),
                     self.inbound_endpoint_name.clone(),
-                    status.clone(),
+                    adr_device_status.clone(),
                     self.connector_context.default_timeout,
                 )
-                .await
-        });
-
-        // update self with new returned status and any other updates if present
-        // TODO: decide whether to update specification or not since this will come in as an update event soon anyways. For now, don't since it will be confusing and we aren't supporting updates yet
-        self.status = updated_device.status.map(|recvd_status| {
-            DeviceEndpointStatus::from(recvd_status, &self.inbound_endpoint_name)
-        });
-        // // if the specification isn't valid, just keep the existing one
-        // self.specification = DeviceSpecification::try_from(
-        //     updated_device.specification,
-        //     &self.inbound_endpoint_name,
-        // ).unwrap_or(self.specification.clone());
+                .await {
+                    Ok(device) => Ok(device),
+                    Err(e) => match e.kind() {
+                        // network/retriable
+                        azure_device_registry::ErrorKind::AIOProtocolError(_) =>  {
+                            Err(RetryError::transient(e))
+                        },
+                        // config
+                        azure_device_registry::ErrorKind::ServiceError(_) | // may be transient in the future depending on what can be returned here
+                        // should indicate a bug
+                        azure_device_registry::ErrorKind::InvalidRequestArgument(_) | // indicates invalid timeout, should already be validated
+                        // not possible for this fn to return
+                        azure_device_registry::ErrorKind::ValidationError(_) | azure_device_registry::ErrorKind::ObservationError | azure_device_registry::ErrorKind::DuplicateObserve(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
+                            Err(RetryError::permanent(e))
+                        }
+                    },
+                }
+        }).await {
+            Ok(updated_device) => {
+                // update self with new returned statu
+                self.status = updated_device.status.map(|recvd_status| {
+                    DeviceEndpointStatus::from(recvd_status, &self.inbound_endpoint_name)
+                });
+                // NOTE: There may be updates present on the device specification, but even if that is the case,
+                // we won't update them here and instead wait for the device update notification (finding out
+                // first here is a race condition, the update will always be received imminently)
+            },
+            Err(e) => {
+                // TODO: return an error for this scenario? Largely shouldn't be possible
+                log::error!("Failed to Update Device Status: {e}");
+            }
+        };
     }
 }
+
+/// needed otherwise the compiler complains about T not being debug even though it doesn't need to be
 #[allow(clippy::missing_fields_in_debug)]
 impl<T> std::fmt::Debug for DeviceEndpointClient<T>
 where
@@ -302,6 +349,7 @@ where
             .field("inbound_endpoint_name", &self.inbound_endpoint_name)
             .field("specification", &self.specification)
             .field("status", &self.status)
+            .field("connector_context", &self.connector_context)
             .finish()
     }
 }
@@ -525,6 +573,7 @@ pub struct DeviceSpecification {
 impl DeviceSpecification {
     pub(crate) fn try_from(
         device_specification: azure_device_registry::DeviceSpecification,
+        device_endpoint_credentials_mount_path: &str,
         inbound_endpoint_name: &str,
     ) -> Result<Self, String> {
         // convert the endpoints to the new format with only the one specified inbound endpoint
@@ -547,8 +596,12 @@ impl DeviceSpecification {
                 password_secret_name,
                 username_secret_name,
             } => Authentication::UsernamePassword {
-                password_path: format!("path/{password_secret_name}"),
-                username_path: format!("path/{username_secret_name}"),
+                password_path: format!(
+                    "{device_endpoint_credentials_mount_path}/{password_secret_name}"
+                ),
+                username_path: format!(
+                    "{device_endpoint_credentials_mount_path}/{username_secret_name}"
+                ),
             },
         };
         let endpoints = DeviceEndpoints {
