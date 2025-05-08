@@ -244,7 +244,7 @@ async fn run_program(
                                                 // now we should update the status of the asset
                                                 let mut dataset_statuses = Vec::new();
                                                 for dataset in asset.specification.datasets {
-                                                    dataset_statuses.push(azure_device_registry::AssetDatasetEventStreamStatus {
+                                                    dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
                                                     error: None,
                                                     message_schema_reference: None,
                                                     name: dataset.name,
@@ -255,7 +255,7 @@ async fn run_program(
                                                     version: asset.specification.version,
                                                     ..azure_device_registry::StatusConfig::default()
                                                 }),
-                                                datasets_schema: Some(dataset_statuses),
+                                                datasets: Some(dataset_statuses),
                                                 ..azure_device_registry::AssetStatus::default()
                                             };
                                                 match azure_device_registry_client_clone
