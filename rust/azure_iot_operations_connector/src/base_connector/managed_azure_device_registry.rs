@@ -130,7 +130,7 @@ where
                             // should indicate a bug
                             azure_device_registry::ErrorKind::InvalidRequestArgument(_) | // indicates invalid timeout, should already be validated
                             // not possible for this fn to return
-                            azure_device_registry::ErrorKind::InvalidClientId(_) | azure_device_registry::ErrorKind::ObservationError | azure_device_registry::ErrorKind::DuplicateObserve(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
+                            azure_device_registry::ErrorKind::ValidationError(_) | azure_device_registry::ErrorKind::ObservationError | azure_device_registry::ErrorKind::DuplicateObserve(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
                                 Err(RetryError::permanent(e))
                             }
                         },
@@ -667,7 +667,7 @@ fn observe_error_into_retry_error(
         azure_device_registry::ErrorKind::InvalidRequestArgument(_) | // indicates invalid timeout, should already be validated
         azure_device_registry::ErrorKind::DuplicateObserve(_) | // indicates a bug with us calling observe more than once
         // not possible for this fn to return
-        azure_device_registry::ErrorKind::InvalidClientId(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
+        azure_device_registry::ErrorKind::ValidationError(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
             RetryError::permanent(e)
         }
     }
