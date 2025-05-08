@@ -5,7 +5,7 @@ set -e
 # Build connector sample image
 dotnet publish /t:PublishContainer
 k3d image import pollingrestthermostatconnector:latest -c k3s-default
-sleep 10
+
 # Build REST server docker image
 docker build -t rest-server:latest ./SampleRestServer
 docker tag rest-server:latest rest-server:latest

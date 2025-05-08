@@ -5,7 +5,7 @@ set -e
 # Build connector sample image
 dotnet publish /t:PublishContainer
 k3d image import sqlqualityanalyzerconnector:latest -c k3s-default
-sleep 10
+
 # Deploy SQL server (for the asset)
 kubectl apply -f ./KubernetesResources/sql-server.yaml
 
