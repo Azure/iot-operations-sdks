@@ -7,7 +7,7 @@ use std::sync::Arc;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::azure_device_registry::{
-    Asset, Dataset, AssetUpdateObservation, ConfigError, Device, DeviceUpdateObservation,
+    Asset, AssetUpdateObservation, ConfigError, Dataset, Device, DeviceUpdateObservation,
     MessageSchemaReference,
 };
 
