@@ -7,7 +7,7 @@ use std::sync::Arc;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::azure_device_registry::{
-    Asset, AssetDataset, AssetUpdateObservation, ConfigError, Device, DeviceUpdateObservation,
+    Asset, AssetUpdateObservation, ConfigError, Dataset, Device, DeviceUpdateObservation,
     MessageSchemaReference,
 };
 
@@ -186,7 +186,7 @@ where
 /// to report status, translate data, and send data to the destination
 pub struct DatasetClient<T: DataTransformer> {
     /// Dataset Definition
-    pub dataset_definition: AssetDataset,
+    pub dataset_definition: Dataset,
     dataset_data_transformer: T::MyDatasetDataTransformer,
     reporter: Arc<Reporter>,
 }
@@ -195,7 +195,7 @@ impl<T> DatasetClient<T>
 where
     T: DataTransformer,
 {
-    pub(crate) fn new(dataset_definition: AssetDataset, data_transformer: &T) -> Self {
+    pub(crate) fn new(dataset_definition: Dataset, data_transformer: &T) -> Self {
         // Create a new dataset
         let forwarder = Forwarder::new(dataset_definition.clone());
         let reporter = Arc::new(Reporter::new(dataset_definition.clone()));
@@ -238,7 +238,7 @@ pub struct Reporter {
 }
 #[allow(dead_code)]
 impl Reporter {
-    pub(crate) fn new(_dataset_definition: AssetDataset) -> Self {
+    pub(crate) fn new(_dataset_definition: Dataset) -> Self {
         // Create a new forwarder
         Self {
             message_schema_uri: None,
