@@ -8,7 +8,7 @@ spec:
     #assetId: my-sql-qualityanalyzer-asset-id
     #assetType: sql-qualityanalyzer
   datasets:
-    - name: thermostat_status
+    - name: qualityanalyzer_data
       dataPoints:
         - dataSource: CountryMeasurements
           name: Country
