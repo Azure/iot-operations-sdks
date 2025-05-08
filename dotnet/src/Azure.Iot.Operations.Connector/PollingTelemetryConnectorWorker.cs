@@ -57,19 +57,32 @@ namespace Azure.Iot.Operations.Connector
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 
-                _assetsSamplingTimers[args.AssetName][dataset.Name] = new Timer(async (state) =>
+                if (_assetsSamplingTimers.TryGetValue(args.AssetName, out var datasetsTimers))
                 {
-                    try
+                    var datasetSamplingTimer = new Timer(async (state) =>
                     {
-                        byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                        await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
-                    }
-                    catch (Exception e)
+                        try
+                        {
+                            byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                            await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.LogError(e, "Failed to sample the dataset");
+                        }
+                    }, null, TimeSpan.FromSeconds(0), samplingInterval);
+
+                    if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
                     {
-                        _logger.LogError(e, "Failed to sample the dataset");
+                        _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
                     }
-                }, null, TimeSpan.FromSeconds(0), samplingInterval);
+                }
+                else
+                {
+                    _logger.LogError("Failed to get dataset sampling timers for asset with name {}", args.AssetName);
+                }
             }
+
         }
 
         public override void Dispose()
