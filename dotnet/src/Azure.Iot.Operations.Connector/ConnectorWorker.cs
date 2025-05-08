@@ -277,13 +277,6 @@ namespace Azure.Iot.Operations.Connector
                         mqttMessage.Retain = retain == Retain.Keep;
                     }
 
-                    ulong? ttl = destination.Configuration.Ttl;
-                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
-                    if (ttl != null)
-                    {
-                        mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
-                    }
-
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
                     if (puback.ReasonCode == MqttClientPublishReasonCode.Success
@@ -291,7 +284,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                         // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
                     }
                     else
                     {
@@ -304,11 +297,19 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
+                    ulong? ttl = destination.Configuration.Ttl;
+                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
+                    if (ttl != null)
+                    {
+                        //TODO ttl is in seconds? milliseconds?
+                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
+                    }
+
+                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
 
                     if (response.Success)
                     {
-                        _logger.LogInformation($"Message was accepted by the state store");
+                        _logger.LogInformation($"Message was accepted by the state store in key {stateStoreKey}");
                     }
                     else
                     {
@@ -319,7 +320,16 @@ namespace Azure.Iot.Operations.Connector
                 {
                     throw new NotImplementedException();
                 }
+                else
+                {
+                    // Asset is red, unknown destination configured
+                }
             }
+        }
+
+        public void ReportStatus()
+        {
+            _assetMonitor.Upd
         }
 
         public async Task ForwardReceivedEventAsync(Asset asset, AssetEventSchemaElement assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
@@ -357,7 +367,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                         // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
                     }
                     else
                     {
@@ -391,6 +401,8 @@ namespace Azure.Iot.Operations.Connector
                     Device = args.Device
                 };
                 _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+
+                // Report device status green
             }
         }
 
@@ -505,6 +517,8 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
             }
+
+            // Asset is green (for each asset)
 
             OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset));
         }
