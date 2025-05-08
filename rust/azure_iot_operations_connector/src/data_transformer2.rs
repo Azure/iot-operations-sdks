@@ -36,14 +36,65 @@ use crate::{Data, base_connector::managed_azure_device_registry::Reporter};
 //     ) -> T;
 // }
 
+//pub struct MyConnectorDataTransformerFactory
+
 // This model would appear to mean that we need to use Box<dyn DataTransform>...
 
-pub trait DataTransform {
-    
+pub trait DatasetDataTransform {
+    async fn transform(&self, data: Data, dataset_definition: &AssetDataset) -> Result<Data, String>; //probably needs to be mut
+}
+
+// pub trait DataTransform {
+//     fn transform(&self, data: Data) -> Data;
+// }
+
+pub struct MyConnectorTransformer {
+
+}
+
+impl DatasetDataTransform for MyConnectorTransformer {
+    async fn transform(&self, data: Data, _dataset_definition: &AssetDataset) -> Result<Data, String> {
+        Ok(data)
+    }
 }
 
 
-//pub struct MyConnectorDataTransformerFactory
+struct SampleDataSetClient
+
+
+
+
+
+
+
+
+
+
+
+
+// struct DataTransformerClient<T>
+// where T: DatasetDataTransform
+// {
+//     dataset_definition: AssetDataset,
+//     transformer: Arc<T>,
+// }
+
+// impl<T> DataTransformerClient<T>
+// where T: DatasetDataTransform
+// {
+//     fn new(dataset_definition: AssetDataset, transformer: Arc<T>) -> Self {
+//         Self {
+//             dataset_definition,
+//             transformer,
+//         }
+//     }
+
+//     async fn transform(&self, data: Data) -> Result<Data, String> {
+//         self.transformer.transform(data, &self.dataset_definition).await
+//     }
+// }
+
+
 
 
 
