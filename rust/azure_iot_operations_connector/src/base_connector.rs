@@ -27,6 +27,8 @@ pub(crate) struct ConnectorContext<T: DataTransformer> {
     connector_config: ConnectorConfiguration,
     /// Debounce duration for filemount operations for the connector
     debounce_duration: Duration,
+    /// Default timeout for connector operations
+    default_timeout: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     data_transformer: T,
@@ -89,7 +91,9 @@ where
         });
         Self {
             connector_context: Arc::new(ConnectorContext {
+                // TODO: validate these timeouts here once they come from somewhere
                 debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
+                default_timeout: Duration::from_secs(10),  // TODO: come from somewhere
                 application_context,
                 connector_config,
                 azure_device_registry_client,

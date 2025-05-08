@@ -25,6 +25,7 @@ azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdk
 # tokio.workspace = true
 tokio = { version = "1.41", features = ["full"] } # TODO: If I use the workspace version of tokio I run into errors with tokio in the tests, will investigate later
 tokio-util.workspace = true
+tokio-retry2 = "0.5.7"
 notify.workspace = true
 notify-debouncer-full.workspace = true
 # futures = "0.3"
