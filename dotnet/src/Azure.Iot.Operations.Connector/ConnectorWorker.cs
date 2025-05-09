@@ -403,7 +403,6 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
         {
-            _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
             await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
             if (_devices.TryRemove(compoundDeviceName, out var deviceContext))
