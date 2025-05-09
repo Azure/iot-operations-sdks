@@ -18,11 +18,10 @@ use azure_iot_operations_connector::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
-use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    Builder::new()
+    env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
@@ -55,53 +54,41 @@ async fn run_program(
         PassthroughDataTransformer,
     >,
 ) {
-    loop {
-        // Wait for a device creation notification
-        match device_creation_observation.recv_notification().await {
-            Some((
-                mut device_endpoint_client,
-                _device_endpoint_update_observation,
-                _asset_creation_observation,
-            )) => {
-                log::info!("Device created: {device_endpoint_client:?}");
+    // Wait for a device creation notification
+    while let Some((
+        mut device_endpoint_client,
+        _device_endpoint_update_observation,
+        _asset_creation_observation,
+    )) = device_creation_observation.recv_notification().await
+    {
+        log::info!("Device created: {device_endpoint_client:?}");
 
-                // now we should update the status of the device
-                let mut endpoint_status = Ok(());
-                if !(device_endpoint_client
-                    .specification
-                    .endpoints
-                    .inbound
-                    .endpoint_type
-                    == "rest-thermostat"
-                    || device_endpoint_client
-                        .specification
-                        .endpoints
-                        .inbound
-                        .endpoint_type
-                        == "coap-thermostat")
-                {
-                    // if we don't support the endpoint type, then we can report that error
-                    log::warn!(
-                        "Endpoint '{}' not accepted. Endpoint type '{}' not supported.",
-                        device_endpoint_client.specification.endpoints.inbound.name,
-                        device_endpoint_client
-                            .specification
-                            .endpoints
-                            .inbound
-                            .endpoint_type
-                    );
-                    endpoint_status = Err(azure_device_registry::ConfigError {
-                        message: Some("endpoint type is not supported".to_string()),
-                        ..azure_device_registry::ConfigError::default()
-                    });
-                }
-
-                device_endpoint_client
-                    .report_status(Ok(()), endpoint_status)
-                    .await;
+        // now we should update the status of the device
+        let endpoint_status = match device_endpoint_client
+            .specification
+            .endpoints
+            .inbound
+            .endpoint_type
+            .as_str()
+        {
+            "rest-thermostat" | "coap-thermostat" => Ok(()),
+            unsupported_endpoint_type => {
+                // if we don't support the endpoint type, then we can report that error
+                log::warn!(
+                    "Endpoint '{}' not accepted. Endpoint type '{}' not supported.",
+                    device_endpoint_client.specification.endpoints.inbound.name,
+                    unsupported_endpoint_type
+                );
+                Err(azure_device_registry::ConfigError {
+                    message: Some("endpoint type is not supported".to_string()),
+                    ..azure_device_registry::ConfigError::default()
+                })
             }
-            None => panic!("device_creation_observer has been dropped"),
-        }
+        };
+
+        device_endpoint_client
+            .report_status(Ok(()), endpoint_status)
+            .await;
     }
-    // this loop never ends, so no cleanup is necessary
+    panic!("device_creation_observer has been dropped");
 }
