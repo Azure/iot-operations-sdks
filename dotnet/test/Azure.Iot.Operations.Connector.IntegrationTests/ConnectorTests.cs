@@ -15,9 +15,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             string asset1TelemetryTopic = "/mqtt/machine/asset1/status";
-            string asset2TelemetryTopic = "/mqtt/machine/asset2/status";
             TaskCompletionSource asset1TelemetryReceived = new();
-            TaskCompletionSource asset2TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
                 if (isValidPayload(args.ApplicationMessage.Payload))
@@ -25,10 +23,6 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     if (args.ApplicationMessage.Topic.Equals(asset1TelemetryTopic))
                     {
                         asset1TelemetryReceived.TrySetResult();
-                    }
-                    else if (args.ApplicationMessage.Topic.Equals(asset2TelemetryTopic))
-                    {
-                        asset2TelemetryReceived.TrySetResult();
                     }
                 }
 
@@ -40,14 +34,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 TopicFilters = new()
                 {
                     new(asset1TelemetryTopic),
-                    new(asset2TelemetryTopic),
                 }
             });
 
             try
             {
                 await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
-                await asset2TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
             }
             catch (TimeoutException)
             {
@@ -57,12 +49,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using StateStoreClient stateStoreClient = new(new(), mqttClient);
 
             string expectedStateStoreKey = "SqlServerSampleKey";
-            TaskCompletionSource stateStoreUpdatedByConnectorTcs = new();
+            TaskCompletionSource stateStoreUpdatedByConnectorAsset2Tcs = new();
             stateStoreClient.KeyChangeMessageReceivedAsync += (sender, args) =>
             {
                 if (args.ChangedKey.ToString().Equals(expectedStateStoreKey))
                 {
-                    stateStoreUpdatedByConnectorTcs.TrySetResult();
+                    stateStoreUpdatedByConnectorAsset2Tcs.TrySetResult();
                 }
                 return Task.CompletedTask;
             };
@@ -71,7 +63,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             try
             {
-                await stateStoreUpdatedByConnectorTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                await stateStoreUpdatedByConnectorAsset2Tcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
             }
             catch (TimeoutException)
             {

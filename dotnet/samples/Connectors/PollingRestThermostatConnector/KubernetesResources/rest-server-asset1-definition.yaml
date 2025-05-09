@@ -27,9 +27,6 @@ spec:
         - configuration:
             topic: /mqtt/machine/asset1/status
           target: Mqtt
-        - configuration:
-            key: RestThermostatKey
-          target: BrokerStateStore
   deviceRef:
     deviceName: my-rest-thermostat-device-name
     endpointName: my-rest-thermostat-endpoint-name
