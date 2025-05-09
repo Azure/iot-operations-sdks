@@ -116,11 +116,14 @@ where
                                 azure_device_registry::ErrorKind::AIOProtocolError(_) => {
                                     RetryError::transient(e)
                                 }
+                                // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
+                                azure_device_registry::ErrorKind::ServiceError(_) => {
+                                    RetryError::permanent(e)
+                                }
                                 _ => {
-                                    // ServiceError indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
                                     // InvalidRequestArgument shouldn't be possible since timeout is already validated
                                     // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                    RetryError::permanent(e)
+                                    unreachable!()
                                 }
                             }
                         })
@@ -234,13 +237,13 @@ where
         Ok(DeviceEndpointClient {
             device_name: device.name,
             // TODO: get device_endpoint_credentials_mount_path from connector config
-            specification: DeviceSpecification::try_from(
+            specification: DeviceSpecification::new(
                 device.specification,
                 "/etc/akri/secrets/device_endpoint_auth",
                 &inbound_endpoint_name,
             )?,
             status: device.status.map(|recvd_status| {
-                DeviceEndpointStatus::from(recvd_status, &inbound_endpoint_name)
+                DeviceEndpointStatus::new(recvd_status, &inbound_endpoint_name)
             }),
             inbound_endpoint_name,
             connector_context,
@@ -325,11 +328,14 @@ where
                             azure_device_registry::ErrorKind::AIOProtocolError(_) => {
                                 RetryError::transient(e)
                             }
+                            // indicates an error in the configuration, might be transient in the future depending on what it can indicate
+                            azure_device_registry::ErrorKind::ServiceError(_) => {
+                                RetryError::permanent(e)
+                            }
                             _ => {
-                                // ServiceError indicates an error in the configuration, might be transient in the future depending on what it can indicate
                                 // InvalidRequestArgument shouldn't be possible since timeout is already validated
                                 // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                RetryError::permanent(e)
+                                unreachable!()
                             }
                         }
                     })
@@ -340,7 +346,7 @@ where
             Ok(updated_device) => {
                 // update self with new returned status
                 self.status = updated_device.status.map(|recvd_status| {
-                    DeviceEndpointStatus::from(recvd_status, &self.inbound_endpoint_name)
+                    DeviceEndpointStatus::new(recvd_status, &self.inbound_endpoint_name)
                 });
                 // NOTE: There may be updates present on the device specification, but even if that is the case,
                 // we won't update them here and instead wait for the device update notification (finding out
@@ -589,7 +595,7 @@ pub struct DeviceSpecification {
 }
 
 impl DeviceSpecification {
-    pub(crate) fn try_from(
+    pub(crate) fn new(
         device_specification: azure_device_registry::DeviceSpecification,
         device_endpoint_credentials_mount_path: &str,
         inbound_endpoint_name: &str,
@@ -712,7 +718,7 @@ pub struct DeviceEndpointStatus {
 }
 
 impl DeviceEndpointStatus {
-    pub(crate) fn from(
+    pub(crate) fn new(
         recvd_status: azure_device_registry::DeviceStatus,
         inbound_endpoint_name: &str,
     ) -> Self {
@@ -734,12 +740,15 @@ fn observe_error_into_retry_error(
             // not sure what causes ObservationError yet, so let's treat it as transient for now
             RetryError::transient(e)
         }
+        // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
+        azure_device_registry::ErrorKind::ServiceError(_)
+        // DuplicateObserve indicates an sdk bug where we called observe more than once. Not possible for unobserves.
+        // This should be moved to unreachable!() once we add logic for calling unobserve on deletion
+        | azure_device_registry::ErrorKind::DuplicateObserve(_) => RetryError::permanent(e),
         _ => {
-            // ServiceError indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
             // InvalidRequestArgument shouldn't be possible since timeout is already validated
-            // DuplicateObserve indicates an sdk bug where we called observe more than once
             // ValidationError and ShutdownError aren't possible for this fn to return
-            RetryError::permanent(e)
+            unreachable!()
         }
     }
 }
