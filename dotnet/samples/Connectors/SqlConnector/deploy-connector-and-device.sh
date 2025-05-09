@@ -15,3 +15,5 @@ kubectl apply -f ./KubernetesResources/connector-template.yaml
 # Deploy device and its lone asset
 kubectl apply -f ./KubernetesResources/sql-server-device-definition.yaml
 kubectl apply -f ./KubernetesResources/sql-server-asset-definition.yaml
+
+sleep 240 # Timing issue?
