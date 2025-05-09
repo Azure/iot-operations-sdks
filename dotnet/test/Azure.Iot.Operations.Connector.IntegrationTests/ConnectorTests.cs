@@ -53,6 +53,30 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for polling telemetry connector telemetry to reach MQTT broker. This likely means the connector did not deploy successfully");
             }
+
+            await using StateStoreClient stateStoreClient = new(new(), mqttClient);
+
+            string expectedStateStoreKey = "SqlServerSampleKey";
+            TaskCompletionSource stateStoreUpdatedByConnectorTcs = new();
+            stateStoreClient.KeyChangeMessageReceivedAsync += (sender, args) =>
+            {
+                if (args.ChangedKey.ToString().Equals(expectedStateStoreKey))
+                {
+                    stateStoreUpdatedByConnectorTcs.TrySetResult();
+                }
+                return Task.CompletedTask;
+            };
+
+            await stateStoreClient.ObserveAsync(expectedStateStoreKey);
+
+            try
+            {
+                await stateStoreUpdatedByConnectorTcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for polling telemetry connector to push expected data to DSS. This likely means the connector did not deploy successfully");
+            }
         }
 
         [Fact]
@@ -99,7 +123,6 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         {
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using StateStoreClient stateStoreClient = new(new(), mqttClient);
-
 
             string expectedStateStoreKey = "SqlServerSampleKey";
             TaskCompletionSource stateStoreUpdatedByConnectorTcs = new();
