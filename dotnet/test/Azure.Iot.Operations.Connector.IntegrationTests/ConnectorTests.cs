@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         }
 
 
-        [Fact]
+        [Fact (Skip = "SQL server deployment is flakey, so this test is flakey")]
         public async Task TestDeployedSqlConnector()
         {
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
