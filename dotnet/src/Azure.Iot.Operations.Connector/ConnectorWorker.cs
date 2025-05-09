@@ -327,11 +327,6 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        public void ReportStatus()
-        {
-            _assetMonitor.Upd
-        }
-
         public async Task ForwardReceivedEventAsync(Asset asset, AssetEventSchemaElement assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
