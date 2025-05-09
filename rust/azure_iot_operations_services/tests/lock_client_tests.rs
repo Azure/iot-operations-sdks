@@ -119,7 +119,7 @@ async fn lock_single_holder_do_lock_and_unlock_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let shared_resource_key_name = format!("{test_id}-key");
 
-    let (session1, state_store_client1, lease_client1, mut lock_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
     let test_task1 = tokio::task::spawn({
@@ -190,7 +190,7 @@ async fn lock_single_holder_do_lock_with_auto_renewal_network_tests() {
     let lock_name1 = format!("{test_id}-lock");
     let holder_name1 = format!("{test_id}1");
 
-    let (session1, state_store_client1, _lease_client1, mut lock_client1, exit_handle1) =
+    let (session1, state_store_client1, _lease_client1, lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
     let test_task1 = tokio::task::spawn({
@@ -245,10 +245,10 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_release_ne
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, mut lock_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (session2, state_store_client2, lease_client2, mut lock_client2, exit_handle2) =
+    let (session2, state_store_client2, lease_client2, lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1.clone());
 
     let test_task1 = tokio::task::spawn({
@@ -362,10 +362,10 @@ async fn lock_two_holders_attempt_to_acquire_lock_simultaneously_with_expiration
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, lease_client1, mut lock_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, lock_client1, exit_handle1) =
         initialize_client(&holder_name1, &lock_name1.clone());
 
-    let (session2, state_store_client2, lease_client2, mut lock_client2, exit_handle2) =
+    let (session2, state_store_client2, lease_client2, lock_client2, exit_handle2) =
         initialize_client(&holder_name2, &lock_name1.clone());
 
     let test_task1 = tokio::task::spawn({

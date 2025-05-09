@@ -108,7 +108,7 @@ fn create_clients(
 /// 3. Releases a lock.
 async fn lock_client_1_operations(
     state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
-    mut lock_client: lock::Client<SessionManagedClient>,
+    lock_client: lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let lock_expiry = Duration::from_secs(10);
@@ -183,7 +183,7 @@ async fn lock_client_1_operations(
 /// 6. Releases the lock.
 async fn lock_client_2_operations(
     state_store_client_arc: Arc<state_store::Client<SessionManagedClient>>,
-    mut lock_client: lock::Client<SessionManagedClient>,
+    lock_client: lock::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
     let lock_expiry = Duration::from_secs(10);

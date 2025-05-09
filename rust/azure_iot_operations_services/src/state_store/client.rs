@@ -192,9 +192,9 @@ where
     ///
     /// Returns `true` if the `Set` completed successfully, or `false` if the `Set` did not occur because of values specified in `SetOptions`
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
-    ///
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
+    /// - the `key` is empty
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -253,9 +253,9 @@ where
     ///
     /// Returns `Some(<value of the key>)` if the key is found or `None` if the key was not found
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
-    ///
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
+    /// - the `key` is empty
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -299,9 +299,9 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, otherwise `1`
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
-    ///
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
+    /// - the `key` is empty
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -335,9 +335,9 @@ where
     ///
     /// Returns the number of keys deleted. Will be `0` if the key was not found, `-1` if the value did not match, otherwise `1`
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `key` is empty
-    ///
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout` is zero or > `u32::max`
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
+    /// - the `key` is empty
+    /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
@@ -446,10 +446,8 @@ where
     /// </div>
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
     /// - the `key` is empty
-    ///
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`DuplicateObserve`](ErrorKind::DuplicateObserve) if
@@ -508,10 +506,8 @@ where
     ///
     /// Returns `true` if the key is no longer being observed or `false` if the key wasn't being observed
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
     /// - the `key` is empty
-    ///
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if
     /// - the `timeout` is zero or > `u32::max`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if

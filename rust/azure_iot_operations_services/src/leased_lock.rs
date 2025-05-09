@@ -67,8 +67,8 @@ pub enum ErrorKind {
     /// The payload of the response does not match the expected type for the request.
     #[error("Unexpected response payload for the request type: {0}")]
     UnexpectedPayload(String),
-    /// A lock may only have one [`LeaseObservation`] at a time.
-    #[error("lock may only be observed once at a time")]
+    /// A lease may only have one [`LeaseObservation`] at a time.
+    #[error("lease may only be observed once at a time")]
     DuplicateObserve,
 }
 

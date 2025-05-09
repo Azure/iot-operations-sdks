@@ -74,7 +74,7 @@ where
     /// If lock auto-renewal is used, an auto-renewal task is spawned.
     /// To terminate this task and stop the lock auto-renewal, `lock::Client::unlock()` must be called.
     /// Simply dropping the `lock::Client` instance will not terminate the auto-renewal task.
-    /// This logic is intended for a scenario where the `lock::Client` is cloned and a lease is acquired with auto-renewal by the original instance.
+    /// This logic is intended for a scenario where the `lock::Client` is cloned and a lock is acquired with auto-renewal by the original instance.
     /// If the original instance is dropped, its clone remains in control of the lock (through the auto-renewal task that remains active).
     /// Special attention must be used to avoid a memory leak if `lock::Client::unlock()` is never called in this scenario.
     ///
@@ -89,7 +89,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from the command invoker
     pub async fn lock(
-        &mut self,
+        &self,
         lock_expiration: Duration,
         request_timeout: Duration,
         renewal_period: Option<Duration>,
