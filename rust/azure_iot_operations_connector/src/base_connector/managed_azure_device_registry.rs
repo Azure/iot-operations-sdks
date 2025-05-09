@@ -482,12 +482,15 @@ where
                                 azure_device_registry::ErrorKind::AIOProtocolError(_) => {
                                     RetryError::transient(e)
                                 }
+                                // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
+                                azure_device_registry::ErrorKind::ServiceError(_) => {
+                                    RetryError::permanent(e)
+                                }
                                 _ => {
-                                    // ServiceError indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
                                     // InvalidRequestArgument shouldn't be possible since timeout is already validated
                                     // ValidationError shouldn't be possible since we shouldn't receive a notification with an empty asset name
                                     // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                    RetryError::permanent(e)
+                                    unreachable!()
                                 }
                             }
                         })
@@ -586,7 +589,7 @@ where
         let status = Arc::new(RwLock::new(asset.status));
         AssetClient {
             name: asset.name,
-            specification: AssetSpecification::from(
+            specification: AssetSpecification::new(
                 asset.specification,
                 status.clone(),
                 &connector_context,
@@ -632,12 +635,15 @@ where
                             azure_device_registry::ErrorKind::AIOProtocolError(_) => {
                                 RetryError::transient(e)
                             }
+                            // indicates an error in the configuration, might be transient in the future depending on what it can indicate
+                            azure_device_registry::ErrorKind::ServiceError(_) => {
+                                RetryError::permanent(e)
+                            }
                             _ => {
-                                // ServiceError indicates an error in the configuration, might be transient in the future depending on what it can indicate
                                 // InvalidRequestArgument shouldn't be possible since timeout is already validated
                                 // ValidationError shouldn't be possible since we shouldn't have an asset with an empty asset name
                                 // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                RetryError::permanent(e)
+                                unreachable!()
                             }
                         }
                     })
@@ -997,7 +1003,7 @@ impl<T> AssetSpecification<T>
 where
     T: DataTransformer,
 {
-    pub(crate) fn from(
+    pub(crate) fn new(
         asset_specification: azure_device_registry::AssetSpecification,
         status: Arc<RwLock<Option<AssetStatus>>>,
         connector_context: &Arc<ConnectorContext<T>>,
