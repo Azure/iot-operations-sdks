@@ -1,0 +1,31 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorTemplate
+metadata:
+  name: base-connector-template
+  namespace: azure-iot-operations
+spec:
+  version: "1.0"
+  aioMetadata:
+    aioMaxVersion: "3.0"
+    aioMinVersion: "0.0"
+  diagnostics:
+    logs:
+      level: "info"
+  deviceInboundEndpointTypes:
+  - endpointType: rest-thermostat
+    version: "0.0.1"
+  runtimeConfiguration:
+    runtimeConfigurationType: managedConfiguration
+    managedConfigurationSettings:
+      managedConfigurationType: imageConfiguration
+      imageConfigurationSettings:
+        imageName: "baseconnector"
+        imagePullPolicy: Never # This sample image is built locally, so no need to pull
+        replicas: 1
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "latest"
+  mqttConnectionConfiguration:
+    host: "aio-broker:1883"
+    tls:
+      mode: Disabled
