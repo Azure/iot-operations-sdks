@@ -112,7 +112,7 @@ async fn lease_single_holder_acquires_a_lease_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let key_name1 = format!("{test_id}-leased-key");
 
-    let (session, state_store_client, mut lease_client, exit_handle) =
+    let (session, state_store_client, lease_client, exit_handle) =
         initialize_client(&holder_name1, &key_name1);
 
     let test_task = tokio::task::spawn({
@@ -167,10 +167,10 @@ async fn lease_two_holders_attempt_to_acquire_with_release_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
-    let (session2, state_store_client2, mut lease_client2, exit_handle2) =
+    let (session2, state_store_client2, lease_client2, exit_handle2) =
         initialize_client(&holder_name2, &key_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -274,10 +274,10 @@ async fn lease_two_holders_attempt_to_acquire_first_renews_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
-    let (session2, state_store_client2, mut lease_client2, exit_handle2) =
+    let (session2, state_store_client2, lease_client2, exit_handle2) =
         initialize_client(&holder_name2, &key_name1);
 
     let task1_notify = Arc::new(Notify::new());
@@ -389,10 +389,10 @@ async fn lease_second_holder_acquires_non_released_expired_lease_network_tests()
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
-    let (session2, state_store_client2, mut lease_client2, exit_handle2) =
+    let (session2, state_store_client2, lease_client2, exit_handle2) =
         initialize_client(&holder_name2, &key_name1);
 
     let test_task1 = tokio::task::spawn({
@@ -457,7 +457,7 @@ async fn lease_second_holder_observes_until_lease_is_released_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
     let (session2, state_store_client2, lease_client2, exit_handle2) =
@@ -591,7 +591,7 @@ async fn lease_second_holder_observes_until_lease_expires_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let holder_name2 = format!("{test_id}2");
 
-    let (session1, state_store_client1, mut lease_client1, exit_handle1) =
+    let (session1, state_store_client1, lease_client1, exit_handle1) =
         initialize_client(&holder_name1, &key_name1.clone());
 
     let (session2, state_store_client2, lease_client2, exit_handle2) =
@@ -667,7 +667,7 @@ async fn lease_attempt_to_release_twice_network_tests() {
         return;
     }
 
-    let (session, state_store_client, mut lease_client, exit_handle) =
+    let (session, state_store_client, lease_client, exit_handle) =
         initialize_client(&format!("{test_id}1"), &format!("{test_id}-leased-key"));
 
     let test_task = tokio::task::spawn({
@@ -758,7 +758,7 @@ async fn lease_single_holder_acquires_a_lease_with_auto_renewal_network_tests() 
     let holder_name1 = format!("{test_id}1");
     let key_name1 = format!("{test_id}-leased-key");
 
-    let (session, state_store_client, mut lease_client, exit_handle) =
+    let (session, state_store_client, lease_client, exit_handle) =
         initialize_client(&holder_name1, &key_name1);
 
     let test_task = tokio::task::spawn({
@@ -835,7 +835,7 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
     let holder_name1 = format!("{test_id}1");
     let key_name1 = format!("{test_id}-leased-key");
 
-    let (session, state_store_client, mut lease_client, exit_handle) =
+    let (session, state_store_client, lease_client, exit_handle) =
         initialize_client(&holder_name1, &key_name1);
 
     let test_task = tokio::task::spawn({
@@ -918,7 +918,7 @@ async fn lease_acquire_with_auto_renewal_and_client_cloning_network_tests() {
     let holder_name1 = format!("{test_id}1");
     let key_name1 = format!("{test_id}-leased-key");
 
-    let (session, state_store_client, mut lease_client, exit_handle) =
+    let (session, state_store_client, lease_client, exit_handle) =
         initialize_client(&holder_name1, &key_name1);
 
     let lease_client_clone = lease_client.clone();

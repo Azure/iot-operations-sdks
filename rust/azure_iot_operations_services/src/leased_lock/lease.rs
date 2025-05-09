@@ -148,7 +148,7 @@ where
     ///
     /// [`struct@Error`] of kind [`MissingFencingToken`](ErrorKind::MissingFencingToken) if the fencing token in the service response is empty.
     pub async fn acquire(
-        &mut self,
+        &self,
         lease_expiration: Duration,
         request_timeout: Duration,
         renewal_period: Option<Duration>,
