@@ -5,8 +5,7 @@
 
 use std::{sync::Arc, sync::Mutex, time::Duration};
 
-use tokio::select;
-use tokio_util::sync::CancellationToken;
+use tokio::{select, sync::Notify};
 
 use crate::leased_lock::{Error, ErrorKind, LeaseObservation, SetCondition, SetOptions};
 use crate::state_store;
@@ -24,17 +23,7 @@ where
     lease_name: Vec<u8>,
     lease_holder_name: Vec<u8>,
     current_fencing_token: Arc<Mutex<Option<HybridLogicalClock>>>,
-    auto_renewal_cancellation_token: CancellationToken,
-}
-
-impl<C> Drop for Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync,
-    C::PubReceiver: Send + Sync,
-{
-    fn drop(&mut self) {
-        self.auto_renewal_cancellation_token.cancel();
-    }
+    auto_renewal_notify: Arc<Notify>,
 }
 
 /// Lease client implementation
@@ -77,7 +66,7 @@ where
             lease_name,
             lease_holder_name,
             current_fencing_token: Arc::new(Mutex::new(None)),
-            auto_renewal_cancellation_token: CancellationToken::new(),
+            auto_renewal_notify: Arc::new(Notify::new()),
         })
     }
 
@@ -137,6 +126,14 @@ where
     /// `request_timeout` is the maximum time the function will wait for receiving a response from the State Store service, it is rounded up to the nearest second.
     /// `renewal_period` is the frequency with which the lease will be auto-renewed by the lease client if acquired successfully. `None` (or zero) indicates the lease should not be auto-renewed.
     ///
+    /// Note:
+    /// If lease auto-renewal is used when acquiring a lease, an auto-renewal task is spawned.
+    /// To terminate this task and stop the lease auto-renewal, `lease::Client::release()` must be called.
+    /// Simply dropping the `lease::Client` instance will not terminate the auto-renewal task.
+    /// This logic is intended for a scenario where the `lease::Client` is cloned and a lease is acquired with auto-renewal by the original instance.
+    /// If the original instance is dropped, its clone remains in control of the lease (through the auto-renewal task that remains active).
+    /// Special attention must be used to avoid a memory leak if `lease::Client::release()` is never called in this scenario.
+    ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or `Error` if lease is not acquired.
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
@@ -163,7 +160,7 @@ where
         }
 
         // Stop auto-renewal.
-        self.auto_renewal_cancellation_token.cancel();
+        self.auto_renewal_notify.notify_waiters();
 
         let acquire_result = self
             .internal_acquire(lease_expiration, request_timeout)
@@ -171,14 +168,13 @@ where
 
         if let Some(renewal_period) = renewal_period {
             if renewal_period > Duration::ZERO {
-                self.auto_renewal_cancellation_token = CancellationToken::new();
                 let self_clone = self.clone();
 
                 tokio::task::spawn({
                     async move {
                         loop {
                             select! {
-                                () = self_clone.auto_renewal_cancellation_token.cancelled() => {
+                                () = self_clone.auto_renewal_notify.notified() => {
                                     break; // Auto-renewal is cancelled.
                                 }
                                 () = tokio::time::sleep(renewal_period) => {
@@ -208,7 +204,7 @@ where
     /// Returns `Ok()` if lease is no longer held by this `lease_holder`, or `Error` otherwise.
     ///
     /// Even if this method fails the current fencing token (obtained by calling `current_lease_fencing_token()`) is cleared
-    /// and the auto-renewal task is cancelled (if the lease was acquired using auto-renewal).
+    /// and the auto-renewal task is terminated (if the lease was acquired using auto-renewal).
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `request_timeout` is zero or > `u32::max`
@@ -223,7 +219,7 @@ where
     /// If the lock on the `current_fencing_token` is poisoned, which should not be possible.
     pub async fn release(&self, request_timeout: Duration) -> Result<(), Error> {
         // Stop auto-renewal.
-        self.auto_renewal_cancellation_token.cancel();
+        self.auto_renewal_notify.notify_waiters();
 
         *self.current_fencing_token.lock().unwrap() = None;
 

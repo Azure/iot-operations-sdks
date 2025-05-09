@@ -11,6 +11,7 @@ use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 
 /// Lock client struct.
+#[derive(Clone)]
 pub struct Client<C>
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -67,7 +68,16 @@ where
     /// If automatic lock renewal is used, `current_lock_fencing_token()` must be used to access the most up-to-date
     /// fencing token (see function documentation).
     ///
-    /// Note: `request_timeout` is rounded up to the nearest second.
+    /// Notes:
+    /// `request_timeout` is rounded up to the nearest second.
+    ///
+    /// If lock auto-renewal is used, an auto-renewal task is spawned.
+    /// To terminate this task and stop the lock auto-renewal, `lock::Client::unlock()` must be called.
+    /// Simply dropping the `lock::Client` instance will not terminate the auto-renewal task.
+    /// This logic is intended for a scenario where the `lock::Client` is cloned and a lease is acquired with auto-renewal by the original instance.
+    /// If the original instance is dropped, its clone remains in control of the lock (through the auto-renewal task that remains active).
+    /// Special attention must be used to avoid a memory leak if `lock::Client::unlock()` is never called in this scenario.
+    ///
     ///
     /// Returns Ok with a fencing token (`HybridLogicalClock`) if completed successfully, or an `Error` if any failure occurs.
     /// # Errors

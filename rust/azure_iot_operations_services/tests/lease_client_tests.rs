@@ -907,3 +907,70 @@ async fn lease_single_holder_acquires_with_and_without_auto_renewal_network_test
         .is_ok()
     );
 }
+
+#[tokio::test]
+async fn lease_acquire_with_auto_renewal_and_client_cloning_network_tests() {
+    let test_id = "lease_acquire_with_auto_renewal_and_client_cloning_network_tests";
+    if !setup_test(test_id) {
+        return;
+    }
+
+    let holder_name1 = format!("{test_id}1");
+    let key_name1 = format!("{test_id}-leased-key");
+
+    let (session, state_store_client, mut lease_client, exit_handle) =
+        initialize_client(&holder_name1, &key_name1);
+
+    let lease_client_clone = lease_client.clone();
+
+    let task1_notify = Arc::new(Notify::new());
+    let task2_notify = task1_notify.clone();
+
+    let test_task1 = tokio::task::spawn({
+        async move {
+            let lock_expiry = Duration::from_secs(3);
+            let request_timeout = Duration::from_secs(5);
+            let renewal_period = Duration::from_secs(2);
+
+            assert!(
+                lease_client
+                    .acquire(lock_expiry, request_timeout, Some(renewal_period))
+                    .await
+                    .is_ok()
+            );
+
+            task1_notify.notify_one();
+            task1_notify.notified().await;
+
+            assert!(lease_client.current_lease_fencing_token().is_none()); // I.e, the lease is released.
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    let test_task2 = tokio::task::spawn({
+        async move {
+            let request_timeout = Duration::from_secs(5);
+
+            task2_notify.notified().await;
+
+            assert!(lease_client_clone.release(request_timeout).await.is_ok());
+
+            task2_notify.notify_one();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task1.await.map_err(|e| { e.to_string() }) },
+            async move { test_task2.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}

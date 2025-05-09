@@ -210,7 +210,9 @@ where
         options: SetOptions,
     ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "key is empty".to_string(),
+            )));
         }
         let mut request_builder = rpc_command::invoker::RequestBuilder::default();
         request_builder
@@ -266,7 +268,9 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<Option<Vec<u8>>>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "key is empty".to_string(),
+            )));
         }
         let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Get { key })
@@ -311,7 +315,9 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "key is empty".to_string(),
+            )));
         }
         self.del_internal(
             state_store::resp3::Request::Del { key },
@@ -346,7 +352,9 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<i64>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "key is empty".to_string(),
+            )));
         }
         self.del_internal(
             state_store::resp3::Request::VDel { key, value },
@@ -459,7 +467,9 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<KeyObservation>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "key is empty".to_string(),
+            )));
         }
 
         // add to observed keys before sending command to prevent missing any notifications.
@@ -516,7 +526,9 @@ where
         timeout: Duration,
     ) -> Result<state_store::Response<bool>, Error> {
         if key.is_empty() {
-            return Err(Error(ErrorKind::InvalidArgument("key is empty".to_string())));
+            return Err(Error(ErrorKind::InvalidArgument(
+                "key is empty".to_string(),
+            )));
         }
         // Send invoke request for unobserve
         let request = rpc_command::invoker::RequestBuilder::default()
