@@ -111,9 +111,9 @@ namespace Azure.Iot.Operations.Connector
                 mqttConnectionSettings!.ClientId += Guid.NewGuid().ToString();
             }
 
-            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings!.ToString()); //TODO revert
+            _logger.LogInformation("Connecting to MQTT broker");
 
-            await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
+            await _mqttClient.ConnectAsync(mqttConnectionSettings!, cancellationToken);
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings.ClientId)
+                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings!.ClientId)
                         {
                             AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -277,6 +277,12 @@ namespace Azure.Iot.Operations.Connector
                         mqttMessage.Retain = retain == Retain.Keep;
                     }
 
+                    ulong? ttl = destination.Configuration.Ttl;
+                    if (ttl != null)
+                    {
+                        mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
+                    }
+
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
                     if (puback.ReasonCode == MqttClientPublishReasonCode.Success
@@ -297,15 +303,7 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    ulong? ttl = destination.Configuration.Ttl;
-                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
-                    if (ttl != null)
-                    {
-                        //TODO ttl is in seconds? milliseconds?
-                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
-                    }
-
-                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
+                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
 
                     if (response.Success)
                     {
