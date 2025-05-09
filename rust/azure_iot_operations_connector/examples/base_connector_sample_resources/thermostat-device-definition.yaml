@@ -12,12 +12,12 @@ spec:
     inbound:
       my-rest-endpoint:
         additionalConfiguration: '{"key1": "value1", "nested": {"key2": 2}}'
-        address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
+        address: http://some.address:80
         authentication:
           method: Anonymous
         endpointType: rest-thermostat
       my-coap-endpoint:
-        address: coap://thermostat.local/temp
+        address: coap://some.address/temp
         authentication:
           method: Anonymous
         endpointType: coap-thermostat

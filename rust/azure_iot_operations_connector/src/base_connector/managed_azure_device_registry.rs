@@ -10,7 +10,7 @@ use azure_iot_operations_services::azure_device_registry::{
     self, Asset, AssetUpdateObservation, ConfigError, Dataset, Device, DeviceUpdateObservation,
     MessageSchemaReference,
 };
-use tokio_retry2::{Retry, RetryError, strategy::ExponentialBackoff};
+use tokio_retry2::{Retry, RetryError};
 
 use crate::{
     Data, MessageSchema,
@@ -21,6 +21,10 @@ use crate::{
         AssetCreateObservation, AssetDeletionToken, DeviceEndpointCreateObservation,
     },
 };
+
+/// Used as the strategy when using [`tokio_retry2::Retry`]
+const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialBackoff =
+    tokio_retry2::strategy::ExponentialBackoff::from_millis(100);
 
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full information for a
@@ -44,10 +48,11 @@ where
         }
     }
 
-    /// Receives a notification for a newly created device endpoint. This notification includes
-    /// the [`DeviceEndpointClient`], a [`DeviceEndpointClientUpdateObservation`] to observe for updates on
-    /// the new Device, and a [`AssetClientCreationObservation`] to observe for newly created
-    /// Assets related to this Device
+    /// Receives a notification for a newly created device endpoint or [`None`]
+    /// if there will be no more notifications. This notification includes the
+    /// [`DeviceEndpointClient`], a [`DeviceEndpointClientUpdateObservation`]
+    /// to observe for updates on the new Device, and a [`AssetClientCreationObservation`]
+    ///  to observe for newly created Assets related to this Device
     pub async fn recv_notification(
         &mut self,
     ) -> Option<(
@@ -69,7 +74,7 @@ where
             };
 
             // and then get device update observation as well and turn it into a DeviceEndpointClientUpdateObservation
-            let device_endpoint_client_update_observation =  match Retry::spawn(ExponentialBackoff::from_millis(100), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY, async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -94,32 +99,35 @@ where
             };
 
             // get the device definition
-            let device =  match Retry::spawn(ExponentialBackoff::from_millis(100), async || -> Result<Device, RetryError<azure_device_registry::Error>> {
-                match self.connector_context
-                    .azure_device_registry_client
-                    .get_device(
-                        device_endpoint_ref.device_name.clone(),
-                        device_endpoint_ref.inbound_endpoint_name.clone(),
-                        self.connector_context.default_timeout,
-                    )
-                    .await {
-                        Ok(device) => Ok(device),
-                        Err(e) => match e.kind() {
-                            // network/retriable
-                            azure_device_registry::ErrorKind::AIOProtocolError(_) =>  {
-                                Err(RetryError::transient(e))
-                            },
-                            // config
-                            azure_device_registry::ErrorKind::ServiceError(_) | // treat this as permanent because we want a new notification
-                            // should indicate a bug
-                            azure_device_registry::ErrorKind::InvalidRequestArgument(_) | // indicates invalid timeout, should already be validated
-                            // not possible for this fn to return
-                            azure_device_registry::ErrorKind::ValidationError(_) | azure_device_registry::ErrorKind::ObservationError | azure_device_registry::ErrorKind::DuplicateObserve(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
-                                Err(RetryError::permanent(e))
+            let device = match Retry::spawn(
+                RETRY_STRATEGY,
+                async || -> Result<Device, RetryError<azure_device_registry::Error>> {
+                    self.connector_context
+                        .azure_device_registry_client
+                        .get_device(
+                            device_endpoint_ref.device_name.clone(),
+                            device_endpoint_ref.inbound_endpoint_name.clone(),
+                            self.connector_context.default_timeout,
+                        )
+                        .await
+                        .map_err(|e| {
+                            match e.kind() {
+                                // network/retriable
+                                azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                    RetryError::transient(e)
+                                }
+                                _ => {
+                                    // ServiceError indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
+                                    // InvalidRequestArgument shouldn't be possible since timeout is already validated
+                                    // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
+                                    RetryError::permanent(e)
+                                }
                             }
-                        },
-                    }
-            }).await {
+                        })
+                },
+            )
+            .await
+            {
                 Ok(device) => device,
                 Err(e) => {
                     log::error!("Failed to get Device definition after retries: {e}");
@@ -127,17 +135,23 @@ where
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}"
                     );
                     // unobserve as cleanup
-                    let _ =  Retry::spawn(ExponentialBackoff::from_millis(100), async || -> Result<(), RetryError<azure_device_registry::Error>> {
-                        self.connector_context
-                            .azure_device_registry_client
-                            .unobserve_device_update_notifications(
-                                device_endpoint_ref.device_name.clone(),
-                                device_endpoint_ref.inbound_endpoint_name.clone(),
-                                self.connector_context.default_timeout,
-                            )
-                            // retry on network errors, otherwise don't retry on config/dev errors
-                            .await.map_err(observe_error_into_retry_error)
-                    }).await.inspect_err(|e| {
+                    let _ = Retry::spawn(
+                        RETRY_STRATEGY,
+                        async || -> Result<(), RetryError<azure_device_registry::Error>> {
+                            self.connector_context
+                                .azure_device_registry_client
+                                .unobserve_device_update_notifications(
+                                    device_endpoint_ref.device_name.clone(),
+                                    device_endpoint_ref.inbound_endpoint_name.clone(),
+                                    self.connector_context.default_timeout,
+                                )
+                                // retry on network errors, otherwise don't retry on config/dev errors
+                                .await
+                                .map_err(observe_error_into_retry_error)
+                        },
+                    )
+                    .await
+                    .inspect_err(|e| {
                         log::error!(
                             "Failed to unobserve device update notifications after retries: {e}"
                         );
@@ -162,7 +176,7 @@ where
                     );
                     // unobserve
                     let _ = Retry::spawn(
-                        ExponentialBackoff::from_millis(100),
+                        RETRY_STRATEGY,
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -293,42 +307,45 @@ where
         adr_device_status: azure_device_registry::DeviceStatus,
     ) {
         // send status update to the service
-        match Retry::spawn(ExponentialBackoff::from_millis(100), async || -> Result<Device, RetryError<azure_device_registry::Error>> {
-            match self.connector_context
-                .azure_device_registry_client
-                .update_device_plus_endpoint_status(
-                    self.device_name.clone(),
-                    self.inbound_endpoint_name.clone(),
-                    adr_device_status.clone(),
-                    self.connector_context.default_timeout,
-                )
-                .await {
-                    Ok(device) => Ok(device),
-                    Err(e) => match e.kind() {
-                        // network/retriable
-                        azure_device_registry::ErrorKind::AIOProtocolError(_) =>  {
-                            Err(RetryError::transient(e))
-                        },
-                        // config
-                        azure_device_registry::ErrorKind::ServiceError(_) | // may be transient in the future depending on what can be returned here
-                        // should indicate a bug
-                        azure_device_registry::ErrorKind::InvalidRequestArgument(_) | // indicates invalid timeout, should already be validated
-                        // not possible for this fn to return
-                        azure_device_registry::ErrorKind::ValidationError(_) | azure_device_registry::ErrorKind::ObservationError | azure_device_registry::ErrorKind::DuplicateObserve(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
-                            Err(RetryError::permanent(e))
+        match Retry::spawn(
+            RETRY_STRATEGY,
+            async || -> Result<Device, RetryError<azure_device_registry::Error>> {
+                self.connector_context
+                    .azure_device_registry_client
+                    .update_device_plus_endpoint_status(
+                        self.device_name.clone(),
+                        self.inbound_endpoint_name.clone(),
+                        adr_device_status.clone(),
+                        self.connector_context.default_timeout,
+                    )
+                    .await
+                    .map_err(|e| {
+                        match e.kind() {
+                            // network/retriable
+                            azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                RetryError::transient(e)
+                            }
+                            _ => {
+                                // ServiceError indicates an error in the configuration, might be transient in the future depending on what it can indicate
+                                // InvalidRequestArgument shouldn't be possible since timeout is already validated
+                                // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
+                                RetryError::permanent(e)
+                            }
                         }
-                    },
-                }
-        }).await {
+                    })
+            },
+        )
+        .await
+        {
             Ok(updated_device) => {
-                // update self with new returned statu
+                // update self with new returned status
                 self.status = updated_device.status.map(|recvd_status| {
                     DeviceEndpointStatus::from(recvd_status, &self.inbound_endpoint_name)
                 });
                 // NOTE: There may be updates present on the device specification, but even if that is the case,
                 // we won't update them here and instead wait for the device update notification (finding out
                 // first here is a race condition, the update will always be received imminently)
-            },
+            }
             Err(e) => {
                 // TODO: return an error for this scenario? Largely shouldn't be possible
                 log::error!("Failed to Update Device Status: {e}");
@@ -394,9 +411,10 @@ impl<T> AssetClientCreationObservation<T>
 where
     T: DataTransformer,
 {
-    /// Receives a notification for a newly created asset. This notification includes
-    /// the [`AssetClient`], a [`AssetClientUpdateObservation`] to observe for updates on
-    /// the new Asset, and a [`AssetDeletionToken`] to observe for deletion of this Asset
+    /// Receives a notification for a newly created asset or [`None`] if there
+    /// will be no more notifications. This notification includes the [`AssetClient`],
+    /// a [`AssetClientUpdateObservation`] to observe for updates on the new Asset,
+    /// and a [`AssetDeletionToken`] to observe for deletion of this Asset
     #[allow(clippy::unused_async)]
     pub async fn recv_notification(
         &self,
@@ -711,16 +729,16 @@ fn observe_error_into_retry_error(
 ) -> RetryError<azure_device_registry::Error> {
     match e.kind() {
         // network/retriable
-        azure_device_registry::ErrorKind::AIOProtocolError(_) | azure_device_registry::ErrorKind::ObservationError =>  { // not sure what causes ObservationError yet, so let's treat it as transient for now
+        azure_device_registry::ErrorKind::AIOProtocolError(_)
+        | azure_device_registry::ErrorKind::ObservationError => {
+            // not sure what causes ObservationError yet, so let's treat it as transient for now
             RetryError::transient(e)
-        },
-        // config
-        azure_device_registry::ErrorKind::ServiceError(_) | // treat this as permanent because we want a new notification
-        // should indicate a bug
-        azure_device_registry::ErrorKind::InvalidRequestArgument(_) | // indicates invalid timeout, should already be validated
-        azure_device_registry::ErrorKind::DuplicateObserve(_) | // indicates a bug with us calling observe more than once
-        // not possible for this fn to return
-        azure_device_registry::ErrorKind::ValidationError(_) | azure_device_registry::ErrorKind::ShutdownError(_) => {
+        }
+        _ => {
+            // ServiceError indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
+            // InvalidRequestArgument shouldn't be possible since timeout is already validated
+            // DuplicateObserve indicates an sdk bug where we called observe more than once
+            // ValidationError and ShutdownError aren't possible for this fn to return
             RetryError::permanent(e)
         }
     }
