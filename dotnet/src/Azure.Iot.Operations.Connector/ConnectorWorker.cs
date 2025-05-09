@@ -318,10 +318,6 @@ namespace Azure.Iot.Operations.Connector
                 {
                     throw new NotImplementedException();
                 }
-                else
-                {
-                    // Asset is red, unknown destination configured
-                }
             }
         }
 

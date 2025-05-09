@@ -51,11 +51,10 @@ namespace SqlQualityAnalyzerConnectorApp
                 // Option 1: Get the data joining tables
                 // Option 2: Get the data from each table by doing multiple queries and join them in the code
                 List<QualityAnalyzerData> qualityAnalyzerDataList = new List<QualityAnalyzerData>();
-                using SqlConnection connection = new SqlConnection(_fullConnectionString);
-                try
+                using (SqlConnection connection = new SqlConnection(_fullConnectionString))
                 {
                     await connection.OpenAsync();
-
+                    
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
@@ -77,13 +76,8 @@ namespace SqlQualityAnalyzerConnectorApp
                             }
                         }
                     }
-                    return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(qualityAnalyzerDataList));
                 }
-                catch (Exception)
-                {
-                    await connection.CloseAsync();
-                    throw;
-                }
+                return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(qualityAnalyzerDataList));
             }
             catch (Exception ex)
             {
