@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_services::azure_device_registry;
+use azure_iot_operations_services::{azure_device_registry, schema_registry};
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
 use crate::{
@@ -33,7 +33,7 @@ pub(crate) struct ConnectorContext<T: DataTransformer> {
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     data_transformer: T,
     // state_store_client: Arc<state_store::Client<SessionManagedClient>>,
-    // schema_registry_client: schema_registry::Client<SessionManagedClient>,
+    schema_registry_client: schema_registry::Client<SessionManagedClient>,
     // etc
 }
 
@@ -68,42 +68,55 @@ where
     #[must_use]
     pub fn new(application_context: ApplicationContext, data_transformer: T) -> Self {
         // if any of these operations fail, wait and try again in case connector configuration has changed
-        let (connector_config, azure_device_registry_client, session) = operation_with_retries::<
-            (
-                ConnectorConfiguration,
-                azure_device_registry::Client<SessionManagedClient>,
-                Session,
-            ),
-            String,
-        >(|| {
-            // Get Connector Configuration
-            let connector_config =
-                ConnectorConfiguration::new_from_deployment().map_err(|e| e.to_string())?;
+        let (connector_config, azure_device_registry_client, schema_registry_client, session) =
+            operation_with_retries::<
+                (
+                    ConnectorConfiguration,
+                    azure_device_registry::Client<SessionManagedClient>,
+                    schema_registry::Client<SessionManagedClient>,
+                    Session,
+                ),
+                String,
+            >(|| {
+                // Get Connector Configuration
+                let connector_config =
+                    ConnectorConfiguration::new_from_deployment().map_err(|e| e.to_string())?;
 
-            // Create Session
-            let mqtt_connection_settings = connector_config
-                .clone()
-                .to_mqtt_connection_settings("0")
+                // Create Session
+                let mqtt_connection_settings = connector_config
+                    .clone()
+                    .to_mqtt_connection_settings("0")
+                    .map_err(|e| e.to_string())?;
+                let session_options = SessionOptionsBuilder::default()
+                    .connection_settings(mqtt_connection_settings.clone())
+                    // TODO: reconnect policy
+                    // TODO: outgoing_max
+                    .build()
+                    .map_err(|e| e.to_string())?;
+                let session = Session::new(session_options).map_err(|e| e.to_string())?;
+
+                // Create clients
+                // Create Azure Device Registry Client
+                let azure_device_registry_client = azure_device_registry::Client::new(
+                    application_context.clone(),
+                    session.create_managed_client(),
+                    azure_device_registry::ClientOptions::default(),
+                )
                 .map_err(|e| e.to_string())?;
-            let session_options = SessionOptionsBuilder::default()
-                .connection_settings(mqtt_connection_settings.clone())
-                // TODO: reconnect policy
-                // TODO: outgoing_max
-                .build()
-                .map_err(|e| e.to_string())?;
-            let session = Session::new(session_options).map_err(|e| e.to_string())?;
 
-            // Create clients
-            // Create Azure Device Registry Client
-            let azure_device_registry_client = azure_device_registry::Client::new(
-                application_context.clone(),
-                session.create_managed_client(),
-                azure_device_registry::ClientOptions::default(),
-            )
-            .map_err(|e| e.to_string())?;
+                // Create Schema Registry Client
+                let schema_registry_client = schema_registry::Client::new(
+                    application_context.clone(),
+                    &session.create_managed_client(),
+                );
 
-            Ok((connector_config, azure_device_registry_client, session))
-        });
+                Ok((
+                    connector_config,
+                    azure_device_registry_client,
+                    schema_registry_client,
+                    session,
+                ))
+            });
         Self {
             connector_context: Arc::new(ConnectorContext {
                 // TODO: validate these timeouts here once they come from somewhere
@@ -112,6 +125,7 @@ where
                 application_context,
                 connector_config,
                 azure_device_registry_client,
+                schema_registry_client,
                 data_transformer,
             }),
             session,

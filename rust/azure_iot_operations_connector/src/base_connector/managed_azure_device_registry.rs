@@ -22,7 +22,7 @@ use crate::{
     data_transformer::{DataTransformer, DatasetDataTransformer},
     destination_endpoint::Forwarder,
     filemount::azure_device_registry::{
-        AssetCreateObservation, AssetDeletionToken, DeviceEndpointCreateObservation,
+        AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
     },
 };
 
@@ -498,7 +498,7 @@ where
             )
             .await
             {
-                Ok(asset) => AssetClient::new(asset, self.connector_context.clone()),
+                Ok(asset) => AssetClient::new(asset, asset_ref, self.connector_context.clone()),
                 Err(e) => {
                     log::error!("Failed to get Asset definition after retries: {e}");
                     log::error!("Dropping asset create notification: {asset_ref:?}");
@@ -568,12 +568,14 @@ where
 /// to report status, translate data, and send data to the destination
 #[allow(dead_code)]
 pub struct AssetClient<T: DataTransformer> {
-    /// Asset name
-    pub name: String,
+    /// Asset, device, and inbound endpoint names
+    pub asset_ref: AssetRef,
     /// Specification for the Asset
-    pub specification: AssetSpecification<T>, // TODO: will need to be Arc<RwLock> once update is supported
+    pub specification: Arc<AssetSpecification>, // TODO: will need to be Arc<RwLock> once update is supported
     /// Status for the Asset
     pub status: Arc<RwLock<Option<AssetStatus>>>,
+    // asset_definition: Arc<RwLock<Asset>>,
+    datasets: Vec<DatasetClient<T>>, // TODO: might need to change this model once the dataset definition can get updated from an update
     // device_endpoint_ref: Arc<DeviceEndpoint>,
     connector_context: Arc<ConnectorContext<T>>,
 }
@@ -583,24 +585,38 @@ where
 {
     pub(crate) fn new(
         asset: azure_device_registry::Asset,
+        asset_ref: AssetRef,
         // device_endpoint_ref: Arc<DeviceEndpoint>,
         connector_context: Arc<ConnectorContext<T>>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
-        AssetClient {
-            name: asset.name,
-            specification: AssetSpecification::new(
-                asset.specification,
+        let dataset_definitions = asset.specification.datasets.clone();
+        let specification = Arc::new(AssetSpecification::new(
+            asset.specification,
+            // &status,
+            // &connector_context,
+        ));
+        let mut datasets = Vec::new();
+        for dataset in dataset_definitions {
+            datasets.push(DatasetClient::new(
+                dataset,
+                asset_ref.clone(),
                 status.clone(),
-                &connector_context,
-            ),
+                specification.clone(),
+                connector_context.clone(),
+            ));
+        }
+        AssetClient {
+            asset_ref,
+            specification,
             status,
+            datasets,
             connector_context,
         }
     }
 
     /// Used to report the status of an Asset
-    pub async fn report_status(&mut self, status: Result<(), ConfigError>) {
+    pub async fn report_status(&self, status: Result<(), ConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version: self.specification.version,
@@ -611,22 +627,34 @@ where
         };
 
         // send status update to the service
-        self.internal_report_status(adr_asset_status).await;
+        // self.internal_report_status(adr_asset_status).await;
+        Self::internal_report_status(
+            adr_asset_status,
+            &self.connector_context,
+            &self.asset_ref,
+            self.status.clone(),
+        )
+        .await;
     }
 
-    async fn internal_report_status(&self, adr_asset_status: azure_device_registry::AssetStatus) {
+    pub(crate) async fn internal_report_status(
+        adr_asset_status: azure_device_registry::AssetStatus,
+        connector_context: &ConnectorContext<T>,
+        asset_ref: &AssetRef,
+        asset_status_ref: Arc<RwLock<Option<AssetStatus>>>,
+    ) {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY,
             async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
-                self.connector_context
+                connector_context
                     .azure_device_registry_client
                     .update_asset_status(
-                        self.specification.device_ref.device_name.clone(),
-                        self.specification.device_ref.endpoint_name.clone(),
-                        self.name.clone(),
+                        asset_ref.device_name.clone(),
+                        asset_ref.inbound_endpoint_name.clone(),
+                        asset_ref.name.clone(),
                         adr_asset_status.clone(),
-                        self.connector_context.default_timeout,
+                        connector_context.default_timeout,
                     )
                     .await
                     .map_err(|e| {
@@ -653,7 +681,7 @@ where
         {
             Ok(updated_asset) => {
                 // update self with new returned status
-                let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
+                let mut unlocked_status = asset_status_ref.write().unwrap(); // unwrap can't fail unless lock is poisoned
                 *unlocked_status = updated_asset.status;
                 // NOTE: There may be updates present on the asset specification, but even if that is the case,
                 // we won't update them here and instead wait for the asset update notification (finding out
@@ -673,6 +701,9 @@ pub struct DatasetClient<T: DataTransformer> {
     /// Dataset Definition
     pub dataset_definition: Dataset,
     dataset_data_transformer: T::MyDatasetDataTransformer,
+    asset_ref: AssetRef,
+    asset_status: Arc<RwLock<Option<AssetStatus>>>,
+    asset_specification: Arc<AssetSpecification>,
     connector_context: Arc<ConnectorContext<T>>,
     // status: Arc<RwLock<Option<AssetStatus>>>,
     reporter: Arc<Reporter>,
@@ -684,34 +715,110 @@ where
 {
     pub(crate) fn new(
         dataset_definition: Dataset,
+        asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
+        asset_specification: Arc<AssetSpecification>,
         connector_context: Arc<ConnectorContext<T>>,
     ) -> Self {
         // Create a new dataset
         let forwarder = Forwarder::new(dataset_definition.clone());
-        let reporter = Arc::new(Reporter::new(dataset_definition.clone(), asset_status));
+        let reporter = Arc::new(Reporter::new(
+            dataset_definition.clone(),
+            asset_status.clone(),
+        ));
         let dataset_data_transformer = connector_context
             .data_transformer
             .new_dataset_data_transformer(dataset_definition.clone(), forwarder, reporter.clone());
         Self {
             dataset_definition,
             dataset_data_transformer,
+            asset_ref,
+            asset_status,
+            asset_specification,
             connector_context,
             reporter,
         }
     }
 
-    /// Used to report the status and/or [`MessageSchema`] of an dataset
+    /// Used to report the status of a dataset
+    pub async fn report_status(&self, status: Result<(), ConfigError>) {
+        let adr_asset_status = azure_device_registry::AssetStatus {
+            config: Some(azure_device_registry::StatusConfig {
+                version: self.asset_specification.version,
+                ..azure_device_registry::StatusConfig::default()
+            }),
+            datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
+                name: self.dataset_definition.name.clone(),
+                message_schema_reference: None,
+                error: status.err(),
+            }]),
+            ..azure_device_registry::AssetStatus::default()
+        };
+
+        // send status update to the service
+        AssetClient::internal_report_status(
+            adr_asset_status,
+            &self.connector_context,
+            &self.asset_ref,
+            self.asset_status.clone(),
+        )
+        .await;
+    }
+
+    /// Used to report the message schema of a dataset
+    /// 
     /// # Errors
     /// TODO
-    pub async fn report_status(
+    pub async fn report_message_schmea(
         &self,
-        status: Result<Option<MessageSchema>, ConfigError>,
-    ) -> Result<Option<MessageSchemaReference>, String> {
-        // Report the status of the dataset
-        // self.reporter.report_status(status).await
-        Ok(None)
+        message_schema: MessageSchema,
+    ) -> Result<MessageSchemaReference, String> {
+        // TODO: save message schema provided with message schema uri so it can be compared
+        // send message schema to sr
+        let message_schema_reference = match self
+            .connector_context
+            .schema_registry_client
+            .put(message_schema, self.connector_context.default_timeout)
+            .await
+        {
+            Ok(schema) => MessageSchemaReference {
+                name: schema.name.ok_or("schema name not returned".to_string())?, // change to expect since not possible
+                version: schema
+                    .version
+                    .ok_or("schema version not returned".to_string())?,
+                registry_namespace: schema
+                    .namespace
+                    .ok_or("schema namespace not returned".to_string())?,
+            },
+            Err(e) => return Err(e.to_string()),
+        };
+
+        let adr_asset_status = azure_device_registry::AssetStatus {
+            config: Some(azure_device_registry::StatusConfig {
+                version: self.asset_specification.version,
+                ..azure_device_registry::StatusConfig::default()
+            }),
+            datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
+                name: self.dataset_definition.name.clone(),
+                message_schema_reference: Some(message_schema_reference.clone()),
+                error: None,
+            }]),
+            ..azure_device_registry::AssetStatus::default()
+        };
+
+        // send status update to the service
+        AssetClient::internal_report_status(
+            adr_asset_status,
+            &self.connector_context,
+            &self.asset_ref,
+            self.asset_status.clone(),
+        )
+        .await;
+
+        Ok(message_schema_reference)
     }
+
+    // pub fn message_schema_reference(&self)
 
     /// Used to send sampled data to the [`DataTransformer`], which will then send
     /// the transformed data to the destination
@@ -936,13 +1043,13 @@ impl DeviceEndpointStatus {
 
 /// Represents the specification of an Asset in the Azure Device Registry service.
 // #[derive(Debug)]
-pub struct AssetSpecification<T: DataTransformer> {
+pub struct AssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// A set of key-value pairs that contain custom attributes
     pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
     /// Array of datasets that are part of the asset.
-    pub datasets: Vec<DatasetClient<T>>, // if None, we can represent as empty vec. Different from adr
+    // pub datasets: Vec<DatasetClient<T>>, // if None, we can represent as empty vec. Different from adr
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
@@ -999,28 +1106,29 @@ pub struct AssetSpecification<T: DataTransformer> {
     pub version: Option<u64>,
 }
 
-impl<T> AssetSpecification<T>
-where
-    T: DataTransformer,
-{
+// impl<T> AssetSpecification<T>
+// where
+//     T: DataTransformer,
+// {
+impl AssetSpecification {
     pub(crate) fn new(
         asset_specification: azure_device_registry::AssetSpecification,
-        status: Arc<RwLock<Option<AssetStatus>>>,
-        connector_context: &Arc<ConnectorContext<T>>,
+        // status: &Arc<RwLock<Option<AssetStatus>>>,
+        // connector_context: &Arc<ConnectorContext<T>>,
     ) -> Self {
-        let mut datasets = Vec::new();
-        for dataset in asset_specification.datasets {
-            datasets.push(DatasetClient::new(
-                dataset,
-                status.clone(),
-                connector_context.clone(),
-            ));
-        }
+        // let mut datasets = Vec::new();
+        // for dataset in asset_specification.datasets {
+        //     datasets.push(DatasetClient::new(
+        //         dataset,
+        //         status.clone(),
+        //         connector_context.clone(),
+        //     ));
+        // }
         // TODO: do the same for events, streams, and management groups
         AssetSpecification {
             asset_type_refs: asset_specification.asset_type_refs,
             attributes: asset_specification.attributes,
-            datasets,
+            // datasets,
             default_datasets_configuration: asset_specification.default_datasets_configuration,
             default_datasets_destinations: asset_specification.default_datasets_destinations,
             default_events_configuration: asset_specification.default_events_configuration,
