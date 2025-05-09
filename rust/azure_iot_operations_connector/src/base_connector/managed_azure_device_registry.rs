@@ -9,10 +9,13 @@ use std::{
 };
 
 use azure_iot_operations_mqtt::interface::AckToken;
-use azure_iot_operations_services::azure_device_registry::{
-    self, Asset, AssetStatus, AssetUpdateObservation, ConfigError, Dataset, DatasetDestination,
-    Device, DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination,
-    MessageSchemaReference,
+use azure_iot_operations_services::{
+    azure_device_registry::{
+        self, Asset, AssetStatus, AssetUpdateObservation, ConfigError, Dataset, DatasetDestination,
+        Device, DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination,
+        MessageSchemaReference,
+    },
+    schema_registry,
 };
 use tokio_retry2::{Retry, RetryError};
 
@@ -667,9 +670,11 @@ pub struct DatasetClient {
     asset_ref: AssetRef,
     asset_status: Arc<RwLock<Option<AssetStatus>>>,
     asset_specification: Arc<AssetSpecification>,
+    forwarder: Arc<Forwarder>,
     connector_context: Arc<ConnectorContext>,
+    // message_schema: Arc<RwLock<Option<MessageSchema>>>,
     // status: Arc<RwLock<Option<AssetStatus>>>,
-    reporter: Arc<Reporter>,
+    // reporter: Arc<Reporter>,
 }
 #[allow(dead_code)]
 impl DatasetClient {
@@ -681,28 +686,28 @@ impl DatasetClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         // Create a new dataset
-        let forwarder = Forwarder::new(dataset_definition.clone());
-        let reporter = Arc::new(Reporter::new(
-            dataset_definition.clone(),
-            asset_status.clone(),
-        ));
+        let forwarder = Arc::new(Forwarder::new(dataset_definition.clone()));
+        // let reporter = Arc::new(Reporter::new(
+        //     dataset_definition.clone(),
+        //     asset_status.clone(),
+        // ));
         Self {
             dataset_definition,
             asset_ref,
             asset_status,
             asset_specification,
+            forwarder,
             connector_context,
-            reporter,
         }
     }
 
     /// Used to report the status of a dataset
     pub async fn report_status(&self, status: Result<(), ConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
-            config: Some(azure_device_registry::StatusConfig {
-                version: self.asset_specification.version,
-                ..azure_device_registry::StatusConfig::default()
-            }),
+            // config: Some(azure_device_registry::StatusConfig {
+            //     version: self.asset_specification.version,
+            //     ..azure_device_registry::StatusConfig::default()
+            // }),
             datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
                 name: self.dataset_definition.name.clone(),
                 message_schema_reference: None,
@@ -724,36 +729,70 @@ impl DatasetClient {
     /// Used to report the message schema of a dataset
     ///
     /// # Errors
-    /// TODO
+    /// [`schema_registry::Error`] of kind [`InvalidArgument`](schema_registry::ErrorKind::InvalidArgument)
+    /// if the content of the [`MessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`schema_registry::Error`] of kind [`ServiceError`](schema_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service.
+    ///
+    /// # Panics
+    /// If the Schema Registry Service returns a schema without required values. This should get updated
+    /// to be validated by the Schema Registry API surface in the future
     pub async fn report_message_schmea(
         &self,
         message_schema: MessageSchema,
-    ) -> Result<MessageSchemaReference, String> {
+    ) -> Result<MessageSchemaReference, schema_registry::Error> {
         // TODO: save message schema provided with message schema uri so it can be compared
-        // send message schema to sr
-        let message_schema_reference = match self
-            .connector_context
-            .schema_registry_client
-            .put(message_schema, self.connector_context.default_timeout)
-            .await
-        {
-            Ok(schema) => MessageSchemaReference {
-                name: schema.name.ok_or("schema name not returned".to_string())?, // change to expect since not possible
+        // send message schema to schema registry service
+        let message_schema_reference = Retry::spawn(
+            RETRY_STRATEGY,
+            async || -> Result<schema_registry::Schema, RetryError<schema_registry::Error>> {
+                self.connector_context
+                    .schema_registry_client
+                    .put(
+                        message_schema.clone(),
+                        self.connector_context.default_timeout,
+                    )
+                    .await
+                    .map_err(|e| {
+                        match e.kind() {
+                            // network/retriable
+                            schema_registry::ErrorKind::AIOProtocolError(_) => {
+                                RetryError::transient(e)
+                            }
+                            // indicates an error in the provided message schema, return to caller so they can fix
+                            schema_registry::ErrorKind::ServiceError(_)
+                            | schema_registry::ErrorKind::InvalidArgument(_) => {
+                                RetryError::permanent(e)
+                            }
+                            // SerializationError shouldn't be possible since any [`MessageSchema`] should be serializable
+                            schema_registry::ErrorKind::SerializationError(_) => {
+                                unreachable!()
+                            }
+                        }
+                    })
+            },
+        )
+        .await
+        .map(|schema| {
+            MessageSchemaReference {
+                name: schema
+                    .name
+                    .expect("schema name will always be present since sent in PUT"),
                 version: schema
                     .version
-                    .ok_or("schema version not returned".to_string())?,
+                    .expect("schema version will always be present since sent in PUT"),
                 registry_namespace: schema
                     .namespace
-                    .ok_or("schema namespace not returned".to_string())?,
-            },
-            Err(e) => return Err(e.to_string()),
-        };
+                    .expect("schema namespace will always be present."), // waiting on change to service DTDL for this to be guaranteed in code
+            }
+        })?;
 
         let adr_asset_status = azure_device_registry::AssetStatus {
-            config: Some(azure_device_registry::StatusConfig {
-                version: self.asset_specification.version,
-                ..azure_device_registry::StatusConfig::default()
-            }),
+            // config: Some(azure_device_registry::StatusConfig {
+            //     version: self.asset_specification.version,
+            //     ..azure_device_registry::StatusConfig::default()
+            // }),
             datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
                 name: self.dataset_definition.name.clone(),
                 message_schema_reference: Some(message_schema_reference.clone()),
@@ -771,65 +810,83 @@ impl DatasetClient {
         )
         .await;
 
+        self.forwarder
+            .update_message_schema_uri(Some(message_schema_reference.clone()));
+
         Ok(message_schema_reference)
     }
 
-    // pub fn message_schema_reference(&self)
+    /// Returns a clone of this dataset's [`MessageSchemaReference`], if it exists
+    ///
+    /// # Panics
+    /// if the asset status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn message_schema_reference(&self) -> Option<MessageSchemaReference> {
+        // unwrap can't fail unless lock is poisoned
+        self.asset_status
+            .read()
+            .unwrap()
+            .as_ref()?
+            .datasets
+            .as_ref()?
+            .iter()
+            .find(|dataset| dataset.name == self.dataset_definition.name)?
+            .message_schema_reference
+            .clone()
+    }
 
     /// Used to send sampled data to the [`DataTransformer`], which will then send
     /// the transformed data to the destination
     /// # Errors
     /// TODO
     #[allow(clippy::unused_async)]
-    pub async fn add_sampled_data(&self, data: Data) -> Result<(), String> {
-        // Add sampled data to the dataset
-        // self.dataset_data_transformer.add_sampled_data(data).await
-        Ok(())
+    pub async fn forward_data(&self, data: Data) -> Result<(), String> {
+        self.forwarder.send_data(data).await
     }
 }
 
 /// Convenience struct to manage reporting the status of a dataset
-pub struct Reporter {
-    message_schema_uri: Option<MessageSchemaReference>,
-    _message_schema: Option<MessageSchema>,
-    asset_status: Arc<RwLock<Option<AssetStatus>>>,
-}
-#[allow(dead_code)]
-impl Reporter {
-    pub(crate) fn new(
-        _dataset_definition: Dataset,
-        asset_status: Arc<RwLock<Option<AssetStatus>>>,
-    ) -> Self {
-        // Create a new reporter
-        Self {
-            message_schema_uri: None,
-            _message_schema: None,
-            asset_status,
-        }
-    }
-    /// Used to report the status of an dataset
-    /// # Errors
-    /// TODO
-    pub async fn report_status(&self, _status: Result<(), ConfigError>) {}
+// pub struct Reporter {
+//     message_schema_uri: Option<MessageSchemaReference>,
+//     _message_schema: Option<MessageSchema>,
+//     asset_status: Arc<RwLock<Option<AssetStatus>>>,
+// }
+// #[allow(dead_code)]
+// impl Reporter {
+//     pub(crate) fn new(
+//         _dataset_definition: Dataset,
+//         asset_status: Arc<RwLock<Option<AssetStatus>>>,
+//     ) -> Self {
+//         // Create a new reporter
+//         Self {
+//             message_schema_uri: None,
+//             _message_schema: None,
+//             asset_status,
+//         }
+//     }
+//     /// Used to report the status of an dataset
+//     /// # Errors
+//     /// TODO
+//     pub async fn report_status(&self, _status: Result<(), ConfigError>) {}
 
-    /// Used to report the [`MessageSchema`] of an dataset
-    /// # Errors
-    /// TODO
-    pub fn report_message_schema(
-        &self,
-        _message_schema: Option<MessageSchema>,
-    ) -> Result<Option<MessageSchemaReference>, String> {
-        // Report the status of the dataset
-        Ok(None)
-    }
+//     /// Used to report the [`MessageSchema`] of an dataset
+//     /// # Errors
+//     /// TODO
+//     pub fn report_message_schema(
+//         &self,
+//         _message_schema: Option<MessageSchema>,
+//     ) -> Result<Option<MessageSchemaReference>, String> {
+//         // Report the status of the dataset
+//         Ok(None)
+//     }
 
-    /// Returns the current message schema URI
-    #[must_use]
-    pub fn get_current_message_schema_uri(&self) -> Option<MessageSchemaReference> {
-        // Get the current message schema URI
-        self.message_schema_uri.clone()
-    }
-}
+//     /// Returns the current message schema URI
+//     #[must_use]
+//     pub fn get_current_message_schema_uri(&self) -> Option<MessageSchemaReference> {
+//         // Get the current message schema URI
+//         self.message_schema_uri.clone()
+//     }
+// }
 
 // Client Structs
 // Device
