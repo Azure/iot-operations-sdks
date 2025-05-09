@@ -396,8 +396,6 @@ namespace Azure.Iot.Operations.Connector
                     Device = args.Device
                 };
                 _assetMonitor.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-
-                // Report device status green
             }
         }
 
@@ -511,8 +509,6 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
             }
-
-            // Asset is green (for each asset)
 
             OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset));
         }
