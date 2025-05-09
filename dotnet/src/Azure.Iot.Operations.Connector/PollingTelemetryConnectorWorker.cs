@@ -40,7 +40,8 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            _assetsSamplingTimers[args.AssetName] = new Dictionary<string, Timer>();
+            Dictionary<string, Timer> datasetsTimers = new();
+            _assetsSamplingTimers[args.AssetName] = datasetsTimers;
             foreach (AssetDatasetSchemaElement dataset in args.Asset.Specification.Datasets)
             {
                 EndpointCredentials? credentials = null;
@@ -57,32 +58,24 @@ namespace Azure.Iot.Operations.Connector
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 
-                if (_assetsSamplingTimers.TryGetValue(args.AssetName, out var datasetsTimers))
+                var datasetSamplingTimer = new Timer(async (state) =>
                 {
-                    var datasetSamplingTimer = new Timer(async (state) =>
+                    try
                     {
-                        try
-                        {
-                            byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                            await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.LogError(e, "Failed to sample the dataset");
-                        }
-                    }, null, TimeSpan.FromSeconds(0), samplingInterval);
-
-                    if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
-                    {
-                        _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
+                        byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                        await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
                     }
-                }
-                else
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to sample the dataset");
+                    }
+                }, null, TimeSpan.FromSeconds(0), samplingInterval);
+
+                if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
                 {
-                    _logger.LogError("Failed to get dataset sampling timers for asset with name {}", args.AssetName);
+                    _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
                 }
             }
-
         }
 
         public override void Dispose()
