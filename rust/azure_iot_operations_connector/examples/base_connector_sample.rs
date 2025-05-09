@@ -10,11 +10,8 @@
 //!
 //! To deploy and test this example, see instructions in `rust/azure_iot_operations_connector/README.md`
 
-use azure_iot_operations_connector::{
-    base_connector::{
-        BaseConnector, managed_azure_device_registry::DeviceEndpointClientCreationObservation,
-    },
-    data_transformer::PassthroughDataTransformer,
+use azure_iot_operations_connector::base_connector::{
+    BaseConnector, managed_azure_device_registry::DeviceEndpointClientCreationObservation,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
@@ -34,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
 
-    let base_connector = BaseConnector::new(application_context, PassthroughDataTransformer {});
+    let base_connector = BaseConnector::new(application_context);
 
     let device_creation_observation =
         base_connector.create_device_endpoint_client_create_observation();
@@ -49,11 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 // This function runs in a loop, waiting for device creation notifications.
-async fn run_program(
-    mut device_creation_observation: DeviceEndpointClientCreationObservation<
-        PassthroughDataTransformer,
-    >,
-) {
+async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
     while let Some((
         mut device_endpoint_client,

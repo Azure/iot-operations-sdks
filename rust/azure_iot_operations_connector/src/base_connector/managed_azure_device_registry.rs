@@ -19,7 +19,6 @@ use tokio_retry2::{Retry, RetryError};
 use crate::{
     Data, MessageSchema,
     base_connector::ConnectorContext,
-    data_transformer::{DataTransformer, DatasetDataTransformer},
     destination_endpoint::Forwarder,
     filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
@@ -33,16 +32,13 @@ const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialBackoff =
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct DeviceEndpointClientCreationObservation<T: DataTransformer> {
-    connector_context: Arc<ConnectorContext<T>>,
+pub struct DeviceEndpointClientCreationObservation {
+    connector_context: Arc<ConnectorContext>,
     device_endpoint_create_observation: DeviceEndpointCreateObservation,
 }
-impl<T> DeviceEndpointClientCreationObservation<T>
-where
-    T: DataTransformer,
-{
+impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
-    pub(crate) fn new(connector_context: Arc<ConnectorContext<T>>) -> Self {
+    pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
         let device_endpoint_create_observation =
             DeviceEndpointCreateObservation::new(connector_context.debounce_duration).unwrap();
 
@@ -60,9 +56,9 @@ where
     pub async fn recv_notification(
         &mut self,
     ) -> Option<(
-        DeviceEndpointClient<T>,
-        DeviceEndpointClientUpdateObservation<T>,
-        /*DeviceDeleteToken,*/ AssetClientCreationObservation<T>,
+        DeviceEndpointClient,
+        DeviceEndpointClientUpdateObservation,
+        /*DeviceDeleteToken,*/ AssetClientCreationObservation,
     )> {
         loop {
             // Get the notification
@@ -217,7 +213,8 @@ where
 }
 
 /// Azure Device Registry Device Endpoint that includes additional functionality to report status
-pub struct DeviceEndpointClient<T: DataTransformer> {
+#[derive(Debug)]
+pub struct DeviceEndpointClient {
     /// The 'name' Field.
     pub device_name: String,
     /// The 'endpointName' Field.
@@ -226,16 +223,13 @@ pub struct DeviceEndpointClient<T: DataTransformer> {
     pub specification: DeviceSpecification,
     /// The 'status' Field.
     pub status: Option<DeviceEndpointStatus>,
-    connector_context: Arc<ConnectorContext<T>>,
+    connector_context: Arc<ConnectorContext>,
 }
-impl<T> DeviceEndpointClient<T>
-where
-    T: DataTransformer,
-{
+impl DeviceEndpointClient {
     pub(crate) fn new(
         device: azure_device_registry::Device,
         inbound_endpoint_name: String,
-        connector_context: Arc<ConnectorContext<T>>,
+        connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
         Ok(DeviceEndpointClient {
@@ -364,36 +358,16 @@ where
     }
 }
 
-/// needed otherwise the compiler complains about T not being debug even though it doesn't need to be
-#[allow(clippy::missing_fields_in_debug)]
-impl<T> std::fmt::Debug for DeviceEndpointClient<T>
-where
-    T: DataTransformer,
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("DeviceEndpointClient")
-            .field("device_name", &self.device_name)
-            .field("inbound_endpoint_name", &self.inbound_endpoint_name)
-            .field("specification", &self.specification)
-            .field("status", &self.status)
-            .field("connector_context", &self.connector_context)
-            .finish()
-    }
-}
-
 /// An Observation for device endpoint update events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
 /// TODO: maybe move this to be on the [`DeviceEndpointClient`]?
 #[allow(dead_code)]
-pub struct DeviceEndpointClientUpdateObservation<T: DataTransformer> {
+pub struct DeviceEndpointClientUpdateObservation {
     device_update_observation: DeviceUpdateObservation,
-    connector_context: Arc<ConnectorContext<T>>,
+    connector_context: Arc<ConnectorContext>,
 }
-impl<T> DeviceEndpointClientUpdateObservation<T>
-where
-    T: DataTransformer,
-{
+impl DeviceEndpointClientUpdateObservation {
     /// Receives an updated [`DeviceEndpointClient`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
@@ -402,7 +376,7 @@ where
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(DeviceEndpointClient<T>, Option<AckToken>)> {
+    pub async fn recv_notification(&self) -> Option<(DeviceEndpointClient, Option<AckToken>)> {
         // handle the notification
         // convert into DeviceEndpointClient
         None
@@ -412,15 +386,12 @@ where
 /// An Observation for asset creation events that uses
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
-pub struct AssetClientCreationObservation<T: DataTransformer> {
+pub struct AssetClientCreationObservation {
     asset_create_observation: AssetCreateObservation,
-    connector_context: Arc<ConnectorContext<T>>,
+    connector_context: Arc<ConnectorContext>,
     // arc of device endpoint client?
 }
-impl<T> AssetClientCreationObservation<T>
-where
-    T: DataTransformer,
-{
+impl AssetClientCreationObservation {
     /// Receives a notification for a newly created asset or [`None`] if there
     /// will be no more notifications. This notification includes the [`AssetClient`],
     /// an [`AssetClientUpdateObservation`] to observe for updates on the new Asset,
@@ -428,8 +399,8 @@ where
     pub async fn recv_notification(
         &mut self,
     ) -> Option<(
-        AssetClient<T>,
-        AssetClientUpdateObservation<T>,
+        AssetClient,
+        AssetClientUpdateObservation,
         AssetDeletionToken,
     )> {
         loop {
@@ -541,15 +512,11 @@ where
 /// multiple underlying clients to get full information for a
 /// [`ProtocolTranslator`] to use.
 #[allow(dead_code)]
-pub struct AssetClientUpdateObservation<T: DataTransformer> {
+pub struct AssetClientUpdateObservation {
     asset_update_observation: AssetUpdateObservation,
-    connector_context: Arc<ConnectorContext<T>>,
-    // data_transformer: Arc<T>,
+    connector_context: Arc<ConnectorContext>,
 }
-impl<T> AssetClientUpdateObservation<T>
-where
-    T: DataTransformer,
-{
+impl AssetClientUpdateObservation {
     /// Receives an updated [`AssetClient`] or [`None`] if there will be no more notifications.
     ///
     /// If there are notifications:
@@ -558,7 +525,7 @@ where
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
     #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(AssetClient<T>, Option<AckToken>)> {
+    pub async fn recv_notification(&self) -> Option<(AssetClient, Option<AckToken>)> {
         // handle the notification
         None
     }
@@ -567,7 +534,7 @@ where
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status, translate data, and send data to the destination
 #[allow(dead_code)]
-pub struct AssetClient<T: DataTransformer> {
+pub struct AssetClient {
     /// Asset, device, and inbound endpoint names
     pub asset_ref: AssetRef,
     /// Specification for the Asset
@@ -575,19 +542,16 @@ pub struct AssetClient<T: DataTransformer> {
     /// Status for the Asset
     pub status: Arc<RwLock<Option<AssetStatus>>>,
     // asset_definition: Arc<RwLock<Asset>>,
-    datasets: Vec<DatasetClient<T>>, // TODO: might need to change this model once the dataset definition can get updated from an update
+    datasets: Vec<DatasetClient>, // TODO: might need to change this model once the dataset definition can get updated from an update
     // device_endpoint_ref: Arc<DeviceEndpoint>,
-    connector_context: Arc<ConnectorContext<T>>,
+    connector_context: Arc<ConnectorContext>,
 }
-impl<T> AssetClient<T>
-where
-    T: DataTransformer,
-{
+impl AssetClient {
     pub(crate) fn new(
         asset: azure_device_registry::Asset,
         asset_ref: AssetRef,
         // device_endpoint_ref: Arc<DeviceEndpoint>,
-        connector_context: Arc<ConnectorContext<T>>,
+        connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
@@ -639,7 +603,7 @@ where
 
     pub(crate) async fn internal_report_status(
         adr_asset_status: azure_device_registry::AssetStatus,
-        connector_context: &ConnectorContext<T>,
+        connector_context: &ConnectorContext,
         asset_ref: &AssetRef,
         asset_status_ref: Arc<RwLock<Option<AssetStatus>>>,
     ) {
@@ -697,28 +661,24 @@ where
 
 /// Azure Device Registry Dataset that includes additional functionality
 /// to report status, translate data, and send data to the destination
-pub struct DatasetClient<T: DataTransformer> {
+pub struct DatasetClient {
     /// Dataset Definition
     pub dataset_definition: Dataset,
-    dataset_data_transformer: T::MyDatasetDataTransformer,
     asset_ref: AssetRef,
     asset_status: Arc<RwLock<Option<AssetStatus>>>,
     asset_specification: Arc<AssetSpecification>,
-    connector_context: Arc<ConnectorContext<T>>,
+    connector_context: Arc<ConnectorContext>,
     // status: Arc<RwLock<Option<AssetStatus>>>,
     reporter: Arc<Reporter>,
 }
 #[allow(dead_code)]
-impl<T> DatasetClient<T>
-where
-    T: DataTransformer,
-{
+impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
-        connector_context: Arc<ConnectorContext<T>>,
+        connector_context: Arc<ConnectorContext>,
     ) -> Self {
         // Create a new dataset
         let forwarder = Forwarder::new(dataset_definition.clone());
@@ -726,12 +686,8 @@ where
             dataset_definition.clone(),
             asset_status.clone(),
         ));
-        let dataset_data_transformer = connector_context
-            .data_transformer
-            .new_dataset_data_transformer(dataset_definition.clone(), forwarder, reporter.clone());
         Self {
             dataset_definition,
-            dataset_data_transformer,
             asset_ref,
             asset_status,
             asset_specification,
@@ -766,7 +722,7 @@ where
     }
 
     /// Used to report the message schema of a dataset
-    /// 
+    ///
     /// # Errors
     /// TODO
     pub async fn report_message_schmea(
@@ -824,9 +780,11 @@ where
     /// the transformed data to the destination
     /// # Errors
     /// TODO
+    #[allow(clippy::unused_async)]
     pub async fn add_sampled_data(&self, data: Data) -> Result<(), String> {
         // Add sampled data to the dataset
-        self.dataset_data_transformer.add_sampled_data(data).await
+        // self.dataset_data_transformer.add_sampled_data(data).await
+        Ok(())
     }
 }
 
@@ -1049,7 +1007,7 @@ pub struct AssetSpecification {
     /// A set of key-value pairs that contain custom attributes
     pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
     /// Array of datasets that are part of the asset.
-    // pub datasets: Vec<DatasetClient<T>>, // if None, we can represent as empty vec. Different from adr
+    // pub datasets: Vec<DatasetClient>, // if None, we can represent as empty vec. Different from adr
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
@@ -1106,15 +1064,11 @@ pub struct AssetSpecification {
     pub version: Option<u64>,
 }
 
-// impl<T> AssetSpecification<T>
-// where
-//     T: DataTransformer,
-// {
 impl AssetSpecification {
     pub(crate) fn new(
         asset_specification: azure_device_registry::AssetSpecification,
         // status: &Arc<RwLock<Option<AssetStatus>>>,
-        // connector_context: &Arc<ConnectorContext<T>>,
+        // connector_context: &Arc<ConnectorContext>,
     ) -> Self {
         // let mut datasets = Vec::new();
         // for dataset in asset_specification.datasets {
