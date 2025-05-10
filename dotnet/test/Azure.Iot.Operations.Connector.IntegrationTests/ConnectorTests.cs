@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             await using StateStoreClient stateStoreClient = new(new(), mqttClient);
 
-            string expectedStateStoreKey = "SqlServerSampleKey";
+            string expectedStateStoreKey = "RestThermostatKey";
             TaskCompletionSource stateStoreUpdatedByConnectorAsset2Tcs = new();
             stateStoreClient.KeyChangeMessageReceivedAsync += (sender, args) =>
             {
