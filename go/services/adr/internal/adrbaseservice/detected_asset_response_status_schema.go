@@ -9,18 +9,18 @@ import (
 type DetectedAssetResponseStatusSchema int32
 
 const (
-	Created DetectedAssetResponseStatusSchema = iota
-	Duplicate DetectedAssetResponseStatusSchema = iota
-	Failed DetectedAssetResponseStatusSchema = iota
+	DetectedAssetResponseStatusSchemaCreated DetectedAssetResponseStatusSchema = iota
+	DetectedAssetResponseStatusSchemaDuplicate DetectedAssetResponseStatusSchema = iota
+	DetectedAssetResponseStatusSchemaFailed DetectedAssetResponseStatusSchema = iota
 )
 
 func (v DetectedAssetResponseStatusSchema) String() string {
 	switch v {
-	case Created:
+	case DetectedAssetResponseStatusSchemaCreated:
 		return "Created"
-	case Duplicate:
+	case DetectedAssetResponseStatusSchemaDuplicate:
 		return "Duplicate"
-	case Failed:
+	case DetectedAssetResponseStatusSchemaFailed:
 		return "Failed"
 	default:
 		return ""
@@ -30,11 +30,11 @@ func (v DetectedAssetResponseStatusSchema) String() string {
 func (v DetectedAssetResponseStatusSchema) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
-	case Created:
+	case DetectedAssetResponseStatusSchemaCreated:
 		s = "created"
-	case Duplicate:
+	case DetectedAssetResponseStatusSchemaDuplicate:
 		s = "duplicate"
-	case Failed:
+	case DetectedAssetResponseStatusSchemaFailed:
 		s = "failed"
 	default:
 		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
@@ -51,11 +51,11 @@ func (v *DetectedAssetResponseStatusSchema) UnmarshalJSON(b []byte) error {
 
 	switch s {
 	case "created":
-		*v = Created
+		*v = DetectedAssetResponseStatusSchemaCreated
 	case "duplicate":
-		*v = Duplicate
+		*v = DetectedAssetResponseStatusSchemaDuplicate
 	case "failed":
-		*v = Failed
+		*v = DetectedAssetResponseStatusSchemaFailed
 	default:
 		return errors.New("unable to unmarshal unrecognized enum value from JSON")
 	}

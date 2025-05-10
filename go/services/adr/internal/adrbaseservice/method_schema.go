@@ -9,18 +9,18 @@ import (
 type MethodSchema int32
 
 const (
-	Anonymous MethodSchema = iota
-	Certificate MethodSchema = iota
-	UsernamePassword MethodSchema = iota
+	MethodSchemaAnonymous MethodSchema = iota
+	MethodSchemaCertificate MethodSchema = iota
+	MethodSchemaUsernamePassword MethodSchema = iota
 )
 
 func (v MethodSchema) String() string {
 	switch v {
-	case Anonymous:
+	case MethodSchemaAnonymous:
 		return "Anonymous"
-	case Certificate:
+	case MethodSchemaCertificate:
 		return "Certificate"
-	case UsernamePassword:
+	case MethodSchemaUsernamePassword:
 		return "UsernamePassword"
 	default:
 		return ""
@@ -30,11 +30,11 @@ func (v MethodSchema) String() string {
 func (v MethodSchema) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
-	case Anonymous:
+	case MethodSchemaAnonymous:
 		s = "Anonymous"
-	case Certificate:
+	case MethodSchemaCertificate:
 		s = "Certificate"
-	case UsernamePassword:
+	case MethodSchemaUsernamePassword:
 		s = "UsernamePassword"
 	default:
 		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
@@ -51,11 +51,11 @@ func (v *MethodSchema) UnmarshalJSON(b []byte) error {
 
 	switch s {
 	case "Anonymous":
-		*v = Anonymous
+		*v = MethodSchemaAnonymous
 	case "Certificate":
-		*v = Certificate
+		*v = MethodSchemaCertificate
 	case "UsernamePassword":
-		*v = UsernamePassword
+		*v = MethodSchemaUsernamePassword
 	default:
 		return errors.New("unable to unmarshal unrecognized enum value from JSON")
 	}
