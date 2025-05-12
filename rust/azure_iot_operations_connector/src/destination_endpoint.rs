@@ -29,7 +29,6 @@ impl Forwarder {
     #[allow(clippy::unused_async)]
     pub async fn send_data(&self, _data: Data) -> Result<(), String> {
         // Forward the data to the destination
-        // Err("Not implemented".to_string())
         Ok(())
     }
 

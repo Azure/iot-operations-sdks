@@ -559,9 +559,9 @@ pub struct AssetClient {
     /// Status for the Asset
     #[getter(skip)]
     status: Arc<RwLock<Option<AssetStatus>>>,
-    // asset_definition: Arc<RwLock<Asset>>,
     /// Datasets on this Asset
     datasets: Vec<DatasetClient>, // TODO: might need to change this model once the dataset definition can get updated from an update
+    // TODO: events, streams, and management groups as well
     /// Specification of the device that this Asset is tied to
     device_specification: Arc<DeviceSpecification>,
     #[getter(skip)]
@@ -577,17 +577,19 @@ impl AssetClient {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
         let specification = Arc::new(AssetSpecification::from(asset.specification));
-        let mut datasets = Vec::new();
-        for dataset in dataset_definitions {
-            datasets.push(DatasetClient::new(
-                dataset,
-                asset_ref.clone(),
-                status.clone(),
-                specification.clone(),
-                device_specification.clone(),
-                connector_context.clone(),
-            ));
-        }
+        let datasets = dataset_definitions
+            .into_iter()
+            .map(|dataset| {
+                DatasetClient::new(
+                    dataset,
+                    asset_ref.clone(),
+                    status.clone(),
+                    specification.clone(),
+                    device_specification.clone(),
+                    connector_context.clone(),
+                )
+            })
+            .collect();
         AssetClient {
             asset_ref,
             specification,
@@ -610,7 +612,6 @@ impl AssetClient {
         };
 
         // send status update to the service
-        // self.internal_report_status(adr_asset_status).await;
         Self::internal_report_status(
             adr_asset_status,
             &self.connector_context,
@@ -706,7 +707,6 @@ pub struct DatasetClient {
     forwarder: Arc<Forwarder>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
-    // message_schema: Arc<RwLock<Option<MessageSchema>>>,
     /// Asset reference for internal use
     #[getter(skip)]
     asset_ref: AssetRef,
@@ -743,6 +743,7 @@ impl DatasetClient {
     /// Used to report the status of a dataset
     pub async fn report_status(&self, status: Result<(), ConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
+            // TODO: Do I need to include the version here?
             // config: Some(azure_device_registry::StatusConfig {
             //     version: self.asset_specification.version,
             //     ..azure_device_registry::StatusConfig::default()
@@ -828,6 +829,7 @@ impl DatasetClient {
         })?;
 
         let adr_asset_status = azure_device_registry::AssetStatus {
+            // TODO: Do I need to include the version here?
             // config: Some(azure_device_registry::StatusConfig {
             //     version: self.asset_specification.version,
             //     ..azure_device_registry::StatusConfig::default()
@@ -862,7 +864,8 @@ impl DatasetClient {
         self.forwarder.send_data(data).await
     }
 
-    /// Returns a clone of this dataset's [`MessageSchemaReference`], if it exists
+    /// Returns a clone of this dataset's [`MessageSchemaReference`] from
+    /// the [`AssetStatus`], if it exists
     ///
     /// # Panics
     /// if the asset status mutex has been poisoned, which should not be possible
