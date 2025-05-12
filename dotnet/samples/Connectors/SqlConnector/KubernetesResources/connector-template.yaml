@@ -1,7 +1,7 @@
 apiVersion: akri.microsoft.com/v1beta1
 kind: ConnectorTemplate
 metadata:
-  name: rest-ctemplate
+  name: sql-ctemplate
   namespace: azure-iot-operations
 spec:
   version: "0.0.1"
@@ -13,7 +13,7 @@ spec:
     managedConfigurationSettings:
       managedConfigurationType: imageConfiguration
       imageConfigurationSettings:
-        imageName: "sqlqualityanalyzerconnectorapp"
+        imageName: "sqlqualityanalyzerconnector"
         imagePullPolicy: Never # This sample image is built locally, so no need to pull
         replicas: 1
         tagDigestSettings:
