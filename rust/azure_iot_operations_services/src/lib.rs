@@ -9,9 +9,9 @@
 //! using the following feature flags:
 //!
 //! - `all`: Enables all features.
-//! - `schema_registry`: Enabled the Schema Registry Client.
-//! - `state_store`: Enabled the State Store Client.
-//! - `leased_lock`: Enables the Leased Lock Client.
+//! - `schema_registry`: Enables the Schema Registry Client.
+//! - `state_store`: Enables the State Store Client.
+//! - `leased_lock`: Enables the Lease and Lock Clients.
 //!
 //! This example shows how you could import features for only the Schema Registry Client:
 //!
