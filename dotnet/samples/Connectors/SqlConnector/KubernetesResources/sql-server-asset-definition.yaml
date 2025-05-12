@@ -8,7 +8,7 @@ spec:
     #assetId: my-sql-qualityanalyzer-asset-id
     #assetType: sql-qualityanalyzer
   datasets:
-    - name: thermostat_status
+    - name: qualityanalyzer_data
       dataPoints:
         - dataSource: CountryMeasurements
           name: Country
@@ -23,8 +23,8 @@ spec:
       dataSource: /thermostat
       destinations:
         - configuration:
-            topic: /mqtt/machine/status
-          target: Mqtt
+            key: SqlServerSampleKey
+          target: BrokerStateStore
   defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-sql-qualityanalyzer-profile
