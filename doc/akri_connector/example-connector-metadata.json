@@ -59,15 +59,15 @@
                       }
                     }
                 },
-                "defaultEventsConfigSchema": {
+                "eventsConfigSchema": {
                     "$schema": "https://json-schema.org/draft/2020-12/schema",
                     "$id": "https://contoso.com/defaultEventConfig.schema.json",
-                    "title": "Default Event Config Schema",
-                    "description": "The JSON schema for the default dataset configuration field",
+                    "title": "Event Config Schema",
+                    "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
                     "type": "object",
                     "properties": {
-                      "SamplingInterval": {
-                        "description": "How frequently to sample each dataset by default (in milliseconds)",
+                      "SomeEventsProperty": {
+                        "description": "Some configuration that is relevant to events",
                         "type": "integer"
                       }
                     }
