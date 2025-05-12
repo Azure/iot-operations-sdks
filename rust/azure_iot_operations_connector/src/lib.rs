@@ -32,3 +32,16 @@ pub struct Data {
     /// May be removed in the near future. May not be Option in the near future
     pub timestamp: Option<HybridLogicalClock>,
 }
+
+/// Represents a dataset associated with a specific device, endpoint, and asset.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct DatasetRef {
+    /// The name of the dataset
+    pub dataset_name: String,
+    /// The name of the asset
+    pub asset_name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}

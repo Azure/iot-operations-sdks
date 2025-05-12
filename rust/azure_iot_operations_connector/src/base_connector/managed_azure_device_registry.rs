@@ -20,11 +20,12 @@ use azure_iot_operations_services::{
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
-    Data, MessageSchema,
+    Data, DatasetRef, MessageSchema,
     base_connector::ConnectorContext,
     destination_endpoint::Forwarder,
     filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
+        DeviceEndpointRef,
     },
 };
 
@@ -163,7 +164,7 @@ impl DeviceEndpointClientCreationObservation {
             // turn the device definition into a DeviceEndpointClient
             let device_endpoint_client = match DeviceEndpointClient::new(
                 device,
-                device_endpoint_ref.inbound_endpoint_name.clone(),
+                device_endpoint_ref.clone(),
                 self.connector_context.clone(),
             ) {
                 Ok(managed_device) => managed_device,
@@ -219,11 +220,8 @@ impl DeviceEndpointClientCreationObservation {
 /// Azure Device Registry Device Endpoint that includes additional functionality to report status
 #[derive(Debug, Getters)]
 pub struct DeviceEndpointClient {
-    /// The 'name' Field.
-    device_name: String,
-    /// The 'endpointName' Field.
-    inbound_endpoint_name: String, // needed for easy status reporting?
-    // TODO: device_ref
+    /// The names of the Device and Inbound Endpoint
+    device_endpoint_ref: DeviceEndpointRef,
     /// The 'specification' Field.
     specification: Arc<DeviceSpecification>,
     /// The 'status' Field.
@@ -234,22 +232,21 @@ pub struct DeviceEndpointClient {
 impl DeviceEndpointClient {
     pub(crate) fn new(
         device: azure_device_registry::Device,
-        inbound_endpoint_name: String,
+        device_endpoint_ref: DeviceEndpointRef,
         connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
         Ok(DeviceEndpointClient {
-            device_name: device.name,
             // TODO: get device_endpoint_credentials_mount_path from connector config
             specification: Arc::new(DeviceSpecification::new(
                 device.specification,
                 "/etc/akri/secrets/device_endpoint_auth",
-                &inbound_endpoint_name,
+                &device_endpoint_ref.inbound_endpoint_name,
             )?),
             status: device.status.map(|recvd_status| {
-                DeviceEndpointStatus::new(recvd_status, &inbound_endpoint_name)
+                DeviceEndpointStatus::new(recvd_status, &device_endpoint_ref.inbound_endpoint_name)
             }),
-            inbound_endpoint_name,
+            device_endpoint_ref,
             connector_context,
         })
     }
@@ -269,7 +266,10 @@ impl DeviceEndpointClient {
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
             // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
-            endpoints: HashMap::from([(self.inbound_endpoint_name.clone(), endpoint_status.err())]),
+            endpoints: HashMap::from([(
+                self.device_endpoint_ref.inbound_endpoint_name.clone(),
+                endpoint_status.err(),
+            )]),
         };
 
         // send status update to the service
@@ -301,7 +301,10 @@ impl DeviceEndpointClient {
         let status = azure_device_registry::DeviceStatus {
             config: None,
             // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
-            endpoints: HashMap::from([(self.inbound_endpoint_name.clone(), endpoint_status.err())]),
+            endpoints: HashMap::from([(
+                self.device_endpoint_ref.inbound_endpoint_name.clone(),
+                endpoint_status.err(),
+            )]),
         };
 
         // send status update to the service
@@ -320,8 +323,8 @@ impl DeviceEndpointClient {
                 self.connector_context
                     .azure_device_registry_client
                     .update_device_plus_endpoint_status(
-                        self.device_name.clone(),
-                        self.inbound_endpoint_name.clone(),
+                        self.device_endpoint_ref.device_name.clone(),
+                        self.device_endpoint_ref.inbound_endpoint_name.clone(),
                         adr_device_status.clone(),
                         self.connector_context.default_timeout,
                     )
@@ -350,7 +353,10 @@ impl DeviceEndpointClient {
             Ok(updated_device) => {
                 // update self with new returned status
                 self.status = updated_device.status.map(|recvd_status| {
-                    DeviceEndpointStatus::new(recvd_status, &self.inbound_endpoint_name)
+                    DeviceEndpointStatus::new(
+                        recvd_status,
+                        &self.device_endpoint_ref.inbound_endpoint_name,
+                    )
                 });
                 // NOTE: There may be updates present on the device specification, but even if that is the case,
                 // we won't update them here and instead wait for the device update notification (finding out
@@ -684,10 +690,10 @@ impl AssetClient {
 /// to report status, translate data, and send data to the destination
 #[derive(Debug, Getters, Clone)]
 pub struct DatasetClient {
+    /// Dataset, asset, device, and inbound endpoint names
+    dataset_ref: DatasetRef,
     /// Dataset Definition
     dataset_definition: Dataset,
-    /// Asset reference, contains names of device, inbound endpoint, and asset
-    asset_ref: AssetRef, // TODO: DatasetRef for symmetry with other layers
     /// Current status for the Asset
     #[getter(skip)]
     asset_status: Arc<RwLock<Option<AssetStatus>>>,
@@ -701,8 +707,9 @@ pub struct DatasetClient {
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     // message_schema: Arc<RwLock<Option<MessageSchema>>>,
-    // status: Arc<RwLock<Option<AssetStatus>>>,
-    // reporter: Arc<Reporter>,
+    /// Asset reference for internal use
+    #[getter(skip)]
+    asset_ref: AssetRef,
 }
 
 impl DatasetClient {
@@ -717,8 +724,14 @@ impl DatasetClient {
         // Create a new dataset
         let forwarder = Arc::new(Forwarder::new(dataset_definition.clone()));
         Self {
-            dataset_definition,
+            dataset_ref: DatasetRef {
+                dataset_name: dataset_definition.name.clone(),
+                asset_name: asset_ref.name.clone(),
+                device_name: asset_ref.device_name.clone(),
+                inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+            },
             asset_ref,
+            dataset_definition,
             asset_status,
             asset_specification,
             device_specification,
@@ -735,7 +748,7 @@ impl DatasetClient {
             //     ..azure_device_registry::StatusConfig::default()
             // }),
             datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
-                name: self.dataset_definition.name.clone(),
+                name: self.dataset_ref.dataset_name.clone(),
                 message_schema_reference: None,
                 error: status.err(),
             }]),
@@ -820,7 +833,7 @@ impl DatasetClient {
             //     ..azure_device_registry::StatusConfig::default()
             // }),
             datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
-                name: self.dataset_definition.name.clone(),
+                name: self.dataset_ref.dataset_name.clone(),
                 message_schema_reference: Some(message_schema_reference.clone()),
                 error: None,
             }]),
@@ -863,7 +876,7 @@ impl DatasetClient {
             .datasets
             .as_ref()?
             .iter()
-            .find(|dataset| dataset.name == self.dataset_definition.name)?
+            .find(|dataset| dataset.name == self.dataset_ref.dataset_name)?
             .message_schema_reference
             .clone()
     }
