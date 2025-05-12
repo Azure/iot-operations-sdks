@@ -15,9 +15,11 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{self, DeviceStatus, StatusConfig};
 
 const DEVICE1: &str = "my-thermostat";
+#[allow(dead_code)]
 const DEVICE2: &str = "test-thermostat";
 const ENDPOINT1: &str = "my-rest-endpoint";
 const ASSET_NAME1: &str = "my-rest-thermostat-asset";
+const TYPE: &str = "thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
 
 // Test Scenarios:
@@ -43,10 +45,10 @@ fn setup_test(
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     // TODO Uncomment this to enable network tests
-    if env::var("ENABLE_NETWORK_TESTS").is_err() {
-        log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
-        return Err(());
-    }
+    // if env::var("ENABLE_NETWORK_TESTS").is_err() {
+    //     log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
+    //     return Err(());
+    // }
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
@@ -96,23 +98,16 @@ async fn get_device() {
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Get Device: {response:?}",);
-            log::info!("[{log_identifier}] Device Name: {}", response.name);
-            log::info!(
-                "[{log_identifier}] Device Id: {}",
-                response.specification.attributes["deviceId"]
-            );
 
             assert_eq!(response.name, DEVICE1);
             assert_eq!(response.specification.attributes["deviceId"], DEVICE1);
+            assert_eq!(response.specification.attributes["deviceType"], TYPE);
             assert!(
                 response
                     .specification
                     .endpoints
                     .inbound
-                    .get(ENDPOINT1)
-                    .is_some(),
-                "Expected endpoint '{}' to be present in the inbound endpoints, but it was not found.",
-                ENDPOINT1
+                    .contains_key(ENDPOINT1)
             );
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -131,10 +126,10 @@ async fn get_device() {
 }
 
 #[tokio::test]
-async fn observe_device_update_notifications() {
-    let log_identifier = "observe_device_update_notifications";
+async fn update_device_plus_endpoint_status() {
+    let log_identifier = "update_device_plus_endpoint_status";
     let Ok((session, azure_device_registry_client, exit_handle)) =
-        setup_test("observe_device_update_notifications_network_tests-rust")
+        setup_test("update_device_plus_endpoint_status_network_tests-rust")
     else {
         // Network tests disabled, skipping tests
         return;
@@ -164,6 +159,14 @@ async fn observe_device_update_notifications() {
             log::info!("[{log_identifier}] Updated Response Device: {updated_device_response:?}",);
 
             assert_eq!(updated_device_response.name, DEVICE1);
+            assert_eq!(
+                updated_device_response.specification.attributes["deviceId"],
+                DEVICE1
+            );
+            assert_eq!(
+                updated_device_response.specification.attributes["deviceType"],
+                TYPE
+            );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -205,6 +208,8 @@ async fn get_asset() {
             log::info!("[{log_identifier}] Response: {response:?}",);
 
             assert_eq!(response.name, ASSET_NAME1);
+            assert_eq!(response.specification.attributes["assetId"], ASSET_NAME1);
+            assert_eq!(response.specification.attributes["assetType"], TYPE);
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
