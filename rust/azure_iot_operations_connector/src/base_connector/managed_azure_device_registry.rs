@@ -70,12 +70,6 @@ impl DeviceEndpointClientCreationObservation {
                 .recv_notification()
                 .await?;
 
-            // Turn AssetCreateObservation into an AssetClientCreationObservation
-            let asset_client_creation_observation = AssetClientCreationObservation {
-                asset_create_observation,
-                connector_context: self.connector_context.clone(),
-            };
-
             // and then get device update observation as well and turn it into a DeviceEndpointClientUpdateObservation
             let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY, async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
@@ -206,6 +200,13 @@ impl DeviceEndpointClientCreationObservation {
                 }
             };
 
+            // Turn AssetCreateObservation into an AssetClientCreationObservation
+            let asset_client_creation_observation = AssetClientCreationObservation {
+                asset_create_observation,
+                connector_context: self.connector_context.clone(),
+                device_specification: device_endpoint_client.specification.clone(),
+            };
+
             return Some((
                 device_endpoint_client,
                 device_endpoint_client_update_observation,
@@ -216,16 +217,18 @@ impl DeviceEndpointClientCreationObservation {
 }
 
 /// Azure Device Registry Device Endpoint that includes additional functionality to report status
-#[derive(Debug)]
+#[derive(Debug, Getters)]
 pub struct DeviceEndpointClient {
     /// The 'name' Field.
-    pub device_name: String,
+    device_name: String,
     /// The 'endpointName' Field.
-    pub inbound_endpoint_name: String, // needed for easy status reporting?
+    inbound_endpoint_name: String, // needed for easy status reporting?
+    // TODO: device_ref
     /// The 'specification' Field.
-    pub specification: DeviceSpecification,
+    specification: Arc<DeviceSpecification>,
     /// The 'status' Field.
-    pub status: Option<DeviceEndpointStatus>,
+    status: Option<DeviceEndpointStatus>,
+    #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
 impl DeviceEndpointClient {
@@ -238,11 +241,11 @@ impl DeviceEndpointClient {
         Ok(DeviceEndpointClient {
             device_name: device.name,
             // TODO: get device_endpoint_credentials_mount_path from connector config
-            specification: DeviceSpecification::new(
+            specification: Arc::new(DeviceSpecification::new(
                 device.specification,
                 "/etc/akri/secrets/device_endpoint_auth",
                 &inbound_endpoint_name,
-            )?,
+            )?),
             status: device.status.map(|recvd_status| {
                 DeviceEndpointStatus::new(recvd_status, &inbound_endpoint_name)
             }),
@@ -392,7 +395,7 @@ impl DeviceEndpointClientUpdateObservation {
 pub struct AssetClientCreationObservation {
     asset_create_observation: AssetCreateObservation,
     connector_context: Arc<ConnectorContext>,
-    // arc of device endpoint client?
+    device_specification: Arc<DeviceSpecification>,
 }
 impl AssetClientCreationObservation {
     /// Receives a notification for a newly created asset or [`None`] if there
@@ -472,7 +475,12 @@ impl AssetClientCreationObservation {
             )
             .await
             {
-                Ok(asset) => AssetClient::new(asset, asset_ref, self.connector_context.clone()),
+                Ok(asset) => AssetClient::new(
+                    asset,
+                    asset_ref,
+                    self.device_specification.clone(),
+                    self.connector_context.clone(),
+                ),
                 Err(e) => {
                     log::error!("Failed to get Asset definition after retries: {e}");
                     log::error!("Dropping asset create notification: {asset_ref:?}");
@@ -536,33 +544,33 @@ impl AssetClientUpdateObservation {
 
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status, translate data, and send data to the destination
-#[allow(dead_code)]
+#[derive(Debug, Getters)]
 pub struct AssetClient {
     /// Asset, device, and inbound endpoint names
-    pub asset_ref: AssetRef,
+    asset_ref: AssetRef,
     /// Specification for the Asset
-    pub specification: Arc<AssetSpecification>, // TODO: will need to be Arc<RwLock> once update is supported
+    specification: Arc<AssetSpecification>, // TODO: will need to be Arc<RwLock> once update is supported
     /// Status for the Asset
-    pub status: Arc<RwLock<Option<AssetStatus>>>,
+    #[getter(skip)]
+    status: Arc<RwLock<Option<AssetStatus>>>,
     // asset_definition: Arc<RwLock<Asset>>,
+    /// Datasets on this Asset
     datasets: Vec<DatasetClient>, // TODO: might need to change this model once the dataset definition can get updated from an update
-    // device_endpoint_ref: Arc<DeviceEndpoint>,
+    /// Specification of the device that this Asset is tied to
+    device_specification: Arc<DeviceSpecification>,
+    #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
 impl AssetClient {
     pub(crate) fn new(
         asset: azure_device_registry::Asset,
         asset_ref: AssetRef,
-        // device_endpoint_ref: Arc<DeviceEndpoint>,
+        device_specification: Arc<DeviceSpecification>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
-        let specification = Arc::new(AssetSpecification::new(
-            asset.specification,
-            // &status,
-            // &connector_context,
-        ));
+        let specification = Arc::new(AssetSpecification::from(asset.specification));
         let mut datasets = Vec::new();
         for dataset in dataset_definitions {
             datasets.push(DatasetClient::new(
@@ -570,6 +578,7 @@ impl AssetClient {
                 asset_ref.clone(),
                 status.clone(),
                 specification.clone(),
+                device_specification.clone(),
                 connector_context.clone(),
             ));
         }
@@ -578,6 +587,7 @@ impl AssetClient {
             specification,
             status,
             datasets,
+            device_specification,
             connector_context,
         }
     }
@@ -599,16 +609,24 @@ impl AssetClient {
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
-            self.status.clone(),
+            &self.status,
         )
         .await;
+    }
+
+    /// Returns a clone of the current asset status
+    /// # Panics
+    /// if the status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn status(&self) -> Option<AssetStatus> {
+        (*self.status.read().unwrap()).clone()
     }
 
     pub(crate) async fn internal_report_status(
         adr_asset_status: azure_device_registry::AssetStatus,
         connector_context: &ConnectorContext,
         asset_ref: &AssetRef,
-        asset_status_ref: Arc<RwLock<Option<AssetStatus>>>,
+        asset_status_ref: &Arc<RwLock<Option<AssetStatus>>>,
     ) {
         // send status update to the service
         match Retry::spawn(
@@ -664,38 +682,46 @@ impl AssetClient {
 
 /// Azure Device Registry Dataset that includes additional functionality
 /// to report status, translate data, and send data to the destination
+#[derive(Debug, Getters, Clone)]
 pub struct DatasetClient {
     /// Dataset Definition
-    pub dataset_definition: Dataset,
-    asset_ref: AssetRef,
+    dataset_definition: Dataset,
+    /// Asset reference, contains names of device, inbound endpoint, and asset
+    asset_ref: AssetRef, // TODO: DatasetRef for symmetry with other layers
+    /// Current status for the Asset
+    #[getter(skip)]
     asset_status: Arc<RwLock<Option<AssetStatus>>>,
+    /// Current specification for the Asset
     asset_specification: Arc<AssetSpecification>,
+    /// Specification of the device that this dataset is tied to
+    device_specification: Arc<DeviceSpecification>,
+    // TODO: add device status here and above as well just in case
+    #[getter(skip)]
     forwarder: Arc<Forwarder>,
+    #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     // message_schema: Arc<RwLock<Option<MessageSchema>>>,
     // status: Arc<RwLock<Option<AssetStatus>>>,
     // reporter: Arc<Reporter>,
 }
-#[allow(dead_code)]
+
 impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
+        device_specification: Arc<DeviceSpecification>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         // Create a new dataset
         let forwarder = Arc::new(Forwarder::new(dataset_definition.clone()));
-        // let reporter = Arc::new(Reporter::new(
-        //     dataset_definition.clone(),
-        //     asset_status.clone(),
-        // ));
         Self {
             dataset_definition,
             asset_ref,
             asset_status,
             asset_specification,
+            device_specification,
             forwarder,
             connector_context,
         }
@@ -721,7 +747,7 @@ impl DatasetClient {
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
-            self.asset_status.clone(),
+            &self.asset_status,
         )
         .await;
     }
@@ -738,7 +764,7 @@ impl DatasetClient {
     /// # Panics
     /// If the Schema Registry Service returns a schema without required values. This should get updated
     /// to be validated by the Schema Registry API surface in the future
-    pub async fn report_message_schmea(
+    pub async fn report_message_schema(
         &self,
         message_schema: MessageSchema,
     ) -> Result<MessageSchemaReference, schema_registry::Error> {
@@ -806,7 +832,7 @@ impl DatasetClient {
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
-            self.asset_status.clone(),
+            &self.asset_status,
         )
         .await;
 
@@ -814,6 +840,13 @@ impl DatasetClient {
             .update_message_schema_uri(Some(message_schema_reference.clone()));
 
         Ok(message_schema_reference)
+    }
+
+    /// Used to send transformed data to the destination
+    /// # Errors
+    /// TODO
+    pub async fn forward_data(&self, data: Data) -> Result<(), String> {
+        self.forwarder.send_data(data).await
     }
 
     /// Returns a clone of this dataset's [`MessageSchemaReference`], if it exists
@@ -835,58 +868,14 @@ impl DatasetClient {
             .clone()
     }
 
-    /// Used to send sampled data to the [`DataTransformer`], which will then send
-    /// the transformed data to the destination
-    /// # Errors
-    /// TODO
-    #[allow(clippy::unused_async)]
-    pub async fn forward_data(&self, data: Data) -> Result<(), String> {
-        self.forwarder.send_data(data).await
+    /// Returns a clone of the current asset status, if it exists
+    /// # Panics
+    /// if the asset status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn asset_status(&self) -> Option<AssetStatus> {
+        (*self.asset_status.read().unwrap()).clone()
     }
 }
-
-/// Convenience struct to manage reporting the status of a dataset
-// pub struct Reporter {
-//     message_schema_uri: Option<MessageSchemaReference>,
-//     _message_schema: Option<MessageSchema>,
-//     asset_status: Arc<RwLock<Option<AssetStatus>>>,
-// }
-// #[allow(dead_code)]
-// impl Reporter {
-//     pub(crate) fn new(
-//         _dataset_definition: Dataset,
-//         asset_status: Arc<RwLock<Option<AssetStatus>>>,
-//     ) -> Self {
-//         // Create a new reporter
-//         Self {
-//             message_schema_uri: None,
-//             _message_schema: None,
-//             asset_status,
-//         }
-//     }
-//     /// Used to report the status of an dataset
-//     /// # Errors
-//     /// TODO
-//     pub async fn report_status(&self, _status: Result<(), ConfigError>) {}
-
-//     /// Used to report the [`MessageSchema`] of an dataset
-//     /// # Errors
-//     /// TODO
-//     pub fn report_message_schema(
-//         &self,
-//         _message_schema: Option<MessageSchema>,
-//     ) -> Result<Option<MessageSchemaReference>, String> {
-//         // Report the status of the dataset
-//         Ok(None)
-//     }
-
-//     /// Returns the current message schema URI
-//     #[must_use]
-//     pub fn get_current_message_schema_uri(&self) -> Option<MessageSchemaReference> {
-//         // Get the current message schema URI
-//         self.message_schema_uri.clone()
-//     }
-// }
 
 // Client Structs
 // Device
@@ -1057,7 +1046,7 @@ impl DeviceEndpointStatus {
 }
 
 /// Represents the specification of an Asset in the Azure Device Registry service.
-// #[derive(Debug)]
+#[derive(Debug)]
 pub struct AssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
@@ -1091,7 +1080,7 @@ pub struct AssetSpecification {
     pub documentation_uri: Option<String>,
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
-    ///  Array of events that are part of the asset. TODO: EventClient
+    ///  Array of events that are part of the asset. TODO: `EventClient`
     pub events: Vec<azure_device_registry::Event>, // if None, we can represent as empty vec
     /// Asset id provided by the customer.
     pub external_asset_id: Option<String>,
@@ -1099,7 +1088,7 @@ pub struct AssetSpecification {
     pub hardware_revision: Option<String>,
     /// The last time the asset has been modified.
     pub last_transition_time: Option<String>,
-    /// Array of management groups that are part of the asset. TODO: ManagementGroupClient
+    /// Array of management groups that are part of the asset. TODO: `ManagementGroupClient`
     pub management_groups: Vec<azure_device_registry::ManagementGroup>, // if None, we can represent as empty vec
     /// The name of the manufacturer.
     pub manufacturer: Option<String>,
@@ -1113,7 +1102,7 @@ pub struct AssetSpecification {
     pub serial_number: Option<String>,
     /// The revision number of the software.
     pub software_revision: Option<String>,
-    /// Array of streams that are part of the asset. TODO: StreamClient
+    /// Array of streams that are part of the asset. TODO: `StreamClient`
     pub streams: Vec<azure_device_registry::Stream>, // if None, we can represent as empty vec
     ///  Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
@@ -1121,53 +1110,39 @@ pub struct AssetSpecification {
     pub version: Option<u64>,
 }
 
-impl AssetSpecification {
-    pub(crate) fn new(
-        asset_specification: azure_device_registry::AssetSpecification,
-        // status: &Arc<RwLock<Option<AssetStatus>>>,
-        // connector_context: &Arc<ConnectorContext>,
-    ) -> Self {
-        // let mut datasets = Vec::new();
-        // for dataset in asset_specification.datasets {
-        //     datasets.push(DatasetClient::new(
-        //         dataset,
-        //         status.clone(),
-        //         connector_context.clone(),
-        //     ));
-        // }
-        // TODO: do the same for events, streams, and management groups
+impl From<azure_device_registry::AssetSpecification> for AssetSpecification {
+    fn from(value: azure_device_registry::AssetSpecification) -> Self {
         AssetSpecification {
-            asset_type_refs: asset_specification.asset_type_refs,
-            attributes: asset_specification.attributes,
+            asset_type_refs: value.asset_type_refs,
+            attributes: value.attributes,
             // datasets,
-            default_datasets_configuration: asset_specification.default_datasets_configuration,
-            default_datasets_destinations: asset_specification.default_datasets_destinations,
-            default_events_configuration: asset_specification.default_events_configuration,
-            default_events_destinations: asset_specification.default_events_destinations,
-            default_management_groups_configuration: asset_specification
-                .default_management_groups_configuration,
-            default_streams_configuration: asset_specification.default_streams_configuration,
-            default_streams_destinations: asset_specification.default_streams_destinations,
-            description: asset_specification.description,
-            device_ref: asset_specification.device_ref,
-            discovered_asset_refs: asset_specification.discovered_asset_refs,
-            display_name: asset_specification.display_name,
-            documentation_uri: asset_specification.documentation_uri,
-            enabled: asset_specification.enabled,
-            events: asset_specification.events,
-            external_asset_id: asset_specification.external_asset_id,
-            hardware_revision: asset_specification.hardware_revision,
-            last_transition_time: asset_specification.last_transition_time,
-            management_groups: asset_specification.management_groups,
-            manufacturer: asset_specification.manufacturer,
-            manufacturer_uri: asset_specification.manufacturer_uri,
-            model: asset_specification.model,
-            product_code: asset_specification.product_code,
-            serial_number: asset_specification.serial_number,
-            software_revision: asset_specification.software_revision,
-            streams: asset_specification.streams,
-            uuid: asset_specification.uuid,
-            version: asset_specification.version,
+            default_datasets_configuration: value.default_datasets_configuration,
+            default_datasets_destinations: value.default_datasets_destinations,
+            default_events_configuration: value.default_events_configuration,
+            default_events_destinations: value.default_events_destinations,
+            default_management_groups_configuration: value.default_management_groups_configuration,
+            default_streams_configuration: value.default_streams_configuration,
+            default_streams_destinations: value.default_streams_destinations,
+            description: value.description,
+            device_ref: value.device_ref,
+            discovered_asset_refs: value.discovered_asset_refs,
+            display_name: value.display_name,
+            documentation_uri: value.documentation_uri,
+            enabled: value.enabled,
+            events: value.events,
+            external_asset_id: value.external_asset_id,
+            hardware_revision: value.hardware_revision,
+            last_transition_time: value.last_transition_time,
+            management_groups: value.management_groups,
+            manufacturer: value.manufacturer,
+            manufacturer_uri: value.manufacturer_uri,
+            model: value.model,
+            product_code: value.product_code,
+            serial_number: value.serial_number,
+            software_revision: value.software_revision,
+            streams: value.streams,
+            uuid: value.uuid,
+            version: value.version,
         }
     }
 }

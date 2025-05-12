@@ -11,6 +11,7 @@ use azure_iot_operations_services::azure_device_registry::{Dataset, MessageSchem
 
 use crate::Data;
 
+#[derive(Debug)]
 pub struct Forwarder {
     message_schema_uri: Arc<RwLock<Option<MessageSchemaReference>>>,
 }
@@ -28,8 +29,14 @@ impl Forwarder {
     #[allow(clippy::unused_async)]
     pub async fn send_data(&self, _data: Data) -> Result<(), String> {
         // Forward the data to the destination
-        Err("Not implemented".to_string())
+        // Err("Not implemented".to_string())
+        Ok(())
     }
+
+    /// Sets the message schema uri for this forwarder to use
+    ///
+    /// # Panics
+    /// if the message schema uri mutex has been poisoned, which should not be possible
     pub fn update_message_schema_uri(&self, message_schema_uri: Option<MessageSchemaReference>) {
         // Add the message schema URI to the forwarder
         *self.message_schema_uri.write().unwrap() = message_schema_uri;

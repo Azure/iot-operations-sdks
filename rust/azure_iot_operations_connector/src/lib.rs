@@ -17,6 +17,9 @@ pub mod source_endpoint;
 /// Message Schema to send to the Schema Registry Service
 pub type MessageSchema = PutRequest;
 
+#[macro_use]
+extern crate derive_getters;
+
 /// Struct format for data sent to the [`DataTransformer`] and the destination
 pub struct Data {
     /// The payload in raw bytes
