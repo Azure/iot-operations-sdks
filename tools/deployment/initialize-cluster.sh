@@ -11,7 +11,7 @@ help()
     echo "Options:"
     echo "-h    Print this Help."
     echo "-s    Skip the installation of prerequisites."
-    echo "-y    Automatically assume "yes" to all questions."
+    echo "-y    Automatically assume 'yes' to all questions."
     echo
 }
 
