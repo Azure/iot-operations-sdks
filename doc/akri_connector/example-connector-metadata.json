@@ -33,9 +33,45 @@
             "name": "Rest",
             "version": "1.0",                                                  
             "configSchemas": {
-                "deviceEndpointAdditionalConfigSchema": "deviceEndpointAdditionalConfigSchema.json",
-                "defaultDatasetConfigSchema": "defaultDatasetConfigSchema.json",
-                "defaultEventsConfigSchema": "defaultEventsConfigSchema.json",
+                "deviceEndpointAdditionalConfigSchema": {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "$id": "https://contoso.com/deviceEndpointConfig.schema.json",
+                    "title": "Device Endpoint Config Schema",
+                    "description": "The JSON schema for the device endpoint additional configuration field",
+                    "type": "object",
+                    "properties": {
+                      "SomeEndpointConfiguration": {
+                        "description": "Some configurable value that is relevant to endpoints",
+                        "type": "integer"
+                      }
+                    }
+                },
+                "datasetConfigSchema": {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "$id": "https://contoso.com/defaultDatasetConfig.schema.json",
+                    "title": "Dataset Config Schema",
+                    "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+                    "type": "object",
+                    "properties": {
+                      "SamplingInterval": {
+                        "description": "How frequently to sample each dataset by default (in milliseconds)",
+                        "type": "integer"
+                      }
+                    }
+                },
+                "defaultEventsConfigSchema": {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "$id": "https://contoso.com/defaultEventConfig.schema.json",
+                    "title": "Default Event Config Schema",
+                    "description": "The JSON schema for the default dataset configuration field",
+                    "type": "object",
+                    "properties": {
+                      "SamplingInterval": {
+                        "description": "How frequently to sample each dataset by default (in milliseconds)",
+                        "type": "integer"
+                      }
+                    }
+                },
                 "defaultStreamsConfigSchema": "defaultStreamsConfigSchema.json",
                 "defaultProcessControlConfigSchema": "defaultProcessControlConfigSchema.json"
             }
