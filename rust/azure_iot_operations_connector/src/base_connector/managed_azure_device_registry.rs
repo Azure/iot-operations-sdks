@@ -587,7 +587,7 @@ impl AssetClient {
             .map(|dataset| {
                 DatasetClient::new(
                     dataset,
-                    &default_dataset_destination,
+                    default_dataset_destination.as_ref(),
                     asset_ref.clone(),
                     status.clone(),
                     specification.clone(),
@@ -721,7 +721,7 @@ pub struct DatasetClient {
 impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
-        default_destination: &Option<destination_endpoint::Destination>,
+        default_destination: Option<&destination_endpoint::Destination>,
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,

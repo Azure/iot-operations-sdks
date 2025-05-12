@@ -3,8 +3,6 @@
 
 //! Traits, types, and implementations for Azure IoT Operations Connector Destination Endpoints.
 
-#![allow(missing_docs)]
-
 use std::{
     sync::{Arc, RwLock},
     time::Duration,
@@ -12,7 +10,6 @@ use std::{
 
 use azure_iot_operations_mqtt::{control_packet::QoS, session::SessionManagedClient};
 use azure_iot_operations_protocol::{
-    application::ApplicationContext,
     common::payload_serialize::{FormatIndicator, SerializedPayload},
     telemetry,
 };
@@ -21,10 +18,7 @@ use azure_iot_operations_services::{
     state_store,
 };
 
-use crate::{
-    Data,
-    base_connector::{ConnectorContext, managed_azure_device_registry::AssetSpecification},
-};
+use crate::{Data, base_connector::ConnectorContext};
 
 #[derive(Debug)]
 pub(crate) struct Forwarder {
@@ -36,16 +30,16 @@ impl Forwarder {
     #[must_use]
     pub fn new_dataset_forwarder(
         dataset_definition: &Dataset,
-        default_destination: &Option<Destination>,
+        default_destination: Option<&Destination>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         // Create a new forwarder
 
         // If no destination is specified in the dataset definition, use the default dataset destination
         let destination = if dataset_definition.destinations.is_empty() {
-            default_destination.clone().expect(
+            default_destination.expect(
                 "Asset must have default dataset destination if dataset doesn't have destination",
-            )
+            ).clone()
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_definition.destinations;
@@ -62,7 +56,6 @@ impl Forwarder {
 
     /// # Errors
     /// TODO
-    #[allow(clippy::unused_async)]
     pub async fn send_data(&self, data: Data) -> Result<(), String> {
         // Forward the data to the destination
         match &self.destination {
