@@ -1,0 +1,44 @@
+
+{
+    "name": "RestConnector",
+    "description": "Connector for polling a REST server for information",
+    "version": "1.0.0",
+    "maintainer": "dev@example.com",
+    "vendor": "Contoso",
+    "managed": {
+        "image": {
+            "repository": "contoso-acr.io/RestConnector",
+            "tag": "1.0.0",
+            "digest": "sha256:abcd1234..."
+        }
+    },
+    "helm": {
+        "helm_chart": "my-connector-1.2.3.tgz",
+        "helm_values": "values.yaml"
+    },
+    "minimum_kubernetes_version": "1.23.0", 
+    "architecture": "amd64",
+    "permissions": ["ClusterRole"],             
+    "resource_requirements": {
+        "cpu": "500m",
+        "memory": "256Mi",
+        "storage": "5Gi"
+    },
+    "aioConfig": {
+        "minVersion": "1.0.0",
+        "maxVersion": "2.0.0"
+    },
+    "protocols": [
+        {             
+            "name": "Rest",
+            "version": "1.0",                                                  
+            "configSchemas": {
+                "deviceEndpointAdditionalConfigSchema": "deviceEndpointAdditionalConfigSchema.json",
+                "defaultDatasetConfigSchema": "defaultDatasetConfigSchema.json",
+                "defaultEventsConfigSchema": "defaultEventsConfigSchema.json",
+                "defaultStreamsConfigSchema": "defaultStreamsConfigSchema.json",
+                "defaultProcessControlConfigSchema": "defaultProcessControlConfigSchema.json"
+            }
+        }                     
+    ]
+}
