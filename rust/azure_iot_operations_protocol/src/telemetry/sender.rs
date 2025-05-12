@@ -334,6 +334,7 @@ pub struct Options {
 /// # })
 /// ```
 ///
+#[derive(Clone)]
 pub struct Sender<T, C>
 where
     T: PayloadSerialize,

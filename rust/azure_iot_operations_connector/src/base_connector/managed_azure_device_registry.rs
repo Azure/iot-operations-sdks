@@ -22,7 +22,7 @@ use tokio_retry2::{Retry, RetryError};
 use crate::{
     Data, DatasetRef, MessageSchema,
     base_connector::ConnectorContext,
-    destination_endpoint::Forwarder,
+    destination_endpoint::{self, Forwarder},
     filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
         DeviceEndpointRef,
@@ -577,11 +577,17 @@ impl AssetClient {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
         let specification = Arc::new(AssetSpecification::from(asset.specification));
+        let default_dataset_destination =
+            destination_endpoint::Destination::new_dataset_destination(
+                &specification.default_datasets_destinations,
+                &connector_context,
+            );
         let datasets = dataset_definitions
             .into_iter()
             .map(|dataset| {
                 DatasetClient::new(
                     dataset,
+                    &default_dataset_destination,
                     asset_ref.clone(),
                     status.clone(),
                     specification.clone(),
@@ -715,6 +721,7 @@ pub struct DatasetClient {
 impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
+        default_destination: &Option<destination_endpoint::Destination>,
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
@@ -722,7 +729,11 @@ impl DatasetClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         // Create a new dataset
-        let forwarder = Arc::new(Forwarder::new(dataset_definition.clone()));
+        let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
+            &dataset_definition,
+            default_destination,
+            connector_context.clone(),
+        ));
         Self {
             dataset_ref: DatasetRef {
                 dataset_name: dataset_definition.name.clone(),
