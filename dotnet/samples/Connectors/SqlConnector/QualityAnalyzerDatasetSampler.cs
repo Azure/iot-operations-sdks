@@ -54,6 +54,7 @@ namespace SqlQualityAnalyzerConnectorApp
                 using (SqlConnection connection = new SqlConnection(_fullConnectionString))
                 {
                     await connection.OpenAsync();
+                    
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())

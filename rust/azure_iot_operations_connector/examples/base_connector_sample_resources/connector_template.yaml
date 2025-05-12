@@ -1,30 +1,31 @@
 apiVersion: akri.microsoft.com/v1beta1
 kind: ConnectorTemplate
 metadata:
-  name: sql-ctemplate
+  name: base-connector-template
   namespace: azure-iot-operations
 spec:
-  version: "0.0.1"
+  version: "1.0"
+  aioMetadata:
+    aioMaxVersion: "3.0"
+    aioMinVersion: "0.0"
+  diagnostics:
+    logs:
+      level: "info"
   deviceInboundEndpointTypes:
-  - endpointType: qualityanalyzer-profile-sql-server
+  - endpointType: rest-thermostat
     version: "0.0.1"
   runtimeConfiguration:
     runtimeConfigurationType: managedConfiguration
     managedConfigurationSettings:
       managedConfigurationType: imageConfiguration
       imageConfigurationSettings:
-        imageName: "sqlqualityanalyzerconnector"
+        imageName: "baseconnector"
         imagePullPolicy: Never # This sample image is built locally, so no need to pull
         replicas: 1
         tagDigestSettings:
           tagDigestType: tag
           tag: "latest"
   mqttConnectionConfiguration:
-    host: "aio-broker:18883"
-    authentication:
-      method: ServiceAccountToken
-      serviceAccountTokenSettings:
-        audience: aio-internal
+    host: "aio-broker:1883"
     tls:
-      mode: Enabled
-      trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle
+      mode: Disabled

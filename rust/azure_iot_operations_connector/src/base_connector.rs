@@ -27,6 +27,8 @@ pub(crate) struct ConnectorContext<T: DataTransformer> {
     connector_config: ConnectorConfiguration,
     /// Debounce duration for filemount operations for the connector
     debounce_duration: Duration,
+    /// Default timeout for connector operations
+    default_timeout: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     data_transformer: T,
@@ -34,6 +36,21 @@ pub(crate) struct ConnectorContext<T: DataTransformer> {
     // schema_registry_client: schema_registry::Client<SessionManagedClient>,
     // etc
 }
+
+#[allow(clippy::missing_fields_in_debug)]
+impl<T> std::fmt::Debug for ConnectorContext<T>
+where
+    T: DataTransformer,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ConnectorContext")
+            .field("connector_config", &self.connector_config)
+            .field("debounce_duration", &self.debounce_duration)
+            .field("default_timeout", &self.default_timeout)
+            .finish()
+    }
+}
+
 /// Base Connector for Azure IoT Operations
 pub struct BaseConnector<T: DataTransformer> {
     connector_context: Arc<ConnectorContext<T>>,
@@ -89,7 +106,9 @@ where
         });
         Self {
             connector_context: Arc::new(ConnectorContext {
+                // TODO: validate these timeouts here once they come from somewhere
                 debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
+                default_timeout: Duration::from_secs(10),  // TODO: come from somewhere
                 application_context,
                 connector_config,
                 azure_device_registry_client,

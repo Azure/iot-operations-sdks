@@ -7,7 +7,7 @@
 
 use std::sync::Arc;
 
-use azure_iot_operations_services::azure_device_registry::AssetDataset;
+use azure_iot_operations_services::azure_device_registry::Dataset;
 
 use crate::destination_endpoint::Forwarder;
 use crate::{Data, base_connector::managed_azure_device_registry::Reporter};
@@ -17,7 +17,7 @@ pub trait DataTransformer {
     type MyDatasetDataTransformer: DatasetDataTransformer;
     fn new_dataset_data_transformer(
         &self,
-        dataset_definition: AssetDataset,
+        dataset_definition: Dataset,
         forwarder: Forwarder,
         reporter: Arc<Reporter>,
     ) -> Self::MyDatasetDataTransformer;
@@ -37,7 +37,7 @@ impl DataTransformer for PassthroughDataTransformer {
     #[must_use]
     fn new_dataset_data_transformer(
         &self,
-        _dataset_definition: AssetDataset,
+        _dataset_definition: Dataset,
         forwarder: Forwarder,
         _reporter: Arc<Reporter>,
     ) -> Self::MyDatasetDataTransformer {

@@ -5,7 +5,7 @@
 
 #![allow(missing_docs)]
 
-use azure_iot_operations_services::azure_device_registry::{AssetDataset, MessageSchemaReference};
+use azure_iot_operations_services::azure_device_registry::{Dataset, MessageSchemaReference};
 
 use crate::Data;
 
@@ -14,7 +14,7 @@ pub struct Forwarder {
 }
 impl Forwarder {
     #[must_use]
-    pub fn new(_dataset_definition: AssetDataset) -> Self {
+    pub fn new(_dataset_definition: Dataset) -> Self {
         // Create a new forwarder
         Self {
             message_schema_uri: None,

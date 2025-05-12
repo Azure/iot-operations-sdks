@@ -6,21 +6,20 @@
 use core::fmt::Debug;
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::control_packet::QoS as rumqttc_qos;
+use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
 use thiserror::Error;
 
 use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
-use crate::azure_device_registry::device_name_gen::common_types::options::{
-    CommandInvokerOptionsBuilderError, TelemetryReceiverOptionsBuilderError,
-};
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry Client implementation wrapper
-mod client;
+pub mod client;
 /// Azure Device Registry generated code
 mod device_name_gen;
+
+pub use client::{Client, ClientOptions, ClientOptionsBuilder};
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 /// Represents an error that occurred in the Azure Device Registry Client implementation.
@@ -46,9 +45,6 @@ pub enum ErrorKind {
     /// An argument provided for a request was invalid.
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
-    /// Client Id used for the ADR Client was invalid.
-    #[error("{0}")]
-    InvalidClientId(String),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(ServiceError),
@@ -61,6 +57,9 @@ pub enum ErrorKind {
     /// An error occurred while shutting down the Azure Device Registry Client.
     #[error("Shutdown error occurred with the following protocol errors: {0:?}")]
     ShutdownError(Vec<AIOProtocolError>),
+    /// An error occurred while validating the inputs.
+    #[error("{0}")]
+    ValidationError(String),
 }
 
 /// An error returned by the Azure Device Registry Service.
@@ -69,18 +68,6 @@ pub enum ErrorKind {
 pub struct ServiceError {
     /// A message describing the error returned by the Azure Device Registry Service.
     pub message: String,
-}
-
-impl From<CommandInvokerOptionsBuilderError> for ErrorKind {
-    fn from(value: CommandInvokerOptionsBuilderError) -> Self {
-        ErrorKind::InvalidClientId(value.to_string())
-    }
-}
-
-impl From<TelemetryReceiverOptionsBuilderError> for ErrorKind {
-    fn from(value: TelemetryReceiverOptionsBuilderError) -> Self {
-        ErrorKind::InvalidClientId(value.to_string())
-    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
@@ -798,7 +785,7 @@ pub struct DestinationConfiguration {
     /// The description of the destination configuration.
     pub path: Option<String>,
     /// The MQTT `QoS` setting for the destination configuration.
-    pub qos: Option<rumqttc_qos>,
+    pub qos: Option<MqttQoS>,
     /// The MQTT retain setting for the destination configuration.
     pub retain: Option<Retain>,
     /// The MQTT topic for the destination configuration.
@@ -1269,7 +1256,7 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
         DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(rumqttc_qos::from),
+            qos: value.qos.map(MqttQoS::from),
             retain: value.retain.map(Retain::from),
             topic: value.topic,
             ttl: value.ttl,
@@ -1299,8 +1286,8 @@ impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
 impl From<adr_name_gen::Qos> for azure_iot_operations_mqtt::control_packet::QoS {
     fn from(value: adr_name_gen::Qos) -> Self {
         match value {
-            adr_name_gen::Qos::Qos0 => rumqttc_qos::AtMostOnce,
-            adr_name_gen::Qos::Qos1 => rumqttc_qos::AtLeastOnce,
+            adr_name_gen::Qos::Qos0 => MqttQoS::AtMostOnce,
+            adr_name_gen::Qos::Qos1 => MqttQoS::AtLeastOnce,
         }
     }
 }
