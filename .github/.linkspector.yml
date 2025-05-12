@@ -7,3 +7,5 @@ excludedFiles:
 ignorePatterns:
   # There are some dummy links, ignore these
   - pattern: "^http://link_to_"
+batchSize: 10
+retryCount: 1
