@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #![cfg(feature = "azure_device_registry")]
 
 use std::{env, time::Duration};
@@ -9,7 +12,7 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry;
+use azure_iot_operations_services::azure_device_registry::{self, DeviceStatus, StatusConfig};
 
 const DEVICE1: &str = "my-thermostat";
 const DEVICE2: &str = "test-thermostat";
@@ -39,6 +42,7 @@ fn setup_test(
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
+    // TODO Uncomment this to enable network tests
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
         log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
         return Err(());
@@ -47,7 +51,9 @@ fn setup_test(
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
-        .tcp_port(1883u16)
+        .tcp_port(31883u16)
+        // TODO Uncomment this
+        //.tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
         .build()
@@ -85,13 +91,79 @@ async fn get_device() {
 
     let test_task = tokio::task::spawn({
         async move {
-            let get_device_response = azure_device_registry_client
+            let response = azure_device_registry_client
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get Device: {get_device_response:?}",);
+            log::info!("[{log_identifier}] Get Device: {response:?}",);
+            log::info!("[{log_identifier}] Device Name: {}", response.name);
+            log::info!(
+                "[{log_identifier}] Device Id: {}",
+                response.specification.attributes["deviceId"]
+            );
 
-            assert_eq!(get_device_response.name, DEVICE1);
+            assert_eq!(response.name, DEVICE1);
+            assert_eq!(response.specification.attributes["deviceId"], DEVICE1);
+            assert!(
+                response
+                    .specification
+                    .endpoints
+                    .inbound
+                    .get(ENDPOINT1)
+                    .is_some(),
+                "Expected endpoint '{}' to be present in the inbound endpoints, but it was not found.",
+                ENDPOINT1
+            );
+            // Shutdown adr client and underlying resources
+            assert!(azure_device_registry_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+#[tokio::test]
+async fn observe_device_update_notifications() {
+    let log_identifier = "observe_device_update_notifications";
+    let Ok((session, azure_device_registry_client, exit_handle)) =
+        setup_test("observe_device_update_notifications_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let updated_status = DeviceStatus {
+        config: Some(StatusConfig {
+            error: None,
+            version: Some(11),
+            last_transition_time: Some(String::from("2025-11-11T00:00:00Z")),
+        }),
+        endpoints: vec![(ENDPOINT1.to_string(), None)]
+            .into_iter()
+            .collect::<std::collections::HashMap<_, _>>(),
+    };
+    let test_task = tokio::task::spawn({
+        async move {
+            let updated_device_response = azure_device_registry_client
+                .update_device_plus_endpoint_status(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    updated_status,
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Updated Response Device: {updated_device_response:?}",);
+
+            assert_eq!(updated_device_response.name, DEVICE1);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -100,8 +172,46 @@ async fn get_device() {
         }
     });
 
-    // if an assert fails in the test task, propagate the panic to end the test,
-    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+#[tokio::test]
+async fn get_asset() {
+    let log_identifier = "get_asset";
+    let Ok((session, azure_device_registry_client, exit_handle)) =
+        setup_test("get_asset_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let response = azure_device_registry_client
+                .get_asset(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    ASSET_NAME1.to_string(),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Response: {response:?}",);
+
+            assert_eq!(response.name, ASSET_NAME1);
+            // Shutdown adr client and underlying resources
+            assert!(azure_device_registry_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
     assert!(
         tokio::try_join!(
             async move { test_task.await.map_err(|e| { e.to_string() }) },
