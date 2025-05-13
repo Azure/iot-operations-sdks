@@ -91,7 +91,7 @@ pub struct ServiceError {
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct GetRequest {
     /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
-    pub id: String,
+    id: String,
     /// The version of the schema to fetch. If not specified, defaults to "1".
     #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
     pub version: String,
