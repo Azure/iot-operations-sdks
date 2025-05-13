@@ -1,4 +1,4 @@
-name: CI-Dotnet
+name: CI-ConnectorMetadataSchema
 
 on:
   workflow_dispatch:
