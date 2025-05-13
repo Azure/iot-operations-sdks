@@ -12,8 +12,8 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 use derive_builder::Builder;
 use thiserror::Error;
 
-pub use schemaregistry_gen::schema_registry::client::Schema;    // TODO: wrap
 use schemaregistry_gen::schema_registry::client as sr_client_gen;
+pub use schemaregistry_gen::schema_registry::client::Schema; // TODO: wrap
 
 /// Schema Registry Client implementation wrapper
 mod client;
@@ -79,9 +79,9 @@ impl From<AIOProtocolError> for ErrorKind {
 /// Supported schema formats
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Format {
-    // Delta/1.0
+    /// Delta1
     Delta1,
-    // JsonSchema/draft-07
+    /// JsonSchema/draft-07
     JsonSchemaDraft07,
 }
 
@@ -97,7 +97,7 @@ impl From<Format> for sr_client_gen::Format {
 /// Supported schema types.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SchemaType {
-    // Message Schema
+    /// Message Schema
     MessageSchema,
 }
 
