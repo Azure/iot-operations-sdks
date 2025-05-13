@@ -59,11 +59,40 @@
       "architecture": {
         "type": "string"
       },
-      "language": {
-        "type": "string"
-      },
-      "languageVersion": {
-        "type": "string"
+      "sourceCode": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "languageVersion": {
+            "type": "string"
+          },
+          "SDK": {
+            "type": "object",
+            "properties": {
+              "ProtocolPackageVersion": {
+                "type": "string"
+              },
+              "ServicesPackageVersion": {
+                "type": "string"
+              },
+              "ConnectorPackageVersion": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ProtocolPackageVersion",
+              "ServicesPackageVersion",
+              "ConnectorPackageVersion"
+            ]
+          }
+        },
+        "required": [
+          "language",
+          "languageVersion",
+          "SDK"
+        ]
       },
       "permissions": {
         "type": "array",
@@ -257,8 +286,6 @@
       "image",
       "minimum_kubernetes_version",
       "architecture",
-      "language",
-      "languageVersion",
       "permissions",
       "aioConfig",
       "protocols"
