@@ -24,7 +24,7 @@ pub type MessageSchemaBuilder = PutRequestBuilder;
 /// Error type for [`MessageSchemaBuilder`]
 pub type MessageSchemaBuilderError = PutRequestBuilderError;
 
-/// Struct format for data sent to the [`DataTransformer`] and the destination
+/// Struct format for data sent to the destination
 #[derive(Debug, Clone, PartialEq)]
 pub struct Data {
     /// The payload in raw bytes
