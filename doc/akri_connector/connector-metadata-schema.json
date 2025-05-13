@@ -207,8 +207,6 @@
       "name",
       "version",
       "image",
-      "kubernetes",
-      "aioConfig",
       "protocols"
     ]
   }
