@@ -189,6 +189,9 @@ pub struct Message<T: PayloadSerialize> {
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
     cloud_event: Option<CloudEvent>,
+    /// Indicates whether the message should be retained or not.A retained message is a normal MQTT message with the retained flag set to true.
+    #[builder(default = "false")]
+    retain: bool,
 }
 
 impl<T: PayloadSerialize> MessageBuilder<T> {
@@ -475,7 +478,7 @@ where
             .publish_with_properties(
                 message_topic,
                 message.qos,
-                false,
+                message.retain,
                 message.serialized_payload.payload,
                 publish_properties,
             )
@@ -731,5 +734,28 @@ mod tests {
             .build();
 
         assert!(message_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_send_retain_true() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let message_builder_result = MessageBuilder::default()
+            .payload(mock_telemetry_payload)
+            .unwrap()
+            .retain(true)
+            .build();
+
+        assert_eq!(message_builder_result.unwrap().retain, true);
     }
 }
