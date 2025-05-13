@@ -1,0 +1,126 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: azure-iot-operations-aio-selfsigned-root
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: azure-iot-operations-aio-selfsigned-root
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: Azure IoT Operations Quickstart Root CA - Not for Production
+  secretName: azure-iot-operations-aio-ca-certificate
+  issuerRef:
+    kind: ClusterIssuer
+    group: cert-manager.io
+    name: azure-iot-operations-aio-selfsigned-root
+  privateKey:
+    rotationPolicy: Never
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: azure-iot-operations-aio-ca-trust-bundle
+spec:
+  sources:
+    - secret:
+        name: azure-iot-operations-aio-ca-certificate
+        key: tls.crt
+  target:
+    configMap: #The bundle name is used for the target
+      key: ca.crt
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: azure-iot-operations
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: azure-iot-operations-aio-certificate-issuer
+spec:
+  ca:
+    secretName: azure-iot-operations-aio-ca-certificate
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerListener
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  brokerRef: default
+  serviceName: aio-broker
+  serviceType: clusterIp
+  ports:
+    - port: 1883
+    - port: 1884
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
+    - port: 18883
+      authenticationRef: default
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerListener
+metadata:
+  name: default-external
+  namespace: azure-iot-operations
+spec:
+  brokerRef: default
+  serviceName: aio-broker-external
+  serviceType: loadBalancer
+  ports:
+    - port: 31883
+    - port: 38883
+      authenticationRef: default
+      tls:
+        mode: automatic
+        certManagerCertificateSpec:
+          issuerRef:
+            kind: ClusterIssuer
+            group: cert-manager.io
+            name: azure-iot-operations-aio-certificate-issuer
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: BrokerAuthentication
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  authenticationMethods:
+    - method: serviceAccountToken
+      serviceAccountTokenSettings:
+        audiences:
+          - aio-internal
+---
+apiVersion: mqttbroker.iotoperations.azure.com/v1
+kind: Broker
+metadata:
+  name: default
+  namespace: azure-iot-operations
+spec:
+  generateResourceLimits:
+    cpu: disabled
+  cardinality:
+    backendChain:
+      partitions: 1
+      redundancyFactor: 2
+    frontend:
+      replicas: 1
