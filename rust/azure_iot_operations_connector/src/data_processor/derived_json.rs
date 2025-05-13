@@ -177,4 +177,26 @@ mod test {
         }
     }
 
+
+    #[test]
+    fn test_transform() {
+        let test_case = testcase_1();
+        let input_json = test_case.input_json_str.as_bytes().to_vec();
+        let dataset = test_case.dataset;
+        let expected_output_json_str = test_case.expected_output_json_str;
+        let expected_output_message_schema = test_case.expected_output_message_schema;
+
+        let mut data = Data {
+            payload: input_json,
+            content_type: None,
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        let (data, message_schema) = transform(&mut data, &dataset).unwrap();
+
+        assert_eq!(data.payload, expected_output_json_str.as_bytes().to_vec());
+        assert_eq!(message_schema, expected_output_message_schema);
+    }
+
 }
