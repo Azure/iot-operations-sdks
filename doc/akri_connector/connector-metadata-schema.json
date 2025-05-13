@@ -86,11 +86,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "cpu",
-          "memory",
-          "storage"
-        ]
+        "required": []
       },
       "aioConfig": {
         "type": "object",
@@ -102,10 +98,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "minVersion",
-          "maxVersion"
-        ]
+        "required": []
       },
       "protocols": {
         "type": "array",
