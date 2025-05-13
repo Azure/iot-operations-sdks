@@ -120,7 +120,7 @@ pub struct ServiceError {
     pub property_value: Option<String>,
 }
 
-// TODO: How should id be exposed, if at all?
+// TODO: should these fields be exposed? How?
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
@@ -129,7 +129,7 @@ pub struct GetRequest {
     id: String,
     /// The version of the schema to fetch. If not specified, defaults to "1".
     #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    pub version: String,
+    version: String,
 }
 
 impl GetRequestBuilder {
