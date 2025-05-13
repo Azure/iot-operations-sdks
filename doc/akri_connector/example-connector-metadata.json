@@ -14,7 +14,6 @@
     "tag": "1.0.0",
     "digest": "sha256:abcd1234..."
   },
-  "minimum_kubernetes_version": "1.23.0",
   "architecture": "amd64",
   "sourceCode": {
     "language": ".NET",
@@ -25,9 +24,12 @@
       "ConnectorPackageVersion": "1.0.0"
     }
   },
-  "kubernetesPermissions": {
+  "kubernetes" : {
+    "kubernetesPermissions": {
       "resources": ["services", "pods"],
       "verbs": ["get", "list", "watch"]
+    },
+    "minimum_kubernetes_version": "1.23.0"
   },
   "resource_requirements": {
     "cpu": "500m",

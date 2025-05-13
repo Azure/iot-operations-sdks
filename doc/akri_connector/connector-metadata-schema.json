@@ -53,8 +53,47 @@
           "tag"
         ]
       },
-      "minimum_kubernetes_version": {
-        "type": "string"
+      "kubernetes": {
+        "type": "object",
+        "properties": {
+          "kubernetesPermissions": {
+            "type": "object",
+            "properties": {
+              "resources": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "verbs": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "resources",
+              "verbs"
+            ]
+          },
+          "minimum_kubernetes_version": {
+            "type": "string"
+          }
+        }
       },
       "architecture": {
         "type": "string"
@@ -92,40 +131,6 @@
           "language",
           "languageVersion",
           "SDK"
-        ]
-      },
-      "kubernetesPermissions": {
-        "type": "object",
-        "properties": {
-          "resources": {
-            "type": "array",
-            "items": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "verbs": {
-            "type": "array",
-            "items": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          }
-        },
-        "required": [
-          "resources",
-          "verbs"
         ]
       },
       "resource_requirements": {
@@ -202,7 +207,7 @@
       "name",
       "version",
       "image",
-      "minimum_kubernetes_version",
+      "kubernetes",
       "aioConfig",
       "protocols"
     ]
