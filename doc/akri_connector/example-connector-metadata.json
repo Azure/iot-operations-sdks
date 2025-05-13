@@ -1,113 +1,108 @@
-
 {
-    "name": "RestConnector",
-    "description": "Connector for polling a REST server for information",
-    "version": "1.0.0",
-    "maintainer": "dev@example.com",
-    "vendor": "Contoso",
-    "image": {
-        "repository": "contoso-acr.io/RestConnector",
-        "tag": "1.0.0",
-        "digest": "sha256:abcd1234..."
-    },
-    "helm": {
-        "repository": "contoso-acr.io/helm/RestConnector",
-        "tag": "1.0.0",
-        "digest": "sha256:abcd1234..."
-    },
-    "minimum_kubernetes_version": "1.23.0", 
-    "architecture": "amd64",
-    "sourceCode" : {
-        "language": ".NET",
-        "languageVersion": ".NET 8.0",
-        "SDK" : {
-            "ProtocolPackageVersion" : "1.0.0",
-            "ServicesPackageVersion" : "1.0.0",
-            "ConnectorPackageVersion" : "1.0.0"
-        }
-    },
-    "permissions": ["ClusterRole"],             
-    "resource_requirements": {
-        "cpu": "500m",
-        "memory": "256Mi",
-        "storage": "5Gi"
-    },
-    "aioConfig": {
-        "minVersion": "1.0.0",
-        "maxVersion": "2.0.0"
-    },
-    "protocols": [
-        {             
-            "name": "Rest",
-            "version": "1.0",                                                  
-            "configSchemas": {
-                "deviceEndpointAdditionalConfigSchema": {
-                    "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "$id": "https://contoso.com/deviceEndpointConfig.schema.json",
-                    "title": "Device Endpoint Config Schema",
-                    "description": "The JSON schema for the device endpoint additional configuration field",
-                    "type": "object",
-                    "properties":  [
-                      {
-                        "SomeEndpointConfiguration": {
-                          "description": "Some configurable value that is relevant to endpoints",
-                          "type": "integer"
-                        }
-                      },
-                      {
-                        "SomeOtherEndpointConfiguration": {
-                          "properties": [
-                            {
-                                "SomeEndpointConfiguration": {
-                                  "description": "Some configurable value that is relevant to endpoints",
-                                  "type": "integer"
-                                }
-                            }  
-                          ]
-                        }
-                      }
-                    ]
-                },
-                "datasetConfigSchema": {
-                    "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "$id": "https://contoso.com/datasetConfig.schema.json",
-                    "title": "Dataset Config Schema",
-                    "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
-                    "type": "object",
-                    "properties": {
-                      "SamplingInterval": {
-                        "description": "How frequently to sample each dataset by default (in milliseconds)",
-                        "type": "integer"
-                      }
-                    }
-                },
-                "eventConfigSchema": {
-                    "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "$id": "https://contoso.com/eventConfig.schema.json",
-                    "title": "Event Config Schema",
-                    "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
-                    "type": "object",
-                    "properties": {
-                      "SomeEventsProperty": {
-                        "description": "Some configuration that is relevant to events",
-                        "type": "integer"
-                      }
-                    }
-                },
-                "streamConfigSchema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
-                  "$id": "https://contoso.com/streamConfig.schema.json",
-                  "title": "Event Config Schema",
-                  "description": "The JSON schema for both the default stream configuration field and all stream-specific configuration fields",
-                  "type": "object",
-                  "properties": {
-                    "SomeStreamProperty": {
-                      "description": "Some configuration that is relevant to streams",
-                      "type": "integer"
-                    }
-                  }
+  "name": "RestConnector",
+  "description": "Connector for polling a REST server for information",
+  "version": "1.0.0",
+  "maintainer": "dev@example.com",
+  "vendor": "Contoso",
+  "image": {
+    "repository": "contoso-acr.io/RestConnector",
+    "tag": "1.0.0",
+    "digest": "sha256:abcd1234..."
+  },
+  "helm": {
+    "repository": "contoso-acr.io/helm/RestConnector",
+    "tag": "1.0.0",
+    "digest": "sha256:abcd1234..."
+  },
+  "minimum_kubernetes_version": "1.23.0",
+  "architecture": "amd64",
+  "sourceCode": {
+    "language": ".NET",
+    "languageVersion": ".NET 8.0",
+    "SDK": {
+      "ProtocolPackageVersion": "1.0.0",
+      "ServicesPackageVersion": "1.0.0",
+      "ConnectorPackageVersion": "1.0.0"
+    }
+  },
+  "permissions": [
+    "ClusterRole"
+  ],
+  "resource_requirements": {
+    "cpu": "500m",
+    "memory": "256Mi",
+    "storage": "5Gi"
+  },
+  "aioConfig": {
+    "minVersion": "1.0.0",
+    "maxVersion": "2.0.0"
+  },
+  "protocols": [
+    {
+      "name": "Rest",
+      "version": "1.0",
+      "configSchemas": {
+        "deviceEndpointAdditionalConfigSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://contoso.com/deviceEndpointConfig.schema.json",
+          "title": "Device Endpoint Config Schema",
+          "description": "The JSON schema for the device endpoint additional configuration field",
+          "type": "object",
+          "properties": {
+            "SomeEndpointConfiguration": {
+              "description": "Some configurable value that is relevant to endpoints",
+              "type": "integer"
+            },
+            "SomeOtherEndpointConfiguration": {
+              "properties": {
+                "SomeEndpointConfiguration": {
+                  "description": "Some configurable value that is relevant to endpoints",
+                  "type": "integer"
                 }
+              }
             }
-        }                     
-    ]
+          }
+        },
+        "datasetConfigSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://contoso.com/datasetConfig.schema.json",
+          "title": "Dataset Config Schema",
+          "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SamplingInterval": {
+              "description": "How frequently to sample each dataset by default (in milliseconds)",
+              "type": "integer"
+            }
+          }
+        },
+        "eventConfigSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://contoso.com/eventConfig.schema.json",
+          "title": "Event Config Schema",
+          "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SomeEventsProperty": {
+              "description": "Some configuration that is relevant to events",
+              "type": "integer"
+            }
+          }
+        },
+        "streamConfigSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://contoso.com/streamConfig.schema.json",
+          "title": "Event Config Schema",
+          "description": "The JSON schema for both the default stream configuration field and all stream-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SomeStreamProperty": {
+              "description": "Some configuration that is relevant to streams",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  ]
 }
