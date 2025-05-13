@@ -25,9 +25,10 @@
       "ConnectorPackageVersion": "1.0.0"
     }
   },
-  "permissions": [
-    "ClusterRole"
-  ],
+  "kubernetesPermissions": {
+      "resources": ["services", "pods"],
+      "verbs": ["get", "list", "watch"]
+  },
   "resource_requirements": {
     "cpu": "500m",
     "memory": "256Mi",

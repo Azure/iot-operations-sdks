@@ -94,12 +94,38 @@
           "SDK"
         ]
       },
-      "permissions": {
-        "type": "array",
-        "items": [
-          {
-            "type": "string"
+      "kubernetesPermissions": {
+        "type": "object",
+        "properties": {
+          "resources": {
+            "type": "array",
+            "items": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "verbs": {
+            "type": "array",
+            "items": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
           }
+        },
+        "required": [
+          "resources",
+          "verbs"
         ]
       },
       "resource_requirements": {
@@ -142,10 +168,18 @@
               "configSchemas": {
                 "type": "object",
                 "properties": {
-                  "deviceEndpointAdditionalConfigSchema": { "$ref": "http://json-schema.org/draft-04/schema#" },
-                  "datasetConfigSchema": { "$ref": "http://json-schema.org/draft-04/schema#" },
-                  "eventConfigSchema": { "$ref": "http://json-schema.org/draft-04/schema#" },
-                  "streamConfigSchema": { "$ref": "http://json-schema.org/draft-04/schema#" }
+                  "deviceEndpointAdditionalConfigSchema": {
+                    "$ref": "http://json-schema.org/draft-04/schema#"
+                  },
+                  "datasetConfigSchema": {
+                    "$ref": "http://json-schema.org/draft-04/schema#"
+                  },
+                  "eventConfigSchema": {
+                    "$ref": "http://json-schema.org/draft-04/schema#"
+                  },
+                  "streamConfigSchema": {
+                    "$ref": "http://json-schema.org/draft-04/schema#"
+                  }
                 },
                 "required": [
                   "deviceEndpointAdditionalConfigSchema",
