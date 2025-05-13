@@ -169,8 +169,6 @@
       "version",
       "image",
       "minimum_kubernetes_version",
-      "architecture",
-      "permissions",
       "aioConfig",
       "protocols"
     ]
