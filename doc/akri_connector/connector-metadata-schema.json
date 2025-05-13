@@ -85,8 +85,7 @@
           "storage": {
             "type": "string"
           }
-        },
-        "required": []
+        }
       },
       "aioConfig": {
         "type": "object",
@@ -97,8 +96,7 @@
           "maxVersion": {
             "type": "string"
           }
-        },
-        "required": []
+        }
       },
       "protocols": {
         "type": "array",
