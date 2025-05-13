@@ -20,7 +20,7 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
        "chunkIndex": 0,
        "timeout" : "00:00:10",
        "totalChunks": 5,
-       "checksum": "optional-message-hash"
+       "checksum": "message-hash"
      }
      ```
    - `messageId, chunkIndex, timeout` - present for every chunk; `totalChunks, checksum` - present only for the first chunk.
@@ -55,13 +55,13 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
 
 ### Implementation Considerations
 - **Error Handling:**
-  - Chunk timeout mechanisms, fixed or sliding timeout window approaches can be used (see Chunk Timeout Mechanism Options in Appendix)
+  - Chunk timeout mechanisms (see Chunk Timeout Mechanism Options in the Appendix)
   - Error propagation to application code
 - **Performance Optimization:**
   - Concurrent chunk transmission
   - Efficient memory usage during reassembly
 - **Security:**
-  - Validate message integrity across chunks and prevent chunk injection attacks (covered if checksumm implemented)
+  - Validate message integrity across chunks and prevent chunk injection attacks (see Checksum Algorithm Options for MQTT Message Chunking in the Appendix)
 
 # Appendix
 
@@ -78,3 +78,23 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
    - Only expire the chunked message if there's a long gap between chunks
    - **Pros**: Tolerates varying network conditions and delivery rates
    - **Cons**: Could keep resources allocated for extended periods
+
+## Checksum Algorithm Options for MQTT Message Chunking
+
+1. MD5
+   - **Description**: 128-bit hash function
+   - **Pros**: Good performance, reasonable size (16 bytes), widely implemented
+   - **Cons**: No longer considered cryptographically secure
+   - **Best for**: Basic integrity verification without security requirements
+
+2. SHA-256
+   - **Description**: Secure hash algorithm producing 256-bit output
+   - **Pros**: Cryptographically secure, widely supported in all target languages
+   - **Cons**: Larger output size (32 bytes), more computation required
+   - **Best for**: Applications requiring message security and tamper protection
+
+3. BLAKE2b
+   - **Description**: Modern cryptographic hash function
+   - **Pros**: Faster than MD5 but with security comparable to SHA-3
+   - **Cons**: May not be as universally available in standard libraries
+   - **Best for**: Performance-critical applications that still need security
