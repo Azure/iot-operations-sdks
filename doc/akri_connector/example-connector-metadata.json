@@ -17,8 +17,15 @@
     },
     "minimum_kubernetes_version": "1.23.0", 
     "architecture": "amd64",
-    "language": ".NET",
-    "languageVersion": ".NET 8.0",
+    "sourceCode" : {
+        "language": ".NET",
+        "languageVersion": ".NET 8.0",
+        "SDK" : {
+            "ProtocolPackageVersion" : "1.0.0",
+            "ServicesPackageVersion" : "1.0.0",
+            "ConnectorPackageVersion" : "1.0.0"
+        }
+    },
     "permissions": ["ClusterRole"],             
     "resource_requirements": {
         "cpu": "500m",
