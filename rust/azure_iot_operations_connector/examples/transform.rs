@@ -51,6 +51,6 @@ fn main() {
 
     let (data, schema) = derived_json::transform(data, &dataset).unwrap();
 
-    println!("{schema:?}");
+    // println!("{schema:?}");
 
 }

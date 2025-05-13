@@ -92,6 +92,8 @@ fn transform_in_place_and_create_output_schema(data: &mut Data, dataset: &Datase
         .schema_type(SchemaType::MessageSchema)
         .build()?;
 
+    println!("{}", serde_json::to_string_pretty(&output_root_schema).unwrap());
+
     // Modify the input data struct to include the output JSON as the new payload
     // NOTE: Because we are modifying the data in place, there should be NO ERRORS after this point.
     data.payload = serde_json::to_vec(&output_json)?;
@@ -103,8 +105,16 @@ fn transform_in_place_and_create_output_schema(data: &mut Data, dataset: &Datase
 #[cfg(test)]
 mod test {
     use super::*;
+    use azure_iot_operations_services::azure_device_registry::DatasetDataPoint;
 
-    fn testcase_1() {
+    struct TransformTestCase {
+        input_json_str: String,
+        dataset: Dataset,
+        expected_output_json_str: String,
+        expected_output_message_schema: MessageSchema,
+    }
+
+    fn testcase_1() -> TransformTestCase{
         let input_json_str = r#"{
             "metadata": {
                 "factory": "home"
@@ -139,8 +149,32 @@ mod test {
             type_ref: None,
         };
 
-        let expected_output_schema = 
+        let expected_output_schema_json_str = r#"{
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "factory": {
+                    "type": "string"
+                },
+                "temperature": {
+                    "type": "integer"
+                }
+            }
+        }"#;
 
+        let expected_output_message_schema = MessageSchemaBuilder::default()
+            .content(expected_output_schema_json_str)
+            .format(Format::JsonSchemaDraft07)
+            .schema_type(SchemaType::MessageSchema)
+            .build()
+            .unwrap();
+
+        TransformTestCase {
+            input_json_str: input_json_str.to_string(),
+            dataset,
+            expected_output_json_str: expected_output_json_str.to_string(),
+            expected_output_message_schema,
+        }
     }
 
 }
