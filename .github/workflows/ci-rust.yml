@@ -7,12 +7,12 @@ on:
   # Triggers the workflow on PR events
   pull_request:
     paths:
-      - '.github/**'
-      - 'rust/**'
-      - 'eng/test/**'
-      - 'tools/statestore-cli/**'
-      - 'codegen/**'
-      - 'tools/deployment/**'
+      - ".github/**"
+      - "rust/**"
+      - "eng/test/**"
+      - "tools/statestore-cli/**"
+      - "codegen/**"
+      - "tools/deployment/**"
 
   # Triggers the workflow on push events for the "main" branch
   push:
@@ -20,7 +20,7 @@ on:
       - "main"
   # Triggers the workflow on a schedule
   schedule:
-    - cron: '0 11 * * *'  # Nightly at 4am PST
+    - cron: "0 11 * * *" # Nightly at 4am PST
 
 # only allow one run / branch at a time
 concurrency:
@@ -41,57 +41,57 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-
   build:
     name: CI-rust
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install AIO
-      uses: ./.github/actions/configure-aio
-      with:
-        wait-for-broker: 'true'
-        install-rust: 'true'
-        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+      - name: Install AIO
+        uses: ./.github/actions/configure-aio
+        with:
+          wait-for-broker: "true"
+          install-rust: "true"
+          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
-    - name: Run Checks
-      run: |
-        set -e
-        make check
+      - name: Create ADR resources
+        run: kubectl apply -f eng/test/test-adr-resources
 
-    - name: Run Tests
-      run: |
-        set -e
-        ENABLE_NETWORK_TESTS=true FEATURES="all" make test
+      - name: Run Checks
+        run: |
+          set -e
+          make check
 
-    - name: Run Coverage Report
-      run: |
-        set -e
-        make coverage
+      - name: Run Tests
+        run: |
+          set -e
+          ENABLE_NETWORK_TESTS=true FEATURES="all" make test
 
-    - uses: "actions/upload-artifact@v4"
-      with:
-        name: "report-azure-iot-operations"
-        path: "${{ runner.temp }}/report"
-        if-no-files-found: "error"
-        retention-days: 10
+      - name: Run Coverage Report
+        run: |
+          set -e
+          make coverage
 
-    - name: Verify Statestore CLI
-      working-directory: tools/statestore-cli
-      run:
-        source ../../rust/ci/build-deps.sh
-        cargo clippy --all-features
-        cargo fmt --verbose --all
+      - uses: "actions/upload-artifact@v4"
+        with:
+          name: "report-azure-iot-operations"
+          path: "${{ runner.temp }}/report"
+          if-no-files-found: "error"
+          retention-days: 10
 
-    - name: Verify Stub Service
-      working-directory: tools/azure_iot_operations_stub_services
-      run:
-        source ../../rust/ci/build-deps.sh
-        cargo clippy --all-features
-        cargo fmt --verbose --all
+      - name: Verify Statestore CLI
+        working-directory: tools/statestore-cli
+        run: source ../../rust/ci/build-deps.sh
+          cargo clippy --all-features
+          cargo fmt --verbose --all
+
+      - name: Verify Stub Service
+        working-directory: tools/azure_iot_operations_stub_services
+        run: source ../../rust/ci/build-deps.sh
+          cargo clippy --all-features
+          cargo fmt --verbose --all
 
     # TODO: Enable and configure these once the codegen is ready
     # - name: CodeGen Rust TestEnvoys
