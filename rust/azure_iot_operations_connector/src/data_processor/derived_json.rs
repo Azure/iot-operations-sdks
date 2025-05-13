@@ -104,8 +104,42 @@ fn transform_in_place_and_create_output_schema(data: &mut Data, dataset: &Datase
 mod test {
     use super::*;
 
-    #[test]
-    fn transform() {
+    fn testcase_1() {
+        let input_json_str = r#"{
+            "metadata": {
+                "factory": "home"
+            },
+            "temp": 10
+        }"#;
+
+        let expected_output_json_str = r#"{
+            "factory": "home",
+            "temperature": 10
+        }"#;
+
+        let dataset = Dataset {
+            dataset_configuration: None,
+            data_points: vec![
+                DatasetDataPoint {
+                    name: String::from("factory"),
+                    data_source: String::from("metadata.factory"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+                DatasetDataPoint {
+                    name: String::from("temperature"),
+                    data_source: String::from("temp"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+            ],
+            data_source: None,
+            destinations: vec![],
+            name: "TestDataset".to_string(),
+            type_ref: None,
+        };
+
+        let expected_output_schema = 
 
     }
 
