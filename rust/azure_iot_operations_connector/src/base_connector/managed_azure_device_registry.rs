@@ -34,8 +34,7 @@ const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialBackoff =
     tokio_retry2::strategy::ExponentialBackoff::from_millis(100);
 
 /// An Observation for device endpoint creation events that uses
-/// multiple underlying clients to get full information for a
-/// [`ProtocolTranslator`] to use.
+/// multiple underlying clients to get full device endpoint information.
 pub struct DeviceEndpointClientCreationObservation {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_create_observation: DeviceEndpointCreateObservation,
@@ -381,8 +380,8 @@ impl DeviceEndpointClient {
 }
 
 /// An Observation for device endpoint update events that uses
-/// multiple underlying clients to get full information for a
-/// [`ProtocolTranslator`] to use.
+/// multiple underlying clients to get full device endpoint
+/// update information.
 /// TODO: maybe move this to be on the [`DeviceEndpointClient`]?
 #[allow(dead_code)]
 pub struct DeviceEndpointClientUpdateObservation {
@@ -406,8 +405,7 @@ impl DeviceEndpointClientUpdateObservation {
 }
 
 /// An Observation for asset creation events that uses
-/// multiple underlying clients to get full information for a
-/// [`ProtocolTranslator`] to use.
+/// multiple underlying clients to get full asset information.
 pub struct AssetClientCreationObservation {
     asset_create_observation: AssetCreateObservation,
     connector_context: Arc<ConnectorContext>,
@@ -536,8 +534,7 @@ impl AssetClientCreationObservation {
 }
 
 /// An Observation for asset update events that uses
-/// multiple underlying clients to get full information for a
-/// [`ProtocolTranslator`] to use.
+/// multiple underlying clients to get full asset update information.
 #[allow(dead_code)]
 pub struct AssetClientUpdateObservation {
     asset_update_observation: AssetUpdateObservation,
