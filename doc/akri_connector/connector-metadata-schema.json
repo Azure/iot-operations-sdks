@@ -179,6 +179,9 @@
                   "datasetConfigSchema": {
                     "$ref": "http://json-schema.org/draft-04/schema#"
                   },
+                  "dataPointConfigSchema": {
+                    "$ref": "http://json-schema.org/draft-04/schema#"
+                  },
                   "eventConfigSchema": {
                     "$ref": "http://json-schema.org/draft-04/schema#"
                   },
