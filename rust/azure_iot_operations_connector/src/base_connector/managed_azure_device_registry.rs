@@ -218,14 +218,15 @@ impl DeviceEndpointClientCreationObservation {
 }
 
 /// Azure Device Registry Device Endpoint that includes additional functionality to report status
-#[derive(Debug, Getters)]
+#[derive(Clone, Debug, Getters)]
 pub struct DeviceEndpointClient {
     /// The names of the Device and Inbound Endpoint
     device_endpoint_ref: DeviceEndpointRef,
     /// The 'specification' Field.
     specification: Arc<DeviceSpecification>,
     /// The 'status' Field.
-    status: Option<DeviceEndpointStatus>,
+    #[getter(skip)]
+    status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -243,9 +244,9 @@ impl DeviceEndpointClient {
                 "/etc/akri/secrets/device_endpoint_auth",
                 &device_endpoint_ref.inbound_endpoint_name,
             )?),
-            status: device.status.map(|recvd_status| {
+            status: Arc::new(RwLock::new(device.status.map(|recvd_status| {
                 DeviceEndpointStatus::new(recvd_status, &device_endpoint_ref.inbound_endpoint_name)
-            }),
+            }))),
             device_endpoint_ref,
             connector_context,
         })
@@ -311,6 +312,14 @@ impl DeviceEndpointClient {
         self.internal_report_status(status).await;
     }
 
+    // Returns a clone of the current device status
+    /// # Panics
+    /// if the status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn status(&self) -> Option<DeviceEndpointStatus> {
+        (*self.status.read().unwrap()).clone()
+    }
+
     /// Reports an already built status to the service, with retries, and then updates the device with the new status returned
     async fn internal_report_status(
         &mut self,
@@ -352,7 +361,8 @@ impl DeviceEndpointClient {
         {
             Ok(updated_device) => {
                 // update self with new returned status
-                self.status = updated_device.status.map(|recvd_status| {
+                let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
+                *unlocked_status = updated_device.status.map(|recvd_status| {
                     DeviceEndpointStatus::new(
                         recvd_status,
                         &self.device_endpoint_ref.inbound_endpoint_name,
