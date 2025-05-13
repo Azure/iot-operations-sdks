@@ -1,0 +1,299 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;2",
+      "dtmi:dtdl:extension:requirement;1"
+    ],
+    "@id": "dtmi:com:microsoft:akri:AkriObservabilityService;1",
+    "description": "Defines the MQTT-based contract for publishing telemetry metrics from Akri component in AIO.",
+    "@type": ["Interface", "Mqtt"],
+    "payloadFormat": "Json/ecma/404",
+    "commandTopic": "akri/observability/{ex:connectorClientId}/metrics",
+    "schemas": [
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:MetricDefinition;1",
+        "description": "Shared identifying and descriptive properties of a metric.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "name",
+            "description": "A unique, human-readable name that identifies the metric.",
+            "schema": "string"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "labels",
+            "description": "Key-value pairs that provide dimensional context for the metric.",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "labelKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "labelValue",
+                "schema": "string"
+              }
+            }
+          },
+          {
+            "@type": "Field",
+            "name": "unit",
+            "description": "The unit of measurement associated with the metric (e.g., seconds, bytes).",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:CounterMetric;1",
+        "description": "Defines a Counter metric and its associated Increment operations.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "definition",
+            "description": "Common identifying properties of the Counter metric.",
+            "schema": "dtmi:com:microsoft:akri:MetricDefinition;1"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "operations",
+            "description": "List of Increment operations for this Counter metric.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:com:microsoft:akri:IncrementOperation;1"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:GaugeMetric;1",
+        "description": "Defines a Gauge metric and its associated Record operations.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "definition",
+            "description": "Common identifying properties of the Gauge metric.",
+            "schema": "dtmi:com:microsoft:akri:MetricDefinition;1"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "operations",
+            "description": "List of Record operations for this Gauge metric.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:com:microsoft:akri:RecordOperation;1"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:HistogramMetric;1",
+        "description": "Defines a Histogram metric and its associated Record operations.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "definition",
+            "description": "Common identifying properties of the Histogram metric.",
+            "schema": "dtmi:com:microsoft:akri:MetricDefinition;1"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "operations",
+            "description": "List of Record operations for this Histogram metric.",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:com:microsoft:akri:RecordOperation;1"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:IncrementOperation;1",
+        "description": "Represents a Increment operation used by Counter metric.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "operationId",
+            "description": "Unique identifier for the operation, used to correlate responses.",
+            "schema": "string"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "value",
+            "description": "The numeric value by which the counter will be incremented.",
+            "schema": "double"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "timestamp",
+            "description": "Timestamp indicating when the metric value was incremented.",
+            "schema": "dateTime"
+          }
+        ]
+      },
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:RecordOperation;1",
+        "description": "Represents a Record operation used by Gauge and Histogram metrics.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "operationId",
+            "description": "Unique identifier for the operation, used to correlate responses.",
+            "schema": "string"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "value",
+            "description": "The numeric value to be recorded by the Gauge or Histogram metric.",
+            "schema": "double"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "timestamp",
+            "description": "Timestamp indicating when the metric value was recorded.",
+            "schema": "dateTime"
+          }
+        ]
+      },
+      {
+        "@type": "Object",
+        "@id": "dtmi:com:microsoft:akri:AkriMetricOperationResponse;2",
+        "description": "Represents the result of a single metric operation, including structured error information if applicable.",
+        "fields": [
+          {
+            "@type": ["Field", "Required"],
+            "name": "operationId",
+            "description": "ID of the operation this response refers to.",
+            "schema": "string"
+          },
+          {
+            "@type": ["Field", "Required"],
+            "name": "status",
+            "description": "Status of the operation: either Success or Error.",
+            "schema": "dtmi:com:microsoft:akri:AkriMetricOperationResponseStatus;1"
+          },
+          {
+            "@type": "Field",
+            "name": "errorKind",
+            "description": "Structured classification of the error type, included only if status is Error.",
+            "schema": "dtmi:com:microsoft:akri:AkriMetricErrorKind;1"
+          },
+          {
+            "@type": "Field",
+            "name": "propertyName",
+            "description": "Optional name of the field or conceptual field associated with the error.",
+            "schema": "string"
+          },
+          {
+            "@type": "Field",
+            "name": "errorMessage",
+            "description": "Optional human-readable description of the error.",
+            "schema": "string"
+          }
+        ]
+      },
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:AkriMetricOperationResponseStatus;1",
+        "valueSchema": "string",
+        "description": "Defines possible statuses of a metric operation.",
+        "enumValues": [
+          {
+            "name": "Success",
+            "enumValue": "Success"
+          },
+          {
+            "name": "Error",
+            "enumValue": "Error"
+          }
+        ]
+      },
+      {
+        "@type": "Enum",
+        "@id": "dtmi:com:microsoft:akri:AkriMetricErrorKind;1",
+        "valueSchema": "string",
+        "description": "Enumerates structured error types for failed metric operations.",
+        "enumValues": [
+          {
+            "name": "DuplicateOperationId",
+            "enumValue": "DuplicateOperationId",
+            "description": "Duplicate operation ID detected in the same batch of metrics."
+          },
+          {
+            "name": "ConflictingMetricDefinition",
+            "enumValue": "ConflictingMetricDefinition",
+            "description": "This error occurs when multiple metric definitions use the same combination of name and labels but differ in their structural characteristics. Common causes include publishing a Counter metric and a Gauge metric with the same name and label set, or attempting to redefine a metric with a different unit or incompatible schema."
+          },
+          {
+            "name": "TooManyUniqueLabelSets",
+            "enumValue": "TooManyUniqueLabelSets",
+            "description": "This error occurs when the number of unique combinations of label keys and values for a given metric exceeds the system’s configured or supported limit."
+          },
+          {
+            "name": "InternalError",
+            "enumValue": "InternalError",
+            "description": "This error occurs when an unexpected condition was encountered during the processing of a metric operation."
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": "Command",
+        "name": "publishMetrics",
+        "description": "Publishes a list of metrics, each of which is a Counter, Gauge, or Histogram.",
+        "request": {
+          "name": "metrics",
+          "description": "List of typed metrics to publish.",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": ["Field"],
+                "name": "counterMetrics",
+                "description": "List of counter metrics to be published.",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:com:microsoft:akri:CounterMetric;1"
+                }
+              },
+              {
+                "@type": ["Field"],
+                "name": "gaugeMetrics",
+                "description": "List of gauge metrics to be published",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:com:microsoft:akri:GaugeMetric;1"
+                }
+              },
+              {
+                "@type": ["Field"],
+                "name": "histogramMetrics",
+                "description": "List of histogram metrics to be published",
+                "schema": {
+                  "@type": "Array",
+                  "elementSchema": "dtmi:com:microsoft:akri:HistogramMetric;1"
+                }
+              }
+            ]
+          }
+        },
+        "response": {
+          "name": "publishMetricsResponse",
+          "description": "Response indicating the success or failure of each operation.",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:com:microsoft:akri:AkriMetricOperationResponse;2"
+          }
+        }
+      }
+    ]
+  }
+]
