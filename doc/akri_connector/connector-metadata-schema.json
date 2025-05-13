@@ -132,26 +132,75 @@
                         "type": "string"
                       },
                       "properties": {
-                        "type": "object",
-                        "properties": {
-                          "SomeEndpointConfiguration": {
+                        "type": "array",
+                        "items": [
+                          {
                             "type": "object",
                             "properties": {
-                              "description": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string"
+                              "SomeEndpointConfiguration": {
+                                "type": "object",
+                                "properties": {
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "description",
+                                  "type"
+                                ]
                               }
                             },
                             "required": [
-                              "description",
-                              "type"
+                              "SomeEndpointConfiguration"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "SomeOtherEndpointConfiguration": {
+                                "type": "object",
+                                "properties": {
+                                  "properties": {
+                                    "type": "array",
+                                    "items": [
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "SomeEndpointConfiguration": {
+                                            "type": "object",
+                                            "properties": {
+                                              "description": {
+                                                "type": "string"
+                                              },
+                                              "type": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "description",
+                                              "type"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "SomeEndpointConfiguration"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "properties"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "SomeOtherEndpointConfiguration"
                             ]
                           }
-                        },
-                        "required": [
-                          "SomeEndpointConfiguration"
                         ]
                       }
                     },
