@@ -6,7 +6,9 @@
 #![warn(missing_docs)]
 
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
-use azure_iot_operations_services::schema_registry::{PutRequest, PutRequestBuilder, PutRequestBuilderError};
+use azure_iot_operations_services::schema_registry::{
+    PutRequest, PutRequestBuilder, PutRequestBuilderError,
+};
 
 pub mod base_connector;
 pub mod data_processor;
@@ -23,7 +25,7 @@ pub type MessageSchemaBuilder = PutRequestBuilder;
 pub type MessageSchemaBuilderError = PutRequestBuilderError;
 
 /// Struct format for data sent to the [`DataTransformer`] and the destination
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Data {
     /// The payload in raw bytes
     pub payload: Vec<u8>,
