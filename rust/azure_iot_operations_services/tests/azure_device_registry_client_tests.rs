@@ -16,6 +16,7 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
     self, AssetStatus, DeviceStatus, StatusConfig,
 };
+use time::format_description::well_known::iso8601::Config;
 
 const DEVICE1: &str = "my-thermostat";
 #[allow(dead_code)]
@@ -37,7 +38,7 @@ fn setup_test(test_name: &str) -> bool {
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations", log::LevelFilter::Debug)
         .try_init();
 
     // TODO Uncomment this to enable network tests
@@ -59,9 +60,9 @@ fn initialize_client(
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
-        .tcp_port(31883u16)
+        //.tcp_port(31883u16)
         // TODO Uncomment this
-        //.tcp_port(1883u16)
+        .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
         .build()
@@ -291,7 +292,7 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "This test is ignored as it is not fully implemented yet."]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -327,17 +328,17 @@ async fn observe_device_update_notifications() {
                         log::info!("[{log_identifier}] Device From Observation 1: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
-                    if let Some((device, _)) = observation.recv_notification().await {
-                        count += 1;
-                        log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                        log::info!("[{log_identifier}] Device From Observation 2: {device:?}");
-                        assert_eq!(device.name, DEVICE1);
-                    }
-                    if let Some((device, _)) = observation.recv_notification().await {
-                        count += 1;
-                        log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                        log::info!("[{log_identifier}] Device From Observation 3: {device:?}");
-                    }
+                    // if let Some((device, _)) = observation.recv_notification().await {
+                    //     count += 1;
+                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
+                    //     log::info!("[{log_identifier}] Device From Observation 2: {device:?}");
+                    //     assert_eq!(device.name, DEVICE1);
+                    // }
+                    // if let Some((device, _)) = observation.recv_notification().await {
+                    //     count += 1;
+                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
+                    //     log::info!("[{log_identifier}] Device From Observation 3: {device:?}");
+                    // }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
                         log::info!(
@@ -353,6 +354,7 @@ async fn observe_device_update_notifications() {
                 }
             });
 
+            tokio::time::sleep(Duration::from_secs(1)).await;
             // Get the device
             let response = azure_device_registry_client
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
@@ -360,7 +362,10 @@ async fn observe_device_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Get Device Reponse: {response:?}",);
             //old_version = response.specification.version.unwrap_or(0);
-
+            log::info!(
+                "[{log_identifier}] Datetime: {}",
+                time::OffsetDateTime::now_utc().to_string()
+            );
             let mut endpoint_statuses = HashMap::new();
             for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
                 if endpoint.endpoint_type == ENDPOINT_TYPE {
@@ -385,6 +390,11 @@ async fn observe_device_update_notifications() {
             let status_to_be_updated = azure_device_registry::DeviceStatus {
                 config: Some(azure_device_registry::StatusConfig {
                     version: response.specification.version,
+                    last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                    // error: Some(azure_device_registry::ConfigError {
+                    //     message: Some("device type is not supported".to_string()),
+                    //     ..azure_device_registry::ConfigError::default()
+                    // }),
                     ..azure_device_registry::StatusConfig::default()
                 }),
                 endpoints: endpoint_statuses,
@@ -481,9 +491,11 @@ async fn observe_device_update_notifications() {
             log::info!(
                 "[{log_identifier}] Updated Response Device After Unobserve: {updated_response4:?}",
             );
-
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
+
+            tokio::time::sleep(Duration::from_secs(1)).await;
+
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
