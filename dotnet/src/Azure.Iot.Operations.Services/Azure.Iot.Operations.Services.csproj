@@ -31,6 +31,9 @@
     <Content Include="..\..\..\eng\dtdl\aep-type-based-operations.json">
       <Link>AssetAndDeviceRegistry\aep-type-based-operations.json</Link>
     </Content>
+    <Content Include="..\..\..\eng\dtdl\akri-observability-metrics-operations.json">
+      <Link>Observability\akri-observability-metrics-operations.json</Link>
+    </Content>
     <Content Include="..\..\..\eng\dtdl\device-name-based-operations.json">
       <Link>AssetAndDeviceRegistry\device-name-based-operations.json</Link>
     </Content>
