@@ -120,6 +120,7 @@ pub struct ServiceError {
     pub property_value: Option<String>,
 }
 
+// TODO: How should id be exposed, if at all?
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
