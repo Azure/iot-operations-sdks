@@ -91,10 +91,10 @@ pub struct ServiceError {
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct GetRequest {
     /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
-    id: String,
+    pub id: String,
     /// The version of the schema to fetch. If not specified, defaults to "1".
     #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    version: String,
+    pub version: String,
 }
 
 impl GetRequestBuilder {
@@ -118,16 +118,16 @@ impl GetRequestBuilder {
 #[builder(setter(into))]
 pub struct PutRequest {
     /// The content of the schema to be added or updated in the registry.
-    content: String,
+    pub content: String,
     /// The format of the schema. Specifies how the schema content should be interpreted.
-    format: Format,
+    pub format: Format,
     /// The type of the schema, such as message schema or data schema.
     #[builder(default = "SchemaType::MessageSchema")]
-    schema_type: SchemaType,
+    pub schema_type: SchemaType,
     /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
     #[builder(default)]
-    tags: HashMap<String, String>,
+    pub tags: HashMap<String, String>,
     /// The version of the schema to add or update. If not specified, defaults to "1".
     #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    version: String,
+    pub version: String,
 }
