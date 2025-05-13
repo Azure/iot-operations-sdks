@@ -3,7 +3,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Supported schema formats
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Format {
     #[serde(rename = "Delta/1.0")]
     Delta1,

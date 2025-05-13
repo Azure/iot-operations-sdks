@@ -3,7 +3,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Supported schema types
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum SchemaType {
     #[serde(rename = "MessageSchema")]
     MessageSchema,
