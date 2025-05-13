@@ -1,1 +1,359 @@
-https://www.liquid-technologies.com/online-json-to-schema-converter
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "version": {
+        "type": "string"
+      },
+      "maintainer": {
+        "type": "string"
+      },
+      "vendor": {
+        "type": "string"
+      },
+      "image": {
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "repository",
+          "tag"
+        ]
+      },
+      "helm": {
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "repository",
+          "tag"
+        ]
+      },
+      "minimum_kubernetes_version": {
+        "type": "string"
+      },
+      "architecture": {
+        "type": "string"
+      },
+      "language": {
+        "type": "string"
+      },
+      "languageVersion": {
+        "type": "string"
+      },
+      "permissions": {
+        "type": "array",
+        "items": [
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "resource_requirements": {
+        "type": "object",
+        "properties": {
+          "cpu": {
+            "type": "string"
+          },
+          "memory": {
+            "type": "string"
+          },
+          "storage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "cpu",
+          "memory",
+          "storage"
+        ]
+      },
+      "aioConfig": {
+        "type": "object",
+        "properties": {
+          "minVersion": {
+            "type": "string"
+          },
+          "maxVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "minVersion",
+          "maxVersion"
+        ]
+      },
+      "protocols": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "configSchemas": {
+                "type": "object",
+                "properties": {
+                  "deviceEndpointAdditionalConfigSchema": {
+                    "type": "object",
+                    "properties": {
+                      "$schema": {
+                        "type": "string"
+                      },
+                      "$id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "SomeEndpointConfiguration": {
+                            "type": "object",
+                            "properties": {
+                              "description": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "description",
+                              "type"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "SomeEndpointConfiguration"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "$schema",
+                      "$id",
+                      "title",
+                      "description",
+                      "type",
+                      "properties"
+                    ]
+                  },
+                  "datasetConfigSchema": {
+                    "type": "object",
+                    "properties": {
+                      "$schema": {
+                        "type": "string"
+                      },
+                      "$id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "SamplingInterval": {
+                            "type": "object",
+                            "properties": {
+                              "description": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "description",
+                              "type"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "SamplingInterval"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "$schema",
+                      "$id",
+                      "title",
+                      "description",
+                      "type",
+                      "properties"
+                    ]
+                  },
+                  "eventConfigSchema": {
+                    "type": "object",
+                    "properties": {
+                      "$schema": {
+                        "type": "string"
+                      },
+                      "$id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "SomeEventsProperty": {
+                            "type": "object",
+                            "properties": {
+                              "description": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "description",
+                              "type"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "SomeEventsProperty"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "$schema",
+                      "$id",
+                      "title",
+                      "description",
+                      "type",
+                      "properties"
+                    ]
+                  },
+                  "streamConfigSchema": {
+                    "type": "object",
+                    "properties": {
+                      "$schema": {
+                        "type": "string"
+                      },
+                      "$id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "SomeStreamProperty": {
+                            "type": "object",
+                            "properties": {
+                              "description": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "description",
+                              "type"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "SomeStreamProperty"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "$schema",
+                      "$id",
+                      "title",
+                      "description",
+                      "type",
+                      "properties"
+                    ]
+                  }
+                },
+                "required": [
+                  "deviceEndpointAdditionalConfigSchema",
+                  "datasetConfigSchema",
+                  "eventConfigSchema",
+                  "streamConfigSchema"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "version",
+              "configSchemas"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "name",
+      "version",
+      "image",
+      "minimum_kubernetes_version",
+      "architecture",
+      "language",
+      "languageVersion",
+      "permissions",
+      "aioConfig",
+      "protocols"
+    ]
+  }

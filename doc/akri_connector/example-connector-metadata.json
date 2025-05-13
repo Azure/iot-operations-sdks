@@ -5,19 +5,20 @@
     "version": "1.0.0",
     "maintainer": "dev@example.com",
     "vendor": "Contoso",
-    "managed": {
-        "image": {
-            "repository": "contoso-acr.io/RestConnector",
-            "tag": "1.0.0",
-            "digest": "sha256:abcd1234..."
-        }
+    "image": {
+        "repository": "contoso-acr.io/RestConnector",
+        "tag": "1.0.0",
+        "digest": "sha256:abcd1234..."
     },
     "helm": {
-        "helm_chart": "my-connector-1.2.3.tgz",
-        "helm_values": "values.yaml"
+        "repository": "contoso-acr.io/helm/RestConnector",
+        "tag": "1.0.0",
+        "digest": "sha256:abcd1234..."
     },
     "minimum_kubernetes_version": "1.23.0", 
     "architecture": "amd64",
+    "language": ".NET",
+    "languageVersion": ".NET 8.0",
     "permissions": ["ClusterRole"],             
     "resource_requirements": {
         "cpu": "500m",
@@ -48,7 +49,7 @@
                 },
                 "datasetConfigSchema": {
                     "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "$id": "https://contoso.com/defaultDatasetConfig.schema.json",
+                    "$id": "https://contoso.com/datasetConfig.schema.json",
                     "title": "Dataset Config Schema",
                     "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
                     "type": "object",
@@ -59,9 +60,9 @@
                       }
                     }
                 },
-                "eventsConfigSchema": {
+                "eventConfigSchema": {
                     "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "$id": "https://contoso.com/defaultEventConfig.schema.json",
+                    "$id": "https://contoso.com/eventConfig.schema.json",
                     "title": "Event Config Schema",
                     "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
                     "type": "object",
@@ -72,8 +73,19 @@
                       }
                     }
                 },
-                "defaultStreamsConfigSchema": "defaultStreamsConfigSchema.json",
-                "defaultProcessControlConfigSchema": "defaultProcessControlConfigSchema.json"
+                "streamConfigSchema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "$id": "https://contoso.com/streamConfig.schema.json",
+                  "title": "Event Config Schema",
+                  "description": "The JSON schema for both the default stream configuration field and all stream-specific configuration fields",
+                  "type": "object",
+                  "properties": {
+                    "SomeStreamProperty": {
+                      "description": "Some configuration that is relevant to streams",
+                      "type": "integer"
+                    }
+                  }
+                }
             }
         }                     
     ]
