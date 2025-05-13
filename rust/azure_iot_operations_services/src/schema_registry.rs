@@ -87,7 +87,7 @@ pub struct ServiceError {
 }
 
 /// Request to get a schema from the schema registry.
-#[derive(Builder, Clone, Debug)]
+#[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct GetRequest {
     /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
@@ -114,7 +114,7 @@ impl GetRequestBuilder {
 }
 
 /// Request to put a schema in the schema registry.
-#[derive(Builder, Clone, Debug)]
+#[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into))]
 pub struct PutRequest {
     /// The content of the schema to be added or updated in the registry.
