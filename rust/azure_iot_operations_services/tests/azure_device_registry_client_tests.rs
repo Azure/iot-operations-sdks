@@ -16,7 +16,6 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
     self, AssetStatus, DeviceStatus, StatusConfig,
 };
-use time::format_description::well_known::iso8601::Config;
 
 const DEVICE1: &str = "my-thermostat";
 #[allow(dead_code)]
