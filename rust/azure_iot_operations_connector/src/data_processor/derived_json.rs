@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 use std::collections::BTreeMap;
 
-use azure_iot_operations_services::azure_device_registry::{Dataset, DatasetDataPoint};
+use azure_iot_operations_services::azure_device_registry::Dataset;
 use azure_iot_operations_services::schema_registry::{Format, SchemaType};
 use jmespath::{self, JmespathError};
 use serde_json::{self, Value};
-
 
 use crate::{Data, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError};
 
@@ -51,38 +50,6 @@ pub fn transform(mut data: Data, dataset: &Dataset) -> Result<(Data, MessageSche
         }),
     }
 }
-
-
-
-pub fn transform2(mut data: Data, dataset: &Dataset) -> Result<(Data, MessageSchema), TransformError> {
-    // Parse the input JSON from bytes
-    let input_json: Value = serde_json::from_str(std::str::from_utf8(&data.payload)?)?;
-    //datdapoint_transform()
-
-    unimplemented!()
-}
-
-fn datapoint_transform(input_json: Value, datapoints: &[DatasetDataPoint]) -> Result<Value, TransformErrorRepr> {
-    // Build a `BTreeMap`` of output fields, derived from the input JSON and the datapoint
-    // transformations defined in the dataset.
-    let mut output_btm = BTreeMap::new();
-    for (output_field, input_source) in datapoints
-        .iter()
-        .map(|dp| {
-            (&dp.name, &dp.data_source)
-        })
-    {
-        // Use JMESPath to extract the value from the input JSON using the data source path defined
-        // in the `DataPoint`, and add it to the output `BTreeMap`
-        let v = jmespath::compile(input_source)?.search(&input_json)?;
-        if let Some(_) = output_btm.insert(output_field.to_string(), v) {
-            return Err(TransformErrorRepr::DuplicateField(output_field.to_string()));
-        }
-    }
-    // Create a new JSON object from the `BTreeMap`
-    Ok(serde_json::to_value(&output_btm)?)
-}
-
 
 /// Transform the input data in place according to the transformation defined in the dataset.
 /// Returns a new MessageSchema that describes the transformed data.
@@ -133,7 +100,13 @@ fn transform_in_place_and_create_output_schema(data: &mut Data, dataset: &Datase
 
 }
 
+#[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    fn transform() {
+
+    }
 
 }

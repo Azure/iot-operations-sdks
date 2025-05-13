@@ -17,7 +17,9 @@ pub mod source_endpoint;
 
 /// Message Schema to send to the Schema Registry Service
 pub type MessageSchema = PutRequest;
+/// Builder for [`MessageSchema`]
 pub type MessageSchemaBuilder = PutRequestBuilder;
+/// Error type for [`MessageSchemaBuilder`]
 pub type MessageSchemaBuilderError = PutRequestBuilderError;
 
 /// Struct format for data sent to the [`DataTransformer`] and the destination
