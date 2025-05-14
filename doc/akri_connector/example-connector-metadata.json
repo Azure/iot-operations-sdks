@@ -46,7 +46,7 @@
       "version": "1.0",
       "configSchemas": {
         "deviceEndpointAdditionalConfigSchema": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/deviceEndpointConfig.schema.json",
           "title": "Device Endpoint Config Schema",
           "description": "The JSON schema for the device endpoint additional configuration field",
@@ -80,7 +80,7 @@
           }
         },
         "dataPointConfigSchema": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/dataPointConfig.schema.json",
           "title": "Datapoint Config Schema",
           "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
@@ -93,7 +93,7 @@
           }
         },
         "eventConfigSchema": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/eventConfig.schema.json",
           "title": "Event Config Schema",
           "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
@@ -106,7 +106,7 @@
           }
         },
         "streamConfigSchema": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/streamConfig.schema.json",
           "title": "Event Config Schema",
           "description": "The JSON schema for both the default stream configuration field and all stream-specific configuration fields",
