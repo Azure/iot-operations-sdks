@@ -166,17 +166,35 @@ impl ConnectorConfiguration {
                     .next()
                     .ok_or("No CA cert found in trustbundle directory".to_string())?
                     .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
-                if d.next().is_some() {
-                    Err("MQTTConnectionSettings only supports a single CA cert".to_string())?
-                } else {
-                    // Convert filepath to string for MqttConnectionSettings
-                    let path_s = entry
+                // if d.next().is_some() {
+                //     Err("MQTTConnectionSettings only supports a single CA cert".to_string())?
+                // } else {
+                // Convert filepath to string for MqttConnectionSettings
+                let mut path_s = entry
+                    .path()
+                    .to_str()
+                    .ok_or("Could not convert Path to String".to_string())?
+                    .to_string();
+                log::info!("path string {path_s}");
+                while path_s.contains("..") {
+                    // There are files with the path starting in .. that are not device endpoints.
+                    // This is never a valid device endpoint name due to kubernetes enforcing resources
+                    // needing to start with alphanumeric characters so it can be safely ignored.
+                    let entry = d
+                        .next()
+                        .ok_or("No CA cert found in trustbundle directory".to_string())?
+                        .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
+                    path_s = entry
                         .path()
                         .to_str()
                         .ok_or("Could not convert Path to String".to_string())?
                         .to_string();
-                    Some(path_s)
+                    log::info!("path string {path_s}");
                 }
+                // log::info!("path string {path_s}");
+                // log::info!("read dir: {d:?}");
+                Some(path_s)
+                // }
             } else {
                 None
             }
