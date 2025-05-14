@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft/2020-12/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
       "name": {
@@ -174,19 +174,19 @@
                 "type": "object",
                 "properties": {
                   "deviceEndpointAdditionalConfigSchema": {
-                    "$ref": "http://json-schema.org/draft/2020-12/schema#"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "datasetConfigSchema": {
-                    "$ref": "http://json-schema.org/draft/2020-12/schema#"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "dataPointConfigSchema": {
-                    "$ref": "http://json-schema.org/draft/2020-12/schema#"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "eventConfigSchema": {
-                    "$ref": "http://json-schema.org/draft/2020-12/schema#"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "streamConfigSchema": {
-                    "$ref": "http://json-schema.org/draft/2020-12/schema#"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   }
                 },
                 "required": [
