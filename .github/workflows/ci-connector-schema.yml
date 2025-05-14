@@ -27,5 +27,5 @@ jobs:
     - name: Validate JSON with Glob
       uses: nhalstead/validate-json-action@0.1.3
       with:
-        INPUT_SCHEMA: ./doc/akri_connector/connector-metadata-schema.json
-        INPUT_JSONS: ./doc/akri_connector/example-connector-metadata.json,./doc/akri_connector/minimal-example-connector-metadata.json
+        schema: ./doc/akri_connector/connector-metadata-schema.json
+        jsons: ./doc/akri_connector/example-connector-metadata.json,./doc/akri_connector/minimal-example-connector-metadata.json
