@@ -182,7 +182,8 @@ impl Forwarder {
                     })
                     .map_err(|e| ErrorKind::DataValidationError(e.to_string()))?;
                 message_builder.cloud_event(cloud_event);
-                // This validates the content type
+                message_builder.custom_user_data(data.custom_user_data);
+                // This validates the content type and custom user data
                 let message = message_builder
                     .build()
                     .map_err(|e| ErrorKind::DataValidationError(e.to_string()))?;
