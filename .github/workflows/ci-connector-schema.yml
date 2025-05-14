@@ -1,4 +1,4 @@
-name: CI-ConnectorMetadataSchema
+name: CI-ConnectorMetadataSchemaValidation
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: CI-ConnectorMetadataSchema
+    name: CI-ConnectorMetadataSchemaValidation
     timeout-minutes: 10
 
     steps:
