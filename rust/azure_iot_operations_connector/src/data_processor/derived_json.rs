@@ -41,6 +41,14 @@ enum TransformErrorRepr {
 /// Transform the input [`Data`] according to the JSON transformation defined in the [`Dataset`].
 /// Returns the transformed [`Data`] and a new [`MessageSchema`] that describes it.
 ///
+/// # Limitations
+/// - Cannot correctly interpret enums as it derives the schema only from JSON payload provided.
+/// - Similarly, optionality of fields cannot be inferred correctly in the schema.
+/// - Fields not present on the input JSON will be set to `null` in the output JSON if a transform
+///   for them is defined in the dataset.
+/// - Fields that are set to `null` as mentioned above will be set to `true` in the schema, as no
+///   information is available to derive the type of the field.
+///
 /// # Errors
 /// Returns a [`TransformError`] if there is an error during the transformation or schema generation.
 pub fn transform(
@@ -170,7 +178,7 @@ mod test {
         schema1_no_content == schema2_no_content && schema1_json_content == schema2_json_content
     }
 
-    /// Test case for 1:1 transformation of simple values
+    /// Test case for 1:1 transformation of JSON values
     fn valid_testcase_1() -> TransformTestCase {
         let input_json_str = r#"{
             "metadata": {
@@ -181,7 +189,11 @@ mod test {
                     "Wednesday",
                     "Thursday",
                     "Friday"
-                ]
+                ],
+                "coordinates": {
+                    "latitude": 10,
+                    "longitude": 20
+                }
             },
             "temp": 10,
             "active": true
@@ -198,7 +210,11 @@ mod test {
                 "Wednesday",
                 "Thursday",
                 "Friday"
-            ]
+            ],
+            "location": {
+                "latitude": 10,
+                "longitude": 20
+            }
         }"#;
         let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
 
@@ -226,10 +242,17 @@ mod test {
                     type_ref: None,
                     data_point_configuration: None,
                 },
-                // This datapoint is renamed and found in a different scope
+                // This datapoint is renamed from a source in a different scope
                 DatasetDataPoint {
                     name: String::from("days"),
                     data_source: String::from("metadata.active_on"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+                // This datapoint is renamed from a source in a different scope
+                DatasetDataPoint {
+                    name: String::from("location"),
+                    data_source: String::from("metadata.coordinates"),
                     type_ref: None,
                     data_point_configuration: None,
                 },
@@ -240,7 +263,7 @@ mod test {
             type_ref: None,
         };
 
-        // Can derive string, boolean, integer and array types for the schema
+        // Can derive string, boolean, integer and array and object types for the schema
         let expected_output_json_schema_str = r#"{
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
@@ -258,6 +281,17 @@ mod test {
                     "type": "array",
                     "items": {
                         "type": "string"
+                    }
+                },
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "latitude": {
+                            "type": "integer"
+                        },
+                        "longitude": {
+                            "type": "integer"
+                        }
                     }
                 }
             }
@@ -459,9 +493,120 @@ mod test {
         }
     }
 
+    // Test case containing no datapoints
+    fn valid_testcase_4() -> TransformTestCase {
+        let input_json_str = r#"{
+            "factory": "home",
+            "temp": 10
+        }"#;
+        let input_json: Value = serde_json::from_str(input_json_str).unwrap();
+
+        let expected_output_json_str = r"{}";
+        let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
+
+        let dataset = Dataset {
+            dataset_configuration: None,
+            // No datapoints in the dataset
+            data_points: vec![],
+            data_source: None,
+            destinations: vec![],
+            name: "TestDataset".to_string(),
+            type_ref: None,
+        };
+
+        // No properties on output schema
+        let expected_output_json_schema_str = r#"{
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object"
+        }"#;
+        let expected_output_json_schema: Value =
+            serde_json::from_str(expected_output_json_schema_str).unwrap();
+
+        TransformTestCase {
+            dataset,
+            input_json,
+            expected_output_json,
+            expected_output_json_schema,
+        }
+    }
+
+    // Test case containing datapoints that correspond to values that are not in the input
+    fn valid_testcase_5() -> TransformTestCase {
+        let input_json_str = r#"{
+            "factory": "home",
+            "temp": 10
+        }"#;
+        let input_json: Value = serde_json::from_str(input_json_str).unwrap();
+
+        let expected_output_json_str = r#"{
+            "factory": "home",
+            "temperature": 10,
+            "metadata": null
+        }"#;
+        let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
+
+        let dataset = Dataset {
+            dataset_configuration: None,
+            data_points: vec![
+                // This datapoint is unchanged in the transformation
+                DatasetDataPoint {
+                    name: String::from("factory"),
+                    data_source: String::from("factory"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+                // This datapoint is renamed in the same scope
+                DatasetDataPoint {
+                    name: String::from("temperature"),
+                    data_source: String::from("temp"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+                // This datapoint does not exist in the input json
+                DatasetDataPoint {
+                    name: String::from("metadata"),
+                    data_source: String::from("metadata"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+            ],
+            data_source: None,
+            destinations: vec![],
+            name: "TestDataset".to_string(),
+            type_ref: None,
+        };
+
+        // Metadata being null is not enough information to derive type information about the field
+        // and so it is simply inferred as being "true"
+        let expected_output_json_schema_str = r#"{
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "factory": {
+                    "type": "string"
+                },
+                "temperature": {
+                    "type": "integer"
+                },
+                "metadata": true
+        }
+        }"#;
+        let expected_output_json_schema: Value =
+            serde_json::from_str(expected_output_json_schema_str).unwrap();
+
+        TransformTestCase {
+            dataset,
+            input_json,
+            expected_output_json,
+            expected_output_json_schema,
+        }
+    }
+
     #[test_case(&valid_testcase_1(); "1:1 transformation")]
     #[test_case(&valid_testcase_2(); "Subset transformation")]
     #[test_case(&valid_testcase_3(); "Overlapping transformation")]
+    #[test_case(&valid_testcase_4(); "No datapoints")]
+    #[test_case(&valid_testcase_5(); "Missing data source")]
     fn valid_transform(test_case: &TransformTestCase) {
         let input_data = Data {
             payload: serde_json::to_vec(&test_case.input_json).unwrap(),
@@ -494,5 +639,66 @@ mod test {
             &output_message_schema,
             &expected_output_message_schema
         ));
+    }
+
+    #[test_case("not json".as_bytes(); "Not JSON")]
+    #[test_case(&[0x9c, 0xe5, 0x78]; "Not UTF8")]
+    fn invalid_data_payload(invalid_payload: &[u8]) {
+        // Use an arbitrary test case for the dataset, since the transformation will fail anyway
+        // due to bad input JSON
+        let test_case = valid_testcase_1();
+
+        let input_data = Data {
+            payload: invalid_payload.into(),
+            content_type: None,
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        assert!(transform(input_data, &test_case.dataset).is_err());
+    }
+
+    // NOTE: This test could be extended to check for other invalid dataset cases,
+    // if there are others
+    #[test]
+    fn invalid_dataset_duplicate_datapoints() {
+        let input_json_str = r#"{
+            "factory": "home",
+            "id": 10
+        }"#;
+        let input_json: Value = serde_json::from_str(input_json_str).unwrap();
+        let input_data = Data {
+            payload: serde_json::to_vec(&input_json).unwrap(),
+            content_type: None,
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        let dataset = Dataset {
+            dataset_configuration: None,
+            data_points: vec![
+                // This datapoint is unchanged in the transformation
+                DatasetDataPoint {
+                    name: String::from("factory"),
+                    data_source: String::from("factory"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+                // This datapoint is renamed in the transformation but crucially
+                // shares the same name as the previous datapoint, which is invalid
+                DatasetDataPoint {
+                    name: String::from("factory"),
+                    data_source: String::from("id"),
+                    type_ref: None,
+                    data_point_configuration: None,
+                },
+            ],
+            data_source: None,
+            destinations: vec![],
+            name: "TestDataset".to_string(),
+            type_ref: None,
+        };
+
+        assert!(transform(input_data, &dataset).is_err());
     }
 }
