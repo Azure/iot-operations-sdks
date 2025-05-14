@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::{control_packet::QoS, session::SessionManagedClie
 use azure_iot_operations_protocol::{
     common::{
         aio_protocol_error::AIOProtocolError,
-        payload_serialize::{FormatIndicator, SerializedPayload},
+        payload_serialize::{BypassPayload, FormatIndicator},
     },
     telemetry,
 };
@@ -40,7 +40,6 @@ impl Error {
 
 /// Represents the kinds of errors that occur in the [`Forwarder`] implementation.
 #[derive(Error, Debug)]
-#[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
     /// Message Schema must be present before data can be forwarded
     #[error("Message Schema must be reported before data can be forwarded")]
@@ -63,35 +62,39 @@ pub(crate) struct Forwarder {
     connector_context: Arc<ConnectorContext>,
 }
 impl Forwarder {
-    #[must_use]
     pub fn new_dataset_forwarder(
         dataset_definition: &Dataset,
         default_destination: Option<&Destination>,
         connector_context: Arc<ConnectorContext>,
-    ) -> Self {
+    ) -> Result<Self, azure_device_registry::ConfigError> {
         // Create a new forwarder
 
         // If no destination is specified in the dataset definition, use the default dataset destination
         let destination = if dataset_definition.destinations.is_empty() {
-            default_destination.expect(
-                "Asset must have default dataset destination if dataset doesn't have destination",
-            ).clone()
+            default_destination.ok_or(azure_device_registry::ConfigError {
+                code: None,
+                details: None,
+                inner_error: None,
+                message: Some("Asset must have default dataset destination if dataset doesn't have destination".to_string()),
+            })?.clone()
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_definition.destinations;
-            Destination::new_dataset_destination(definition_destination, &connector_context)
+            Destination::new_dataset_destination(definition_destination, &connector_context)?
                 .expect("Presence of destination already validated")
         };
 
-        Self {
+        Ok(Self {
             message_schema_reference: Arc::new(RwLock::new(None)),
             destination,
             connector_context,
-        }
+        })
     }
 
     /// # Errors
     /// TODO
+    /// # Panics
+    /// if the message schema reference mutex has been poisoned, which should not be possible
     pub async fn send_data(&self, data: Data) -> Result<(), Error> {
         // Forward the data to the destination
         match &self.destination {
@@ -170,15 +173,19 @@ impl Forwarder {
                 if let Some(ttl) = ttl {
                     message_builder.message_expiry(Duration::from_secs(*ttl));
                 }
+                // Can return an error if content type isn't valid UTF-8. Serialization can't fail
                 message_builder
-                    .payload(SerializedPayload {
+                    .payload(BypassPayload {
                         content_type: data.content_type,
                         payload: data.payload,
                         format_indicator: FormatIndicator::default(),
                     })
-                    .unwrap(); // TODO: need a way to return this back to the read_telemetry func probably
+                    .map_err(|e| ErrorKind::DataValidationError(e.to_string()))?;
                 message_builder.cloud_event(cloud_event);
-                let message = message_builder.build().unwrap(); // this one will validate content type
+                // This validates the content type
+                let message = message_builder
+                    .build()
+                    .map_err(|e| ErrorKind::DataValidationError(e.to_string()))?;
                 // send message with telemetry::Sender
                 Ok(telemetry_sender
                     .send(message)
@@ -212,7 +219,7 @@ pub(crate) enum Destination {
         qos: Option<QoS>,
         retain: Option<bool>,
         ttl: Option<u64>,
-        telemetry_sender: telemetry::Sender<SerializedPayload, SessionManagedClient>,
+        telemetry_sender: telemetry::Sender<BypassPayload, SessionManagedClient>,
     },
     Storage {
         path: String,
@@ -220,20 +227,20 @@ pub(crate) enum Destination {
 }
 
 impl Destination {
-    #[must_use]
     pub(crate) fn new_dataset_destination(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         connector_context: &Arc<ConnectorContext>,
-    ) -> Option<Self> {
+    ) -> Result<Option<Self>, azure_device_registry::ConfigError> {
         // Create a new forwarder
         if dataset_destinations.is_empty() {
-            None
+            Ok(None)
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_destinations[0];
             let destination = match definition_destination.target {
                 azure_device_registry::DatasetTarget::BrokerStateStore => {
                     Destination::BrokerStateStore {
+                        // TODO: validate key not empty?
                         key: definition_destination
                             .configuration
                             .key
@@ -251,13 +258,24 @@ impl Destination {
                                 .expect("Topic must be present if Target is Mqtt"),
                         )
                         .build()
-                        .unwrap(); // can fail if topic isn't valid in config
+                        // TODO: check if this can fail, or just the next one
+                        .map_err(|e| azure_device_registry::ConfigError {
+                            code: None,
+                            details: None,
+                            inner_error: None,
+                            message: Some(e.to_string()),
+                        })?; // can fail if topic isn't valid in config
                     let telemetry_sender = telemetry::Sender::new(
                         connector_context.application_context.clone(),
                         connector_context.managed_client.clone(),
                         telemetry_sender_options,
                     )
-                    .unwrap();
+                    .map_err(|e| azure_device_registry::ConfigError {
+                        code: None,
+                        details: None,
+                        inner_error: None,
+                        message: Some(e.to_string()),
+                    })?;
                     Destination::Mqtt {
                         // topic: definition_destination.configuration.topic.clone().expect("Topic must be present if Target is Mqtt"),
                         qos: definition_destination.configuration.qos,
@@ -278,7 +296,7 @@ impl Destination {
                         .expect("Path must be present if Target is Storage"),
                 },
             };
-            Some(destination)
+            Ok(Some(destination))
         }
     }
 }

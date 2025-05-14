@@ -489,12 +489,15 @@ impl AssetClientCreationObservation {
             )
             .await
             {
-                Ok(asset) => AssetClient::new(
-                    asset,
-                    asset_ref,
-                    self.device_specification.clone(),
-                    self.connector_context.clone(),
-                ),
+                Ok(asset) => {
+                    AssetClient::new(
+                        asset,
+                        asset_ref,
+                        self.device_specification.clone(),
+                        self.connector_context.clone(),
+                    )
+                    .await
+                }
                 Err(e) => {
                     log::error!("Failed to get Asset definition after retries: {e}");
                     log::error!("Dropping asset create notification: {asset_ref:?}");
@@ -575,7 +578,7 @@ pub struct AssetClient {
     connector_context: Arc<ConnectorContext>,
 }
 impl AssetClient {
-    pub(crate) fn new(
+    pub(crate) async fn new(
         asset: azure_device_registry::Asset,
         asset_ref: AssetRef,
         device_specification: Arc<DeviceSpecification>,
@@ -585,14 +588,40 @@ impl AssetClient {
         let dataset_definitions = asset.specification.datasets.clone();
         let specification = Arc::new(AssetSpecification::from(asset.specification));
         let default_dataset_destination =
-            destination_endpoint::Destination::new_dataset_destination(
+            match destination_endpoint::Destination::new_dataset_destination(
                 &specification.default_datasets_destinations,
                 &connector_context,
-            );
+            ) {
+                Ok(res) => res,
+                Err(e) => {
+                    log::error!("Invalid default dataset destination for Asset: {e:?}");
+                    let adr_asset_status = azure_device_registry::AssetStatus {
+                        config: Some(azure_device_registry::StatusConfig {
+                            version: specification.version,
+                            error: Some(e),
+                            last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
+                        }),
+                        ..azure_device_registry::AssetStatus::default()
+                    };
+                    // send status update to the service
+                    Self::internal_report_status(
+                        adr_asset_status,
+                        &connector_context,
+                        &asset_ref,
+                        &status,
+                    )
+                    .await;
+                    None
+                }
+            };
+        let mut dataset_config_errors = Vec::new();
         let datasets = dataset_definitions
             .into_iter()
-            .map(|dataset| {
-                DatasetClient::new(
+            // leave out any datasets that have config errors - they will be provided by an update notification if they get fixed, otherwise they can't be used at this point
+            // TODO: should we instead include it with a forwarder that doesn't work?
+            .filter_map(|dataset| {
+                let dataset_name = dataset.name.clone();
+                match DatasetClient::new(
                     dataset,
                     default_dataset_destination.as_ref(),
                     asset_ref.clone(),
@@ -600,9 +629,41 @@ impl AssetClient {
                     specification.clone(),
                     device_specification.clone(),
                     connector_context.clone(),
-                )
+                ) {
+                    Ok(dataset_client) => Some(dataset_client),
+                    Err(e) => {
+                        log::error!("Invalid dataset destination for dataset: {}", dataset_name);
+                        dataset_config_errors.push(
+                            azure_device_registry::DatasetEventStreamStatus {
+                                name: dataset_name,
+                                message_schema_reference: None,
+                                error: Some(e),
+                            },
+                        );
+                        None
+                    }
+                }
             })
             .collect();
+        if !dataset_config_errors.is_empty() {
+            let adr_asset_status = azure_device_registry::AssetStatus {
+                // TODO: Do I need to include the version here?
+                // config: Some(azure_device_registry::StatusConfig {
+                //     version: self.asset_specification.version,
+                //     ..azure_device_registry::StatusConfig::default()
+                // }),
+                datasets: Some(dataset_config_errors),
+                ..azure_device_registry::AssetStatus::default()
+            };
+            // send status update to the service
+            AssetClient::internal_report_status(
+                adr_asset_status,
+                &connector_context,
+                &asset_ref,
+                &status,
+            )
+            .await;
+        }
         AssetClient {
             asset_ref,
             specification,
@@ -734,14 +795,14 @@ impl DatasetClient {
         asset_specification: Arc<AssetSpecification>,
         device_specification: Arc<DeviceSpecification>,
         connector_context: Arc<ConnectorContext>,
-    ) -> Self {
+    ) -> Result<Self, ConfigError> {
         // Create a new dataset
         let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
             &dataset_definition,
             default_destination,
             connector_context.clone(),
-        ));
-        Self {
+        )?);
+        Ok(Self {
             dataset_ref: DatasetRef {
                 dataset_name: dataset_definition.name.clone(),
                 asset_name: asset_ref.name.clone(),
@@ -755,7 +816,7 @@ impl DatasetClient {
             device_specification,
             forwarder,
             connector_context,
-        }
+        })
     }
 
     /// Used to report the status of a dataset
