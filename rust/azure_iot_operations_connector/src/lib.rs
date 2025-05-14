@@ -25,7 +25,7 @@ pub struct Data {
     /// The payload in raw bytes
     pub payload: Vec<u8>,
     /// The content type of the payload. May be ignored depending on the destination
-    pub content_type: Option<String>,
+    pub content_type: String,
     /// Any custom user data related to the payload. May be ignored depending on the destination
     pub custom_user_data: Vec<(String, String)>,
     /// Timestamp of the actual data. May be ignored depending on the destination

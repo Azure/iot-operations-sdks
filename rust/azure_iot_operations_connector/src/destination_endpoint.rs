@@ -10,7 +10,10 @@ use std::{
 
 use azure_iot_operations_mqtt::{control_packet::QoS, session::SessionManagedClient};
 use azure_iot_operations_protocol::{
-    common::{aio_protocol_error::AIOProtocolError, payload_serialize::{FormatIndicator, SerializedPayload}},
+    common::{
+        aio_protocol_error::AIOProtocolError,
+        payload_serialize::{FormatIndicator, SerializedPayload},
+    },
     telemetry,
 };
 use azure_iot_operations_services::{
@@ -39,14 +42,18 @@ impl Error {
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorKind {
+    /// Message Schema must be present before data can be forwarded
     #[error("Message Schema must be reported before data can be forwarded")]
     MissingMessageSchema,
+    /// An error occurred while forwarding data to the State Store
     #[error(transparent)]
     BrokerStateStoreError(#[from] state_store::Error),
+    /// An error occurred while forwarding data as MQTT Telemetry
     #[error(transparent)]
     MqttTelemetryError(#[from] AIOProtocolError),
+    /// Data provided to be forwarded is invalid
     #[error("Error with contents of Data: {0}")]
-    DataValidationError(String)
+    DataValidationError(String),
 }
 
 #[derive(Debug)]
@@ -141,36 +148,42 @@ impl Forwarder {
                 if let Some(hlc) = data.timestamp {
                     cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
                 }
-                let cloud_event = cloud_event_builder.build().map_err( |e| {
+                let cloud_event = cloud_event_builder.build().map_err(|e| {
                     match e {
                         // since we specify `source`, all required fields will always be present
-                        telemetry::sender::CloudEventBuilderError::UninitializedField(_) => unreachable!(),
+                        telemetry::sender::CloudEventBuilderError::UninitializedField(_) => {
+                            unreachable!()
+                        }
                         // This can be caused by a
                         // source that isn't a uri reference - check
                         // data_schema that isn't a valid uri - check, don't think this is possible since we create it
-                        telemetry::sender::CloudEventBuilderError::ValidationError(e) => Error(ErrorKind::DataValidationError(e)),
+                        telemetry::sender::CloudEventBuilderError::ValidationError(e) => {
+                            Error(ErrorKind::DataValidationError(e))
+                        }
                         e => Error(ErrorKind::DataValidationError(e.to_string())),
                     }
                 })?;
-                let message = telemetry::sender::MessageBuilder::default()
+                let mut message_builder = telemetry::sender::MessageBuilder::default();
+                if let Some(qos) = qos {
+                    message_builder.qos(*qos);
+                }
+                if let Some(ttl) = ttl {
+                    message_builder.message_expiry(Duration::from_secs(*ttl));
+                }
+                message_builder
                     .payload(SerializedPayload {
-                        content_type: data.content_type.unwrap_or_default(),
+                        content_type: data.content_type,
                         payload: data.payload,
                         format_indicator: FormatIndicator::default(),
                     })
-                    .unwrap() // TODO: need a way to return this back to the read_telemetry func probably
-                    .message_expiry(Duration::from_secs(*ttl))
-                    .qos(*qos)
-                    // .retain(retain)
-                    // .custom_user_data(vec![(
-                    //     "schemaId".to_string(),
-                    //     schema_info.clone().unwrap_or_default(),
-                    // )])
-                    .cloud_event(cloud_event)
-                    .build()
-                    .unwrap(); // this one will validate content type
+                    .unwrap(); // TODO: need a way to return this back to the read_telemetry func probably
+                message_builder.cloud_event(cloud_event);
+                let message = message_builder.build().unwrap(); // this one will validate content type
                 // send message with telemetry::Sender
-                Ok(telemetry_sender.send(message).await.map_err(ErrorKind::from)?)
+                Ok(telemetry_sender
+                    .send(message)
+                    .await
+                    .map_err(ErrorKind::from)?)
             }
             Destination::Storage { path: _ } => Ok(()), // TODO: implement
         }
@@ -196,9 +209,9 @@ pub(crate) enum Destination {
     },
     Mqtt {
         // topic: String,
-        qos: QoS,
-        retain: bool,
-        ttl: u64,
+        qos: Option<QoS>,
+        retain: Option<bool>,
+        ttl: Option<u64>,
         telemetry_sender: telemetry::Sender<SerializedPayload, SessionManagedClient>,
     },
     Storage {
@@ -238,7 +251,7 @@ impl Destination {
                                 .expect("Topic must be present if Target is Mqtt"),
                         )
                         .build()
-                        .unwrap();
+                        .unwrap(); // can fail if topic isn't valid in config
                     let telemetry_sender = telemetry::Sender::new(
                         connector_context.application_context.clone(),
                         connector_context.managed_client.clone(),
@@ -247,22 +260,13 @@ impl Destination {
                     .unwrap();
                     Destination::Mqtt {
                         // topic: definition_destination.configuration.topic.clone().expect("Topic must be present if Target is Mqtt"),
-                        qos: definition_destination
+                        qos: definition_destination.configuration.qos,
+                        retain: definition_destination
                             .configuration
-                            .qos
-                            .expect("QoS must be present if Target is Mqtt"),
-                        retain: matches!(
-                            definition_destination
-                                .configuration
-                                .retain
-                                .clone()
-                                .expect("Retain must be present if Target is Mqtt"),
-                            azure_device_registry::Retain::Keep
-                        ),
-                        ttl: definition_destination
-                            .configuration
-                            .ttl
-                            .expect("TTL must be present if Target is Mqtt"),
+                            .retain
+                            .as_ref()
+                            .map(|r| matches!(r, azure_device_registry::Retain::Keep)),
+                        ttl: definition_destination.configuration.ttl,
                         telemetry_sender,
                     }
                 }

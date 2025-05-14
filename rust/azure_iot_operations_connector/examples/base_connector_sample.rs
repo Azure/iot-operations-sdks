@@ -10,10 +10,15 @@
 //!
 //! To deploy and test this example, see instructions in `rust/azure_iot_operations_connector/README.md`
 
-use azure_iot_operations_connector::base_connector::{
-    BaseConnector,
-    managed_azure_device_registry::{
-        AssetClientCreationObservation, DatasetClient, DeviceEndpointClientCreationObservation,
+use std::time::Duration;
+
+use azure_iot_operations_connector::{
+    Data,
+    base_connector::{
+        BaseConnector,
+        managed_azure_device_registry::{
+            AssetClientCreationObservation, DatasetClient, DeviceEndpointClientCreationObservation,
+        },
     },
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -175,6 +180,28 @@ async fn run_dataset(dataset_client: DatasetClient) {
         }
         Err(e) => {
             log::error!("Error reporting message schema: {e}");
+        }
+    }
+    let mut count = 0;
+    loop {
+        tokio::time::sleep(Duration::from_secs(5)).await;
+        match dataset_client
+            .forward_data(Data {
+                payload: format!("hello {count}").into(),
+                content_type: "application/json".to_string(),
+                custom_user_data: Vec::new(),
+                timestamp: None,
+            })
+            .await
+        {
+            Ok(()) => {
+                log::info!(
+                    "data for {} forwarded",
+                    dataset_client.dataset_ref().dataset_name
+                );
+                count += 1;
+            }
+            Err(e) => log::error!("error forwarding data: {e}"),
         }
     }
 }

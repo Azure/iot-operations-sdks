@@ -1,7 +1,7 @@
 apiVersion: akri.microsoft.com/v1beta1
 kind: ConnectorTemplate
 metadata:
-  name: base-connector-template
+  name: base-connector-seven
   namespace: azure-iot-operations
 spec:
   version: "1.0"
@@ -19,13 +19,15 @@ spec:
     managedConfigurationSettings:
       managedConfigurationType: imageConfiguration
       imageConfigurationSettings:
+        registrySettings:
+          registrySettingsType: containerRegistry
+          containerRegistrySettings:
+            registry: "<your acr>.azurecr.io"
         imageName: "baseconnector"
-        imagePullPolicy: Never # This sample image is built locally, so no need to pull
+        imagePullPolicy: Always
         replicas: 1
         tagDigestSettings:
           tagDigestType: tag
           tag: "latest"
   mqttConnectionConfiguration:
-    host: "aio-broker:1883"
-    tls:
-      mode: Disabled
+    host: "aio-broker:18883"
