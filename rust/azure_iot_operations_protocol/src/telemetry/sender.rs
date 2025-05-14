@@ -189,7 +189,7 @@ pub struct Message<T: PayloadSerialize> {
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
     cloud_event: Option<CloudEvent>,
-    /// Indicates whether the message should be retained or not.A retained message is a normal MQTT message with the retained flag set to true.
+    /// Indicates whether the message should be retained or not.
     #[builder(default = "false")]
     retain: bool,
 }
@@ -737,7 +737,7 @@ mod tests {
     }
 
     #[test]
-    fn test_send_retain_true() {
+    fn test_message_defaults() {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
             .expect_serialize()
@@ -753,9 +753,20 @@ mod tests {
         let message_builder_result = MessageBuilder::default()
             .payload(mock_telemetry_payload)
             .unwrap()
-            .retain(true)
             .build();
 
-        assert!(message_builder_result.unwrap().retain);
+        assert!(message_builder_result.is_ok());
+        let m = message_builder_result.unwrap();
+
+        assert_eq!(m.retain, false);
+        assert_eq!(
+            m.qos,
+            azure_iot_operations_mqtt::control_packet::QoS::AtLeastOnce
+        );
+        assert_eq!(m.message_expiry, Duration::from_secs(10));
+        assert!(m.custom_user_data.is_empty());
+        assert!(m.topic_tokens.is_empty());
+        assert!(m.cloud_event.is_none());
+        assert!(m.serialized_payload.payload.is_empty());
     }
 }
