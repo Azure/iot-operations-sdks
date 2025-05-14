@@ -758,7 +758,7 @@ mod tests {
         assert!(message_builder_result.is_ok());
         let m = message_builder_result.unwrap();
 
-        assert_eq!(m.retain, false);
+        assert!(!m.retain);
         assert_eq!(
             m.qos,
             azure_iot_operations_mqtt::control_packet::QoS::AtLeastOnce
