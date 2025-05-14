@@ -3,31 +3,39 @@
     "type": "object",
     "properties": {
       "name": {
-        "type": "string"
+        "type": "string",
+        "description": "The name of the connector."
       },
       "description": {
-        "type": "string"
+        "type": "string",
+        "description": "A brief (human-readable) description of the connector."
       },
       "version": {
-        "type": "string"
+        "type": "string",
+        "description": "The version of this connector."
       },
       "maintainer": {
-        "type": "string"
+        "type": "string",
+        "description": "A name and/or email of the maintainer of this connector."
       },
       "vendor": {
-        "type": "string"
+        "type": "string",
+        "description": "A name and/or email of the vendor that distributes this connector."
       },
       "image": {
         "type": "object",
         "properties": {
           "repository": {
-            "type": "string"
+            "type": "string",
+            "description": "The container registry and docker image name for the connector. For example: contoso-acr.io/MyConnector"
           },
           "tag": {
-            "type": "string"
+            "type": "string",
+            "description": "The tag of the docker image for this connector"
           },
           "digest": {
-            "type": "string"
+            "type": "string",
+            "description": "The digest of the docker image for this connector"
           }
         },
         "required": [
@@ -39,13 +47,16 @@
         "type": "object",
         "properties": {
           "repository": {
-            "type": "string"
+            "type": "string",
+            "description": "The container registry and helm chart name for the connector. For example: contoso-acr.io/helm/MyConnector"
           },
           "tag": {
-            "type": "string"
+            "type": "string",
+            "description": "The tag of the helm chart for this connector"
           },
           "digest": {
-            "type": "string"
+            "type": "string",
+            "description": "The digest of the helm chart for this connector"
           }
         },
         "required": [
@@ -55,16 +66,15 @@
       },
       "kubernetes": {
         "type": "object",
+        "description": "The kubernetes-level metadata",
         "properties": {
           "kubernetesPermissions": {
             "type": "object",
+            "description": "The kubernetes-level permissions required by this connector",
             "properties": {
               "resources": {
                 "type": "array",
                 "items": [
-                  {
-                    "type": "string"
-                  },
                   {
                     "type": "string"
                   }
@@ -73,12 +83,6 @@
               "verbs": {
                 "type": "array",
                 "items": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "string"
-                  },
                   {
                     "type": "string"
                   }
@@ -91,50 +95,54 @@
             ]
           },
           "minimum_kubernetes_version": {
-            "type": "string"
+            "type": "string",
+            "description": "Minimum required version of kubernetes needed to run this connector"
           }
         }
       },
       "architecture": {
-        "type": "string"
+        "type": "string",
+        "description": "The architecture that this connector should run on"
       },
       "sourceCode": {
         "type": "object",
+        "description": "Details about the source code that compiled this connector",
         "properties": {
           "language": {
-            "type": "string"
+            "type": "string",
+            "description": "The programming language used to write this connector"
           },
           "languageVersion": {
-            "type": "string"
+            "type": "string",
+            "description": "The version of the programming language used to write this connector"
           },
           "SDK": {
             "type": "object",
+            "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
             "properties": {
-              "ProtocolPackageVersion": {
-                "type": "string"
+              "MqttPackageVersion": {
+                "type": "string",
+                "description": "The version of the azure iot operations MQTT package"
               },
               "ServicesPackageVersion": {
-                "type": "string"
+                "type": "string",
+                "description": "The version of the azure iot operations services package"
               },
               "ConnectorPackageVersion": {
-                "type": "string"
+                "type": "string",
+                "description": "The version of the azure iot operations connector package"
               }
-            },
-            "required": [
-              "ProtocolPackageVersion",
-              "ServicesPackageVersion",
-              "ConnectorPackageVersion"
-            ]
+            }
           }
         },
         "required": [
           "language",
-          "languageVersion",
-          "SDK"
+          "languageVersion"
         ]
       },
       "resource_requirements": {
         "type": "object",
+        "description": "The minimal resource requirements to run this connector",
         "properties": {
           "cpu": {
             "type": "string"
@@ -149,17 +157,21 @@
       },
       "aioConfig": {
         "type": "object",
+        "description": "The AIO requirements to run this connector",
         "properties": {
           "minVersion": {
-            "type": "string"
+            "type": "string",
+            "description": "The minimal (inclusive) version that can run this connector."
           },
           "maxVersion": {
-            "type": "string"
+            "type": "string",
+            "description": "The maximal (inclusive) version that can run this connector."
           }
         }
       },
       "protocols": {
         "type": "array",
+        "description": "The array of protocols that this connector operates over.",
         "items": [
           {
             "type": "object",
@@ -172,6 +184,7 @@
               },
               "configSchemas": {
                 "type": "object",
+                "description": "The JSON schemas for the various 'additional configuration' fields. If the 'additional configuration' field is unused, an empty JSON schema must still be provided.",
                 "properties": {
                   "deviceEndpointAdditionalConfigSchema": {
                     "$ref": "http://json-schema.org/draft-07/schema#"

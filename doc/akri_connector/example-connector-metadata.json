@@ -19,7 +19,7 @@
     "language": ".NET",
     "languageVersion": ".NET 8.0",
     "SDK": {
-      "ProtocolPackageVersion": "1.0.0",
+      "MqttPackageVersion": "1.0.0",
       "ServicesPackageVersion": "1.0.0",
       "ConnectorPackageVersion": "1.0.0"
     }
