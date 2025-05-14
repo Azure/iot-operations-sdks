@@ -12,7 +12,8 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 use derive_builder::Builder;
 use thiserror::Error;
 
-pub use schemaregistry_gen::schema_registry::client::{Format, Schema, SchemaType};
+use schemaregistry_gen::schema_registry::client as sr_client_gen;
+pub use schemaregistry_gen::schema_registry::client::Schema; // TODO: wrap
 
 /// Schema Registry Client implementation wrapper
 mod client;
@@ -75,6 +76,39 @@ impl From<AIOProtocolError> for ErrorKind {
     }
 }
 
+/// Supported schema formats
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Format {
+    /// Delta1
+    Delta1,
+    /// JsonSchema/draft-07
+    JsonSchemaDraft07,
+}
+
+impl From<Format> for sr_client_gen::Format {
+    fn from(format: Format) -> Self {
+        match format {
+            Format::Delta1 => sr_client_gen::Format::Delta1,
+            Format::JsonSchemaDraft07 => sr_client_gen::Format::JsonSchemaDraft07,
+        }
+    }
+}
+
+/// Supported schema types.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SchemaType {
+    /// Message Schema
+    MessageSchema,
+}
+
+impl From<SchemaType> for sr_client_gen::SchemaType {
+    fn from(schema_type: SchemaType) -> Self {
+        match schema_type {
+            SchemaType::MessageSchema => sr_client_gen::SchemaType::MessageSchema,
+        }
+    }
+}
+
 /// An error returned by the Schema Registry Service.
 #[derive(Debug)]
 pub struct ServiceError {
@@ -86,8 +120,9 @@ pub struct ServiceError {
     pub property_value: Option<String>,
 }
 
+// TODO: should these fields be exposed? How?
 /// Request to get a schema from the schema registry.
-#[derive(Builder, Clone, Debug)]
+#[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct GetRequest {
     /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
@@ -114,20 +149,20 @@ impl GetRequestBuilder {
 }
 
 /// Request to put a schema in the schema registry.
-#[derive(Builder, Clone, Debug)]
+#[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into))]
 pub struct PutRequest {
     /// The content of the schema to be added or updated in the registry.
-    content: String,
+    pub content: String,
     /// The format of the schema. Specifies how the schema content should be interpreted.
-    format: Format,
+    pub format: Format,
     /// The type of the schema, such as message schema or data schema.
     #[builder(default = "SchemaType::MessageSchema")]
-    schema_type: SchemaType,
+    pub schema_type: SchemaType,
     /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
     #[builder(default)]
-    tags: HashMap<String, String>,
+    pub tags: HashMap<String, String>,
     /// The version of the schema to add or update. If not specified, defaults to "1".
     #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    version: String,
+    pub version: String,
 }
