@@ -10,19 +10,48 @@ use std::{
 
 use azure_iot_operations_mqtt::{control_packet::QoS, session::SessionManagedClient};
 use azure_iot_operations_protocol::{
-    common::payload_serialize::{FormatIndicator, SerializedPayload},
+    common::{aio_protocol_error::AIOProtocolError, payload_serialize::{FormatIndicator, SerializedPayload}},
     telemetry,
 };
 use azure_iot_operations_services::{
     azure_device_registry::{self, Dataset, MessageSchemaReference},
     state_store,
 };
+use chrono::{DateTime, Utc};
+use thiserror::Error;
 
 use crate::{Data, base_connector::ConnectorContext};
 
+/// Represents an error that occurred in the [`Forwarder`].
+#[derive(Debug, Error)]
+#[error(transparent)]
+pub struct Error(#[from] ErrorKind);
+
+impl Error {
+    /// Returns the [`ErrorKind`] of the error.
+    #[must_use]
+    pub fn kind(&self) -> &ErrorKind {
+        &self.0
+    }
+}
+
+/// Represents the kinds of errors that occur in the [`Forwarder`] implementation.
+#[derive(Error, Debug)]
+#[allow(clippy::large_enum_variant)]
+pub enum ErrorKind {
+    #[error("Message Schema must be reported before data can be forwarded")]
+    MissingMessageSchema,
+    #[error(transparent)]
+    BrokerStateStoreError(#[from] state_store::Error),
+    #[error(transparent)]
+    MqttTelemetryError(#[from] AIOProtocolError),
+    #[error("Error with contents of Data: {0}")]
+    DataValidationError(String)
+}
+
 #[derive(Debug)]
 pub(crate) struct Forwarder {
-    message_schema_uri: Arc<RwLock<Option<MessageSchemaReference>>>,
+    message_schema_reference: Arc<RwLock<Option<MessageSchemaReference>>>,
     destination: Destination,
     connector_context: Arc<ConnectorContext>,
 }
@@ -48,7 +77,7 @@ impl Forwarder {
         };
 
         Self {
-            message_schema_uri: Arc::new(RwLock::new(None)),
+            message_schema_reference: Arc::new(RwLock::new(None)),
             destination,
             connector_context,
         }
@@ -56,11 +85,11 @@ impl Forwarder {
 
     /// # Errors
     /// TODO
-    pub async fn send_data(&self, data: Data) -> Result<(), String> {
+    pub async fn send_data(&self, data: Data) -> Result<(), Error> {
         // Forward the data to the destination
         match &self.destination {
             Destination::BrokerStateStore { key } => {
-                match self
+                if self
                     .connector_context
                     .state_store_client
                     .set(
@@ -74,19 +103,13 @@ impl Forwarder {
                         },
                     )
                     .await
+                    .map_err(ErrorKind::from)?
+                    .response
                 {
-                    Ok(res) => {
-                        if res.response {
-                            Ok(())
-                        } else {
-                            // This shouldn't be possible since SetOptions are unconditional
-                            Err("Failed to set value".to_string())
-                        }
-                    }
-                    Err(e) => {
-                        // TODO: translate this to a meaningful error type
-                        Err(e.to_string())
-                    }
+                    Ok(())
+                } else {
+                    // This shouldn't be possible since SetOptions are unconditional
+                    unreachable!()
                 }
             }
             Destination::Mqtt {
@@ -98,12 +121,37 @@ impl Forwarder {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
                 // TODO: cloud event
                 // TODO: retain
-                let cloud_event = telemetry::sender::CloudEventBuilder::default()
+                let message_schema_uri = if let Some(message_schema_reference) =
+                    self.message_schema_reference.read().unwrap().as_ref()
+                {
+                    format!(
+                        "aio-sr://{}/{}:{}",
+                        message_schema_reference.registry_namespace,
+                        message_schema_reference.name,
+                        message_schema_reference.version
+                    )
+                } else {
+                    // TODO: validate this for other destinations as well
+                    return Err(Error(ErrorKind::MissingMessageSchema));
+                };
+                let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
+                cloud_event_builder
                     .source("something")
-                    // .time(data.timestamp)
-                    // .data_schema("from message schema reference")
-                    .build()
-                    .unwrap();
+                    .data_schema(message_schema_uri);
+                if let Some(hlc) = data.timestamp {
+                    cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
+                }
+                let cloud_event = cloud_event_builder.build().map_err( |e| {
+                    match e {
+                        // since we specify `source`, all required fields will always be present
+                        telemetry::sender::CloudEventBuilderError::UninitializedField(_) => unreachable!(),
+                        // This can be caused by a
+                        // source that isn't a uri reference - check
+                        // data_schema that isn't a valid uri - check, don't think this is possible since we create it
+                        telemetry::sender::CloudEventBuilderError::ValidationError(e) => Error(ErrorKind::DataValidationError(e)),
+                        e => Error(ErrorKind::DataValidationError(e.to_string())),
+                    }
+                })?;
                 let message = telemetry::sender::MessageBuilder::default()
                     .payload(SerializedPayload {
                         content_type: data.content_type.unwrap_or_default(),
@@ -111,36 +159,33 @@ impl Forwarder {
                         format_indicator: FormatIndicator::default(),
                     })
                     .unwrap() // TODO: need a way to return this back to the read_telemetry func probably
-                    .message_expiry(Duration::from_secs(*ttl)) // TODO: value?
+                    .message_expiry(Duration::from_secs(*ttl))
                     .qos(*qos)
+                    // .retain(retain)
                     // .custom_user_data(vec![(
                     //     "schemaId".to_string(),
                     //     schema_info.clone().unwrap_or_default(),
                     // )])
                     .cloud_event(cloud_event)
                     .build()
-                    .unwrap();
+                    .unwrap(); // this one will validate content type
                 // send message with telemetry::Sender
-                match telemetry_sender.send(message).await {
-                    Ok(()) => Ok(()),
-                    Err(e) => {
-                        // TODO: translate this to a meaningful error type
-                        Err(e.to_string())
-                    }
-                }
+                Ok(telemetry_sender.send(message).await.map_err(ErrorKind::from)?)
             }
-            Destination::Storage { path: _ } => Ok(()),
+            Destination::Storage { path: _ } => Ok(()), // TODO: implement
         }
-        // Ok(())
     }
 
-    /// Sets the message schema uri for this forwarder to use
+    /// Sets the message schema reference for this forwarder to use
     ///
     /// # Panics
-    /// if the message schema uri mutex has been poisoned, which should not be possible
-    pub fn update_message_schema_uri(&self, message_schema_uri: Option<MessageSchemaReference>) {
+    /// if the message schema reference mutex has been poisoned, which should not be possible
+    pub fn update_message_schema_reference(
+        &self,
+        message_schema_reference: Option<MessageSchemaReference>,
+    ) {
         // Add the message schema URI to the forwarder
-        *self.message_schema_uri.write().unwrap() = message_schema_uri;
+        *self.message_schema_reference.write().unwrap() = message_schema_reference;
     }
 }
 

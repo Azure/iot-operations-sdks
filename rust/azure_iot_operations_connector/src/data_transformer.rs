@@ -5,7 +5,7 @@
 
 #![allow(missing_docs)]
 
-use crate::Data;
+use crate::{destination_endpoint, Data};
 use crate::base_connector::managed_azure_device_registry::DatasetClient;
 
 pub trait DataTransformer {
@@ -44,7 +44,7 @@ pub struct PassthroughDatasetDataTransformer {
 impl DatasetDataTransformer for PassthroughDatasetDataTransformer {
     /// # Errors
     /// TODO
-    async fn add_sampled_data(&self, data: Data) -> Result<(), String> {
+    async fn add_sampled_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
         // immediately forward data without any processing
         self.dataset.forward_data(data).await
     }

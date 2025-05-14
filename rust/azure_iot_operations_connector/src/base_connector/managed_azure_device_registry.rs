@@ -863,7 +863,7 @@ impl DatasetClient {
         .await;
 
         self.forwarder
-            .update_message_schema_uri(Some(message_schema_reference.clone()));
+            .update_message_schema_reference(Some(message_schema_reference.clone()));
 
         Ok(message_schema_reference)
     }
@@ -871,7 +871,7 @@ impl DatasetClient {
     /// Used to send transformed data to the destination
     /// # Errors
     /// TODO
-    pub async fn forward_data(&self, data: Data) -> Result<(), String> {
+    pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
         self.forwarder.send_data(data).await
     }
 
