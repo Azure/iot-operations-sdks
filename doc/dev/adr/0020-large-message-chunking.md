@@ -38,7 +38,7 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
 - This makes chunking transparent to application code and compatible with all serialization formats.
 
 - Sending Process:
-  - When a payload exceeds the maximum packet size, the midlware intercepts it before transmission
+  - When a payload exceeds the maximum packet size, the middleware intercepts it before transmission
   - The message is split into fixed-size chunks (with potentially smaller last chunk)
   - Each chunk is sent as a separate MQTT message with the same topic but with chunk metadata.
   - Effort should be made to minimize user properties copied over to every chunk: first chunk will have full set of original user properties and the rest only thoses that are neccessary to reassamble original message (ex.: ```$partition``` property to support shared subscriptions:).
