@@ -89,11 +89,7 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
         // Start handling the assets for this device endpoint
         // if we didn't accept the inbound endpoint, then there's no reason to manage the assets
         if endpoint_status.is_ok() {
-            tokio::task::spawn({
-                async move {
-                    run_assets(asset_creation_observation).await;
-                }
-            });
+            tokio::task::spawn(run_assets(asset_creation_observation));
         }
 
         device_endpoint_client
