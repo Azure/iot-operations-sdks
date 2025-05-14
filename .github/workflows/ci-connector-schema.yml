@@ -18,8 +18,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: CI-dotnet
-    timeout-minutes: 30
+    name: CI-ConnectorMetadataSchema
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v4
