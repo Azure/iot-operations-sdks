@@ -756,6 +756,6 @@ mod tests {
             .retain(true)
             .build();
 
-        assert_eq!(message_builder_result.unwrap().retain, true);
+        assert!(message_builder_result.unwrap().retain);
     }
 }
