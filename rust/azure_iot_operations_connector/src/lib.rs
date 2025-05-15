@@ -6,20 +6,29 @@
 #![warn(missing_docs)]
 
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
-use azure_iot_operations_services::schema_registry::PutRequest;
+use azure_iot_operations_services::schema_registry::{
+    PutRequest, PutRequestBuilder, PutRequestBuilderError,
+};
 
 pub mod base_connector;
+pub mod data_processor;
 pub mod data_transformer;
 pub mod destination_endpoint;
 pub mod filemount;
 pub mod source_endpoint;
 
-/// Message Schema to send to the Schema Registry Service
-pub type MessageSchema = PutRequest;
-
 #[macro_use]
 extern crate derive_getters;
 
+/// Message Schema to send to the Schema Registry Service
+pub type MessageSchema = PutRequest;
+/// Builder for [`MessageSchema`]
+pub type MessageSchemaBuilder = PutRequestBuilder;
+/// Error type for [`MessageSchemaBuilder`]
+pub type MessageSchemaBuilderError = PutRequestBuilderError;
+
+/// Struct format for data sent to the destination
+#[derive(Debug, Clone, PartialEq)]
 /// Struct format for data sent to the [`DataTransformer`] and the destination
 pub struct Data {
     /// The payload in raw bytes
