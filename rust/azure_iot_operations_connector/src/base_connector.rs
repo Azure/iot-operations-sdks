@@ -17,7 +17,6 @@ use crate::filemount::connector_config::ConnectorConfiguration;
 pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations
-#[allow(dead_code)]
 pub(crate) struct ConnectorContext {
     /// Application context used for creating new clients and envoys
     pub(crate) application_context: ApplicationContext,
@@ -33,7 +32,6 @@ pub(crate) struct ConnectorContext {
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     pub(crate) state_store_client: Arc<state_store::Client<SessionManagedClient>>,
     schema_registry_client: schema_registry::Client<SessionManagedClient>,
-    // etc
 }
 
 #[allow(clippy::missing_fields_in_debug)]

@@ -55,6 +55,7 @@ pub enum ErrorKind {
     DataValidationError(String),
 }
 
+/// A [`Forwarder`] forwards [`Data`] to a destination defined in a dataset or asset
 #[derive(Debug)]
 pub(crate) struct Forwarder {
     message_schema_reference: Arc<RwLock<Option<MessageSchemaReference>>>,
@@ -62,7 +63,14 @@ pub(crate) struct Forwarder {
     connector_context: Arc<ConnectorContext>,
 }
 impl Forwarder {
-    pub fn new_dataset_forwarder(
+    /// Creates a new [`Forwarder`] from a dataset definition and a default
+    /// destination, if present on the asset
+    ///
+    /// # Errors
+    /// [`azure_device_registry::ConfigError`] if there are any issues processing
+    /// the destination from the definitions. This can be used to report the error
+    /// to the ADR service on the dataset's status
+    pub(crate) fn new_dataset_forwarder(
         dataset_definition: &Dataset,
         inbound_endpoint_name: &str,
         default_destination: Option<&Destination>,
@@ -96,11 +104,25 @@ impl Forwarder {
         })
     }
 
+    /// Forwards [`Data`] to the destination
+    /// Returns once the message has been sent successfully
+    ///
     /// # Errors
-    /// TODO
+    /// [`struct@Error`] of kind [`MissingMessageSchema`](ErrorKind::MissingMessageSchema)
+    /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
+    ///
+    /// [`struct@Error`] of kind [`DataValidationError`](ErrorKind::MqttTelemetryError)
+    /// if the [`Data`] isn't valid.
+    ///
+    /// [`struct@Error`] of kind [`BrokerStateStoreError`](ErrorKind::BrokerStateStoreError)
+    /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
+    ///
+    /// [`struct@Error`] of kind [`MqttTelemetryError`](ErrorKind::MqttTelemetryError)
+    /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    ///
     /// # Panics
     /// if the message schema reference mutex has been poisoned, which should not be possible
-    pub async fn send_data(&self, data: Data) -> Result<(), Error> {
+    pub(crate) async fn send_data(&self, data: Data) -> Result<(), Error> {
         // Forward the data to the destination
         match &self.destination {
             Destination::BrokerStateStore { key } => {
@@ -204,11 +226,12 @@ impl Forwarder {
         }
     }
 
-    /// Sets the message schema reference for this forwarder to use
+    /// Sets the message schema reference for this forwarder to use. Must be done before
+    /// calling `send_data`
     ///
     /// # Panics
     /// if the message schema reference mutex has been poisoned, which should not be possible
-    pub fn update_message_schema_reference(
+    pub(crate) fn update_message_schema_reference(
         &self,
         message_schema_reference: Option<MessageSchemaReference>,
     ) {
@@ -223,8 +246,7 @@ pub(crate) enum Destination {
         key: String,
     },
     Mqtt {
-        // topic: String,
-        qos: Option<QoS>,
+        qos: Option<QoS>, // these are optional so that we use the defaults from the telemetry::sender if they aren't specified on the dataset/asset definition
         retain: Option<bool>,
         ttl: Option<u64>,
         inbound_endpoint_name: String,
@@ -236,6 +258,14 @@ pub(crate) enum Destination {
 }
 
 impl Destination {
+    /// Creates a new [`Destination`] from a list of [`azure_device_registry::DatasetDestination`]s.
+    /// At this time, this list cannot have more than one element. If there are no items in the list,
+    /// this function will return [`None`]. This isn't an error, since a default destination may or
+    /// may not exist in the definition.
+    ///
+    /// # Errors
+    /// [`azure_device_registry::ConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_dataset_destination(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
@@ -287,7 +317,6 @@ impl Destination {
                         message: Some(e.to_string()),
                     })?;
                     Destination::Mqtt {
-                        // topic: definition_destination.configuration.topic.clone().expect("Topic must be present if Target is Mqtt"),
                         qos: definition_destination.configuration.qos,
                         retain: definition_destination
                             .configuration
