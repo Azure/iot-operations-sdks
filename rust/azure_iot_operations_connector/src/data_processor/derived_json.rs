@@ -511,7 +511,7 @@ mod test {
     fn valid_transform(test_case: &TransformTestCase) {
         let input_data = Data {
             payload: serde_json::to_vec(&test_case.input_json).unwrap(),
-            content_type: Some("application/json".to_string()),
+            content_type: "application/json".to_string(),
             custom_user_data: vec![],
             timestamp: None,
         };
@@ -551,7 +551,7 @@ mod test {
 
         let input_data = Data {
             payload: invalid_payload.into(),
-            content_type: Some("application/json".to_string()),
+            content_type: "application/json".to_string(),
             custom_user_data: vec![],
             timestamp: None,
         };
@@ -572,7 +572,7 @@ mod test {
         let input_json: Value = serde_json::from_str(input_json_str).unwrap();
         let input_data = Data {
             payload: serde_json::to_vec(&input_json).unwrap(),
-            content_type: Some("application/json".to_string()),
+            content_type: "application/json".to_string(),
             custom_user_data: vec![],
             timestamp: None,
         };

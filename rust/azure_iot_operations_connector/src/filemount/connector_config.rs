@@ -169,7 +169,12 @@ impl ConnectorConfiguration {
                         .ok_or("No CA cert found in trustbundle directory".to_string())?
                         .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
                     // Workaround to skip files that start with .. that aren't ca files.
-                    if entry.file_name().to_string_lossy().to_string().starts_with("..") {
+                    if entry
+                        .file_name()
+                        .to_string_lossy()
+                        .to_string()
+                        .starts_with("..")
+                    {
                         continue;
                     }
                     // Convert filepath to string for MqttConnectionSettings
@@ -179,8 +184,7 @@ impl ConnectorConfiguration {
                         .ok_or("Could not convert Path to String".to_string())?
                         .to_string();
                     break;
-                    
-                };
+                }
                 Some(path_s)
             } else {
                 None
