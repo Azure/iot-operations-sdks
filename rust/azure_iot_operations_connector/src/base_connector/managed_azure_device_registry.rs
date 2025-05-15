@@ -612,6 +612,7 @@ impl AssetClient {
                         &status,
                     )
                     .await;
+                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
                     None
                 }
             };
