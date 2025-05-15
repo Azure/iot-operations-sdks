@@ -590,6 +590,7 @@ impl AssetClient {
         let default_dataset_destination =
             match destination_endpoint::Destination::new_dataset_destination(
                 &specification.default_datasets_destinations,
+                &asset_ref.inbound_endpoint_name,
                 &connector_context,
             ) {
                 Ok(res) => res,
@@ -799,6 +800,7 @@ impl DatasetClient {
         // Create a new dataset
         let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
             &dataset_definition,
+            &asset_ref.inbound_endpoint_name,
             default_destination,
             connector_context.clone(),
         )?);

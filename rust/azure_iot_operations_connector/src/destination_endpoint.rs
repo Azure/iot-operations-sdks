@@ -64,6 +64,7 @@ pub(crate) struct Forwarder {
 impl Forwarder {
     pub fn new_dataset_forwarder(
         dataset_definition: &Dataset,
+        inbound_endpoint_name: &str,
         default_destination: Option<&Destination>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, azure_device_registry::ConfigError> {
@@ -80,8 +81,12 @@ impl Forwarder {
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_definition.destinations;
-            Destination::new_dataset_destination(definition_destination, &connector_context)?
-                .expect("Presence of destination already validated")
+            Destination::new_dataset_destination(
+                definition_destination,
+                inbound_endpoint_name,
+                &connector_context,
+            )?
+            .expect("Presence of destination already validated")
         };
 
         Ok(Self {
@@ -126,6 +131,7 @@ impl Forwarder {
                 qos,
                 retain: _,
                 ttl,
+                inbound_endpoint_name,
                 telemetry_sender,
             } => {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
@@ -146,7 +152,8 @@ impl Forwarder {
                 };
                 let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
                 cloud_event_builder
-                    .source("something")
+                    .source(inbound_endpoint_name)
+                    // .event_type("something?")
                     .data_schema(message_schema_uri);
                 if let Some(hlc) = data.timestamp {
                     cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
@@ -220,6 +227,7 @@ pub(crate) enum Destination {
         qos: Option<QoS>,
         retain: Option<bool>,
         ttl: Option<u64>,
+        inbound_endpoint_name: String,
         telemetry_sender: telemetry::Sender<BypassPayload, SessionManagedClient>,
     },
     Storage {
@@ -230,6 +238,7 @@ pub(crate) enum Destination {
 impl Destination {
     pub(crate) fn new_dataset_destination(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
+        inbound_endpoint_name: &str,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Option<Self>, azure_device_registry::ConfigError> {
         // Create a new forwarder
@@ -286,6 +295,7 @@ impl Destination {
                             .as_ref()
                             .map(|r| matches!(r, azure_device_registry::Retain::Keep)),
                         ttl: definition_destination.configuration.ttl,
+                        inbound_endpoint_name: inbound_endpoint_name.to_string(),
                         telemetry_sender,
                     }
                 }
@@ -313,12 +323,14 @@ impl std::fmt::Debug for Destination {
                 qos,
                 retain,
                 ttl,
+                inbound_endpoint_name,
                 telemetry_sender: _,
             } => f
                 .debug_struct("Mqtt")
                 .field("qos", qos)
                 .field("retain", retain)
                 .field("ttl", ttl)
+                .field("inbound_endpoint_name", inbound_endpoint_name)
                 // .field("telemetry_sender", telemetry_sender)
                 .finish(),
             Self::Storage { path } => f.debug_struct("Storage").field("path", path).finish(),
