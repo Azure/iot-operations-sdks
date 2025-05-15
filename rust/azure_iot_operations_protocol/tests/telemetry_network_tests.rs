@@ -451,6 +451,33 @@ async fn telemetry_complex_send_receive_network_tests() {
     );
 }
 
+fn setup_session_and_handle(client_id: &str) -> Result<(Session, SessionExitHandle), ()> {
+    let _ = Builder::new()
+        .filter_level(log::LevelFilter::max())
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Info)
+        .filter_module("azure_iot_operations", log::LevelFilter::Info)
+        .try_init();
+
+    let connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(client_id)
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .clean_start(true)
+        .use_tls(false)
+        .build()
+        .unwrap();
+    let session_options = SessionOptionsBuilder::default()
+        .connection_settings(connection_settings)
+        .build()
+        .unwrap();
+    let session = Session::new(session_options).unwrap();
+
+    let exit_handle: SessionExitHandle = session.create_exit_handle();
+    Ok((session, exit_handle))
+}
+
 #[tokio::test]
 async fn telemetry_retained_message_test() {
     // Skip if network tests are disabled
