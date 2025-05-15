@@ -634,7 +634,7 @@ impl AssetClient {
                 ) {
                     Ok(dataset_client) => Some(dataset_client),
                     Err(e) => {
-                        log::error!("Invalid dataset destination for dataset: {}", dataset_name);
+                        log::error!("Invalid dataset destination for dataset: {dataset_name}");
                         dataset_config_errors.push(
                             azure_device_registry::DatasetEventStreamStatus {
                                 name: dataset_name,

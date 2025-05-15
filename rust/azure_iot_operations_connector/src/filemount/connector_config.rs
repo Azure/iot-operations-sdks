@@ -162,29 +162,25 @@ impl ConnectorConfiguration {
             if let Some(ca_trustbundle_path) = &self.broker_ca_cert_trustbundle_path {
                 let mut d = std::fs::read_dir(ca_trustbundle_path)
                     .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
-                let entry = d
-                    .next()
-                    .ok_or("No CA cert found in trustbundle directory".to_string())?
-                    .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
-                // Convert filepath to string for MqttConnectionSettings
-                let mut path_s = entry
-                    .path()
-                    .to_str()
-                    .ok_or("Could not convert Path to String".to_string())?
-                    .to_string();
-                // Temporary workaround to skip files with .. that aren't ca files. TODO: This should be implemented in a better way
-                while path_s.contains("..") {
-                    // There are files with the path containing .. that are not ca files.
+                let path_s;
+                loop {
                     let entry = d
                         .next()
                         .ok_or("No CA cert found in trustbundle directory".to_string())?
                         .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
+                    // Workaround to skip files that start with .. that aren't ca files.
+                    if entry.file_name().to_string_lossy().to_string().starts_with("..") {
+                        continue;
+                    }
+                    // Convert filepath to string for MqttConnectionSettings
                     path_s = entry
                         .path()
                         .to_str()
                         .ok_or("Could not convert Path to String".to_string())?
                         .to_string();
-                }
+                    break;
+                    
+                };
                 Some(path_s)
             } else {
                 None
