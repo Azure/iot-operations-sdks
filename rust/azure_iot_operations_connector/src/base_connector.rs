@@ -65,16 +65,7 @@ impl BaseConnector {
             schema_registry_client,
             state_store_client,
             session,
-        ) = operation_with_retries::<
-            (
-                ConnectorConfiguration,
-                azure_device_registry::Client<SessionManagedClient>,
-                schema_registry::Client<SessionManagedClient>,
-                state_store::Client<SessionManagedClient>,
-                Session,
-            ),
-            String,
-        >(|| {
+        ) = operation_with_retries::<(_, _, _, _, _), String>(|| {
             // Get Connector Configuration
             let connector_config =
                 ConnectorConfiguration::new_from_deployment().map_err(|e| e.to_string())?;
