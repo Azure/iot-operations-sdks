@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package adr
+package connector
 
 import (
 	"context"
@@ -13,7 +13,6 @@ import (
 	"reflect"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/fsnotify/fsnotify"
 )
@@ -52,16 +51,10 @@ func ParseDeviceEndpointRef(value string) (DeviceEndpointRef, error) {
 		}
 	}
 
-	parts := strings.SplitN(value, "_", 2)
+	parts := strings.Split(value, "_")
 	if len(parts) != 2 {
 		return DeviceEndpointRef{}, &Error{
 			Message: "Failed to parse DeviceEndpointRef from string",
-		}
-	}
-
-	if strings.Contains(parts[1], "_") {
-		return DeviceEndpointRef{}, &Error{
-			Message: "DeviceEndpointRef contains an underscore in the endpoint name",
 		}
 	}
 
@@ -75,10 +68,9 @@ func ParseDeviceEndpointRef(value string) (DeviceEndpointRef, error) {
 type AssetRef struct {
 	// The name of the asset
 	Name string
-	// The name of the device
-	DeviceName string
-	// The name of the endpoint
-	InboundEndpointName string
+
+	// The associated device endpoint
+	DeviceEndpointRef
 }
 
 // AssetDeletionChan is used to notify when an asset has been deleted.
@@ -144,11 +136,11 @@ func (m *ConnectionMonitor) WaitForConnected(ctx context.Context) error {
 	go func() {
 		m.mu.Lock()
 		defer m.mu.Unlock()
+		defer close(done)
 
 		for m.status != ConnectionStatusConnected {
 			m.statusChange.Wait()
 		}
-		close(done)
 	}()
 
 	select {
@@ -166,11 +158,11 @@ func (m *ConnectionMonitor) WaitForDisconnected(ctx context.Context) error {
 	go func() {
 		m.mu.Lock()
 		defer m.mu.Unlock()
+		defer close(done)
 
 		for m.status != ConnectionStatusDisconnected {
 			m.statusChange.Wait()
 		}
-		close(done)
 	}()
 
 	select {
@@ -186,9 +178,7 @@ type DeviceEndpointCreateObservation struct {
 	mountPath    string
 	deviceChan   chan DeviceNotification
 	fileMountMap *FileMountMap
-	ctx          context.Context
 	cancel       context.CancelFunc
-	pollInterval time.Duration // retained for API compatibility; not used
 	connMonitor  *ConnectionMonitor
 	logger       *slog.Logger
 
@@ -245,30 +235,28 @@ func (f *FileMountMap) UpdateDeviceEndpoints(
 	f.mu.Lock()
 	defer f.mu.Unlock()
 
-	for deviceKey := range f.deviceMap {
-		if _, exists := devices[deviceKey]; !exists {
-			if data, ok := f.deviceMap[deviceKey]; ok {
-				close(data.assetCreationTx)
+	for deviceKey, data := range f.deviceMap {
+		if _, ok := devices[deviceKey]; !ok {
+			close(data.assetCreationTx)
 
-				for _, deletionChan := range data.trackedAssets {
-					close(deletionChan)
-				}
+			for _, deletionChan := range data.trackedAssets {
+				close(deletionChan)
 			}
 			delete(f.deviceMap, deviceKey)
 		}
 	}
 
 	for deviceKey, deviceRef := range devices {
-		if _, exists := f.deviceMap[deviceKey]; !exists {
+		if _, ok := f.deviceMap[deviceKey]; !ok {
 			assetCreationTx := make(chan AssetNotification, 100)
 			assetCreationRx := make(chan AssetNotification, 100)
 
-			go func(tx, rx chan AssetNotification) {
-				for msg := range tx {
-					rx <- msg
+			go func() {
+				defer close(assetCreationRx)
+				for msg := range assetCreationTx {
+					assetCreationRx <- msg
 				}
-				close(rx)
-			}(assetCreationTx, assetCreationRx)
+			}()
 
 			f.deviceMap[deviceKey] = DeviceData{
 				assetCreationTx: assetCreationTx,
@@ -308,22 +296,22 @@ func (f *FileMountMap) updateAssets(
 		return
 	}
 
-	deviceData, exists := f.deviceMap[deviceKey]
-	if !exists {
+	deviceData, ok := f.deviceMap[deviceKey]
+	if !ok {
 		return
 	}
 
 	// Track assets that no longer exist
 	assetsToRemove := make([]string, 0)
 	for assetName := range deviceData.trackedAssets {
-		if _, exists := assets[assetName]; !exists {
+		if _, ok := assets[assetName]; !ok {
 			assetsToRemove = append(assetsToRemove, assetName)
 		}
 	}
 
 	// Remove assets that no longer exist
 	for _, assetName := range assetsToRemove {
-		if deletionChan, exists := deviceData.trackedAssets[assetName]; exists {
+		if deletionChan, ok := deviceData.trackedAssets[assetName]; ok {
 			close(deletionChan)
 			delete(deviceData.trackedAssets, assetName)
 		}
@@ -331,7 +319,7 @@ func (f *FileMountMap) updateAssets(
 
 	// Add new assets
 	for assetName, assetRef := range assets {
-		if _, exists := deviceData.trackedAssets[assetName]; !exists {
+		if _, ok := deviceData.trackedAssets[assetName]; !ok {
 			deletionChan := make(AssetDeletionChan)
 			deviceData.trackedAssets[assetName] = deletionChan
 
@@ -350,7 +338,6 @@ func (f *FileMountMap) updateAssets(
 // NewDeviceEndpointCreateObservation creates a new DeviceEndpointCreateObservation.
 func NewDeviceEndpointCreateObservation(
 	ctx context.Context,
-	pollInterval time.Duration,
 	logger *slog.Logger,
 ) (*DeviceEndpointCreateObservation, error) {
 	mountPath, err := GetMountPath()
@@ -389,9 +376,7 @@ func NewDeviceEndpointCreateObservation(
 		mountPath:    mountPath,
 		deviceChan:   fileMountMap.createDeviceTx,
 		fileMountMap: fileMountMap,
-		ctx:          observeCtx,
 		cancel:       cancel,
-		pollInterval: pollInterval,
 		connMonitor:  connMonitor,
 		logger:       logger,
 		watcher:      watcher,
@@ -421,33 +406,36 @@ func NewDeviceEndpointCreateObservation(
 	}
 
 	// Start watcher loop
-	go observation.watchLoop()
+	go observation.watchLoop(observeCtx)
 
 	return observation, nil
 }
 
 // watchLoop processes fsnotify events and updates the file mount map.
-func (o *DeviceEndpointCreateObservation) watchLoop() {
+func (o *DeviceEndpointCreateObservation) watchLoop(ctx context.Context) {
 	defer o.watcher.Close()
 
 	for {
 		select {
-		case <-o.ctx.Done():
+		case <-ctx.Done():
 			return
 		case event, ok := <-o.watcher.Events:
 			if !ok {
 				return
 			}
 
+			created := event.Has(fsnotify.Create)
+			removed := event.Has(fsnotify.Remove) || event.Has(fsnotify.Rename)
+			written := created || removed || event.Has(fsnotify.Write)
+
 			// Handle creation or removal of the mount path itself.
-			if event.Name == o.mountPath && (event.Op&fsnotify.Create) != 0 {
+			if event.Name == o.mountPath && created {
 				// Mount appeared – start watching it.
 				_ = o.watcher.Add(o.mountPath)
 				o.connMonitor.SetConnected()
 			}
-			if event.Name == o.mountPath &&
-				(event.Op&(fsnotify.Remove|fsnotify.Rename)) != 0 {
-				// Mount disappeared
+			if event.Name == o.mountPath && removed {
+				// Mount disappeared.
 				_ = o.watcher.Remove(o.mountPath)
 				o.connMonitor.SetDisconnected()
 				o.lastDevices = nil
@@ -460,8 +448,7 @@ func (o *DeviceEndpointCreateObservation) watchLoop() {
 			}
 
 			// For any relevant operation inside mount path, reconcile.
-			if strings.HasPrefix(event.Name, o.mountPath) &&
-				(event.Op&(fsnotify.Create|fsnotify.Write|fsnotify.Remove|fsnotify.Rename)) != 0 {
+			if strings.HasPrefix(event.Name, o.mountPath) && written {
 				o.reconcile()
 			}
 
@@ -547,8 +534,8 @@ func WaitForDeletion(
 
 // GetMountPath gets the mount path of the Azure Device Registry resources.
 func GetMountPath() (string, error) {
-	mountPath, exists := os.LookupEnv(ADRResourcesNameMountPath)
-	if !exists {
+	mountPath, ok := os.LookupEnv(ADRResourcesNameMountPath)
+	if !ok {
 		return "", &Error{
 			Message: "ADR_RESOURCES_NAME_MOUNT_PATH environment variable not set",
 		}
@@ -607,13 +594,10 @@ func getAssetNames(
 			continue
 		}
 
-		asset := AssetRef{
-			Name:                assetName,
-			DeviceName:          deviceEndpoint.DeviceName,
-			InboundEndpointName: deviceEndpoint.InboundEndpointName,
+		assets[assetName] = AssetRef{
+			Name:              assetName,
+			DeviceEndpointRef: deviceEndpoint,
 		}
-
-		assets[assetName] = asset
 	}
 
 	return assets, nil

@@ -10,15 +10,15 @@ import (
 type Format int32
 
 const (
-	Delta1 Format = iota
-	JsonSchemaDraft07 Format = iota
+	FormatDelta1 Format = iota
+	FormatJsonSchemaDraft07 Format = iota
 )
 
 func (v Format) String() string {
 	switch v {
-	case Delta1:
+	case FormatDelta1:
 		return "Delta1"
-	case JsonSchemaDraft07:
+	case FormatJsonSchemaDraft07:
 		return "JsonSchemaDraft07"
 	default:
 		return ""
@@ -28,9 +28,9 @@ func (v Format) String() string {
 func (v Format) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
-	case Delta1:
+	case FormatDelta1:
 		s = "Delta/1.0"
-	case JsonSchemaDraft07:
+	case FormatJsonSchemaDraft07:
 		s = "JsonSchema/draft-07"
 	default:
 		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
@@ -47,9 +47,9 @@ func (v *Format) UnmarshalJSON(b []byte) error {
 
 	switch s {
 	case "Delta/1.0":
-		*v = Delta1
+		*v = FormatDelta1
 	case "JsonSchema/draft-07":
-		*v = JsonSchemaDraft07
+		*v = FormatJsonSchemaDraft07
 	default:
 		return errors.New("unable to unmarshal unrecognized enum value from JSON")
 	}

@@ -1,12 +1,15 @@
 #!/bin/sh
 ROOT=$(git rev-parse --show-toplevel)
+CODE=$(find "$ROOT/codegen/src" -name Azure.Iot.Operations.ProtocolCompiler -type f)
+DTDL=$ROOT/eng/dtdl
+HERE=$(dirname "$0")
 
-"$(find "$ROOT/codegen/src" -name Azure.Iot.Operations.ProtocolCompiler -type f)" \
-	--modelFile "$ROOT/eng/dtdl/device-name-based-operations.json" \
-	--outDir "$ROOT/go/services/adr/internal" \
+"$CODE" \
+	--modelFile "$DTDL/device-name-based-operations.json" \
+	--outDir "$HERE/internal" \
 	--clientOnly --lang go
 
-"$(find "$ROOT/codegen/src" -name Azure.Iot.Operations.ProtocolCompiler -type f)" \
-	--modelFile "$ROOT/eng/dtdl/aep-type-based-operations.json" \
-	--outDir "$ROOT/go/services/adr/internal" \
+"$CODE" \
+	--modelFile "$DTDL/aep-type-based-operations.json" \
+	--outDir "$HERE/internal" \
 	--clientOnly --lang go

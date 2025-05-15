@@ -23,13 +23,18 @@ const (
 )
 
 type (
-	Asset                          = adrbaseservice.Asset
-	DeviceEndpointSchema           = adrbaseservice.DeviceEndpointSchema
-	NotificationPreference         = adrbaseservice.NotificationPreference
-	AssetStatus                    = adrbaseservice.AssetStatus
-	AssetEndpointProfileStatus     = adrbaseservice.DeviceStatus
-	DetectedAsset                  = adrbaseservice.DetectedAsset
-	DiscoveredAssetEndpointProfile = aeptypeservice.DiscoveredAssetEndpointProfile
+	Asset                             = adrbaseservice.Asset
+	Device                            = adrbaseservice.Device
+	DeviceEndpointSchema              = adrbaseservice.DeviceEndpointSchema
+	NotificationPreference            = adrbaseservice.NotificationPreference
+	NotificationPreferenceResponse    = adrbaseservice.NotificationPreferenceResponse
+	AssetStatus                       = adrbaseservice.AssetStatus
+	AssetEndpointProfileStatus        = adrbaseservice.DeviceStatus
+	DetectedAsset                     = adrbaseservice.DetectedAsset
+	CreateDetectedAssetResponseSchema = adrbaseservice.CreateDetectedAssetResponseSchema
+
+	DiscoveredAssetEndpointProfile                     = aeptypeservice.DiscoveredAssetEndpointProfile
+	CreateDiscoveredAssetEndpointProfileResponseSchema = aeptypeservice.CreateDiscoveredAssetEndpointProfileResponseSchema
 )
 
 // Error represents an error returned by the ADR service.
@@ -163,7 +168,7 @@ func (c *Client) Close(_ context.Context) error {
 func (c *Client) ObserveAssetEndpointProfileUpdates(
 	ctx context.Context,
 	aepName string,
-) (*adrbaseservice.NotificationPreferenceResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Observing asset endpoint profile updates",
 		"aepName",
@@ -180,21 +185,21 @@ func (c *Client) ObserveAssetEndpointProfileUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	c.mu.Lock()
 	c.observedAeps[aepName] = struct{}{}
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 // UnobserveAssetEndpointProfileUpdates stops observation of asset endpoint profile updates.
 func (c *Client) UnobserveAssetEndpointProfileUpdates(
 	ctx context.Context,
 	aepName string,
-) (*adrbaseservice.NotificationPreferenceResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Unobserving asset endpoint profile updates",
 		"aepName",
@@ -211,21 +216,21 @@ func (c *Client) UnobserveAssetEndpointProfileUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	c.mu.Lock()
 	delete(c.observedAeps, aepName)
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 // ObserveAssetUpdates starts observation of asset updates.
 func (c *Client) ObserveAssetUpdates(
 	ctx context.Context,
 	aepName, assetName string,
-) (*adrbaseservice.NotificationPreferenceResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Observing asset updates",
 		"aepName",
@@ -247,7 +252,7 @@ func (c *Client) ObserveAssetUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	key := aepName + "~" + assetName
@@ -255,14 +260,14 @@ func (c *Client) ObserveAssetUpdates(
 	c.observedAssets[key] = struct{}{}
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 // UnobserveAssetUpdates stops observation of asset updates.
 func (c *Client) UnobserveAssetUpdates(
 	ctx context.Context,
 	aepName, assetName string,
-) (*adrbaseservice.NotificationPreferenceResponse, error) {
+) (NotificationPreferenceResponse, error) {
 	c.logger.Debug(
 		"Unobserving asset updates",
 		"aepName",
@@ -284,7 +289,7 @@ func (c *Client) UnobserveAssetUpdates(
 		protocol.WithTopicTokens{aepNameTokenKey: aepName},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return 0, translateError(err)
 	}
 
 	key := aepName + "~" + assetName
@@ -292,13 +297,13 @@ func (c *Client) UnobserveAssetUpdates(
 	delete(c.observedAssets, key)
 	c.mu.Unlock()
 
-	return &resp.Payload.NotificationPreferenceResponse, nil
+	return resp.Payload.NotificationPreferenceResponse, nil
 }
 
 func (c *Client) GetDevice(
 	ctx context.Context,
 	aepName string,
-) (*adrbaseservice.Device, error) {
+) (*Device, error) {
 	c.logger.Debug("Getting asset endpoint profile", "aepName", aepName)
 
 	resp, err := c.adrBase.GetDevice(
@@ -399,7 +404,7 @@ func (c *Client) CreateDetectedAsset(
 	ctx context.Context,
 	aepName string,
 	asset *DetectedAsset,
-) (*adrbaseservice.CreateDetectedAssetResponsePayload, error) {
+) (*CreateDetectedAssetResponseSchema, error) {
 	req := adrbaseservice.CreateDetectedAssetRequestPayload{
 		DetectedAsset: *asset,
 	}
@@ -414,7 +419,7 @@ func (c *Client) CreateDetectedAsset(
 	}
 
 	// Return the actual payload type instead of *NotificationResponse
-	return &resp.Payload, nil
+	return &resp.Payload.CreateDetectedAssetResponse, nil
 }
 
 // CreateDiscoveredAssetEndpointProfile creates a discovered asset endpoint profile.
@@ -422,7 +427,7 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(
 	ctx context.Context,
 	aepName string,
 	profile *DiscoveredAssetEndpointProfile,
-) (*aeptypeservice.CreateDiscoveredAssetEndpointProfileResponsePayload, error) {
+) (*CreateDiscoveredAssetEndpointProfileResponseSchema, error) {
 	c.logger.Debug(
 		"Creating discovered asset endpoint profile",
 		"aepName",
@@ -442,7 +447,7 @@ func (c *Client) CreateDiscoveredAssetEndpointProfile(
 		return nil, translateError(err)
 	}
 
-	return &resp.Payload, nil
+	return &resp.Payload.CreateDiscoveredAssetEndpointProfileResponse, nil
 }
 
 // handleAssetUpdateTelemetry processes asset update telemetry messages.

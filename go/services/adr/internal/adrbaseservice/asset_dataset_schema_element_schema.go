@@ -6,6 +6,9 @@ type AssetDatasetSchemaElementSchema struct {
 	// The 'dataPoints' Field.
 	DataPoints []AssetDatasetDataPointSchemaElementSchema `json:"dataPoints,omitempty"`
 
+	// The 'datasetConfiguration' Field.
+	DatasetConfiguration *string `json:"datasetConfiguration,omitempty"`
+
 	// The 'dataSource' Field.
 	DataSource *string `json:"dataSource,omitempty"`
 

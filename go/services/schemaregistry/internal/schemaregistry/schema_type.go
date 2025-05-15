@@ -10,12 +10,12 @@ import (
 type SchemaType int32
 
 const (
-	MessageSchema SchemaType = iota
+	SchemaTypeMessageSchema SchemaType = iota
 )
 
 func (v SchemaType) String() string {
 	switch v {
-	case MessageSchema:
+	case SchemaTypeMessageSchema:
 		return "MessageSchema"
 	default:
 		return ""
@@ -25,7 +25,7 @@ func (v SchemaType) String() string {
 func (v SchemaType) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
-	case MessageSchema:
+	case SchemaTypeMessageSchema:
 		s = "MessageSchema"
 	default:
 		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
@@ -42,7 +42,7 @@ func (v *SchemaType) UnmarshalJSON(b []byte) error {
 
 	switch s {
 	case "MessageSchema":
-		*v = MessageSchema
+		*v = SchemaTypeMessageSchema
 	default:
 		return errors.New("unable to unmarshal unrecognized enum value from JSON")
 	}
