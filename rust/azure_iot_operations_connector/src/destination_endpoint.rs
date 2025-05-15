@@ -159,24 +159,29 @@ impl Forwarder {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
                 // TODO: cloud event
                 // TODO: retain
+                // TODO: remove once message schema validation is turned back on
+                #[allow(clippy::manual_map)]
                 let message_schema_uri = if let Some(message_schema_reference) =
                     self.message_schema_reference.read().unwrap().as_ref()
                 {
-                    format!(
+                    Some(format!(
                         "aio-sr://{}/{}:{}",
                         message_schema_reference.registry_namespace,
                         message_schema_reference.name,
                         message_schema_reference.version
-                    )
+                    ))
                 } else {
                     // TODO: validate this for other destinations as well
-                    return Err(Error(ErrorKind::MissingMessageSchema));
+                    // Commented out to remove the requirement for message schema temporarily
+                    // return Err(Error(ErrorKind::MissingMessageSchema));
+                    None
                 };
                 let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
-                cloud_event_builder
-                    .source(inbound_endpoint_name)
-                    // .event_type("something?")
-                    .data_schema(message_schema_uri);
+                cloud_event_builder.source(inbound_endpoint_name);
+                // .event_type("something?")
+                if let Some(message_schema_uri) = message_schema_uri {
+                    cloud_event_builder.data_schema(message_schema_uri);
+                }
                 if let Some(hlc) = data.timestamp {
                     cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
                 }
