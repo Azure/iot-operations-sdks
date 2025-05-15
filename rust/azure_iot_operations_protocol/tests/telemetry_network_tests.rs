@@ -451,7 +451,7 @@ async fn telemetry_complex_send_receive_network_tests() {
     );
 }
 
-fn setup_session_and_handle(client_id: &str) -> Result<(Session, SessionExitHandle), ()> {
+fn setup_session_and_handle(client_id: &str) -> (Session, SessionExitHandle) {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
@@ -475,7 +475,7 @@ fn setup_session_and_handle(client_id: &str) -> Result<(Session, SessionExitHand
     let session = Session::new(session_options).unwrap();
 
     let exit_handle: SessionExitHandle = session.create_exit_handle();
-    Ok((session, exit_handle))
+    (session, exit_handle)
 }
 
 #[tokio::test]
@@ -533,7 +533,7 @@ async fn telemetry_retained_message_test() {
         log::info!("Publisher connected");
 
         let retained_message = telemetry::sender::MessageBuilder::default()
-            .payload(retained_payload.clone())
+            .payload(retained_payload)
             .unwrap()
             .qos(QoS::AtLeastOnce)
             .retain(true) // Set the retain flag
