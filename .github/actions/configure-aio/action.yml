@@ -43,8 +43,8 @@ runs:
     - name: Install AIO
       uses: ./action-deploy
       with:
-        install-aio: "true"
-        install-akri: "false"
+        install_aio: "true"
+        install_akri: "false"
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
@@ -54,8 +54,8 @@ runs:
       uses: ./action-deploy
       with:
         akri: 2504
-        install-aio: "false"
-        install-akri: "true"
+        install_aio: "false"
+        install_akri: "true"
 
     - name: Setup .NET
       if: inputs.install-dotnet == 'true'
