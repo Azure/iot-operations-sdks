@@ -29,8 +29,6 @@ enum TransformErrorRepr {
     #[error(transparent)]
     JmespathError(#[from] JmespathError),
     #[error(transparent)]
-    Utf8Error(#[from] std::str::Utf8Error),
-    #[error(transparent)]
     SerdeError(#[from] serde_json::Error),
     #[error(transparent)]
     SchemaError(#[from] MessageSchemaBuilderError),
@@ -77,9 +75,9 @@ fn transform_in_place_and_create_output_schema(
     dataset: &Dataset,
 ) -> Result<MessageSchema, TransformErrorRepr> {
     // Parse the input JSON from bytes
-    let input_json: Value = serde_json::from_str(std::str::from_utf8(&data.payload)?)?;
+    let input_json: Value = serde_json::from_slice(&data.payload)?;
 
-    // Build a `BTreeMap`` of output fields, derived from the input JSON and the datapoint
+    // Build a `BTreeMap` of output fields, derived from the input JSON and the datapoint
     // transformations defined in the dataset.
     let mut output_btm = BTreeMap::new();
     for (output_field, input_source) in dataset
@@ -131,6 +129,28 @@ mod test {
         expected_output_json_schema: Value,
     }
 
+    macro_rules! create_dataset_from_transform {
+        ($($data_point:expr),*) => {
+            Dataset {
+                dataset_configuration: None,
+                data_points: vec![
+                    $(
+                        DatasetDataPoint {
+                            name: String::from($data_point.0),
+                            data_source: String::from($data_point.1),
+                            type_ref: None,
+                            data_point_configuration: None,
+                        }
+                    ),*
+                ],
+                data_source: None,
+                destinations: vec![],
+                name: "TestDataset".to_string(),
+                type_ref: None,
+            }
+        };
+    }
+
     /// Helper function to compare two `Data` structs for equality.
     /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
     /// end up with different ordering of the keys in the JSON object, which prevents
@@ -159,7 +179,7 @@ mod test {
     /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
     /// end up with different ordering of the keys in the JSON object, which prevents
     /// us from being able to make accurate comparisons of the `content` field.
-    fn message_schmea_eq(schema1: &MessageSchema, schema2: &MessageSchema) -> bool {
+    fn message_schema_eq(schema1: &MessageSchema, schema2: &MessageSchema) -> bool {
         // Make new structs with the content set to empty strings to normalize our MessageSchema
         // under comparison since we can't directly compare the content accurately.
         let schema1_no_content = MessageSchema {
@@ -191,8 +211,8 @@ mod test {
                     "Friday"
                 ],
                 "coordinates": {
-                    "latitude": 10,
-                    "longitude": 20
+                    "latitude": 10.12,
+                    "longitude": 20.17
                 }
             },
             "temp": 10,
@@ -212,58 +232,21 @@ mod test {
                 "Friday"
             ],
             "location": {
-                "latitude": 10,
-                "longitude": 20
+                "latitude": 10.12,
+                "longitude": 20.17
             }
         }"#;
         let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
 
-        let dataset = Dataset {
-            dataset_configuration: None,
-            data_points: vec![
-                // This datapoint has a source in a different scope
-                DatasetDataPoint {
-                    name: String::from("factory"),
-                    data_source: String::from("metadata.factory"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed in the same scope
-                DatasetDataPoint {
-                    name: String::from("temperature"),
-                    data_source: String::from("temp"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is unchanged in the transformation
-                DatasetDataPoint {
-                    name: String::from("active"),
-                    data_source: String::from("active"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed from a source in a different scope
-                DatasetDataPoint {
-                    name: String::from("days"),
-                    data_source: String::from("metadata.active_on"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed from a source in a different scope
-                DatasetDataPoint {
-                    name: String::from("location"),
-                    data_source: String::from("metadata.coordinates"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-            ],
-            data_source: None,
-            destinations: vec![],
-            name: "TestDataset".to_string(),
-            type_ref: None,
-        };
+        let dataset = create_dataset_from_transform!(
+            ("factory", "metadata.factory"),
+            ("temperature", "temp"),
+            ("active", "active"),
+            ("days", "metadata.active_on"),
+            ("location", "metadata.coordinates")
+        );
 
-        // Can derive string, boolean, integer and array and object types for the schema
+        // Can derive string, boolean, integer, float, array and object types for the schema
         let expected_output_json_schema_str = r#"{
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
@@ -287,10 +270,10 @@ mod test {
                     "type": "object",
                     "properties": {
                         "latitude": {
-                            "type": "integer"
+                            "type": "number"
                         },
                         "longitude": {
-                            "type": "integer"
+                            "type": "number"
                         }
                     }
                 }
@@ -331,30 +314,10 @@ mod test {
         }"#;
         let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
 
-        let dataset = Dataset {
-            dataset_configuration: None,
-            // Not all input data is used in the transformation
-            data_points: vec![
-                // This datapoint has a source in a different scope
-                DatasetDataPoint {
-                    name: String::from("factory"),
-                    data_source: String::from("metadata.factory"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed in the same scope
-                DatasetDataPoint {
-                    name: String::from("temperature"),
-                    data_source: String::from("temp"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-            ],
-            data_source: None,
-            destinations: vec![],
-            name: "TestDataset".to_string(),
-            type_ref: None,
-        };
+        let dataset = create_dataset_from_transform!(
+            ("factory", "metadata.factory"),
+            ("temperature", "temp")
+        );
 
         let expected_output_json_schema_str = r#"{
             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -414,43 +377,12 @@ mod test {
         }"#;
         let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
 
-        let dataset = Dataset {
-            dataset_configuration: None,
-            data_points: vec![
-                // This datapoint has a source in a different scope
-                DatasetDataPoint {
-                    name: String::from("factory"),
-                    data_source: String::from("metadata.factory"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed in the same scope
-                DatasetDataPoint {
-                    name: String::from("temperature"),
-                    data_source: String::from("temp"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is unchanged in the transformation
-                DatasetDataPoint {
-                    name: String::from("active"),
-                    data_source: String::from("active"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is an object from which another datapoint was already derived
-                DatasetDataPoint {
-                    name: String::from("meta"),
-                    data_source: String::from("metadata"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-            ],
-            data_source: None,
-            destinations: vec![],
-            name: "TestDataset".to_string(),
-            type_ref: None,
-        };
+        let dataset = create_dataset_from_transform!(
+            ("factory", "metadata.factory"),
+            ("temperature", "temp"),
+            ("active", "active"),
+            ("meta", "metadata")
+        );
 
         // Can derive string, boolean, integer and array types for the schema
         let expected_output_json_schema_str = r#"{
@@ -504,15 +436,9 @@ mod test {
         let expected_output_json_str = r"{}";
         let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
 
-        let dataset = Dataset {
-            dataset_configuration: None,
+        let dataset = create_dataset_from_transform!(
             // No datapoints in the dataset
-            data_points: vec![],
-            data_source: None,
-            destinations: vec![],
-            name: "TestDataset".to_string(),
-            type_ref: None,
-        };
+        );
 
         // No properties on output schema
         let expected_output_json_schema_str = r#"{
@@ -545,36 +471,11 @@ mod test {
         }"#;
         let expected_output_json: Value = serde_json::from_str(expected_output_json_str).unwrap();
 
-        let dataset = Dataset {
-            dataset_configuration: None,
-            data_points: vec![
-                // This datapoint is unchanged in the transformation
-                DatasetDataPoint {
-                    name: String::from("factory"),
-                    data_source: String::from("factory"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed in the same scope
-                DatasetDataPoint {
-                    name: String::from("temperature"),
-                    data_source: String::from("temp"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint does not exist in the input json
-                DatasetDataPoint {
-                    name: String::from("metadata"),
-                    data_source: String::from("metadata"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-            ],
-            data_source: None,
-            destinations: vec![],
-            name: "TestDataset".to_string(),
-            type_ref: None,
-        };
+        let dataset = create_dataset_from_transform!(
+            ("factory", "factory"),
+            ("temperature", "temp"),
+            ("metadata", "metadata")
+        );
 
         // Metadata being null is not enough information to derive type information about the field
         // and so it is simply inferred as being "true"
@@ -610,7 +511,7 @@ mod test {
     fn valid_transform(test_case: &TransformTestCase) {
         let input_data = Data {
             payload: serde_json::to_vec(&test_case.input_json).unwrap(),
-            content_type: None,
+            content_type: Some("application/json".to_string()),
             custom_user_data: vec![],
             timestamp: None,
         };
@@ -635,7 +536,7 @@ mod test {
             transform(input_data, &test_case.dataset).unwrap();
 
         assert!(json_data_eq(&output_data, &expected_output_data));
-        assert!(message_schmea_eq(
+        assert!(message_schema_eq(
             &output_message_schema,
             &expected_output_message_schema
         ));
@@ -650,12 +551,14 @@ mod test {
 
         let input_data = Data {
             payload: invalid_payload.into(),
-            content_type: None,
+            content_type: Some("application/json".to_string()),
             custom_user_data: vec![],
             timestamp: None,
         };
 
-        assert!(transform(input_data, &test_case.dataset).is_err());
+        let r = transform(input_data.clone(), &test_case.dataset);
+        assert!(r.is_err());
+        assert_eq!(*r.unwrap_err().data, input_data);
     }
 
     // NOTE: This test could be extended to check for other invalid dataset cases,
@@ -669,36 +572,15 @@ mod test {
         let input_json: Value = serde_json::from_str(input_json_str).unwrap();
         let input_data = Data {
             payload: serde_json::to_vec(&input_json).unwrap(),
-            content_type: None,
+            content_type: Some("application/json".to_string()),
             custom_user_data: vec![],
             timestamp: None,
         };
 
-        let dataset = Dataset {
-            dataset_configuration: None,
-            data_points: vec![
-                // This datapoint is unchanged in the transformation
-                DatasetDataPoint {
-                    name: String::from("factory"),
-                    data_source: String::from("factory"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-                // This datapoint is renamed in the transformation but crucially
-                // shares the same name as the previous datapoint, which is invalid
-                DatasetDataPoint {
-                    name: String::from("factory"),
-                    data_source: String::from("id"),
-                    type_ref: None,
-                    data_point_configuration: None,
-                },
-            ],
-            data_source: None,
-            destinations: vec![],
-            name: "TestDataset".to_string(),
-            type_ref: None,
-        };
+        let dataset = create_dataset_from_transform!(("factory", "factory"), ("factory", "id"));
 
-        assert!(transform(input_data, &dataset).is_err());
+        let r = transform(input_data.clone(), &dataset);
+        assert!(r.is_err());
+        assert_eq!(*r.unwrap_err().data, input_data);
     }
 }
