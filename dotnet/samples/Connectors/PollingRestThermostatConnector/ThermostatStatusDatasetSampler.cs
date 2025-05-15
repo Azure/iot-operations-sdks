@@ -81,7 +81,7 @@ namespace RestThermostatConnector
 
         public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(TimeSpan.FromSeconds(1));
+            return Task.FromResult(TimeSpan.FromSeconds(3));
         }
 
         public ValueTask DisposeAsync()

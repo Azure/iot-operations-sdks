@@ -131,9 +131,14 @@ jobs:
         cd dotnet/samples/Connectors/PollingRestThermostatConnector
         ./deploy-connector-and-device.sh
 
-    - name: Deploy Polling Rest Connector
+    - name: Deploy Event Driven TCP Thermostat Connector
       run: |
         cd dotnet/samples/Connectors/EventDrivenTcpThermostatConnector
+        ./deploy-connector-and-device.sh
+
+    - name: Deploy SQL Connector
+      run: |
+        cd dotnet/samples/Connectors/SqlConnector
         ./deploy-connector-and-device.sh
 
     - name: Test SDK (TLS + SAT)
@@ -237,6 +242,17 @@ jobs:
         name: dotnet test report
         path: 'dotnet/**/test-results.trx,tools/**/test-results.trx'
         reporter: dotnet-trx  
+
+    - name: Display logs from all kubernetes pods
+      if: always()
+      run: |
+        kubectl get pods
+        for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
+          echo "Logs for pod: $pod"
+          kubectl describe pod $pod
+          kubectl logs $pod
+          echo "-----------------------------------"
+        done
 
     - name: Annotate Test Report
       if: always()
