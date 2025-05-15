@@ -5,21 +5,15 @@
 
 #![allow(missing_docs)]
 
-use std::sync::Arc;
-
-use azure_iot_operations_services::azure_device_registry::Dataset;
-
-use crate::destination_endpoint::Forwarder;
-use crate::{Data, base_connector::managed_azure_device_registry::Reporter};
+use crate::Data;
+use crate::base_connector::managed_azure_device_registry::DatasetClient;
 
 pub trait DataTransformer {
     // TODO: rename
     type MyDatasetDataTransformer: DatasetDataTransformer;
     fn new_dataset_data_transformer(
         &self,
-        dataset_definition: Dataset,
-        forwarder: Forwarder,
-        reporter: Arc<Reporter>,
+        dataset: DatasetClient,
     ) -> Self::MyDatasetDataTransformer;
 }
 
@@ -37,22 +31,21 @@ impl DataTransformer for PassthroughDataTransformer {
     #[must_use]
     fn new_dataset_data_transformer(
         &self,
-        _dataset_definition: Dataset,
-        forwarder: Forwarder,
-        _reporter: Arc<Reporter>,
+        dataset: DatasetClient,
+        // forwarder: Forwarder,
     ) -> Self::MyDatasetDataTransformer {
-        Self::MyDatasetDataTransformer { forwarder }
+        Self::MyDatasetDataTransformer { dataset }
     }
 }
 
 pub struct PassthroughDatasetDataTransformer {
-    forwarder: Forwarder,
+    dataset: DatasetClient,
 }
 impl DatasetDataTransformer for PassthroughDatasetDataTransformer {
     /// # Errors
     /// TODO
     async fn add_sampled_data(&self, data: Data) -> Result<(), String> {
         // immediately forward data without any processing
-        self.forwarder.send_data(data).await
+        self.dataset.forward_data(data).await
     }
 }
