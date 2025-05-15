@@ -10,13 +10,13 @@ spec:
   datasets:
     - name: thermostat_status
       dataPoints:
-        - dataSource: /api/thermostat/current
+        - dataSource: temp
           name: currentTemperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-        - dataSource: /api/thermostat/desired
+        - dataSource: newTemp
           name: desiredTemperature
           dataPointConfiguration: |-
            {
@@ -29,13 +29,13 @@ spec:
           target: Mqtt
     - name: oven_status
       dataPoints:
-        - dataSource: /api/oven/current
+        - dataSource: temp
           name: currentTemperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-        - dataSource: /api/oven/desired
+        - dataSource: newTemp
           name: desiredTemperature
           dataPointConfiguration: |-
            {
