@@ -478,6 +478,10 @@ fn setup_session_and_handle(client_id: &str) -> (Session, SessionExitHandle) {
     (session, exit_handle)
 }
 
+/// Tests telemetry retained message scenario
+/// Publisher sends a retained message in 1 session.
+/// Subscriber receives the retained message in another session.
+/// If retain is set to true, the message should be received even if the publisher is not connected
 #[tokio::test]
 async fn telemetry_retained_message_test() {
     // Skip if network tests are disabled
@@ -516,8 +520,7 @@ async fn telemetry_retained_message_test() {
         .unwrap();
 
     // === 1: Publisher sending a retained message ===
-    let (publisher_session, pub_session_exit_handle) =
-        setup_session_and_handle(publisher_id).unwrap();
+    let (publisher_session, pub_session_exit_handle) = setup_session_and_handle(publisher_id);
     let publisher_monitor = publisher_session.create_connection_monitor();
 
     let publisher: telemetry::Sender<DataPayload, _> = telemetry::Sender::new(
@@ -559,8 +562,7 @@ async fn telemetry_retained_message_test() {
     );
 
     // === 2. Subscriber receives the retained message ===
-    let (subscriber_session, sub_session_exit_handle) =
-        setup_session_and_handle(subscriber_id).unwrap();
+    let (subscriber_session, sub_session_exit_handle) = setup_session_and_handle(subscriber_id);
 
     let mut subscriber: telemetry::Receiver<DataPayload, _> = telemetry::Receiver::new(
         application_context.clone(),
