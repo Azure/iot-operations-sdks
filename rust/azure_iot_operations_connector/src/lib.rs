@@ -13,7 +13,6 @@ use azure_iot_operations_services::{
 
 pub mod base_connector;
 pub mod data_processor;
-pub mod data_transformer;
 pub mod destination_endpoint;
 pub mod filemount;
 pub mod source_endpoint;
