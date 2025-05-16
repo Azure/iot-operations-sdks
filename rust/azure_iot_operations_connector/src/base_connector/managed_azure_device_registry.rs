@@ -11,16 +11,15 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, Asset, AssetStatus, AssetUpdateObservation, ConfigError, Dataset, DatasetDestination,
-        Device, DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination,
-        MessageSchemaReference,
+        self, Asset, AssetStatus, AssetUpdateObservation, Dataset, DatasetDestination, Device,
+        DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination, MessageSchemaReference,
     },
     schema_registry,
 };
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
-    Data, DatasetRef, MessageSchema,
+    AdrConfigError, Data, DatasetRef, MessageSchema,
     base_connector::ConnectorContext,
     destination_endpoint::{self, Forwarder},
     filemount::azure_device_registry::{
@@ -255,8 +254,8 @@ impl DeviceEndpointClient {
     /// and then updates the [`Device`] with the new status returned
     pub async fn report_status(
         &mut self,
-        device_status: Result<(), ConfigError>,
-        endpoint_status: Result<(), ConfigError>,
+        device_status: Result<(), AdrConfigError>,
+        endpoint_status: Result<(), AdrConfigError>,
     ) {
         // Create status
         let status = azure_device_registry::DeviceStatus {
@@ -265,7 +264,7 @@ impl DeviceEndpointClient {
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
                 endpoint_status.err(),
@@ -278,7 +277,7 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of just the device,
     /// and then updates the [`Device`] with the new status returned
-    pub async fn report_device_status(&mut self, device_status: Result<(), ConfigError>) {
+    pub async fn report_device_status(&mut self, device_status: Result<(), AdrConfigError>) {
         // Create status with empty endpoint status
         let status = azure_device_registry::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
@@ -286,7 +285,7 @@ impl DeviceEndpointClient {
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::new(),
         };
 
@@ -296,11 +295,11 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of just the endpoint,
     /// and then updates the [`Device`] with the new status returned
-    pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), ConfigError>) {
+    pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), AdrConfigError>) {
         // Create status with empty device status
         let status = azure_device_registry::DeviceStatus {
             config: None,
-            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
                 endpoint_status.err(),
@@ -677,7 +676,7 @@ impl AssetClient {
     }
 
     /// Used to report the status of an Asset
-    pub async fn report_status(&self, status: Result<(), ConfigError>) {
+    pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version: self.specification.version,
@@ -797,10 +796,10 @@ impl DatasetClient {
         asset_specification: Arc<AssetSpecification>,
         device_specification: Arc<DeviceSpecification>,
         connector_context: Arc<ConnectorContext>,
-    ) -> Result<Self, ConfigError> {
+    ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
         let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
-            &dataset_definition,
+            &dataset_definition.destinations,
             &asset_ref.inbound_endpoint_name,
             default_destination,
             connector_context.clone(),
@@ -823,7 +822,7 @@ impl DatasetClient {
     }
 
     /// Used to report the status of a dataset
-    pub async fn report_status(&self, status: Result<(), ConfigError>) {
+    pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
             // TODO: Do I need to include the version here?
             // config: Some(azure_device_registry::StatusConfig {
@@ -1127,7 +1126,7 @@ pub struct DeviceEndpointStatus {
     /// Defines the status for the Device.
     pub config: Option<azure_device_registry::StatusConfig>,
     /// Defines the status for the inbound endpoint.
-    pub inbound_endpoint_error: Option<azure_device_registry::ConfigError>, // different from adr
+    pub inbound_endpoint_error: Option<AdrConfigError>, // different from adr
 }
 
 impl DeviceEndpointStatus {

@@ -17,13 +17,13 @@ use azure_iot_operations_protocol::{
     telemetry,
 };
 use azure_iot_operations_services::{
-    azure_device_registry::{self, Dataset, MessageSchemaReference},
+    azure_device_registry::{self, MessageSchemaReference},
     state_store,
 };
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 
-use crate::{Data, base_connector::ConnectorContext};
+use crate::{AdrConfigError, Data, base_connector::ConnectorContext};
 
 /// Represents an error that occurred in the [`Forwarder`].
 #[derive(Debug, Error)]
@@ -63,34 +63,32 @@ pub(crate) struct Forwarder {
     connector_context: Arc<ConnectorContext>,
 }
 impl Forwarder {
-    /// Creates a new [`Forwarder`] from a dataset definition and a default
-    /// destination, if present on the asset
+    /// Creates a new [`Forwarder`] from a dataset definition's Destinations
+    /// and a default destination, if present on the asset
     ///
     /// # Errors
-    /// [`azure_device_registry::ConfigError`] if there are any issues processing
+    /// [`AdrConfigError`] if there are any issues processing
     /// the destination from the definitions. This can be used to report the error
     /// to the ADR service on the dataset's status
     pub(crate) fn new_dataset_forwarder(
-        dataset_definition: &Dataset,
+        dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
         default_destination: Option<&Destination>,
         connector_context: Arc<ConnectorContext>,
-    ) -> Result<Self, azure_device_registry::ConfigError> {
+    ) -> Result<Self, AdrConfigError> {
         // Create a new forwarder
 
         // If no destination is specified in the dataset definition, use the default dataset destination
-        let destination = if dataset_definition.destinations.is_empty() {
-            default_destination.ok_or(azure_device_registry::ConfigError {
+        let destination = if dataset_destinations.is_empty() {
+            default_destination.ok_or(AdrConfigError {
                 code: None,
                 details: None,
                 inner_error: None,
                 message: Some("Asset must have default dataset destination if dataset doesn't have destination".to_string()),
             })?.clone()
         } else {
-            // for now, this vec will only ever be length 1
-            let definition_destination = &dataset_definition.destinations;
             Destination::new_dataset_destination(
-                definition_destination,
+                dataset_destinations,
                 inbound_endpoint_name,
                 &connector_context,
             )?
@@ -227,7 +225,11 @@ impl Forwarder {
                     .await
                     .map_err(ErrorKind::from)?)
             }
-            Destination::Storage { path: _ } => Ok(()), // TODO: implement
+            Destination::Storage { path: _ } => {
+                // TODO: implement
+                log::error!("Storage destination not implemented");
+                unimplemented!()
+            }
         }
     }
 
@@ -246,6 +248,7 @@ impl Forwarder {
 }
 
 #[derive(Clone)]
+#[allow(dead_code)]
 pub(crate) enum Destination {
     BrokerStateStore {
         key: String,
@@ -269,13 +272,13 @@ impl Destination {
     /// may not exist in the definition.
     ///
     /// # Errors
-    /// [`azure_device_registry::ConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
     /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_dataset_destination(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
         connector_context: &Arc<ConnectorContext>,
-    ) -> Result<Option<Self>, azure_device_registry::ConfigError> {
+    ) -> Result<Option<Self>, AdrConfigError> {
         // Create a new forwarder
         if dataset_destinations.is_empty() {
             Ok(None)
@@ -304,7 +307,7 @@ impl Destination {
                         )
                         .build()
                         // TODO: check if this can fail, or just the next one
-                        .map_err(|e| azure_device_registry::ConfigError {
+                        .map_err(|e| AdrConfigError {
                             code: None,
                             details: None,
                             inner_error: None,
@@ -315,7 +318,7 @@ impl Destination {
                         connector_context.managed_client.clone(),
                         telemetry_sender_options,
                     )
-                    .map_err(|e| azure_device_registry::ConfigError {
+                    .map_err(|e| AdrConfigError {
                         code: None,
                         details: None,
                         inner_error: None,
@@ -333,13 +336,23 @@ impl Destination {
                         telemetry_sender,
                     }
                 }
-                azure_device_registry::DatasetTarget::Storage => Destination::Storage {
-                    path: definition_destination
-                        .configuration
-                        .path
-                        .clone()
-                        .expect("Path must be present if Target is Storage"),
-                },
+                azure_device_registry::DatasetTarget::Storage => {
+                    Err(AdrConfigError {
+                        code: None,
+                        details: None,
+                        inner_error: None,
+                        message: Some(
+                            "Storage destination not supported for this connector".to_string(),
+                        ),
+                    })?
+                    // Destination::Storage {
+                    //     path: definition_destination
+                    //         .configuration
+                    //         .path
+                    //         .clone()
+                    //         .expect("Path must be present if Target is Storage"),
+                    // }
+                }
             };
             Ok(Some(destination))
         }

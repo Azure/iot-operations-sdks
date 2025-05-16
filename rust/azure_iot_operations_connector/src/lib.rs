@@ -6,8 +6,9 @@
 #![warn(missing_docs)]
 
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
-use azure_iot_operations_services::schema_registry::{
-    PutRequest, PutRequestBuilder, PutRequestBuilderError,
+use azure_iot_operations_services::{
+    azure_device_registry,
+    schema_registry::{PutRequest, PutRequestBuilder, PutRequestBuilderError},
 };
 
 pub mod base_connector;
@@ -22,6 +23,8 @@ extern crate derive_getters;
 
 /// Message Schema to send to the Schema Registry Service
 pub type MessageSchema = PutRequest;
+/// Config Error type used with the Azure Device Registry Service
+pub type AdrConfigError = azure_device_registry::ConfigError;
 /// Builder for [`MessageSchema`]
 pub type MessageSchemaBuilder = PutRequestBuilder;
 /// Error type for [`MessageSchemaBuilder`]

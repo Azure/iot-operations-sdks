@@ -13,7 +13,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_connector::{
-    Data,
+    AdrConfigError, Data,
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
@@ -23,7 +23,6 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -85,9 +84,9 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
                         .name,
                     unsupported_endpoint_type
                 );
-                Err(azure_device_registry::ConfigError {
+                Err(AdrConfigError {
                     message: Some("endpoint type is not supported".to_string()),
-                    ..azure_device_registry::ConfigError::default()
+                    ..AdrConfigError::default()
                 })
             }
         };
@@ -121,9 +120,9 @@ async fn run_assets(mut asset_creation_observation: AssetClientCreationObservati
                     "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
                     asset_client.asset_ref().name
                 );
-                Err(azure_device_registry::ConfigError {
+                Err(AdrConfigError {
                     message: Some("asset manufacturer type is not supported".to_string()),
-                    ..azure_device_registry::ConfigError::default()
+                    ..AdrConfigError::default()
                 })
             }
         };
