@@ -37,4 +37,5 @@ jobs:
       run: |
           nuget SetApiKey ${{ secrets.NUGET_API_KEY }}
           cd ./_nupkgs/
+          ls
           nuget push *.snupkg
