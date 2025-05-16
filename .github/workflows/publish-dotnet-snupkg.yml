@@ -35,8 +35,8 @@ jobs:
 
     - name: Upload .snupkg files to Nuget.org
       run: |
-          nuget SetApiKey ${{ secrets.NUGET_API_KEY }}
           cd ./_nupkgs/
-          nuget push *.snupkg
+          ls
+          nuget push *.snupkg  ${{ secrets.NUGET_API_KEY }}
     
     
