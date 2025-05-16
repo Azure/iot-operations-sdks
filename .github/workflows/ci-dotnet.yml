@@ -15,7 +15,7 @@ permissions:
     
 jobs:
   build:
-    runs-on: ubuntu-
+    runs-on: ubuntu-22.04
     name: CI-Dotnet
     timeout-minutes: 10
 
