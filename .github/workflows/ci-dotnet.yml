@@ -26,3 +26,14 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install nuget -y
+
+    - name: Generate .snupkg files
+      run: |
+          dotnet pack --configuration Release ./dotnet/src/Azure.Iot.Operations.Mqtt/Azure.Iot.Operations.Mqtt.csproj -o ./_nupkgs/ -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+          dotnet pack --configuration Release ./dotnet/src/Azure.Iot.Operations.Protocol/Azure.Iot.Operations.Protocol.csproj -o ./_nupkgs/ -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+          dotnet pack --configuration Release ./dotnet/src/Azure.Iot.Operations.Services/Azure.Iot.Operations.Services.csproj -o ./_nupkgs/ -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+    
+    - name: Upload .snupkg files to Nuget.org
+      run: |
+          nuget SetApiKey ${{ secrets.NUGET_API_KEY }}
+          nuget push ./_nupkgs/*.snupkg
