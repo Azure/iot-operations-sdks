@@ -10,14 +10,19 @@
 //!
 //! To deploy and test this example, see instructions in `rust/azure_iot_operations_connector/README.md`
 
-use azure_iot_operations_connector::base_connector::{
-    BaseConnector,
-    managed_azure_device_registry::{
-        AssetClientCreationObservation, DatasetClient, DeviceEndpointClientCreationObservation,
+use std::time::Duration;
+
+use azure_iot_operations_connector::{
+    AdrConfigError, Data,
+    base_connector::{
+        BaseConnector,
+        managed_azure_device_registry::{
+            AssetClientCreationObservation, DatasetClient, DeviceEndpointClientCreationObservation,
+        },
     },
+    data_processor::derived_json,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::{azure_device_registry, schema_registry};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -79,9 +84,9 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
                         .name,
                     unsupported_endpoint_type
                 );
-                Err(azure_device_registry::ConfigError {
+                Err(AdrConfigError {
                     message: Some("endpoint type is not supported".to_string()),
-                    ..azure_device_registry::ConfigError::default()
+                    ..AdrConfigError::default()
                 })
             }
         };
@@ -115,9 +120,9 @@ async fn run_assets(mut asset_creation_observation: AssetClientCreationObservati
                     "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
                     asset_client.asset_ref().name
                 );
-                Err(azure_device_registry::ConfigError {
+                Err(AdrConfigError {
                     message: Some("asset manufacturer type is not supported".to_string()),
-                    ..azure_device_registry::ConfigError::default()
+                    ..AdrConfigError::default()
                 })
             }
         };
@@ -141,36 +146,54 @@ async fn run_dataset(dataset_client: DatasetClient) {
 
     // now we should update the status of the dataset and report the message schema
     dataset_client.report_status(Ok(())).await;
-    match dataset_client
-        .report_message_schema(
-            schema_registry::PutRequestBuilder::default()
-                .content(
-                    r#"
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "currentTemperature": {
-      "type": "number"
-    },
-    "desiredTemperature": {
-      "type": "number"
-    }
-  }
-}
-"#,
-                )
-                .format(schema_registry::Format::JsonSchemaDraft07)
-                .build()
-                .unwrap(),
-        )
-        .await
-    {
+
+    let sample_data = mock_received_data(0);
+
+    let (_, message_schema) =
+        derived_json::transform(sample_data, dataset_client.dataset_definition()).unwrap();
+    match dataset_client.report_message_schema(message_schema).await {
         Ok(message_schema_reference) => {
             log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
         }
         Err(e) => {
             log::error!("Error reporting message schema: {e}");
         }
+    }
+    let mut count = 0;
+    loop {
+        tokio::time::sleep(Duration::from_secs(5)).await;
+        let sample_data = mock_received_data(count);
+        let (transformed_data, _) =
+            derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
+                .unwrap();
+        match dataset_client.forward_data(transformed_data).await {
+            Ok(()) => {
+                log::info!(
+                    "data {} for {} forwarded",
+                    String::from_utf8(sample_data.payload).unwrap(),
+                    dataset_client.dataset_ref().dataset_name
+                );
+                count += 1;
+            }
+            Err(e) => log::error!("error forwarding data: {e}"),
+        }
+    }
+}
+
+#[must_use]
+pub fn mock_received_data(count: u32) -> Data {
+    Data {
+        // temp and newTemp
+        payload: format!(
+            r#"{{
+            "temp": {count},
+            "newTemp": {}
+        }}"#,
+            count * 2
+        )
+        .into(),
+        content_type: "application/json".to_string(),
+        custom_user_data: Vec::new(),
+        timestamp: None,
     }
 }

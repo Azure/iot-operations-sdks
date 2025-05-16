@@ -10,13 +10,13 @@ spec:
   datasets:
     - name: thermostat_status
       dataPoints:
-        - dataSource: /api/thermostat/current
+        - dataSource: temp
           name: currentTemperature
           dataPointConfiguration: |-
            {
               "HttpRequestMethod": "GET",
            }
-        - dataSource: /api/thermostat/desired
+        - dataSource: newTemp
           name: desiredTemperature
           dataPointConfiguration: |-
            {
@@ -25,8 +25,27 @@ spec:
       dataSource: /thermostat
       destinations:
         - configuration:
-            topic: /mqtt/machine/status
+            topic: mqtt/machine/status
           target: Mqtt
+    - name: oven_status
+      dataPoints:
+        - dataSource: temp
+          name: currentTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+        - dataSource: newTemp
+          name: desiredTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+      dataSource: /oven
+      destinations:
+        - configuration:
+            key: oventemp
+          target: BrokerStateStore
   defaultDatasetsConfiguration: |-
    {
       "samplingInterval": 4000,

@@ -11,18 +11,17 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, Asset, AssetStatus, AssetUpdateObservation, ConfigError, Dataset, DatasetDestination,
-        Device, DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination,
-        MessageSchemaReference,
+        self, Asset, AssetStatus, AssetUpdateObservation, Dataset, DatasetDestination, Device,
+        DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination, MessageSchemaReference,
     },
     schema_registry,
 };
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
-    Data, DatasetRef, MessageSchema,
+    AdrConfigError, Data, DatasetRef, MessageSchema,
     base_connector::ConnectorContext,
-    destination_endpoint::Forwarder,
+    destination_endpoint::{self, Forwarder},
     filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
         DeviceEndpointRef,
@@ -255,8 +254,8 @@ impl DeviceEndpointClient {
     /// and then updates the [`Device`] with the new status returned
     pub async fn report_status(
         &mut self,
-        device_status: Result<(), ConfigError>,
-        endpoint_status: Result<(), ConfigError>,
+        device_status: Result<(), AdrConfigError>,
+        endpoint_status: Result<(), AdrConfigError>,
     ) {
         // Create status
         let status = azure_device_registry::DeviceStatus {
@@ -265,7 +264,7 @@ impl DeviceEndpointClient {
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
                 endpoint_status.err(),
@@ -278,7 +277,7 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of just the device,
     /// and then updates the [`Device`] with the new status returned
-    pub async fn report_device_status(&mut self, device_status: Result<(), ConfigError>) {
+    pub async fn report_device_status(&mut self, device_status: Result<(), AdrConfigError>) {
         // Create status with empty endpoint status
         let status = azure_device_registry::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
@@ -286,7 +285,7 @@ impl DeviceEndpointClient {
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::new(),
         };
 
@@ -296,11 +295,11 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of just the endpoint,
     /// and then updates the [`Device`] with the new status returned
-    pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), ConfigError>) {
+    pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), AdrConfigError>) {
         // Create status with empty device status
         let status = azure_device_registry::DeviceStatus {
             config: None,
-            // inserts the inbound endpoint name with None if there's no error, or Some(ConfigError) if there is
+            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
                 endpoint_status.err(),
@@ -489,12 +488,15 @@ impl AssetClientCreationObservation {
             )
             .await
             {
-                Ok(asset) => AssetClient::new(
-                    asset,
-                    asset_ref,
-                    self.device_specification.clone(),
-                    self.connector_context.clone(),
-                ),
+                Ok(asset) => {
+                    AssetClient::new(
+                        asset,
+                        asset_ref,
+                        self.device_specification.clone(),
+                        self.connector_context.clone(),
+                    )
+                    .await
+                }
                 Err(e) => {
                     log::error!("Failed to get Asset definition after retries: {e}");
                     log::error!("Dropping asset create notification: {asset_ref:?}");
@@ -575,7 +577,7 @@ pub struct AssetClient {
     connector_context: Arc<ConnectorContext>,
 }
 impl AssetClient {
-    pub(crate) fn new(
+    pub(crate) async fn new(
         asset: azure_device_registry::Asset,
         asset_ref: AssetRef,
         device_specification: Arc<DeviceSpecification>,
@@ -584,19 +586,90 @@ impl AssetClient {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
         let specification = Arc::new(AssetSpecification::from(asset.specification));
+        let default_dataset_destinations =
+            match destination_endpoint::Destination::new_dataset_destinations(
+                &specification.default_datasets_destinations,
+                &asset_ref.inbound_endpoint_name,
+                &connector_context,
+            ) {
+                Ok(res) => res.into_iter().map(Arc::new).collect(),
+                Err(e) => {
+                    log::error!(
+                        "Invalid default dataset destination for Asset {}: {e:?}",
+                        asset_ref.name
+                    );
+                    let adr_asset_status = azure_device_registry::AssetStatus {
+                        config: Some(azure_device_registry::StatusConfig {
+                            version: specification.version,
+                            error: Some(e),
+                            last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
+                        }),
+                        ..azure_device_registry::AssetStatus::default()
+                    };
+                    // send status update to the service
+                    Self::internal_report_status(
+                        adr_asset_status,
+                        &connector_context,
+                        &asset_ref,
+                        &status,
+                    )
+                    .await;
+                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
+                    vec![]
+                }
+            };
+        let mut dataset_config_errors = Vec::new();
         let datasets = dataset_definitions
             .into_iter()
-            .map(|dataset| {
-                DatasetClient::new(
+            // leave out any datasets that have config errors - they will be provided by an update notification if they get fixed, otherwise they can't be used at this point
+            // TODO: should we instead include it with a forwarder that doesn't work?
+            .filter_map(|dataset| {
+                let dataset_name = dataset.name.clone();
+                match DatasetClient::new(
                     dataset,
+                    &default_dataset_destinations,
                     asset_ref.clone(),
                     status.clone(),
                     specification.clone(),
                     device_specification.clone(),
                     connector_context.clone(),
-                )
+                ) {
+                    Ok(dataset_client) => Some(dataset_client),
+                    Err(e) => {
+                        log::error!(
+                            "Invalid dataset destination for dataset: {dataset_name} {e:?}"
+                        );
+                        dataset_config_errors.push(
+                            azure_device_registry::DatasetEventStreamStatus {
+                                name: dataset_name,
+                                message_schema_reference: None,
+                                error: Some(e),
+                            },
+                        );
+                        None
+                    }
+                }
             })
             .collect();
+        if !dataset_config_errors.is_empty() {
+            let adr_asset_status = azure_device_registry::AssetStatus {
+                // TODO: Do I need to include the version here?
+                // config: Some(azure_device_registry::StatusConfig {
+                //     version: self.asset_specification.version,
+                //     ..azure_device_registry::StatusConfig::default()
+                // }),
+                datasets: Some(dataset_config_errors),
+                ..azure_device_registry::AssetStatus::default()
+            };
+            // send status update to the service
+            AssetClient::internal_report_status(
+                adr_asset_status,
+                &connector_context,
+                &asset_ref,
+                &status,
+            )
+            .await;
+        }
         AssetClient {
             asset_ref,
             specification,
@@ -608,7 +681,7 @@ impl AssetClient {
     }
 
     /// Used to report the status of an Asset
-    pub async fn report_status(&self, status: Result<(), ConfigError>) {
+    pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version: self.specification.version,
@@ -722,15 +795,21 @@ pub struct DatasetClient {
 impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
+        default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
         device_specification: Arc<DeviceSpecification>,
         connector_context: Arc<ConnectorContext>,
-    ) -> Self {
+    ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
-        let forwarder = Arc::new(Forwarder::new(dataset_definition.clone()));
-        Self {
+        let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
+            &dataset_definition.destinations,
+            &asset_ref.inbound_endpoint_name,
+            default_destinations,
+            connector_context.clone(),
+        )?);
+        Ok(Self {
             dataset_ref: DatasetRef {
                 dataset_name: dataset_definition.name.clone(),
                 asset_name: asset_ref.name.clone(),
@@ -744,11 +823,11 @@ impl DatasetClient {
             device_specification,
             forwarder,
             connector_context,
-        }
+        })
     }
 
     /// Used to report the status of a dataset
-    pub async fn report_status(&self, status: Result<(), ConfigError>) {
+    pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
         let adr_asset_status = azure_device_registry::AssetStatus {
             // TODO: Do I need to include the version here?
             // config: Some(azure_device_registry::StatusConfig {
@@ -859,7 +938,7 @@ impl DatasetClient {
         .await;
 
         self.forwarder
-            .update_message_schema_uri(Some(message_schema_reference.clone()));
+            .update_message_schema_reference(Some(message_schema_reference.clone()));
 
         Ok(message_schema_reference)
     }
@@ -867,7 +946,7 @@ impl DatasetClient {
     /// Used to send transformed data to the destination
     /// # Errors
     /// TODO
-    pub async fn forward_data(&self, data: Data) -> Result<(), String> {
+    pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
         self.forwarder.send_data(data).await
     }
 
@@ -1052,7 +1131,7 @@ pub struct DeviceEndpointStatus {
     /// Defines the status for the Device.
     pub config: Option<azure_device_registry::StatusConfig>,
     /// Defines the status for the inbound endpoint.
-    pub inbound_endpoint_error: Option<azure_device_registry::ConfigError>, // different from adr
+    pub inbound_endpoint_error: Option<AdrConfigError>, // different from adr
 }
 
 impl DeviceEndpointStatus {

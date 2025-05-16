@@ -15,6 +15,7 @@ publish = true
 azure_iot_operations_protocol = { version = "0.9", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
 azure_iot_operations_services = { version = "0.8", path = "../azure_iot_operations_services", registry = "aio-sdks", features = ["state_store", "schema_registry", "azure_device_registry"]  }
 azure_iot_operations_mqtt = { version = "0.9", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
+chrono.workspace = true
 derive-getters.workspace = true
 jmespath = "0.3.0"
 log.workspace = true
