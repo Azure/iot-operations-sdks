@@ -89,6 +89,9 @@ jobs:
  
     - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
+
+    - name: Create ADR resources
+      run: kubectl apply -f eng/test/test-adr-resources
       
     # This file is created by configure-aio.sh
     - name: Load test service account token into environment
