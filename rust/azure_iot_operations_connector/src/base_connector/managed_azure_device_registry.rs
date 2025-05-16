@@ -586,13 +586,13 @@ impl AssetClient {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
         let specification = Arc::new(AssetSpecification::from(asset.specification));
-        let default_dataset_destination =
-            match destination_endpoint::Destination::new_dataset_destination(
+        let default_dataset_destinations =
+            match destination_endpoint::Destination::new_dataset_destinations(
                 &specification.default_datasets_destinations,
                 &asset_ref.inbound_endpoint_name,
                 &connector_context,
             ) {
-                Ok(res) => res.map(Arc::new),
+                Ok(res) => res.into_iter().map(Arc::new).collect(),
                 Err(e) => {
                     log::error!("Invalid default dataset destination for Asset: {e:?}");
                     let adr_asset_status = azure_device_registry::AssetStatus {
@@ -612,7 +612,7 @@ impl AssetClient {
                     )
                     .await;
                     // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                    None
+                    vec![]
                 }
             };
         let mut dataset_config_errors = Vec::new();
@@ -624,7 +624,7 @@ impl AssetClient {
                 let dataset_name = dataset.name.clone();
                 match DatasetClient::new(
                     dataset,
-                    default_dataset_destination.as_ref(),
+                    &default_dataset_destinations,
                     asset_ref.clone(),
                     status.clone(),
                     specification.clone(),
@@ -633,7 +633,9 @@ impl AssetClient {
                 ) {
                     Ok(dataset_client) => Some(dataset_client),
                     Err(e) => {
-                        log::error!("Invalid dataset destination for dataset: {dataset_name}");
+                        log::error!(
+                            "Invalid dataset destination for dataset: {dataset_name} {e:?}"
+                        );
                         dataset_config_errors.push(
                             azure_device_registry::DatasetEventStreamStatus {
                                 name: dataset_name,
@@ -790,7 +792,7 @@ pub struct DatasetClient {
 impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
-        default_destination: Option<&Arc<destination_endpoint::Destination>>,
+        default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
@@ -801,7 +803,7 @@ impl DatasetClient {
         let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
             &dataset_definition.destinations,
             &asset_ref.inbound_endpoint_name,
-            default_destination,
+            default_destinations,
             connector_context.clone(),
         )?);
         Ok(Self {

@@ -67,7 +67,7 @@ pub(crate) struct Forwarder {
 }
 impl Forwarder {
     /// Creates a new [`Forwarder`] from a dataset definition's Destinations
-    /// and a default destination, if present on the asset
+    /// and default destinations, if present on the asset
     ///
     /// # Errors
     /// [`AdrConfigError`] if there are any issues processing
@@ -76,28 +76,32 @@ impl Forwarder {
     pub(crate) fn new_dataset_forwarder(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
-        default_destination: Option<&Arc<Destination>>,
+        default_destinations: &[Arc<Destination>],
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        // Create a new forwarder
-
-        // If no destination is specified in the dataset definition, use the default dataset destination
-        let destination = if dataset_destinations.is_empty() {
-            ForwarderDestination::DefaultDestination(default_destination.ok_or(AdrConfigError {
-                code: None,
-                details: None,
-                inner_error: None,
-                message: Some("Asset must have default dataset destination if dataset doesn't have destination".to_string()),
-            })?.clone())
-        } else {
-            ForwarderDestination::DatasetDestination(
-                Destination::new_dataset_destination(
-                    dataset_destinations,
-                    inbound_endpoint_name,
-                    &connector_context,
-                )?
-                .expect("Presence of destination already validated"),
-            )
+        // if the dataset has destinations defined, use them, otherwise use the default dataset destinations
+        let destination = match Destination::new_dataset_destinations(
+            dataset_destinations,
+            inbound_endpoint_name,
+            &connector_context,
+        )?
+        // for now, this vec will only ever be length 1
+        .pop()
+        {
+            Some(destination) => ForwarderDestination::DatasetDestination(destination),
+            None => {
+                if default_destinations.is_empty() {
+                    Err(AdrConfigError {
+                                code: None,
+                                details: None,
+                                inner_error: None,
+                                message: Some("Asset must have default dataset destinations if dataset doesn't have destinations".to_string()),
+                            })?
+                } else {
+                    // for now, this vec will only ever be length 1
+                    ForwarderDestination::DefaultDestination(default_destinations[0].clone())
+                }
+            }
         };
 
         Ok(Self {
@@ -280,22 +284,22 @@ pub(crate) enum Destination {
 }
 
 impl Destination {
-    /// Creates a new [`Destination`] from a list of [`azure_device_registry::DatasetDestination`]s.
+    /// Creates a list of new [`Destination`]s from a list of [`azure_device_registry::DatasetDestination`]s.
     /// At this time, this list cannot have more than one element. If there are no items in the list,
-    /// this function will return [`None`]. This isn't an error, since a default destination may or
+    /// this function will return an empty Vec. This isn't an error, since a default destination may or
     /// may not exist in the definition.
     ///
     /// # Errors
     /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
     /// This can be used to report the error to the ADR service on the status
-    pub(crate) fn new_dataset_destination(
+    pub(crate) fn new_dataset_destinations(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
         connector_context: &Arc<ConnectorContext>,
-    ) -> Result<Option<Self>, AdrConfigError> {
+    ) -> Result<Vec<Self>, AdrConfigError> {
         // Create a new forwarder
         if dataset_destinations.is_empty() {
-            Ok(None)
+            Ok(vec![])
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_destinations[0];
@@ -368,7 +372,7 @@ impl Destination {
                     // }
                 }
             };
-            Ok(Some(destination))
+            Ok(vec![destination])
         }
     }
 }
