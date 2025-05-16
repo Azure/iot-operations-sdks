@@ -29,8 +29,8 @@ use crate::{
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
-const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialBackoff =
-    tokio_retry2::strategy::ExponentialBackoff::from_millis(10);
+const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
+    tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(100, 1.0);
 
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full device endpoint information.
