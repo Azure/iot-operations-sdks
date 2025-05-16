@@ -162,14 +162,13 @@ impl Forwarder {
             }
             Destination::Mqtt {
                 qos,
-                retain: _,
+                retain,
                 ttl,
                 inbound_endpoint_name,
                 telemetry_sender,
             } => {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
                 // TODO: cloud event
-                // TODO: retain
                 // TODO: remove once message schema validation is turned back on
                 #[allow(clippy::manual_map)]
                 let message_schema_uri = if let Some(message_schema_reference) =
@@ -203,8 +202,8 @@ impl Forwarder {
                             unreachable!()
                         }
                         // This can be caused by a
-                        // source that isn't a uri reference - check
-                        // data_schema that isn't a valid uri - check, don't think this is possible since we create it
+                        // source that isn't a uri reference
+                        // data_schema that isn't a valid uri - don't think this is possible since we create it
                         telemetry::sender::CloudEventBuilderError::ValidationError(e) => {
                             Error(ErrorKind::ValidationError(e))
                         }
@@ -217,6 +216,9 @@ impl Forwarder {
                 }
                 if let Some(ttl) = ttl {
                     message_builder.message_expiry(Duration::from_secs(*ttl));
+                }
+                if let Some(retain) = retain {
+                    message_builder.retain(*retain);
                 }
                 // Can return an error if content type isn't valid UTF-8. Serialization can't fail
                 message_builder
