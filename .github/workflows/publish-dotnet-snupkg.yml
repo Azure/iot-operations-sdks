@@ -1,0 +1,28 @@
+name: Publish-dotnet-snupkg
+
+on:
+  workflow_dispatch:
+
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Publish-dotnet-snupkg
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: dotnet info
+      run: |
+          sudo apt-get update
+          sudo apt-get install nuget -y
