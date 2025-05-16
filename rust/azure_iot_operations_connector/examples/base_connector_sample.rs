@@ -10,14 +10,19 @@
 //!
 //! To deploy and test this example, see instructions in `rust/azure_iot_operations_connector/README.md`
 
+use std::time::Duration;
+
 use azure_iot_operations_connector::{
+    AdrConfigError, Data,
     base_connector::{
-        BaseConnector, managed_azure_device_registry::DeviceEndpointClientCreationObservation,
+        BaseConnector,
+        managed_azure_device_registry::{
+            AssetClientCreationObservation, DatasetClient, DeviceEndpointClientCreationObservation,
+        },
     },
-    data_transformer::PassthroughDataTransformer,
+    data_processor::derived_json,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -34,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
 
-    let base_connector = BaseConnector::new(application_context, PassthroughDataTransformer {});
+    let base_connector = BaseConnector::new(application_context);
 
     let device_creation_observation =
         base_connector.create_device_endpoint_client_create_observation();
@@ -49,23 +54,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 // This function runs in a loop, waiting for device creation notifications.
-async fn run_program(
-    mut device_creation_observation: DeviceEndpointClientCreationObservation<
-        PassthroughDataTransformer,
-    >,
-) {
+async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
     while let Some((
         mut device_endpoint_client,
         _device_endpoint_update_observation,
-        _asset_creation_observation,
+        asset_creation_observation,
     )) = device_creation_observation.recv_notification().await
     {
         log::info!("Device created: {device_endpoint_client:?}");
 
         // now we should update the status of the device
         let endpoint_status = match device_endpoint_client
-            .specification
+            .specification()
             .endpoints
             .inbound
             .endpoint_type
@@ -76,19 +77,123 @@ async fn run_program(
                 // if we don't support the endpoint type, then we can report that error
                 log::warn!(
                     "Endpoint '{}' not accepted. Endpoint type '{}' not supported.",
-                    device_endpoint_client.specification.endpoints.inbound.name,
+                    device_endpoint_client
+                        .specification()
+                        .endpoints
+                        .inbound
+                        .name,
                     unsupported_endpoint_type
                 );
-                Err(azure_device_registry::ConfigError {
+                Err(AdrConfigError {
                     message: Some("endpoint type is not supported".to_string()),
-                    ..azure_device_registry::ConfigError::default()
+                    ..AdrConfigError::default()
                 })
             }
         };
+
+        // Start handling the assets for this device endpoint
+        // if we didn't accept the inbound endpoint, then there's no reason to manage the assets
+        if endpoint_status.is_ok() {
+            tokio::task::spawn(run_assets(asset_creation_observation));
+        }
 
         device_endpoint_client
             .report_status(Ok(()), endpoint_status)
             .await;
     }
     panic!("device_creation_observer has been dropped");
+}
+
+// This function runs in a loop, waiting for asset creation notifications.
+async fn run_assets(mut asset_creation_observation: AssetClientCreationObservation) {
+    // Wait for a device creation notification
+    while let Some((asset_client, _asset_update_observation, _asset_deletion_token)) =
+        asset_creation_observation.recv_notification().await
+    {
+        log::info!("Asset created: {asset_client:?}");
+
+        // now we should update the status of the asset
+        let asset_status = match asset_client.specification().manufacturer.as_deref() {
+            Some("Contoso") | None => Ok(()),
+            Some(m) => {
+                log::warn!(
+                    "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
+                    asset_client.asset_ref().name
+                );
+                Err(AdrConfigError {
+                    message: Some("asset manufacturer type is not supported".to_string()),
+                    ..AdrConfigError::default()
+                })
+            }
+        };
+
+        asset_client.report_status(asset_status).await;
+
+        for dataset in asset_client.datasets() {
+            tokio::task::spawn({
+                let dataset_clone = dataset.clone();
+                async move {
+                    run_dataset(dataset_clone).await;
+                }
+            });
+        }
+    }
+    panic!("asset_creation_observer has been dropped");
+}
+
+async fn run_dataset(dataset_client: DatasetClient) {
+    log::info!("new Dataset: {dataset_client:?}");
+
+    // now we should update the status of the dataset and report the message schema
+    dataset_client.report_status(Ok(())).await;
+
+    let sample_data = mock_received_data(0);
+
+    let (_, message_schema) =
+        derived_json::transform(sample_data, dataset_client.dataset_definition()).unwrap();
+    match dataset_client.report_message_schema(message_schema).await {
+        Ok(message_schema_reference) => {
+            log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
+        }
+        Err(e) => {
+            log::error!("Error reporting message schema: {e}");
+        }
+    }
+    let mut count = 0;
+    loop {
+        tokio::time::sleep(Duration::from_secs(5)).await;
+        let sample_data = mock_received_data(count);
+        let (transformed_data, _) =
+            derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
+                .unwrap();
+        match dataset_client.forward_data(transformed_data).await {
+            Ok(()) => {
+                log::info!(
+                    "data {} for {} forwarded",
+                    String::from_utf8(sample_data.payload).unwrap(),
+                    dataset_client.dataset_ref().dataset_name
+                );
+                count += 1;
+            }
+            Err(e) => log::error!("error forwarding data: {e}"),
+        }
+    }
+}
+
+#[must_use]
+pub fn mock_received_data(count: u32) -> Data {
+    Data {
+        // temp and newTemp
+        payload: format!(
+            r#"{{
+            "temp": {count},
+            "newTemp": {}
+        }}"#,
+            count * 2
+        )
+        .into(),
+        content_type: "application/json".to_string(),
+        custom_user_data: Vec::new(),
+        timestamp: None,
+    }
 }
