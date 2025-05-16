@@ -4,14 +4,20 @@ package adrbaseservice
 type AssetDatasetSchemaElementSchema struct {
 
 	// The 'dataPoints' Field.
-	DataPoints []AssetDataPointSchemaElementSchema `json:"dataPoints,omitempty"`
+	DataPoints []AssetDatasetDataPointSchemaElementSchema `json:"dataPoints,omitempty"`
 
 	// The 'datasetConfiguration' Field.
 	DatasetConfiguration *string `json:"datasetConfiguration,omitempty"`
 
+	// The 'dataSource' Field.
+	DataSource *string `json:"dataSource,omitempty"`
+
+	// The 'destinations' Field.
+	Destinations []AssetDatasetDestinationSchemaElementSchema `json:"destinations,omitempty"`
+
 	// The 'name' Field.
 	Name string `json:"name"`
 
-	// The 'topic' Field.
-	Topic *Topic `json:"topic,omitempty"`
+	// The 'typeRef' Field.
+	TypeRef *string `json:"typeRef,omitempty"`
 }

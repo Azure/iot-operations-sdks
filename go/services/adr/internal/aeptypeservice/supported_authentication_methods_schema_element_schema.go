@@ -9,18 +9,18 @@ import (
 type SupportedAuthenticationMethodsSchemaElementSchema int32
 
 const (
-	Anonymous SupportedAuthenticationMethodsSchemaElementSchema = iota
-	Certificate SupportedAuthenticationMethodsSchemaElementSchema = iota
-	UsernamePassword SupportedAuthenticationMethodsSchemaElementSchema = iota
+	SupportedAuthenticationMethodsSchemaElementSchemaAnonymous SupportedAuthenticationMethodsSchemaElementSchema = iota
+	SupportedAuthenticationMethodsSchemaElementSchemaCertificate SupportedAuthenticationMethodsSchemaElementSchema = iota
+	SupportedAuthenticationMethodsSchemaElementSchemaUsernamePassword SupportedAuthenticationMethodsSchemaElementSchema = iota
 )
 
 func (v SupportedAuthenticationMethodsSchemaElementSchema) String() string {
 	switch v {
-	case Anonymous:
+	case SupportedAuthenticationMethodsSchemaElementSchemaAnonymous:
 		return "Anonymous"
-	case Certificate:
+	case SupportedAuthenticationMethodsSchemaElementSchemaCertificate:
 		return "Certificate"
-	case UsernamePassword:
+	case SupportedAuthenticationMethodsSchemaElementSchemaUsernamePassword:
 		return "UsernamePassword"
 	default:
 		return ""
@@ -30,11 +30,11 @@ func (v SupportedAuthenticationMethodsSchemaElementSchema) String() string {
 func (v SupportedAuthenticationMethodsSchemaElementSchema) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
-	case Anonymous:
+	case SupportedAuthenticationMethodsSchemaElementSchemaAnonymous:
 		s = "Anonymous"
-	case Certificate:
+	case SupportedAuthenticationMethodsSchemaElementSchemaCertificate:
 		s = "Certificate"
-	case UsernamePassword:
+	case SupportedAuthenticationMethodsSchemaElementSchemaUsernamePassword:
 		s = "UsernamePassword"
 	default:
 		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
@@ -51,11 +51,11 @@ func (v *SupportedAuthenticationMethodsSchemaElementSchema) UnmarshalJSON(b []by
 
 	switch s {
 	case "Anonymous":
-		*v = Anonymous
+		*v = SupportedAuthenticationMethodsSchemaElementSchemaAnonymous
 	case "Certificate":
-		*v = Certificate
+		*v = SupportedAuthenticationMethodsSchemaElementSchemaCertificate
 	case "UsernamePassword":
-		*v = UsernamePassword
+		*v = SupportedAuthenticationMethodsSchemaElementSchemaUsernamePassword
 	default:
 		return errors.New("unable to unmarshal unrecognized enum value from JSON")
 	}
