@@ -594,7 +594,10 @@ impl AssetClient {
             ) {
                 Ok(res) => res.into_iter().map(Arc::new).collect(),
                 Err(e) => {
-                    log::error!("Invalid default dataset destination for Asset: {e:?}");
+                    log::error!(
+                        "Invalid default dataset destination for Asset {}: {e:?}",
+                        asset_ref.name
+                    );
                     let adr_asset_status = azure_device_registry::AssetStatus {
                         config: Some(azure_device_registry::StatusConfig {
                             version: specification.version,
