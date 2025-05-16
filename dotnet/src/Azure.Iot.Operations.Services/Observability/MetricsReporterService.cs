@@ -1,47 +1,45 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.Observability.AkriObservabilityService;
 
 namespace Azure.Iot.Operations.Services.Observability;
 
 public class MetricsReporterService : IAsyncDisposable
 {
-    private readonly AkriObservabilityServiceStub _observabilityService;
+    private readonly IAkriObservabilityService _observabilityService;
     private readonly MetricsReporterOptions _options;
     private readonly CounterMetricCache _counterCache;
     private readonly GaugeMetricCache _gaugeCache;
     private readonly HistogramMetricCache _histogramCache;
-    private Timer? _reportingTimer;
+    private readonly ITimerFactory _timerFactory;
+    private ITimer? _reportingTimer;
     private bool _isDisposed;
     private readonly SemaphoreSlim _reportingSemaphore = new(1, 1);
 
     public MetricsReporterService(
-        AkriObservabilityServiceStub observabilityService,
-        MetricsReporterOptions? options = null)
+        IAkriObservabilityService observabilityService,
+        MetricsReporterOptions? options = null,
+        ITimerFactory? timerFactory = null)
     {
         _observabilityService = observabilityService ?? throw new ArgumentNullException(nameof(observabilityService));
         _options = options ?? new MetricsReporterOptions();
+        _timerFactory = timerFactory ?? new DefaultTimerFactory();
 
         _counterCache = new CounterMetricCache();
         _gaugeCache = new GaugeMetricCache();
         _histogramCache = new HistogramMetricCache();
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken = default)
+    public void Start(CancellationToken cancellationToken = default)
     {
-        if (_reportingTimer != null)
-        {
-            throw new InvalidOperationException("MetricsReporterService has already been started.");
-        }
+        _reportingTimer = _timerFactory.CreateTimer();
 
-        _reportingTimer = new Timer(
-            async _ => await ReportMetricsAsync(cancellationToken),
-            null,
+        _reportingTimer.Start(async _ => await ReportMetricsAsync(cancellationToken),
+            cancellationToken,
             _options.ReportingInterval,
             _options.ReportingInterval);
-
-        await Task.CompletedTask;
     }
 
     public async Task StopAsync()
@@ -107,12 +105,13 @@ public class MetricsReporterService : IAsyncDisposable
             };
 
             // Only send if there are metrics to report
-            if (request.Metrics.CounterMetrics.Count > 0 || request.Metrics.GaugeMetrics.Count > 0 || request.Metrics.HistogramMetrics.Count > 0)
+            if (request.Metrics.CounterMetrics.Count > 0 ||
+                request.Metrics.GaugeMetrics.Count > 0 ||
+                request.Metrics.HistogramMetrics.Count > 0)
             {
                 try
                 {
-                    // Fire and forget
-                    var call = _observabilityService.PublishMetricsAsync(request);
+                    RpcCallAsync<PublishMetricsResponsePayload> response = _observabilityService.PublishMetricsAsync(request);
                 }
                 catch (Exception ex)
                 {
