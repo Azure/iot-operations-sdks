@@ -37,6 +37,6 @@ jobs:
       run: |
           nuget SetApiKey ${{ secrets.NUGET_API_KEY }}
           cd ./_nupkgs/
-          nuget push Azure.Iot.Operations.Mqtt.*.*.*.snupkg
-          nuget push Azure.Iot.Operations.Protocol.*.*.*.snupkg
-          nuget push Azure.Iot.Operations.Services.*.*.*.snupkg
+          nuget push Azure.Iot.Operations.Mqtt.*.*.*.snupkg -Source https://api.nuget.org/v3/index.json
+          nuget push Azure.Iot.Operations.Protocol.*.*.*.snupkg -Source https://api.nuget.org/v3/index.json
+          nuget push Azure.Iot.Operations.Services.*.*.*.snupkg -Source https://api.nuget.org/v3/index.json
