@@ -320,7 +320,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                     if (normalResultSchema != null)
                     {
-                        yield return new RustSerialization(respSchemaNamespace ?? genNamespace, genFormat, normalResultSchema, workingPath);
+                        yield return new RustSerialization(normalResultNamespace ?? genNamespace, genFormat, normalResultSchema, workingPath);
                     }
 
                     break;
