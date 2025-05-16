@@ -38,6 +38,9 @@ impl Error {
     }
 }
 
+// TODO: Once we have retriable/not retriable designators on underlying errors, this should
+// split into StateError (Missing Message Schema), RetriableError(Network errors), and
+// NonRetriableError (Invalid data, etc)
 /// Represents the kinds of errors that occur in the [`Forwarder`] implementation.
 #[derive(Error, Debug)]
 pub enum ErrorKind {
@@ -52,14 +55,14 @@ pub enum ErrorKind {
     MqttTelemetryError(#[from] AIOProtocolError),
     /// Data provided to be forwarded is invalid
     #[error("Error with contents of Data: {0}")]
-    DataValidationError(String),
+    ValidationError(String),
 }
 
 /// A [`Forwarder`] forwards [`Data`] to a destination defined in a dataset or asset
 #[derive(Debug)]
 pub(crate) struct Forwarder {
     message_schema_reference: Arc<RwLock<Option<MessageSchemaReference>>>,
-    destination: Destination,
+    destination: ForwarderDestination,
     connector_context: Arc<ConnectorContext>,
 }
 impl Forwarder {
@@ -73,26 +76,28 @@ impl Forwarder {
     pub(crate) fn new_dataset_forwarder(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
-        default_destination: Option<&Destination>,
+        default_destination: Option<&Arc<Destination>>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new forwarder
 
         // If no destination is specified in the dataset definition, use the default dataset destination
         let destination = if dataset_destinations.is_empty() {
-            default_destination.ok_or(AdrConfigError {
+            ForwarderDestination::DefaultDestination(default_destination.ok_or(AdrConfigError {
                 code: None,
                 details: None,
                 inner_error: None,
                 message: Some("Asset must have default dataset destination if dataset doesn't have destination".to_string()),
-            })?.clone()
+            })?.clone())
         } else {
-            Destination::new_dataset_destination(
-                dataset_destinations,
-                inbound_endpoint_name,
-                &connector_context,
-            )?
-            .expect("Presence of destination already validated")
+            ForwarderDestination::DatasetDestination(
+                Destination::new_dataset_destination(
+                    dataset_destinations,
+                    inbound_endpoint_name,
+                    &connector_context,
+                )?
+                .expect("Presence of destination already validated"),
+            )
         };
 
         Ok(Self {
@@ -122,7 +127,11 @@ impl Forwarder {
     /// if the message schema reference mutex has been poisoned, which should not be possible
     pub(crate) async fn send_data(&self, data: Data) -> Result<(), Error> {
         // Forward the data to the destination
-        match &self.destination {
+        let destination = match &self.destination {
+            ForwarderDestination::DefaultDestination(destination) => destination.as_ref(),
+            ForwarderDestination::DatasetDestination(destination) => destination,
+        };
+        match destination {
             Destination::BrokerStateStore { key } => {
                 if self
                     .connector_context
@@ -193,9 +202,9 @@ impl Forwarder {
                         // source that isn't a uri reference - check
                         // data_schema that isn't a valid uri - check, don't think this is possible since we create it
                         telemetry::sender::CloudEventBuilderError::ValidationError(e) => {
-                            Error(ErrorKind::DataValidationError(e))
+                            Error(ErrorKind::ValidationError(e))
                         }
-                        e => Error(ErrorKind::DataValidationError(e.to_string())),
+                        e => Error(ErrorKind::ValidationError(e.to_string())),
                     }
                 })?;
                 let mut message_builder = telemetry::sender::MessageBuilder::default();
@@ -212,13 +221,13 @@ impl Forwarder {
                         payload: data.payload,
                         format_indicator: FormatIndicator::default(),
                     })
-                    .map_err(|e| ErrorKind::DataValidationError(e.to_string()))?;
+                    .map_err(|e| ErrorKind::ValidationError(e.to_string()))?;
                 message_builder.cloud_event(cloud_event);
                 message_builder.custom_user_data(data.custom_user_data);
                 // This validates the content type and custom user data
                 let message = message_builder
                     .build()
-                    .map_err(|e| ErrorKind::DataValidationError(e.to_string()))?;
+                    .map_err(|e| ErrorKind::ValidationError(e.to_string()))?;
                 // send message with telemetry::Sender
                 Ok(telemetry_sender
                     .send(message)
@@ -247,7 +256,12 @@ impl Forwarder {
     }
 }
 
-#[derive(Clone)]
+#[derive(Debug)]
+pub(crate) enum ForwarderDestination {
+    DefaultDestination(Arc<Destination>),
+    DatasetDestination(Destination),
+}
+
 #[allow(dead_code)]
 pub(crate) enum Destination {
     BrokerStateStore {

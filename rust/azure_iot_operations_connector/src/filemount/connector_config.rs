@@ -168,7 +168,7 @@ impl ConnectorConfiguration {
                         .next()
                         .ok_or("No CA cert found in trustbundle directory".to_string())?
                         .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
-                    // Workaround to skip files that start with .. that aren't ca files.
+                    // TODO:  Workaround to skip files that start with .. that aren't ca files.
                     if entry
                         .file_name()
                         .to_string_lossy()

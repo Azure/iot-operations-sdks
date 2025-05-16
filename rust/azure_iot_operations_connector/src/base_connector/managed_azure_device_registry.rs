@@ -592,7 +592,7 @@ impl AssetClient {
                 &asset_ref.inbound_endpoint_name,
                 &connector_context,
             ) {
-                Ok(res) => res,
+                Ok(res) => res.map(Arc::new),
                 Err(e) => {
                     log::error!("Invalid default dataset destination for Asset: {e:?}");
                     let adr_asset_status = azure_device_registry::AssetStatus {
@@ -790,7 +790,7 @@ pub struct DatasetClient {
 impl DatasetClient {
     pub(crate) fn new(
         dataset_definition: Dataset,
-        default_destination: Option<&destination_endpoint::Destination>,
+        default_destination: Option<&Arc<destination_endpoint::Destination>>,
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,

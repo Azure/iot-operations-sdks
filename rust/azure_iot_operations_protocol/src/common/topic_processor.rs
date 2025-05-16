@@ -96,7 +96,7 @@ pub fn is_valid_replacement(s: &str) -> bool {
 }
 
 /// Represents a topic pattern for Azure IoT Operations Protocol topics
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct TopicPattern {
     /// The topic pattern before the initial replacements have been made
     static_pattern: String,
