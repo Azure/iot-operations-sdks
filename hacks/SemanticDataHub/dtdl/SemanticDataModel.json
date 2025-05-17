@@ -1,0 +1,26 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:mqtt;3"
+    ],
+    "@id": "dtmi:SemanticDataModel:FirstModel;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "sample/{modelId}/{senderId}/telemetry",
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Temperature" ],
+        "name": "surfaceTemp",
+        "schema": "double",
+        "unit": "degreeCelsius"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "mode",
+        "schema": "string"
+      }
+    ]
+  }
+]
