@@ -282,6 +282,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                     },
                     DefaultDatasetsConfiguration = "{\"defaultKey\":\"defaultValue\"}",
                     DefaultEventsConfiguration = "{\"defaultEventKey\":\"defaultEventValue\"}",
+                    DefaultManagementGroupsConfiguration = "{\"defaultManagementGroupKey\":\"defaultManagementGroupValue\"}",
                     DiscoveredAssetRefs = ["discovered-asset-ref"]
                 },
                 Status = new AdrBaseService.AssetStatus
@@ -572,6 +573,11 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal(QoS.Qos1, result.Specification.DefaultDatasetsDestinations[0].Configuration.Qos);
             Assert.Equal(Retain.Keep, result.Specification.DefaultDatasetsDestinations[0].Configuration.Retain);
             Assert.Equal((ulong)60, result.Specification.DefaultDatasetsDestinations[0].Configuration.Ttl);
+
+            Assert.NotNull(result.Specification.DefaultManagementGroupsConfiguration);
+            actualJson = JsonSerializer.Serialize(result.Specification.DefaultManagementGroupsConfiguration);
+            expectedJson = JsonSerializer.Serialize(JsonDocument.Parse("{\"defaultManagementGroupKey\":\"defaultManagementGroupValue\"}"));
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
