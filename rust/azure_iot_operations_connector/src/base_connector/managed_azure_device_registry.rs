@@ -204,6 +204,7 @@ impl DeviceEndpointClientCreationObservation {
                 asset_create_observation,
                 connector_context: self.connector_context.clone(),
                 device_specification: device_endpoint_client.specification.clone(),
+                device_status: device_endpoint_client.status.clone(),
             };
 
             return Some((
@@ -221,7 +222,8 @@ pub struct DeviceEndpointClient {
     /// The names of the Device and Inbound Endpoint
     device_endpoint_ref: DeviceEndpointRef,
     /// The 'specification' Field.
-    specification: Arc<DeviceSpecification>,
+    #[getter(skip)]
+    specification: Arc<RwLock<DeviceSpecification>>,
     /// The 'status' Field.
     #[getter(skip)]
     status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
@@ -237,11 +239,11 @@ impl DeviceEndpointClient {
     ) -> Result<Self, String> {
         Ok(DeviceEndpointClient {
             // TODO: get device_endpoint_credentials_mount_path from connector config
-            specification: Arc::new(DeviceSpecification::new(
+            specification: Arc::new(RwLock::new(DeviceSpecification::new(
                 device.specification,
                 "/etc/akri/secrets/device_endpoint_auth",
                 &device_endpoint_ref.inbound_endpoint_name,
-            )?),
+            )?)),
             status: Arc::new(RwLock::new(device.status.map(|recvd_status| {
                 DeviceEndpointStatus::new(recvd_status, &device_endpoint_ref.inbound_endpoint_name)
             }))),
@@ -252,15 +254,19 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of a device and endpoint together,
     /// and then updates the [`Device`] with the new status returned
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_status(
         &mut self,
         device_status: Result<(), AdrConfigError>,
         endpoint_status: Result<(), AdrConfigError>,
     ) {
         // Create status
+        let version = self.specification.read().unwrap().version; // TODO: this doesn't hold the read lock past this line, right?
         let status = azure_device_registry::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
-                version: self.specification.version,
+                version,
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
@@ -277,11 +283,15 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of just the device,
     /// and then updates the [`Device`] with the new status returned
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_device_status(&mut self, device_status: Result<(), AdrConfigError>) {
         // Create status with empty endpoint status
+        let version = self.specification.read().unwrap().version; // TODO: this doesn't hold the read lock past this line, right?
         let status = azure_device_registry::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
-                version: self.specification.version,
+                version,
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
@@ -298,7 +308,7 @@ impl DeviceEndpointClient {
     pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), AdrConfigError>) {
         // Create status with empty device status
         let status = azure_device_registry::DeviceStatus {
-            config: None,
+            config: None, // TODO: does this need to include the version?
             // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
@@ -316,6 +326,14 @@ impl DeviceEndpointClient {
     #[must_use]
     pub fn status(&self) -> Option<DeviceEndpointStatus> {
         (*self.status.read().unwrap()).clone()
+    }
+
+    // Returns a clone of the current device specification
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn specification(&self) -> DeviceSpecification {
+        (*self.specification.read().unwrap()).clone()
     }
 
     /// Reports an already built status to the service, with retries, and then updates the device with the new status returned
@@ -408,7 +426,8 @@ impl DeviceEndpointClientUpdateObservation {
 pub struct AssetClientCreationObservation {
     asset_create_observation: AssetCreateObservation,
     connector_context: Arc<ConnectorContext>,
-    device_specification: Arc<DeviceSpecification>,
+    device_specification: Arc<RwLock<DeviceSpecification>>,
+    device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
 }
 impl AssetClientCreationObservation {
     /// Receives a notification for a newly created asset or [`None`] if there
@@ -493,6 +512,7 @@ impl AssetClientCreationObservation {
                         asset,
                         asset_ref,
                         self.device_specification.clone(),
+                        self.device_status.clone(),
                         self.connector_context.clone(),
                     )
                     .await
@@ -572,7 +592,11 @@ pub struct AssetClient {
     datasets: Vec<DatasetClient>, // TODO: might need to change this model once the dataset definition can get updated from an update
     // TODO: events, streams, and management groups as well
     /// Specification of the device that this Asset is tied to
-    device_specification: Arc<DeviceSpecification>,
+    #[getter(skip)]
+    device_specification: Arc<RwLock<DeviceSpecification>>,
+    /// Status of the device that this Asset is tied to
+    #[getter(skip)]
+    device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -580,7 +604,8 @@ impl AssetClient {
     pub(crate) async fn new(
         asset: azure_device_registry::Asset,
         asset_ref: AssetRef,
-        device_specification: Arc<DeviceSpecification>,
+        device_specification: Arc<RwLock<DeviceSpecification>>,
+        device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
@@ -632,6 +657,7 @@ impl AssetClient {
                     status.clone(),
                     specification.clone(),
                     device_specification.clone(),
+                    device_status.clone(),
                     connector_context.clone(),
                 ) {
                     Ok(dataset_client) => Some(dataset_client),
@@ -676,6 +702,7 @@ impl AssetClient {
             status,
             datasets,
             device_specification,
+            device_status,
             connector_context,
         }
     }
@@ -707,6 +734,24 @@ impl AssetClient {
     #[must_use]
     pub fn status(&self) -> Option<AssetStatus> {
         (*self.status.read().unwrap()).clone()
+    }
+
+    // Returns a clone of the current device specification
+    /// # Panics
+    /// if the device specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn device_specification(&self) -> DeviceSpecification {
+        (*self.device_specification.read().unwrap()).clone()
+        // TODO: return read guard instead to avoid cloning? Need to decide whether to wrap to not expose read guard though
+        // self.device_specification.read().unwrap()
+    }
+
+    // Returns a clone of the current device status
+    /// # Panics
+    /// if the device status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn device_status(&self) -> Option<DeviceEndpointStatus> {
+        (*self.device_status.read().unwrap()).clone()
     }
 
     pub(crate) async fn internal_report_status(
@@ -781,8 +826,11 @@ pub struct DatasetClient {
     /// Current specification for the Asset
     asset_specification: Arc<AssetSpecification>,
     /// Specification of the device that this dataset is tied to
-    device_specification: Arc<DeviceSpecification>,
-    // TODO: add device status here and above as well just in case
+    #[getter(skip)]
+    device_specification: Arc<RwLock<DeviceSpecification>>,
+    /// Status of the device that this dataset is tied to
+    #[getter(skip)]
+    device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
     #[getter(skip)]
     forwarder: Arc<Forwarder>,
     #[getter(skip)]
@@ -793,13 +841,15 @@ pub struct DatasetClient {
 }
 
 impl DatasetClient {
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         dataset_definition: Dataset,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
-        device_specification: Arc<DeviceSpecification>,
+        device_specification: Arc<RwLock<DeviceSpecification>>,
+        device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
@@ -821,6 +871,7 @@ impl DatasetClient {
             asset_status,
             asset_specification,
             device_specification,
+            device_status,
             forwarder,
             connector_context,
         })
@@ -976,6 +1027,22 @@ impl DatasetClient {
     #[must_use]
     pub fn asset_status(&self) -> Option<AssetStatus> {
         (*self.asset_status.read().unwrap()).clone()
+    }
+
+    // Returns a clone of the current device specification
+    /// # Panics
+    /// if the device specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn device_specification(&self) -> DeviceSpecification {
+        (*self.device_specification.read().unwrap()).clone()
+    }
+
+    // Returns a clone of the current device status
+    /// # Panics
+    /// if the device status mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn device_status(&self) -> Option<DeviceEndpointStatus> {
+        (*self.device_status.read().unwrap()).clone()
     }
 }
 
