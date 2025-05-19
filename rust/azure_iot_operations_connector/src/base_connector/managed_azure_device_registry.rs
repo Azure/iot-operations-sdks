@@ -897,7 +897,7 @@ impl DatasetClient {
     /// # Panics
     /// If the Schema Registry Service returns a schema without required values. This should get updated
     /// to be validated by the Schema Registry API surface in the future
-    /// 
+    ///
     /// If the asset status mutex has been poisoned, which should not be possible
     pub async fn report_message_schema(
         &self,
