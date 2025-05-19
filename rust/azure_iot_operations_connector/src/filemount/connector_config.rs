@@ -15,7 +15,8 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt as aio_mqtt;
 
-/// Indicates an error ocurred while parsing the artifacts in an Akri deployment
+
+/// Indicates an error occurred while parsing the artifacts in an Akri deployment
 #[derive(Error, Debug)]
 #[error(transparent)]
 pub struct DeploymentArtifactError(#[from] DeploymentArtifactErrorRepr);
@@ -35,7 +36,7 @@ enum DeploymentArtifactErrorRepr {
     /// A required file path could not be found in the filesystem
     #[error("Required file path not found: {0:?}")]
     FilePathMissing(OsString),
-    /// An error ocurred while trying to read a file in the filesystem
+    /// An error occurred while trying to read a file in the filesystem
     #[error(transparent)]
     FileReadError(#[from] std::io::Error),
     /// JSON data could not be parsed
@@ -43,42 +44,33 @@ enum DeploymentArtifactErrorRepr {
     JsonParseError(#[from] serde_json::Error),
 }
 
-/// Struct representing the Connector Configuration extracted from the Akir deployment
-#[derive(Debug, Clone)]
-pub struct ConnectorConfiguration {
+#[derive(Clone, Debug)]
+/// Values extracted from the artifacts in an Akri deployment.
+pub struct ConnectorArtifacts {
     /// Prefix of an MQTT client ID
     pub client_id_prefix: String,
-
-    // NOTE: The following three structs are the actual contents of the Connector Configuration
-    // file mount.
-    /// MQTT connection details
-    pub mqtt_connection_configuration: MqttConnectionConfiguration,
-    /// Azure IoT Operations metadata
-    pub aio_metadata: Option<AioMetadata>, // TODO: Not option
-    /// Diagnostics
-    pub diagnostics: Option<Diagnostics>, // TODO: not option
-
-    // NOTE: the below mounts are combined here for convenience, although are technically different
-    // mounts. This will change in the future as the specification is updated
+    /// The connector configuration
+    pub connector_configuration: ConnectorConfiguration,
     /// Path to directory containing CA cert trust bundle
-    pub broker_ca_cert_trustbundle_path: Option<PathBuf>,
+    pub broker_tls_trustbundle_ca_cert_path: Option<PathBuf>,
     /// Path to file containing SAT token
     // TODO: Should be PathBuf but this will have testing implications
     pub broker_sat_path: Option<String>,
 }
 
-impl ConnectorConfiguration {
-    /// Create a `ConnectorConfiguration` from the environment variables and filemounts in an Akri
+impl ConnectorArtifacts {
+    /// Create a `ConnectorArtifacts` from the environment variables and filemounts in an Akri
     /// deployment
     ///
     /// # Errors
     /// - Returns a `DeploymentArtifactError` if there is an error with one of the artifacts in the
     ///   Akri deployment.
     pub fn new_from_deployment() -> Result<Self, DeploymentArtifactError> {
+        // Client ID Prefix
         let client_id_prefix = string_from_environment("CONNECTOR_CLIENT_ID_PREFIX")?.ok_or(
             DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_CLIENT_ID_PREFIX".to_string()),
         )?;
-        // MQTT Connection Configuration Filemount
+        // Connector Configuration
         let cc_mount_pathbuf = PathBuf::from(
             string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?.ok_or(
                 DeploymentArtifactErrorRepr::EnvVarMissing(
@@ -91,18 +83,14 @@ impl ConnectorConfiguration {
                 cc_mount_pathbuf.into_os_string(),
             ))?;
         }
-        let mqtt_connection_configuration =
-            Self::extract_mqtt_connection_configuration(cc_mount_pathbuf.as_path())?;
-        // TODO: re-enable this functionality when spec is finalized
-        //let aio_metadata = Self::extract_aio_metadata(&cc_mount_pathbuf)?;
-        //let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
-        let aio_metadata = None;
-        let diagnostics = None;
+        let connector_configuration =
+            ConnectorConfiguration::new_from_mount_path(cc_mount_pathbuf.as_path())?;
 
-        let broker_ca_cert_trustbundle_path =
+        // Broker CA cert trust bundle
+        let broker_tls_trustbundle_ca_cert_path =
             string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
                 .map(PathBuf::from);
-        if let Some(tb_path) = &broker_ca_cert_trustbundle_path {
+        if let Some(tb_path) = &broker_tls_trustbundle_ca_cert_path {
             if !tb_path.as_path().exists() {
                 return Err(DeploymentArtifactErrorRepr::MountPathMissing(
                     // TODO: This clone is almost certainly unnecessary. Fix.
@@ -111,14 +99,13 @@ impl ConnectorConfiguration {
             }
         }
 
+        // Broker SAT token mount path
         let broker_sat_path = string_from_environment("BROKER_SAT_MOUNT_PATH")?;
 
-        Ok(ConnectorConfiguration {
+        Ok(ConnectorArtifacts {
             client_id_prefix,
-            mqtt_connection_configuration,
-            aio_metadata,
-            diagnostics,
-            broker_ca_cert_trustbundle_path,
+            connector_configuration,
+            broker_tls_trustbundle_ca_cert_path,
             broker_sat_path,
         })
     }
@@ -134,7 +121,7 @@ impl ConnectorConfiguration {
         client_id_suffix: &str,
     ) -> Result<aio_mqtt::MqttConnectionSettings, String> {
         let client_id = self.client_id_prefix.clone() + client_id_suffix;
-        let host_c = self.mqtt_connection_configuration.host.clone();
+        let host_c = self.connector_configuration.mqtt_connection_configuration.host.clone();
         let (hostname, tcp_port) = host_c.split_once(':').ok_or(format!(
             "'host' malformed. Expected format <hostname>:<port>. Found: {host_c}"
         ))?;
@@ -142,15 +129,15 @@ impl ConnectorConfiguration {
             .parse::<u16>()
             .map_err(|_| format!("Cannot parse 'tcp_port' into u16. Value: {tcp_port}"))?;
         let keep_alive =
-            Duration::from_secs(self.mqtt_connection_configuration.keep_alive_seconds.into());
-        let receive_max = self.mqtt_connection_configuration.max_inflight_messages;
+            Duration::from_secs(self.connector_configuration.mqtt_connection_configuration.keep_alive_seconds.into());
+        let receive_max = self.connector_configuration.mqtt_connection_configuration.max_inflight_messages;
         let session_expiry = Duration::from_secs(
-            self.mqtt_connection_configuration
+            self.connector_configuration.mqtt_connection_configuration
                 .session_expiry_seconds
                 .into(),
         );
         let use_tls = matches!(
-            self.mqtt_connection_configuration.tls.mode,
+            self.connector_configuration.mqtt_connection_configuration.tls.mode,
             TlsMode::Enabled
         );
         let sat_file = self.broker_sat_path.clone();
@@ -159,7 +146,7 @@ impl ConnectorConfiguration {
         // Verify there is only a single CA cert in the path, and then we will pass the path to
         // that FILE into the MqttConnectionSettings
         let ca_file = {
-            if let Some(ca_trustbundle_path) = &self.broker_ca_cert_trustbundle_path {
+            if let Some(ca_trustbundle_path) = &self.broker_tls_trustbundle_ca_cert_path {
                 let mut d = std::fs::read_dir(ca_trustbundle_path)
                     .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
                 let path_s;
@@ -205,6 +192,27 @@ impl ConnectorConfiguration {
             .map_err(|e| format!("{e}"))?;
         Ok(c)
     }
+}
+
+/// The Connector Configuration extracted from the Akri deployment
+#[derive(Debug, Clone)]
+pub struct ConnectorConfiguration {
+    /// MQTT connection details
+    pub mqtt_connection_configuration: MqttConnectionConfiguration,
+    /// Diagnostics
+    pub diagnostics: Option<Diagnostics>, // TODO: not option?
+}
+
+impl ConnectorConfiguration {
+
+    fn new_from_mount_path(
+        mount_path: &Path,
+    ) -> Result<Self, DeploymentArtifactError> {
+        Ok(Self {
+            mqtt_connection_configuration: Self::extract_mqtt_connection_configuration(mount_path)?,
+            diagnostics: None, // TODO: re-enable this functionality when spec is finalized
+        })
+    }
 
     fn extract_mqtt_connection_configuration(
         mount_path: &Path,
@@ -219,19 +227,6 @@ impl ConnectorConfiguration {
         let m: MqttConnectionConfiguration =
             serde_json::from_str(&std::fs::read_to_string(&mqtt_conn_config_pathbuf)?)?;
         Ok(m)
-    }
-
-    fn extract_aio_metadata(mount_path: &Path) -> Result<AioMetadata, DeploymentArtifactErrorRepr> {
-        let aio_metadata_pathbuf = mount_path.join("AIO_METADATA");
-        if !aio_metadata_pathbuf.as_path().exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                aio_metadata_pathbuf.into_os_string(),
-            ))?;
-        }
-        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
-        let a: AioMetadata =
-            serde_json::from_str(&std::fs::read_to_string(&aio_metadata_pathbuf)?)?;
-        Ok(a)
     }
 
     fn extract_diagnostics(mount_path: &Path) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
@@ -288,17 +283,6 @@ pub enum TlsMode {
     Enabled,
     /// TLS is disabled
     Disabled,
-}
-
-/// Metadata regaridng Azure IoT Operations
-#[derive(Debug, Deserialize, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct AioMetadata {
-    // TODO: implement regex parsing
-    /// Minimum supported AIO version
-    pub aio_min_version: String,
-    /// Maximum supported AIO version
-    pub aio_max_version: String,
 }
 
 /// Diagnostic information
