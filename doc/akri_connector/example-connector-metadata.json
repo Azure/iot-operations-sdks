@@ -67,7 +67,7 @@
           }
         },
         "datasetConfigSchema": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/datasetConfig.schema.json",
           "title": "Dataset Config Schema",
           "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",

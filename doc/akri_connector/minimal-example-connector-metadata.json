@@ -12,41 +12,16 @@
       "name": "Rest",
       "version": "1.0",
       "configSchemas": {
-        "deviceEndpointAdditionalConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Device Endpoint Config Schema",
-          "type": "object",
-          "properties": {}
-        },
         "datasetConfigSchema": {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "title": "Dataset Config Schema",
           "type": "object",
-          "properties": {}
-        },
-        "dataPointConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Data Point Config Schema",
-          "type": "object",
-          "properties": {}
-        },
-        "eventConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Event Config Schema",
-          "type": "object",
-          "properties": {}
-        },
-        "streamConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Event Config Schema",
-          "type": "object",
-          "properties": {}
-        },
-        "managementGroupConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Event Config Schema",
-          "type": "object",
-          "properties": {}
+          "properties": {
+            "SamplingInterval": {
+              "description": "How frequently to sample each dataset by default (in milliseconds)",
+              "type": "integer"
+            }
+          }
         }
       }
     }
