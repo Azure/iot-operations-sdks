@@ -50,21 +50,6 @@ public class CachedCounterTests
     }
 
     [Fact]
-    public void Increment_AddsOperationWithValueOne()
-    {
-        // Arrange
-        var counter = new CachedCounter(_name, _labels, _unit);
-
-        // Act
-        counter.Increment();
-
-        // Assert
-        var operations = counter.GetOperationsAndClear(10);
-        Assert.Single(operations);
-        Assert.Equal(1.0, operations[0].Value);
-    }
-
-    [Fact]
     public void MultipleOperations_AddedCorrectly()
     {
         // Arrange
@@ -72,7 +57,7 @@ public class CachedCounterTests
 
         // Act
         counter.Add(3.0);
-        counter.Increment();
+        counter.Add(1.0);
         counter.Add(7.5);
 
         // Assert

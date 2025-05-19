@@ -4,9 +4,10 @@
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.Observability;
 using Azure.Iot.Operations.Services.Observability.AkriObservabilityService;
+using Azure.Iot.Operations.Services.Observability.Utils;
 using Moq;
 using Xunit;
-using ITimer = Azure.Iot.Operations.Services.Observability.ITimer;
+using ITimer = Azure.Iot.Operations.Services.Observability.Utils.ITimer;
 
 namespace Azure.Iot.Operations.Services.UnitTests.Observability;
 

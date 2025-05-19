@@ -31,11 +31,6 @@ internal class CachedCounter : ICounter
         });
     }
 
-    public void Increment()
-    {
-        Add(1);
-    }
-
     public List<IncrementOperation> GetOperationsAndClear(int maxCount)
     {
         var result = new List<IncrementOperation>();

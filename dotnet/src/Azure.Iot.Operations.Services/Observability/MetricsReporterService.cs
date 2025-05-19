@@ -3,10 +3,12 @@
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.Observability.AkriObservabilityService;
+using Azure.Iot.Operations.Services.Observability.Utils;
+using ITimer = Azure.Iot.Operations.Services.Observability.Utils.ITimer;
 
 namespace Azure.Iot.Operations.Services.Observability;
 
-public class MetricsReporterService : IAsyncDisposable
+public class MetricsReporterService : IAsyncDisposable, IMetricsReporterService
 {
     private readonly IAkriObservabilityService _observabilityService;
     private readonly MetricsReporterOptions _options;
