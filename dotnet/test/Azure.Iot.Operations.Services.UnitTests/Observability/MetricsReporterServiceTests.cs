@@ -99,6 +99,36 @@ public class MetricsReporterServiceTests
     }
 
     [Fact]
+    public void Start_CalledMultipleTimes_OnlyOneTimerCreated()
+    {
+        // Arrange
+        var service = new MetricsReporterService(_mockObservabilityService.Object, _options, _mockTimerFactory.Object);
+
+        // Act
+        service.Start();
+        service.Start();
+
+        // Assert
+        _mockTimerFactory.Verify(f => f.CreateTimer(), Times.Once);
+        _mockTimer.Verify(t => t.Start(
+            It.IsAny<Func<CancellationToken, Task>>(),
+            It.IsAny<CancellationToken>(),
+            _options.ReportingInterval,
+            _options.ReportingInterval),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task StopAsync_CalledBeforeStart_DoesNotThrow()
+    {
+        // Arrange
+        var service = new MetricsReporterService(_mockObservabilityService.Object, _options, _mockTimerFactory.Object);
+
+        // Act & Assert
+        await service.StopAsync();
+    }
+
+    [Fact]
     public async Task Stop_DisposesTimer()
     {
         // Arrange
@@ -161,6 +191,62 @@ public class MetricsReporterServiceTests
                     p.Metrics.HistogramMetrics![0].Definition.Labels["service"] == "test" &&
                     Math.Abs(p.Metrics.HistogramMetrics![0].Operations[0].Value - 15) < 0.001)),
             Times.Once);
+    }
+
+    [Fact]
+    public async Task ReportMetrics_ObservabilityServiceThrows_DoesNotPropagateException()
+    {
+        // Arrange
+        _mockObservabilityService
+            .Setup(s => s.PublishMetricsAsync(It.IsAny<PublishMetricsRequestPayload>()))
+            .Throws(new InvalidOperationException("Test exception"));
+
+        var service = new MetricsReporterService(_mockObservabilityService.Object, _options, _mockTimerFactory.Object);
+
+        // Create and update a metric
+        var counter = service.CreateCounter("test_counter", _defaultLabels);
+        counter.Add(5);
+
+        service.Start();
+
+        // Act & Assert - Should not throw
+        if (_timerCallback != null)
+        {
+            await _timerCallback(CancellationToken.None);
+        }
+
+        // Assert - Verify that throwing PublishMetricsAsync was called
+        _mockObservabilityService.Verify(s => s.PublishMetricsAsync(It.IsAny<PublishMetricsRequestPayload>()), Times.Once);
+    }
+
+    [Fact]
+    public void ValidateMetricParameters_WithInvalidData_ThrowsExpectedException()
+    {
+        // Arrange
+        var service = new MetricsReporterService(_mockObservabilityService.Object, _options, _mockTimerFactory.Object);
+
+        // Act & Assert - Test with null name
+        Assert.Throws<ArgumentException>(() => service.CreateCounter(string.Empty, _defaultLabels));
+
+        // Act & Assert - Test with null labels
+        Assert.Throws<ArgumentNullException>(() => service.CreateCounter("test_counter", null!));
+    }
+
+    [Fact]
+    public void CreateMetric_WithIdenticalKeyButDifferentUnit_UsesFirstUnit()
+    {
+        // Arrange
+        var mockCache = new CounterMetricCache();
+        var name = "test_counter";
+        var labels = new Dictionary<string, string> { { "service", "test" } };
+
+        // Act
+        var counter1 = mockCache.CreateCounter(name, labels, "bytes");
+        var counter2 = mockCache.CreateCounter(name, labels, "kilobytes"); // Same name and labels, different unit
+
+        // Assert
+        Assert.Same(counter1, counter2); // Should return the same instance
+        Assert.Equal("bytes", counter1.Unit); // Should use the first unit
     }
 
     [Fact]

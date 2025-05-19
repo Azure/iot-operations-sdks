@@ -19,6 +19,7 @@ public class MetricsReporterService : IAsyncDisposable, IMetricsReporterService
     private ITimer? _reportingTimer;
     private bool _isDisposed;
     private readonly SemaphoreSlim _reportingSemaphore = new(1, 1);
+    private readonly SemaphoreSlim _timerSemaphore = new(1, 1);
 
     public MetricsReporterService(
         IAkriObservabilityService observabilityService,
@@ -36,23 +37,42 @@ public class MetricsReporterService : IAsyncDisposable, IMetricsReporterService
 
     public void Start(CancellationToken cancellationToken = default)
     {
-        _reportingTimer = _timerFactory.CreateTimer();
+        _timerSemaphore.Wait(cancellationToken);
 
-        _reportingTimer.Start(async _ => await ReportMetricsAsync(cancellationToken),
-            cancellationToken,
-            _options.ReportingInterval,
-            _options.ReportingInterval);
+        try
+        {
+            if (_reportingTimer == null)
+            {
+                _reportingTimer = _timerFactory.CreateTimer();
+
+                _reportingTimer.Start(async _ => await ReportMetricsAsync(cancellationToken),
+                    cancellationToken,
+                    _options.ReportingInterval,
+                    _options.ReportingInterval);
+            }
+        }
+        finally
+        {
+            _timerSemaphore.Release();
+        }
     }
 
     public async Task StopAsync()
     {
-        if (_reportingTimer == null)
-        {
-            return;
-        }
+        await _timerSemaphore.WaitAsync();
 
-        await _reportingTimer.DisposeAsync();
-        _reportingTimer = null;
+        try
+        {
+            if (_reportingTimer != null)
+            {
+                await _reportingTimer.DisposeAsync();
+                _reportingTimer = null;
+            }
+        }
+        finally
+        {
+            _timerSemaphore.Release();
+        }
     }
 
     public ICounter CreateCounter(string name, Dictionary<string, string> labels, string? unit = null)
@@ -135,12 +155,9 @@ public class MetricsReporterService : IAsyncDisposable, IMetricsReporterService
             return;
         }
 
-        if (_reportingTimer != null)
-        {
-            await _reportingTimer.DisposeAsync();
-            _reportingTimer = null;
-        }
+        await StopAsync();
 
+        _timerSemaphore.Dispose();
         _reportingSemaphore.Dispose();
         _isDisposed = true;
     }

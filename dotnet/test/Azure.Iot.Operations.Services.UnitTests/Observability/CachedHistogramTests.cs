@@ -124,4 +124,32 @@ public class CachedHistogramTests
         // Assert
         Assert.Empty(operations);
     }
+
+    [Fact]
+    public async Task Concurrent_Operations_ThreadSafe()
+    {
+        // Arrange
+        var histogram = new CachedHistogram(_name, _labels, _unit);
+        var operationCount = 1000;
+        var threads = 5;
+
+        // Act
+        var tasks = new List<Task>();
+        for (int t = 0; t < threads; t++)
+        {
+            tasks.Add(Task.Run(() =>
+            {
+                for (int i = 0; i < operationCount / threads; i++)
+                {
+                    histogram.Record(i);
+                }
+            }));
+        }
+
+        await Task.WhenAll(tasks.ToArray());
+
+        // Assert
+        var operations = histogram.GetOperationsAndClear(operationCount);
+        Assert.Equal(operationCount, operations.Count);
+    }
 }
