@@ -30,7 +30,7 @@ use crate::{
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
 const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
-    tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(100, 1.0);
+    tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
 
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full device endpoint information.
@@ -70,7 +70,7 @@ impl DeviceEndpointClientCreationObservation {
                 .await?;
 
             // and then get device update observation as well and turn it into a DeviceEndpointClientUpdateObservation
-            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(3), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -136,7 +136,7 @@ impl DeviceEndpointClientCreationObservation {
                     );
                     // unobserve as cleanup
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(3),
+                        RETRY_STRATEGY.take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -176,7 +176,7 @@ impl DeviceEndpointClientCreationObservation {
                     );
                     // unobserve
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(3),
+                        RETRY_STRATEGY.take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -326,7 +326,7 @@ impl DeviceEndpointClient {
     ) {
         // send status update to the service
         match Retry::spawn(
-            RETRY_STRATEGY.take(3),
+            RETRY_STRATEGY.take(10),
             async || -> Result<Device, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
@@ -430,7 +430,7 @@ impl AssetClientCreationObservation {
                 self.asset_create_observation.recv_notification().await?;
 
             // Get asset update observation as well and turn it into a AssetClientUpdateObservation
-            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(3), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_asset_update_notifications(
@@ -505,7 +505,7 @@ impl AssetClientCreationObservation {
                     log::error!("Dropping asset create notification: {asset_ref:?}");
                     // unobserve as cleanup
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(3),
+                        RETRY_STRATEGY.take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -720,7 +720,7 @@ impl AssetClient {
     ) {
         // send status update to the service
         match Retry::spawn(
-            RETRY_STRATEGY.take(3),
+            RETRY_STRATEGY.take(10),
             async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
