@@ -411,7 +411,7 @@ impl FileMountMap {
 
                 // Add the new asset to the tracked assets with the one shot sender so when the asset is
                 // deleted the channel is closed and the receiver is notified.
-                log::warn!("New asset: {asset:?}");
+                log::info!("New asset: {asset:?}");
                 tracked_assets.insert(asset.clone(), asset_deletion_tx);
 
                 // Notify that an asset has been created

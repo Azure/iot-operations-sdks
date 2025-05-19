@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         /// <returns>The instance of <see cref="MqttConnectionSettings"/> that allows the connector to connect to the MQTT broker.</returns>
         public static MqttConnectionSettings FromFileMount()
         {
-            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? "todo";
+            string clientId = Environment.GetEnvironmentVariable(ConnectorClientIdEnvVar) ?? throw new InvalidOperationException("No MQTT client Id configured by Akri operator");
             string? brokerTrustBundleMountPath = Environment.GetEnvironmentVariable(BrokerTrustBundleMountPathEnvVar);
             string? brokerSatMountPath = Environment.GetEnvironmentVariable(BrokerSatMountPathEnvVar);
 
