@@ -84,6 +84,7 @@ impl DeviceEndpointClientCreationObservation {
                 Ok(device_update_observation) => {
                     DeviceEndpointClientUpdateObservation {
                         device_update_observation,
+                        device_endpoint_ref: device_endpoint_ref.clone(),
                         connector_context: self.connector_context.clone(),
                     }
                 },
@@ -403,6 +404,7 @@ impl DeviceEndpointClient {
 #[allow(dead_code)]
 pub struct DeviceEndpointClientUpdateObservation {
     device_update_observation: DeviceUpdateObservation,
+    device_endpoint_ref: DeviceEndpointRef,
     connector_context: Arc<ConnectorContext>,
 }
 impl DeviceEndpointClientUpdateObservation {
@@ -413,11 +415,20 @@ impl DeviceEndpointClientUpdateObservation {
     ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`DeviceEndpointClient`], _) to ignore the [`AckToken`].
     ///
     /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
-    #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(DeviceEndpointClient, Option<AckToken>)> {
+    ///
+    /// # Panics
+    /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
+    pub async fn recv_notification(&mut self) -> Option<(DeviceEndpointClient, Option<AckToken>)> {
         // handle the notification
+        let (updated_device, ack) = self.device_update_observation.recv_notification().await?;
         // convert into DeviceEndpointClient
-        None
+        let device_endpoint_client = DeviceEndpointClient::new(
+                updated_device,
+                self.device_endpoint_ref.clone(),
+                self.connector_context.clone(),
+        ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
+
+        Some((device_endpoint_client, ack))
     }
 }
 
