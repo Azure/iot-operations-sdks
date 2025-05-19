@@ -33,8 +33,7 @@ namespace CloudEvents.Oven
             /// <param name="topicTokenMap">
             /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
             /// for topic tokens such as "modelId" which should be the same for the duration of this service's lifetime. Note that
-            /// additional topic tokens can be specified when starting the service with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/> and
-            /// can be specified per-telemetry message.
+            /// additional topic tokens can be specified per-telemetry message.
             /// </param>
             public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
@@ -109,8 +108,7 @@ namespace CloudEvents.Oven
             /// <param name="mqttClient">The MQTT client to use.</param>
             /// <param name="topicTokenMap">
             /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
-            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime. Note that
-            /// additional topic tokens can be specified when starting the client with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/>.
+            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime.
             /// </param>
             public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
@@ -134,19 +132,7 @@ namespace CloudEvents.Oven
             /// <summary>
             /// Begin accepting telemetry for all telemetry receivers.
             /// </summary>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
-            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
             /// <param name="cancellationToken">Cancellation token.</param>
-            /// <remarks>
-            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make telemetry receivers only
-            /// accept telemetry over a specific topic.
-            ///
-            /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
-            /// to only handle telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
-            /// instead need to create a telemetry receiver per topic token set.
-            /// </remarks>
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(

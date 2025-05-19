@@ -1,4 +1,4 @@
-# ADR 19: Modeling User Errors
+# ADR 21: User Error Headers
 
 ## Context
 
