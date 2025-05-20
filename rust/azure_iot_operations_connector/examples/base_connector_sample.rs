@@ -104,7 +104,7 @@ async fn run_device(
             }
             // Listen for a asset creation notifications
             res = asset_creation_observation.recv_notification() => {
-                if let Some((asset_client, _asset_update_observation, _asset_deletion_token)) = res {
+                if let Some((asset_client, _asset_deletion_token)) = res {
                     log::info!("Asset created: {asset_client:?}");
 
                 // now we should update the status of the asset
@@ -125,12 +125,7 @@ async fn run_device(
                 asset_client.report_status(asset_status).await;
 
                 for dataset in asset_client.datasets() {
-                    tokio::task::spawn({
-                        let dataset_clone = dataset.clone();
-                        async move {
-                            run_dataset(dataset_clone).await;
-                        }
-                    });
+                    tokio::task::spawn(run_dataset(dataset));
                 }
                 } else {
                     log::error!("asset_creation_observer has been dropped");

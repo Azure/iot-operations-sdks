@@ -571,7 +571,6 @@ pub struct AssetClient {
     status: Arc<RwLock<Option<AssetStatus>>>,
     /// Datasets on this Asset
     #[getter(skip)]
-    // TODO: add custom getter - or return with Self on new and update returns new vec?
     datasets: Arc<RwLock<Vec<DatasetClient>>>,
     // TODO: events, streams, and management groups as well
     /// Specification of the device that this Asset is tied to
@@ -700,6 +699,14 @@ impl AssetClient {
         *unlocked_specification = AssetSpecification::from(updated_asset.specification);
 
         Some(())
+    }
+
+    /// Returns a clone of the current datasets
+    /// # Panics
+    /// if the dataset mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn datasets(&self) -> Vec<DatasetClient> {
+        (*self.datasets.read().unwrap()).clone()
     }
 
     // Returns a clone of the current asset specification
