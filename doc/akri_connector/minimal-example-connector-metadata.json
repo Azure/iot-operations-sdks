@@ -6,7 +6,6 @@
     "repository": "contoso-acr.io/RestConnector",
     "tag": "1.0.0"
   },
-  "architecture": "amd64",
   "protocols": [
     {
       "name": "Rest",
