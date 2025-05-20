@@ -8,7 +8,6 @@ use std::{
     sync::{Arc, RwLock},
 };
 
-use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
         self, Asset, AssetStatus, AssetUpdateObservation, Dataset, DatasetDestination, Device,
@@ -450,13 +449,7 @@ impl AssetClientCreationObservation {
     /// will be no more notifications. This notification includes the [`AssetClient`],
     /// an [`AssetClientUpdateObservation`] to observe for updates on the new Asset,
     /// and an [`AssetDeletionToken`] to observe for deletion of this Asset
-    pub async fn recv_notification(
-        &mut self,
-    ) -> Option<(
-        AssetClient,
-        AssetClientUpdateObservation,
-        AssetDeletionToken,
-    )> {
+    pub async fn recv_notification(&mut self) -> Option<(AssetClient, AssetDeletionToken)> {
         loop {
             // Get the notification
             let (asset_ref, asset_deletion_token) =
@@ -475,12 +468,7 @@ impl AssetClientCreationObservation {
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await.map_err(observe_error_into_retry_error)
             }).await {
-                Ok(asset_update_observation) => {
-                    AssetClientUpdateObservation {
-                        asset_update_observation,
-                        connector_context: self.connector_context.clone(),
-                    }
-                },
+                Ok(asset_update_observation) => asset_update_observation,
                 Err(e) => {
                     log::error!("Failed to observe for asset update notifications after retries: {e}");
                     log::error!("Dropping asset create notification: {asset_ref:?}");
@@ -530,6 +518,7 @@ impl AssetClientCreationObservation {
                         asset_ref,
                         self.device_specification.clone(),
                         self.device_status.clone(),
+                        asset_client_update_observation,
                         self.connector_context.clone(),
                     )
                     .await
@@ -563,34 +552,8 @@ impl AssetClientCreationObservation {
                     continue;
                 }
             };
-            return Some((
-                asset_client,
-                asset_client_update_observation,
-                asset_deletion_token,
-            ));
+            return Some((asset_client, asset_deletion_token));
         }
-    }
-}
-
-/// An Observation for asset update events that uses
-/// multiple underlying clients to get full asset update information.
-#[allow(dead_code)]
-pub struct AssetClientUpdateObservation {
-    asset_update_observation: AssetUpdateObservation,
-    connector_context: Arc<ConnectorContext>,
-}
-impl AssetClientUpdateObservation {
-    /// Receives an updated [`AssetClient`] or [`None`] if there will be no more notifications.
-    ///
-    /// If there are notifications:
-    /// - Returns Some([`AssetClient`], [`Option<AckToken>`]) on success
-    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`AssetClient`], _) to ignore the [`AckToken`].
-    ///
-    /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
-    #[allow(clippy::unused_async)]
-    pub async fn recv_notification(&self) -> Option<(AssetClient, Option<AckToken>)> {
-        // handle the notification
-        None
     }
 }
 
@@ -607,7 +570,9 @@ pub struct AssetClient {
     #[getter(skip)]
     status: Arc<RwLock<Option<AssetStatus>>>,
     /// Datasets on this Asset
-    datasets: Vec<DatasetClient>, // TODO: might need to change this model once the dataset definition can get updated from an update
+    #[getter(skip)]
+    // TODO: add custom getter - or return with Self on new and update returns new vec?
+    datasets: Arc<RwLock<Vec<DatasetClient>>>,
     // TODO: events, streams, and management groups as well
     /// Specification of the device that this Asset is tied to
     #[getter(skip)]
@@ -615,6 +580,9 @@ pub struct AssetClient {
     /// Status of the device that this Asset is tied to
     #[getter(skip)]
     device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    /// The internal observation for updates
+    #[getter(skip)]
+    asset_update_observation: AssetUpdateObservation,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -624,122 +592,38 @@ impl AssetClient {
         asset_ref: AssetRef,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+        asset_update_observation: AssetUpdateObservation,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
+        let default_datasets_destinations =
+            asset.specification.default_datasets_destinations.clone();
         let unlocked_specification = AssetSpecification::from(asset.specification);
         let specification_version = unlocked_specification.version;
-        let default_dataset_destinations =
-            match destination_endpoint::Destination::new_dataset_destinations(
-                &unlocked_specification.default_datasets_destinations,
-                &asset_ref.inbound_endpoint_name,
-                &connector_context,
-            ) {
-                Ok(res) => res.into_iter().map(Arc::new).collect(),
-                Err(e) => {
-                    log::error!(
-                        "Invalid default dataset destination for Asset {}: {e:?}",
-                        asset_ref.name
-                    );
-                    let adr_asset_status = azure_device_registry::AssetStatus {
-                        config: Some(azure_device_registry::StatusConfig {
-                            version: specification_version,
-                            error: Some(e),
-                            last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
-                        }),
-                        ..azure_device_registry::AssetStatus::default()
-                    };
-                    // send status update to the service
-                    Self::internal_report_status(
-                        adr_asset_status,
-                        &connector_context,
-                        &asset_ref,
-                        &status,
-                    )
-                    .await;
-                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                    vec![]
-                }
-            };
         let specification = Arc::new(RwLock::new(unlocked_specification));
-        let mut dataset_config_errors = Vec::new();
-        let datasets = dataset_definitions
-            .into_iter()
-            // leave out any datasets that have config errors - they will be provided by an update notification if they get fixed, otherwise they can't be used at this point
-            // TODO: should we instead include it with a forwarder that doesn't work?
-            .filter_map(|dataset| {
-                let dataset_name = dataset.name.clone();
-                match DatasetClient::new(
-                    dataset,
-                    &default_dataset_destinations,
-                    asset_ref.clone(),
-                    status.clone(),
-                    specification.clone(),
-                    device_specification.clone(),
-                    device_status.clone(),
-                    connector_context.clone(),
-                ) {
-                    Ok(dataset_client) => Some(dataset_client),
-                    Err(e) => {
-                        log::error!(
-                            "Invalid dataset destination for dataset: {dataset_name} {e:?}"
-                        );
-                        // Get current message schema reference if there is one, so that it isn't overwritten
-                        let message_schema_reference = status
-                            .read()
-                            .unwrap()
-                            .as_ref()?
-                            .datasets
-                            .as_ref()?
-                            .iter()
-                            .find(|dataset| dataset.name == dataset_name)?
-                            .message_schema_reference
-                            .clone();
-                        dataset_config_errors.push(
-                            azure_device_registry::DatasetEventStreamStatus {
-                                name: dataset_name,
-                                message_schema_reference,
-                                error: Some(e),
-                            },
-                        );
-                        None
-                    }
-                }
-            })
-            .collect();
-        if !dataset_config_errors.is_empty() {
-            // If the version of the current status config matches the current version, then include the existing config.
-            // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
-            let current_asset_config = status.read().unwrap().as_ref().and_then(|status| {
-                if status.config.as_ref().and_then(|config| config.version) == specification_version
-                {
-                    status.config.clone()
-                } else {
-                    None
-                }
-            });
-            let adr_asset_status = azure_device_registry::AssetStatus {
-                config: current_asset_config,
-                datasets: Some(dataset_config_errors),
-                ..azure_device_registry::AssetStatus::default()
-            };
-            // send status update to the service
-            AssetClient::internal_report_status(
-                adr_asset_status,
-                &connector_context,
-                &asset_ref,
-                &status,
-            )
-            .await;
-        }
+
+        let datasets = Self::create_datasets(
+            &asset_ref,
+            &default_datasets_destinations,
+            dataset_definitions,
+            &specification,
+            specification_version,
+            &status,
+            &device_specification,
+            &device_status,
+            &connector_context,
+        )
+        .await;
+
         AssetClient {
             asset_ref,
             specification,
             status,
-            datasets,
+            datasets: Arc::new(RwLock::new(datasets)),
             device_specification,
             device_status,
+            asset_update_observation,
             connector_context,
         }
     }
@@ -768,6 +652,54 @@ impl AssetClient {
             &self.status,
         )
         .await;
+    }
+
+    /// Used to receive updates for the Asset from the Azure Device Registry Service.
+    /// This function returning `Some(())` indicates that the asset specification and status have been
+    /// updated in place. The function returns [`None`] if there will be no more notifications.
+    ///
+    /// # Panics
+    /// If the status or specification mutexes have been poisoned, which should not be possible
+    pub async fn recv_update(&mut self) -> Option<()> {
+        // handle the notification
+        // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
+        // get the update again because we'll pull the latest definition on the restart, so we don't need to get
+        // the notification again.
+        let (updated_asset, _) = self.asset_update_observation.recv_notification().await?;
+
+        // datasets
+        let dataset_definitions = updated_asset.specification.datasets.clone();
+        let specification_version = updated_asset.specification.version;
+        let default_datasets_destinations =
+            &updated_asset.specification.default_datasets_destinations;
+
+        // Update status before generating datasets in case a status needs to be reported that it uses the latest one
+        // but release the write guard because `create_datasets` might update the status
+        {
+            let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
+            *unlocked_status = updated_asset.status;
+        }
+
+        let datasets = Self::create_datasets(
+            &self.asset_ref,
+            default_datasets_destinations,
+            dataset_definitions,
+            &self.specification,
+            specification_version,
+            &self.status,
+            &self.device_specification,
+            &self.device_status,
+            &self.connector_context,
+        )
+        .await;
+        let mut unlocked_datasets = self.datasets.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_datasets = datasets;
+
+        // specification
+        let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_specification = AssetSpecification::from(updated_asset.specification);
+
+        Some(())
     }
 
     // Returns a clone of the current asset specification
@@ -858,6 +790,123 @@ impl AssetClient {
                 log::error!("Failed to Update Asset Status: {e}");
             }
         };
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    async fn create_datasets(
+        asset_ref: &AssetRef,
+        definition_default_datasets_destinations: &[azure_device_registry::DatasetDestination],
+        dataset_definitions: Vec<azure_device_registry::Dataset>,
+        specification: &Arc<RwLock<AssetSpecification>>,
+        specification_version: Option<u64>,
+        status: &Arc<RwLock<Option<AssetStatus>>>,
+        device_specification: &Arc<RwLock<DeviceSpecification>>,
+        device_status: &Arc<RwLock<Option<DeviceEndpointStatus>>>,
+        connector_context: &Arc<ConnectorContext>,
+    ) -> Vec<DatasetClient> {
+        let default_dataset_destinations =
+            match destination_endpoint::Destination::new_dataset_destinations(
+                definition_default_datasets_destinations,
+                &asset_ref.inbound_endpoint_name,
+                connector_context,
+            ) {
+                Ok(res) => res.into_iter().map(Arc::new).collect(),
+                Err(e) => {
+                    log::error!(
+                        "Invalid default dataset destination for Asset {}: {e:?}",
+                        asset_ref.name
+                    );
+                    let adr_asset_status = azure_device_registry::AssetStatus {
+                        config: Some(azure_device_registry::StatusConfig {
+                            version: specification_version,
+                            error: Some(e),
+                            last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
+                        }),
+                        ..azure_device_registry::AssetStatus::default()
+                    };
+                    // send status update to the service
+                    Self::internal_report_status(
+                        adr_asset_status,
+                        connector_context,
+                        asset_ref,
+                        status,
+                    )
+                    .await;
+                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
+                    vec![]
+                }
+            };
+        let mut dataset_config_errors = Vec::new();
+        let datasets = dataset_definitions
+            .into_iter()
+            // leave out any datasets that have config errors - they will be provided by an update notification if they get fixed, otherwise they can't be used at this point
+            // TODO: should we instead include it with a forwarder that doesn't work?
+            .filter_map(|dataset| {
+                let dataset_name = dataset.name.clone();
+                match DatasetClient::new(
+                    dataset,
+                    &default_dataset_destinations,
+                    asset_ref.clone(),
+                    status.clone(),
+                    specification.clone(),
+                    device_specification.clone(),
+                    device_status.clone(),
+                    connector_context.clone(),
+                ) {
+                    Ok(dataset_client) => Some(dataset_client),
+                    Err(e) => {
+                        log::error!(
+                            "Invalid dataset destination for dataset: {dataset_name} {e:?}"
+                        );
+                        // Get current message schema reference if there is one, so that it isn't overwritten
+                        let message_schema_reference = status
+                            .read()
+                            .unwrap()
+                            .as_ref()?
+                            .datasets
+                            .as_ref()?
+                            .iter()
+                            .find(|dataset| dataset.name == dataset_name)?
+                            .message_schema_reference
+                            .clone();
+                        dataset_config_errors.push(
+                            azure_device_registry::DatasetEventStreamStatus {
+                                name: dataset_name,
+                                message_schema_reference,
+                                error: Some(e),
+                            },
+                        );
+                        None
+                    }
+                }
+            })
+            .collect();
+        if !dataset_config_errors.is_empty() {
+            // If the version of the current status config matches the current version, then include the existing config.
+            // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
+            let current_asset_config = status.read().unwrap().as_ref().and_then(|status| {
+                if status.config.as_ref().and_then(|config| config.version) == specification_version
+                {
+                    status.config.clone()
+                } else {
+                    None
+                }
+            });
+            let adr_asset_status = azure_device_registry::AssetStatus {
+                config: current_asset_config,
+                datasets: Some(dataset_config_errors),
+                ..azure_device_registry::AssetStatus::default()
+            };
+            // send status update to the service
+            AssetClient::internal_report_status(
+                adr_asset_status,
+                connector_context,
+                asset_ref,
+                status,
+            )
+            .await;
+        }
+        datasets
     }
 }
 
