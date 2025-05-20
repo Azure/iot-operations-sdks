@@ -212,16 +212,14 @@ public class ChunkingMqttClient : IMqttClient
         return new MqttClientPublishResult(
             null,
             MqttClientPublishReasonCode.Success,
-            string.Empty,
+            string.Empty, //TODO: @maxim set the correct reason string, do we need any?
             new List<MqttUserProperty>(message.UserProperties ?? Enumerable.Empty<MqttUserProperty>()));
     }
 
     private async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)
     {
         // Check if this is a chunked message
-        var chunkMetadata = TryGetChunkMetadata(args.ApplicationMessage);
-
-        if (chunkMetadata == null)
+        if (!TryGetChunkMetadata(args.ApplicationMessage, out var chunkMetadata))
         {
             // Not a chunked message, pass it through
             if (ApplicationMessageReceivedAsync != null)
@@ -233,7 +231,7 @@ public class ChunkingMqttClient : IMqttClient
         }
 
         // This is a chunked message, handle the reassembly
-        if (TryProcessChunk(args, chunkMetadata, out var reassembledArgs))
+        if (TryProcessChunk(args, chunkMetadata!, out var reassembledArgs))
         {
             // We have a complete message, invoke the event
             if (ApplicationMessageReceivedAsync != null && reassembledArgs != null)
@@ -281,11 +279,13 @@ public class ChunkingMqttClient : IMqttClient
         return false;
     }
 
-    private static ChunkMetadata? TryGetChunkMetadata(MqttApplicationMessage message)
+    private static bool TryGetChunkMetadata(MqttApplicationMessage message, out ChunkMetadata? metadata)
     {
+        metadata = null;
+
         if (message.UserProperties == null)
         {
-            return null;
+            return false;
         }
 
         var chunkProperty = message.UserProperties
@@ -294,16 +294,17 @@ public class ChunkingMqttClient : IMqttClient
 
         if (string.IsNullOrEmpty(chunkProperty))
         {
-            return null;
+            return false;
         }
 
         try
         {
-            return JsonSerializer.Deserialize<ChunkMetadata>(chunkProperty);
+            metadata = JsonSerializer.Deserialize<ChunkMetadata>(chunkProperty);
+            return metadata != null;
         }
         catch (JsonException)
         {
-            return null;
+            return false;
         }
     }
 
