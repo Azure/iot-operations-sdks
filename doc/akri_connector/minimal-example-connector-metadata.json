@@ -12,13 +12,15 @@
       "version": "1.0",
       "configSchemas": {
         "datasetConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Dataset Config Schema",
-          "type": "object",
-          "properties": {
-            "SamplingInterval": {
-              "description": "How frequently to sample each dataset by default (in milliseconds)",
-              "type": "integer"
+          "schema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "title": "Dataset Config Schema",
+            "type": "object",
+            "properties": {
+              "SamplingInterval": {
+                "description": "How frequently to sample each dataset by default (in milliseconds)",
+                "type": "integer"
+              }
             }
           }
         }
