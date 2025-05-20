@@ -22,6 +22,7 @@ public class ChunkingMqttClient : IMqttClient
     private readonly IMqttClient _innerClient;
     private readonly ChunkingOptions _options;
     private readonly ConcurrentDictionary<string, ChunkedMessageAssembler> _messageAssemblers = new();
+    private readonly ChunkedMessageSplitter _messageSplitter;
     private int _maxPacketSize;
 
     /// <summary>
@@ -33,6 +34,7 @@ public class ChunkingMqttClient : IMqttClient
     {
         _innerClient = innerClient ?? throw new ArgumentNullException(nameof(innerClient));
         _options = options ?? new ChunkingOptions();
+        _messageSplitter = new ChunkedMessageSplitter(_options);
 
         // Hook into the inner client's event
         _innerClient.ApplicationMessageReceivedAsync += HandleApplicationMessageReceivedAsync;
@@ -153,59 +155,13 @@ public class ChunkingMqttClient : IMqttClient
 
     private async Task<MqttClientPublishResult> PublishChunkedMessageAsync(MqttApplicationMessage message, CancellationToken cancellationToken)
     {
-        var maxChunkSize = GetMaxChunkSize();
-        var payload = message.Payload;
-        var totalChunks = (int)Math.Ceiling((double)payload.Length / maxChunkSize);
+        // Use the message splitter to split the message into chunks
+        var chunks = _messageSplitter.SplitMessage(message, _maxPacketSize);
 
-        // Generate a unique message ID
-        var messageId = Guid.NewGuid().ToString("D");
-
-        // Calculate checksum for the entire payload
-        var checksum = ChecksumCalculator.CalculateChecksum(payload, _options.ChecksumAlgorithm);
-
-        // Create a copy of the user properties
-        var userProperties = new List<MqttUserProperty>(message.UserProperties ?? Enumerable.Empty<MqttUserProperty>());
-
-        // Send each chunk
-        for (var chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++)
+        // Publish each chunk
+        foreach (var chunk in chunks)
         {
-            // Create chunk metadata
-            var metadata = chunkIndex == 0
-                ? ChunkMetadata.CreateFirstChunk(messageId, totalChunks, checksum, _options.ChunkTimeout)
-                : ChunkMetadata.CreateSubsequentChunk(messageId, chunkIndex, _options.ChunkTimeout);
-
-            // Serialize the metadata to JSON
-            var metadataJson = JsonSerializer.Serialize(metadata);
-
-            // Create user properties for this chunk
-            var chunkUserProperties = new List<MqttUserProperty>(userProperties)
-            {
-                // Add the chunk metadata property
-                new(ChunkingConstants.ChunkUserProperty, metadataJson)
-            };
-
-            // Extract the chunk payload
-            var chunkStart = (long)chunkIndex * maxChunkSize;
-            var chunkLength = Math.Min(maxChunkSize, payload.Length - chunkStart);
-            var chunkPayload = payload.Slice(chunkStart, chunkLength);
-
-            // Create a message for this chunk
-            var chunkMessage = new MqttApplicationMessage(message.Topic, message.QualityOfServiceLevel)
-            {
-                Retain = message.Retain,
-                Payload = chunkPayload,
-                ContentType = message.ContentType,
-                ResponseTopic = message.ResponseTopic,
-                CorrelationData = message.CorrelationData,
-                PayloadFormatIndicator = message.PayloadFormatIndicator,
-                MessageExpiryInterval = message.MessageExpiryInterval,
-                TopicAlias = message.TopicAlias,
-                SubscriptionIdentifiers = message.SubscriptionIdentifiers,
-                UserProperties = chunkUserProperties
-            };
-
-            // Publish the chunk
-            await _innerClient.PublishAsync(chunkMessage, cancellationToken).ConfigureAwait(false);
+            await _innerClient.PublishAsync(chunk, cancellationToken).ConfigureAwait(false);
         }
 
         // Return a successful result
