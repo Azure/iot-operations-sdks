@@ -44,6 +44,7 @@ derive_builder.workspace = true
 log.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
+tokio-util.workspace = true
 data-encoding = "2.5"
 serde = { version = "1.0", features = ["derive"], optional = true }
 serde_json = { version = "1.0.105", optional = true }
@@ -77,7 +78,7 @@ name = "schema_registry_client"
 required-features = ["schema_registry"]
 
 [[example]]
-name = "leased_lock_client"
+name = "lock_client"
 required-features = ["leased_lock"]
 
 [package.metadata.docs.rs]
