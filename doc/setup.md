@@ -110,7 +110,7 @@ Azure IoT Operations will be installed to the development cluster, and then the 
 
 1. Launch a shell, and change to the root directory of the *Azure IoT Operations SDKs* repository.
 
-1. If required, initialize the cluster and install required dependencies:
+1. If required, run the following to install required dependencies and initialize the cluster:
 
     ```bash
     sudo ./tools/deployment/initialize-cluster.sh
