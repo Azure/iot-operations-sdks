@@ -43,11 +43,19 @@ runs:
     - name: Install AIO
       uses: ./action-deploy
       with:
-        akri: 2504
+        install_aio: "true"
+        install_akri: "false"
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
       shell: bash
+
+    - name: Install Akri
+      uses: ./action-deploy
+      with:
+        akri: 2504
+        install_aio: "false"
+        install_akri: "true"
 
     - name: Setup .NET
       if: inputs.install-dotnet == 'true'
