@@ -6,6 +6,8 @@
 
 use std::env::{self, VarError};
 use std::ffi::OsString;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
@@ -15,6 +17,7 @@ use thiserror::Error;
 
 use azure_iot_operations_mqtt as aio_mqtt;
 
+// TODO: Integrate ADR into this implementation
 
 /// Indicates an error occurred while parsing the artifacts in an Akri deployment
 #[derive(Error, Debug)]
@@ -47,15 +50,22 @@ enum DeploymentArtifactErrorRepr {
 #[derive(Clone, Debug)]
 /// Values extracted from the artifacts in an Akri deployment.
 pub struct ConnectorArtifacts {
-    /// Prefix of an MQTT client ID
-    pub client_id_prefix: String,
+    /// The connector ID
+    pub connector_id: String,
     /// The connector configuration
     pub connector_configuration: ConnectorConfiguration,
-    /// Path to directory containing CA cert trust bundle
-    pub broker_tls_trustbundle_ca_cert_path: Option<PathBuf>,
-    /// Path to file containing SAT token
-    // TODO: Should be PathBuf but this will have testing implications
-    pub broker_sat_path: Option<String>,
+    /// Path to directory containing metadata for connector secrets
+    pub connector_secrets_metadata_mount: Option<PathBuf>,
+    /// Path to directory containing trust list certificates for the connector
+    pub connector_trust_settings_mount: Option<PathBuf>,
+    /// Path to directory containing  trust bundle for the broker
+    pub broker_tls_trust_bundle_ca_cert_mount: Option<PathBuf>,
+    /// Path to file containing service account token for authentication with the broker
+    pub broker_sat_mount: Option<PathBuf>,
+    /// Path to directory containing trust bundle for device inbound endpoints
+    pub device_endpoint_tls_trust_bundle_ca_cert_mount: Option<PathBuf>,
+    /// Path to directory containing credentials for device inbound endpoints
+    pub device_endpoint_credentials_mount: Option<PathBuf>,
 }
 
 impl ConnectorArtifacts {
@@ -66,47 +76,65 @@ impl ConnectorArtifacts {
     /// - Returns a `DeploymentArtifactError` if there is an error with one of the artifacts in the
     ///   Akri deployment.
     pub fn new_from_deployment() -> Result<Self, DeploymentArtifactError> {
-        // Client ID Prefix
-        let client_id_prefix = string_from_environment("CONNECTOR_CLIENT_ID_PREFIX")?.ok_or(
-            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_CLIENT_ID_PREFIX".to_string()),
+        // Connector ID
+        let connector_id = string_from_environment("CONNECTOR_ID")?.ok_or(
+            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_ID".to_string()),
         )?;
-        // Connector Configuration
-        let cc_mount_pathbuf = PathBuf::from(
-            string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?.ok_or(
-                DeploymentArtifactErrorRepr::EnvVarMissing(
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH".to_string(),
-                ),
-            )?,
-        );
-        if !cc_mount_pathbuf.as_path().exists() {
-            return Err(DeploymentArtifactErrorRepr::MountPathMissing(
-                cc_mount_pathbuf.into_os_string(),
-            ))?;
-        }
-        let connector_configuration =
-            ConnectorConfiguration::new_from_mount_path(cc_mount_pathbuf.as_path())?;
 
-        // Broker CA cert trust bundle
-        let broker_tls_trustbundle_ca_cert_path =
+        // Connector Configuration
+        let connector_configuration = ConnectorConfiguration::new_from_mount_path(
+            string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?
+                .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH".to_string(),
+                ))?
+                .as_path(),
+        )?;
+
+        // Connector secrets metadata mount path
+        let connector_secrets_metadata_mount =
+            string_from_environment("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
+
+        // Connector Trust Settings Mount Path
+        let connector_trust_settings_mount =
+            string_from_environment("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
+
+        // Broker TLS trust bundle CA cert mount path
+        let broker_tls_trust_bundle_ca_cert_mount =
             string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
-                .map(PathBuf::from);
-        if let Some(tb_path) = &broker_tls_trustbundle_ca_cert_path {
-            if !tb_path.as_path().exists() {
-                return Err(DeploymentArtifactErrorRepr::MountPathMissing(
-                    // TODO: This clone is almost certainly unnecessary. Fix.
-                    tb_path.clone().into_os_string(),
-                ))?;
-            }
-        }
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
 
         // Broker SAT token mount path
-        let broker_sat_path = string_from_environment("BROKER_SAT_MOUNT_PATH")?;
+        // TODO: Validate. Doing so will have testing implications.
+        let broker_sat_mount = string_from_environment("BROKER_SAT_MOUNT_PATH")?.map(PathBuf::from);
+
+        // Device Endpoint TLS Trust Bundle CA cert mount path
+        let device_endpoint_tls_trust_bundle_ca_cert_mount =
+            string_from_environment("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
+
+        // Device Endpoint Credentials mount path
+        let device_endpoint_credentials_mount =
+            string_from_environment("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
 
         Ok(ConnectorArtifacts {
-            client_id_prefix,
+            connector_id,
             connector_configuration,
-            broker_tls_trustbundle_ca_cert_path,
-            broker_sat_path,
+            connector_secrets_metadata_mount,
+            connector_trust_settings_mount,
+            broker_tls_trust_bundle_ca_cert_mount,
+            broker_sat_mount,
+            device_endpoint_tls_trust_bundle_ca_cert_mount,
+            device_endpoint_credentials_mount,
         })
     }
 
@@ -120,33 +148,56 @@ impl ConnectorArtifacts {
         &self,
         client_id_suffix: &str,
     ) -> Result<aio_mqtt::MqttConnectionSettings, String> {
-        let client_id = self.client_id_prefix.clone() + client_id_suffix;
-        let host_c = self.connector_configuration.mqtt_connection_configuration.host.clone();
+        let client_id = self.connector_id.clone() + client_id_suffix;
+        let host_c = self
+            .connector_configuration
+            .mqtt_connection_configuration
+            .host
+            .clone();
         let (hostname, tcp_port) = host_c.split_once(':').ok_or(format!(
             "'host' malformed. Expected format <hostname>:<port>. Found: {host_c}"
         ))?;
         let tcp_port = tcp_port
             .parse::<u16>()
             .map_err(|_| format!("Cannot parse 'tcp_port' into u16. Value: {tcp_port}"))?;
-        let keep_alive =
-            Duration::from_secs(self.connector_configuration.mqtt_connection_configuration.keep_alive_seconds.into());
-        let receive_max = self.connector_configuration.mqtt_connection_configuration.max_inflight_messages;
+        let keep_alive = Duration::from_secs(
+            self.connector_configuration
+                .mqtt_connection_configuration
+                .keep_alive_seconds
+                .into(),
+        );
+        let receive_max = self
+            .connector_configuration
+            .mqtt_connection_configuration
+            .max_inflight_messages;
         let session_expiry = Duration::from_secs(
-            self.connector_configuration.mqtt_connection_configuration
+            self.connector_configuration
+                .mqtt_connection_configuration
                 .session_expiry_seconds
                 .into(),
         );
         let use_tls = matches!(
-            self.connector_configuration.mqtt_connection_configuration.tls.mode,
+            self.connector_configuration
+                .mqtt_connection_configuration
+                .tls
+                .mode,
             TlsMode::Enabled
         );
-        let sat_file = self.broker_sat_path.clone();
+        let sat_file = self
+            .broker_sat_mount
+            .clone()
+            .map(|p| {
+                p.into_os_string()
+                    .into_string()
+                    .map_err(|_| "Cannot convert SAT file path to String".to_string())
+            })
+            .transpose()?;
 
         // NOTE: MQTT SDK only accepts a single cert, while the Akri deployment can have multiple.
         // Verify there is only a single CA cert in the path, and then we will pass the path to
         // that FILE into the MqttConnectionSettings
         let ca_file = {
-            if let Some(ca_trustbundle_path) = &self.broker_tls_trustbundle_ca_cert_path {
+            if let Some(ca_trustbundle_path) = &self.broker_tls_trust_bundle_ca_cert_mount {
                 let mut d = std::fs::read_dir(ca_trustbundle_path)
                     .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
                 let path_s;
@@ -200,27 +251,55 @@ pub struct ConnectorConfiguration {
     /// MQTT connection details
     pub mqtt_connection_configuration: MqttConnectionConfiguration,
     /// Diagnostics
-    pub diagnostics: Option<Diagnostics>, // TODO: not option?
+    pub diagnostics: Option<Diagnostics>,
+    /// Persistent Volume Mount Path
+    pub persistent_volumes: Vec<PathBuf>,
+    /// Additional connector configuration as a JSON string
+    pub additional_configuration: Option<String>,
 }
 
 impl ConnectorConfiguration {
+    /// Create a `ConnectorConfiguration` from the files in the specified mount path
+    fn new_from_mount_path(mount_path: &Path) -> Result<Self, DeploymentArtifactError> {
+        // NOTE: Handling errors here does end up requiring unnecessary allocations in the
+        // FilePathMissing errors returned on optional files, but this is not (yet) code that will
+        // be run often, and it keeps things simpler and easier to pivot as the spec evolves.
+        // When finalized, consider optimizing so the individual helpers have logic to handle
+        // optional files.
 
-    fn new_from_mount_path(
-        mount_path: &Path,
-    ) -> Result<Self, DeploymentArtifactError> {
+        let mqtt_connection_configuration =
+            Self::extract_mqtt_connection_configuration(mount_path)?;
+        let diagnostics = match Self::extract_diagnostics(mount_path) {
+            Ok(d) => Some(d),
+            Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
+            Err(e) => Err(e)?,
+        };
+        let persistent_volumes = match Self::extract_persistent_volumes(mount_path) {
+            Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => vec![],
+            res => res?,
+        };
+        let additional_configuration = match Self::extract_additional_configuration(mount_path) {
+            Ok(ac) => Some(ac),
+            Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
+            Err(e) => Err(e)?,
+        };
+
         Ok(Self {
-            mqtt_connection_configuration: Self::extract_mqtt_connection_configuration(mount_path)?,
-            diagnostics: None, // TODO: re-enable this functionality when spec is finalized
+            mqtt_connection_configuration,
+            diagnostics,
+            persistent_volumes,
+            additional_configuration,
         })
     }
 
+    /// Extract an `MqttConnectionConfiguration` from the specified mount path
     fn extract_mqtt_connection_configuration(
         mount_path: &Path,
     ) -> Result<MqttConnectionConfiguration, DeploymentArtifactErrorRepr> {
         let mqtt_conn_config_pathbuf = mount_path.join("MQTT_CONNECTION_CONFIGURATION");
-        if !mqtt_conn_config_pathbuf.as_path().exists() {
+        if !mqtt_conn_config_pathbuf.exists() {
             return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                mqtt_conn_config_pathbuf.into_os_string(),
+                mqtt_conn_config_pathbuf.into(),
             ))?;
         }
         // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
@@ -229,16 +308,58 @@ impl ConnectorConfiguration {
         Ok(m)
     }
 
+    /// Extract a `Diagnostics` struct from the specified mount path
     fn extract_diagnostics(mount_path: &Path) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
         let diagnostics_pathbuf = mount_path.join("DIAGNOSTICS");
-        if !diagnostics_pathbuf.as_path().exists() {
+        if !diagnostics_pathbuf.exists() {
             return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                diagnostics_pathbuf.into_os_string(),
+                diagnostics_pathbuf.into(),
             ))?;
         }
         // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
         let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(&diagnostics_pathbuf)?)?;
         Ok(d)
+    }
+
+    /// Extract a list of persistent volumes paths from the specified mount path
+    fn extract_persistent_volumes(
+        mount_path: &Path,
+    ) -> Result<Vec<PathBuf>, DeploymentArtifactErrorRepr> {
+        let persistent_volumes_pathbuf = mount_path.join("PERSISTENT_VOLUME_MOUNT_PATH");
+        if !persistent_volumes_pathbuf.exists() {
+            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
+                persistent_volumes_pathbuf.into(),
+            ))?;
+        }
+        // NOTE: Use a BufReader to reduce allocations
+        let persistent_volumes = BufReader::new(File::open(&persistent_volumes_pathbuf)?)
+            .lines()
+            .map_while(Result::ok)
+            .map(PathBuf::from)
+            .try_fold(vec![], |mut acc, pv_pathbuf| {
+                if !pv_pathbuf.exists() {
+                    return Err(DeploymentArtifactErrorRepr::MountPathMissing(
+                        pv_pathbuf.into_os_string(),
+                    ));
+                }
+                acc.push(pv_pathbuf);
+                Ok(acc)
+            })?;
+        Ok(persistent_volumes)
+    }
+
+    /// Extract additional configuration JSON string from the specified mount path
+    fn extract_additional_configuration(
+        mount_path: &Path,
+    ) -> Result<String, DeploymentArtifactErrorRepr> {
+        let additional_config_pathbuf = mount_path.join("ADDITIONAL_CONFIGURATION");
+        if !additional_config_pathbuf.exists() {
+            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
+                additional_config_pathbuf.into_os_string(),
+            ))?;
+        }
+        let additional_config = std::fs::read_to_string(&additional_config_pathbuf)?;
+        Ok(additional_config)
     }
 }
 
@@ -289,8 +410,7 @@ pub enum TlsMode {
 #[derive(Debug, Deserialize, Clone)]
 pub struct Diagnostics {
     /// Log information
-    pub log_level: Logs, // TODO: change to match spec when fixed
-                         //pub logs: Logs,
+    pub logs: Logs,
 }
 
 /// Logging information
@@ -317,12 +437,23 @@ pub enum LogLevel {
 }
 
 /// Helper function to get an environment variable as a string.
-fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifactError> {
+fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifactErrorRepr> {
     match env::var(key) {
         Ok(value) => Ok(Some(value)),
         Err(VarError::NotPresent) => Ok(None),
         Err(VarError::NotUnicode(_)) => Err(DeploymentArtifactErrorRepr::EnvVarValueMalformed(
             key.to_string(),
-        ))?,
+        )),
     }
+}
+
+/// Helper function to validate a mount path and return it as a `PathBuf`.
+fn valid_mount_pathbuf_from(mount_path_s: String) -> Result<PathBuf, DeploymentArtifactErrorRepr> {
+    let mount_path = PathBuf::from(mount_path_s);
+    if !mount_path.exists() {
+        return Err(DeploymentArtifactErrorRepr::MountPathMissing(
+            mount_path.into(),
+        ));
+    }
+    Ok(mount_path)
 }

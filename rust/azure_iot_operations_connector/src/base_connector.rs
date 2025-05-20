@@ -12,7 +12,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
-use crate::filemount::connector_config::ConnectorArtifacts;
+use crate::filemount::connector_artifacts::ConnectorArtifacts;
 
 pub mod managed_azure_device_registry;
 
