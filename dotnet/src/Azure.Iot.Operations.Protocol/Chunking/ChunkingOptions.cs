@@ -26,6 +26,7 @@ public class ChunkingOptions
     /// Gets or sets the timeout duration for reassembling chunked messages.
     /// </summary>
     public TimeSpan ChunkTimeout { get; set; } = TimeSpan.Parse(ChunkingConstants.DefaultChunkTimeout, CultureInfo.InvariantCulture);
+
     /// <summary>
     /// Gets or sets the maximum time to wait for all chunks to arrive.
     /// </summary>

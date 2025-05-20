@@ -39,7 +39,7 @@ internal class ChunkedMessageSplitter
 
         // Calculate the maximum size for each chunk's payload
         var maxChunkSize = GetMaxChunkSize(maxPacketSize);
-        if(message.Payload.Length <= maxChunkSize)
+        if (message.Payload.Length <= maxChunkSize)
         {
             throw new ArgumentException($"Message size {message.Payload.Length} is less than the maximum chunk size {maxChunkSize}.", nameof(message));
         }
